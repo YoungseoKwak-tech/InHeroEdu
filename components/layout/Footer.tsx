@@ -62,13 +62,13 @@ export default function Footer() {
             <h3 className="font-semibold text-sm text-gray-900 dark:text-white mb-4">연락처</h3>
             <ul className="space-y-2.5">
               <li className="text-sm text-gray-500 dark:text-gray-400">
-                📧 hello@inhero.kr
+📧 inheroedu@gmail.com
               </li>
               <li className="text-sm text-gray-500 dark:text-gray-400">
-                💬 카카오톡: @inhero
+💬 카카오톡: @inhero (InHero 인히어로에듀)
               </li>
               <li className="text-sm text-gray-500 dark:text-gray-400">
-                🌐 Instagram: @inhero.kr
+🌐 inheroedu.com
               </li>
             </ul>
           </div>
