@@ -1,8 +1,12 @@
-ye# InHero Contact Update TODO
+t # Task Progress: Update Main Page Banner
 
-## Steps:
-- [x] 1. Edit novaiq/components/layout/Footer.tsx - Update 3 contact lines (email, kakao, web)
-- [ ] 2. Reload localhost:3000 to verify
-- [ ] 3. git add/commit/push for Vercel deploy
-- [ ] 4. Task complete
+## Completed
+- [x] Copy new banner `inhero 배너 2 (gif ver.).mp4` to `public/inhero-banner.mp4` (overwritten old banner)
+- [x] Verified in Hero.tsx (app/page.tsx -> Hero -> /inhero-banner.mp4)
 
+## Next Steps
+- Run `cd novaiq && npm run dev` to start dev server if not running
+- Visit http://localhost:3000 to see updated hero banner
+- Refresh browser to confirm new video plays on main page
+
+Task complete.
