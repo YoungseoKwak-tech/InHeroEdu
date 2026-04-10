@@ -12,7 +12,7 @@ export default function Navbar() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center">
-          <Image src="/logo2.png" alt="InHero" width={80} height={80} className="h-20 w-auto object-contain" priority />
+          <Image src="/logo2.png" alt="InHero" width={60} height={60} className="h-16 w-auto object-contain" priority />
         </Link>
 
         {/* Desktop Nav */}

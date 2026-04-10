@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const SUBJECT_COLORS: Record<string, string> = {
   "AP Biology":   "#1D9E75",
-  "AP Chemistry": "#7F77DD",
+  "AP Chemistry": "#1D9E75",
   "AP Calculus":  "#BA7517",
   "AMC":          "#3C3489",
   "SAT":          "#854F0B",
@@ -74,7 +74,7 @@ export default function FlashcardsPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center text-xl">🃏</div>
+              <div className="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-xl">🃏</div>
               <div>
                 <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">플래시카드</h1>
                 <p className="text-sm text-gray-500 dark:text-gray-400">핵심 용어를 카드로 빠르게 암기해요</p>
@@ -83,7 +83,7 @@ export default function FlashcardsPage() {
           </div>
 
           {/* How to earn points callout */}
-          <div className="mt-6 bg-gradient-to-r from-primary-500 to-violet-600 rounded-2xl p-4 text-white flex items-center gap-4 flex-wrap">
+          <div className="mt-6 bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl p-4 text-white flex items-center gap-4 flex-wrap">
             <span className="text-2xl">🎯</span>
             <div className="flex-1">
               <p className="font-bold text-sm">플래시카드 학습 방법</p>
@@ -107,7 +107,7 @@ export default function FlashcardsPage() {
               전체
             </button>
             {subjects.map((s) => {
-              const color = SUBJECT_COLORS[s] ?? "#7F77DD";
+              const color = SUBJECT_COLORS[s] ?? "#1D9E75";
               return (
                 <button
                   key={s}
@@ -137,7 +137,7 @@ export default function FlashcardsPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {sets.map((set) => {
-              const color = SUBJECT_COLORS[set.subject] ?? "#7F77DD";
+              const color = SUBJECT_COLORS[set.subject] ?? "#1D9E75";
               const emoji = SUBJECT_EMOJIS[set.subject] ?? "📚";
               return (
                 <Link

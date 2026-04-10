@@ -20,7 +20,7 @@ export default function GradeSection() {
     <section className="py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <span className="inline-block bg-violet-100 dark:bg-violet-900/20 text-violet-600 dark:text-violet-400 text-xs font-bold px-4 py-1.5 rounded-full mb-3">
+          <span className="inline-block bg-primary-100 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 text-xs font-bold px-4 py-1.5 rounded-full mb-3">
             학년별 패키지
           </span>
           <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white">

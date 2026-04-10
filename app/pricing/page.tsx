@@ -31,7 +31,7 @@ export default function PricingPage() {
       {/* Final CTA */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="bg-gradient-to-r from-primary-500 to-violet-600 rounded-3xl p-12 text-white">
+          <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-3xl p-12 text-white">
             <h2 className="text-2xl md:text-3xl font-black mb-3">
               아직 고민되신다면
             </h2>

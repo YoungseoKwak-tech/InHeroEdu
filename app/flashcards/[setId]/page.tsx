@@ -319,7 +319,7 @@ export default function FlashcardSetPage({ params }: { params: Promise<{ setId: 
             <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed mb-4">4지선다로 얼마나 외웠는지 확인해요</p>
             <div className="flex gap-2">
               <button onClick={() => startTest("front")} className="flex-1 text-xs py-2 rounded-xl bg-primary-500 text-white font-semibold hover:bg-primary-600 transition-colors">용어 → 뜻</button>
-              <button onClick={() => startTest("back")}  className="flex-1 text-xs py-2 rounded-xl bg-violet-500 text-white font-semibold hover:bg-violet-600 transition-colors">뜻 → 용어</button>
+              <button onClick={() => startTest("back")}  className="flex-1 text-xs py-2 rounded-xl bg-primary-500 text-white font-semibold hover:bg-primary-600 transition-colors">뜻 → 용어</button>
             </div>
           </div>
         </div>
@@ -473,7 +473,7 @@ export default function FlashcardSetPage({ params }: { params: Promise<{ setId: 
           <span className="ml-auto text-xs text-gray-400">{testIdx + 1} / {testCards.length} · 🎯 {score}점</span>
         </div>
         <div className="h-1 bg-gray-100 dark:bg-gray-800">
-          <div className="h-full bg-violet-500 transition-all" style={{ width: `${(testIdx / testCards.length) * 100}%` }} />
+          <div className="h-full bg-primary-500 transition-all" style={{ width: `${(testIdx / testCards.length) * 100}%` }} />
         </div>
 
         {testDone ? (

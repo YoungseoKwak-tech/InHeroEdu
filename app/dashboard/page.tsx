@@ -191,7 +191,7 @@ export default function DashboardPage() {
           {/* Right column */}
           <div className="space-y-6">
             {/* Next recommended */}
-            <div className="card p-6 bg-gradient-to-br from-primary-500 to-violet-600 text-white border-0">
+            <div className="card p-6 bg-gradient-to-br from-primary-500 to-primary-600 text-white border-0">
               <div className="text-sm font-semibold text-primary-100 mb-3">
                 ⚡ 다음 추천 강의
               </div>

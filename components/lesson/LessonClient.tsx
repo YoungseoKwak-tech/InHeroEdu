@@ -80,7 +80,7 @@ export default function LessonClient({ lesson, courseId, courseName }: LessonCli
           <div className="lg:col-span-1">
             <div className="card h-[420px] lg:h-full min-h-[320px] overflow-hidden flex flex-col">
               {/* Panel header */}
-              <div className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-primary-50 to-violet-50 dark:from-primary-900/20 dark:to-violet-900/10 border-b border-gray-100 dark:border-gray-700">
+              <div className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-900/10 border-b border-gray-100 dark:border-gray-700">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                 <span className="text-sm font-semibold text-primary-700 dark:text-primary-300">
                   AI 즉시 설명

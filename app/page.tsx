@@ -15,7 +15,7 @@ export default function HomePage() {
       <Testimonials />
 
       {/* CTA Banner */}
-      <section className="py-20 bg-gradient-to-r from-primary-500 to-violet-600">
+      <section className="py-20 bg-gradient-to-r from-primary-500 to-primary-600">
         <div className="max-w-4xl mx-auto px-4 text-center text-white">
           <h2 className="text-3xl md:text-4xl font-black mb-4">
             새로운 교육 패러다임을 경험하세요

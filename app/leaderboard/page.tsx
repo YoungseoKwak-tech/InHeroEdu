@@ -74,7 +74,7 @@ export default function LeaderboardPage() {
 
           {/* My stats card */}
           {myRow && (
-            <div className="bg-gradient-to-r from-primary-500 to-violet-600 rounded-2xl p-5 text-white">
+            <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl p-5 text-white">
               <div className="flex items-center justify-between flex-wrap gap-4">
                 <div>
                   <p className="text-primary-100 text-xs font-semibold mb-1">나의 현황 {myUsername && `(${myUsername})`}</p>

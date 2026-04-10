@@ -5,8 +5,8 @@
 @tailwind utilities;
 
 :root {
-  --primary: #7F77DD;
-  --primary-dark: #6b63c9;
+  --primary: #1D9E75;
+  --primary-dark: #1a8f69;
 }
 
 @layer base {

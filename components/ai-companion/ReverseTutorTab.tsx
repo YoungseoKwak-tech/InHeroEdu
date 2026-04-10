@@ -218,7 +218,7 @@ export default function ReverseTutorTab() {
         </button>
       </div>
 
-      <div className="text-xs text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-900/20 px-4 py-2.5 rounded-xl border border-violet-200 dark:border-violet-800">
+      <div className="text-xs text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 px-4 py-2.5 rounded-xl border border-primary-200 dark:border-primary-800">
         💡 <strong>{level}</strong>에게 <strong>{finalConcept}</strong>을 쉽게 설명해보세요. 4회 이상 교환 후 세션 종료 가능.
       </div>
 
@@ -227,7 +227,7 @@ export default function ReverseTutorTab() {
           {msgs.map((m, i) => (
             <div key={i} className={`flex gap-3 ${m.role === "user" ? "flex-row-reverse" : ""}`}>
               {m.role === "assistant" && (
-                <div className="w-8 h-8 rounded-full bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center text-sm flex-shrink-0 mt-0.5">{levelInfo.emoji}</div>
+                <div className="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-sm flex-shrink-0 mt-0.5">{levelInfo.emoji}</div>
               )}
               <div className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
                 m.role === "user" ? "bg-primary-500 text-white rounded-tr-sm" : "bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-tl-sm"

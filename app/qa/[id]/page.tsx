@@ -31,7 +31,7 @@ interface Answer {
 
 const SUBJECT_COLORS: Record<string, string> = {
   "AP Bio":   "#1D9E75",
-  "AP Chem":  "#7F77DD",
+  "AP Chem":  "#1D9E75",
   "AP Calc":  "#BA7517",
   "AMC":      "#3C3489",
   "SAT":      "#854F0B",
@@ -153,7 +153,7 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
     </div>
   );
 
-  const subjectColor = question.subject ? (SUBJECT_COLORS[question.subject] ?? "#7F77DD") : "#7F77DD";
+  const subjectColor = question.subject ? (SUBJECT_COLORS[question.subject] ?? "#1D9E75") : "#1D9E75";
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">

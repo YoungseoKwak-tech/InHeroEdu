@@ -19,7 +19,7 @@ const SUBJECTS = [
 
 const SUBJECT_COLORS: Record<string, string> = {
   "AP Bio":   "#1D9E75",
-  "AP Chem":  "#7F77DD",
+  "AP Chem":  "#1D9E75",
   "AP Calc":  "#BA7517",
   "AMC":      "#3C3489",
   "SAT":      "#854F0B",
@@ -243,7 +243,7 @@ export default function QAPage() {
         ) : (
           <div className="space-y-3">
             {questions.map((q) => {
-              const color = q.subject ? (SUBJECT_COLORS[q.subject] ?? "#7F77DD") : "#7F77DD";
+              const color = q.subject ? (SUBJECT_COLORS[q.subject] ?? "#1D9E75") : "#1D9E75";
               return (
                 <Link
                   key={q.id}

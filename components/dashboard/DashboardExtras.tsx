@@ -24,7 +24,7 @@ const REWARDS = [
   { emoji: "🎁", name: "DoorDash $10",    pts: 500, color: "#E53E3E" },
   { emoji: "📦", name: "Amazon $10",       pts: 500, color: "#DD6B20" },
   { emoji: "☕", name: "Starbucks $5",     pts: 300, color: "#276749" },
-  { emoji: "🏆", name: "InHero 굿즈",     pts: 800, color: "#7F77DD" },
+  { emoji: "🏆", name: "InHero 굿즈",     pts: 800, color: "#1D9E75" },
   { emoji: "📚", name: "교재 무료",        pts: 400, color: "#2B6CB0" },
   { emoji: "⭐", name: "1:1 컨설팅 30분", pts: 1000, color: "#D69E2E" },
 ];

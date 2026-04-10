@@ -56,7 +56,7 @@ export default function AnalyzerForm() {
       <div className="space-y-5">
         <div className="card p-6">
           <h2 className="font-bold text-gray-900 dark:text-white mb-5 flex items-center gap-2">
-            <span className="w-7 h-7 rounded-lg bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center text-sm">📝</span>
+            <span className="w-7 h-7 rounded-lg bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-sm">📝</span>
             오답 정보 입력
           </h2>
 
@@ -101,7 +101,7 @@ export default function AnalyzerForm() {
               { type: "CONCEPT_GAP", label: "개념 부재", desc: "개념 자체를 모름", c: "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-600 dark:text-red-400" },
               { type: "APPLICATION_GAP", label: "적용 실패", desc: "알지만 적용 못함", c: "bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800 text-amber-600 dark:text-amber-400" },
               { type: "LANGUAGE_GAP", label: "영어 이해 부족", desc: "개념은 아는데 영어가 문제", c: "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400" },
-              { type: "LOGIC_GAP", label: "논리 오류", desc: "추론 과정에서 틀림", c: "bg-violet-50 dark:bg-violet-900/20 border-violet-200 dark:border-violet-800 text-violet-600 dark:text-violet-400" },
+              { type: "LOGIC_GAP", label: "논리 오류", desc: "추론 과정에서 틀림", c: "bg-primary-50 dark:bg-primary-900/20 border-primary-200 dark:border-primary-800 text-primary-600 dark:text-primary-400" },
             ].map(item => (
               <div key={item.type} className={`flex items-center gap-3 p-3 rounded-xl border ${item.c}`}>
                 <span className="text-xs font-black min-w-[120px]">{item.type}</span>

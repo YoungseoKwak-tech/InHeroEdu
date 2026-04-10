@@ -96,7 +96,7 @@ export default function Hero() {
                 style={{
                   width: "32px", height: "32px",
                   borderRadius: "50%",
-                  background: "linear-gradient(135deg, #7F77DD, #6b63c9)",
+                  background: "linear-gradient(135deg, #1D9E75, #1a8f69)",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   fontSize: "12px",
                   border: "2px solid rgba(255,255,255,0.2)",

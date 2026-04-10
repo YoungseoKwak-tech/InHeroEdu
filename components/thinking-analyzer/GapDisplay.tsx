@@ -6,7 +6,7 @@ const GAP_CONFIG: Record<GapType, { label: string; emoji: string; accent: string
   CONCEPT_GAP:      { label: "개념 부재",       emoji: "🧩", accent: "text-red-600 dark:text-red-400",    bg: "bg-red-50 dark:bg-red-900/20",    border: "border-red-200 dark:border-red-800" },
   APPLICATION_GAP:  { label: "적용 실패",       emoji: "⚙️", accent: "text-amber-600 dark:text-amber-400", bg: "bg-amber-50 dark:bg-amber-900/20", border: "border-amber-200 dark:border-amber-800" },
   LANGUAGE_GAP:     { label: "영어 이해 부족",   emoji: "🇺🇸", accent: "text-blue-600 dark:text-blue-400",  bg: "bg-blue-50 dark:bg-blue-900/20",  border: "border-blue-200 dark:border-blue-800" },
-  LOGIC_GAP:        { label: "논리 오류",        emoji: "🔗", accent: "text-violet-600 dark:text-violet-400", bg: "bg-violet-50 dark:bg-violet-900/20", border: "border-violet-200 dark:border-violet-800" },
+  LOGIC_GAP:        { label: "논리 오류",        emoji: "🔗", accent: "text-primary-600 dark:text-primary-400", bg: "bg-primary-50 dark:bg-primary-900/20", border: "border-primary-200 dark:border-primary-800" },
 };
 
 export default function GapDisplay({ result }: { result: GapResult }) {
@@ -59,7 +59,7 @@ export default function GapDisplay({ result }: { result: GapResult }) {
       )}
 
       {/* Remedy */}
-      <div className="card p-5 bg-gradient-to-br from-primary-50 to-violet-50 dark:from-primary-900/20 dark:to-violet-900/10 border border-primary-200 dark:border-primary-800">
+      <div className="card p-5 bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-900/10 border border-primary-200 dark:border-primary-800">
         <Row icon="💊" label="처방: 이렇게 해요" text={result.remedy_ko} />
       </div>
 

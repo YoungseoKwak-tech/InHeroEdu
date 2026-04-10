@@ -6,7 +6,7 @@ const features = [
     description:
       "AI가 9학년부터 12학년까지 학생이 질문한 것, 틀린 것, 어떻게 사고가 바뀌었는지를 전부 기억해요. 어떤 선생님도, 어떤 카운슬러도 할 수 없는 4년의 동반 성장.",
     badge: "세계 최초",
-    color: "from-primary-500 to-violet-500",
+    color: "from-primary-500 to-primary-600",
     bgColor: "bg-primary-50 dark:bg-primary-900/20",
     highlight: true,
   },

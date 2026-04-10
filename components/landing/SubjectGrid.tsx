@@ -29,7 +29,7 @@ const subjects = [
     korean: "AP 미적분 BC",
     icon: "∫",
     lessons: 61,
-    color: "from-primary-400 to-violet-500",
+    color: "from-primary-400 to-primary-600",
     textColor: "text-primary-600 dark:text-primary-400",
     bg: "bg-primary-50 dark:bg-primary-900/20",
     available: false,

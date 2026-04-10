@@ -1,0 +1,13 @@
+"use strict";(()=>{var e={};e.id=2858,e.ids=[2858],e.modules={399:e=>{e.exports=require("next/dist/compiled/next-server/app-page.runtime.prod.js")},517:e=>{e.exports=require("next/dist/compiled/next-server/app-route.runtime.prod.js")},7147:e=>{e.exports=require("fs")},3685:e=>{e.exports=require("http")},5687:e=>{e.exports=require("https")},7561:e=>{e.exports=require("node:fs")},4492:e=>{e.exports=require("node:stream")},2477:e=>{e.exports=require("node:stream/web")},1017:e=>{e.exports=require("path")},5477:e=>{e.exports=require("punycode")},2781:e=>{e.exports=require("stream")},7310:e=>{e.exports=require("url")},3837:e=>{e.exports=require("util")},1267:e=>{e.exports=require("worker_threads")},9796:e=>{e.exports=require("zlib")},9171:(e,r,t)=>{t.r(r),t.d(r,{originalPathname:()=>x,patchFetch:()=>l,requestAsyncStorage:()=>d,routeModule:()=>u,serverHooks:()=>m,staticGenerationAsyncStorage:()=>c});var o={};t.r(o),t.d(o,{POST:()=>p});var a=t(9303),s=t(8716),n=t(3131);let i=new(t(4588)).ZP({apiKey:process.env.ANTHROPIC_API_KEY});async function p(e){let{strengths:r=[],interests:t=[],college_adjustments:o={}}=await e.json(),a=`학생 프로필 (대화에서 추출, 민감 정보 제외됨):
+강점: ${r.join(", ")||"파악 중"}
+관심 분야: ${t.join(", ")||"파악 중"}
+조건: ${JSON.stringify(o)}
+
+위 프로필 기반으로 한국어로 대학 로드맵을 생성해줘:
+1. 목표 대학 3곳 (reach) — 프로필 근거 포함
+2. 안정 대학 3곳 (match)
+3. 보험 대학 2곳 (safety)
+4. 지금 당장 해야 할 3가지 액션 아이템
+5. 집중해야 할 AP 과목
+
+재정 정보는 절대 언급하지 말 것. 학생의 강점과 가능성에 집중할 것.`;try{let e=await i.messages.create({model:"claude-haiku-4-5-20251001",max_tokens:900,messages:[{role:"user",content:a}]}),r="text"===e.content[0].type?e.content[0].text:"";return Response.json({roadmap:r})}catch(e){return console.error("[roadmap]",e),Response.json({error:"생성 실패"},{status:500})}}let u=new a.AppRouteRouteModule({definition:{kind:s.x.APP_ROUTE,page:"/api/ai/companion/roadmap/route",pathname:"/api/ai/companion/roadmap",filename:"route",bundlePath:"app/api/ai/companion/roadmap/route"},resolvedPagePath:"/Users/kathleenk/Desktop/Education/novaiq/app/api/ai/companion/roadmap/route.ts",nextConfigOutput:"",userland:o}),{requestAsyncStorage:d,staticGenerationAsyncStorage:c,serverHooks:m}=u,x="/api/ai/companion/roadmap/route";function l(){return(0,n.patchFetch)({serverHooks:m,staticGenerationAsyncStorage:c})}},9303:(e,r,t)=>{e.exports=t(517)}};var r=require("../../../../../webpack-runtime.js");r.C(e);var t=e=>r(r.s=e),o=r.X(0,[8948,4588],()=>t(9171));module.exports=o})();
