@@ -3,6 +3,7 @@
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { getStoredUserId, getStoredUsername, saveUsername } from "@/lib/username";
+import { useLang } from "@/app/contexts/LanguageContext";
 
 interface Question {
   id: string;
@@ -41,6 +42,49 @@ const SUBJECT_COLORS: Record<string, string> = {
 
 export default function QuestionDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
+  const { lang } = useLang();
+  const copy = {
+    ko: {
+      notFound: "질문을 찾을 수 없어요",
+      back: "돌아가기",
+      list: "질의응답 목록",
+      views: "조회",
+      answers: "답변",
+      aiTutor: "AI 튜터",
+      aiAnswer: "AI 답변 (즉시) ✨",
+      aiLoading: "AI가 답변을 생성하고 있어요...",
+      noAnswers: "아직 답변이 없어요.",
+      expert: "Expert 답변 ✓",
+      accepted: "채택된 답변 🏆",
+      helpful: "👍 도움돼요",
+      write: "답변 작성",
+      answerPlaceholder: "친절하고 자세한 답변을 작성해주세요",
+      anonymousAnswer: "익명으로 답변",
+      anonymous: "익명",
+      submit: "답변 등록",
+      submitting: "등록 중...",
+    },
+    en: {
+      notFound: "Question not found",
+      back: "Back",
+      list: "Q&A List",
+      views: "Views",
+      answers: "Answers",
+      aiTutor: "AI Tutor",
+      aiAnswer: "Instant AI Answer ✨",
+      aiLoading: "AI is generating an answer...",
+      noAnswers: "No answers yet.",
+      expert: "Expert Answer ✓",
+      accepted: "Accepted Answer 🏆",
+      helpful: "👍 Helpful",
+      write: "Write an Answer",
+      answerPlaceholder: "Write a clear and helpful answer",
+      anonymousAnswer: "Answer anonymously",
+      anonymous: "Anonymous",
+      submit: "Post Answer",
+      submitting: "Posting...",
+    },
+  }[lang];
 
   const [question, setQuestion]   = useState<Question | null>(null);
   const [answers, setAnswers]     = useState<Answer[]>([]);
@@ -85,7 +129,7 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
       const res  = await fetch("/api/qa/auto-answer", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ questionId: q.id, title: q.title, content: q.content, subject: q.subject }),
+        body:    JSON.stringify({ questionId: q.id, title: q.title, content: q.content, subject: q.subject, lang }),
       });
       const data = await res.json();
       if (data.answer && !data.skipped) {
@@ -103,7 +147,7 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
 
   async function handleSubmitAnswer() {
     if (!answerText.trim() || submitting) return;
-    const nick = anon ? "익명" : (username || "익명");
+    const nick = anon ? copy.anonymous : (username || copy.anonymous);
     setSubmitting(true);
     try {
       const res  = await fetch("/api/qa/answers", {
@@ -147,8 +191,8 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
     <div className="min-h-screen flex items-center justify-center text-gray-400">
       <div className="text-center">
         <p className="text-4xl mb-3">🔍</p>
-        <p>질문을 찾을 수 없어요</p>
-        <Link href="/qa" className="btn-primary text-sm mt-4 inline-block">돌아가기</Link>
+        <p>{copy.notFound}</p>
+        <Link href="/qa" className="btn-primary text-sm mt-4 inline-block">{copy.back}</Link>
       </div>
     </div>
   );
@@ -180,7 +224,7 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            질의응답 목록
+            {copy.list}
           </Link>
         </div>
       </div>
@@ -198,16 +242,16 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
           <div className="flex items-center gap-3 mt-5 pt-5 border-t border-gray-100 dark:border-gray-800 text-xs text-gray-400">
             <span className="font-semibold text-gray-600 dark:text-gray-300">{question.nickname}</span>
             <span>·</span>
-            <span>{new Date(question.created_at).toLocaleString("ko-KR", { dateStyle: "medium", timeStyle: "short" })}</span>
+            <span>{new Date(question.created_at).toLocaleString(lang === "ko" ? "ko-KR" : "en-US", { dateStyle: "medium", timeStyle: "short" })}</span>
             <span>·</span>
-            <span>조회 {question.view_count}</span>
+            <span>{copy.views} {question.view_count}</span>
           </div>
         </div>
 
         {/* Answers */}
         <div>
           <h2 className="font-extrabold text-gray-900 dark:text-white mb-4">
-            답변 {answers.length}개
+            {copy.answers} {answers.length}
           </h2>
 
           {/* AI loading */}
@@ -215,14 +259,14 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
             <div className="card p-5 mb-4 border-l-4 border-primary-400">
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-7 h-7 rounded-full bg-primary-500 flex items-center justify-center text-xs font-bold text-white">AI</div>
-                <span className="text-sm font-bold text-gray-900 dark:text-white">AI 튜터</span>
+                <span className="text-sm font-bold text-gray-900 dark:text-white">{copy.aiTutor}</span>
                 <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400">
-                  AI 답변 (즉시) ✨
+                  {copy.aiAnswer}
                 </span>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-400">
                 <div className="flex gap-1">{[0,1,2].map(i => <div key={i} className="w-1.5 h-1.5 bg-primary-400 rounded-full animate-bounce" style={{animationDelay:`${i*0.15}s`}} />)}</div>
-                <span>AI가 답변을 생성하고 있어요...</span>
+                <span>{copy.aiLoading}</span>
               </div>
             </div>
           )}
@@ -230,7 +274,7 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
           {answers.length === 0 && !aiLoading ? (
             <div className="text-center py-10 text-gray-400 card">
               <p className="text-3xl mb-2">💭</p>
-              <p className="text-sm">아직 답변이 없어요.</p>
+              <p className="text-sm">{copy.noAnswers}</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -243,21 +287,21 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
                     <span className="text-sm font-bold text-gray-900 dark:text-white">{a.nickname}</span>
                     {a.is_ai && (
                       <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400">
-                        AI 답변 (즉시) ✨
+                        {copy.aiAnswer}
                       </span>
                     )}
                     {a.is_expert && (
                       <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
-                        Expert 답변 ✓
+                        {copy.expert}
                       </span>
                     )}
                     {a.is_accepted && (
                       <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400">
-                        채택된 답변 🏆
+                        {copy.accepted}
                       </span>
                     )}
                     <span className="ml-auto text-xs text-gray-400">
-                      {new Date(a.created_at).toLocaleString("ko-KR", { dateStyle: "short", timeStyle: "short" })}
+                      {new Date(a.created_at).toLocaleString(lang === "ko" ? "ko-KR" : "en-US", { dateStyle: "short", timeStyle: "short" })}
                     </span>
                   </div>
                   <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">{a.content}</p>
@@ -266,7 +310,7 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
                       onClick={() => handleLike(a.id)}
                       className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-primary-500 transition-colors"
                     >
-                      👍 도움돼요 {a.likes > 0 && <span className="text-primary-500 font-semibold">{a.likes}</span>}
+                      {copy.helpful} {a.likes > 0 && <span className="text-primary-500 font-semibold">{a.likes}</span>}
                     </button>
                   </div>
                 </div>
@@ -277,18 +321,18 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
 
         {/* Post answer */}
         <div className="card p-5">
-          <h3 className="font-bold text-gray-900 dark:text-white mb-3 text-sm">답변 작성</h3>
+          <h3 className="font-bold text-gray-900 dark:text-white mb-3 text-sm">{copy.write}</h3>
           <textarea
             value={answerText}
             onChange={(e) => setAnswerText(e.target.value)}
-            placeholder="친절하고 자세한 답변을 작성해주세요"
+            placeholder={copy.answerPlaceholder}
             rows={4}
             className="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-400 resize-none mb-3"
           />
           <div className="flex items-center justify-between flex-wrap gap-2">
             <label className="flex items-center gap-2 cursor-pointer text-sm text-gray-600 dark:text-gray-300">
               <input type="checkbox" checked={anon} onChange={(e) => setAnon(e.target.checked)} className="rounded" />
-              익명으로 답변
+              {copy.anonymousAnswer}
               {!anon && username && <span className="text-xs text-gray-400">({username})</span>}
             </label>
             <button
@@ -296,7 +340,7 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
               disabled={!answerText.trim() || submitting}
               className="btn-primary text-sm py-2 px-5 disabled:opacity-40"
             >
-              {submitting ? "등록 중..." : "답변 등록"}
+              {submitting ? copy.submitting : copy.submit}
             </button>
           </div>
         </div>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { getStoredUserId, getStoredUsername } from "@/lib/username";
 import { KAKAO_LINK } from "@/lib/pricing";
+import { authFetch } from "@/lib/client-auth";
 
 interface LeaderRow {
   user_id: string;
@@ -24,24 +25,24 @@ const REWARDS = [
   { emoji: "🎁", name: "DoorDash $10",    pts: 500, color: "#E53E3E" },
   { emoji: "📦", name: "Amazon $10",       pts: 500, color: "#DD6B20" },
   { emoji: "☕", name: "Starbucks $5",     pts: 300, color: "#276749" },
-  { emoji: "🏆", name: "InHero 굿즈",     pts: 800, color: "#1D9E75" },
-  { emoji: "📚", name: "교재 무료",        pts: 400, color: "#2B6CB0" },
-  { emoji: "⭐", name: "1:1 컨설팅 30분", pts: 1000, color: "#D69E2E" },
+  { emoji: "🏆", name: "InHero merch", pts: 800, color: "#1D9E75" },
+  { emoji: "⭐", name: "30-min 1:1 consulting", pts: 1000, color: "#D69E2E" },
 ];
 
 const POINT_ACTIONS = [
-  { icon: "🎓", action: "강의 1개 완료",    pts: 10  },
-  { icon: "✅", action: "문제 맞힘",         pts: 2   },
-  { icon: "🔥", action: "연속 학습 7일",     pts: 50  },
-  { icon: "👑", action: "모의고사 1등",      pts: 100 },
+  { icon: "🎓", action: "Finish one lesson", pts: 10  },
+  { icon: "✅", action: "Get a question correct", pts: 2   },
+  { icon: "🔥", action: "7-day study streak", pts: 50  },
+  { icon: "👑", action: "Rank first on a mock exam", pts: 100 },
 ];
 
 const MEDAL = ["👑", "🥈", "🥉"];
 
 type Period = "today" | "weekly" | "monthly";
-const PERIOD_LABEL: Record<Period, string> = { today: "오늘", weekly: "이번 주", monthly: "이번 달" };
 
 export default function DashboardExtras() {
+  const PERIOD_LABEL: Record<Period, string> = { today: "Today", weekly: "Weekly", monthly: "Monthly" };
+
   const [userId]  = useState(() => getStoredUserId());
   const [username] = useState(() => getStoredUsername());
 
@@ -63,7 +64,7 @@ export default function DashboardExtras() {
   useEffect(() => {
     // Load user points
     if (!userId) return;
-    fetch(`/api/points?userId=${userId}`)
+    authFetch(`/api/points`)
       .then((r) => r.json())
       .then((d) => setMyPts({ points: d.points ?? 0, streak_days: d.streak_days ?? 0, total_earned: d.total_earned ?? 0 }))
       .catch(() => {});
@@ -74,20 +75,18 @@ export default function DashboardExtras() {
 
   return (
     <div className="mt-12 space-y-8">
-      {/* ─── 구분선 ─── */}
       <div className="flex items-center gap-4">
         <div className="h-px flex-1 bg-gray-100 dark:bg-gray-800" />
-        <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">리더보드 & 리워드</span>
+        <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Leaderboard & Rewards</span>
         <div className="h-px flex-1 bg-gray-100 dark:bg-gray-800" />
       </div>
 
-      {/* ─── Streak stats ─── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {[
-          { icon: "🔥", label: "연속 학습일", value: `${myRow?.streak ?? myPts.streak_days}일` },
-          { icon: "🎯", label: "총 정답 수",  value: `${myRow?.correct ?? 0}개` },
-          { icon: "📊", label: "정답률",       value: `${myRow?.accuracy ?? 0}%` },
-          { icon: "⭐", label: "내 포인트",    value: `${myPts.points}P` },
+          { icon: "🔥", label: "Streak days", value: `${myRow?.streak ?? myPts.streak_days} days` },
+          { icon: "🎯", label: "Total correct", value: `${myRow?.correct ?? 0}` },
+          { icon: "📊", label: "Accuracy", value: `${myRow?.accuracy ?? 0}%` },
+          { icon: "⭐", label: "My points", value: `${myPts.points}P` },
         ].map((stat) => (
           <div key={stat.label} className="card p-5 text-center">
             <div className="text-3xl mb-2">{stat.icon}</div>
@@ -98,10 +97,9 @@ export default function DashboardExtras() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* ─── Leaderboard ─── */}
         <div className="lg:col-span-2 card p-6">
           <div className="flex items-center justify-between mb-5 flex-wrap gap-3">
-            <h2 className="font-extrabold text-gray-900 dark:text-white text-lg">🏆 리더보드</h2>
+            <h2 className="font-extrabold text-gray-900 dark:text-white text-lg">Leaderboard</h2>
             <div className="flex gap-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl">
               {(["today", "weekly", "monthly"] as Period[]).map((p) => (
                 <button key={p} onClick={() => setPeriod(p)}
@@ -119,7 +117,7 @@ export default function DashboardExtras() {
           ) : rows.length === 0 ? (
             <div className="text-center py-8 text-gray-400">
               <p className="text-3xl mb-2">📊</p>
-              <p className="text-sm">문제은행에서 문제를 풀면 여기 등장해요!</p>
+              <p className="text-sm">No leaderboard data yet.</p>
             </div>
           ) : (
             <div className="space-y-1">
@@ -134,12 +132,12 @@ export default function DashboardExtras() {
                     <div className="flex-1 min-w-0">
                       <p className={`text-sm font-bold truncate ${isMe ? "text-primary-600 dark:text-primary-400" : "text-gray-900 dark:text-white"}`}>
                         {isMe && username ? username : (row.nickname ?? row.user_id.slice(0, 8) + "…")}
-                        {isMe && <span className="ml-1.5 text-xs bg-primary-100 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 px-1.5 py-0.5 rounded-full">나</span>}
+                        {isMe && <span className="ml-1.5 text-xs bg-primary-100 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 px-1.5 py-0.5 rounded-full">Me</span>}
                       </p>
-                      <p className="text-xs text-gray-400">🔥 {row.streak ?? 0}일 streak</p>
+                      <p className="text-xs text-gray-400">🔥 {row.streak ?? 0} day streak</p>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <p className="text-sm font-black text-gray-900 dark:text-white">{row.correct ?? 0}정답</p>
+                      <p className="text-sm font-black text-gray-900 dark:text-white">{row.correct ?? 0} correct</p>
                       <p className="text-xs text-gray-400">{row.accuracy ?? 0}%</p>
                     </div>
                   </div>
@@ -151,15 +149,14 @@ export default function DashboardExtras() {
           {myRank && (
             <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800 text-center">
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                내 현재 순위 <span className="text-primary-600 dark:text-primary-400 font-extrabold text-lg">#{myRank}</span>
+                My rank <span className="text-primary-600 dark:text-primary-400 font-extrabold text-lg">#{myRank}</span>
               </p>
             </div>
           )}
         </div>
 
-        {/* ─── Points guide ─── */}
         <div className="card p-6">
-          <h2 className="font-extrabold text-gray-900 dark:text-white text-base mb-4">⚡ 포인트 획득 방법</h2>
+          <h2 className="font-extrabold text-gray-900 dark:text-white text-base mb-4">Points guide</h2>
           <div className="space-y-3 mb-5">
             {POINT_ACTIONS.map((a) => (
               <div key={a.action} className="flex items-center justify-between">
@@ -171,16 +168,15 @@ export default function DashboardExtras() {
             ))}
           </div>
           <div className="bg-primary-50 dark:bg-primary-900/20 rounded-xl p-3 text-center">
-            <p className="text-xs text-gray-500 dark:text-gray-400 mb-0.5">내 보유 포인트</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mb-0.5">My points</p>
             <p className="text-2xl font-black text-primary-600 dark:text-primary-400">{myPts.points}P</p>
-            <p className="text-xs text-gray-400 mt-0.5">누적 획득: {myPts.total_earned}P</p>
+            <p className="text-xs text-gray-400 mt-0.5">Total earned: {myPts.total_earned}P</p>
           </div>
         </div>
       </div>
 
-      {/* ─── Prize System ─── */}
       <div>
-        <h2 className="font-extrabold text-gray-900 dark:text-white text-lg mb-5">🎁 리워드 교환소</h2>
+        <h2 className="font-extrabold text-gray-900 dark:text-white text-lg mb-5">Rewards</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {REWARDS.map((reward) => {
             const pct     = Math.min(100, Math.round((myPts.points / reward.pts) * 100));
@@ -191,10 +187,10 @@ export default function DashboardExtras() {
                   <span className="text-3xl">{reward.emoji}</span>
                   <div>
                     <p className="font-bold text-sm text-gray-900 dark:text-white">{reward.name}</p>
-                    <p className="text-xs text-gray-400">{reward.pts}P 필요</p>
+                    <p className="text-xs text-gray-400">{reward.pts}P needed</p>
                   </div>
                   {canRedeem && (
-                    <span className="ml-auto text-xs font-bold text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 rounded-full">교환 가능!</span>
+                    <span className="ml-auto text-xs font-bold text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 rounded-full">Available</span>
                   )}
                 </div>
 
@@ -217,15 +213,13 @@ export default function DashboardExtras() {
                       : "bg-gray-100 dark:bg-gray-800 text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700"
                   }`}
                 >
-                  {canRedeem ? "💬 카카오톡으로 교환하기" : "💬 포인트 문의"}
+                  {canRedeem ? "Redeem" : "Ask about it"}
                 </a>
               </div>
             );
           })}
         </div>
-        <p className="text-xs text-gray-400 text-center mt-4">
-          * 포인트 교환은 현재 카카오톡 문의를 통해 처리됩니다. 자동화 예정.
-        </p>
+        <p className="text-xs text-gray-400 text-center mt-4">Rewards are redeemed through the Kakao channel after verification.</p>
       </div>
     </div>
   );

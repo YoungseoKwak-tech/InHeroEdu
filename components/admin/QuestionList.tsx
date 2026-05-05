@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Subject } from "@/lib/subjects";
 import QuestionEditModal from "./QuestionEditModal";
+import { authFetch } from "@/lib/client-auth";
 
 interface Question {
   id: string;
@@ -61,7 +62,7 @@ export default function QuestionList({ subject, refreshKey, onCountChange }: Que
     if (filterType) params.set("type", filterType);
 
     try {
-      const res = await fetch(`/api/admin/questions?${params}`);
+      const res = await authFetch(`/api/admin/questions?${params}`);
       const data = await res.json();
       setQuestions(data.questions ?? []);
       setTotal(data.total ?? 0);
@@ -81,7 +82,7 @@ export default function QuestionList({ subject, refreshKey, onCountChange }: Que
 
   async function handleDelete(id: string) {
     if (!confirm("이 문제를 삭제할까요?")) return;
-    await fetch(`/api/admin/questions?id=${id}`, { method: "DELETE" });
+    await authFetch(`/api/admin/questions?id=${id}`, { method: "DELETE" });
     fetchQuestions();
   }
 

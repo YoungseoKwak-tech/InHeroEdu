@@ -29,6 +29,14 @@ export const SUBJECTS: Subject[] = [
   { id: "ap_macro",       name: "AP Macroeconomics",         nameKo: "AP 거시경제",         folder: "AP Macroeconomics",         color: "#3B6D11", category: "AP",   emoji: "📈" },
   { id: "ap_micro",       name: "AP Microeconomics",         nameKo: "AP 미시경제",         folder: "AP Microeconomics",         color: "#27500A", category: "AP",   emoji: "📉" },
   { id: "ap_enviro",      name: "AP Environmental Science",  nameKo: "AP 환경과학",         folder: "AP Environmental Science",  color: "#1D9E75", category: "AP",   emoji: "🌱" },
+  { id: "ap_phys2",       name: "AP Physics 2",              nameKo: "AP 물리 2",           folder: "AP Physics 2",              color: "#4154AF", category: "AP",   emoji: "🔭" },
+  { id: "ap_euro",        name: "AP European History",       nameKo: "AP 유럽사",           folder: "AP European History",       color: "#8B4513", category: "AP",   emoji: "🏰" },
+  { id: "ap_usgov",       name: "AP US Government",          nameKo: "AP 미국 정치",        folder: "AP US Government",          color: "#B22222", category: "AP",   emoji: "🏛️" },
+  { id: "ap_comp_gov",    name: "AP Comparative Government", nameKo: "AP 비교정치",         folder: "AP Comparative Government", color: "#6A0DAD", category: "AP",   emoji: "🌐" },
+  { id: "ap_hug",         name: "AP Human Geography",        nameKo: "AP 인문지리",         folder: "AP Human Geography",        color: "#2E8B57", category: "AP",   emoji: "🗺️" },
+  { id: "ap_art_hist",    name: "AP Art History",            nameKo: "AP 미술사",           folder: "AP Art History",            color: "#D2691E", category: "AP",   emoji: "🎨" },
+  { id: "ap_music",       name: "AP Music Theory",           nameKo: "AP 음악 이론",        folder: "AP Music Theory",           color: "#8B008B", category: "AP",   emoji: "🎵" },
+  { id: "ap_spanish",     name: "AP Spanish Language",       nameKo: "AP 스페인어",         folder: "AP Spanish Language",       color: "#C41E3A", category: "AP",   emoji: "🇪🇸" },
 
   // ── Honors ──────────────────────────────────────────────────────────────
   { id: "hon_bio",        name: "Honors Biology",            nameKo: "Honors 생물학",       folder: "Honors Biology",            color: "#1D9E75", category: "Honors", emoji: "🧬" },

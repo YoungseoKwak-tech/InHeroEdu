@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { authFetch } from "@/lib/client-auth";
 
 interface Question {
   id?: string;
@@ -74,7 +75,7 @@ export default function QuestionEditModal({
     const payload = form.id ? form : { ...form };
 
     try {
-      const res = await fetch("/api/admin/questions", {
+      const res = await authFetch("/api/admin/questions", {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

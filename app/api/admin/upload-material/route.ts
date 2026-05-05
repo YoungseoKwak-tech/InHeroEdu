@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 import Anthropic from "@anthropic-ai/sdk";
+import { requireAdminUser } from "@/lib/auth";
+import { checkRateLimit } from "@/lib/rate-limit";
+import { getAnthropicApiKey } from "@/lib/env";
 
 function sanitizeText(text: string): string {
   return text
@@ -15,6 +18,22 @@ export async function POST(req: NextRequest) {
   let fileName = "unknown";
 
   try {
+    const admin = await requireAdminUser(req);
+    if (admin instanceof NextResponse) return admin;
+
+    const limit = checkRateLimit("admin-upload-material", admin.id, 10, 60 * 60 * 1000);
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: "rate limit exceeded" },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(limit.retryAfterSec),
+          },
+        }
+      );
+    }
+
     const formData = await req.formData();
     const file = formData.get("file") as File | null;
     const subject = formData.get("subject") as string | null;
@@ -35,7 +54,7 @@ export async function POST(req: NextRequest) {
       rawText = sanitizeText(buffer.toString("utf-8"));
     } else if (["png", "jpg", "jpeg", "webp"].includes(ext)) {
       try {
-        const claude = new Anthropic();
+        const claude = new Anthropic({ apiKey: getAnthropicApiKey() });
         const mediaType = (
           ext === "jpg" || ext === "jpeg" ? "image/jpeg"
           : ext === "png" ? "image/png"

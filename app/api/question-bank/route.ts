@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 
+export const dynamic = "force-dynamic";
+
 // GET /api/question-bank?subject=ap_bio&difficulty=hard&type=multiple_choice&limit=20&page=1
 export async function GET(req: NextRequest) {
   try {

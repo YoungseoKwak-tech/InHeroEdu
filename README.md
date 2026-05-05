@@ -70,6 +70,28 @@ npm start
 2. 환경 변수에 `ANTHROPIC_API_KEY` 추가
 3. 자동 배포 완료
 
+### Trajectory Lab preview deploy
+
+`Trajectory Lab`의 deploy 단계에서 실제 Vercel preview를 생성하려면 아래 환경 변수가 필요합니다.
+
+```bash
+VERCEL_API_TOKEN=
+VERCEL_PROJECT_ID=
+VERCEL_TEAM_ID=
+VERCEL_GIT_SOURCE_TYPE=github
+VERCEL_GIT_SOURCE_REPO_ID=
+VERCEL_GIT_SOURCE_REF=main
+```
+
+- `VERCEL_API_TOKEN`: Vercel personal/team token
+- `VERCEL_PROJECT_ID`: preview를 생성할 대상 프로젝트 id
+- `VERCEL_TEAM_ID`: 팀 프로젝트인 경우만 필요
+- `VERCEL_GIT_SOURCE_TYPE`: 보통 `github`
+- `VERCEL_GIT_SOURCE_REPO_ID`: 연결된 Git provider repo id
+- `VERCEL_GIT_SOURCE_REF`: preview 생성 기준 브랜치. 보통 `main`
+
+위 값이 없으면 deploy route는 안전하게 fallback 하며, preview spec만 반환합니다.
+
 ## 폴더 구조
 
 ```

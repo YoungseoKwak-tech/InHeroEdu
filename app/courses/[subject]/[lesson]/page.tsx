@@ -31,7 +31,7 @@ async function resolveLessonInfo(
   lessonSlug: string,
   subject: string
 ): Promise<LessonInfo | null> {
-  // Try static dict first
+  // Try static dict by URL slug
   const staticLesson = lessons[lessonSlug];
   if (staticLesson) {
     if (staticLesson.courseId !== subject) return null;
@@ -42,13 +42,14 @@ async function resolveLessonInfo(
     };
   }
 
-  // Fall back to DB lookup
+  // Fall back to DB lookup using the resolved DB id
+  const dbLessonId = resolveLessonDbId(lessonSlug);
   try {
     const supabase = createAdminClient();
     const { data } = await supabase
       .from("lessons")
       .select("id, course_id, title")
-      .eq("id", lessonSlug)
+      .eq("id", dbLessonId)
       .maybeSingle();
 
     if (!data || data.course_id !== subject) return null;
@@ -81,7 +82,7 @@ export async function generateStaticParams() {
 
 export default async function LessonPage({ params }: Props) {
   const dbLessonId = resolveLessonDbId(params.lesson);
-  const lessonInfo = await resolveLessonInfo(dbLessonId, params.subject);
+  const lessonInfo = await resolveLessonInfo(params.lesson, params.subject);
   if (!lessonInfo) notFound();
 
   const course = courses.find((c) => c.id === params.subject);

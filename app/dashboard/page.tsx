@@ -1,16 +1,16 @@
-import Link from "next/link";
-import type { Metadata } from "next";
-import DashboardExtras from "@/components/dashboard/DashboardExtras";
+"use client";
 
-export const metadata: Metadata = {
-  title: "대시보드 | InHero",
-  description: "나의 학습 현황을 확인하세요",
-};
+import Link from "next/link";
+import DashboardExtras from "@/components/dashboard/DashboardExtras";
+import ThinkingEvolution from "@/components/ThinkingEvolution";
+import HeroCodeSection from "@/components/dashboard/HeroCodeSection";
+import CommandCenter from "@/components/dashboard/CommandCenter";
+import { useLang } from "@/app/contexts/LanguageContext";
+import { t } from "@/lib/translations";
 
 const progressData = [
   {
     subject: "AP Biology",
-    korean: "AP 생물학",
     icon: "🧬",
     completed: 3,
     total: 47,
@@ -20,7 +20,6 @@ const progressData = [
   },
   {
     subject: "AP Chemistry",
-    korean: "AP 화학",
     icon: "⚗️",
     completed: 0,
     total: 52,
@@ -30,7 +29,6 @@ const progressData = [
   },
   {
     subject: "AP Calculus BC",
-    korean: "AP 미적분 BC",
     icon: "∫",
     completed: 0,
     total: 61,
@@ -42,27 +40,27 @@ const progressData = [
 
 const recentLessons = [
   {
-    title: "DNA 복제 과정",
+    title: "DNA Replication",
     subject: "AP Biology",
-    time: "2시간 전",
+    time: "2 hours ago",
     duration: "20:45",
     lessonId: "dna-replication",
     courseId: "ap-biology",
     completed: true,
   },
   {
-    title: "미토콘드리아와 세포 호흡",
+    title: "Mitochondria and Cellular Respiration",
     subject: "AP Biology",
-    time: "어제",
+    time: "Yesterday",
     duration: "22:10",
     lessonId: "mitochondria",
     courseId: "ap-biology",
     completed: true,
   },
   {
-    title: "세포의 구조와 기능",
+    title: "Cell Structure and Function",
     subject: "AP Biology",
-    time: "3일 전",
+    time: "3 days ago",
     duration: "18:24",
     lessonId: "cell-structure",
     courseId: "ap-biology",
@@ -71,48 +69,50 @@ const recentLessons = [
 ];
 
 const weakTopics = [
-  { topic: "DNA 복제 — 오카자키 절편", subject: "AP Biology", score: 33, icon: "🧬" },
-  { topic: "광합성 — 캘빈 회로", subject: "AP Biology", score: 50, icon: "🌿" },
-  { topic: "세포 호흡 — 전자전달계", subject: "AP Biology", score: 67, icon: "⚡" },
+  { topic: "DNA Replication — Okazaki Fragments", subject: "AP Biology", score: 33, icon: "🧬" },
+  { topic: "Photosynthesis — Calvin Cycle", subject: "AP Biology", score: 50, icon: "🌿" },
+  { topic: "Cellular Respiration — Electron Transport Chain", subject: "AP Biology", score: 67, icon: "⚡" },
 ];
 
 export default function DashboardPage() {
+  const { lang } = useLang();
+  const tx = t[lang].dashboard;
+
   const totalCompleted = progressData.reduce((sum, s) => sum + s.completed, 0);
-  const totalLessons = progressData.reduce((sum, s) => sum + s.total, 0);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <div className="min-h-screen" style={{ background: '#000000' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Welcome */}
         <div className="mb-10">
           <div className="flex items-start justify-between flex-wrap gap-4">
             <div>
-              <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white">
-                안녕하세요, 학생님! 👋
+              <h1 className="text-2xl md:text-3xl font-extrabold text-white">
+                {tx.welcome}
               </h1>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">
-                오늘도 한 걸음 더 아이비리그에 가까워져봐요
+              <p className="mt-1" style={{ color: 'rgba(255,255,255,0.55)' }}>
+                {tx.subtitle}
               </p>
             </div>
             <Link href="/courses/ap-biology/photosynthesis" className="btn-primary text-sm">
-              오늘의 강의 시작 →
+              {tx.startToday}
             </Link>
           </div>
 
           {/* Quick stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
             {[
-              { label: "완료한 강의", value: `${totalCompleted}개`, icon: "✅" },
-              { label: "학습 일수", value: "12일", icon: "🔥" },
-              { label: "맞춘 문제", value: "24/36", icon: "📝" },
-              { label: "AI 질문 수", value: "47회", icon: "🤖" },
+              { label: tx.stats.completed, value: `${totalCompleted}${tx.lessonUnit}`, icon: "✅" },
+              { label: tx.stats.days, value: "12 days", icon: "🔥" },
+              { label: tx.stats.correct, value: "24/36", icon: "📝" },
+              { label: tx.stats.aiQuestions, value: "47 sessions", icon: "🤖" },
             ].map((stat) => (
               <div key={stat.label} className="card p-5">
                 <div className="text-2xl mb-2">{stat.icon}</div>
-                <div className="text-xl font-extrabold text-gray-900 dark:text-white">
+                <div className="text-xl font-extrabold text-white">
                   {stat.value}
                 </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>
                   {stat.label}
                 </div>
               </div>
@@ -125,8 +125,8 @@ export default function DashboardPage() {
           <div className="lg:col-span-2 space-y-6">
             {/* Progress */}
             <div className="card p-6">
-              <h2 className="font-bold text-gray-900 dark:text-white mb-5 text-lg">
-                과목별 진도
+              <h2 className="font-bold text-white mb-5 text-lg">
+                {tx.progress}
               </h2>
               <div className="space-y-5">
                 {progressData.map((subj) => {
@@ -136,15 +136,15 @@ export default function DashboardPage() {
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-2">
                           <span className="text-lg">{subj.icon}</span>
-                          <span className="font-semibold text-sm text-gray-800 dark:text-gray-200">
-                            {subj.korean}
+                          <span className="font-semibold text-sm text-white">
+                            {subj.subject}
                           </span>
                         </div>
-                        <span className="text-xs text-gray-500 dark:text-gray-400">
-                          {subj.completed}/{subj.total} 강의 · {pct}%
+                        <span className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                          {subj.completed}/{subj.total} {tx.lessons} · {pct}%
                         </span>
                       </div>
-                      <div className={`w-full h-2.5 ${subj.lightColor} rounded-full overflow-hidden`}>
+                      <div className="w-full h-2.5 rounded-full overflow-hidden" style={{ background: 'rgba(29,158,117,0.15)' }}>
                         <div
                           className={`h-full ${subj.color} rounded-full transition-all duration-500`}
                           style={{ width: `${Math.max(pct, pct > 0 ? 3 : 0)}%` }}
@@ -158,28 +158,28 @@ export default function DashboardPage() {
 
             {/* Recent lessons */}
             <div className="card p-6">
-              <h2 className="font-bold text-gray-900 dark:text-white mb-5 text-lg">
-                최근 강의
+              <h2 className="font-bold text-white mb-5 text-lg">
+                {tx.recentLessons}
               </h2>
               <div className="space-y-3">
                 {recentLessons.map((lesson) => (
                   <Link
                     key={lesson.lessonId}
                     href={`/courses/${lesson.courseId}/${lesson.lessonId}`}
-                    className="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group"
+                    className="flex items-center gap-4 p-3 rounded-xl transition-colors group hover:bg-white/5"
                   >
                     <div className="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 flex-shrink-0">
                       ✓
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-sm text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors truncate">
+                      <div className="font-semibold text-sm text-white group-hover:text-primary-400 transition-colors truncate">
                         {lesson.title}
                       </div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                      <div className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
                         {lesson.subject} · {lesson.time}
                       </div>
                     </div>
-                    <div className="text-xs text-gray-400 flex-shrink-0">
+                    <div className="text-xs flex-shrink-0" style={{ color: 'rgba(255,255,255,0.4)' }}>
                       {lesson.duration}
                     </div>
                   </Link>
@@ -193,37 +193,37 @@ export default function DashboardPage() {
             {/* Next recommended */}
             <div className="card p-6 bg-gradient-to-br from-primary-500 to-primary-600 text-white border-0">
               <div className="text-sm font-semibold text-primary-100 mb-3">
-                ⚡ 다음 추천 강의
+                {tx.nextLesson}
               </div>
-              <h3 className="font-extrabold text-lg mb-1">광합성의 두 단계</h3>
+              <h3 className="font-extrabold text-lg mb-1">Photosynthesis: Light and Dark Reactions</h3>
               <p className="text-primary-100 text-sm mb-5 leading-relaxed">
-                명반응과 캘빈 회로 — AP Bio 단골 출제 토픽
+                Light reactions and the Calvin cycle, one of the most repeated AP Bio targets
               </p>
               <div className="flex items-center justify-between mb-5">
-                <span className="text-primary-200 text-sm">⏱ 24분 30초</span>
-                <span className="text-primary-200 text-sm">AP Biology · 4강</span>
+                <span className="text-primary-200 text-sm">⏱ 24 min 30 sec</span>
+                <span className="text-primary-200 text-sm">AP Biology · Lesson 4</span>
               </div>
               <Link
                 href="/courses/ap-biology/photosynthesis"
                 className="block w-full bg-white text-primary-600 font-bold text-center py-2.5 rounded-xl hover:bg-primary-50 transition-colors text-sm"
               >
-                강의 시작하기 →
+                {tx.startLesson}
               </Link>
             </div>
 
             {/* Weak topics */}
             <div className="card p-6">
-              <h2 className="font-bold text-gray-900 dark:text-white mb-4 text-base">
-                💡 취약 개념
+              <h2 className="font-bold text-white mb-4 text-base">
+                {tx.weakTopics}
               </h2>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
-                틀린 문제를 분석한 결과예요. 집중 복습이 필요합니다.
+              <p className="text-xs mb-4" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                {tx.weakSubtitle}
               </p>
               <div className="space-y-4">
                 {weakTopics.map((topic) => (
                   <div key={topic.topic}>
                     <div className="flex items-start justify-between gap-2 mb-1.5">
-                      <div className="text-sm text-gray-700 dark:text-gray-300 leading-snug">
+                      <div className="text-sm leading-snug" style={{ color: 'rgba(255,255,255,0.75)' }}>
                         <span className="mr-1.5">{topic.icon}</span>
                         {topic.topic}
                       </div>
@@ -239,7 +239,7 @@ export default function DashboardPage() {
                         {topic.score}%
                       </span>
                     </div>
-                    <div className="w-full h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.1)' }}>
                       <div
                         className={`h-full rounded-full ${
                           topic.score >= 70
@@ -258,12 +258,12 @@ export default function DashboardPage() {
 
             {/* Study streak */}
             <div className="card p-6">
-              <h2 className="font-bold text-gray-900 dark:text-white mb-4 text-base">
-                🔥 학습 스트릭
+              <h2 className="font-bold text-white mb-4 text-base">
+                {tx.streak}
               </h2>
               <div className="text-center">
                 <div className="text-5xl font-black text-primary-500 mb-1">12</div>
-                <div className="text-sm text-gray-500 dark:text-gray-400">연속 학습일</div>
+                <div className="text-sm" style={{ color: 'rgba(255,255,255,0.5)' }}>{tx.streakDays}</div>
                 <div className="grid grid-cols-7 gap-1 mt-4">
                   {Array.from({ length: 28 }).map((_, i) => (
                     <div
@@ -272,19 +272,22 @@ export default function DashboardPage() {
                         i >= 16
                           ? "bg-primary-500"
                           : i >= 10
-                          ? "bg-primary-200 dark:bg-primary-800"
-                          : "bg-gray-100 dark:bg-gray-800"
+                          ? "bg-primary-800"
+                          : "bg-white/10"
                       }`}
                     />
                   ))}
                 </div>
-                <div className="text-xs text-gray-400 mt-2">지난 28일</div>
+                <div className="text-xs mt-2" style={{ color: 'rgba(255,255,255,0.4)' }}>{tx.last28}</div>
               </div>
             </div>
           </div>
         </div>
 
+        <CommandCenter />
+        <HeroCodeSection />
         <DashboardExtras />
+        <ThinkingEvolution userId="demo-user" />
       </div>
     </div>
   );

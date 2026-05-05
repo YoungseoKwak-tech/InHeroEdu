@@ -1,1 +1,26 @@
-{}
+{
+  "app/textbooks/page.tsx -> @/components/textbooks/PdfCover": {
+    "id": 623,
+    "files": [
+      "static/chunks/623.b21da6efc9ca0bae.js"
+    ]
+  },
+  "components/admin/AdminTextbooksPageClient.tsx -> @/components/textbooks/PdfCover": {
+    "id": 623,
+    "files": [
+      "static/chunks/623.b21da6efc9ca0bae.js"
+    ]
+  },
+  "components/lesson/SectionLessonGate.tsx -> @/components/lesson/SectionLessonPlayer": {
+    "id": 1392,
+    "files": [
+      "static/chunks/392.1414f52802edebac.js"
+    ]
+  },
+  "components/textbooks/PdfCover.tsx -> pdfjs-dist/legacy/build/pdf.mjs": {
+    "id": 4725,
+    "files": [
+      "static/chunks/51fb665c.0dd03d49fd574a24.js"
+    ]
+  }
+}

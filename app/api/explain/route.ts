@@ -1,8 +1,10 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest } from "next/server";
+import { getAiFallback, getAiRouteGuard } from "@/lib/ai-access";
+import { getAnthropicApiKey } from "@/lib/env";
 
 const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
+  apiKey: getAnthropicApiKey(),
 });
 
 type ExplainMode = "default" | "simpler" | "english";
@@ -27,6 +29,9 @@ function buildPrompt(
 }
 
 export async function POST(req: NextRequest) {
+  const guard = getAiRouteGuard("legacy-explain");
+  if (guard) return Response.json(guard);
+
   try {
     const body = await req.json();
     const { term, termEn, lessonTopic, mode = "default" } = body as {
@@ -85,10 +90,6 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("AI explain error:", error);
-    return new Response(
-      JSON.stringify({ error: "Failed to generate explanation" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return Response.json(getAiFallback("legacy-explain", error));
   }
 }

@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
+import { requireAdminUser } from "@/lib/auth";
 
 // GET /api/admin/questions?subject=ap_bio&difficulty=hard&type=multiple_choice&page=1&limit=20
 export async function GET(req: NextRequest) {
   try {
+    const admin = await requireAdminUser(req);
+    if (admin instanceof NextResponse) return admin;
+
     const { searchParams } = new URL(req.url);
     const subject    = searchParams.get("subject") ?? "";
     const difficulty = searchParams.get("difficulty") ?? "";
@@ -35,6 +39,9 @@ export async function GET(req: NextRequest) {
 // POST /api/admin/questions — add a question manually
 export async function POST(req: NextRequest) {
   try {
+    const admin = await requireAdminUser(req);
+    if (admin instanceof NextResponse) return admin;
+
     const body = await req.json();
     const supabase = createAdminClient();
     const { data, error } = await supabase.from("questions").insert(body).select().single();
@@ -49,6 +56,9 @@ export async function POST(req: NextRequest) {
 // PUT /api/admin/questions — update a question
 export async function PUT(req: NextRequest) {
   try {
+    const admin = await requireAdminUser(req);
+    if (admin instanceof NextResponse) return admin;
+
     const { id, ...updates } = await req.json();
     if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
     const supabase = createAdminClient();
@@ -69,6 +79,9 @@ export async function PUT(req: NextRequest) {
 // DELETE /api/admin/questions?id=...
 export async function DELETE(req: NextRequest) {
   try {
+    const admin = await requireAdminUser(req);
+    if (admin instanceof NextResponse) return admin;
+
     const id = new URL(req.url).searchParams.get("id");
     if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
     const supabase = createAdminClient();

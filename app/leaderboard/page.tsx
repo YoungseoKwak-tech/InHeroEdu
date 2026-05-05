@@ -60,15 +60,15 @@ export default function LeaderboardPage() {
   const nextPrize = PRIZE_TIERS.find((t) => t.streak > myStreak);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <div className="min-h-screen" style={{ background: '#000000' }}>
       {/* Header */}
-      <div className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
+      <div className="border-b" style={{ background: '#050510', borderBottomColor: 'rgba(29,158,117,0.15)' }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-xl">🏆</div>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ background: 'rgba(29,158,117,0.1)', border: '1px solid rgba(29,158,117,0.2)' }}>🏆</div>
             <div>
-              <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">리더보드</h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">스트릭 유지하고 상품 받아가세요!</p>
+              <h1 className="text-2xl font-extrabold text-white">리더보드</h1>
+              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.55)' }}>스트릭 유지하고 상품 받아가세요!</p>
             </div>
           </div>
 
@@ -115,10 +115,11 @@ export default function LeaderboardPage() {
         {/* Leaderboard */}
         <div className="lg:col-span-2">
           {/* Period tabs */}
-          <div className="flex gap-1 mb-5 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl w-fit">
+          <div className="flex gap-1 mb-5 p-1 rounded-xl w-fit" style={{ background: 'rgba(5,5,20,0.8)', border: '1px solid rgba(29,158,117,0.15)' }}>
             {(["weekly", "monthly", "alltime"] as Period[]).map((p) => (
               <button key={p} onClick={() => setPeriod(p)}
-                className={`text-sm font-semibold px-4 py-2 rounded-lg transition-all ${period === p ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm" : "text-gray-500 hover:text-gray-700 dark:hover:text-gray-200"}`}>
+                className={`text-sm font-semibold px-4 py-2 rounded-lg transition-all ${period === p ? "text-white" : "hover:text-white/80"}`}
+                style={period === p ? { background: 'rgba(29,158,117,0.25)', color: '#1D9E75' } : { color: 'rgba(255,255,255,0.45)' }}>
                 {PERIOD_LABEL[p]}
               </button>
             ))}
@@ -140,20 +141,20 @@ export default function LeaderboardPage() {
                   const isMe = row.userId === myUserId;
                   const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : null;
                   return (
-                    <div key={row.userId} className={`flex items-center gap-4 px-5 py-3.5 border-b border-gray-50 dark:border-gray-800 last:border-0 ${isMe ? "bg-primary-50 dark:bg-primary-900/20" : "hover:bg-gray-50 dark:hover:bg-gray-800/50"} transition-colors`}>
-                      <span className="w-8 text-center font-black text-lg text-gray-400">
+                    <div key={row.userId} className="flex items-center gap-4 px-5 py-3.5 border-b last:border-0 transition-colors" style={{ borderBottomColor: 'rgba(29,158,117,0.1)', background: isMe ? 'rgba(29,158,117,0.08)' : undefined }}>
+                      <span className="w-8 text-center font-black text-lg" style={{ color: 'rgba(255,255,255,0.4)' }}>
                         {medal ?? <span className="text-sm">#{idx + 1}</span>}
                       </span>
                       <div className="flex-1 min-w-0">
-                        <p className={`text-sm font-bold truncate ${isMe ? "text-primary-600 dark:text-primary-400" : "text-gray-900 dark:text-white"}`}>
+                        <p className={`text-sm font-bold truncate ${isMe ? "text-primary-400" : "text-white"}`}>
                           {isMe && myUsername ? myUsername : row.userId.slice(0, 8) + "…"}
-                          {isMe && <span className="ml-1.5 text-xs bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 px-2 py-0.5 rounded-full">나</span>}
+                          {isMe && <span className="ml-1.5 text-xs text-primary-400 px-2 py-0.5 rounded-full" style={{ background: 'rgba(29,158,117,0.15)' }}>나</span>}
                         </p>
-                        <p className="text-xs text-gray-400">{getStreakEmoji(row.streak)} {row.streak}일 streak</p>
+                        <p className="text-xs" style={{ color: 'rgba(255,255,255,0.45)' }}>{getStreakEmoji(row.streak)} {row.streak}일 streak</p>
                       </div>
                       <div className="text-right flex-shrink-0">
-                        <p className="text-sm font-black text-gray-900 dark:text-white">{row.correct}정답</p>
-                        <p className="text-xs text-gray-400">{row.accuracy}% 정확도</p>
+                        <p className="text-sm font-black text-white">{row.correct}정답</p>
+                        <p className="text-xs" style={{ color: 'rgba(255,255,255,0.45)' }}>{row.accuracy}% 정확도</p>
                       </div>
                     </div>
                   );
@@ -165,16 +166,16 @@ export default function LeaderboardPage() {
 
         {/* Prize tiers */}
         <div className="space-y-4">
-          <h2 className="font-extrabold text-gray-900 dark:text-white text-lg">🎁 상품 목록</h2>
+          <h2 className="font-extrabold text-white text-lg">🎁 상품 목록</h2>
           {PRIZE_TIERS.map((tier) => {
             const achieved = myStreak >= tier.streak;
             return (
-              <div key={tier.streak} className={`card p-4 ${achieved ? "ring-2 ring-primary-400" : ""}`}>
+              <div key={tier.streak} className={`card p-4 ${achieved ? "ring-1 ring-primary-500" : ""}`}>
                 <div className="flex items-center gap-3 mb-2">
                   <span className="text-2xl">{tier.emoji}</span>
                   <div>
-                    <p className="font-bold text-sm text-gray-900 dark:text-white">{tier.label}</p>
-                    <p className="text-xs text-gray-400">{tier.streak}일 연속 달성</p>
+                    <p className="font-bold text-sm text-white">{tier.label}</p>
+                    <p className="text-xs" style={{ color: 'rgba(255,255,255,0.45)' }}>{tier.streak}일 연속 달성</p>
                   </div>
                   {achieved && <span className="ml-auto text-xs font-bold text-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 rounded-full">달성 ✓</span>}
                 </div>
@@ -189,9 +190,9 @@ export default function LeaderboardPage() {
             );
           })}
 
-          <div className="card p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
-            <p className="text-xs font-bold text-gray-500 dark:text-gray-400 mb-2">📅 오늘의 목표</p>
-            <p className="text-sm text-gray-700 dark:text-gray-300">문제은행에서 <strong>5문제</strong> 이상 풀면<br />오늘 스트릭이 유지돼요!</p>
+          <div className="card p-4">
+            <p className="text-xs font-bold mb-2" style={{ color: 'rgba(255,255,255,0.5)' }}>📅 오늘의 목표</p>
+            <p className="text-sm" style={{ color: 'rgba(255,255,255,0.75)' }}>문제은행에서 <strong>5문제</strong> 이상 풀면<br />오늘 스트릭이 유지돼요!</p>
             <a href="/question-bank" className="mt-3 block text-center btn-primary text-xs py-2">문제 풀러 가기</a>
           </div>
         </div>

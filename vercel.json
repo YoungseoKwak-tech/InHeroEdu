@@ -3,5 +3,25 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install --legacy-peer-deps",
   "framework": "nextjs",
-  "regions": ["icn1"]
+  "regions": ["icn1"],
+  "functions": {
+    "app/api/generate-textbook/route.ts": {
+      "maxDuration": 10
+    },
+    "app/api/generate-textbook-worker/route.ts": {
+      "maxDuration": 300
+    },
+    "app/api/generate-textbook-content/route.ts": {
+      "maxDuration": 300
+    },
+    "app/api/generate-textbook-docx/route.ts": {
+      "maxDuration": 60
+    },
+    "app/api/generate-textbook-save/route.ts": {
+      "maxDuration": 60
+    },
+    "app/api/admin/generate-script-sync/route.ts": {
+      "maxDuration": 300
+    }
+  }
 }

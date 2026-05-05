@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { authFetch } from "@/lib/client-auth";
 
 function SuccessInner() {
   const params = useSearchParams();
@@ -14,6 +15,8 @@ function SuccessInner() {
     const paymentKey = params.get("paymentKey");
     const orderId = params.get("orderId");
     const amount = params.get("amount");
+    const serviceId = params.get("serviceId");
+    const subjectId = params.get("subjectId");
 
     if (!paymentKey || !orderId || !amount) {
       setStatus("error");
@@ -21,16 +24,21 @@ function SuccessInner() {
       return;
     }
 
-    fetch("/api/payments/confirm", {
+    authFetch("/api/payments/confirm", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ paymentKey, orderId, amount: Number(amount) }),
+      body: JSON.stringify({ paymentKey, orderId, amount: Number(amount), serviceId, subjectId }),
     })
       .then((r) => r.json())
       .then((data) => {
         if (data.success) {
           setStatus("success");
-          setTimeout(() => router.push("/dashboard?payment=success"), 2500);
+          const nextUrl = new URL("/billing", window.location.origin);
+          nextUrl.searchParams.set("payment", "success");
+          if ((data.order?.serviceId as string | undefined)?.startsWith("textbook:")) {
+            nextUrl.searchParams.set("focus", "manuals");
+          }
+          setTimeout(() => router.push(`${nextUrl.pathname}${nextUrl.search}`), 1800);
         } else {
           setStatus("error");
           setErrorMsg(data.error ?? "결제 확인 실패");
@@ -77,7 +85,7 @@ function SuccessInner() {
       <div className="w-20 h-20 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-4xl">✓</div>
       <div>
         <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">결제 완료!</h1>
-        <p className="text-gray-500">잠시 후 대시보드로 이동합니다…</p>
+        <p className="text-gray-500">잠시 후 billing으로 이동해 결제 내역과 접근 권한을 보여드릴게요…</p>
       </div>
     </div>
   );

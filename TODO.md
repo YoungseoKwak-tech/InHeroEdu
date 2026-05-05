@@ -1,16 +1,12 @@
 # Task Progress: Website Updates
 
 ## Completed
-- [x] Copy new banner `inhero 배너 2 (gif ver.).mp4` to `public/inhero-banner.mp4`
-- [x] Verified banner in Hero.tsx (`app/page.tsx` -> Hero)
+- [x] Hero banner update (`public/inhero-banner.mp4`)
 
-## Completed
-- [x] Resize navbar logo2.png to 0.75x (Navbar.tsx: width/height 80->60px, h-20->h-16)
 
 ## Next Steps
-- Update Navbar.tsx logo dimensions
-- Run `cd novaiq && npm run dev`
-- Check http://localhost:3000 navbar logo size
-- Refresh browser
+- `cd novaiq && npm run dev`
+- Test AuthModal: 회원가입 → 프로필 칸 (이름/학년/학교) 중앙 잘림 없이 보이는지 확인
+- All pages: http://localhost:3000
 
 

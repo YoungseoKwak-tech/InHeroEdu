@@ -1,69 +1,110 @@
 "use client";
 
 import { useState } from "react";
+import { createBrowserClient } from "@/lib/supabase";
 
 interface PaymentButtonProps {
   serviceId: string;
   amount: number;
   orderName: string;
+  subjectId?: string;
   label?: string;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 declare global {
   interface Window {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    TossPayments: (clientKey: string) => any;
+    TossPayments: (clientKey: string) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      payment: (params: { customerKey: string }) => any;
+    };
   }
+}
+
+function openAuthModal() {
+  window.dispatchEvent(
+    new CustomEvent("inhero:open-auth", {
+      detail: { mode: "signup", source: "payment" },
+    })
+  );
 }
 
 export default function PaymentButton({
   serviceId,
-  amount,
-  orderName,
+  subjectId,
   label = "결제하기",
   className = "btn-primary text-sm py-2.5 px-6",
+  style,
 }: PaymentButtonProps) {
   const [loading, setLoading] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [name, setName] = useState(() =>
-    typeof window !== "undefined" ? localStorage.getItem("inhero_name") ?? "" : ""
-  );
-  const [email, setEmail] = useState(() =>
-    typeof window !== "undefined" ? localStorage.getItem("inhero_email") ?? "" : ""
-  );
 
-  async function handlePay() {
-    if (!name.trim() || !email.trim()) {
-      setShowForm(true);
-      return;
-    }
-
+  async function launchToss(userId: string, customerName: string, customerEmail: string) {
     setLoading(true);
+
     try {
-      // 1. Create order
       const res = await fetch("/api/payments/toss", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ serviceId, amount, orderName, customerName: name, customerEmail: email }),
+        body: JSON.stringify({ serviceId, subjectId, userId }),
       });
-      const { clientKey, orderId, error } = await res.json();
-      if (error || !clientKey) throw new Error(error ?? "order error");
 
-      // 2. Save customer info
-      localStorage.setItem("inhero_name", name);
-      localStorage.setItem("inhero_email", email);
-
-      // 3. Open Toss payment window
-      const toss = window.TossPayments(clientKey);
-      await toss.requestPayment("카드", {
-        amount,
+      const {
+        clientKey,
         orderId,
-        orderName,
-        customerName: name,
-        customerEmail: email,
-        successUrl: `${window.location.origin}/payment/success`,
-        failUrl: `${window.location.origin}/payment/fail`,
+        amount: serverAmount,
+        currency,
+        orderName: serverOrderName,
+        method,
+        provider,
+        error,
+      } = (await res.json()) as {
+        clientKey?: string;
+        orderId?: string;
+        amount?: number;
+        currency?: "USD" | "KRW";
+        orderName?: string;
+        method?: string;
+        provider?: string;
+        error?: string;
+      };
+
+      if (error || !clientKey || !orderId || !serverOrderName || typeof serverAmount !== "number") {
+        throw new Error(error ?? "order error");
+      }
+
+      if (typeof window.TossPayments !== "function") {
+        throw new Error("결제창을 아직 불러오지 못했어요. 잠시 후 다시 시도해주세요.");
+      }
+
+      const toss = window.TossPayments(clientKey);
+      const payment = toss.payment({ customerKey: userId });
+      const successUrl = new URL("/payment/success", window.location.origin);
+      successUrl.searchParams.set("serviceId", serviceId);
+      if (subjectId) successUrl.searchParams.set("subjectId", subjectId);
+
+      const failUrl = new URL("/payment/fail", window.location.origin);
+      failUrl.searchParams.set("serviceId", serviceId);
+      if (subjectId) failUrl.searchParams.set("subjectId", subjectId);
+
+      await payment.requestPayment({
+        method: method ?? "FOREIGN_EASY_PAY",
+        provider: provider ?? "PAYPAL",
+        amount: {
+          value: serverAmount,
+          currency: currency ?? "USD",
+        },
+        orderId,
+        orderName: serverOrderName,
+        customerName,
+        customerEmail,
+        metadata: {
+          serviceId,
+          ...(subjectId ? { subjectId } : {}),
+        },
+        successUrl: successUrl.toString(),
+        failUrl: failUrl.toString(),
       });
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : "오류가 발생했어요.";
@@ -74,36 +115,33 @@ export default function PaymentButton({
     }
   }
 
-  if (showForm) {
-    return (
-      <div className="flex flex-col gap-2 w-full">
-        <input
-          type="text"
-          placeholder="이름"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-sm bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-400"
-        />
-        <input
-          type="email"
-          placeholder="이메일"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-3 py-2 text-sm bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-400"
-        />
-        <button
-          onClick={() => { setShowForm(false); handlePay(); }}
-          disabled={!name.trim() || !email.trim()}
-          className="btn-primary text-sm py-2.5 disabled:opacity-50"
-        >
-          결제 계속하기
-        </button>
-      </div>
-    );
+  async function handleClick() {
+    const supabase = createBrowserClient();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session?.user) {
+      openAuthModal();
+      return;
+    }
+
+    const userEmail = session.user.email ?? "";
+    const userName =
+      (session.user.user_metadata?.name as string | undefined) ||
+      userEmail.split("@")[0] ||
+      "InHero Student";
+
+    await launchToss(session.user.id, userName, userEmail);
   }
 
   return (
-    <button onClick={handlePay} disabled={loading} className={className}>
+    <button
+      onClick={handleClick}
+      disabled={loading}
+      className={style ? undefined : className}
+      style={style ? { ...style, opacity: loading ? 0.6 : 1, cursor: loading ? "default" : "pointer" } : undefined}
+    >
       {loading ? "처리 중…" : label}
     </button>
   );

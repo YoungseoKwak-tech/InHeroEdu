@@ -1,4 +1,7 @@
 .vercel
+.next/
 node_modules/
 .env.local
 .env
+tsconfig.tsbuildinfo
+.env.local

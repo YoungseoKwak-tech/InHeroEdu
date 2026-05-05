@@ -1,1 +1,1 @@
-{"version":1,"functions":{"/courses":{},"/courses/[subject]/[lesson]":{},"/thinking-analyzer":{},"/pricing":{},"/courses/[subject]":{},"/dashboard":{}}}
+{"version":1,"functions":{"/api/admin/generate-script-sync":{"maxDuration":300},"/api/generate-textbook":{"maxDuration":300},"/api/question-bank":{},"/admin/textbooks":{},"/courses":{},"/pricing":{},"/courses/[subject]/[lesson]":{},"/thinking-analyzer":{},"/courses/[subject]":{}}}

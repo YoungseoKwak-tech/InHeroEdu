@@ -1,9 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 import Anthropic from "@anthropic-ai/sdk";
+import { requireAdminUser } from "@/lib/auth";
+import { checkRateLimit } from "@/lib/rate-limit";
+import { getAnthropicApiKey } from "@/lib/env";
 
 export async function POST(req: NextRequest) {
   try {
+    const admin = await requireAdminUser(req);
+    if (admin instanceof NextResponse) return admin;
+
+    const limit = checkRateLimit("admin-analyze-material", admin.id, 5, 60 * 60 * 1000);
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: "rate limit exceeded" },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(limit.retryAfterSec),
+          },
+        }
+      );
+    }
+
     const { materialId, subject, count = 10, rawTextOverride } = await req.json();
 
     const supabase = createAdminClient();
@@ -32,7 +51,7 @@ export async function POST(req: NextRequest) {
       await supabase.from("source_materials").update({ status: "processing" }).eq("id", materialId);
     }
 
-    const claude = new Anthropic();
+    const claude = new Anthropic({ apiKey: getAnthropicApiKey() });
 
     const message = await claude.messages.create({
       model: "claude-opus-4-6",

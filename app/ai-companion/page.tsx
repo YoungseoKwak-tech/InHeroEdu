@@ -4,17 +4,35 @@ import { useState } from "react";
 import CompanionTab from "@/components/ai-companion/CompanionTab";
 import SocraticTab from "@/components/ai-companion/SocraticTab";
 import ReverseTutorTab from "@/components/ai-companion/ReverseTutorTab";
+import { useLang } from "@/app/contexts/LanguageContext";
 
 type Tab = "companion" | "socratic" | "reverse";
 
-const TABS: { id: Tab; emoji: string; label: string; sub: string }[] = [
-  { id: "companion", emoji: "💙", label: "마음 나누기", sub: "감정 소통 · 로드맵" },
-  { id: "socratic", emoji: "🏛", label: "소크라테스 AI", sub: "질문으로만 유도" },
-  { id: "reverse", emoji: "🔄", label: "역할 반전", sub: "내가 선생님" },
-];
+const COPY = {
+  ko: {
+    title: "AI 컴패니언",
+    subtitle: "감정 소통 · 소크라테스 튜터 · 역할 반전 학습",
+    tabs: [
+      { id: "companion" as const, emoji: "💙", label: "마음 나누기", sub: "감정 소통 · 로드맵" },
+      { id: "socratic" as const, emoji: "🏛", label: "소크라테스 AI", sub: "질문으로만 유도" },
+      { id: "reverse" as const, emoji: "🔄", label: "역할 반전", sub: "내가 선생님" },
+    ],
+  },
+  en: {
+    title: "AI Companion",
+    subtitle: "Emotional support · Socratic tutoring · Reverse teaching",
+    tabs: [
+      { id: "companion" as const, emoji: "💙", label: "Open Chat", sub: "Support · Roadmap" },
+      { id: "socratic" as const, emoji: "🏛", label: "Socratic AI", sub: "Guided by questions" },
+      { id: "reverse" as const, emoji: "🔄", label: "Reverse Tutor", sub: "You teach the AI" },
+    ],
+  },
+};
 
 export default function AICompanionPage() {
+  const { lang } = useLang();
   const [tab, setTab] = useState<Tab>("companion");
+  const copy = COPY[lang];
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
@@ -24,8 +42,8 @@ export default function AICompanionPage() {
           <div className="flex items-center gap-3 mb-1">
             <div className="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-xl">🧠</div>
             <div>
-              <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">AI 컴패니언</h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">감정 소통 · 소크라테스 튜터 · 역할 반전 학습</p>
+              <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">{copy.title}</h1>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{copy.subtitle}</p>
             </div>
           </div>
         </div>
@@ -33,7 +51,7 @@ export default function AICompanionPage() {
         {/* Tabs */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex">
-            {TABS.map(t => (
+            {copy.tabs.map(t => (
               <button key={t.id} onClick={() => setTab(t.id)}
                 className={`flex items-center gap-2 px-5 py-3.5 text-sm font-semibold border-b-2 transition-all -mb-px ${
                   tab === t.id ? "border-primary-500 text-primary-600 dark:text-primary-400" : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"

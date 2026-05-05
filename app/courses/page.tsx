@@ -3,8 +3,8 @@ import CourseListClient from "@/components/courses/CourseListClient";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "강의 목록 | InHero",
-  description: "AP Biology, AP Chemistry, AP Calculus BC, AMC — 아이비리그를 위한 모든 과목",
+  title: "Courses | InHero",
+  description: "AP Biology, AP Chemistry, AP Calculus BC, AMC, SAT, and more for ambitious students.",
 };
 
 export default function CoursesPage() {
@@ -15,13 +15,13 @@ export default function CoursesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 text-primary-500 text-sm font-semibold mb-4">
-              <span>📚</span> 전체 강의
+              <span>📚</span> Course Library
             </div>
             <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-3">
-              아이비리그를 위한 강의
+              Courses for ambitious students
             </h1>
             <p className="text-gray-500 dark:text-gray-400">
-              Cornell 재학생이 직접 만든 AP, AMC, SAT 강의. 모르는 개념은 AI가 즉시 한국어로 설명해줍니다.
+              AP, Honors, competition, and test prep paths designed to grow with your learning pattern.
             </p>
           </div>
         </div>

@@ -1,77 +1,95 @@
-const UNIVERSITIES = [
-  { name: "Harvard University",       color: "#A51C30" },
-  { name: "Yale University",          color: "#00356B" },
-  { name: "Princeton University",     color: "#FF6B00" },
-  { name: "Columbia University",      color: "#003087" },
-  { name: "Cornell University",       color: "#B31B1B" },
-  { name: "Brown University",         color: "#4E3629" },
-  { name: "Dartmouth College",        color: "#00693E" },
-  { name: "UPenn",                    color: "#011F5B" },
-  { name: "MIT",                      color: "#A31F34" },
-  { name: "Stanford University",      color: "#8C1515" },
-  { name: "Duke University",          color: "#012169" },
-  { name: "Johns Hopkins",            color: "#002D72" },
-  { name: "Northwestern University",  color: "#4E2A84" },
-  { name: "UC Berkeley",              color: "#003262" },
-  { name: "UCLA",                     color: "#2774AE" },
-  { name: "Carnegie Mellon",          color: "#C41230" },
-  { name: "NYU",                      color: "#57068C" },
-  { name: "USC",                      color: "#990000" },
-  { name: "Georgetown University",    color: "#041E42" },
-  { name: "Vanderbilt University",    color: "#866D4B" },
-  { name: "Rice University",          color: "#00205B" },
-  { name: "Notre Dame",               color: "#0C2340" },
-  { name: "Emory University",         color: "#012169" },
-  { name: "Univ. of Michigan",        color: "#00274C" },
-  { name: "Univ. of Virginia",        color: "#232D4B" },
-];
+"use client";
 
-function UniversityItem({ name, color }: { name: string; color: string }) {
-  return (
-    <div className="flex items-center gap-2.5 px-6 flex-shrink-0">
-      <span
-        className="w-3 h-3 rounded-full flex-shrink-0"
-        style={{ backgroundColor: color }}
-      />
-      <span
-        className="text-sm font-semibold whitespace-nowrap"
-        style={{ fontFamily: "Georgia, 'Times New Roman', serif", color: "#374151" }}
-      >
-        {name}
-      </span>
-    </div>
-  );
-}
+const UNIVERSITIES = [
+  "Harvard University",
+  "Yale University",
+  "Princeton University",
+  "Columbia University",
+  "Cornell University",
+  "Brown University",
+  "Dartmouth College",
+  "UPenn",
+  "MIT",
+  "Stanford University",
+  "Duke University",
+  "Johns Hopkins",
+  "Northwestern University",
+  "UC Berkeley",
+  "UCLA",
+  "Carnegie Mellon",
+  "NYU",
+  "USC",
+  "Georgetown",
+  "Vanderbilt",
+  "Rice University",
+  "Notre Dame",
+  "Emory University",
+  "Univ. of Michigan",
+  "Univ. of Virginia",
+];
 
 export default function UniversityBanner() {
   return (
-    <section className="bg-gray-50 border-y border-gray-100 dark:bg-gray-900 dark:border-gray-800 py-6">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4 text-center">
-        <p className="text-sm font-bold text-gray-700 dark:text-gray-300">
-          🎓 합격자 배출 대학교
+    <section style={{ background: "transparent", padding: "0", position: "relative", zIndex: 10 }}>
+      <div style={{ height: "1px", background: "linear-gradient(90deg, transparent, rgba(0,255,136,0.08), transparent)" }} />
+
+      <div style={{ padding: "28px 0 8px", textAlign: "center" }}>
+        <p style={{
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: "10px",
+          letterSpacing: "0.2em",
+          textTransform: "uppercase",
+          color: "#FFB800",
+          opacity: 0.7,
+          marginBottom: "4px",
+        }}>
+          Destination Planets — Where Our Pilots Landed
         </p>
-        <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
-          InHero 학생들이 합격한 대학들
+        <p style={{ fontSize: "11px", color: "#2a2a3a", letterSpacing: "0.06em", fontFamily: "'JetBrains Mono', monospace" }}>
+          Universities reached by students from the same launchpad
         </p>
       </div>
 
-      {/* Scroll track */}
-      <div className="overflow-hidden relative">
-        {/* Fade edges */}
-        <div className="absolute left-0 top-0 h-full w-16 bg-gradient-to-r from-gray-50 to-transparent dark:from-gray-900 z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 h-full w-16 bg-gradient-to-l from-gray-50 to-transparent dark:from-gray-900 z-10 pointer-events-none" />
+      <div style={{ overflow: "hidden", position: "relative", padding: "16px 0 28px" }}>
+        {/* Edge fades */}
+        <div style={{ position: "absolute", left: 0, top: 0, height: "100%", width: "80px", zIndex: 10, pointerEvents: "none", background: "linear-gradient(to right, #00000A, transparent)" }} />
+        <div style={{ position: "absolute", right: 0, top: 0, height: "100%", width: "80px", zIndex: 10, pointerEvents: "none", background: "linear-gradient(to left, #00000A, transparent)" }} />
 
-        <div className="uni-scroll-track flex items-center" style={{ width: "max-content" }}>
-          {/* First copy */}
-          {UNIVERSITIES.map((u) => (
-            <UniversityItem key={`a-${u.name}`} name={u.name} color={u.color} />
-          ))}
-          {/* Duplicate for seamless loop */}
-          {UNIVERSITIES.map((u) => (
-            <UniversityItem key={`b-${u.name}`} name={u.name} color={u.color} />
+        <div className="uni-scroll-track" style={{ display: "flex", alignItems: "center", width: "max-content" }}>
+          {[...UNIVERSITIES, ...UNIVERSITIES].map((name, i) => (
+            <div
+              key={i}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "0 28px",
+                flexShrink: 0,
+              }}
+            >
+              <span style={{
+                width: "4px",
+                height: "4px",
+                borderRadius: "50%",
+                background: "rgba(0,255,136,0.3)",
+                flexShrink: 0,
+              }} />
+              <span style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "11px",
+                fontWeight: 400,
+                letterSpacing: "0.06em",
+                color: "#444466",
+                whiteSpace: "nowrap",
+              }}>
+                {name}
+              </span>
+            </div>
           ))}
         </div>
       </div>
+
+      <div style={{ height: "1px", background: "linear-gradient(90deg, transparent, rgba(0,255,136,0.08), transparent)" }} />
     </section>
   );
 }

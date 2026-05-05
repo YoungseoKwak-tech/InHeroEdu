@@ -3,6 +3,12 @@
 import { useState, useEffect } from "react";
 import type { GapResult } from "@/app/api/ai/thinking-analyzer/route";
 import GapDisplay from "./GapDisplay";
+import { authFetch } from "@/lib/client-auth";
+import {
+  getFeatureLimitMessage,
+  hasReachedEarlyAccessLimit,
+  incrementEarlyAccessUsage,
+} from "@/lib/ai-access";
 
 const SUBJECTS = ["AP Biology", "AP Chemistry", "AP Calculus BC", "AP Physics", "AMC 10/12", "SAT Math", "SAT Reading & Writing"];
 
@@ -32,19 +38,36 @@ export default function AnalyzerForm() {
 
   async function analyze() {
     if (!question.trim() || !studentAnswer.trim() || !correctAnswer.trim()) return;
+    if (hasReachedEarlyAccessLimit("thinking_analyzer")) {
+      setError(getFeatureLimitMessage("thinking_analyzer"));
+      setResult(null);
+      return;
+    }
     setLoading(true);
-    setResult(null);
     setError("");
     try {
-      const res = await fetch("/api/ai/thinking-analyzer", {
+      incrementEarlyAccessUsage("thinking_analyzer");
+      const res = await authFetch("/api/ai/thinking-analyzer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ subject, question, studentAnswer, correctAnswer, reasoning }),
+        body: JSON.stringify({
+          subject,
+          question,
+          studentAnswer,
+          correctAnswer,
+          reasoning,
+        }),
       });
-      if (!res.ok) { setError("분석 실패. 다시 시도해주세요."); return; }
-      setResult(await res.json());
+      const data = await res.json();
+      if (data?.status === "locked" || data?.status === "fallback") {
+        setError(data.message ?? "Analyzer is still rolling out.");
+        setResult(null);
+        return;
+      }
+      setResult(data);
     } catch {
-      setError("네트워크 오류가 발생했어요.");
+      setError("We could not analyze this response yet. Please try again.");
+      setResult(null);
     } finally {
       setLoading(false);
     }
@@ -57,12 +80,15 @@ export default function AnalyzerForm() {
         <div className="card p-6">
           <h2 className="font-bold text-gray-900 dark:text-white mb-5 flex items-center gap-2">
             <span className="w-7 h-7 rounded-lg bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-sm">📝</span>
-            오답 정보 입력
+            Add your response details
           </h2>
+          <p className="mb-4 text-xs text-gray-500 dark:text-gray-400">
+            Free preview includes 1 full analysis. Unlock Strategy for deeper mistake diagnosis and ongoing use.
+          </p>
 
           {/* Subject */}
           <div className="mb-5">
-            <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2 block">과목</label>
+            <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2 block">Subject</label>
             <div className="flex flex-wrap gap-2">
               {SUBJECTS.map(s => (
                 <button key={s} onClick={() => setSubject(s)}
@@ -73,21 +99,21 @@ export default function AnalyzerForm() {
             </div>
           </div>
 
-          <Field label="문제 (영어 그대로)" placeholder="Which of the following best describes..." value={question} onChange={setQuestion} rows={3} required />
+          <Field label="Question (paste the original English)" placeholder="Which of the following best describes..." value={question} onChange={setQuestion} rows={3} required />
           <div className="grid grid-cols-2 gap-3">
-            <Field label="내 답" placeholder="예: A" value={studentAnswer} onChange={setStudentAnswer} rows={1} required />
-            <Field label="정답" placeholder="예: C" value={correctAnswer} onChange={setCorrectAnswer} rows={1} required />
+            <Field label="Your answer" placeholder="e.g. A" value={studentAnswer} onChange={setStudentAnswer} rows={1} required />
+            <Field label="Correct answer" placeholder="e.g. C" value={correctAnswer} onChange={setCorrectAnswer} rows={1} required />
           </div>
-          <Field label="왜 그렇게 생각했어요? (선택)" placeholder="A인 줄 알았어요, 왜냐하면..." value={reasoning} onChange={setReasoning} rows={3} required={false} />
+          <Field label="Why did you think that? (optional)" placeholder="I chose A because..." value={reasoning} onChange={setReasoning} rows={3} required={false} />
 
           <div className="flex gap-3 mt-2">
             <button onClick={analyze}
               disabled={loading || !question.trim() || !studentAnswer.trim() || !correctAnswer.trim()}
               className="flex-1 btn-primary disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
-              {loading ? <><Spinner /> 분석 중...</> : "🔍 오답 분석"}
+              {loading ? <><Spinner /> Analyzing...</> : "🔍 Analyze mistake"}
             </button>
             {result && (
-              <button onClick={() => { setResult(null); setError(""); }} className="btn-secondary text-sm px-4">초기화</button>
+              <button onClick={() => { setResult(null); setError(""); }} className="btn-secondary text-sm px-4">Reset</button>
             )}
           </div>
           {error && <p className="mt-3 text-sm text-red-500 text-center">{error}</p>}
@@ -95,13 +121,13 @@ export default function AnalyzerForm() {
 
         {/* Gap type legend */}
         <div className="card p-5">
-          <h3 className="font-semibold text-sm text-gray-700 dark:text-gray-300 mb-3">4가지 오답 유형</h3>
+          <h3 className="font-semibold text-sm text-gray-700 dark:text-gray-300 mb-3">Four mistake categories</h3>
           <div className="space-y-2">
             {[
-              { type: "CONCEPT_GAP", label: "개념 부재", desc: "개념 자체를 모름", c: "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-600 dark:text-red-400" },
-              { type: "APPLICATION_GAP", label: "적용 실패", desc: "알지만 적용 못함", c: "bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800 text-amber-600 dark:text-amber-400" },
-              { type: "LANGUAGE_GAP", label: "영어 이해 부족", desc: "개념은 아는데 영어가 문제", c: "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400" },
-              { type: "LOGIC_GAP", label: "논리 오류", desc: "추론 과정에서 틀림", c: "bg-primary-50 dark:bg-primary-900/20 border-primary-200 dark:border-primary-800 text-primary-600 dark:text-primary-400" },
+              { type: "CONCEPT_GAP", label: "Concept gap", desc: "The core idea is missing", c: "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-600 dark:text-red-400" },
+              { type: "APPLICATION_GAP", label: "Application gap", desc: "You know it but could not apply it", c: "bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800 text-amber-600 dark:text-amber-400" },
+              { type: "LANGUAGE_GAP", label: "Language gap", desc: "The concept is clear but the English is not", c: "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400" },
+              { type: "LOGIC_GAP", label: "Logic gap", desc: "The reasoning chain broke", c: "bg-primary-50 dark:bg-primary-900/20 border-primary-200 dark:border-primary-800 text-primary-600 dark:text-primary-400" },
             ].map(item => (
               <div key={item.type} className={`flex items-center gap-3 p-3 rounded-xl border ${item.c}`}>
                 <span className="text-xs font-black min-w-[120px]">{item.type}</span>
@@ -122,8 +148,8 @@ export default function AnalyzerForm() {
         ) : (
           <div className="card p-12 flex flex-col items-center justify-center text-center h-full min-h-[400px]">
             <div className="text-5xl mb-4">🔍</div>
-            <p className="font-semibold text-gray-600 dark:text-gray-400 mb-2">오답 분석 결과가 여기에 표시돼요</p>
-            <p className="text-sm text-gray-400 leading-relaxed max-w-xs">왜 틀렸는지, 어느 부분이 약한지 4가지 유형으로 정밀 진단합니다.</p>
+            <p className="font-semibold text-gray-600 dark:text-gray-400 mb-2">Your mistake analysis will appear here</p>
+            <p className="text-sm text-gray-400 leading-relaxed max-w-xs">We break down why the answer missed and what type of gap showed up in your reasoning.</p>
           </div>
         )}
       </div>

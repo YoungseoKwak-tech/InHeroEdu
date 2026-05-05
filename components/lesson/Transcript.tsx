@@ -10,7 +10,8 @@ interface TranscriptProps {
 
 export default function Transcript({ segments, onTermClick, activeTerm }: TranscriptProps) {
   function renderSegmentText(segment: TranscriptSegment) {
-    let text = segment.text;
+    const useEnglish = Boolean(segment.textEn);
+    let text = useEnglish ? segment.textEn! : segment.text;
     const parts: Array<{ type: "text" | "term"; content: string; termData?: ClickableTerm }> = [];
 
     // Sort terms by position in text (longest first to avoid partial matches)
@@ -27,14 +28,15 @@ export default function Transcript({ segments, onTermClick, activeTerm }: Transc
     const matches: Match[] = [];
 
     for (const termData of sortedTerms) {
-      const idx = text.indexOf(termData.term);
+      const target = useEnglish ? termData.termEn : termData.term;
+      const idx = text.indexOf(target);
       if (idx !== -1) {
         // Check if this position overlaps with existing matches
         const overlaps = matches.some(
           (m) => idx < m.end && idx + termData.term.length > m.start
         );
         if (!overlaps) {
-          matches.push({ start: idx, end: idx + termData.term.length, termData });
+          matches.push({ start: idx, end: idx + target.length, termData });
         }
       }
     }
@@ -47,7 +49,7 @@ export default function Transcript({ segments, onTermClick, activeTerm }: Transc
       if (match.start > lastIdx) {
         parts.push({ type: "text", content: text.slice(lastIdx, match.start) });
       }
-      parts.push({ type: "term", content: match.termData.term, termData: match.termData });
+      parts.push({ type: "term", content: useEnglish ? match.termData.termEn : match.termData.term, termData: match.termData });
       lastIdx = match.end;
     }
     if (lastIdx < text.length) {
@@ -60,9 +62,9 @@ export default function Transcript({ segments, onTermClick, activeTerm }: Transc
   return (
     <div>
       <div className="flex items-center gap-2 mb-4">
-        <h3 className="font-bold text-gray-900 dark:text-white">강의 대본</h3>
+        <h3 className="font-bold text-gray-900 dark:text-white">Lesson transcript</h3>
         <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">
-          보라색 용어를 클릭하세요
+          Click highlighted terms
         </span>
       </div>
       <div className="space-y-5">

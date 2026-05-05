@@ -10,30 +10,49 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // ── Space design system ──────────────────────────────
+        void: "#00000A",
+        "deep-space": "#05050F",
+        cosmos: "#0A0A1A",
+        "nebula-purple": "#1A0A2E",
+        "nebula-blue": "#0A1628",
+        "star-white": "#FFFFFF",
+        moon: "#E8E8F0",
+        dust: "#8888AA",
+        dim: "#444466",
+        "signal-green": "#00FF88",
+        plasma: "#7B61FF",
+        corona: "#FFB800",
+        "red-alert": "#FF3B3B",
+        // ── Legacy primary → signal-green ───────────────────
         primary: {
-          50: "#e8f8f2",
-          100: "#d1f1e5",
-          200: "#a3e3cb",
-          300: "#75d5b1",
-          400: "#47c797",
-          500: "#1D9E75",
-          600: "#1a8f69",
-          700: "#16805c",
-          800: "#127050",
-          900: "#0e6144",
+          50:  "#e6fff3",
+          100: "#ccffe7",
+          200: "#99ffcf",
+          300: "#66ffb7",
+          400: "#33ff9f",
+          500: "#00FF88",
+          600: "#00e67a",
+          700: "#00cc6b",
+          800: "#00b35e",
+          900: "#009950",
         },
         surface: {
           DEFAULT: "#ffffff",
-          dark: "#0f0f13",
+          dark: "#0A0A1A",
         },
       },
       fontFamily: {
-        sans: ["Inter", "Noto Sans KR", "sans-serif"],
+        display: ["'Space Grotesk'", "sans-serif"],
+        sans: ["'Inter'", "'Noto Sans KR'", "sans-serif"],
+        mono: ["'JetBrains Mono'", "'Space Mono'", "monospace"],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      },
+      transitionTimingFunction: {
+        cosmos: "cubic-bezier(0.16, 1, 0.3, 1)",
       },
     },
   },

@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 import Anthropic from "@anthropic-ai/sdk";
+import { getAiFallback, getAiRouteGuard } from "@/lib/ai-access";
 
 const anthropic = new Anthropic();
 
 export async function POST(req: NextRequest) {
-  const { questionId, title, content, subject } = await req.json();
+  const guard = getAiRouteGuard("qa-auto-answer");
+  if (guard) return NextResponse.json(guard);
+
+  const { questionId, title, content, subject, lang = "ko" } = await req.json();
   if (!questionId || !content) {
     return NextResponse.json({ error: "missing fields" }, { status: 400 });
   }
@@ -30,7 +34,7 @@ export async function POST(req: NextRequest) {
       model:      "claude-haiku-4-5-20251001",
       max_tokens: 700,
       system: `You are an expert tutor for AP/SAT/AMC subjects.
-Answer this student question clearly and helpfully in Korean.
+Answer this student question clearly and helpfully in ${lang === "ko" ? "Korean" : "English"}.
 If it's a math/science question, show step-by-step solution.
 Keep it concise but complete. Max 300 words.
 Start directly with the answer — no greetings or introductions.`,
@@ -44,7 +48,7 @@ Start directly with the answer — no greetings or introductions.`,
       .insert({
         question_id: questionId,
         user_id:     "ai_tutor",
-        nickname:    "AI 튜터",
+        nickname:    lang === "ko" ? "AI 튜터" : "AI Tutor",
         content:     aiContent,
         is_ai:       true,
       })
@@ -65,7 +69,6 @@ Start directly with the answer — no greetings or introductions.`,
 
     return NextResponse.json({ answer: data });
   } catch (err: unknown) {
-    const msg = err instanceof Error ? err.message : "AI error";
-    return NextResponse.json({ error: msg }, { status: 500 });
+    return NextResponse.json(getAiFallback("qa-auto-answer", err));
   }
 }

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import type { Subject } from "@/lib/subjects";
+import { authFetch } from "@/lib/client-auth";
 
 interface UploadedFile {
   id: string;
@@ -60,7 +61,7 @@ export default function MaterialUpload({ subject, onQuestionsGenerated }: Materi
     form.append("subject", subject.id);
 
     try {
-      const res = await fetch("/api/admin/upload-material", {
+      const res = await authFetch("/api/admin/upload-material", {
         method: "POST",
         body: form,
       });
@@ -85,7 +86,7 @@ export default function MaterialUpload({ subject, onQuestionsGenerated }: Materi
     updateFile(item.id, { status: "analyzing" });
 
     try {
-      const res = await fetch("/api/admin/analyze-material", {
+      const res = await authFetch("/api/admin/analyze-material", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

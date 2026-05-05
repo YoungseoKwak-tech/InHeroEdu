@@ -1,0 +1,451 @@
+[
+  {
+    "courseId": "ap-art-history",
+    "courseName": "AP Art History",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Global Prehistory",
+        "examWeight": "2–4%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Paleolithic Art",
+            "topics": ["Venus of Willendorf", "Cave paintings at Lascaux", "Portable vs. fixed art"],
+            "examTip": "Never say prehistoric art is 'primitive' — FRQ graders expect you to analyze formal qualities (line, form, scale) and propose MULTIPLE interpretations; certainty is penalized."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Neolithic and Megalithic Structures",
+            "topics": ["Stonehenge (function debates)", "Skara Brae settlement", "Transition to sedentary life"],
+            "examTip": "Stonehenge is the key Neolithic image — analyze its post-and-lintel construction, astronomical alignment, and the limitations of interpreting function without written records."
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Ancient Mediterranean",
+        "examWeight": "8–10%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Ancient Near East",
+            "topics": ["Standard of Ur", "Stele of Hammurabi", "Lamassu at Dur Sharrukin"],
+            "examTip": "Hierarchical scale = more important figures are larger — identify it in Mesopotamian reliefs; the Stele of Hammurabi uses it to show Hammurabi subordinate to Shamash."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Ancient Egypt",
+            "topics": ["Composite view (twisted perspective)", "Ka and funerary function", "Akhenaten's break with tradition"],
+            "examTip": "Egyptian composite view: head in profile, eye frontal, shoulders frontal, hips/legs in profile — this is called 'twisted perspective' and appears on nearly every AP exam."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Ancient Greece: Archaic to Classical",
+            "topics": ["Kouros and kore figures", "Contrapposto stance", "Parthenon program"],
+            "examTip": "Contrapposto (weight shift onto one leg) marks the Classical period — it appears in the Kritios Boy (transition) and fully in Polykleitos' Doryphoros; before this, Archaic figures are stiff."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Ancient Rome",
+            "topics": ["Veristic portraiture", "Augustus of Prima Porta iconography", "Pantheon engineering"],
+            "examTip": "Augustus of Prima Porta: identify cupid (divine lineage via Venus), Cupid riding dolphin (allusion to Julius Caesar), and the breastplate relief (diplomatic victory over Parthia) — all three make a complete analysis."
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Early Europe and Colonial Americas",
+        "examWeight": "12–15%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Byzantine and Early Christian Art",
+            "topics": ["Hierarchical scale in icons", "Apse mosaics", "Hagia Sophia"],
+            "examTip": "Gold background in Byzantine art = eternal divine realm, not a physical space — this is intentional abstraction, NOT a lack of skill; FRQs ask you to explain the theological function."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Romanesque Architecture",
+            "topics": ["Pilgrimage routes and church design", "Barrel vault and thick walls", "Tympanum sculpture"],
+            "examTip": "Romanesque churches have small windows (barrel vaults push outward, walls must be thick to resist) — this changes in Gothic with flying buttresses allowing large stained glass windows."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Gothic Architecture and Scholasticism",
+            "topics": ["Pointed arch, ribbed vault, flying buttress", "Chartres Cathedral", "Light as divine metaphor"],
+            "examTip": "The three Gothic innovations work together: ribbed vaults concentrate weight, flying buttresses transfer it outward, freeing walls for stained glass — explain the structural system, not just the parts."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Italian Proto-Renaissance",
+            "topics": ["Cimabue vs. Giotto (naturalism)", "Arena Chapel narrative cycles", "Illusionistic space"],
+            "examTip": "Giotto's innovations: figures have weight and volume, express emotion, occupy believable space — compare to Cimabue's flatter, more stylized figures to show the shift toward naturalism."
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Northern Renaissance",
+            "topics": ["Oil paint technique (Van Eyck)", "Disguised symbolism", "Arnolfini Portrait analysis"],
+            "examTip": "Disguised symbolism in Northern Renaissance: everyday objects carry religious meaning (candle = divine presence, dog = fidelity, shoes removed = sacred ground) — Panofsky coined this term."
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Later Europe and Americas",
+        "examWeight": "15–20%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Italian High Renaissance",
+            "topics": ["Leonardo: sfumato and pyramidal composition", "Michelangelo: Sistine Chapel ceiling", "Raphael: School of Athens"],
+            "examTip": "School of Athens: identify the central figures (Plato pointing up = ideal realm; Aristotle pointing down = physical world) — this encapsulates the Renaissance synthesis of Greek philosophy and Christian humanism."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Mannerism and Late Renaissance",
+            "topics": ["Elongated figures, anti-classical", "Pontormo and Bronzino", "Tension and artifice"],
+            "examTip": "Mannerism rejects High Renaissance balance — look for elongated necks/limbs, acidic colors, ambiguous space, and emotional tension; it's a response to the sack of Rome (1527)."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Baroque: Drama and Motion",
+            "topics": ["Caravaggio's chiaroscuro", "Bernini's sculpture", "Dutch Golden Age painting"],
+            "examTip": "Caravaggio's tenebrism (dramatic spotlight effect) is more extreme than chiaroscuro — FRQs distinguish these: chiaroscuro = gradual light/shadow; tenebrism = harsh, theatrical contrast."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Rococo and Neoclassicism",
+            "topics": ["Watteau's fêtes galantes", "David's revolutionary art", "Response to Baroque excess"],
+            "examTip": "David's Oath of the Horatii (1784): the stark Neoclassical style (clean lines, Roman setting, sacrifice of individual for state) is a political statement before the Revolution — context drives meaning."
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Romanticism and Realism",
+            "topics": ["Delacroix vs. Ingres (color vs. line)", "Courbet and the working class", "Photography's impact"],
+            "examTip": "Courbet's Realism was a political act — depicting peasants and workers as monumental subjects elevated their social status; this is always an FRQ-ready connection between style and ideology."
+          }
+        ]
+      },
+      {
+        "unitNumber": 5,
+        "unitTitle": "Global Contemporary",
+        "examWeight": "14–16%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Impressionism and Post-Impressionism",
+            "topics": ["Monet and broken brushwork", "Van Gogh's expressive color", "Cézanne's geometric planes"],
+            "examTip": "Cézanne's planes directly lead to Cubism (Picasso and Braque) — the AP exam rewards connecting movements across time; treat Post-Impressionism as the bridge to Modernism."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Modernism: Cubism to Abstract Expressionism",
+            "topics": ["Picasso's analytic Cubism", "Surrealism and the unconscious", "Pollock's action painting"],
+            "examTip": "Abstract Expressionism has two branches: gestural (Pollock, de Kooning — process and emotion) and color field (Rothko — contemplative, non-referential) — distinguish them in FRQs."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Contemporary Global Art",
+            "topics": ["Identity and postcolonial critique", "Kara Walker, Ai Weiwei", "Installation and conceptual art"],
+            "examTip": "Contemporary art analysis requires connecting form to concept — for Kara Walker, the silhouette form (historically genteel, decorative) is ironic given the violent content; the tension IS the meaning."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "courseId": "ap-music-theory",
+    "courseName": "AP Music Theory",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Music Fundamentals",
+        "examWeight": "~15%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Pitch, Clefs, and the Staff",
+            "topics": ["Treble and bass clef notation", "Ledger lines", "Alto and tenor clef"],
+            "examTip": "Alto clef: middle C is on the MIDDLE line (3rd line) — students who only know treble and bass clef consistently misread alto clef; the sight-singing section uses all four."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Rhythm and Meter",
+            "topics": ["Simple vs. compound meter", "Syncopation", "Conducting patterns"],
+            "examTip": "In compound meter (6/8, 9/8, 12/8) the beat divides into THREE — the top number does NOT equal the number of beats; 6/8 has 2 beats (each divided into 3 eighth notes)."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Scales and Key Signatures",
+            "topics": ["Major and minor scales", "Circle of fifths", "Relative and parallel minor"],
+            "examTip": "Parallel minor starts on the same note (C major / C minor); relative minor shares the same key signature (C major / A minor) — these are NOT the same; FRQs test both."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Intervals",
+            "topics": ["Major, minor, perfect, augmented, diminished", "Compound intervals", "Inversion of intervals"],
+            "examTip": "Interval inversion rule: quality flips (major↔minor, augmented↔diminished, perfect stays perfect) and number = 9 − original (M3 → m6) — always check both qualities on the written section."
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Chords and Harmony",
+        "examWeight": "~25%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Triads and Seventh Chords",
+            "topics": ["Major, minor, augmented, diminished triads", "Dominant seventh (V7)", "Leading tone seventh (vii°7)"],
+            "examTip": "vii°7 (fully diminished seventh) has four notes all a minor 3rd apart — all inversions sound identical; students must identify it by context (usually leads to I) not inversion alone."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Roman Numeral Analysis",
+            "topics": ["Chord function: tonic, predominant, dominant", "Figured bass symbols", "Inversion notation"],
+            "examTip": "Figured bass 6/4 = second inversion (5th in bass); 6 = first inversion (3rd in bass); root position has no number — common mistake is confusing 6/4 with the number of notes."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Voice Leading",
+            "topics": ["SATB spacing rules", "Parallel fifths and octaves (forbidden)", "Contrary vs. similar motion"],
+            "examTip": "Parallel 5ths and 8ths are the most-penalized errors on the SATB writing section — check every pair of adjacent voices, not just soprano and bass; inner voice parallels are equally wrong."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Harmonic Progressions",
+            "topics": ["Circle progression (IV–vii°–iii–vi–ii–V–I)", "Cadence types (PAC, IAC, HC, DC)", "Deceptive cadence"],
+            "examTip": "Perfect Authentic Cadence (PAC): V→I, both in root position, soprano ends on scale degree 1 — all three conditions must be met; missing any one makes it an Imperfect Authentic Cadence."
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Melody and Counterpoint",
+        "examWeight": "~15%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Melodic Writing and Contour",
+            "topics": ["Step vs. leap motion", "Melodic climax", "Sequence and motive"],
+            "examTip": "After a large leap, convention expects stepwise motion in the opposite direction — violating this without reason creates an awkward melody; FRQ melody writing is scored on this."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Species Counterpoint",
+            "topics": ["First species (note-against-note)", "Second species (2:1)", "Consonance and dissonance rules"],
+            "examTip": "First species allows only consonances (unison, 3rd, 5th, 6th, octave) — the 4th is dissonant in two-voice counterpoint even though it's 'perfect'; this surprises students every year."
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Musical Form",
+        "examWeight": "~15%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Binary and Ternary Form",
+            "topics": ["Simple binary (AB)", "Rounded binary (ABA')", "Ternary (ABA)"],
+            "examTip": "Rounded binary vs. ternary: in rounded binary the A' returns but is SHORTER (not a full restatement); in ternary ABA, the A section fully returns — this is the key distinction on MCQ."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Sonata Form",
+            "topics": ["Exposition (P, TR, S, Closing)", "Development section", "Recapitulation and coda"],
+            "examTip": "In the recapitulation, the secondary theme (S) MUST return in the tonic key — this is the resolution of the tonal tension established in the exposition; missing this on an analysis FRQ loses key points."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Theme and Variations, Rondo",
+            "topics": ["Variation techniques (melodic, harmonic, rhythmic)", "Rondo form (ABACABA)", "Strophic song form"],
+            "examTip": "Rondo theme (A) returns in the TONIC every time — contrasting episodes (B, C) often modulate; the return of A defines the form and is always the most recognizable section."
+          }
+        ]
+      },
+      {
+        "unitNumber": 5,
+        "unitTitle": "Chromatic Harmony and Modulation",
+        "examWeight": "~20%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Secondary Dominants",
+            "topics": ["V/V, V/IV, V7/V", "Tonicization vs. modulation", "Resolution expectations"],
+            "examTip": "V/V = a dominant chord that resolves to the dominant of the home key — it's II# (raised supertonic) which is major; tonicization is a brief emphasis (1–2 chords), modulation is a full key change."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Modal Mixture (Borrowed Chords)",
+            "topics": ["Borrowing from parallel minor", "iv in major key", "bVII and bIII"],
+            "examTip": "The iv chord (minor iv) borrowed into a major key is the most common modal mixture — creates pathos; identify it by the flatted 6th scale degree in the bass or inner voice."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Augmented Sixth Chords",
+            "topics": ["Italian, French, and German augmented sixths", "Voice leading to V", "Resolution of the +6 interval"],
+            "examTip": "All augmented sixth chords expand outward to the octave (scale degree 5) — the +6 interval is between the flatted 6th (in bass) and the raised 4th; German Aug6 is most common and has 4 voices."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Modulation Techniques",
+            "topics": ["Common chord modulation (pivot chord)", "Chromatic modulation", "Enharmonic modulation"],
+            "examTip": "Pivot chord modulation: find a chord that functions in BOTH the old and new key — label it with BOTH Roman numerals; the hardest part is identifying where the modulation has actually happened."
+          }
+        ]
+      },
+      {
+        "unitNumber": 6,
+        "unitTitle": "Sight-Singing and Ear Training",
+        "examWeight": "~10%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Solfège and Sight-Singing",
+            "topics": ["Moveable do vs. fixed do", "Scale degree numbers", "Sight-singing exam format"],
+            "examTip": "The AP sight-singing section is recorded — you have 75 seconds to study, then sing; starting on the wrong pitch is an automatic penalty; establish your key firmly before you begin."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Melodic and Harmonic Dictation",
+            "topics": ["Error detection in dictation", "Writing melodies from listening", "Identifying chords by ear"],
+            "examTip": "For dictation, listen for the cadence first — if it ends on V, it's a half cadence; identify the last few chords before filling in the middle; the ending is most reliably transcribed."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "courseId": "ap-spanish-language",
+    "courseName": "AP Spanish Language and Culture",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Families and Communities",
+        "examWeight": "~16%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Family Structures Across Spanish-Speaking Cultures",
+            "topics": ["Nuclear vs. extended family norms", "Compadrazgo (godparent system)", "Urban vs. rural family life"],
+            "examTip": "FRQ presentational writing: always integrate cultural comparison — 'In contrast to individualistic cultures, Hispanic family structures often emphasize collective responsibility (familismo)' earns cultural competency points."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Community Identity and Belonging",
+            "topics": ["Local traditions and festivals", "Immigration and diaspora communities", "Social media and community"],
+            "examTip": "Interpersonal writing (email reply) must maintain a formal register (usted) unless the prompt specifies informal — switching registers incorrectly is a common language control error."
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Science and Technology",
+        "examWeight": "~16%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Technology's Role in Daily Life",
+            "topics": ["Digital divide in Latin America", "Social media usage patterns", "Technology and language change"],
+            "examTip": "Presentational speaking (cultural comparison): explicitly name TWO communities — your own and a Spanish-speaking one; vague references to 'Hispanic culture' without specifics lose scoring points."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Scientific Advances in the Spanish-Speaking World",
+            "topics": ["Environmental technology in Costa Rica", "Medical research in Argentina", "Innovation ecosystems"],
+            "examTip": "Integrated writing task: synthesize audio + print sources into your argument — you must reference BOTH sources explicitly; only using one source caps your score at the lower range."
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Beauty and Aesthetics",
+        "examWeight": "~16%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Art and Artistic Expression",
+            "topics": ["Mexican muralism (Rivera, Orozco)", "Frida Kahlo and identity", "Contemporary Latin American art"],
+            "examTip": "Know Diego Rivera and muralism as a cultural product of the Mexican Revolution — his murals were public art for the illiterate masses; this context appears in audio sources on the exam."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Fashion, Architecture, and Cultural Identity",
+            "topics": ["Regional dress and indigeneity", "Colonial baroque architecture", "Fashion as cultural statement"],
+            "examTip": "Beauty and aesthetics questions often connect to cultural identity — Frida Kahlo's Tehuana dress was a political statement of Mexican nationalism; connecting aesthetics to politics earns insight points."
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Life, Death, and Transformation",
+        "examWeight": "~17%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Rites of Passage",
+            "topics": ["Quinceañera tradition", "Coming-of-age rituals across regions", "Religious vs. secular ceremonies"],
+            "examTip": "Quinceañera combines Catholic tradition with indigenous rites of passage — FRQs ask you to explain why cultural practices persist in diaspora communities (identity preservation, family cohesion)."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Death and Memory in Hispanic Culture",
+            "topics": ["Día de los Muertos vs. Halloween", "Ancestor veneration", "Death in literature (García Lorca)"],
+            "examTip": "Día de los Muertos comparison to Halloween: DdlM celebrates and invites ancestors back; Halloween wards off the dead — this contrast appears in comparative FRQs about cultural attitudes toward death."
+          }
+        ]
+      },
+      {
+        "unitNumber": 5,
+        "unitTitle": "Environmental, Political, and Social Challenges",
+        "examWeight": "~17%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Environmental Issues in Latin America",
+            "topics": ["Amazon deforestation", "Costa Rica's ecotourism model", "Water rights and indigenous communities"],
+            "examTip": "Costa Rica is the canonical positive environmental example (80%+ renewable energy, ecotourism) — contrast it with Amazon deforestation for a balanced argument in presentational writing."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Immigration and Global Citizenship",
+            "topics": ["Push-pull factors in Latin America", "Undocumented immigration debates", "Bicultural identity"],
+            "examTip": "Immigration FRQs are common — use precise vocabulary: migrante (migrant), inmigrante indocumentado (undocumented immigrant), ciudadanía (citizenship); lexical precision is scored."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Human Rights and Social Justice",
+            "topics": ["Movements for indigenous rights", "Gender equality in Latin America", "Economic inequality (Gini coefficient)"],
+            "examTip": "Presentational writing structure: thesis + 3 body paragraphs (problem, evidence, solution or comparison) + conclusion; timed at 55 minutes — spend 10 min reading sources, 5 min outlining, 40 min writing."
+          }
+        ]
+      },
+      {
+        "unitNumber": 6,
+        "unitTitle": "Language and Interpersonal Communication",
+        "examWeight": "~18%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Spoken Communication: Interpersonal",
+            "topics": ["Simulated conversation format", "Register (formal vs. informal)", "Filler language and fluency"],
+            "examTip": "Simulated conversation: you get 20 seconds to respond — use a filler opener (Bueno... / Mira... / La verdad es que...) while you organize your thought; silence loses fluency points."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Written Communication: Interpersonal and Presentational",
+            "topics": ["Email reply format", "Salutation and closing conventions", "Subjunctive in requests and opinions"],
+            "examTip": "Email reply must start with proper salutation and address ALL bullet points in the prompt — missing even one bullet drops you to the lower performance range regardless of language quality."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Advanced Grammar for Accuracy",
+            "topics": ["Subjunctive vs. indicative in complex sentences", "Ser vs. estar nuances", "Preterite vs. imperfect in narration"],
+            "examTip": "Preterite = completed action with defined endpoint; imperfect = background, ongoing, or habitual — narrate a story in preterite but describe the setting/emotions in imperfect; mixing them up is the #1 grammar error scored on FRQs."
+          }
+        ]
+      }
+    ]
+  }
+]

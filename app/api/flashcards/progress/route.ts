@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
+import { requireAuthenticatedUser } from "@/lib/auth";
 
 export async function GET(req: NextRequest) {
+  const user = await requireAuthenticatedUser(req);
+  if (user instanceof NextResponse) return user;
+
   const { searchParams } = new URL(req.url);
-  const userId = searchParams.get("userId") ?? "";
   const setId  = searchParams.get("setId")  ?? "";
 
-  if (!userId || !setId) return NextResponse.json({ progress: [] });
+  if (!setId) return NextResponse.json({ progress: [] });
 
   const supabase = createAdminClient();
 
@@ -21,7 +24,7 @@ export async function GET(req: NextRequest) {
   const { data, error } = await supabase
     .from("flashcard_progress")
     .select("card_id, status")
-    .eq("user_id", userId)
+    .eq("user_id", user.id)
     .in("card_id", cardIds);
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
@@ -29,8 +32,11 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const { userId, cardId, status } = await req.json();
-  if (!userId || !cardId || !status) {
+  const user = await requireAuthenticatedUser(req);
+  if (user instanceof NextResponse) return user;
+
+  const { cardId, status } = await req.json();
+  if (!cardId || !status) {
     return NextResponse.json({ error: "missing fields" }, { status: 400 });
   }
 
@@ -38,7 +44,7 @@ export async function POST(req: NextRequest) {
   const { error } = await supabase
     .from("flashcard_progress")
     .upsert(
-      { user_id: userId, card_id: cardId, status, updated_at: new Date().toISOString() },
+      { user_id: user.id, card_id: cardId, status, updated_at: new Date().toISOString() },
       { onConflict: "user_id,card_id" }
     );
 

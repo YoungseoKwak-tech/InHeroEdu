@@ -4,6 +4,42 @@ export const PRICING = {
     { id: "ai_counseling",name: "고민상담 AI",        nameEn: "AI Counseling",     price: 0, desc: "마음 나누기 무제한" },
   ],
 
+  aiPlans: [
+    {
+      id: "ai_core",
+      name: "Core",
+      nameEn: "Core",
+      priceKRW: 39000,
+      priceUSD: 39,
+      period: "month",
+      desc: "Fast tutoring, explanation, and daily reasoning support.",
+      features: ["AI Companion", "Socratic Mode", "Reverse Tutor", "Lesson Explain"],
+      badge: null as string | null,
+    },
+    {
+      id: "ai_strategy",
+      name: "Strategy",
+      nameEn: "Strategy",
+      priceKRW: 99000,
+      priceUSD: 99,
+      period: "month",
+      desc: "Deeper analysis, identity signals, and direction mapping.",
+      features: ["Everything in Core", "Thinking Analyzer", "Portrait layer", "Hero Codes + Trajectory Lab"],
+      badge: "Most Strategic",
+    },
+    {
+      id: "ai_premium",
+      name: "Premium",
+      nameEn: "Premium",
+      priceKRW: 249000,
+      priceUSD: 249,
+      period: "month",
+      desc: "High-touch planning for projects, activities, and long-arc direction.",
+      features: ["Everything in Strategy", "Deeper story extraction", "Priority trajectory outputs", "High-touch strategy layer"],
+      badge: null as string | null,
+    },
+  ],
+
   subjects: {
     ap: [
       "AP Biology","AP Chemistry","AP Calculus BC","AP Calculus AB","AP Precalculus",
@@ -175,22 +211,34 @@ export const PRICING = {
     },
   ],
 
-  materials: [
-    {
-      id: "textbook", name: "과목별 교재 PDF", nameEn: "Subject Textbook PDF",
-      priceKRW: 19000, priceUSD: 14, unit: "권 / book", badge: null as string | null,
-      subjects: ["AP Biology","AP Chemistry","AP Calculus BC","AP Calculus AB","AP Physics","AMC 10/12","SAT Math","SAT R&W"],
-    },
-    {
-      id: "qbank_monthly", name: "문제은행 월정액", nameEn: "Question Bank Monthly",
-      priceKRW: 39000, priceUSD: 28, unit: "월 / mo", badge: null as string | null, subjects: [],
-    },
-    {
-      id: "qbank_annual", name: "문제은행 연간", nameEn: "Question Bank Annual",
-      priceKRW: 290000, priceUSD: 211, unit: "년 / yr", badge: "38% 할인", subjects: [],
-    },
-  ],
 } as const;
+
+type PricedItem = {
+  id: string;
+  name: string;
+  priceKRW?: number;
+  price?: number;
+};
+
+export function findPricingItem(serviceId: string): { amount: number; orderName: string } | null {
+  const groups = [
+    ...PRICING.free,
+    ...PRICING.aiPlans,
+    ...PRICING.subscriptions,
+    ...PRICING.gradePackages,
+    ...PRICING.competitionPackages,
+    ...PRICING.tutoring,
+    ...PRICING.consulting,
+  ] as PricedItem[];
+
+  const item = groups.find((entry) => entry.id === serviceId);
+  if (!item) return null;
+
+  const amount = item.priceKRW ?? item.price;
+  if (typeof amount !== "number") return null;
+
+  return { amount, orderName: item.name };
+}
 
 export function krw(amount: number) {
   return `₩${amount.toLocaleString("ko-KR")}`;

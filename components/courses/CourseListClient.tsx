@@ -5,22 +5,22 @@ import CourseCard from "./CourseCard";
 import CourseFilter from "./CourseFilter";
 import type { Course, Category } from "@/lib/data/courses";
 
-type FilterCategory = "전체" | Category;
+type FilterCategory = "All" | Category;
 
 interface CourseListClientProps {
   courses: Course[];
 }
 
 export default function CourseListClient({ courses }: CourseListClientProps) {
-  const [activeFilter, setActiveFilter] = useState<FilterCategory>("전체");
+  const [activeFilter, setActiveFilter] = useState<FilterCategory>("All");
 
   const filtered = courses.filter((c) =>
-    activeFilter === "전체" ? true : c.category === activeFilter
+    activeFilter === "All" ? true : c.category === activeFilter
   );
 
-  const counts = (["전체", "AP", "Honors", "Core", "대회", "시험"] as FilterCategory[]).reduce(
+  const counts = (["All", "AP", "Honors", "Core", "Competition", "Test Prep"] as FilterCategory[]).reduce(
     (acc, f) => {
-      acc[f] = f === "전체" ? courses.length : courses.filter((c) => c.category === f).length;
+      acc[f] = f === "All" ? courses.length : courses.filter((c) => c.category === f).length;
       return acc;
     },
     {} as Record<FilterCategory, number>
@@ -35,7 +35,7 @@ export default function CourseListClient({ courses }: CourseListClientProps) {
           counts={counts}
         />
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          {filtered.length}개 과목
+          {filtered.length} courses
         </p>
       </div>
 

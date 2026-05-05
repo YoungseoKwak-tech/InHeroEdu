@@ -3,6 +3,7 @@
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { getStoredUserId } from "@/lib/username";
+import { authFetch } from "@/lib/client-auth";
 
 interface Card {
   id: string;
@@ -146,11 +147,15 @@ export default function FlashcardSetPage({ params }: { params: Promise<{ setId: 
     setCards(loadedCards);
 
     // Load progress
-    const progRes  = await fetch(`/api/flashcards/progress?userId=${userId}&setId=${setId}`);
-    const progData = await progRes.json();
     const progMap: Record<string, Status> = {};
-    for (const p of (progData.progress ?? [])) {
-      progMap[p.card_id] = p.status as Status;
+    try {
+      const progRes  = await authFetch(`/api/flashcards/progress?setId=${setId}`);
+      const progData = await progRes.json();
+      for (const p of (progData.progress ?? [])) {
+        progMap[p.card_id] = p.status as Status;
+      }
+    } catch {
+      // Ignore when the user is not logged in.
     }
     setProgress(progMap);
     setLoading(false);
@@ -175,10 +180,10 @@ export default function FlashcardSetPage({ params }: { params: Promise<{ setId: 
     setProgress(newProgress);
 
     // Save to DB
-    await fetch("/api/flashcards/progress", {
+    await authFetch("/api/flashcards/progress", {
       method:  "POST",
       headers: { "Content-Type": "application/json" },
-      body:    JSON.stringify({ userId, cardId: card.id, status }),
+      body:    JSON.stringify({ cardId: card.id, status }),
     });
 
     if (studyIdx + 1 >= studyCards.length) {

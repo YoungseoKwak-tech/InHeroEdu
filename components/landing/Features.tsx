@@ -1,92 +1,170 @@
+"use client";
+
 const features = [
   {
-    icon: "🧠",
-    title: "사고 진화 메모리",
-    titleEn: "Thinking Evolution Memory",
-    description:
-      "AI가 9학년부터 12학년까지 학생이 질문한 것, 틀린 것, 어떻게 사고가 바뀌었는지를 전부 기억해요. 어떤 선생님도, 어떤 카운슬러도 할 수 없는 4년의 동반 성장.",
-    badge: "세계 최초",
-    color: "from-primary-500 to-primary-600",
-    bgColor: "bg-primary-50 dark:bg-primary-900/20",
-    highlight: true,
+    icon: "◈",
+    iconColor: "#00FF88",
+    badge: "World First",
+    badgeVariant: "badge-green",
+    title: "Thinking Evolution Memory",
+    body: "AI remembers every question, mistake, and reasoning shift from 9th through 12th grade. Four years of guided intellectual growth that no single teacher or counselor can replicate.",
+    accent: "#00FF88",
+    featured: true,
   },
   {
-    icon: "🔤",
-    title: "Bilingual Thinking Analyzer",
-    titleEn: "Bilingual Thinking Analyzer",
-    description:
-      "한국어로 생각하다가 영어 문제에서 막히는 그 순간 — AI가 '개념 문제'인지 '언어 구조 문제'인지 정확히 짚어줘요. 전 세계 어디서도 이걸 시스템화한 플랫폼은 없어요.",
-    badge: "독보적 차별점",
-    color: "from-emerald-500 to-teal-500",
-    bgColor: "bg-emerald-50 dark:bg-emerald-900/20",
+    icon: "◉",
+    iconColor: "#FFB800",
+    badge: "47 Lessons Live",
+    badgeVariant: "badge-corona",
+    title: "Hero Instructor Story",
+    body: "Lessons built by a teacher who has lived inside both elite prep culture and real university classrooms. The story behind why this teacher teaches becomes part of the learning itself.",
+    accent: "#FFB800",
+    featured: false,
   },
   {
-    icon: "🖊️",
-    title: "선생님의 서사",
-    titleEn: "Teacher's Story",
-    description:
-      "한국 교육과 미국 교육, 두 세계를 직접 경험한 선생님이 손으로 써가며 설명하는 강의. '이 사람이 왜 이걸 가르치는가'라는 스토리가 그 자체로 콘텐츠예요.",
-    badge: "47개 강의",
-    color: "from-blue-500 to-cyan-500",
-    bgColor: "bg-blue-50 dark:bg-blue-900/20",
+    icon: "⬡",
+    iconColor: "#7B61FF",
+    badge: "AI Powered",
+    badgeVariant: "badge-plasma",
+    title: "Thinking Analyzer",
+    body: "When you get stuck, AI pinpoints whether it's a concept gap, a reasoning gap, or a knowledge gap — and routes you to exactly the right fix. Not a hint. A diagnosis.",
+    accent: "#7B61FF",
+    featured: false,
   },
 ];
 
 export default function Features() {
   return (
-    <section className="py-20 md:py-28 bg-white dark:bg-gray-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="section-title">
-            왜 InHero인가요?
+    <section style={{ background: "transparent", padding: "100px 24px", position: "relative", zIndex: 10 }}>
+      <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: "64px" }}>
+          <p className="section-label" style={{ marginBottom: "16px" }}>
+            MISSION BRIEFING
+          </p>
+          <h2 style={{
+            fontFamily: "'Space Grotesk', sans-serif",
+            fontSize: "clamp(1.75rem, 4vw, 2.75rem)",
+            fontWeight: 700,
+            color: "#fff",
+            letterSpacing: "-0.025em",
+            marginBottom: "16px",
+          }}>
+            Why InHero?
           </h2>
-          <p className="section-sub max-w-xl mx-auto">
-            AI를 답 기계가 아닌 사고 훈련 도구로 — AI 시대에 맞는 새로운 교육 패러다임
+          <p style={{
+            fontSize: "16px",
+            color: "#8888AA",
+            maxWidth: "480px",
+            margin: "0 auto",
+            lineHeight: 1.7,
+          }}>
+            A new paradigm for the AI era — AI as a thinking trainer, not just an answer machine.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {features.map((feature) => (
-            <div
-              key={feature.title}
-              className={`relative card p-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${
-                feature.highlight
-                  ? "ring-2 ring-primary-400 dark:ring-primary-500"
-                  : ""
-              }`}
-            >
-              {feature.highlight && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="bg-primary-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                    ✨ 핵심 기능
-                  </span>
-                </div>
-              )}
-
-              {/* Icon */}
+        {/* Cards */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "20px",
+        }} className="features-grid">
+          {features.map((f) => {
+            const rgb = f.accent === "#00FF88" ? "0,255,136" : f.accent === "#7B61FF" ? "123,97,255" : "255,184,0";
+            return (
               <div
-                className={`w-14 h-14 rounded-2xl ${feature.bgColor} flex items-center justify-center text-2xl mb-6`}
+                key={f.title}
+                style={{
+                  position: "relative",
+                  background: "rgba(0,0,10,0.7)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  border: f.featured
+                    ? `1px solid rgba(0,255,136,0.25)`
+                    : "1px solid rgba(255,255,255,0.06)",
+                  borderRadius: "6px",
+                  padding: "36px 32px",
+                  transition: "all 300ms cubic-bezier(0.16,1,0.3,1)",
+                  overflow: "hidden",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.borderColor = `rgba(${rgb},0.3)`;
+                  el.style.boxShadow = `0 0 40px rgba(${rgb},0.08), 0 0 0 1px rgba(${rgb},0.08)`;
+                  el.style.transform = "translateY(-3px)";
+                  el.style.background = `rgba(${rgb},0.03)`;
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.borderColor = f.featured ? "rgba(0,255,136,0.25)" : "rgba(255,255,255,0.06)";
+                  el.style.boxShadow = "";
+                  el.style.transform = "";
+                  el.style.background = "rgba(0,0,10,0.7)";
+                }}
               >
-                {feature.icon}
+                {/* Top accent bar */}
+                <div style={{
+                  position: "absolute", top: 0, left: 0, right: 0, height: "2px",
+                  background: `linear-gradient(90deg, ${f.accent}, transparent)`,
+                  opacity: f.featured ? 0.6 : 0.3,
+                }} />
+
+                {/* Corner HUD brackets */}
+                <div style={{ position: "absolute", top: "12px", right: "12px", color: `rgba(${rgb},0.25)`, fontFamily: "monospace", fontSize: "10px", letterSpacing: "0" }}>┐</div>
+                <div style={{ position: "absolute", bottom: "12px", right: "12px", color: `rgba(${rgb},0.25)`, fontFamily: "monospace", fontSize: "10px" }}>┘</div>
+
+                {/* Icon */}
+                <div style={{
+                  fontSize: "28px",
+                  color: f.iconColor,
+                  marginBottom: "20px",
+                  fontFamily: "monospace",
+                  lineHeight: 1,
+                }}>
+                  {f.icon}
+                </div>
+
+                {/* Badge */}
+                <span className={`signal-badge ${f.badgeVariant}`} style={{ marginBottom: "16px", display: "inline-flex" }}>
+                  {f.badge}
+                </span>
+
+                {/* Title */}
+                <h3 style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: "18px",
+                  fontWeight: 700,
+                  color: "#E8E8F0",
+                  letterSpacing: "-0.01em",
+                  marginBottom: "12px",
+                  marginTop: "12px",
+                }}>
+                  {f.title}
+                </h3>
+
+                {/* Body */}
+                <p style={{
+                  fontSize: "13.5px",
+                  color: "#8888AA",
+                  lineHeight: 1.75,
+                }}>
+                  {f.body}
+                </p>
               </div>
-
-              {/* Badge */}
-              <span
-                className={`inline-block text-xs font-semibold px-3 py-1 rounded-full bg-gradient-to-r ${feature.color} text-white mb-4`}
-              >
-                {feature.badge}
-              </span>
-
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-                {feature.title}
-              </h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-                {feature.description}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 900px) {
+          .features-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (min-width: 640px) and (max-width: 900px) {
+          .features-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+      `}</style>
     </section>
   );
 }

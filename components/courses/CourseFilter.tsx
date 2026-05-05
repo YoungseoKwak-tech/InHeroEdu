@@ -2,7 +2,7 @@
 
 import type { Category } from "@/lib/data/courses";
 
-type FilterCategory = "전체" | Category;
+type FilterCategory = "All" | Category;
 
 interface CourseFilterProps {
   onFilterChange: (filter: FilterCategory) => void;
@@ -10,7 +10,7 @@ interface CourseFilterProps {
   counts: Record<FilterCategory, number>;
 }
 
-const filters: FilterCategory[] = ["전체", "AP", "Honors", "Core", "대회", "시험"];
+const filters: FilterCategory[] = ["All", "AP", "Honors", "Core", "Competition", "Test Prep"];
 
 export default function CourseFilter({ onFilterChange, activeFilter, counts }: CourseFilterProps) {
   return (
@@ -25,7 +25,7 @@ export default function CourseFilter({ onFilterChange, activeFilter, counts }: C
               : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700"
           }`}
         >
-          {filter}{filter !== "전체" && counts[filter] !== undefined ? ` (${counts[filter]}개)` : ""}
+          {filter}{filter !== "All" && counts[filter] !== undefined ? ` (${counts[filter]})` : ""}
         </button>
       ))}
     </div>

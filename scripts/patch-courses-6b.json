@@ -1,0 +1,470 @@
+[
+  {
+    "courseId": "honors-english",
+    "courseName": "Honors English",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Rhetoric and Argumentation",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What Makes an Argument Persuasive vs. Just Assertive",
+            "topics": ["Claim, evidence, warrant (Toulmin model)", "Thesis that takes a genuine position", "Why assertions without support are not arguments"],
+            "examTip": "Students write thesis statements that announce a topic rather than take a position — 'This essay will discuss climate change' is not a thesis; a thesis must be ARGUABLE ('Climate change policy fails because...'); evaluate every thesis: can a reasonable person disagree?"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Logos, Ethos, and Pathos Work Together (Not in Isolation)",
+            "topics": ["Ethos: credibility through expertise, fairness, tone", "Logos: logical structure and quality of evidence", "Pathos: emotional connection to audience values"],
+            "examTip": "Students identify appeals as though they're separate — skilled arguments blend all three simultaneously; a statistic (logos) from a respected expert (ethos) that illustrates human suffering (pathos) does all three at once; label the dominant appeal but acknowledge blending"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Why Counterarguments Make Your Argument Stronger",
+            "topics": ["Concession-refutation structure", "Steelmanning vs. straw man fallacy", "Where to place counterargument for maximum effect"],
+            "examTip": "Students treat counterargument as admitting weakness — a well-handled counterargument INCREASES credibility (ethos) by showing the writer has considered other views; the key is to refute or qualify it, not just acknowledge it and move on"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Recognizing Logical Fallacies Before They Undermine Your Argument",
+            "topics": ["Ad hominem, false dichotomy, slippery slope", "Hasty generalization and anecdotal evidence", "Circular reasoning and appeal to authority"],
+            "examTip": "Students identify the fallacy name but can't explain WHY it undermines the argument — the explanation requires showing what VALID form of reasoning it violates; false dichotomy fails because it ignores the possibility of multiple solutions beyond the two presented"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Using Evidence Without Letting It Replace Your Voice",
+            "topics": ["Quote integration: framing, embedding, explaining", "Paraphrase vs. summary vs. direct quote", "Commentary as the writer's own analytical voice"],
+            "examTip": "Students drop quotes without analysis ('Quote sandwiching' without the bread) — every piece of evidence needs framing before (context) and analysis after (what it means for your argument); the analysis must advance your claim, not just re-describe the quote"
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Literary Analysis",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What Theme Is (and Why It's Not Just a Topic)",
+            "topics": ["Theme as a complete statement about human experience", "How multiple elements work together to build theme", "Distinguishing theme from moral or lesson"],
+            "examTip": "Students write theme as a single word ('loyalty') instead of a thematic statement — 'loyalty' is a topic; 'True loyalty sometimes requires betraying what others expect of you' is a theme; it must make a CLAIM about life"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Authors Use Structure to Control Meaning",
+            "topics": ["Linear vs. non-linear narrative", "In medias res, flashback, foreshadowing", "How structure mirrors or ironizes content"],
+            "examTip": "Students describe structure without explaining its effect — saying 'the story uses flashback' earns no credit; you must explain WHAT the flashback reveals and HOW it changes the reader's understanding of the present-tense events"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How to Analyze a Character Beyond 'Describe Their Personality'",
+            "topics": ["Dynamic vs. static and round vs. flat characterization", "Foil characters and what contrast reveals", "Motivation, internal conflict, and character arc"],
+            "examTip": "Students confuse dynamic and round characters — a character can be ROUND (complex, many dimensions) but STATIC (doesn't change); a DYNAMIC character changes; these are independent axes; a flat character can be dynamic if they shift from one simple trait to another"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Why Point of View Is One of the Most Powerful Authorial Choices",
+            "topics": ["First person limitations vs. intimacy", "Third person limited vs. omniscient tradeoffs", "Unreliable narrator and dramatic irony"],
+            "examTip": "Students say 'first person is more relatable' without analyzing limitations — the key analytical move is explaining what the CHOSEN POV RESTRICTS as much as what it enables; first person limits information but creates intimacy; the restriction is often the point"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "How Symbolism Works Without Being Heavy-Handed",
+            "topics": ["Building symbolic meaning through repetition and context", "Conventional vs. contextual symbols", "How to distinguish symbolism from coincidence in texts"],
+            "examTip": "Students assert a symbol without textual support — you must show how the TEXT builds the symbolic meaning through repetition, contrast, or explicit connection; 'the green light represents hope' requires tracing how Fitzgerald develops this meaning throughout, not just stating it"
+          },
+          {
+            "lessonNumber": 6,
+            "lessonTitle": "How to Write a Literary Analysis That Makes a Real Argument",
+            "topics": ["Interpretive thesis vs. summary thesis", "Close reading as primary evidence", "Connecting textual evidence to the larger thematic argument"],
+            "examTip": "Students write plot summaries dressed up as analysis — every body paragraph must advance an ARGUMENT about meaning, not narrate events; the question to ask after each paragraph: 'So what? What does this prove about the author's message?'"
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Research and Writing",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How to Evaluate Sources Before You Trust Them",
+            "topics": ["CRAAP test: Currency, Relevance, Authority, Accuracy, Purpose", "Primary vs. secondary sources", "Bias in sources and how to use biased sources well"],
+            "examTip": "Students dismiss biased sources entirely — a biased source can be used as EVIDENCE OF a perspective or to demonstrate how a group framed an issue; the key is to acknowledge the bias and use it appropriately, not pretend it doesn't exist"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Why Your Argument Must Drive Your Research (Not the Other Way Around)",
+            "topics": ["Working thesis vs. finalized thesis", "Research question development", "Avoiding confirmation bias in source selection"],
+            "examTip": "Students use whatever sources support their pre-existing view — strong research requires actively seeking COUNTER-EVIDENCE and incorporating or refuting it; a paper that ignores opposing scholarship is academically weak regardless of how much support it accumulates"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Citation: How to Attribute Sources Without Interrupting Your Voice",
+            "topics": ["MLA in-text citation and works cited format", "Signal phrases and attribution", "Avoiding plagiarism through proper paraphrase"],
+            "examTip": "Students think paraphrasing means changing a few words — a proper paraphrase REPROCESSES the idea in your own sentence structure using your own vocabulary; just swapping synonyms while keeping the sentence structure is still considered plagiarism"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How to Structure a Long Argument That Doesn't Lose Its Thread",
+            "topics": ["Organizing by line of reasoning, not by source", "Topic sentences that advance the argument", "Transitions that show logical relationships"],
+            "examTip": "Students organize research papers by source (one paragraph per source) — papers must be organized by ARGUMENT; sources should appear wherever they support your claim in the argument structure, not in the order you found them"
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Language and Style",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Why Sentence Variety Is About Meaning, Not Just Sound",
+            "topics": ["Periodic vs. cumulative sentences and their effects", "Short sentences for emphasis", "Syntactic parallelism and its persuasive power"],
+            "examTip": "Students vary sentences randomly for 'style' — sentence length and type should serve MEANING; a very short sentence after long ones creates emphasis through contrast; use it where you want the reader to pause and feel the weight of an idea"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Diction Shapes the Reader's Entire Experience",
+            "topics": ["Connotation vs. denotation and emotional weight", "Formal vs. informal register and context", "Precision of word choice in academic writing"],
+            "examTip": "Students use sophisticated vocabulary to 'sound smart' at the cost of clarity — diction should serve PRECISION and TONE, not display vocabulary; a simpler word used precisely is stronger than a complex word used vaguely"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Tone Is Created and How to Analyze It Accurately",
+            "topics": ["Tone = author's attitude toward subject or audience", "Multiple simultaneous tones", "How diction, syntax, and figurative language converge to create tone"],
+            "examTip": "Students name a single broad tone word ('sad' or 'angry') — effective analysis uses SPECIFIC, nuanced tone words and traces which specific word choices and syntactic decisions CREATE that tone; 'melancholic' is better than 'sad'; showing HOW it's created is the actual skill"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How Figurative Language Compresses Meaning Into a Single Image",
+            "topics": ["Metaphor and simile: what the comparison reveals", "Extended metaphor and conceit development", "Irony types: verbal, situational, dramatic"],
+            "examTip": "Students identify the device but don't explain what the comparison REVEALS — 'the poet uses a metaphor comparing life to a river' is identification; the analysis must explain what the river comparison specifically says about the nature of life that a direct statement could not"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "courseId": "honors-algebra",
+    "courseName": "Honors Algebra",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Linear Functions",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What Slope Really Means Beyond 'Rise Over Run'",
+            "topics": ["Slope as rate of change", "Positive, negative, zero, and undefined slope", "Interpreting slope in context (units matter)"],
+            "examTip": "Students calculate slope as Δx/Δy instead of Δy/Δx — slope is always VERTICAL change over HORIZONTAL change (rise/run = Δy/Δx); inverting the fraction gives the slope of the perpendicular line, which is a completely different line"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Three Forms of a Line — When to Use Which",
+            "topics": ["Slope-intercept: y = mx + b", "Standard form: Ax + By = C", "Point-slope: y − y₁ = m(x − x₁)"],
+            "examTip": "Students always convert to slope-intercept even when point-slope is faster — when given a point and a slope, point-slope form is directly applicable without solving for b; converting first wastes time and introduces arithmetic errors"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Parallel and Perpendicular Lines Are Related",
+            "topics": ["Parallel lines: equal slopes", "Perpendicular lines: slopes are negative reciprocals", "Writing equations of parallel and perpendicular lines"],
+            "examTip": "Students negate the slope instead of taking the negative reciprocal for perpendicular lines — perpendicular slope = −1/m; for slope 2, perpendicular slope is −1/2, not −2; students who only negate get the sign right but still have the wrong answer"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Solving Systems by the Method That Fits the Problem",
+            "topics": ["Graphing, substitution, and elimination methods", "When each method is most efficient", "No solution vs. infinitely many solutions"],
+            "examTip": "Students always use substitution regardless of the equations — elimination is faster when coefficients are already equal or easily scaled; substitution requires extra algebra when both equations are in Ax + By = C form; choose method based on structure"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "How to Solve and Graph Linear Inequalities",
+            "topics": ["Solving inequalities: same as equations except flip sign when dividing by negative", "Graphing linear inequalities: dashed vs. solid line", "Systems of inequalities: feasible region"],
+            "examTip": "Students forget to flip the inequality when multiplying or dividing by a NEGATIVE number — this is the single rule that makes inequalities different from equations; −2x > 6 gives x < −3, not x > −3; always check this when the variable has a negative coefficient"
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Quadratic Functions",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What the Vertex Form Actually Tells You About the Parabola",
+            "topics": ["Vertex form: y = a(x − h)² + k", "Vertex (h, k): h has sign flip", "How 'a' controls width and direction of opening"],
+            "examTip": "Students read the vertex from y = a(x − h)² + k as (−h, k) without checking the sign — in y = (x − 3)² + 2, the vertex is (3, 2) because h = 3; in y = (x + 3)² + 2, the vertex is (−3, 2); the sign inside the parenthesis is OPPOSITE to the h-coordinate"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How to Factor Quadratics When the Leading Coefficient Isn't 1",
+            "topics": ["AC method for ax² + bx + c", "Factoring by grouping", "Checking factored form by expanding"],
+            "examTip": "Students apply trial-and-error factoring to ax² + bx + c with a ≠ 1 — the AC method is systematic: multiply a × c, find factors that add to b, split the middle term, then factor by grouping; random guessing is slow and misses answers"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "The Quadratic Formula: When to Use It and How Not to Mess Up",
+            "topics": ["Quadratic formula: x = (−b ± √(b²−4ac)) / 2a", "Discriminant: b² − 4ac and what it predicts", "Setting quadratic = 0 before applying the formula"],
+            "examTip": "Students forget to set the equation equal to zero before applying the formula — the quadratic formula requires the form ax² + bx + c = 0; if the equation is x² + 3x = 4, rewrite as x² + 3x − 4 = 0 first, then identify a, b, c"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Completing the Square: The Technique Behind Everything",
+            "topics": ["Process: isolate x² term, add (b/2)² to both sides", "Converting standard to vertex form", "Why it works (creating a perfect square trinomial)"],
+            "examTip": "Students forget to add (b/2)² to BOTH sides — when completing the square, the value added to one side must also be added to the other; if a ≠ 1, divide through by a first before completing the square; skipping this step breaks the equation"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "What the Discriminant Tells You Without Solving",
+            "topics": ["b² − 4ac > 0: two real roots", "b² − 4ac = 0: one real (repeated) root", "b² − 4ac < 0: no real roots (complex roots)"],
+            "examTip": "Students compute the discriminant but interpret a negative result as 'no answer' — b² − 4ac < 0 means no REAL roots; the quadratic has two COMPLEX (imaginary) conjugate roots; for Honors, these are ±i√|discriminant|/2a"
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Polynomial and Rational Expressions",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How to Add, Subtract, and Multiply Polynomials Without Losing Terms",
+            "topics": ["Combining like terms: matching degree and variable", "Distributing multiplication: FOIL and beyond", "Special products: (a+b)², (a−b)², (a+b)(a−b)"],
+            "examTip": "Students use FOIL for polynomials with more than two terms — FOIL only works for BINOMIAL × BINOMIAL; for trinomials, distribute each term of the first polynomial to every term of the second; using FOIL for (x²+x+1)(x+2) gives wrong answers"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Why Factoring Is Just Multiplication in Reverse",
+            "topics": ["GCF factoring first", "Difference of squares: a² − b² = (a+b)(a−b)", "Sum and difference of cubes"],
+            "examTip": "Students skip GCF factoring and proceed to more complex methods — always factor out the GCF FIRST; 2x² − 8 = 2(x² − 4) = 2(x+2)(x−2); students who skip GCF may not recognize the difference of squares pattern underneath"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How to Simplify Rational Expressions Without Canceling Too Much",
+            "topics": ["Factor completely before canceling", "Domain restrictions from the original denominator", "Simplifying vs. evaluating"],
+            "examTip": "Students cancel individual terms instead of factors — (x² + 3x) / x = x(x+3)/x = x+3; but (x + 3) / (x + 3) can ONLY be canceled as a unit; you cannot cancel part of a sum: (x+3)/(x+5) ≠ 3/5 even though students often do this"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Multiplying and Dividing Rational Expressions",
+            "topics": ["Multiply: factor all, then cancel across numerators and denominators", "Divide: multiply by the reciprocal of the divisor", "Simplifying before multiplying reduces errors"],
+            "examTip": "Students forget to find the reciprocal when dividing rational expressions — division is multiplication by the RECIPROCAL of the second fraction; flip the second fraction, then multiply; taking the reciprocal of the entire expression, not just the numerator or denominator, is essential"
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Exponential and Logarithmic Functions",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How Exponential Growth and Decay Models Work in Context",
+            "topics": ["y = a·bˣ: initial value a, growth/decay factor b", "Growth (b > 1) vs. decay (0 < b < 1)", "Finding b from a percent rate: b = 1 + r or 1 − r"],
+            "examTip": "Students write b = r (the rate) instead of b = 1 + r — for 6% annual growth, b = 1.06, not 0.06; writing y = a(0.06)ˣ gives a decay function; the base encodes the FACTOR, not the rate of change"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "What Logarithms Ask and How to Evaluate Them",
+            "topics": ["log_b(x) = y ↔ bʸ = x", "Common log (log₁₀) and natural log (ln)", "Evaluating simple logarithms by asking 'what exponent?'"],
+            "examTip": "Students try to compute log₂(8) as 2÷8 or 2×8 — a logarithm asks 'what power of the base gives this number?'; rewrite as an exponential equation: 2? = 8 → ? = 3; this conversion is the only reliable method"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Solving Exponential Equations Using Logarithms",
+            "topics": ["Taking log of both sides when bases can't be matched", "Isolating the exponential before logging", "Using change of base: log_b(x) = log(x)/log(b)"],
+            "examTip": "Students log both sides before isolating the exponential — solve 3·2ˣ = 48 by dividing both sides by 3 first to get 2ˣ = 16, THEN take the log; logging too early creates log(3·2ˣ) = log(48) which requires additional log rules to separate"
+          }
+        ]
+      },
+      {
+        "unitNumber": 5,
+        "unitTitle": "Statistics and Probability",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How to Describe a Data Set: Center and Spread",
+            "topics": ["Mean, median, mode: when each is appropriate", "Range, IQR, standard deviation as spread measures", "Effect of outliers on mean vs. median"],
+            "examTip": "Students report the mean for skewed data — mean is pulled toward outliers; for skewed distributions, the MEDIAN better represents the 'typical' value; always check the shape of the data before choosing a measure of center"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Probability Rules Work Together",
+            "topics": ["P(A or B) = P(A) + P(B) − P(A and B)", "P(A and B) = P(A) × P(B|A)", "Independent vs. mutually exclusive events (not the same)"],
+            "examTip": "Students confuse mutually exclusive and independent events — mutually exclusive events CANNOT both happen (P(A and B) = 0); independent events DON'T AFFECT each other (P(A|B) = P(A)); these are different properties and a set of events can be one without being the other"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Counting Strategies: When to Multiply, Permute, or Combine",
+            "topics": ["Fundamental counting principle", "Permutations nPr: order matters", "Combinations nCr: order doesn't matter"],
+            "examTip": "Students use permutations when order doesn't matter (or vice versa) — ask: 'Does swapping two choices create a DIFFERENT outcome?' If yes, use permutation; if no, use combination; choosing a committee of 3 from 10 = combination (same people regardless of order)"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How Scatter Plots and Correlation Tell a Story",
+            "topics": ["Positive vs. negative vs. no correlation", "Correlation coefficient r: strength and direction", "Correlation ≠ causation"],
+            "examTip": "Students say a strong r-value means one variable CAUSES the other — correlation measures LINEAR ASSOCIATION, not causation; ice cream sales and drowning rates are correlated (both increase in summer) but neither causes the other; always ask about a lurking variable"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "courseId": "honors-us-history",
+    "courseName": "Honors US History",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Colonial America to Revolution",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Why Three Distinct Colonial Regions Developed Different Societies",
+            "topics": ["New England: Puritan compact, town meetings, subsistence farming", "Middle colonies: diversity and commerce", "Southern colonies: plantation economy and indentured servitude to slavery"],
+            "examTip": "Students describe colonies as uniformly agricultural — the key regional distinction is ECONOMIC FOUNDATION; New England developed trade and manufacturing because rocky soil limited farming; this shapes later sectional conflict in ways that are heavily tested"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Salutary Neglect Created the Conditions for Revolution",
+            "topics": ["Salutary neglect: British non-enforcement of trade laws pre-1763", "Colonial self-governance through assemblies", "Why colonists felt British interference post-1763 was tyranny"],
+            "examTip": "Students say colonists rebelled only over taxes — the deeper grievance was loss of SELF-GOVERNANCE; decades of running their own affairs meant colonists saw post-1763 enforcement as a violation of established rights, not just new taxation"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "What 'No Taxation Without Representation' Really Meant",
+            "topics": ["Virtual vs. actual representation debate", "Stamp Act, Townshend Acts, and colonial responses", "Boston Massacre and Tea Party as escalation"],
+            "examTip": "Students say the Revolution was purely about taxes being too high — it was about the PRINCIPLE of parliamentary authority over the colonies; colonists often paid lower taxes than British citizens; the issue was legitimacy of Parliament's right to tax, not the amount"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "What the Declaration of Independence Actually Argued (It's More Than a List of Grievances)",
+            "topics": ["Lockean natural rights foundation", "Social contract theory and right to revolution", "The rhetorical structure: philosophy → evidence → conclusion"],
+            "examTip": "Students treat the Declaration as primarily listing British abuses — the first two paragraphs establish the PHILOSOPHICAL JUSTIFICATION; the grievances come after to PROVE the contract was broken; Jefferson's logical structure is what essay questions target"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Why the Articles of Confederation Failed on Purpose",
+            "topics": ["Intentional weakness: fear of centralized power", "Successes: Land Ordinance of 1785, Northwest Ordinance of 1787", "Shays' Rebellion as catalyst for Constitution"],
+            "examTip": "Students say the Articles were just poorly designed — they were DELIBERATELY WEAK because the founders feared a powerful central government like Britain's; recognizing this intent explains why the Constitution required a political revolution in thinking, not just a technical fix"
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Early Republic to Civil War",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What the Constitution's Framework Actually Created (and What It Left Unresolved)",
+            "topics": ["Federalism: concurrent and enumerated powers", "Bill of Rights as Anti-Federalist compromise", "What the Constitution deliberately left ambiguous"],
+            "examTip": "Students treat ratification as the end of debate — the Constitution's AMBIGUITIES (necessary and proper clause, commerce clause) became the source of ongoing conflict; the founders' failure to resolve slavery is the most consequential omission"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Political Parties Emerged Despite the Founders' Wishes",
+            "topics": ["Federalists vs. Democratic-Republicans: Hamilton vs. Jefferson", "Elastic clause vs. strict construction debate", "Washington's Farewell Address warning about factions"],
+            "examTip": "Students say Hamilton and Jefferson disagreed only on economic policy — their disagreement was PHILOSOPHICAL; Hamilton believed in active government as a force for prosperity; Jefferson feared concentrated power as a threat to liberty; this tension defines US political history"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Manifest Destiny Was Used to Justify Expansion (and at Whose Expense)",
+            "topics": ["Ideological basis: providential destiny and Anglo-Saxon superiority", "Mexican-American War and territorial acquisition", "Impact on Native American nations: Trail of Tears, Indian Removal Act"],
+            "examTip": "Students treat westward expansion as unambiguously positive — Honors-level analysis requires examining WHOSE COSTS paid for whose gains; Manifest Destiny was simultaneously nation-building and ethnic cleansing; both must appear in any analytical response"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Why Compromise Over Slavery Failed and What That Reveals",
+            "topics": ["Missouri Compromise, Compromise of 1850, Kansas-Nebraska Act", "How each compromise pushed the crisis forward", "Bleeding Kansas and the collapse of compromise"],
+            "examTip": "Students memorize the compromises as a list — the analytical point is that EACH COMPROMISE delayed rather than resolved the fundamental contradiction; each successive compromise required greater concessions from the North, making future agreement less likely, not more"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "What the Civil War Decided — and What It Left Open",
+            "topics": ["Union victory: preserved union, ended slavery as institution", "13th Amendment's scope and limits", "Competing visions of Reconstruction as indicator of unresolved questions"],
+            "examTip": "Students say the Civil War 'ended' the slavery issue — the war ended slavery as a LEGAL INSTITUTION but left unanswered questions about the status, rights, and economic position of formerly enslaved people; Reconstruction debates show how much remained contested"
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Reconstruction to Progressive Era",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Why Reconstruction Was Both a Revolutionary Moment and a Failed Promise",
+            "topics": ["Radical Reconstruction: 14th and 15th Amendments, Freedmen's Bureau", "Black political participation in the South 1867–1877", "Compromise of 1877 and withdrawal of federal troops"],
+            "examTip": "Students say Reconstruction simply 'failed' — it had SIGNIFICANT achievements (Black officeholders, schools built, constitutional amendments passed); the failure was in DEFENDING those gains; the question is not whether it worked but why federal commitment collapsed"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Industrialization Concentrated Power and Created Opposition",
+            "topics": ["Robber barons vs. captains of industry framing", "Vertical and horizontal integration (Carnegie, Rockefeller)", "Labor movement: Knights of Labor, AFL, Pullman Strike"],
+            "examTip": "Students describe Gilded Age business leaders as purely villainous or purely heroic — both framings are too simple; the analytical task is explaining HOW their business practices SIMULTANEOUSLY created national prosperity and concentrated power in ways that undermined democracy"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "What the Progressive Movement Actually Reformed (and Who It Excluded)",
+            "topics": ["Muckrakers and investigative journalism as political force", "Trust-busting, food safety, conservation under TR", "Limits of Progressivism: race, women's suffrage, immigration"],
+            "examTip": "Students present Progressivism as broadly reformist — a critical analysis notes that most Progressive reforms were SEGREGATED or explicitly EXCLUDED Black Americans; many Progressives shared eugenic beliefs; 'progress' was defined by and for middle-class white Americans"
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "20th Century America",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How WWI and Its Aftermath Changed American Foreign Policy",
+            "topics": ["Wilson's Fourteen Points and failed idealism", "Senate rejection of League of Nations", "Return to isolationism in the 1920s"],
+            "examTip": "Students say the US rejected the League because of isolationism — Senate rejection was driven by SPECIFIC reservations about Article X (requiring US military response to League decisions); many senators supported international engagement but opposed surrendering war power to an international body"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "What Caused the Great Depression and Why the New Deal Was Controversial",
+            "topics": ["Causes: bank failures, Smoot-Hawley, credit collapse, speculation", "New Deal: relief, recovery, reform — 3 Rs", "Conservative critique: government overreach and debt"],
+            "examTip": "Students say Hoover 'did nothing' during the Depression — Hoover actually tried interventions (Reconstruction Finance Corporation, tariffs) but believed they were insufficient to act further; the more accurate critique is that his interventions were INADEQUATE and ideologically constrained"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How WWII Transformed the United States Domestically",
+            "topics": ["War production ending the Depression", "Japanese American internment as civil liberties failure", "Double V campaign: democracy abroad, democracy at home"],
+            "examTip": "Students describe the home front as uniformly patriotic — Honors analysis requires examining CONTRADICTIONS: the US fought fascist racism abroad while maintaining Jim Crow at home; the Double V campaign shows Black Americans' awareness of this hypocrisy; it sets up the civil rights movement"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How Cold War Logic Shaped Every Domestic and Foreign Decision",
+            "topics": ["Containment doctrine and Truman Doctrine", "McCarthyism as domestic Cold War", "Korea, Cuba, and Vietnam as containment in practice"],
+            "examTip": "Students treat Cold War foreign policy decisions as responses to specific events — Cold War decisions were driven by the DOCTRINE OF CONTAINMENT which shaped interpretation of every event; policymakers saw Vietnam, Korea, and Cuba through the lens of domino theory, not just their local context"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "What the Civil Rights Movement Achieved and How It Did It",
+            "topics": ["Direct action strategy: boycotts, sit-ins, freedom rides", "Legislative achievements: Civil Rights Act 1964, VRA 1965", "Internal debates: SNCC, CORE, SCLC, Black Power"],
+            "examTip": "Students present the civil rights movement as monolithic — the movement had SIGNIFICANT internal disagreements about tactics, goals, and leadership; the tension between nonviolent gradualism (SCLC/MLK) and direct confrontation (SNCC) and Black Power (later) reflects genuine strategic debates"
+          }
+        ]
+      },
+      {
+        "unitNumber": 5,
+        "unitTitle": "Modern America",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How the 1970s Crisis Reshaped American Politics",
+            "topics": ["Vietnam's legacy: credibility gap and War Powers Act", "Watergate: executive power and its limits", "Economic stagflation and end of postwar consensus"],
+            "examTip": "Students treat Nixon's resignation as a story about personal corruption — Watergate is analytically important as a story about PRESIDENTIAL POWER and institutional checks; the constitutional crisis was about whether a president is above the law, not just Nixon's character"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "What the Reagan Revolution Actually Changed",
+            "topics": ["Supply-side economics: tax cuts, deregulation, cutting social programs", "Cold War escalation vs. détente", "Cultural conservatism and the New Right coalition"],
+            "examTip": "Students evaluate Reagan purely as partisan liberals or conservatives do — the analytical task is explaining HOW Reaganism SHIFTED the ideological center of American politics; even Democrats moved rightward in the 1990s, showing the lasting structural impact of the Reagan coalition"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Globalization and Technology Rewired American Society After the Cold War",
+            "topics": ["NAFTA, WTO, and deindustrialization", "Internet economy and wealth concentration", "9/11 and the transformation of national security state"],
+            "examTip": "Students treat 9/11 as a purely foreign policy story — 9/11 transformed DOMESTIC governance (Patriot Act, DHS, surveillance state); the tension between security and civil liberties that defines modern America begins here; connect to long-term debates about government power"
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,613 @@
+[
+  {
+    "courseId": "ap-human-geography",
+    "courseName": "AP Human Geography",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Thinking Geographically",
+        "examWeight": "8–10%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Maps and Spatial Thinking",
+            "topics": ["Reference maps vs. thematic maps", "Isoline maps", "Choropleth maps"],
+            "examTip": "Distinguish choropleth (shaded areas) from dot-density (individual dots) — FRQs ask you to justify which map type suits the data."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Geographic Data and GIS",
+            "topics": ["GIS layers", "Remote sensing", "GPS applications"],
+            "examTip": "GIS questions ask what you can COMBINE — overlay population, elevation, and land use; know that GPS is collection, GIS is analysis."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Scale and Region",
+            "topics": ["Formal, functional, and vernacular regions", "Scale of analysis", "Geographic scale effects"],
+            "examTip": "Vernacular/perceptual regions (like 'the South') are defined by perception, not data — students confuse these with formal regions."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Space, Place, and Landscape",
+            "topics": ["Sense of place vs. space", "Cultural landscape", "Built environment"],
+            "examTip": "Cultural landscape = the visible imprint of culture on land; Sequent Occupance describes layers of successive cultures — know both terms with examples."
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Models of Spatial Interaction",
+            "topics": ["Gravity model", "Distance decay", "Space-time compression"],
+            "examTip": "Gravity model: interaction ∝ (Pop₁ × Pop₂) / Distance² — larger cities pull more; increasing distance reduces interaction exponentially."
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Population and Migration",
+        "examWeight": "12–17%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Population Distribution and Density",
+            "topics": ["Arithmetic vs. physiological density", "Ecumene", "Population clusters"],
+            "examTip": "Physiological density = population / arable land — higher than arithmetic in Egypt (most land is desert); always specify which density."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Demographic Transition Model",
+            "topics": ["Stages 1–5", "CBR, CDR, NIR", "Stage 5 population decline"],
+            "examTip": "Stage 5 (sub-replacement fertility) is NOT on all versions of the DTM — know that Japan and Germany are examples; NIR < 0 in Stage 5."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Population Pyramids and Structure",
+            "topics": ["Age-sex pyramids", "Dependency ratio", "Youth vs. elderly bulges"],
+            "examTip": "Wide base = Stage 2/3 (high youth, high future growth); narrow base = Stage 4/5 (aging population, strain on social services)."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Malthus, Boserup, and Population Theory",
+            "topics": ["Malthusian limits", "Boserupian innovation", "Neo-Malthusianism"],
+            "examTip": "Malthus said population outruns food (pessimist); Boserup said necessity drives agricultural innovation (optimist) — FRQs ask you to apply both to a scenario."
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Migration Push and Pull Factors",
+            "topics": ["Ravenstein's laws", "Push-pull model", "Intervening obstacles"],
+            "examTip": "Intervening opportunity (better option found en route) vs. intervening obstacle (barrier that stops migration) — students mix these up constantly."
+          },
+          {
+            "lessonNumber": 6,
+            "lessonTitle": "Types of Migration",
+            "topics": ["Voluntary vs. forced migration", "Transhumance and cyclic movement", "Refugees vs. IDPs"],
+            "examTip": "Refugees cross international borders; IDPs (Internally Displaced Persons) stay within their country — this distinction matters for FRQ scoring."
+          },
+          {
+            "lessonNumber": 7,
+            "lessonTitle": "Migration Patterns and Consequences",
+            "topics": ["Brain drain", "Remittances", "Chain migration"],
+            "examTip": "Remittances can exceed foreign aid in developing nations — brain drain and remittances are two sides of the same migration coin."
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Cultural Patterns and Processes",
+        "examWeight": "12–17%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Cultural Traits, Complexes, and Regions",
+            "topics": ["Material vs. nonmaterial culture", "Culture complex", "Cultural hearth"],
+            "examTip": "Cultural hearths are origin points of innovation (Mesopotamia, Nile Valley, Indus Valley) — distinguish hearth from cultural diffusion pathway."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Cultural Diffusion",
+            "topics": ["Relocation diffusion", "Expansion diffusion (contagious, hierarchical, stimulus)", "Reverse hierarchical"],
+            "examTip": "Contagious = spreads like a disease (contact); Hierarchical = jumps city-to-city; Stimulus = idea adopts but adapts (McDonald's goes local) — know all four."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Language Distribution",
+            "topics": ["Language families and branches", "Lingua franca", "Language extinction"],
+            "examTip": "Indo-European is the largest family; within it, Romance vs. Germanic vs. Slavic branches — Swahili is an example of a lingua franca, not a family."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Religion and Sacred Space",
+            "topics": ["Universalizing vs. ethnic religions", "Sacred spaces", "Religious landscapes"],
+            "examTip": "Universalizing religions (Christianity, Islam, Buddhism) actively seek converts; Ethnic religions (Judaism, Hinduism) are tied to place/ethnicity — this is a key MCQ distinction."
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Ethnicity, Race, and Cultural Identity",
+            "topics": ["Ethnic enclaves", "Multiculturalism vs. assimilation", "Cultural identity and conflict"],
+            "examTip": "Ethnic enclaves preserve culture (Little Italy, Chinatown) — distinguish from ghettos (forced segregation); FRQs ask you to identify which and explain why."
+          },
+          {
+            "lessonNumber": 6,
+            "lessonTitle": "Gender and Cultural Norms",
+            "topics": ["Gender roles across cultures", "Female empowerment index", "Gendered spaces"],
+            "examTip": "Gender inequality index and female education rates appear in development-themed FRQs — connect to DTM Stage and fertility rate."
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Political Patterns and Processes",
+        "examWeight": "12–17%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Political Geography Concepts",
+            "topics": ["Nation vs. state vs. nation-state", "Stateless nations", "Multi-state nations"],
+            "examTip": "The Kurds are the classic stateless nation example; the Arab nation spans multiple states — don't confuse 'state' (political unit) with 'nation' (cultural group)."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Borders and Boundaries",
+            "topics": ["Geometric vs. natural boundaries", "Antecedent, subsequent, superimposed boundaries", "Relic boundaries"],
+            "examTip": "Superimposed boundaries were drawn by outside powers ignoring cultural groups (Africa's colonial borders) — this is the root cause of many African conflicts."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Shape and Size of States",
+            "topics": ["Compact, elongated, fragmented, prorupted, perforated states", "Enclave vs. exclave"],
+            "examTip": "Prorupted states have a panhandle giving access to resources or sea; Perforated states completely surround another (South Africa surrounds Lesotho)."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Centripetal and Centrifugal Forces",
+            "topics": ["National identity as centripetal", "Devolution as centrifugal", "Balkanization"],
+            "examTip": "Centripetal forces unite (common language, national anthem); centrifugal forces divide (ethnic conflict, regional autonomy demands) — always give a specific example."
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Supranationalism and International Organizations",
+            "topics": ["EU integration and challenges", "UN peacekeeping", "Trade blocs and sovereignty"],
+            "examTip": "Supranationalism = states giving up some sovereignty to a larger body; Brexit is the prime example of a state reasserting sovereignty over supranational membership."
+          },
+          {
+            "lessonNumber": 6,
+            "lessonTitle": "Electoral Geography",
+            "topics": ["Gerrymandering", "Reapportionment vs. redistricting", "Voting patterns and geography"],
+            "examTip": "Gerrymandering involves 'cracking' (split opponent voters) or 'packing' (concentrate opponent voters) — FRQs show district maps and ask you to identify the technique."
+          }
+        ]
+      },
+      {
+        "unitNumber": 5,
+        "unitTitle": "Agriculture and Rural Land-Use",
+        "examWeight": "12–17%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Origins and Spread of Agriculture",
+            "topics": ["First Agricultural Revolution", "Hearths (Fertile Crescent, SE Asia)", "Domestication of plants and animals"],
+            "examTip": "First Ag Revolution = domestication (~10,000 BCE); Second = mechanization (18th c. Britain); Third = Green Revolution (20th c.) — know all three and their geographic hearths."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Von Thünen's Model",
+            "topics": ["Concentric rings of land use", "Distance from market and intensity", "Modern critiques"],
+            "examTip": "Von Thünen: intensive farming closest to market (dairy, vegetables), extensive farming farther out (grain, ranching) — the model assumes flat plain and single market."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Types of Agriculture",
+            "topics": ["Subsistence vs. commercial", "Intensive vs. extensive", "Plantation and mixed crop-livestock"],
+            "examTip": "Shifting cultivation (slash and burn) is subsistence and extensive; market gardening is commercial and intensive — map these terms to Von Thünen rings."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Green Revolution and Biotechnology",
+            "topics": ["High-yield variety seeds", "GMOs and food security", "Environmental critiques"],
+            "examTip": "Green Revolution increased yields but also increased reliance on fertilizers and water — FRQs ask you to weigh benefits (less hunger) vs. costs (soil degradation, debt)."
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Agriculture and the Environment",
+            "topics": ["Soil degradation and desertification", "Water usage in irrigation", "Sustainable agriculture"],
+            "examTip": "The Aral Sea shrinkage is the canonical example of unsustainable irrigation — rivers diverted for cotton farming caused an environmental catastrophe."
+          }
+        ]
+      },
+      {
+        "unitNumber": 6,
+        "unitTitle": "Cities and Urban Land-Use",
+        "examWeight": "12–17%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Origins and Growth of Cities",
+            "topics": ["Site vs. situation", "Central place theory (Christaller)", "Urban hierarchy"],
+            "examTip": "Central place theory: threshold (minimum population to support a service) vs. range (maximum distance customers travel) — larger threshold = higher order place."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Urban Land-Use Models",
+            "topics": ["Concentric Zone (Burgess)", "Sector (Hoyt)", "Multiple Nuclei (Harris & Ullman)"],
+            "examTip": "Concentric Zone = rings from CBD; Sector = pie slices along transportation; Multiple Nuclei = several nodes — FRQs give a city diagram and ask you to identify the model."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Latin American, SE Asian, and Sub-Saharan City Models",
+            "topics": ["Griffin-Ford Latin American model", "McGee model (SE Asia)", "Sub-Saharan African city structure"],
+            "examTip": "Griffin-Ford: spine of commercial activity radiating from CBD with elite housing along it, shanty towns (disamenity zones) at periphery — inverse of US model."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Suburbanization and Sprawl",
+            "topics": ["Edge cities", "Boomburbs", "Urban sprawl consequences"],
+            "examTip": "Edge cities (Tyson's Corner, VA) have more jobs than bedrooms — distinguish from bedroom communities (commuter suburbs with no job centers)."
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Challenges of Urban Growth",
+            "topics": ["Informal settlements/squatter cities", "Urban heat island", "Environmental justice"],
+            "examTip": "Squatter settlements (favelas, bustees, bidonvilles) lack legal title and formal services — know regional terms; FRQs ask you to propose a realistic improvement strategy."
+          },
+          {
+            "lessonNumber": 6,
+            "lessonTitle": "Urban Renewal and Gentrification",
+            "topics": ["Redlining and disinvestment", "Gentrification displacement", "Smart growth and new urbanism"],
+            "examTip": "Gentrification raises property values, displacing lower-income residents — FRQs ask you to identify winners and losers; New Urbanism advocates walkable, mixed-use design."
+          }
+        ]
+      },
+      {
+        "unitNumber": 7,
+        "unitTitle": "Industrial and Economic Development",
+        "examWeight": "12–17%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Economic Development Models",
+            "topics": ["Rostow's stages of growth", "Wallerstein's world-systems theory", "Core-periphery model"],
+            "examTip": "Rostow (optimistic ladder): traditional → take-off → drive to maturity; Wallerstein (critical): core exploits periphery — FRQs ask you to critique both models."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Development Indicators",
+            "topics": ["GNI per capita, HDI, GII", "GDP vs. GNI distinction", "Limitations of single indicators"],
+            "examTip": "HDI combines income, education, and life expectancy — higher than GDP rank means good social programs (Cuba); lower means wealth without social investment (Gulf states)."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Industrial Location Theory",
+            "topics": ["Weber's least-cost theory", "Agglomeration and deglomeration", "Footloose industries"],
+            "examTip": "Weber: locate at minimum transport cost for inputs + outputs; bulk-gaining industries locate near market; bulk-reducing industries locate near raw materials."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Globalization and Trade",
+            "topics": ["New international division of labor", "Commodity chains", "Special economic zones"],
+            "examTip": "Maquiladoras (Mexico–US border) are the canonical SEZ example — cheap labor, lax regulation, export-oriented; commodity chains trace production from raw material to consumer."
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Sustainable Development",
+            "topics": ["Brundtland definition", "Alternative energy and green technology", "Microfinance and NGOs"],
+            "examTip": "Brundtland: 'meeting present needs without compromising future generations' ability to meet their own' — quote this definition exactly; FRQs love asking about it."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "courseId": "ap-english-language",
+    "courseName": "AP English Language and Composition",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Rhetorical Situation",
+        "examWeight": "~16%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "SOAPS and Context",
+            "topics": ["Speaker, Occasion, Audience, Purpose, Subject", "Exigence", "Constraints"],
+            "examTip": "Exigence = the urgency or problem that prompted the text; students often confuse it with purpose — exigence is WHY it was written NOW, purpose is WHAT the writer wants to achieve."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Audience and Register",
+            "topics": ["Intended vs. unintended audience", "Formal vs. informal register", "Tone and audience relationship"],
+            "examTip": "FRQ 2 (Rhetorical Analysis) always asks HOW choices affect the audience — never just label a device; explain the effect on the specific audience in context."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Purpose and Claim",
+            "topics": ["Informative, persuasive, narrative purposes", "Thesis vs. claim", "Implicit vs. explicit purpose"],
+            "examTip": "A complex thesis acknowledges complexity or tension — 'while X, Y because Z' scores higher than a simple assertion; practice writing nuanced claims, not just pro/con."
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Claims, Evidence, and Commentary",
+        "examWeight": "~18%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Types of Claims",
+            "topics": ["Claims of fact, value, and policy", "Thesis development", "Arguable vs. factual claims"],
+            "examTip": "Claims of policy argue 'should' — these require evidence for both the problem AND the solution; FRQ 3 (Argument) is almost always a policy claim."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Evidence Selection and Integration",
+            "topics": ["Anecdotal, statistical, and testimonial evidence", "Embedding quotations", "Source credibility"],
+            "examTip": "Evidence alone earns no points — commentary explaining HOW the evidence supports your claim is what differentiates a 4 from a 6 on the argument FRQ."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Counterargument and Concession",
+            "topics": ["Acknowledging opposing views", "Concession-refutation structure", "Straw man fallacy"],
+            "examTip": "Acknowledging a counterargument and then refuting or qualifying it shows sophistication — the 'complexity' point on the rubric requires engaging with tension, not ignoring it."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Logical Fallacies",
+            "topics": ["Ad hominem, false dichotomy, slippery slope", "Hasty generalization", "Appeal to tradition"],
+            "examTip": "MCQ passages often contain deliberate fallacies — identify the specific name and explain why it undermines the argument's logic, not just 'it's wrong'."
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Rhetorical Appeals",
+        "examWeight": "~20%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Ethos: Credibility and Trust",
+            "topics": ["Establishing credibility", "Shared values", "Acknowledging limitations"],
+            "examTip": "Ethos isn't just about credentials — a writer builds ethos by conceding points fairly, using precise language, and demonstrating knowledge; look for all three in FRQ passages."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Logos: Logic and Evidence",
+            "topics": ["Inductive vs. deductive reasoning", "Analogical reasoning", "Data and statistics"],
+            "examTip": "Logos questions ask about the STRUCTURE of the argument — inductive (specific → general) vs. deductive (general → specific); deductive is stronger if the premises are accepted."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Pathos: Emotional Connection",
+            "topics": ["Narrative and anecdote", "Vivid diction and imagery", "Shared values appeals"],
+            "examTip": "Pathos is NOT manipulation — it becomes manipulative only when it substitutes for evidence; in rhetorical analysis, explain which emotion is triggered and why it's effective here."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Kairos and Timeliness",
+            "topics": ["Right moment for argument", "Cultural context", "Exigence connection"],
+            "examTip": "Kairos = the opportune moment — King's 'Letter from Birmingham Jail' has high kairos because it responds directly to a published letter of criticism; timeliness strengthens ethos."
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Rhetorical Devices and Style",
+        "examWeight": "~20%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Syntax and Sentence Structure",
+            "topics": ["Periodic vs. cumulative sentences", "Parallelism and anaphora", "Fragments for effect"],
+            "examTip": "Periodic sentence withholds the main clause until the end (creates suspense); cumulative adds details after main clause (builds picture) — both appear on MCQ with effect questions."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Diction and Tone",
+            "topics": ["Connotation vs. denotation", "Abstract vs. concrete diction", "Shifts in tone"],
+            "examTip": "Tone shift questions: identify the before-tone, after-tone, and the turning word/phrase that signals the shift — 'yet', 'however', 'but' often mark the pivot."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Figurative Language",
+            "topics": ["Metaphor and extended metaphor", "Irony and satire", "Hyperbole and understatement"],
+            "examTip": "FRQ rhetorical analysis rarely rewards just naming 'metaphor' — explain what is being compared and how the comparison advances the author's argument or characterization."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Voice and Persona",
+            "topics": ["Authorial voice vs. persona", "Formal vs. colloquial voice", "Reliability of narrators"],
+            "examTip": "In synthesis and argument FRQs, your own voice matters — avoid passive constructions and hedging language like 'it could be argued'; be direct and assertive in your prose."
+          }
+        ]
+      },
+      {
+        "unitNumber": 5,
+        "unitTitle": "Synthesis",
+        "examWeight": "~14%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Reading and Annotating Sources",
+            "topics": ["Identifying source bias", "Cross-referencing sources", "Noting point of view"],
+            "examTip": "Synthesis FRQ requires using AT LEAST 3 of 6–7 provided sources — cite as (Source A) or (Source B); using 4+ sources distinguishes a 5 from a 6."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Building a Synthesis Argument",
+            "topics": ["Developing a central claim", "Integrating sources into your argument", "Avoiding summary"],
+            "examTip": "The most common synthesis mistake: summarizing each source in a separate paragraph instead of weaving them into your own argument — sources should support YOU, not the other way around."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Citation and Attribution",
+            "topics": ["In-text citation conventions", "Attributing vs. citing", "Avoiding plagiarism"],
+            "examTip": "You do NOT use MLA/APA format on the AP exam — simply write '(Source C)' or 'as the graph in Source D shows'; no bibliography required."
+          }
+        ]
+      },
+      {
+        "unitNumber": 6,
+        "unitTitle": "Argument and Writing",
+        "examWeight": "~12%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Crafting the Argument Essay",
+            "topics": ["Thesis with defensible claim", "Line of reasoning", "Evidence + commentary structure"],
+            "examTip": "The argument FRQ prompt gives you a statement to defend, challenge, or qualify — 'qualify' (agree with conditions) is the most sophisticated position and scores highest."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Organization and Transitions",
+            "topics": ["Body paragraph structure", "Transitional logic", "Coherence at essay level"],
+            "examTip": "Each body paragraph needs its own mini-claim (not just a topic sentence) that connects back to the thesis — a paragraph about evidence with no claim earns no reasoning points."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Revision and Editing Strategies",
+            "topics": ["Recognizing wordiness", "Strengthening weak claims", "Checking evidence integration"],
+            "examTip": "MCQ grammar questions: eliminate passive voice, vague pronouns, and dangling modifiers — these are the three most tested editing issues on the multiple-choice section."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "courseId": "ap-english-literature",
+    "courseName": "AP English Literature and Composition",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Short Fiction",
+        "examWeight": "~28% (fiction FRQ + MCQ)",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Narrative Structure and Plot",
+            "topics": ["Exposition, rising action, climax, falling action", "In medias res", "Frame narrative"],
+            "examTip": "FRQ 1 (prose analysis) focuses on HOW narrative choices create meaning — don't retell the plot; identify the specific structural choice and explain its effect."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Characterization",
+            "topics": ["Direct vs. indirect characterization", "Static vs. dynamic characters", "Foil characters"],
+            "examTip": "Foil questions: explain what the contrasting character REVEALS about the protagonist — never describe the foil in isolation; always link back to the main character's traits."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Point of View",
+            "topics": ["First person, limited third, omniscient", "Unreliable narrator", "Stream of consciousness"],
+            "examTip": "Unreliable narrator questions appear on MCQ — look for internal contradictions, self-serving logic, or dramatic irony where readers know more than the narrator."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Setting and Atmosphere",
+            "topics": ["Physical setting as character", "Pathetic fallacy", "Setting as symbol"],
+            "examTip": "Pathetic fallacy = nature reflects character's emotion (storm during grief) — FRQs ask how setting contributes to theme, not just describe what it looks like."
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Symbol and Motif",
+            "topics": ["Symbols vs. motifs", "Conventional vs. contextual symbols", "Developing motifs"],
+            "examTip": "A symbol must be earned by context — don't just call the color green 'hope'; trace how the text builds that symbolic meaning through repetition and contrast."
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Poetry",
+        "examWeight": "~28% (poetry FRQ + MCQ)",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Poetic Structure and Form",
+            "topics": ["Sonnet forms (Petrarchan, Shakespearean)", "Free verse vs. formal verse", "Stanza structure"],
+            "examTip": "Shakespearean sonnet: 3 quatrains + couplet; the volta (turn) often occurs at line 9 or in the couplet — FRQ poetry questions frequently ask about the effect of the volta."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Sound Devices",
+            "topics": ["Meter (iambic pentameter)", "Alliteration, assonance, consonance", "End rhyme vs. slant rhyme"],
+            "examTip": "Scansion errors are common: 'iambic pentameter' = 5 iambs (da-DUM) per line = 10 syllables — a spondee (DUM-DUM) or pyrrhic substitution signals stress emphasis."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Imagery and Sensory Detail",
+            "topics": ["Visual, auditory, tactile imagery", "Synesthesia", "Imagism"],
+            "examTip": "Imagery analysis: identify the sense, describe the specific image, then explain what emotional/thematic meaning it creates — three steps, not just one label."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Figurative Language in Poetry",
+            "topics": ["Personification and apostrophe", "Conceit (extended metaphor)", "Oxymoron and paradox"],
+            "examTip": "A conceit extends a metaphor throughout the poem (Donne's compass conceit) — FRQs ask you to trace HOW the comparison develops and WHERE it breaks down or complicates."
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Tone and Speaker",
+            "topics": ["Identifying tone with precision", "Speaker vs. poet", "Tonal shifts"],
+            "examTip": "Never say 'the poet feels' — say 'the speaker' or 'the narrator'; the speaker is a persona, not necessarily the author; FRQ graders deduct for conflating the two."
+          },
+          {
+            "lessonNumber": 6,
+            "lessonTitle": "Theme and Meaning",
+            "topics": ["Thematic statement vs. topic", "Universal vs. particular themes", "Ambiguity and multiple readings"],
+            "examTip": "Theme is a STATEMENT, not a word — not 'death' but 'confronting mortality forces recognition of what we value in life'; complexity comes from tension between competing themes."
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Longer Fiction and Drama",
+        "examWeight": "~28% (literary argument FRQ)",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Novel Structure",
+            "topics": ["Episodic vs. organic plots", "Multiple narrators and perspectives", "Circular vs. linear structure"],
+            "examTip": "FRQ 3 (literary argument) asks you to choose your own text — prepare 3–4 complex novels deeply; breadth of novels matters less than depth of analysis."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Tragic and Comic Conventions",
+            "topics": ["Aristotelian tragedy (hamartia, catharsis)", "Comic resolution vs. tragic endings", "Tragicomedy"],
+            "examTip": "Hamartia is a 'fatal flaw' — but in complex texts it's often a strength taken too far (Macbeth's ambition); FRQs reward this nuanced interpretation."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Motif and Thematic Development",
+            "topics": ["Recurring motifs across chapters", "Thematic evolution", "Subplots as thematic commentary"],
+            "examTip": "Subplots often mirror or invert the main plot's theme — the Gloucester subplot in Lear mirrors Lear's blindness theme; FRQs give points for connecting subplot to main theme."
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Social and Historical Context",
+            "topics": ["Reading through historical lens", "Class, race, gender in literature", "Authorial context vs. text"],
+            "examTip": "Contextualize but don't reduce — a good FRQ argument uses historical context to illuminate the text's meaning, not to replace close reading with plot summary."
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Literary Argument Writing",
+        "examWeight": "~16%",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Crafting a Literary Thesis",
+            "topics": ["Interpretive claim", "Tension and complexity in thesis", "Avoiding plot summary"],
+            "examTip": "Strongest literary thesis format: 'In [work], [author] uses [technique] to suggest [complex thematic claim]' — the claim must be ARGUABLE, not just observable."
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Close Reading as Evidence",
+            "topics": ["Textual evidence selection", "Quoting vs. paraphrasing", "Embedding quotes with analysis"],
+            "examTip": "Embed short quotes (4 words or fewer) mid-sentence with analysis — avoid block quotes; each quoted word should be earning its place by proving your specific claim."
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Complexity and Sophistication",
+            "topics": ["Multiple interpretations", "Qualifying the argument", "Acknowledging ambiguity"],
+            "examTip": "The '1 complexity point' on the rubric requires going beyond a simple claim — complicate your thesis by acknowledging where the text challenges or complicates your reading."
+          }
+        ]
+      }
+    ]
+  }
+]

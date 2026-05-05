@@ -1,86 +1,142 @@
+"use client";
+
 import Link from "next/link";
+
+const cols = [
+  {
+    heading: "Missions",
+    links: [
+      { label: "AP Biology",     href: "/courses/ap-biology" },
+      { label: "AP Chemistry",   href: "/courses" },
+      { label: "AP Calculus BC", href: "/courses" },
+      { label: "AMC 10/12",      href: "/courses" },
+      { label: "SAT",            href: "/courses" },
+    ],
+  },
+  {
+    heading: "Command",
+    links: [
+      { label: "About",                 href: "#" },
+      { label: "Pricing",               href: "/pricing" },
+      { label: "Hero Codes",            href: "/hero-codes" },
+      { label: "Admissions Consulting", href: "/pricing" },
+    ],
+  },
+  {
+    heading: "Contact",
+    links: [
+      { label: "inheroedu@gmail.com", href: "mailto:inheroedu@gmail.com" },
+      { label: "inheroedu.com",       href: "https://inheroedu.com" },
+    ],
+  },
+];
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer style={{ background: "#05050F", borderTop: "1px solid rgba(0,255,136,0.06)", position: "relative", zIndex: 10 }}>
+      {/* Scanline */}
+      <div className="scanlines" style={{ position: "absolute", inset: 0, opacity: 0.4, pointerEvents: "none" }} />
+
+      <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "60px 24px 40px", position: "relative" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "40px" }} className="md:grid-cols-4">
+
           {/* Brand */}
-          <div className="md:col-span-1">
-            <div className="flex items-center gap-2 font-extrabold text-xl mb-3">
-              <span className="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center text-white text-xs font-black">
-                IH
+          <div>
+            <div style={{ marginBottom: "16px" }}>
+              <span style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontWeight: 700,
+                fontSize: "20px",
+                letterSpacing: "-0.03em",
+                color: "#fff",
+              }}>
+                In<span style={{ color: "#00FF88" }}>Hero</span>
               </span>
-              <span className="text-gray-900 dark:text-white">
-                In<span className="text-primary-500">Hero</span>
-              </span>
+              <p style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: "9px",
+                letterSpacing: "0.18em",
+                color: "#2a2a3a",
+                textTransform: "uppercase",
+                marginTop: "4px",
+              }}>
+                MISSION CONTROL
+              </p>
             </div>
-            <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-              Cornell 재학생이 만든<br />
-              AP 전문 학습 플랫폼
+            <p style={{ fontSize: "13px", lineHeight: 1.7, color: "#444466", maxWidth: "200px" }}>
+              The elite study engine for students who refuse to be average.
             </p>
-            <p className="text-xs text-gray-400 dark:text-gray-500 mt-4">
-              © 2025 InHero. All rights reserved.
+            <p style={{ fontSize: "11px", marginTop: "20px", color: "#2a2a3a", fontFamily: "'JetBrains Mono', monospace" }}>
+              © 2025 InHero
             </p>
           </div>
 
-          {/* Courses */}
-          <div>
-            <h3 className="font-semibold text-sm text-gray-900 dark:text-white mb-4">강의</h3>
-            <ul className="space-y-2.5">
-              {["AP Biology", "AP Chemistry", "AP Calculus BC", "AMC 10/12", "SAT"].map((item) => (
-                <li key={item}>
-                  <Link href="/courses" className="text-sm text-gray-500 dark:text-gray-400 hover:text-primary-500 transition-colors">
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h3 className="font-semibold text-sm text-gray-900 dark:text-white mb-4">회사</h3>
-            <ul className="space-y-2.5">
-              {[
-                { label: "소개", href: "#" },
-                { label: "요금제", href: "/pricing" },
-                { label: "블로그", href: "#" },
-                { label: "대입 컨설팅", href: "/pricing" },
-              ].map((item) => (
-                <li key={item.label}>
-                  <Link href={item.href} className="text-sm text-gray-500 dark:text-gray-400 hover:text-primary-500 transition-colors">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h3 className="font-semibold text-sm text-gray-900 dark:text-white mb-4">연락처</h3>
-            <ul className="space-y-2.5">
-              <li className="text-sm text-gray-500 dark:text-gray-400">
-📧 inheroedu@gmail.com
-              </li>
-              <li className="text-sm text-gray-500 dark:text-gray-400">
-💬 카카오톡: @inhero (InHero 인히어로에듀)
-              </li>
-              <li className="text-sm text-gray-500 dark:text-gray-400">
-🌐 inheroedu.com
-              </li>
-            </ul>
-          </div>
+          {/* Link columns */}
+          {cols.map((col) => (
+            <div key={col.heading}>
+              <h3 style={{
+                fontSize: "10px",
+                fontWeight: 700,
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                color: "#444466",
+                fontFamily: "'JetBrains Mono', monospace",
+                marginBottom: "20px",
+              }}>
+                {col.heading}
+              </h3>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
+                {col.links.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      style={{
+                        fontSize: "13px",
+                        color: "#444466",
+                        textDecoration: "none",
+                        transition: "color 200ms",
+                      }}
+                      onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#00FF88")}
+                      onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#444466")}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        <div className="mt-10 pt-8 border-t border-gray-200 dark:border-gray-700 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-gray-400 dark:text-gray-500">
-            본 서비스는 교육 목적으로 제공되며 AP, SAT, AMC는 College Board 및 MAA의 등록 상표입니다.
+        {/* Bottom bar */}
+        <div style={{
+          marginTop: "48px",
+          paddingTop: "24px",
+          borderTop: "1px solid rgba(255,255,255,0.04)",
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "12px",
+        }}>
+          <p style={{ fontSize: "11px", color: "#2a2a3a", fontFamily: "'JetBrains Mono', monospace" }}>
+            AP, SAT, and AMC are registered trademarks of College Board and MAA.
           </p>
-          <div className="flex gap-4">
-            <Link href="#" className="text-xs text-gray-400 hover:text-primary-500 transition-colors">개인정보처리방침</Link>
-            <Link href="#" className="text-xs text-gray-400 hover:text-primary-500 transition-colors">이용약관</Link>
+          <div style={{ display: "flex", gap: "20px" }}>
+            {[
+              { label: "Privacy Policy", href: "#" },
+              { label: "Terms",          href: "#" },
+            ].map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                style={{ fontSize: "11px", color: "#2a2a3a", textDecoration: "none", transition: "color 200ms", fontFamily: "'JetBrains Mono', monospace" }}
+                onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#444466")}
+                onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#2a2a3a")}
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

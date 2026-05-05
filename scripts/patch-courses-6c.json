@@ -1,0 +1,938 @@
+[
+  {
+    "courseId": "integrated-science",
+    "courseName": "Integrated Science",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Scientific Method and Tools",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What Scientists Actually Do (It's Not a Checklist)",
+            "topics": ["Observation vs. inference", "Scientific question vs. testable hypothesis", "Why science is iterative, not linear"],
+            "examTip": "Students write hypotheses as questions — a hypothesis must be a TESTABLE STATEMENT in 'if...then...' form; 'Does sunlight affect plant growth?' is a question, not a hypothesis; 'If a plant receives more sunlight, then it will grow taller' is a testable prediction"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "The Difference Between a Good Experiment and a Guess",
+            "topics": ["Independent variable (what you change), dependent variable (what you measure)", "Control group and controlled variables", "Why you can only change ONE variable at a time"],
+            "examTip": "Students confuse the control group with the controlled variables — the CONTROL GROUP is the untreated baseline for comparison; CONTROLLED VARIABLES are factors kept constant throughout; both are required for a valid experiment"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Scientists Measure Things Accurately",
+            "topics": ["Accuracy vs. precision", "Significant figures basics", "Metric system: kilo-, centi-, milli-, conversions"],
+            "examTip": "Students use 'accurate' and 'precise' as synonyms — a dartboard analogy clarifies it: precise = clustered together (reproducible); accurate = close to the bullseye (correct); you can be precise and wrong, or accurate but inconsistent"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How to Read Data and Tell If It Supports Your Hypothesis",
+            "topics": ["Tables vs. graphs: when to use which", "Interpreting line graphs: trends and outliers", "Correlation: patterns in data without claiming cause"],
+            "examTip": "Students say data 'proves' a hypothesis — science never proves; data SUPPORTS or REFUTES a hypothesis; the correct language is 'the data is consistent with' or 'the data does not support'; one experiment never gives final proof"
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Physical Science Basics",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What Matter Is Made Of and How We Know",
+            "topics": ["Atoms, elements, compounds, mixtures", "Physical vs. chemical properties", "States of matter and particle motion"],
+            "examTip": "Students confuse compounds and mixtures — in a COMPOUND, elements are chemically bonded in fixed ratios (water is always H₂O); in a MIXTURE, substances are physically combined and can be separated without a chemical reaction"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "What a Chemical Reaction Is (and Isn't)",
+            "topics": ["Signs of a chemical reaction: gas, precipitate, color change, heat", "Conservation of mass", "Physical change vs. chemical change"],
+            "examTip": "Students say ice melting is a chemical change because 'it looks different' — a physical change alters form but NOT chemical identity; melting, dissolving, and cutting are physical; burning, rusting, and digesting are chemical; the substance identity either changes or it doesn't"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Forces Change Motion (Newton's Laws in Plain Language)",
+            "topics": ["Force, mass, and acceleration: F = ma concept", "Balanced vs. unbalanced forces", "Friction and gravity as everyday forces"],
+            "examTip": "Students say an object moving at constant speed has no forces on it — constant speed means forces are BALANCED (net force = 0), not absent; a car cruising requires engine force to balance friction; zero net force ≠ no forces"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "What Energy Is and Why It Can't Disappear",
+            "topics": ["Kinetic vs. potential energy", "Law of conservation of energy", "Energy transformations in everyday systems"],
+            "examTip": "Students say energy is 'lost' in a system — energy is TRANSFORMED, not destroyed; a roller coaster converts PE to KE to heat (friction); 'lost' energy became thermal energy; asking where the energy WENT is the correct scientific framing"
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Life Science Basics",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What Makes Something Alive",
+            "topics": ["Seven characteristics of life: MRS GREN", "Cell as basic unit of life", "Unicellular vs. multicellular organisms"],
+            "examTip": "Students say fire and cars are alive because they grow and use energy — life requires ALL characteristics (reproduction, response to environment, homeostasis, cells); fire lacks cells and cannot reproduce; applying all criteria simultaneously is essential"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Cells Get Energy: The Short Version",
+            "topics": ["Photosynthesis: light + CO₂ + water → glucose + oxygen", "Cellular respiration: glucose + oxygen → CO₂ + water + energy", "Why both processes are essential to life on Earth"],
+            "examTip": "Students say only plants do photosynthesis and only animals do respiration — ALL living cells perform cellular respiration; plants do BOTH photosynthesis AND respiration; in darkness, a plant only respires and actually releases CO₂"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Traits Are Passed From Parents to Offspring",
+            "topics": ["DNA as hereditary molecule", "Dominant and recessive alleles", "Simple Punnett square predictions"],
+            "examTip": "Students say a dominant trait is more common in a population — dominant means it's expressed when present, NOT that it's more frequent; a dominant disease allele can be rare; frequency in a population has nothing to do with dominance"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Why Living Things Are Classified Into Groups",
+            "topics": ["Taxonomy: domain, kingdom, phylum...species", "Binomial nomenclature (genus species)", "Why shared characteristics drive classification"],
+            "examTip": "Students write binomial nomenclature with both words capitalized — only the GENUS is capitalized; the species epithet is lowercase: Homo sapiens, not Homo Sapiens; when handwritten, both words are underlined; when typed, both are italicized"
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Earth Science Basics",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What the Rock Cycle Tells Us About Earth's History",
+            "topics": ["Three rock types: igneous, sedimentary, metamorphic", "How each type forms and transforms", "Reading rock layers (strata) as a timeline"],
+            "examTip": "Students say rocks always follow the cycle in one direction — the rock cycle has NO fixed order; igneous rock can become metamorphic directly under heat/pressure without becoming sedimentary first; arrows go multiple directions"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Plate Tectonics Explains Earthquakes, Volcanoes, and Mountains",
+            "topics": ["Convergent, divergent, and transform boundaries", "Evidence for plate tectonics: seafloor spreading, fossil distribution", "Why plate boundaries are where action happens"],
+            "examTip": "Students say earthquakes only occur at plate boundaries — MOST earthquakes occur at boundaries, but intraplate earthquakes exist; the New Madrid Seismic Zone in the US interior is a tested example; 'most' and 'only' are different claims"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "What Weather vs. Climate Actually Means",
+            "topics": ["Weather = short-term atmospheric conditions; climate = long-term patterns", "Factors affecting climate: latitude, altitude, ocean currents", "Why 'it's cold today' doesn't disprove climate change"],
+            "examTip": "Students use weather events as evidence for or against climate change — weather is day-to-day; climate is 30+ year patterns; a cold snap is a weather event; climate change refers to shifts in the GLOBAL AVERAGE over decades, not individual days"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "courseId": "geometry",
+    "courseName": "Geometry",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Foundations and Proof",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "The Building Blocks: Points, Lines, and Planes Have Rules",
+            "topics": ["Undefined terms: point, line, plane", "Postulates vs. theorems", "Segment and angle notation"],
+            "examTip": "Students treat a postulate and a theorem as the same thing — a POSTULATE is assumed true without proof (a starting rule); a THEOREM is proved using postulates and other theorems; the difference matters when writing proofs"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How to Write a Two-Column Proof Without Getting Stuck",
+            "topics": ["Statement-reason format", "Properties of equality and congruence", "Common reasons: given, definition, postulate, theorem"],
+            "examTip": "Students write 'because it looks equal' or 'obvious' as reasons — every reason must be a named DEFINITION, POSTULATE, or THEOREM; acceptable reasons are formal mathematical names; informal observations earn no credit in a proof"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "What Congruence Actually Means (Not Just 'Same Size')",
+            "topics": ["Congruent segments and angles: exact same measure", "Congruence vs. equality (≅ vs. =)", "Midpoint and angle bisector definitions"],
+            "examTip": "Students write AB = CD when they mean AB ≅ CD — segments and angles are CONGRUENT (≅); their MEASURES are equal (=); 'AB = CD' means the lengths are equal numbers; '∠A = ∠B' should be '∠A ≅ ∠B' unless referring to degree measures"
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Triangles",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Why Triangles Always Add Up to 180° (and How to Use That)",
+            "topics": ["Triangle angle sum theorem", "Exterior angle theorem", "Finding missing angles in multi-triangle figures"],
+            "examTip": "Students apply the 180° rule to quadrilaterals — the interior angle sum is 180° only for TRIANGLES; for any polygon, sum = (n−2) × 180°; a quadrilateral sums to 360°, not 180°"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How to Prove Two Triangles Are Congruent (All Five Shortcuts)",
+            "topics": ["SSS, SAS, ASA, AAS, HL congruence shortcuts", "Why SSA and AAA do NOT guarantee congruence", "CPCTC as a reason after proving congruence"],
+            "examTip": "Students use SSA (Side-Side-Angle) as a congruence shortcut — SSA is NOT valid and can produce two different triangles (the ambiguous case); HL (Hypotenuse-Leg) is valid ONLY for right triangles; SSA for non-right triangles does not prove congruence"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "What's Special About Isosceles and Equilateral Triangles",
+            "topics": ["Isosceles triangle theorem: base angles are equal", "Converse: equal angles means equal sides", "Equilateral = equiangular = 60° each"],
+            "examTip": "Students identify the 'base' of an isosceles triangle as the bottom side regardless of orientation — the BASE is the NON-EQUAL side (between the two equal sides); the figure can be rotated; always identify which two sides are equal first"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How the Pythagorean Theorem Works and When to Use It",
+            "topics": ["a² + b² = c² where c is the hypotenuse", "Pythagorean triples: 3-4-5, 5-12-13, 8-15-17", "Converse: if a²+b²=c², then it's a right triangle"],
+            "examTip": "Students assign c to any side — c is ALWAYS the hypotenuse (the longest side, opposite the right angle); assigning c to a leg and solving gives a wrong answer every time; identify the right angle first, then c is the side opposite it"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Special Right Triangles: The Two Shortcuts Worth Memorizing",
+            "topics": ["45-45-90: legs = x, hypotenuse = x√2", "30-60-90: short leg = x, long leg = x√3, hypotenuse = 2x", "Recognizing when to apply each"],
+            "examTip": "Students multiply the SHORT leg by 2 to get the hypotenuse in a 30-60-90 — this is correct ONLY when the SHORT LEG is x; if given the hypotenuse or long leg, divide first to find x, then multiply; starting from the wrong side cascades into wrong answers"
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Quadrilaterals and Polygons",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "The Hierarchy of Quadrilaterals (Every Square Is a Rectangle — Not Vice Versa)",
+            "topics": ["Quadrilateral → parallelogram → rectangle/rhombus → square", "Properties of each type", "Trapezoid and isosceles trapezoid"],
+            "examTip": "Students say 'a rectangle is a square' — a square IS a rectangle (all squares have 4 right angles) but a rectangle is NOT necessarily a square (it doesn't need equal sides); the hierarchy flows one way; Venn diagram thinking prevents this error"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "What Parallelogram Properties Let You Solve Problems",
+            "topics": ["Opposite sides equal and parallel; opposite angles equal", "Consecutive angles supplementary", "Diagonals bisect each other"],
+            "examTip": "Students say diagonals of a parallelogram are equal — diagonals bisect each other in ALL parallelograms, but they are only EQUAL in a rectangle; only PERPENDICULAR in a rhombus; only BOTH in a square; don't over-apply properties"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How to Find Interior and Exterior Angles of Any Polygon",
+            "topics": ["Interior angle sum = (n−2) × 180°", "Each interior angle of regular polygon = (n−2)×180°/n", "Each exterior angle of regular polygon = 360°/n"],
+            "examTip": "Students confuse interior and exterior angle formulas — for a REGULAR polygon: each EXTERIOR angle = 360°/n (always); each INTERIOR angle = 180° − exterior angle; students frequently apply the 360°/n formula to find interior angles, getting the wrong answer"
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Circles",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "All the Parts of a Circle and What They're Called",
+            "topics": ["Radius, diameter, chord, secant, tangent", "Central angle, inscribed angle, arc", "Arc measure vs. arc length"],
+            "examTip": "Students confuse arc MEASURE (in degrees) and arc LENGTH (in linear units) — arc measure equals the central angle in degrees; arc length = (arc measure/360) × 2πr; these require different formulas and are frequently mixed up"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "The Inscribed Angle Theorem: Half the Central Angle",
+            "topics": ["Inscribed angle = half the intercepted arc", "Inscribed angle in a semicircle = 90°", "Two inscribed angles intercepting the same arc are equal"],
+            "examTip": "Students set inscribed angle equal to the arc instead of half the arc — the inscribed angle is HALF the intercepted arc; the central angle EQUALS the intercepted arc; confusing which is which produces exactly the wrong answer"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Tangent Lines and the Radius Are Always Related",
+            "topics": ["Tangent perpendicular to radius at point of tangency", "Two tangents from external point are equal length", "Tangent-chord angle = half intercepted arc"],
+            "examTip": "Students forget the 90° angle at the point of tangency — when a tangent meets a radius, they form a RIGHT ANGLE; this creates right triangles in problems where none seem obvious; most tangent-line problems are secretly Pythagorean theorem problems"
+          }
+        ]
+      },
+      {
+        "unitNumber": 5,
+        "unitTitle": "Coordinate Geometry",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How Distance and Midpoint Formulas Come From Pythagorean Theorem",
+            "topics": ["Distance formula: d = √[(x₂−x₁)²+(y₂−y₁)²]", "Midpoint formula: M = ((x₁+x₂)/2, (y₁+y₂)/2)", "Applying to prove geometric properties"],
+            "examTip": "Students average the x-coordinates but subtract the y-coordinates in midpoint (or vice versa) — midpoint takes the AVERAGE of BOTH x AND y; both coordinates use the same averaging operation; students sometimes apply the distance formula operation to midpoint"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How to Prove a Shape Is What You Say It Is Using Coordinates",
+            "topics": ["Proving parallelogram: equal and parallel opposite sides", "Proving rectangle: perpendicular adjacent sides (slopes are negative reciprocals)", "Using distance and slope together"],
+            "examTip": "Students prove a rectangle by showing all four sides equal — equal sides proves a RHOMBUS, not a rectangle; to prove rectangle, show right angles using PERPENDICULAR SLOPES (negative reciprocal slopes); these two proofs are completely different"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "What the Equation of a Circle Means Geometrically",
+            "topics": ["Standard form: (x−h)² + (y−k)² = r²", "Identifying center (h,k) and radius from equation", "Completing the square to convert general form"],
+            "examTip": "Students read center from (x−h)²+(y−k)²=r² as (−h, −k) — the center is (h, k) with the OPPOSITE signs of what appears in the equation; (x−3)²+(y+2)²=25 has center (3, −2), not (−3, 2); the sign flip is the same trap as vertex form of a parabola"
+          }
+        ]
+      },
+      {
+        "unitNumber": 6,
+        "unitTitle": "3D Geometry and Volume",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How Surface Area and Volume Are Different Problems",
+            "topics": ["Surface area: sum of all face areas", "Volume: space inside the figure", "Units: SA in square units, V in cubic units"],
+            "examTip": "Students use volume formula when asked for surface area (and vice versa) — SURFACE AREA measures the OUTSIDE wrapping (square units); VOLUME measures what it holds (cubic units); re-read the question to identify which is asked before selecting a formula"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "The Formula Patterns for Prisms, Cylinders, Pyramids, and Cones",
+            "topics": ["Prism/cylinder: V = Bh (base area × height)", "Pyramid/cone: V = ⅓Bh", "Sphere: V = (4/3)πr³, SA = 4πr²"],
+            "examTip": "Students forget the ⅓ in pyramid and cone volume — pyramids and cones hold EXACTLY one-third the volume of the corresponding prism or cylinder with the same base and height; physically, three conical fills equal one cylinder; forgetting this gives volume 3× too large"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Scale Factor Changes Size, Area, and Volume",
+            "topics": ["Linear scale factor k: lengths multiply by k", "Area scale factor: k²", "Volume scale factor: k³"],
+            "examTip": "Students apply the linear scale factor to area and volume — if a figure is scaled by k, LENGTHS multiply by k, AREAS by k², VOLUMES by k³; doubling all dimensions of a box makes it 8× the volume (2³), not 2× or 4×; students consistently under-apply the exponent"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "courseId": "algebra",
+    "courseName": "Algebra",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Foundations of Algebra",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What a Variable Actually Means (And Why x Isn't Scary)",
+            "topics": ["Variable as a placeholder for an unknown number", "Evaluating expressions by substitution", "Difference between an expression and an equation"],
+            "examTip": "Students add variables and numbers: 3x + 4 = 7x — you CANNOT combine 3x and 4 because they are unlike terms (different kinds); 3x + 4 is already fully simplified; only LIKE TERMS (same variable, same exponent) can be combined"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "The Order of Operations Is Not Optional",
+            "topics": ["PEMDAS: Parentheses, Exponents, Multiply/Divide, Add/Subtract", "Left-to-right for equal priority operations", "Common mistakes with subtraction and division"],
+            "examTip": "Students do addition before subtraction because 'A comes before S' in PEMDAS — addition and subtraction have EQUAL priority; work LEFT TO RIGHT; 10 − 3 + 2 = 9 (not 5); the same applies to multiplication and division"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How to Combine Like Terms Without Losing Anything",
+            "topics": ["Identifying like terms: same variable, same exponent", "The distributive property: a(b+c) = ab+ac", "Simplifying expressions step by step"],
+            "examTip": "Students distribute only to the first term in parentheses: 3(x + 4) = 3x + 4 — the 3 must multiply EVERY term inside: 3(x + 4) = 3x + 12; forgetting to distribute to the constant is the most common distributive property error"
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Linear Equations and Inequalities",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How to Solve an Equation by Undoing What Was Done to x",
+            "topics": ["Inverse operations to isolate the variable", "Two-step and multi-step equations", "Checking solutions by substituting back"],
+            "examTip": "Students perform operations in PEMDAS order when solving — solving equations reverses PEMDAS; undo addition/subtraction FIRST (outermost operations), then multiplication/division (innermost); doing it in PEMDAS order locks the variable inside instead of isolating it"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "What Happens When You Solve an Equation With Variables on Both Sides",
+            "topics": ["Moving all variable terms to one side", "Combining like terms across the equals sign", "Equations with no solution or infinitely many solutions"],
+            "examTip": "Students get 0 = 0 or 5 = 3 and say there's no solution in both cases — 0 = 0 (always true) means INFINITELY MANY solutions (all values work); 5 = 3 (always false) means NO solution; these are opposite conclusions from similar-looking steps"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "The One Rule That Makes Inequalities Different from Equations",
+            "topics": ["Solving inequalities like equations — except one rule", "Flip the inequality when multiplying or dividing by a negative", "Graphing solutions on a number line: open vs. closed circle"],
+            "examTip": "Students flip the inequality sign every time they touch a negative number — only flip when MULTIPLYING or DIVIDING both sides by a negative; subtracting a negative (adding) does NOT flip the sign; the sign flip rule is specifically about the operation, not the presence of negatives"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How to Write and Solve Equations From Word Problems",
+            "topics": ["Defining the variable before writing an equation", "Translating verbal phrases to algebraic expressions", "Checking that your answer makes sense in context"],
+            "examTip": "Students define x as 'the problem' rather than a specific quantity — define x precisely: 'let x = the number of apples Sarah bought'; vague definitions lead to equations that solve for the wrong thing; the definition determines what your answer means"
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Functions and Graphs",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What Makes a Relationship a Function (The Rule Every Graph Must Follow)",
+            "topics": ["Function: each input has exactly one output", "Vertical line test on graphs", "Function notation: f(x) means output when input is x"],
+            "examTip": "Students say x = 3 is a function because 'it's just a line' — a VERTICAL line fails the vertical line test and is NOT a function; every x must map to exactly one y; x = 3 maps one x-value to infinitely many y-values, violating the definition"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How to Graph a Line from an Equation Without Making a Table",
+            "topics": ["Slope-intercept form: y = mx + b", "Plotting y-intercept, then using slope to find next point", "Horizontal and vertical lines: y = k and x = h"],
+            "examTip": "Students plot the slope as a single point instead of a ratio — slope is RISE OVER RUN, meaning 'go up rise units, then right run units'; a slope of 3/4 means up 3 RIGHT 4 from any point; treating slope as just another coordinate to plot gives a random point, not the next point on the line"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Domain and Range Describe What a Function Can Do",
+            "topics": ["Domain: all valid inputs (x-values)", "Range: all resulting outputs (y-values)", "Restrictions: no division by zero, no square root of negative"],
+            "examTip": "Students give range as all real numbers for y = x² — the RANGE of y = x² is y ≥ 0 because squaring any real number gives a non-negative result; the graph only exists at and above the x-axis; always consider what output values are actually achievable"
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Polynomials",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How to Add, Subtract, and Multiply Polynomials",
+            "topics": ["Combining like terms (same variable, same degree)", "Distributing a monomial: multiply each term", "FOIL for binomial multiplication"],
+            "examTip": "Students add exponents when adding like terms: x² + x² = x⁴ — adding like terms ADDS the coefficients, not the exponents: x² + x² = 2x²; MULTIPLYING terms adds exponents: x² · x² = x⁴; addition and multiplication are completely different operations"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How to Factor Out the GCF (The First Thing You Always Try)",
+            "topics": ["Finding the greatest common factor of all terms", "Factoring GCF from a polynomial", "Why factoring is the reverse of distributing"],
+            "examTip": "Students factor out a number that doesn't divide all terms evenly — the GCF must divide INTO every single term; to find it, list the factors of each coefficient and each variable, then pick the highest common value; after factoring, check by distributing back"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How to Factor a Trinomial x² + bx + c",
+            "topics": ["Finding two numbers that multiply to c and add to b", "Writing as (x + p)(x + q)", "Signs: when both positive, both negative, or mixed"],
+            "examTip": "Students guess factors without checking the signs systematically — for x² − 5x + 6: multiply to +6 and add to −5 means BOTH numbers must be negative (−2 × −3 = +6, −2 + −3 = −5); drawing a small table of factor pairs and their sums is faster than guessing"
+          }
+        ]
+      },
+      {
+        "unitNumber": 5,
+        "unitTitle": "Quadratics",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What a Parabola's Vertex and Axis of Symmetry Tell You",
+            "topics": ["Vertex: minimum or maximum point", "Axis of symmetry: x = −b/2a", "Opening direction from sign of a"],
+            "examTip": "Students find the axis of symmetry as −b/a instead of −b/2a — the axis of symmetry formula is x = −b/(2a), where 2a is in the denominator; forgetting the 2 gives an axis that's off by a factor of 2; write the full formula before substituting"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How to Solve a Quadratic Equation Three Different Ways",
+            "topics": ["Factoring: set each factor = 0 (Zero Product Property)", "Square root method: when no bx term", "Quadratic formula: always works"],
+            "examTip": "Students apply the quadratic formula to every problem before trying to factor — factoring is faster and less error-prone when the quadratic factors nicely; use the discriminant (b²−4ac) first: if it's a perfect square, factor; if not, use the formula"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "What the Discriminant Predicts Before You Solve",
+            "topics": ["b² − 4ac > 0: two real solutions", "b² − 4ac = 0: one real solution", "b² − 4ac < 0: no real solutions"],
+            "examTip": "Students compute the discriminant as b² − 4c (omitting a) — the discriminant is b² − 4AC, where ALL THREE of a, b, and c must be identified from ax² + bx + c = 0; omitting a (or using the unset equation) gives wrong discrimination results"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "courseId": "english",
+    "courseName": "English",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Reading Comprehension",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How to Find What the Author Is Really Saying",
+            "topics": ["Main idea vs. topic", "Explicit vs. implicit meaning", "Distinguishing major details from minor ones"],
+            "examTip": "Students confuse the topic with the main idea — the TOPIC is what it's about ('dogs'); the MAIN IDEA is what the author says about it ('Dogs make better companions than cats because...'); the main idea must be a STATEMENT, not just a label"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Authors Use Evidence to Support Their Points",
+            "topics": ["Facts vs. opinions", "How supporting details connect to the main idea", "Evaluating whether evidence is relevant and sufficient"],
+            "examTip": "Students accept any statement as a fact if it sounds authoritative — a FACT is verifiable and can be proven true or false; an OPINION is a belief or judgment ('this is the best policy'); statements using 'should,' 'best,' 'worst,' or 'I believe' signal opinions"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How to Infer What the Author Didn't Say Directly",
+            "topics": ["Inference: using evidence + background knowledge", "What 'reading between the lines' actually means", "Avoiding inferences that go beyond the text"],
+            "examTip": "Students make inferences that the text doesn't support — a valid inference must be SUPPORTED BY TEXTUAL EVIDENCE; it's not a guess about anything beyond what the text implies; if no evidence points to your inference, it's speculation, not inference"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How Vocabulary Context Clues Help You Figure Out Unknown Words",
+            "topics": ["Definition context clues: the word is explained nearby", "Contrast clues: antonym signals", "Example clues: lists and illustrations"],
+            "examTip": "Students look up words in their head without checking context — the CONTEXT meaning may differ from the dictionary definition; a word like 'draft' or 'charge' has multiple meanings; always use the surrounding sentences to determine which meaning fits"
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Writing Fundamentals",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How to Write a Thesis That Actually Takes a Position",
+            "topics": ["Thesis = one arguable claim, not a topic announcement", "Where the thesis goes: end of introduction", "The difference between a topic sentence and a thesis"],
+            "examTip": "Students write 'In this essay I will discuss...' as a thesis — this announces a topic, not an argument; a thesis must make a CLAIM that can be agreed with or disagreed with; 'Social media harms teenagers because it disrupts sleep and amplifies anxiety' is a thesis"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "What a Strong Body Paragraph Must Include",
+            "topics": ["Topic sentence that supports the thesis", "Evidence: quote, example, or data", "Commentary explaining what the evidence proves"],
+            "examTip": "Students end paragraphs after a quote — a quote needs COMMENTARY explaining what it means and how it proves the topic sentence; 'This quote shows...' followed by real explanation; ending with evidence alone leaves the reader to make the connection for you"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Common Grammar Mistakes That Change Your Meaning",
+            "topics": ["Run-on sentences and comma splices", "Sentence fragments: missing subject or verb", "Subject-verb agreement with tricky subjects"],
+            "examTip": "Students fix comma splices by adding a comma before 'however' — 'however' is a conjunctive adverb, not a coordinating conjunction; joining two independent clauses requires either a SEMICOLON before 'however' or a period; 'I tried, however I failed' is still a comma splice"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How Transitions Connect Ideas (Not Just Fill Space)",
+            "topics": ["Transitions showing addition, contrast, cause-effect, example", "Using transitions to signal logical relationships", "Overused transitions to replace"],
+            "examTip": "Students start every paragraph with 'Also' or 'Additionally' — these only show ADDITION; use transitions that reflect the actual logical relationship: contrast (however, although), cause-effect (therefore, as a result), emphasis (indeed, above all); 'also' for every paragraph suggests no logical structure"
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Literature",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How to Identify What a Story Is Really About (Theme vs. Plot)",
+            "topics": ["Plot = what happens; theme = what it means", "Universal themes across different stories", "How multiple elements contribute to theme"],
+            "examTip": "Students write theme as one word ('friendship') — theme is a SENTENCE that makes a claim: 'True friendship requires accepting someone's flaws, not just their strengths'; the one-word version is a topic, not a theme; always push from the topic word to a full thematic statement"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How to Analyze a Character as More Than Just Their Traits",
+            "topics": ["How characters are revealed through actions, speech, thoughts", "Dynamic vs. static characters", "How characters change in response to conflict"],
+            "examTip": "Students list personality traits rather than analyzing them — describing a character as 'brave' earns no credit; analyzing HOW the author shows bravery through specific actions, what the bravery COSTS the character, and what it REVEALS about the theme is the actual analytical task"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Figurative Language Creates Meaning Beyond Literal Words",
+            "topics": ["Simile and metaphor: comparison and what it reveals", "Personification: giving human qualities to nonhuman things", "Symbolism: objects that represent larger ideas"],
+            "examTip": "Students identify the device but stop there — 'The author uses a metaphor' earns minimal credit; the analysis must explain WHAT IS BEING COMPARED and WHAT THE COMPARISON REVEALS about the character, mood, or theme; identification is just step one"
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Argument and Research",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How to Build an Argument That Actually Persuades Someone",
+            "topics": ["Claim supported by reasons and evidence", "Acknowledging the other side", "Why a counterargument makes your argument stronger"],
+            "examTip": "Students skip the counterargument because they think it weakens their position — addressing the opposing view and REFUTING it shows the reader you've thought carefully; ignoring it makes readers think you haven't considered it; concession + refutation builds credibility"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How to Use Sources Without Letting Them Take Over",
+            "topics": ["Introducing sources with signal phrases", "Quoting vs. paraphrasing", "Explaining what the source proves"],
+            "examTip": "Students drop in a quote and move on — every source needs: (1) introduction (who said it and why they're credible), (2) the quote or paraphrase, (3) explanation of what it proves for YOUR argument; skipping the explanation makes the source do all the work for you"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How to Tell If a Source Is Trustworthy",
+            "topics": ["Author credentials and purpose", "Publication date and relevance", "Bias: perspective vs. misinformation"],
+            "examTip": "Students accept any website as a source — evaluate AUTHOR expertise (does this person know the subject?), PURPOSE (is it trying to inform or sell/persuade?), and DATE (is it current enough for your topic?); a .org or .edu domain is not an automatic guarantee of accuracy"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "courseId": "us-history",
+    "courseName": "US History",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Founding America",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Why Colonists Came to America (And Who Was Already There)",
+            "topics": ["Push-pull factors for European colonization", "Native American cultures and early contact", "Three main colonial regions and their differences"],
+            "examTip": "Students describe colonization as if America were empty — Native American nations were DISPLACED by colonization, not simply absent; the impact on indigenous peoples (disease, land loss, warfare) must be part of any account of colonial settlement"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Why the Colonists Decided to Break Away From Britain",
+            "topics": ["Taxation without representation: Stamp Act, Townshend Acts", "Growing self-governance through colonial assemblies", "Boston Massacre and Tea Party as turning points"],
+            "examTip": "Students say the Revolution was only about taxes — the deeper issue was SELF-GOVERNANCE; colonists had run their own assemblies for decades and saw Parliament's new assertiveness as an attack on rights they already had; taxes were the symptom, not the root cause"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "What the Constitution Set Up and Why It Was Designed That Way",
+            "topics": ["Three branches and separation of powers", "Checks and balances: each branch limiting the others", "Federalism: national vs. state power"],
+            "examTip": "Students describe checks and balances as 'three equal branches' — the branches are equal in STATUS but not in every POWER; Congress overrides vetoes (2/3), the president nominates judges, Congress confirms them; each branch has specific powers OVER specific other branches"
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Building a Nation",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How the North and South Became Two Different Economies",
+            "topics": ["Northern industrialization and wage labor", "Southern plantation economy and slavery", "How economic differences created political conflict"],
+            "examTip": "Students describe slavery as 'just a Southern issue' — slavery was economically connected to the ENTIRE country; Northern textile mills depended on Southern cotton; banks in New York financed plantations; slavery's reach was national, not regional, which made abolition politically explosive"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "What Manifest Destiny Was and Who It Hurt",
+            "topics": ["Idea that westward expansion was America's destiny", "Mexican-American War and territorial expansion", "Displacement of Native Americans: Indian Removal Act, Trail of Tears"],
+            "examTip": "Students describe westward expansion only through the pioneers' perspective — a complete answer includes the COST paid by Native American nations and Mexicans; Manifest Destiny required taking land from people already living there; both perspectives must appear in analysis"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Why the Civil War Was Ultimately About Slavery",
+            "topics": ["States' rights debate centered on slavery specifically", "Confederate Constitution explicitly protected slavery", "Emancipation Proclamation's strategic purpose"],
+            "examTip": "Students say the Civil War was 'really about states' rights, not slavery' — the SPECIFIC right being claimed was the right to keep slavery; Confederate documents explicitly name slavery as the cause of secession; 'states' rights' is not a neutral term in this context"
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Industrial America",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How Big Business Changed American Life After the Civil War",
+            "topics": ["Railroads connecting national markets", "Carnegie (steel) and Rockefeller (oil): vertical and horizontal integration", "Why monopolies worried Americans"],
+            "examTip": "Students describe big business as purely negative — industrialization created jobs, lowered consumer prices, and connected the nation; the problem was CONCENTRATION OF POWER without accountability; both the benefits and the dangers are required for a complete answer"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "What Immigrants and Workers Did to Shape American Society",
+            "topics": ["New immigration waves from Southern and Eastern Europe", "Working conditions: hours, pay, child labor", "Labor unions: strikes, collective bargaining, Pullman Strike"],
+            "examTip": "Students say unions immediately improved conditions — unions faced violent opposition (Homestead Strike, Pullman Strike) and won gains slowly over decades; the government often sided with business owners; early labor movement history is a story of struggle and setback, not quick victory"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How the Progressive Movement Tried to Fix the Problems of Industry",
+            "topics": ["Muckrakers exposing corruption and unsafe conditions", "Theodore Roosevelt's trust-busting and conservation", "Limits: Progressivism often excluded Black Americans"],
+            "examTip": "Students present Progressivism as solving all industrial problems — many Progressive reforms were LIMITED to white Americans; segregation intensified during the Progressive Era (Wilson re-segregated federal buildings); 'progressive' didn't mean equal rights for all"
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "America in the World",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How WWI and WWII Made America a World Power",
+            "topics": ["US entry into WWI: Zimmermann Telegram, unrestricted submarine warfare", "WWII: from isolation to global war after Pearl Harbor", "How wartime production ended the Great Depression"],
+            "examTip": "Students say the US was always willing to enter both wars — the US maintained ISOLATIONISM until specific events forced entry (Zimmermann Telegram for WWI, Pearl Harbor for WWII); Congress and the public strongly opposed involvement before these events; entry was not inevitable"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "What the Cold War Was (It Wasn't Just About Nuclear Weapons)",
+            "topics": ["Containment: stopping Soviet expansion", "Korean War and Vietnam as containment in practice", "Space race and arms race as competition beyond military"],
+            "examTip": "Students say the Cold War was a military conflict between the US and USSR — it was a POLITICAL, ECONOMIC, and IDEOLOGICAL competition that rarely involved direct combat; 'hot' wars in Korea and Vietnam were proxy conflicts; the two superpowers never directly fought each other"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How the Civil Rights Movement Changed America",
+            "topics": ["Direct action: sit-ins, boycotts, freedom rides", "Key legislation: Civil Rights Act 1964, Voting Rights Act 1965", "Why legal equality and economic equality are different challenges"],
+            "examTip": "Students say the Civil Rights Act 'solved' racism — the legislation ended LEGAL discrimination but did not eliminate economic inequality or social racism; the movement's ongoing challenges (poverty, housing discrimination, police violence) show that legal rights and lived equality are different goals"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "courseId": "chemistry",
+    "courseName": "Chemistry",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Matter and Measurement",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Everything Around You Is Matter — Here's How to Describe It",
+            "topics": ["Physical vs. chemical properties", "Pure substance vs. mixture", "Homogeneous vs. heterogeneous mixtures"],
+            "examTip": "Students classify solutions as pure substances because they look uniform — a solution is a HOMOGENEOUS MIXTURE, not a pure substance; saltwater looks uniform but can be separated by evaporation; pure substances (elements and compounds) cannot be physically separated"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Scientists Measure Things in Chemistry",
+            "topics": ["SI units: mass (g), volume (mL or L), temperature (K)", "Significant figures: what they mean and how to count them", "Density: D = m/V and its uses"],
+            "examTip": "Students count ALL digits as significant — zeros are TRICKY: leading zeros are NOT significant (0.0045 has 2 sig figs); trailing zeros after a decimal ARE significant (2.50 has 3 sig figs); trailing zeros without a decimal are ambiguous; use scientific notation to be clear"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How to Convert Units Without Getting Confused",
+            "topics": ["Dimensional analysis (factor-label method)", "Setting up conversion factors", "Multi-step conversions"],
+            "examTip": "Students multiply by conversion factors without canceling units — in dimensional analysis, write units in EVERY step and cancel them like fractions; if you can't cancel the unit you want to eliminate, the conversion factor is upside down; units that remain are your answer's units"
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Atomic Structure",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What an Atom Is Made Of and Where Those Parts Are",
+            "topics": ["Protons and neutrons in the nucleus; electrons in orbitals", "Atomic number = protons; mass number = protons + neutrons", "Ions: gaining or losing electrons changes charge, not identity"],
+            "examTip": "Students say an ion is a different ELEMENT — gaining or losing electrons changes the CHARGE, not the number of protons; an atom's IDENTITY is determined by proton count (atomic number); Na⁺ is still sodium; only changing protons creates a different element"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How the Periodic Table Organizes Every Element",
+            "topics": ["Periods (rows) and groups (columns)", "Metals, nonmetals, metalloids location", "Periodic trends: atomic radius, ionization energy, electronegativity"],
+            "examTip": "Students say ionization energy and atomic radius increase in the same direction — they move in OPPOSITE TRENDS across a period; as you go right, atomic radius DECREASES (more protons pull electrons closer); ionization energy INCREASES (harder to remove electrons held tighter)"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Electrons Are Arranged and Why It Matters",
+            "topics": ["Electron configuration: filling order by energy level", "Valence electrons determine reactivity", "Why noble gases are unreactive"],
+            "examTip": "Students say all elements want to have 8 electrons — the octet rule applies to most main group elements, but EXCEPTIONS exist; hydrogen follows the duet rule (2 electrons); some elements like phosphorus and sulfur can expand beyond 8; hydrogen and helium are the key exceptions"
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Chemical Reactions",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How to Read and Write Chemical Equations",
+            "topics": ["Reactants → products format", "Conservation of mass: atoms balanced on both sides", "State symbols: (s), (l), (g), (aq)"],
+            "examTip": "Students change subscripts to balance equations — NEVER change subscripts to balance; H₂O₂ ≠ H₂O; subscripts define the substance; only change COEFFICIENTS in front of formulas; changing a subscript creates an entirely different chemical"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "The Five Types of Chemical Reactions and How to Recognize Them",
+            "topics": ["Synthesis (A+B→AB), decomposition (AB→A+B)", "Single replacement, double replacement, combustion", "Predicting products from reaction type"],
+            "examTip": "Students confuse single and double replacement — SINGLE: one element displaces another in a compound (A + BC → AC + B); DOUBLE: the cations of two compounds switch partners (AB + CD → AD + CB); identifying whether one or two elements are switching determines the type"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How to Use Moles to Predict How Much Product You Make",
+            "topics": ["Mole concept: 1 mol = 6.02×10²³ particles", "Molar mass from periodic table", "Mole ratio from balanced equation"],
+            "examTip": "Students convert grams directly to grams of product — stoichiometry requires going THROUGH MOLES: grams A → moles A → moles B → grams B; skipping the mole conversion and just using a mass ratio gives wrong answers except by coincidence"
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Solutions and Acids/Bases",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What 'Dissolving' Actually Means at the Particle Level",
+            "topics": ["Solute and solvent roles", "'Like dissolves like': polarity matching", "Concentration: molarity = moles/liter"],
+            "examTip": "Students say 'water dissolves everything' — water only dissolves POLAR and IONIC substances ('like dissolves like'); oil doesn't dissolve in water because oil is nonpolar; this principle predicts what will dissolve before any experiment is run"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "What Acids and Bases Actually Are",
+            "topics": ["Acids: donate H⁺; bases: accept H⁺ (Brønsted-Lowry)", "pH scale: 0–14, neutral at 7", "Strong vs. weak acids: complete vs. partial dissociation"],
+            "examTip": "Students say a low pH means 'a little acidic' — pH 2 is EXTREMELY acidic; each pH unit represents a 10× change in H⁺ concentration; pH 2 has 100× more H⁺ than pH 4; students confuse the magnitude of the number with the intensity of acidity"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "What Happens When an Acid and a Base Are Mixed",
+            "topics": ["Neutralization: acid + base → salt + water", "Net ionic equations", "Titration: using a known concentration to find an unknown"],
+            "examTip": "Students say neutralization means the products are neutral — a neutralization REACTION produces a salt and water, but the resulting solution is not necessarily pH 7; strong acid + weak base → acidic salt; weak acid + strong base → basic salt; the product's pH depends on which reactant is stronger"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "courseId": "biology",
+    "courseName": "Biology",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Cell Biology",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Why Every Living Thing Is Made of Cells",
+            "topics": ["Cell theory: all life made of cells", "Prokaryotic vs. eukaryotic cells", "Why cell size has limits"],
+            "examTip": "Students say plant cells have all the same organelles as animal cells — plants have CELL WALLS, CHLOROPLASTS, and a LARGE CENTRAL VACUOLE that animal cells lack; animal cells have CENTRIOLES that plant cells lack; the differences are directly tied to each cell's unique functions"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "What Each Organelle Does and Why It Matters",
+            "topics": ["Nucleus, mitochondria, ribosome functions", "Endoplasmic reticulum and Golgi: protein production line", "Chloroplasts and cell wall in plant cells"],
+            "examTip": "Students say the nucleus makes proteins — the NUCLEUS contains the DNA instructions; RIBOSOMES make proteins using those instructions; the rough ER processes proteins, the Golgi modifies and ships them; this is a multi-step assembly line, not a single organelle job"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Materials Get In and Out of Cells",
+            "topics": ["Diffusion and osmosis: passive transport", "Active transport: energy required", "Osmosis effects: crenation and lysis in different solutions"],
+            "examTip": "Students say a cell placed in salt water will swell — a cell in HIGH SALT (hypertonic) solution loses water by osmosis and SHRINKS (crenation in animal cells, plasmolysis in plant cells); a cell in PURE WATER (hypotonic) gains water and swells; water moves toward MORE solute"
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Genetics",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How Traits Are Inherited From Parents",
+            "topics": ["Dominant and recessive alleles", "Genotype vs. phenotype", "Homozygous vs. heterozygous"],
+            "examTip": "Students say a dominant trait is 'stronger' or 'better' — dominant simply means it's expressed when present; it has NO relationship to being beneficial or common; a harmful dominant allele (like Huntington's disease) is expressed even with one copy"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How to Predict Offspring Using a Punnett Square",
+            "topics": ["Setting up monohybrid crosses", "Reading probability from Punnett squares", "Phenotype ratios vs. genotype ratios"],
+            "examTip": "Students report Punnett square results as exact numbers instead of probabilities — a 3:1 phenotype ratio means a 75% chance of the dominant phenotype per offspring, not that exactly 3 out of 4 offspring will show it; probability applies to EACH individual offspring, not a guaranteed count"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How DNA Carries the Instructions for Making You",
+            "topics": ["DNA structure: double helix, base pairing (A-T, G-C)", "Gene: section of DNA coding for a protein", "DNA replication: copying before cell division"],
+            "examTip": "Students say A pairs with G and T pairs with C — base pairing is A-T and G-C (in DNA); A pairs with T, not G; G pairs with C, not A; this rule is called complementary base pairing and determines both DNA replication and transcription accuracy"
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Evolution and Classification",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What Natural Selection Actually Is (Evolution Explained Simply)",
+            "topics": ["Variation exists in populations", "Traits that improve survival are inherited more", "Natural selection acts on individuals; evolution happens to populations"],
+            "examTip": "Students say 'organisms evolve to survive' — organisms don't CHOOSE to evolve; individuals with EXISTING helpful traits survive and reproduce more; the population's allele frequencies shift over generations; no intentionality is involved; 'organisms develop traits they need' is Lamarckism, which is incorrect"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "The Evidence That Evolution Happened",
+            "topics": ["Fossil record showing change over time", "Homologous structures in related species", "DNA similarity as molecular evidence"],
+            "examTip": "Students say 'evolution is just a theory' as if theory means a guess — in science, a THEORY is an explanation supported by extensive evidence and testing; scientific theories explain HOW things happen (evolution, gravity, germ theory); a hypothesis is the guess; a theory is the tested explanation"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Scientists Organize and Name All Living Things",
+            "topics": ["Classification hierarchy: domain to species", "Binomial nomenclature rules", "Phylogenetic trees and common ancestry"],
+            "examTip": "Students say species that look similar must be closely related — convergent evolution produces similar-looking organisms with NO close relationship (dolphins and fish look similar but are not closely related); classification must be based on EVOLUTIONARY HISTORY (genetics), not appearance"
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Ecology",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How Energy Moves Through an Ecosystem",
+            "topics": ["Producers, consumers, decomposers roles", "Food chains and food webs", "10% energy transfer rule between trophic levels"],
+            "examTip": "Students say 50% of energy passes between trophic levels — only about 10% of energy transfers to the next level; 90% is LOST as heat through cellular respiration; this is why food chains are short and why there are more producers than top predators in any ecosystem"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Populations Grow and What Controls Their Size",
+            "topics": ["Biotic and abiotic factors", "Carrying capacity and population limits", "Predator-prey relationships"],
+            "examTip": "Students say populations grow until 'there's no more room' — populations are limited by RESOURCES (food, water, space), PREDATION, and DISEASE, not just physical space; a meadow might have room for more rabbits but not enough food; food is usually the limiting resource before space"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Human Activities Change Ecosystems",
+            "topics": ["Habitat destruction as leading cause of species loss", "Pollution and its effects on food chains", "Climate change and ecosystem shifts"],
+            "examTip": "Students list many causes of extinction as equally important — HABITAT DESTRUCTION is the SINGLE LARGEST cause of species extinction globally; pollution, invasive species, and climate change are significant but secondary; when asked to rank causes, habitat loss is the answer"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "courseId": "physics",
+    "courseName": "Physics",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Motion",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What Speed, Velocity, and Acceleration Are (They're Not the Same)",
+            "topics": ["Speed (scalar) vs. velocity (vector: speed + direction)", "Acceleration: change in velocity, not just speeding up", "Calculating average speed and velocity"],
+            "examTip": "Students say an object isn't accelerating if it's moving at constant speed in a curve — CHANGING DIRECTION is a change in velocity (direction changed), so it IS accelerating; a car going around a circular track at constant speed is constantly accelerating toward the center"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How to Read Distance-Time and Speed-Time Graphs",
+            "topics": ["Slope of distance-time graph = speed", "Slope of speed-time graph = acceleration", "Area under speed-time graph = distance"],
+            "examTip": "Students read a horizontal line on a speed-time graph as 'stopped' — a HORIZONTAL LINE on a speed-time graph means CONSTANT SPEED (not zero speed); the object is only stopped if the line is on the x-axis (speed = 0); a flat line at v = 5 m/s means moving steadily at 5 m/s"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Gravity Pulls Everything Down the Same Way",
+            "topics": ["Free fall: all objects accelerate at g = 9.8 m/s²", "Why mass doesn't affect fall time (ignoring air resistance)", "Terminal velocity from air resistance"],
+            "examTip": "Students say heavier objects fall faster — in a VACUUM, all objects fall at the same rate regardless of mass (Galileo's experiment); air resistance makes a feather fall slower than a hammer in atmosphere; on the moon (no air), both hit the ground simultaneously"
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Energy",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What Work and Power Mean in Physics (Not in Life)",
+            "topics": ["Work = force × distance in direction of force", "Zero work: perpendicular force or no movement", "Power = work / time"],
+            "examTip": "Students say holding a heavy box is 'hard work' in physics — physics work requires DISPLACEMENT in the direction of force; holding a box with no movement does ZERO WORK no matter how tiring it is; work requires both force AND movement in the force's direction"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Kinetic and Potential Energy Trade Off in Moving Objects",
+            "topics": ["KE = ½mv², PE = mgh", "Conservation of mechanical energy (no friction)", "Energy transformations on a roller coaster or pendulum"],
+            "examTip": "Students say a roller coaster has the most speed at the highest point — speed is maximum at the LOWEST point where KE is maximum (all PE converted to KE); at the highest point, PE is maximum and KE is minimum; height and speed are inversely related in a frictionless system"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Why Energy Is Never Actually Lost (It Just Changes Form)",
+            "topics": ["Law of conservation of energy", "Thermal energy as the destination of 'lost' energy", "Efficiency: useful energy output vs. total input"],
+            "examTip": "Students say friction 'destroys' energy — friction CONVERTS mechanical energy to THERMAL energy; total energy is conserved; the energy isn't gone, it's just in a less useful form; efficiency measures how much of the input energy becomes useful output"
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Waves and Light",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What Waves Actually Are and How They Move",
+            "topics": ["Transverse vs. longitudinal waves", "Wave speed, frequency, wavelength: v = fλ", "Amplitude and energy: more amplitude = more energy"],
+            "examTip": "Students say faster waves have higher frequency — wave speed, frequency, and wavelength are related by v = fλ; if SPEED increases and frequency stays the same, WAVELENGTH increases; only frequency changes if you change the source, not the medium; medium changes speed and wavelength together"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Light Behaves When It Hits Different Materials",
+            "topics": ["Reflection: angle of incidence = angle of reflection", "Refraction: light bends when changing medium", "Total internal reflection and critical angle"],
+            "examTip": "Students say light bends TOWARD normal when going from fast to slow medium — light bends TOWARD the normal when entering a denser medium (slowing down); it bends AWAY when entering a less dense medium (speeding up); this is why a straw appears bent in water"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Why White Light Contains All Colors",
+            "topics": ["Electromagnetic spectrum: radio to gamma", "Visible light: ROY G BIV and frequency order", "Dispersion: prism separating white light"],
+            "examTip": "Students say red light has the highest frequency — RED has the LOWEST frequency and LONGEST wavelength in visible light; VIOLET has the highest frequency and shortest wavelength; energy increases with frequency: gamma rays have more energy than radio waves"
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Electricity",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What Electric Charge Is and How It Creates Force",
+            "topics": ["Positive and negative charges; like charges repel", "Static electricity and charge transfer", "Insulators vs. conductors"],
+            "examTip": "Students say only electrons move when charging objects — in solids, only ELECTRONS (negative charges) move; protons are fixed in the nucleus; when a rod becomes positively charged, it LOST electrons, not GAINED protons; charging is always about electron transfer in solids"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Voltage, Current, and Resistance Work Together (Ohm's Law)",
+            "topics": ["Voltage (V) = electric pressure; current (I) = flow rate", "Resistance (R): opposition to current", "Ohm's Law: V = IR"],
+            "examTip": "Students say higher voltage always means higher current — current depends on BOTH voltage and resistance: I = V/R; doubling voltage while also doubling resistance keeps current the SAME; you must consider both before predicting what happens to current"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "What Happens to Current and Voltage in Series vs. Parallel Circuits",
+            "topics": ["Series: same current everywhere, voltage divides", "Parallel: same voltage across branches, current divides", "Why parallel is used in home wiring"],
+            "examTip": "Students say voltage divides in parallel circuits — in PARALLEL, each branch has the SAME voltage as the source; voltage DIVIDES in SERIES; this is why household circuits are parallel: every device gets the full voltage regardless of how many devices are on"
+          }
+        ]
+      }
+    ]
+  }
+]

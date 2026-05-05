@@ -8,6 +8,8 @@ function FailInner() {
   const params = useSearchParams();
   const errorCode = params.get("code") ?? "";
   const errorMsg = params.get("message") ?? "결제가 취소되었거나 오류가 발생했습니다.";
+  const serviceId = params.get("serviceId") ?? "";
+  const retryHref = serviceId === "textbook" || serviceId.startsWith("textbook:") ? "/textbooks" : "/pricing";
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-6 text-center px-4">
@@ -20,7 +22,7 @@ function FailInner() {
         )}
       </div>
       <div className="flex gap-3">
-        <Link href="/pricing" className="btn-secondary text-sm py-2.5 px-6">요금제 보기</Link>
+        <Link href={retryHref} className="btn-secondary text-sm py-2.5 px-6">다시 보기</Link>
         <Link href="/" className="btn-primary text-sm py-2.5 px-6">홈으로</Link>
       </div>
     </div>

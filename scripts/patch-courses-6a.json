@@ -1,0 +1,788 @@
+[
+  {
+    "courseId": "honors-biology",
+    "courseName": "Honors Biology",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Cell Biology",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Why Cells Need Membranes",
+            "topics": ["Phospholipid bilayer structure", "Selective permeability", "Why compartmentalization enables specialization"],
+            "examTip": "Students describe the membrane as a wall — missing that it's a dynamic, selective filter; the hydrophobic core blocks charged/polar molecules but not small nonpolar ones like O2 and CO2"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Cells Move Substances Without Using Energy",
+            "topics": ["Simple diffusion vs. facilitated diffusion", "Osmosis and tonicity", "Concentration gradient as the driving force"],
+            "examTip": "Students say water moves toward 'lower concentration' — water moves toward HIGHER solute concentration (lower water potential); confusing solute concentration with water concentration is the #1 osmosis error"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "When Cells Must Spend Energy to Move Things",
+            "topics": ["Active transport (Na+/K+ pump)", "Endocytosis and exocytosis", "Why cells maintain electrochemical gradients"],
+            "examTip": "Students treat active transport as simply 'moving against a gradient' without explaining WHY — the Na+/K+ pump moves 3 Na+ out and 2 K+ in per ATP, creating both concentration AND charge gradients"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "What Mitochondria Actually Do (Not Just 'Powerhouse')",
+            "topics": ["Cellular respiration: glycolysis → Krebs → ETC", "ATP yield and where each stage occurs", "Why oxygen is the final electron acceptor"],
+            "examTip": "Students memorize '36 ATP' without understanding that most ATP comes from the ETC (chemiosmosis), not Krebs — glycolysis produces only 2 net ATP; exam questions target WHERE in the cell each stage occurs"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "How Cells Capture Light Energy",
+            "topics": ["Light reactions (photosystem II → I, ATP and NADPH)", "Calvin cycle (CO2 fixation, G3P output)", "Why C4 and CAM plants do it differently"],
+            "examTip": "Students think photosynthesis and respiration are opposites — they share intermediates (both use the ETC); students also confuse where O2 is produced (light reactions, from water splitting) vs. where CO2 is used (Calvin cycle)"
+          },
+          {
+            "lessonNumber": 6,
+            "lessonTitle": "How One Cell Becomes Two (and Why It Must Be Precise)",
+            "topics": ["Cell cycle phases and checkpoints", "Mitosis: PMAT stages and chromosome behavior", "Cytokinesis differences in plant vs. animal cells"],
+            "examTip": "Students say 'chromosomes duplicate during mitosis' — DNA replication happens in S phase (interphase), BEFORE mitosis begins; during mitosis chromosomes condense and separate, not replicate"
+          },
+          {
+            "lessonNumber": 7,
+            "lessonTitle": "Why Meiosis Produces Variation, Not Just Gametes",
+            "topics": ["Crossing over in prophase I", "Independent assortment at metaphase I", "Comparing meiosis I vs. meiosis II outcomes"],
+            "examTip": "Students confuse meiosis I and II: meiosis I separates HOMOLOGOUS chromosomes (reducing from 2n to n); meiosis II separates SISTER CHROMATIDS — meiosis II looks like mitosis but starts with haploid cells"
+          },
+          {
+            "lessonNumber": 8,
+            "lessonTitle": "How Cells Coordinate Their Own Death and Division",
+            "topics": ["Apoptosis as programmed cell death", "Cancer as loss of checkpoint control", "Proto-oncogenes vs. tumor suppressors"],
+            "examTip": "Students say cancer is 'too much growth' without specifying the mechanism — cancer results from BOTH proto-oncogene activation (accelerator stuck on) AND tumor suppressor mutation (brakes cut); both must be explained"
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Genetics",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Why DNA's Shape Determines Its Function",
+            "topics": ["Double helix: antiparallel strands, base pairing rules", "Nucleotide structure (sugar-phosphate backbone)", "Why A-T has 2 H-bonds and G-C has 3"],
+            "examTip": "Students write DNA replication as symmetric — the leading strand is synthesized continuously, but the lagging strand requires Okazaki fragments because DNA polymerase only reads 3'→5' and builds 5'→3'"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How DNA Becomes Protein (The Full Path)",
+            "topics": ["Transcription: promoter, mRNA synthesis, termination", "Translation: codons, tRNA anticodons, ribosomes", "Post-translational modification and folding"],
+            "examTip": "Students confuse template strand direction — the template strand is read 3'→5', so mRNA is synthesized 5'→3'; codon on mRNA and anticodon on tRNA are antiparallel, not identical"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "What Mutations Actually Do to a Protein",
+            "topics": ["Point mutations: silent, missense, nonsense", "Frameshift mutations from insertions/deletions", "Why location of mutation matters more than type"],
+            "examTip": "Students think any mutation is harmful — silent mutations change the codon but not the amino acid (degeneracy of genetic code); a missense mutation in an active site is catastrophic, but in a non-functional region may be neutral"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Predicting Offspring Traits the Right Way",
+            "topics": ["Mendel's laws: segregation and independent assortment", "Monohybrid and dihybrid crosses", "Test cross logic"],
+            "examTip": "Students apply independent assortment to genes on the SAME chromosome — linked genes violate independent assortment; crossing over can separate linked genes, but they're not inherited at the expected 9:3:3:1 ratio"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "When Simple Dominance Doesn't Apply",
+            "topics": ["Incomplete dominance vs. codominance", "Multiple alleles (ABO blood type)", "Pleiotropy and polygenic traits"],
+            "examTip": "Students treat codominance and incomplete dominance as the same — codominance: BOTH phenotypes fully expressed (AB blood type shows both A and B); incomplete dominance: a BLEND (red + white = pink); these produce different phenotypes"
+          },
+          {
+            "lessonNumber": 6,
+            "lessonTitle": "Why Sex-Linked Traits Skip Generations",
+            "topics": ["X-linked inheritance patterns", "Why males are hemizygous", "Carrier females and affected males ratio"],
+            "examTip": "Students think X-linked traits only affect males — carrier females (X^A X^a) are unaffected but pass the allele to 50% of sons; X-linked dominant traits affect females MORE because they have two X chromosomes"
+          },
+          {
+            "lessonNumber": 7,
+            "lessonTitle": "How Gene Expression Is Turned On and Off",
+            "topics": ["Lac operon: inducible gene regulation", "Trp operon: repressible gene regulation", "Eukaryotic gene regulation: enhancers and silencers"],
+            "examTip": "Students flip lac operon logic — lactose REMOVES the repressor (induces transcription); when glucose is absent AND lactose is present, transcription is maximal; students miss that both conditions must be met for full expression"
+          },
+          {
+            "lessonNumber": 8,
+            "lessonTitle": "Biotechnology: How We Read and Edit DNA",
+            "topics": ["PCR, gel electrophoresis, CRISPR basics", "Restriction enzymes and recombinant DNA", "Ethical considerations in genetic engineering"],
+            "examTip": "Students say gel electrophoresis separates by 'size' — smaller fragments move FARTHER from the well (toward positive end); students reverse this, placing large bands at the bottom instead of the top"
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Evolution",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What Darwin Actually Argued (and What He Didn't)",
+            "topics": ["Natural selection: variation, heritability, differential reproduction", "Fitness as reproductive success, not strength", "Common descent vs. progressive evolution myth"],
+            "examTip": "Students say organisms 'adapt' intentionally — natural selection acts on existing HERITABLE variation, not on need; an organism cannot generate a useful mutation because it needs one"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "The Evidence That Species Change Over Time",
+            "topics": ["Fossil record and transitional forms", "Homologous, analogous, and vestigial structures", "Molecular evidence: DNA comparison and cytochrome c"],
+            "examTip": "Students confuse homologous and analogous structures — homologous structures share COMMON ANCESTRY (bat wing/human arm = same bones, different function); analogous structures share FUNCTION but NOT ancestry (bat wing/butterfly wing)"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Populations Evolve (Not Individuals)",
+            "topics": ["Hardy-Weinberg equilibrium and five conditions", "Allele frequency shifts as evolution", "p² + 2pq + q² = 1 application"],
+            "examTip": "Students calculate p and q correctly but misidentify which genotype frequency they need — q² = frequency of homozygous recessive; q = √(q²), then p = 1 - q; always start with q² from the given phenotype data"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Mechanisms That Change Allele Frequencies",
+            "topics": ["Genetic drift (bottleneck and founder effects)", "Gene flow and mutation as evolutionary forces", "Natural selection types: directional, stabilizing, disruptive"],
+            "examTip": "Students rank natural selection as the strongest evolutionary force — in small populations, GENETIC DRIFT can overpower selection, fixing harmful alleles by chance; the bottleneck effect is a common FRQ setup"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "How New Species Form",
+            "topics": ["Allopatric vs. sympatric speciation", "Reproductive isolation mechanisms (pre- and postzygotic)", "Gradualism vs. punctuated equilibrium"],
+            "examTip": "Students say geographic isolation = speciation — geographic isolation leads to genetic divergence, but speciation only occurs when REPRODUCTIVE ISOLATION develops; you can have allopatric populations that can still interbreed"
+          },
+          {
+            "lessonNumber": 6,
+            "lessonTitle": "Reading the Tree of Life",
+            "topics": ["Cladograms and shared derived characters", "Monophyletic vs. paraphyletic groups", "How to determine most recent common ancestor"],
+            "examTip": "Students read cladograms by looking at branch tips rather than branching points — the most recent common ancestor is found at the NODE where two lineages diverge, not at a tip; outgroup roots the tree"
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Ecology",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Why Energy Is Lost at Every Trophic Level",
+            "topics": ["10% rule and energy pyramids", "Biomass vs. energy vs. number pyramids", "Why food chains rarely exceed 4–5 levels"],
+            "examTip": "Students invert pyramid of biomass in aquatic ecosystems — in open ocean, phytoplankton (producers) have LOWER biomass than zooplankton because phytoplankton reproduce so fast; inverted biomass pyramids are a recurring trick question"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Nutrients Cycle While Energy Flows One Way",
+            "topics": ["Carbon cycle: key reservoirs and fluxes", "Nitrogen cycle: fixation, nitrification, denitrification", "Phosphorus cycle and eutrophication"],
+            "examTip": "Students say nitrogen fixation is done by plants — only certain bacteria (Rhizobium in root nodules, free-living Azotobacter) fix N2 into NH3; plants absorb fixed nitrogen as NO3- or NH4+, they cannot fix it themselves"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Population Size Is Controlled",
+            "topics": ["Density-dependent vs. density-independent factors", "Logistic growth and carrying capacity (K)", "r-strategists vs. K-strategists"],
+            "examTip": "Students confuse the J-curve and S-curve — J-curve = exponential growth (no resource limits); S-curve = logistic growth (slows as population approaches K); the inflection point of the S-curve is at K/2, where growth rate is maximum"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Species Interactions: Who Wins and Who Loses",
+            "topics": ["Competition, predation, mutualism, commensalism, parasitism", "Predator-prey cycles (Lotka-Volterra)", "Coevolution and arms races"],
+            "examTip": "Students describe commensalism as 'both benefit slightly' — commensalism is (+/0): one benefits, the other is UNAFFECTED; mutualism is (+/+); students must be precise about the 0 in commensalism"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "How Ecosystems Recover and Change Over Time",
+            "topics": ["Primary vs. secondary succession", "Pioneer species and climax communities", "Keystone species and ecosystem engineers"],
+            "examTip": "Students say the climax community is permanent — disturbance ecology shows ecosystems are dynamic; fire-adapted communities (chaparral) REQUIRE periodic disturbance to maintain their climax state; no ecosystem is truly at equilibrium"
+          },
+          {
+            "lessonNumber": 6,
+            "lessonTitle": "Biodiversity: Why It Matters and What Threatens It",
+            "topics": ["Species richness vs. evenness", "Island biogeography: area and isolation effects", "Habitat fragmentation and edge effects"],
+            "examTip": "Students treat species richness as the only measure of biodiversity — an ecosystem with 100 species all at equal abundance (high evenness) is more diverse than one where 1 species dominates 90%; both dimensions matter"
+          }
+        ]
+      },
+      {
+        "unitNumber": 5,
+        "unitTitle": "Human Biology",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How the Nervous System Processes and Responds",
+            "topics": ["Action potential: resting, depolarization, repolarization", "Synapse transmission and neurotransmitters", "CNS vs. PNS organization"],
+            "examTip": "Students say sodium rushes IN to repolarize — sodium rushes in to DEPOLARIZE; potassium rushes OUT to repolarize; the Na+/K+ pump then restores resting potential; these three steps are all distinct and frequently tested separately"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Hormones Control the Body's Long-Term Responses",
+            "topics": ["Endocrine vs. nervous system comparison", "Feedback loops: negative vs. positive", "Hypothalamus-pituitary axis (HPaxis)"],
+            "examTip": "Students confuse positive and negative feedback — negative feedback RESISTS change and maintains homeostasis (thermoregulation, blood glucose); positive feedback AMPLIFIES a change to completion (childbirth contractions, blood clotting)"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How the Immune System Distinguishes Self from Non-Self",
+            "topics": ["Innate vs. adaptive immunity", "B cells (antibodies) and T cells (cell-mediated)", "Memory cells and vaccination logic"],
+            "examTip": "Students say antibodies kill pathogens directly — antibodies FLAG antigens for destruction (opsonization) but do not kill; cytotoxic T cells directly kill infected cells; these are separate arms of adaptive immunity"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How the Heart and Lungs Work as a Single System",
+            "topics": ["Pulmonary vs. systemic circulation", "Cardiac cycle: systole, diastole, AV/SL valves", "Gas exchange in alveoli: diffusion driving forces"],
+            "examTip": "Students say deoxygenated blood is blue — blood is always red (oxyhemoglobin = bright red, deoxyhemoglobin = dark red); the blue appearance of veins is due to light absorption through skin, not the blood color"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "How the Body Regulates Water and Waste",
+            "topics": ["Kidney nephron: filtration, reabsorption, secretion", "ADH and aldosterone in water balance", "Loop of Henle countercurrent multiplication"],
+            "examTip": "Students say the kidney filters and then excretes everything filtered — 99% of filtered water and most solutes are REABSORBED; only a small fraction becomes urine; the nephron is primarily a recovery system, not an excretion system"
+          },
+          {
+            "lessonNumber": 6,
+            "lessonTitle": "Human Reproduction and Embryonic Development",
+            "topics": ["Gametogenesis: spermatogenesis vs. oogenesis", "Fertilization through implantation", "Embryonic stem cells and differentiation"],
+            "examTip": "Students think oogenesis and spermatogenesis are parallel — spermatogenesis produces 4 functional sperm per meiosis; oogenesis produces 1 egg + 3 polar bodies per meiosis; unequal cytokinesis concentrates cytoplasm in the egg"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "courseId": "honors-chemistry",
+    "courseName": "Honors Chemistry",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Atomic Structure",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Why Atoms Are Mostly Empty Space (And What That Means)",
+            "topics": ["Rutherford's nuclear model vs. Thomson's plum pudding", "Protons, neutrons, electrons: location and mass", "Nuclear charge as the identity of an element"],
+            "examTip": "Students write atomic number = number of neutrons — atomic number = number of PROTONS; neutrons = mass number − atomic number; this error cascades into every electron configuration question"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Why Electrons Exist in Energy Levels, Not Orbits",
+            "topics": ["Bohr model limitations", "Quantum mechanical model: orbitals as probability clouds", "Quantum numbers: n, l, ml, ms"],
+            "examTip": "Students write electron configurations by memorizing '1s 2s 2p...' without applying the Aufbau diagonal rule — the 4s orbital fills BEFORE 3d (lower energy), but 3d is listed before 4s in orbital notation"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Electron Configuration Predicts Periodic Trends",
+            "topics": ["Ionization energy, atomic radius, electronegativity trends", "Effective nuclear charge (Zeff)", "Why trends reverse at filled/half-filled subshells"],
+            "examTip": "Students say 'ionization energy always increases across a period' — IE dips at group 3 (2p¹ has higher energy than 2s²) and at group 6 (pairing in 2p⁴ causes repulsion, easier to remove); oxygen has LOWER IE than nitrogen"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "What Isotopes and Atomic Mass Really Tell Us",
+            "topics": ["Isotopes: same protons, different neutrons", "Calculating weighted average atomic mass", "Mass spectrometry and abundance"],
+            "examTip": "Students round atomic mass to find neutron count — atomic mass on the periodic table is a WEIGHTED AVERAGE, not the mass of any single atom; use the most abundant isotope's mass number to find neutrons"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "How Light and Matter Exchange Energy",
+            "topics": ["Electromagnetic spectrum and energy-frequency-wavelength (E=hν)", "Emission spectra as electron fingerprints", "Photoelectric effect: photon particle model of light"],
+            "examTip": "Students use E = hν with wavelength instead of frequency — E is proportional to FREQUENCY (ν), inversely proportional to wavelength (λ); high frequency = high energy = short wavelength; UV has MORE energy than infrared"
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Chemical Bonding",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Why Metals Give Away Electrons and What That Creates",
+            "topics": ["Ionic bond formation: electron transfer and lattice energy", "Cation vs. anion formation logic", "Lattice energy trend: charge and size"],
+            "examTip": "Students confuse ionic bond strength with electronegativity difference — lattice energy (ionic bond strength) depends on ION CHARGE and ION SIZE; MgO has higher lattice energy than NaCl because Mg²⁺ and O²⁻ have higher charges"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Why Nonmetals Share Electrons (And How to Draw It)",
+            "topics": ["Covalent bond: electron sharing and bond order", "Lewis dot structures: octet rule and formal charge", "Resonance structures and delocalization"],
+            "examTip": "Students minimize formal charges by guessing rather than calculating — formal charge = valence electrons − nonbonding electrons − ½(bonding electrons); the correct Lewis structure minimizes formal charge, and negative formal charge goes on the more electronegative atom"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Molecular Shape Controls Everything",
+            "topics": ["VSEPR theory: electron domain geometry vs. molecular geometry", "Bond angles and lone pair compression", "Predicting polarity from shape"],
+            "examTip": "Students name electron domain geometry instead of molecular geometry — 'tetrahedral electron geometry with 2 lone pairs' gives a BENT molecular geometry; the exam asks for molecular geometry, which ignores lone pairs when naming shape"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Why Some Molecules Are Polar and Others Aren't",
+            "topics": ["Bond polarity vs. molecular polarity", "Vector addition of dipoles", "Why CO2 is nonpolar despite polar bonds"],
+            "examTip": "Students say any molecule with polar bonds is polar — CO2, BF3, and CCl4 have polar bonds but are NONPOLAR overall because the dipoles cancel due to symmetry; must assess both bond polarity AND molecular geometry"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "What Determines If a Solid Will Melt Easily",
+            "topics": ["Intermolecular forces: LDF, dipole-dipole, H-bonding", "IMF vs. intramolecular bond strength", "Why H-bonding makes water anomalous"],
+            "examTip": "Students break intramolecular bonds to explain boiling — boiling/melting involves overcoming INTERMOLECULAR FORCES, not breaking covalent bonds; HF has stronger H-bonds than HCl despite F-H bond being weaker than nothing students expect"
+          },
+          {
+            "lessonNumber": 6,
+            "lessonTitle": "Why Metallic Bonds Explain All Metal Properties",
+            "topics": ["Electron sea model", "Electrical and thermal conductivity explained by delocalized electrons", "Malleability vs. brittleness: metals vs. ionic solids"],
+            "examTip": "Students attribute metal conductivity to 'loosely held electrons' without specifying they are DELOCALIZED — ionic solids can conduct when melted or dissolved (ions move), but metals conduct in solid state because electrons move freely"
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Stoichiometry",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Why the Mole Is the Chemist's Dozen",
+            "topics": ["Avogadro's number and the mole concept", "Molar mass from periodic table", "Converting between mass, moles, and particles"],
+            "examTip": "Students divide by molar mass when they should multiply and vice versa — always set up dimensional analysis with units canceling; if you want grams → moles, divide by molar mass (g/mol becomes a divisor)"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How to Balance Equations Without Changing the Chemistry",
+            "topics": ["Conservation of mass in chemical equations", "Balancing by inspection: polyatomics as units", "Why subscripts cannot be changed to balance"],
+            "examTip": "Students change subscripts to balance — H2O2 ≠ H2O; changing subscripts changes the SUBSTANCE; only coefficients in front of formulas can be adjusted; this is the most fundamental balancing error"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How the Mole Ratio Connects Reactants to Products",
+            "topics": ["Mole ratios from balanced equations", "Mass-to-mass stoichiometry pathway", "Percent yield vs. theoretical yield"],
+            "examTip": "Students forget to use the mole ratio — they convert reactant to moles then convert directly to grams of product using the wrong molar mass; the mole ratio from the balanced equation MUST be applied between reactant moles and product moles"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How to Find the Ingredient That Runs Out First",
+            "topics": ["Limiting reactant identification", "Excess reactant calculation", "Why comparing moles, not grams, identifies the limit"],
+            "examTip": "Students identify the limiting reactant as 'whichever has fewer grams' — you must convert to moles and compare using the STOICHIOMETRIC RATIO, not raw mass; a larger mass can still be the limiting reactant"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Reading a Molecular Formula to Get Empirical and Molecular Formulas",
+            "topics": ["Percent composition from formula", "Empirical formula from percent mass", "Molecular formula = n × empirical formula"],
+            "examTip": "Students round elemental ratios too aggressively — if C:H:O comes out 1:2.67:1, multiply all by 3 to get 3:8:3 (not round 2.67 to 3); ratios ending in .33 or .67 signal × 3; .5 signals × 2"
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Thermochemistry",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What Heat and Temperature Actually Measure",
+            "topics": ["Heat (q) vs. temperature (T): energy vs. average KE", "Specific heat capacity: q = mcΔT", "Calorimetry setup and sign conventions"],
+            "examTip": "Students apply q = mcΔT using the wrong mass — in a coffee cup calorimeter, the mass is the SOLUTION (or water), not the substance being tested; and q_rxn = −q_cal (equal and opposite sign)"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How to Calculate Energy Change in a Reaction",
+            "topics": ["Enthalpy of reaction (ΔH): exothermic vs. endothermic", "Hess's Law: path independence of enthalpy", "Standard enthalpies of formation (ΔHf°)"],
+            "examTip": "Students apply Hess's Law by adding equations without reversing signs — when a reaction is REVERSED, ΔH changes sign; when multiplied by n, ΔH is multiplied by n; both manipulations must be applied simultaneously"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Why Some Reactions Happen Spontaneously and Others Don't",
+            "topics": ["Entropy (S) and disorder", "Gibbs free energy: ΔG = ΔH − TΔS", "Temperature dependence of spontaneity"],
+            "examTip": "Students say a reaction is spontaneous if ΔH < 0 — spontaneity requires ΔG < 0, which depends on BOTH ΔH and ΔS; an endothermic reaction (ΔH > 0) can be spontaneous at high T if ΔS > 0"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How Energy Changes at Phase Boundaries",
+            "topics": ["Heating curves and plateau regions", "Heat of fusion vs. heat of vaporization", "Why ΔHvap >> ΔHfus for most substances"],
+            "examTip": "Students calculate heat during a phase change using q = mcΔT — during a phase change, TEMPERATURE IS CONSTANT; use q = m × ΔH_fusion or ΔH_vaporization; q = mcΔT applies only when temperature IS changing"
+          }
+        ]
+      },
+      {
+        "unitNumber": 5,
+        "unitTitle": "Kinetics and Equilibrium",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What Controls How Fast a Reaction Goes",
+            "topics": ["Collision theory: energy and orientation requirements", "Activation energy and transition state", "Catalysts: lowering Ea without changing ΔH"],
+            "examTip": "Students say a catalyst increases reaction rate by 'providing energy' — catalysts lower ACTIVATION ENERGY by providing an alternative pathway; they are not consumed and do not change the enthalpy of reaction (ΔH stays the same)"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How to Write Rate Laws from Experiments (Not Equations)",
+            "topics": ["Rate law: rate = k[A]^m[B]^n", "Determining order from initial rate data", "Integrated rate laws for first and second order"],
+            "examTip": "Students write rate laws from balanced equations — rate law orders CANNOT be determined from stoichiometry; they must be determined EXPERIMENTALLY by comparing initial rate data when one concentration is varied"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "What Equilibrium Actually Means (Rates, Not Amounts)",
+            "topics": ["Dynamic equilibrium: forward rate = reverse rate", "Keq expression: products over reactants", "Why pure solids and liquids are excluded from Keq"],
+            "examTip": "Students write Keq including solid and liquid concentrations — pure solids and pure liquids have CONSTANT concentrations (activity = 1) and are excluded from the expression; water in aqueous reactions is excluded"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How to Predict Which Way a Reaction Will Shift",
+            "topics": ["Le Chatelier's principle: stress and response", "Q vs. K comparison to predict shift direction", "Effect of temperature on Keq value (not just shift)"],
+            "examTip": "Students say adding a catalyst shifts equilibrium — a catalyst speeds up BOTH forward and reverse reactions equally; it reaches equilibrium faster but does NOT shift the equilibrium position or change Keq"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Acid-Base Equilibrium: What pH Really Measures",
+            "topics": ["Ka and Kb expressions", "pH = −log[H⁺], pOH, and Kw = 10⁻¹⁴", "Strong vs. weak acids: complete vs. partial dissociation"],
+            "examTip": "Students set up weak acid ICE tables then forget to check if the approximation (x << [HA]₀) is valid — if x/[HA]₀ > 5%, the quadratic must be solved; blindly using the approximation when invalid gives wrong pH"
+          }
+        ]
+      },
+      {
+        "unitNumber": 6,
+        "unitTitle": "Electrochemistry",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "How to Assign and Track Electron Bookkeeping (Oxidation States)",
+            "topics": ["Oxidation state rules: O = −2, H = +1, sum rules", "Identifying oxidation vs. reduction (OIL RIG)", "Oxidizing agent vs. reducing agent — which is which"],
+            "examTip": "Students confuse the oxidizing agent with the species being oxidized — the OXIDIZING AGENT causes oxidation in another species but is ITSELF REDUCED; the reducing agent is oxidized; always identify both the agent and what happens to it"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Galvanic Cells Convert Chemistry to Electricity",
+            "topics": ["Anode (oxidation) and cathode (reduction)", "Salt bridge function: maintaining charge neutrality", "Cell notation: anode | solution || solution | cathode"],
+            "examTip": "Students reverse anode and cathode in galvanic cells — in galvanic (voltaic) cells, ANODE is negative and CATHODE is positive (opposite of electrolytic cells); mnemonic: Red Cat / An Ox (reduction at cathode, oxidation at anode)"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How to Calculate Cell Voltage and Spontaneity",
+            "topics": ["Standard reduction potentials (E°red)", "E°cell = E°cathode − E°anode", "Relationship between E°cell, ΔG°, and Keq"],
+            "examTip": "Students multiply E° values by stoichiometric coefficients — standard reduction potentials are INTENSIVE properties (they don't scale with moles); only ΔG° and Keq scale; E°cell stays the same regardless of how many electrons are transferred"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How Electrolytic Cells Force Non-Spontaneous Reactions",
+            "topics": ["Electrolysis vs. galvanic cells", "Faraday's law: moles of electrons and product mass", "Applications: electroplating and water electrolysis"],
+            "examTip": "Students forget to convert coulombs to moles of electrons in Faraday's law problems — moles of e⁻ = charge(C) / 96,485 (C/mol); then use stoichiometry of the half-reaction; skipping the conversion to moles is the most common error"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "courseId": "honors-physics",
+    "courseName": "Honors Physics",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Kinematics",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "The Difference Between How Fast and How Much (Speed vs. Velocity)",
+            "topics": ["Scalar vs. vector quantities", "Distance vs. displacement", "Average vs. instantaneous velocity"],
+            "examTip": "Students calculate average speed as (v₁ + v₂)/2 — this only works if acceleration is constant; average velocity = total displacement / total time, which is always correct; these give different answers for non-uniform motion"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "What Constant Acceleration Really Looks Like",
+            "topics": ["Kinematic equations: v = v₀ + at, x = v₀t + ½at², v² = v₀² + 2ax", "Graphs: slope of x-t is v, slope of v-t is a", "Free fall: a = −9.8 m/s² always downward"],
+            "examTip": "Students use g = +9.8 m/s² and then wonder why answers are wrong — pick a consistent positive direction; if upward is positive, acceleration due to gravity is −9.8 m/s²; sign errors on g cause wrong answers on every free-fall problem"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Why Horizontal and Vertical Motion Are Independent",
+            "topics": ["Projectile motion: ax = 0, ay = −g", "Range, max height, and time of flight equations", "Launch angle optimization: 45° maximizes range on level ground"],
+            "examTip": "Students think a horizontally launched projectile falls slower because it moves forward — horizontal velocity has NO effect on vertical fall; both a dropped ball and a horizontally thrown ball hit the ground at the same time from the same height"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How to Add Vectors That Aren't in a Straight Line",
+            "topics": ["Vector components: Ax = A cos θ, Ay = A sin θ", "Adding vectors by components", "Resultant magnitude and direction"],
+            "examTip": "Students use the angle measured from the wrong reference axis — always specify the angle as measured from the x-axis (or explicitly state from which axis); θ in Ax = A cos θ is measured from the POSITIVE x-axis, not the vertical"
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Dynamics",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Why Objects Don't Naturally Stop Moving",
+            "topics": ["Newton's First Law: inertia and reference frames", "Identifying inertial vs. non-inertial frames", "Friction as an external force, not a natural tendency"],
+            "examTip": "Students say objects slow down because 'they run out of force' — Newton's 1st Law says objects in motion STAY in motion unless acted on by a net external force; friction is the external force causing deceleration, not nature"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Force, Mass, and Acceleration Are Exactly Connected",
+            "topics": ["Newton's Second Law: Fnet = ma", "Free body diagrams: all forces on ONE object", "Normal force and tension as constraint forces"],
+            "examTip": "Students draw forces on multiple objects in one free body diagram — FBDs must show forces on ONE object only; the normal force on a block on a ramp is perpendicular to the ramp surface, NOT straight up"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Why Action-Reaction Pairs Never Cancel Each Other",
+            "topics": ["Newton's Third Law: equal and opposite force pairs", "Why Newton's 3rd law pairs act on DIFFERENT objects", "Identifying correct action-reaction pairs"],
+            "examTip": "Students say the book on a table is in equilibrium because 'gravity equals normal force — they're action-reaction pairs' — the normal force and gravity are NOT a Newton's 3rd law pair (they act on the same object); the N3 pair of gravity on book is gravity on Earth from book"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How Friction Works — and When to Use Which Equation",
+            "topics": ["Static vs. kinetic friction: fs ≤ μsN, fk = μkN", "Why μs > μk", "Friction on inclined planes"],
+            "examTip": "Students apply kinetic friction to a stationary object — use STATIC friction (up to maximum fs = μsN) when the object is not moving; kinetic friction applies only WHILE sliding; the maximum static friction is GREATER than kinetic"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Why Objects Moving in Circles Must Have Inward Force",
+            "topics": ["Centripetal acceleration: ac = v²/r toward center", "Centripetal force as net inward force (not a new force)", "Why 'centrifugal force' is not real in inertial frames"],
+            "examTip": "Students add centrifugal force to their free body diagrams — centrifugal force does NOT exist in inertial frames; centripetal force is the NET result of REAL forces (tension, gravity, normal) pointing inward; never draw it as a separate force"
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Energy and Momentum",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Why Work Is Not the Same as Effort",
+            "topics": ["Work: W = Fd cos θ", "Zero work: perpendicular force, no displacement", "Work-energy theorem: Wnet = ΔKE"],
+            "examTip": "Students say gravity does no work on a pendulum — gravity does positive work on the downswing (force and displacement both downward) and negative work on the upswing; only centripetal force does ZERO work (always perpendicular to motion)"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Energy Is Stored and Released in Conservative Systems",
+            "topics": ["Gravitational PE = mgh, Spring PE = ½kx²", "Conservation of mechanical energy (no friction)", "Energy bar charts and accounting"],
+            "examTip": "Students use h = 0 inconsistently in the same problem — choose a reference height and KEEP IT; if you set the lowest point as h = 0, then use that same h = 0 for both sides of the energy equation"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Where Does Energy Go When Friction Is Present?",
+            "topics": ["Thermal energy generated by friction: Eth = fk × d", "Energy conservation with nonconservative forces", "Power: P = W/t = Fv"],
+            "examTip": "Students forget that the distance in Eth = fkd is the SLIDING distance between surfaces — for a block pulled up a ramp, it's the length of the ramp, not the vertical height; these are different and using the wrong one gives wrong answers"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Why Momentum Is Harder to Change Than Speed",
+            "topics": ["Impulse-momentum theorem: FΔt = Δp", "Conservation of momentum in collisions", "Elastic vs. inelastic collisions"],
+            "examTip": "Students think kinetic energy is conserved in all collisions — KE is conserved ONLY in elastic collisions; in inelastic collisions, KE is converted to internal energy (heat, deformation); momentum is ALWAYS conserved if no external forces act"
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Waves and Sound",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What Actually Moves in a Wave (It's Not the Medium)",
+            "topics": ["Transverse vs. longitudinal waves", "Wave parameters: amplitude, wavelength, frequency, speed", "v = fλ relationship"],
+            "examTip": "Students say 'the water moves forward in a water wave' — water molecules in a transverse wave move PERPENDICULAR to wave propagation, not forward; a floating duck bobs up and down, not horizontally toward shore"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Why Waves Interfere and What the Patterns Mean",
+            "topics": ["Superposition principle: constructive and destructive interference", "Path difference and phase difference", "Standing waves: nodes and antinodes"],
+            "examTip": "Students think destructive interference destroys energy — energy is REDISTRIBUTED, not destroyed; where destructive interference occurs, the energy reappears at other locations (nodes have zero displacement but the energy is at antinodes)"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Why Strings and Pipes Produce Only Certain Frequencies",
+            "topics": ["Standing waves in strings: fn = nv/2L", "Open and closed pipe harmonics", "Why closed pipes only produce odd harmonics"],
+            "examTip": "Students apply the string formula to closed pipes — a closed pipe (one end open, one closed) has a NODE at the closed end and ANTINODE at the open end; fundamental = v/4L (not v/2L); only odd harmonics are present"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Why a Moving Source Changes the Pitch You Hear",
+            "topics": ["Doppler effect: source approaching vs. receding", "Why the observer hears higher f as source approaches", "Shock waves and sonic booms"],
+            "examTip": "Students flip the Doppler formula numerator and denominator — use f' = f × (v ± v_observer)/(v ∓ v_source); upper signs when approaching (increase), lower when receding (decrease); observer motion affects numerator, source motion affects denominator"
+          }
+        ]
+      },
+      {
+        "unitNumber": 5,
+        "unitTitle": "Electricity and Magnetism",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Why Like Charges Repel and What Controls the Force",
+            "topics": ["Coulomb's Law: F = kq₁q₂/r²", "Electric field: E = F/q (force per unit charge)", "Field lines: direction, density, and interpretation"],
+            "examTip": "Students double the force when charge is doubled and distance is also doubled — Coulomb's Law has r², so doubling r DECREASES force by 4×; doubling both charge and distance gives net change of 2/4 = ½ the original force"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "Why Voltage and Energy Are Not the Same Thing",
+            "topics": ["Electric potential (V) vs. electric potential energy (PE = qV)", "Equipotential lines and their relationship to field lines", "Work done moving charge: W = qΔV"],
+            "examTip": "Students say 'higher voltage means more energy' without specifying the charge — electric potential energy = qV; a proton and an electron at the same potential have equal |PE| but the proton's is positive and the electron's is negative"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Resistors Control Current in Circuits",
+            "topics": ["Ohm's Law: V = IR", "Series and parallel resistor combinations", "Kirchhoff's voltage and current laws"],
+            "examTip": "Students add resistors in parallel using the reciprocal formula but forget to take the final reciprocal — 1/Req = 1/R₁ + 1/R₂ gives you 1/Req; you must take the reciprocal of that sum to get Req; the parallel combination is ALWAYS less than the smallest individual resistor"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How Moving Charges Create Magnetic Fields (and Vice Versa)",
+            "topics": ["Magnetic force on moving charge: F = qv × B (right-hand rule)", "Force on current-carrying wire: F = IL × B", "Magnetic field from long straight wire and solenoid"],
+            "examTip": "Students apply the right-hand rule without specifying the velocity direction of the charge — for negative charges, use the right-hand rule then REVERSE the direction; the magnetic force on an electron moving right in an upward B field points opposite to the force on a proton"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "courseId": "honors-precalculus",
+    "courseName": "Honors Precalculus",
+    "units": [
+      {
+        "unitNumber": 1,
+        "unitTitle": "Functions and Graphs",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What It Means for a Relation to Be a Function",
+            "topics": ["Vertical line test", "Domain, codomain, range distinction", "Function notation: f(x) means output, not multiplication"],
+            "examTip": "Students write the range as all real numbers by default — the range is the set of ACTUAL OUTPUT values; always determine what y-values are actually achieved, not what's theoretically possible from the formula"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Transformations Move and Reshape Graphs",
+            "topics": ["Vertical/horizontal shifts: f(x±h) and f(x)±k", "Reflections: f(−x) and −f(x)", "Stretches and compressions: af(x) and f(bx)"],
+            "examTip": "Students shift horizontally in the wrong direction — f(x − 3) shifts RIGHT 3 (not left); the sign inside the function is OPPOSITE to the direction of shift because you're replacing x with x−3, not adding 3 to x"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Why Inverse Functions Undo Each Other (And How to Find Them)",
+            "topics": ["Inverse function: swapping input and output", "Horizontal line test for invertibility", "Finding f⁻¹(x) algebraically: swap x and y, solve"],
+            "examTip": "Students confuse f⁻¹(x) with 1/f(x) — f⁻¹(x) is the INVERSE FUNCTION (swap x and y); 1/f(x) is the RECIPROCAL; these are completely different; f(x) = 2x has f⁻¹(x) = x/2 but 1/f(x) = 1/(2x)"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How to Combine Functions and What That Means",
+            "topics": ["Function operations: (f+g)(x), (f·g)(x)", "Composition: (f∘g)(x) = f(g(x))", "Domain restrictions in composed functions"],
+            "examTip": "Students evaluate f(g(x)) in the wrong order — (f∘g)(x) means apply g FIRST, then apply f to that result; they often compute g(f(x)) instead; always substitute the inner function result into the outer function"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Even, Odd, and Neither: Reading Symmetry Algebraically",
+            "topics": ["Even function: f(−x) = f(x) → y-axis symmetry", "Odd function: f(−x) = −f(x) → origin symmetry", "Testing algebraically, not just visually"],
+            "examTip": "Students test only one x-value to determine even/odd — a function must satisfy f(−x) = f(x) for ALL x in its domain to be even; one counterexample disproves it; always simplify f(−x) fully before concluding"
+          }
+        ]
+      },
+      {
+        "unitNumber": 2,
+        "unitTitle": "Polynomial and Rational Functions",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What the End Behavior of a Polynomial Tells You Before You Graph",
+            "topics": ["Leading term dominates for large |x|", "Even/odd degree and positive/negative leading coefficient", "Four end behavior cases"],
+            "examTip": "Students determine end behavior from the first term written, not the leading term — the leading term is the HIGHEST degree term; if a polynomial is written in non-standard form, identify the highest degree term first"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How Multiplicity of Zeros Controls Bouncing vs. Crossing",
+            "topics": ["Roots with odd multiplicity: graph crosses x-axis", "Roots with even multiplicity: graph touches and bounces", "Writing polynomial from given zeros"],
+            "examTip": "Students think double roots mean the graph barely crosses — a root with EVEN multiplicity means the graph TOUCHES but does not cross the x-axis; odd multiplicity means it CROSSES; multiplicity 1 = simple crossing"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Why Rational Functions Have Holes and Asymptotes (And Which Is Which)",
+            "topics": ["Vertical asymptotes vs. holes from factored form", "Horizontal asymptote rules from degree comparison", "Oblique asymptotes via polynomial division"],
+            "examTip": "Students make everything a vertical asymptote — a common factor that cancels creates a HOLE (removable discontinuity), not a vertical asymptote; the vertical asymptote comes from zeros of the denominator that DON'T cancel"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "How to Divide Polynomials and Use the Remainder",
+            "topics": ["Polynomial long division", "Synthetic division for (x − c) divisors", "Remainder Theorem: f(c) = remainder"],
+            "examTip": "Students apply synthetic division to divisors like (x + 3) without changing the sign — synthetic division uses c where the divisor is (x − c); for (x + 3), c = −3, not +3; entering +3 gives completely wrong results"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Finding All Zeros: The Full Rational Root Strategy",
+            "topics": ["Rational Root Theorem: ±p/q candidates", "Using synthetic division to test and deflate", "Complex conjugate pairs and irreducible quadratics"],
+            "examTip": "Students stop after finding two real roots — the Fundamental Theorem of Algebra guarantees a degree-n polynomial has EXACTLY n roots (counting multiplicity) in the complex numbers; after finding real roots, check if remaining factor has complex roots"
+          }
+        ]
+      },
+      {
+        "unitNumber": 3,
+        "unitTitle": "Exponential and Logarithmic Functions",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Why Exponential Growth Eventually Beats Every Polynomial",
+            "topics": ["Exponential function f(x) = abˣ: base and growth/decay", "Domain, range, and asymptote of exponential", "Comparing linear, polynomial, and exponential growth rates"],
+            "examTip": "Students confuse exponential growth rate with percent increase — if b = 1.08, the growth rate is 8% PER PERIOD; the base directly encodes the growth factor, not the percent; b = 0.92 means 8% decay (1 − 0.92 = 0.08 = 8%)"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "What a Logarithm Is Actually Asking",
+            "topics": ["log_b(x) = y means bʸ = x", "Common log (base 10) and natural log (base e)", "Graph of log as inverse of exponential"],
+            "examTip": "Students evaluate log_2(8) by calculating 2×8 or 8/2 — a logarithm asks 'what EXPONENT on the base gives this number?'; log_2(8) = 3 because 2³ = 8; always rewrite as the equivalent exponential equation to solve"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "Logarithm Laws: Breaking Apart and Rebuilding Expressions",
+            "topics": ["Product: log(AB) = log A + log B", "Quotient: log(A/B) = log A − log B", "Power: log(Aⁿ) = n·log A"],
+            "examTip": "Students write log(A + B) = log A + log B — there is NO log law for the log of a sum; log(AB) = log A + log B (product rule applies to multiplication, NOT addition); this is the most common logarithm error"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Solving Exponential and Logarithmic Equations",
+            "topics": ["Isolating the exponential, then taking log of both sides", "Checking for extraneous solutions in log equations", "Change of base formula"],
+            "examTip": "Students accept extraneous solutions in log equations — after solving, CHECK that the argument of EVERY log in the original equation is POSITIVE; log(negative number) is undefined, so solutions that make the argument ≤ 0 must be rejected"
+          }
+        ]
+      },
+      {
+        "unitNumber": 4,
+        "unitTitle": "Trigonometry",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "Why Radians Are More Useful Than Degrees",
+            "topics": ["Radian definition: arc length / radius", "Degree-radian conversions", "Arc length and sector area formulas: s = rθ, A = ½r²θ"],
+            "examTip": "Students use degree measures in s = rθ — this formula REQUIRES θ in RADIANS; using degrees gives wrong answers; always convert to radians before applying arc length or sector area formulas"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How the Unit Circle Encodes All Trig Values",
+            "topics": ["Unit circle: (cos θ, sin θ) at angle θ", "Reference angles and quadrant signs (ASTC)", "Exact values at 0, π/6, π/4, π/3, π/2 and their multiples"],
+            "examTip": "Students memorize unit circle values without understanding reference angles — sin(5π/6) is not sin(5π/6) from scratch; 5π/6 is in Quadrant II with reference angle π/6; sin is positive in Q2, so sin(5π/6) = sin(π/6) = 1/2"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "How Amplitude, Period, and Phase Shift Transform Trig Graphs",
+            "topics": ["y = A sin(Bx + C) + D: identifying each parameter", "Period = 2π/|B|", "Phase shift = −C/B (direction trap)"],
+            "examTip": "Students read phase shift as −C when it should be −C/B — for y = sin(2x − π), factor as sin(2(x − π/2)); phase shift is π/2 to the RIGHT, not π; always factor out B before reading the phase shift"
+          },
+          {
+            "lessonNumber": 4,
+            "lessonTitle": "Why Inverse Trig Functions Have Restricted Ranges",
+            "topics": ["arcsin, arccos, arctan: restricted ranges", "Why restrictions are necessary for invertibility", "Solving trig equations on restricted vs. full domains"],
+            "examTip": "Students give all solutions when only the principal value is needed (or vice versa) — arcsin(x) returns ONE value in [−π/2, π/2]; when solving sin θ = 0.5 on [0, 2π], there are TWO solutions (π/6 and 5π/6); read the problem carefully for the domain"
+          },
+          {
+            "lessonNumber": 5,
+            "lessonTitle": "Proving and Applying Trig Identities",
+            "topics": ["Pythagorean identities: sin²+cos²=1 and derived forms", "Sum and difference formulas", "Double angle formulas: sin 2θ, cos 2θ"],
+            "examTip": "Students 'prove' identities by cross-multiplying both sides — proofs must be one-directional; transform ONE side only until it equals the other; never operate on both sides simultaneously as if it's an equation to solve"
+          }
+        ]
+      },
+      {
+        "unitNumber": 5,
+        "unitTitle": "Sequences and Series",
+        "lessons": [
+          {
+            "lessonNumber": 1,
+            "lessonTitle": "What Makes a Sequence Arithmetic or Geometric",
+            "topics": ["Arithmetic: aₙ = a₁ + (n−1)d", "Geometric: aₙ = a₁ · rⁿ⁻¹", "Identifying from ratios vs. differences"],
+            "examTip": "Students apply arithmetic formula to geometric sequences — check: constant DIFFERENCE → arithmetic; constant RATIO → geometric; if successive terms multiply by the same factor, the sequence is geometric even if the terms grow rapidly"
+          },
+          {
+            "lessonNumber": 2,
+            "lessonTitle": "How to Sum a Finite Arithmetic or Geometric Series",
+            "topics": ["Arithmetic series sum: Sₙ = n(a₁+aₙ)/2", "Geometric series sum: Sₙ = a₁(1−rⁿ)/(1−r)", "Setting up the formula: finding n, a₁, aₙ or r"],
+            "examTip": "Students confuse n (number of terms) with aₙ (the nth term value) — n is the COUNT of terms; if terms run from a₁ to a₁₀₀, n = 100; to find n when terms are listed as values, use the nth term formula first"
+          },
+          {
+            "lessonNumber": 3,
+            "lessonTitle": "When an Infinite Geometric Series Has a Finite Sum",
+            "topics": ["Convergence condition: |r| < 1", "Sum formula: S∞ = a₁/(1−r)", "Why |r| ≥ 1 diverges"],
+            "examTip": "Students apply S∞ = a₁/(1−r) when |r| > 1 — this formula is only valid when |r| < 1 (series CONVERGES); for |r| ≥ 1, the series diverges (sum grows without bound); always check |r| before applying the formula"
+          }
+        ]
+      }
+    ]
+  }
+]
