@@ -1,0 +1,370 @@
+"use client";
+
+/**
+ * SectionLessonPlayer
+ *
+ * Drives a sequential playlist of video clips and overlay checkpoints.
+ * Clips play back-to-back; overlays pause the flow until the student
+ * completes the interaction.
+ *
+ * Props:
+ *   playlist   — ordered array of PlaylistItems (clips + overlays)
+ *   lessonId   — for overlay response logging
+ *   onComplete — called when the final item is done
+ */
+
+import { useRef, useState, useEffect, useCallback } from "react";
+import OverlayCard from "@/components/lesson/OverlayCard";
+import type { PlaylistItem } from "@/lib/buildPlaylist";
+
+interface Props {
+  playlist: PlaylistItem[];
+  lessonId: string;
+  onComplete?: () => void;
+}
+
+// ── Overlay type → dot color ──────────────────────────────────────────────
+const OVERLAY_DOT_COLOR: Record<string, string> = {
+  SPARK:           "#C9A84C",
+  GAP_CRUNCH:      "#E85A4A",
+  TEACH_BACK:      "#5DCAA5",
+  QUESTION_SPRINT: "#9F97ED",
+  ANALYZER:        "#378ADD",
+  spark:           "#C9A84C",
+  gap_crunch:      "#E85A4A",
+  teach_back:      "#5DCAA5",
+  question_sprint: "#9F97ED",
+  analyzer:        "#378ADD",
+};
+
+export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: Props) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [done, setDone] = useState(false);
+  const [overlayVisible, setOverlayVisible] = useState(false);
+  const [completedIdxs, setCompletedIdxs] = useState<Set<number>>(new Set());
+  const sprintCount = useRef(0);
+
+  const currentItem = playlist[currentIdx];
+
+  // Animate overlay in when it becomes active
+  useEffect(() => {
+    if (currentItem?.kind === "overlay") {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => setOverlayVisible(true));
+      });
+    } else {
+      setOverlayVisible(false);
+    }
+  }, [currentIdx, currentItem?.kind]);
+
+  // Auto-play video when the current item is a clip
+  useEffect(() => {
+    if (currentItem?.kind === "clip" && videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play().catch(() => {});
+    }
+  }, [currentIdx, currentItem]);
+
+  const advance = useCallback(
+    (nextIdx: number) => {
+      setCompletedIdxs((prev) => new Set(prev).add(currentIdx));
+      if (nextIdx >= playlist.length) {
+        setDone(true);
+        onComplete?.();
+      } else {
+        setCurrentIdx(nextIdx);
+      }
+    },
+    [currentIdx, playlist.length, onComplete]
+  );
+
+  function handleVideoEnded() {
+    advance(currentIdx + 1);
+  }
+
+  function handleOverlayComplete() {
+    if (currentItem?.kind === "overlay") {
+      const type = (currentItem.overlay.type ?? "").toUpperCase();
+      if (type === "QUESTION_SPRINT") sprintCount.current += 1;
+    }
+    setOverlayVisible(false);
+    setTimeout(() => advance(currentIdx + 1), 200);
+  }
+
+  // ── Completion screen ────────────────────────────────────────────────────
+  if (done) {
+    const sprintOverlays = playlist.filter(
+      (p) => p.kind === "overlay" &&
+        (p.overlay.type === "QUESTION_SPRINT" || p.overlay.type === "question_sprint")
+    ).length;
+    return (
+      <div className="slp-done-root">
+        <div className="slp-done-card">
+          <div className="slp-done-icon">🎓</div>
+          <h2 className="slp-done-title">Lesson Complete</h2>
+          <p className="slp-done-body">Your responses have been saved to your learning profile.</p>
+          {sprintOverlays > 0 && (
+            <div className="slp-done-stats">
+              <span className="slp-done-stat">
+                <span className="slp-done-stat-num">{sprintCount.current}</span>
+                <span className="slp-done-stat-label">Sprint sets answered</span>
+              </span>
+              <span className="slp-done-stat">
+                <span className="slp-done-stat-num">{playlist.filter(p => p.kind === "clip").length}</span>
+                <span className="slp-done-stat-label">clips watched</span>
+              </span>
+            </div>
+          )}
+        </div>
+        <style>{doneCss}</style>
+      </div>
+    );
+  }
+
+  if (playlist.length === 0) {
+    return (
+      <div className="slp-done-root">
+        <p style={{ color: "#555", fontSize: "0.85rem" }}>No content available for this lesson yet.</p>
+        <style>{doneCss}</style>
+      </div>
+    );
+  }
+
+  // ── Player ────────────────────────────────────────────────────────────────
+  const clipItems   = playlist.filter((p) => p.kind === "clip");
+  const clipsDone   = Array.from(completedIdxs).filter((i) => playlist[i]?.kind === "clip").length;
+
+  return (
+    <div className="slp-root">
+
+      {/* ── Video layer ── */}
+      <div className="slp-video-wrap">
+        {currentItem?.kind === "clip" ? (
+          <>
+            <video
+              ref={videoRef}
+              className="slp-video"
+              src={currentItem.clipUrl}
+              playsInline
+              controls
+              controlsList="nodownload"
+              onEnded={handleVideoEnded}
+            />
+            <div className="slp-section-label">{currentItem.sectionTitle}</div>
+            {clipItems.length > 1 && (
+              <div className="slp-clip-counter">
+                Clip {clipsDone + 1} of {clipItems.length}
+              </div>
+            )}
+          </>
+        ) : (
+          // Placeholder while overlay is showing
+          <div className="slp-video-placeholder" />
+        )}
+      </div>
+
+      {/* ── Overlay layer ── */}
+      {currentItem?.kind === "overlay" && (
+        <div className={`slp-overlay-layer ${overlayVisible ? "slp-overlay-visible" : ""}`}>
+          <div className="slp-overlay-inner">
+            <OverlayCard
+              overlay={currentItem.overlay}
+              lessonId={lessonId}
+              onComplete={handleOverlayComplete}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* ── Progress dots ── */}
+      <div className="slp-dots">
+        {playlist.map((item, i) => {
+          const isCompleted = completedIdxs.has(i);
+          const isCurrent   = i === currentIdx;
+          if (item.kind === "clip") {
+            return (
+              <span
+                key={i}
+                className={`slp-dot slp-dot-clip ${isCompleted ? "slp-dot-done" : ""} ${isCurrent ? "slp-dot-current" : ""}`}
+              />
+            );
+          }
+          const color = OVERLAY_DOT_COLOR[item.overlay.type] ?? "#555";
+          return (
+            <span
+              key={i}
+              className={`slp-dot slp-dot-overlay ${isCurrent ? "slp-dot-current" : ""}`}
+              style={{
+                background: isCompleted ? color : "transparent",
+                borderColor: color,
+                "--dot-color": color,
+              } as React.CSSProperties}
+            />
+          );
+        })}
+      </div>
+
+      <style>{playerCss}</style>
+    </div>
+  );
+}
+
+const playerCss = `
+  .slp-root {
+    position: relative;
+    width: 100%;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+  }
+  .slp-video-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .slp-video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+  }
+  .slp-video-placeholder {
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 17, 23, 0.96);
+  }
+  .slp-section-label {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.85rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #4a6a80;
+    pointer-events: none;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .slp-clip-counter {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.85rem;
+    font-size: 0.65rem;
+    color: #2a4060;
+    font-family: 'Inter', system-ui, sans-serif;
+    pointer-events: none;
+  }
+  .slp-overlay-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(10, 17, 23, 0.96);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .slp-overlay-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .slp-overlay-inner {
+    width: 100%;
+    max-width: 40rem;
+  }
+  .slp-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0.6rem 1rem;
+    background: #050505;
+    min-height: 1.8rem;
+  }
+  .slp-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid #2a4060;
+    background: transparent;
+    transition: transform 0.15s, background 0.15s;
+    flex-shrink: 0;
+  }
+  .slp-dot-clip.slp-dot-done { background: #378ADD; border-color: #378ADD; }
+  .slp-dot-overlay {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    border-radius: 0;
+    border: none;
+    width: 7px;
+    height: 7px;
+  }
+  .slp-dot-current {
+    transform: scale(1.3);
+    animation: slp-pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes slp-pulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.55; }
+  }
+`;
+
+const doneCss = `
+  .slp-done-root {
+    min-height: calc(100vh - 4rem);
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .slp-done-card {
+    max-width: 24rem;
+    width: 100%;
+    background: #0d0d0d;
+    border: 1px solid #1a1a1a;
+    border-radius: 1.25rem;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .slp-done-icon  { font-size: 2.8rem; margin-bottom: 1rem; }
+  .slp-done-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #C9A84C;
+    margin-bottom: 0.5rem;
+  }
+  .slp-done-body {
+    font-size: 0.83rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  .slp-done-stats {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+  .slp-done-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+  }
+  .slp-done-stat-num  { font-size: 1.6rem; font-weight: 800; color: #C9A84C; }
+  .slp-done-stat-label { font-size: 0.65rem; color: #444; text-transform: uppercase; letter-spacing: 0.07em; }
+`;
