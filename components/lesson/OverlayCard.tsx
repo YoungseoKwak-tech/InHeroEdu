@@ -4,13 +4,11 @@
  * OverlayCard — renders a single overlay with full student interaction.
  * Used by VideoLessonPlayer when a timed checkpoint fires.
  *
- * Props:
- *   overlay   — the DB overlay row (type + data)
- *   lessonId  — for response logging
- *   onComplete — called when the student dismisses/completes the card
+ * Cosmic mission-control aesthetic: starfield gradient, mono caps labels with
+ * pulsing dot + glow, italic serif prompts, accent rings/glow per type.
  */
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { authFetch } from "@/lib/client-auth";
 import type { OverlayRow } from "@/lib/overlays";
 
@@ -21,15 +19,18 @@ interface Props {
 }
 
 // ── Design tokens ──────────────────────────────────────────────────────────
-const TOKENS: Record<string, { color: string; bg: string; label: string }> = {
-  SPARK:            { color: "#C9A84C", bg: "#0d1a10", label: "SPARK" },
-  GAP_CRUNCH:       { color: "#E85A4A", bg: "#120a0a", label: "GAP CRUNCH" },
-  TEACH_BACK:       { color: "#5DCAA5", bg: "#091410", label: "TEACH BACK" },
-  QUESTION_SPRINT:  { color: "#9F97ED", bg: "#0c0b18", label: "QUESTION SPRINT" },
-  ANALYZER:         { color: "#5DAAF0", bg: "#090f18", label: "ANALYZER" },
-  CONFIDENCE_CHECK: { color: "#D4537E", bg: "#130a0e", label: "◈ CONFIDENCE CHECK" },
-  NEXT_MOVE:        { color: "#7F77DD", bg: "#0c0b18", label: "→ NEXT MOVE" },
+const TOKENS: Record<string, { color: string; label: string }> = {
+  SPARK:            { color: "#F4C95D", label: "✦ SPARK" },
+  GAP_CRUNCH:       { color: "#FF6B5B", label: "◆ GAP CRUNCH" },
+  TEACH_BACK:       { color: "#5DCAA5", label: "◇ TEACH BACK" },
+  QUESTION_SPRINT:  { color: "#A99CFF", label: "✧ QUESTION SPRINT" },
+  ANALYZER:         { color: "#5DAAF0", label: "◉ ANALYZER" },
+  CONFIDENCE_CHECK: { color: "#E97099", label: "◈ CONFIDENCE CHECK" },
+  NEXT_MOVE:        { color: "#9B8DFF", label: "→ NEXT MOVE" },
 };
+
+const cardStyle = (tok: string): React.CSSProperties =>
+  ({ ["--tok" as string]: tok } as React.CSSProperties);
 
 function logResponse(data: Record<string, unknown>) {
   authFetch("/api/overlay-responses", {
@@ -57,8 +58,8 @@ function SparkCard({ overlay, lessonId, onComplete }: Props) {
 
   const tok = TOKENS.SPARK;
   return (
-    <div className="oc-card" style={{ background: tok.bg, borderColor: tok.color + "33" }}>
-      <div className="oc-label" style={{ color: tok.color }}>{tok.label}</div>
+    <div className="oc-card" style={cardStyle(tok.color)}>
+      <div className="oc-label">{tok.label}</div>
       <p className="oc-prompt">{data.prompt ?? "What do you notice?"}</p>
       {!done ? (
         <>
@@ -68,11 +69,9 @@ function SparkCard({ overlay, lessonId, onComplete }: Props) {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             rows={3}
-            style={{ borderColor: tok.color + "44" }}
           />
           <button
             className="oc-btn"
-            style={{ background: tok.color, color: "#0a0a0a" }}
             onClick={submit}
             disabled={!value.trim()}
           >
@@ -80,7 +79,7 @@ function SparkCard({ overlay, lessonId, onComplete }: Props) {
           </button>
         </>
       ) : (
-        <p className="oc-saved" style={{ color: tok.color }}>Saved ✓</p>
+        <p className="oc-saved">Saved ✓</p>
       )}
     </div>
   );
@@ -127,8 +126,8 @@ function GapCrunchCard({ overlay, lessonId, onComplete }: Props) {
   }
 
   return (
-    <div className="oc-card" style={{ background: tok.bg, borderColor: tok.color + "33" }}>
-      <div className="oc-label" style={{ color: tok.color }}>{tok.label}</div>
+    <div className="oc-card" style={cardStyle(tok.color)}>
+      <div className="oc-label">{tok.label}</div>
       <p className="oc-prompt">{data.statement ?? "Which is correct?"}</p>
       {phase === "choose" && (
         <div className="oc-options">
@@ -136,7 +135,6 @@ function GapCrunchCard({ overlay, lessonId, onComplete }: Props) {
             <button
               key={opt}
               className="oc-option"
-              style={{ borderColor: tok.color + "44" }}
               onClick={() => choose(opt)}
             >
               {opt}
@@ -145,27 +143,15 @@ function GapCrunchCard({ overlay, lessonId, onComplete }: Props) {
         </div>
       )}
       {phase === "evaluating" && (
-        <p className="oc-evaluating">Evaluating…</p>
+        <p className="oc-evaluating">Evaluating signal…</p>
       )}
       {phase === "result" && (
         <>
-          <div
-            className="oc-result-badge"
-            style={{
-              color: selected === data.correct ? "#00FFB2" : tok.color,
-              background: selected === data.correct ? "rgba(0,255,178,0.08)" : tok.color + "18",
-            }}
-          >
-            {selected === data.correct ? "Correct ✓" : "Not quite"}
+          <div className={`oc-result-badge ${selected === data.correct ? "oc-result-good" : "oc-result-miss"}`}>
+            {selected === data.correct ? "✓ Correct" : "✕ Not quite"}
           </div>
           {feedback && <p className="oc-feedback">{feedback}</p>}
-          <button
-            className="oc-btn"
-            style={{ background: tok.color, color: "#0a0a0a" }}
-            onClick={onComplete}
-          >
-            Continue →
-          </button>
+          <button className="oc-btn" onClick={onComplete}>Continue →</button>
         </>
       )}
     </div>
@@ -210,8 +196,8 @@ function TeachBackCard({ overlay, lessonId, onComplete }: Props) {
   }
 
   return (
-    <div className="oc-card" style={{ background: tok.bg, borderColor: tok.color + "33" }}>
-      <div className="oc-label" style={{ color: tok.color }}>{tok.label}</div>
+    <div className="oc-card" style={cardStyle(tok.color)}>
+      <div className="oc-label">{tok.label}</div>
       <p className="oc-prompt">{data.prompt ?? "Explain this concept in your own words."}</p>
       {phase === "write" && (
         <>
@@ -221,34 +207,22 @@ function TeachBackCard({ overlay, lessonId, onComplete }: Props) {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             rows={4}
-            style={{ borderColor: tok.color + "44" }}
           />
-          <button
-            className="oc-btn"
-            style={{ background: tok.color, color: "#0a0a0a" }}
-            onClick={submit}
-            disabled={!value.trim()}
-          >
+          <button className="oc-btn" onClick={submit} disabled={!value.trim()}>
             Submit for Evaluation →
           </button>
         </>
       )}
-      {phase === "evaluating" && <p className="oc-evaluating">Evaluating…</p>}
+      {phase === "evaluating" && <p className="oc-evaluating">Evaluating signal…</p>}
       {phase === "result" && (
         <>
           <div className="oc-stars">
             {[1,2,3,4,5].map((n) => (
-              <span key={n} style={{ color: n <= score ? tok.color : "#333", fontSize: "1.4rem" }}>★</span>
+              <span key={n} className={n <= score ? "oc-star oc-star-on" : "oc-star"}>★</span>
             ))}
           </div>
           {feedback && <p className="oc-feedback">{feedback}</p>}
-          <button
-            className="oc-btn"
-            style={{ background: tok.color, color: "#0a0a0a" }}
-            onClick={onComplete}
-          >
-            Continue →
-          </button>
+          <button className="oc-btn" onClick={onComplete}>Continue →</button>
         </>
       )}
     </div>
@@ -296,10 +270,10 @@ function QuestionSprintCard({ overlay, lessonId, onComplete }: Props) {
 
   if (questions.length === 0) {
     return (
-      <div className="oc-card" style={{ background: tok.bg, borderColor: tok.color + "33" }}>
-        <div className="oc-label" style={{ color: tok.color }}>{tok.label}</div>
+      <div className="oc-card" style={cardStyle(tok.color)}>
+        <div className="oc-label">{tok.label}</div>
         <p className="oc-prompt">No questions available.</p>
-        <button className="oc-btn" style={{ background: tok.color, color: "#0a0a0a" }} onClick={onComplete}>Continue →</button>
+        <button className="oc-btn" onClick={onComplete}>Continue →</button>
       </div>
     );
   }
@@ -307,43 +281,37 @@ function QuestionSprintCard({ overlay, lessonId, onComplete }: Props) {
   if (done) {
     const correctCount = answers.filter((a, i) => a === questions[i]?.correct).length;
     return (
-      <div className="oc-card" style={{ background: tok.bg, borderColor: tok.color + "33" }}>
-        <div className="oc-label" style={{ color: tok.color }}>{tok.label}</div>
-        <p className="oc-score-title" style={{ color: tok.color }}>
-          {correctCount}/{questions.length} correct
-        </p>
+      <div className="oc-card" style={cardStyle(tok.color)}>
+        <div className="oc-label">{tok.label}</div>
+        <p className="oc-score-title">{correctCount}/{questions.length} correct</p>
         <p className="oc-feedback">
           {correctCount === questions.length
-            ? "Perfect score!"
+            ? "Mission accomplished — perfect signal."
             : correctCount >= questions.length / 2
-            ? "Good work — review any missed concepts."
-            : "Review this section before continuing."}
+            ? "Solid trajectory — review what got missed."
+            : "Recalibrate — review this section before continuing."}
         </p>
-        <button className="oc-btn" style={{ background: tok.color, color: "#0a0a0a" }} onClick={onComplete}>Continue →</button>
+        <button className="oc-btn" onClick={onComplete}>Continue →</button>
       </div>
     );
   }
 
   return (
-    <div className="oc-card" style={{ background: tok.bg, borderColor: tok.color + "33" }}>
-      <div className="oc-label" style={{ color: tok.color }}>
-        {tok.label} · {idx + 1}/{questions.length}
-      </div>
+    <div className="oc-card" style={cardStyle(tok.color)}>
+      <div className="oc-label">{tok.label} · {idx + 1}/{questions.length}</div>
       <p className="oc-prompt">{q.question}</p>
       <div className="oc-options">
         {q.options.map((opt, i) => {
-          let borderColor = tok.color + "44";
-          let bg = "transparent";
-          let color = "#ccc";
+          let cls = "oc-option";
           if (answered) {
-            if (i === q.correct) { borderColor = "#00FFB2"; bg = "rgba(0,255,178,0.08)"; color = "#00FFB2"; }
-            else if (i === answers[idx]) { borderColor = tok.color; bg = tok.color + "18"; color = tok.color; }
+            if (i === q.correct)              cls += " oc-option-correct";
+            else if (i === answers[idx])      cls += " oc-option-wrong";
+            else                              cls += " oc-option-muted";
           }
           return (
             <button
               key={i}
-              className="oc-option"
-              style={{ borderColor, background: bg, color }}
+              className={cls}
               onClick={() => answer(i)}
               disabled={answered}
             >
@@ -354,14 +322,11 @@ function QuestionSprintCard({ overlay, lessonId, onComplete }: Props) {
       </div>
       {showExplanation && (
         <>
-          <p className="oc-result-badge" style={{
-            color: isCorrect ? "#00FFB2" : tok.color,
-            background: isCorrect ? "rgba(0,255,178,0.08)" : tok.color + "18",
-          }}>
-            {isCorrect ? "Correct ✓" : "Incorrect"}
+          <p className={`oc-result-badge ${isCorrect ? "oc-result-good" : "oc-result-miss"}`}>
+            {isCorrect ? "✓ Correct" : "✕ Incorrect"}
           </p>
           <p className="oc-feedback">{q.explanation}</p>
-          <button className="oc-btn" style={{ background: tok.color, color: "#0a0a0a" }} onClick={advance}>
+          <button className="oc-btn" onClick={advance}>
             {idx + 1 < questions.length ? "Next →" : "See Score →"}
           </button>
         </>
@@ -383,12 +348,10 @@ function AnalyzerCard({ overlay, onComplete }: { overlay: OverlayRow; onComplete
   const tok = TOKENS.ANALYZER;
 
   return (
-    <div className="oc-card" style={{ background: tok.bg, borderColor: tok.color + "33" }}>
-      <div className="oc-label" style={{ color: tok.color }}>{tok.label}</div>
+    <div className="oc-card" style={cardStyle(tok.color)}>
+      <div className="oc-label">{tok.label}</div>
       {data.gapType && (
-        <div className="oc-gap-badge" style={{ color: tok.color, background: tok.color + "18" }}>
-          {data.gapType}
-        </div>
+        <div className="oc-gap-badge">{data.gapType}</div>
       )}
       {data.message && <p className="oc-prompt">{data.message}</p>}
       {concepts.length > 0 && (
@@ -399,7 +362,7 @@ function AnalyzerCard({ overlay, onComplete }: { overlay: OverlayRow; onComplete
               <div className="oc-concept-bar-bg">
                 <div
                   className="oc-concept-bar"
-                  style={{ width: `${Math.min(100, c.weight)}%`, background: tok.color }}
+                  style={{ width: `${Math.min(100, c.weight)}%` }}
                 />
               </div>
             </div>
@@ -411,17 +374,15 @@ function AnalyzerCard({ overlay, onComplete }: { overlay: OverlayRow; onComplete
           <p className="oc-prereq-title">Prerequisites</p>
           {prerequisites.map((p) => (
             <div key={p.label} className="oc-prereq-row">
-              <span style={{ color: p.mastered ? "#00FFB2" : "#555" }}>
+              <span className={p.mastered ? "oc-prereq-mark on" : "oc-prereq-mark"}>
                 {p.mastered ? "✓" : "○"}
               </span>
-              <span style={{ color: p.mastered ? "#aaa" : "#555" }}>{p.label}</span>
+              <span className={p.mastered ? "oc-prereq-text on" : "oc-prereq-text"}>{p.label}</span>
             </div>
           ))}
         </div>
       )}
-      <button className="oc-btn" style={{ background: tok.color, color: "#0a0a0a" }} onClick={onComplete}>
-        Got it →
-      </button>
+      <button className="oc-btn" onClick={onComplete}>Got it →</button>
     </div>
   );
 }
@@ -450,10 +411,9 @@ function ConfidenceCheckCard({ overlay, lessonId, onComplete }: Props) {
   }
 
   return (
-    <div className="oc-card" style={{ background: tok.bg, borderColor: tok.color + "33" }}>
-      <div className="oc-label" style={{ color: tok.color }}>{tok.label}</div>
+    <div className="oc-card" style={cardStyle(tok.color)}>
+      <div className="oc-label">{tok.label}</div>
 
-      {/* Identity belief — strikethrough */}
       {data.identityBelief && (
         <div className="oc-cc-belief-wrap">
           <span className="oc-cc-belief-tag">What you think</span>
@@ -461,7 +421,6 @@ function ConfidenceCheckCard({ overlay, lessonId, onComplete }: Props) {
         </div>
       )}
 
-      {/* Evidence from pattern */}
       {data.evidenceFromPattern && (
         <div className="oc-cc-evidence">
           <span className="oc-cc-evidence-tag">What the data says</span>
@@ -469,12 +428,8 @@ function ConfidenceCheckCard({ overlay, lessonId, onComplete }: Props) {
         </div>
       )}
 
-      {/* Reframe — the moment */}
-      {data.reframe && (
-        <p className="oc-cc-reframe">{data.reframe}</p>
-      )}
+      {data.reframe && <p className="oc-cc-reframe">{data.reframe}</p>}
 
-      {/* Probe question */}
       {data.probeQuestion && (
         <div className="oc-cc-probe">
           <p className="oc-cc-probe-text">{data.probeQuestion}</p>
@@ -489,22 +444,12 @@ function ConfidenceCheckCard({ overlay, lessonId, onComplete }: Props) {
             value={response}
             onChange={(e) => setResponse(e.target.value)}
             rows={2}
-            style={{ borderColor: tok.color + "44" }}
           />
-          {/* Action bridge */}
-          {data.actionBridge && (
-            <p className="oc-cc-bridge">{data.actionBridge}</p>
-          )}
-          <button
-            className="oc-btn"
-            style={{ background: tok.color, color: "#fff" }}
-            onClick={submit}
-          >
-            Got it →
-          </button>
+          {data.actionBridge && <p className="oc-cc-bridge">{data.actionBridge}</p>}
+          <button className="oc-btn" onClick={submit}>Got it →</button>
         </>
       ) : (
-        <p className="oc-saved" style={{ color: tok.color }}>Saved ✓</p>
+        <p className="oc-saved">Saved ✓</p>
       )}
     </div>
   );
@@ -530,15 +475,11 @@ function NextMoveCard({ overlay, lessonId, onComplete }: Props) {
   }
 
   return (
-    <div className="oc-card" style={{ background: tok.bg, borderColor: tok.color + "33" }}>
-      <div className="oc-label" style={{ color: tok.color }}>{tok.label}</div>
+    <div className="oc-card" style={cardStyle(tok.color)}>
+      <div className="oc-label">{tok.label}</div>
 
-      {/* Prediction headline */}
-      {data.predictionHeadline && (
-        <p className="oc-nm-headline">{data.predictionHeadline}</p>
-      )}
+      {data.predictionHeadline && <p className="oc-nm-headline">{data.predictionHeadline}</p>}
 
-      {/* Predicted failure — amber block */}
       {data.predictedFailure && (
         <div className="oc-nm-failure">
           <span className="oc-nm-failure-tag">Where it breaks:</span>
@@ -546,14 +487,12 @@ function NextMoveCard({ overlay, lessonId, onComplete }: Props) {
         </div>
       )}
 
-      {/* Why you will break — red left border */}
       {data.whyYouWillBreak && (
         <div className="oc-nm-why">
           <p className="oc-nm-why-text">{data.whyYouWillBreak}</p>
         </div>
       )}
 
-      {/* Prevention drill — teal block */}
       {data.preventionDrill && (
         <div className="oc-nm-drill">
           <span className="oc-nm-drill-tag">Do this now:</span>
@@ -561,7 +500,6 @@ function NextMoveCard({ overlay, lessonId, onComplete }: Props) {
         </div>
       )}
 
-      {/* Memory tag — large centered pill */}
       {data.memoryTag && (
         <div className="oc-nm-tag-wrap">
           <span className="oc-nm-tag-label">Save this:</span>
@@ -569,13 +507,7 @@ function NextMoveCard({ overlay, lessonId, onComplete }: Props) {
         </div>
       )}
 
-      <button
-        className="oc-btn"
-        style={{ background: tok.color, color: "#fff" }}
-        onClick={done}
-      >
-        Noted →
-      </button>
+      <button className="oc-btn" onClick={done}>Noted →</button>
     </div>
   );
 }
@@ -593,7 +525,7 @@ export default function OverlayCard({ overlay, lessonId, onComplete }: Props) {
   else if (type === "CONFIDENCE_CHECK") card = <ConfidenceCheckCard overlay={overlay} lessonId={lessonId} onComplete={onComplete} />;
   else if (type === "NEXT_MOVE")        card = <NextMoveCard overlay={overlay} lessonId={lessonId} onComplete={onComplete} />;
   else card = (
-    <div className="oc-card">
+    <div className="oc-card" style={cardStyle("#9F97ED")}>
       <p className="oc-prompt">Unknown overlay type: {type}</p>
       <button className="oc-btn" onClick={onComplete}>Continue →</button>
     </div>
@@ -603,221 +535,439 @@ export default function OverlayCard({ overlay, lessonId, onComplete }: Props) {
     <>
       {card}
       <style>{`
+        /* ─────────── Cosmic mission-control card ─────────── */
         .oc-card {
+          --tok: #A99CFF;
+          position: relative;
+          overflow: hidden;
           width: 100%;
           max-width: 32rem;
-          background: #111;
-          border: 1px solid #1f1f1f;
-          border-radius: 1.25rem;
           padding: 2rem 1.75rem;
           display: flex;
           flex-direction: column;
           gap: 1rem;
           font-family: 'Inter', system-ui, sans-serif;
+          color: #e9eaf5;
+          border-radius: 1.4rem;
+          border: 1px solid color-mix(in srgb, var(--tok) 28%, transparent);
+          background:
+            radial-gradient(ellipse 120% 80% at 50% -10%,
+              color-mix(in srgb, var(--tok) 14%, transparent) 0%,
+              transparent 55%),
+            radial-gradient(circle at 85% 110%,
+              color-mix(in srgb, var(--tok) 9%, transparent) 0%,
+              transparent 50%),
+            linear-gradient(180deg, #0a0e1a 0%, #050610 60%, #03030a 100%);
+          box-shadow:
+            inset 0 0 0 1px color-mix(in srgb, var(--tok) 12%, transparent),
+            0 0 32px color-mix(in srgb, var(--tok) 14%, transparent),
+            0 24px 60px rgba(0,0,0,0.65);
+          animation: oc-enter 0.55s cubic-bezier(0.2, 0.8, 0.25, 1) both;
         }
+
+        /* Starfield (twinkling background dots) */
+        .oc-card::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background-image:
+            radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,0.85), transparent 100%),
+            radial-gradient(1px 1px at 78% 24%, rgba(255,255,255,0.55), transparent 100%),
+            radial-gradient(1.2px 1.2px at 32% 72%, rgba(255,255,255,0.7),  transparent 100%),
+            radial-gradient(0.8px 0.8px at 64% 88%, rgba(255,255,255,0.5),  transparent 100%),
+            radial-gradient(1px 1px at 92% 56%, rgba(255,255,255,0.65), transparent 100%),
+            radial-gradient(0.8px 0.8px at 18% 92%, rgba(255,255,255,0.45), transparent 100%),
+            radial-gradient(1px 1px at 50% 8%,  color-mix(in srgb, var(--tok) 70%, white), transparent 100%),
+            radial-gradient(0.9px 0.9px at 8% 52%, rgba(255,255,255,0.5), transparent 100%),
+            radial-gradient(0.7px 0.7px at 44% 38%, rgba(255,255,255,0.4), transparent 100%);
+          opacity: 0.7;
+          animation: oc-twinkle 4.5s ease-in-out infinite;
+          z-index: 0;
+        }
+        /* A second pseudo-element draws a faint scan-line / horizon glow */
+        .oc-card::after {
+          content: "";
+          position: absolute;
+          left: 0; right: 0; top: 0;
+          height: 1px;
+          pointer-events: none;
+          background: linear-gradient(90deg,
+            transparent 0%,
+            color-mix(in srgb, var(--tok) 70%, transparent) 50%,
+            transparent 100%);
+          opacity: 0.6;
+          z-index: 1;
+        }
+        .oc-card > * { position: relative; z-index: 2; }
+
+        @keyframes oc-enter {
+          from { opacity: 0; transform: translateY(10px) scale(0.985); }
+          to   { opacity: 1; transform: translateY(0)    scale(1); }
+        }
+        @keyframes oc-twinkle {
+          0%, 100% { opacity: 0.55; }
+          50%      { opacity: 0.95; }
+        }
+
+        /* ─────────── Label (mission-control header) ─────────── */
         .oc-label {
-          font-size: 0.6rem;
-          font-weight: 800;
-          letter-spacing: 0.12em;
+          font-family: ui-monospace, 'JetBrains Mono', 'SFMono-Regular', monospace;
+          font-size: 0.62rem;
+          font-weight: 700;
+          letter-spacing: 0.22em;
           text-transform: uppercase;
+          color: var(--tok);
+          text-shadow: 0 0 14px color-mix(in srgb, var(--tok) 65%, transparent);
+          display: inline-flex;
+          align-items: center;
+          gap: 0.55rem;
+          align-self: flex-start;
         }
+        .oc-label::before {
+          content: "";
+          width: 7px; height: 7px;
+          border-radius: 50%;
+          background: var(--tok);
+          box-shadow:
+            0 0 8px var(--tok),
+            0 0 18px color-mix(in srgb, var(--tok) 60%, transparent);
+          animation: oc-pulse-dot 1.6s ease-in-out infinite;
+          flex-shrink: 0;
+        }
+        @keyframes oc-pulse-dot {
+          0%, 100% { opacity: 0.55; transform: scale(0.85); }
+          50%      { opacity: 1;    transform: scale(1.18); }
+        }
+
+        /* ─────────── Prompt (italic serif log entry) ─────────── */
         .oc-prompt {
-          font-size: 0.95rem;
-          font-weight: 600;
-          color: #e5e5e5;
-          line-height: 1.5;
+          font-family: 'Cormorant Garamond', 'EB Garamond', 'Georgia', serif;
+          font-size: 1.2rem;
+          font-style: italic;
+          font-weight: 500;
+          color: #f3f3fb;
+          line-height: 1.45;
           margin: 0;
+          letter-spacing: 0.005em;
         }
+
+        /* ─────────── Textarea ─────────── */
         .oc-textarea {
           width: 100%;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid #222;
+          background: rgba(255,255,255,0.025);
+          border: 1px solid color-mix(in srgb, var(--tok) 32%, transparent);
           border-radius: 0.75rem;
           padding: 0.75rem 1rem;
-          color: #e5e5e5;
+          color: #e9eaf5;
           font-size: 0.85rem;
           font-family: inherit;
           resize: vertical;
           outline: none;
-          line-height: 1.5;
+          line-height: 1.55;
           box-sizing: border-box;
+          transition: border-color 0.2s, box-shadow 0.2s;
         }
-        .oc-textarea:focus { border-color: #444; }
+        .oc-textarea:focus {
+          border-color: var(--tok);
+          box-shadow:
+            0 0 0 1px var(--tok),
+            0 0 16px color-mix(in srgb, var(--tok) 35%, transparent);
+        }
+
+        /* ─────────── Buttons (mission-control outline) ─────────── */
         .oc-btn {
-          padding: 0.75rem 1.25rem;
-          border: none;
-          border-radius: 0.75rem;
-          font-size: 0.82rem;
+          padding: 0.7rem 1.25rem;
+          font-family: ui-monospace, 'JetBrains Mono', monospace;
+          font-size: 0.72rem;
           font-weight: 700;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: var(--tok);
+          background: color-mix(in srgb, var(--tok) 6%, transparent);
+          border: 1px solid color-mix(in srgb, var(--tok) 50%, transparent);
+          border-radius: 0.55rem;
           cursor: pointer;
-          transition: filter 0.15s, opacity 0.15s;
-          text-align: center;
-          font-family: inherit;
+          transition: background 0.18s, box-shadow 0.22s, color 0.18s, transform 0.18s;
+          align-self: flex-start;
         }
-        .oc-btn:hover:not(:disabled) { filter: brightness(1.1); }
-        .oc-btn:disabled { opacity: 0.4; cursor: default; }
+        .oc-btn:hover:not(:disabled) {
+          color: #fff;
+          background: color-mix(in srgb, var(--tok) 22%, transparent);
+          box-shadow:
+            0 0 0 1px var(--tok),
+            0 0 18px color-mix(in srgb, var(--tok) 45%, transparent);
+          transform: translateY(-1px);
+        }
+        .oc-btn:disabled { opacity: 0.35; cursor: default; }
+
+        /* ─────────── Options (multi-choice) ─────────── */
         .oc-options { display: flex; flex-direction: column; gap: 0.5rem; }
         .oc-option {
-          padding: 0.65rem 1rem;
-          background: transparent;
-          border: 1px solid #222;
+          padding: 0.7rem 1rem;
+          background: rgba(255,255,255,0.02);
+          border: 1px solid color-mix(in srgb, var(--tok) 28%, transparent);
           border-radius: 0.65rem;
-          color: #ccc;
-          font-size: 0.82rem;
+          color: #d8d9e6;
+          font-size: 0.86rem;
           font-family: inherit;
           cursor: pointer;
           text-align: left;
-          transition: background 0.15s, border-color 0.15s, color 0.15s;
+          line-height: 1.45;
+          transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.2s;
         }
-        .oc-option:hover:not(:disabled) { background: rgba(255,255,255,0.04); }
+        .oc-option:hover:not(:disabled) {
+          background: color-mix(in srgb, var(--tok) 8%, transparent);
+          border-color: color-mix(in srgb, var(--tok) 60%, transparent);
+          box-shadow: 0 0 14px color-mix(in srgb, var(--tok) 25%, transparent);
+        }
         .oc-option:disabled { cursor: default; }
+        .oc-option-correct {
+          border-color: #00FFB2 !important;
+          background: rgba(0,255,178,0.1) !important;
+          color: #b8ffe1 !important;
+          box-shadow: 0 0 18px rgba(0,255,178,0.3);
+        }
+        .oc-option-wrong {
+          border-color: var(--tok) !important;
+          background: color-mix(in srgb, var(--tok) 18%, transparent) !important;
+          color: #fff !important;
+        }
+        .oc-option-muted { opacity: 0.45; }
+
+        /* ─────────── Evaluating / saved / feedback ─────────── */
         .oc-evaluating {
-          font-size: 0.8rem;
-          color: #555;
-          font-style: italic;
+          font-family: ui-monospace, monospace;
+          font-size: 0.74rem;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: color-mix(in srgb, var(--tok) 75%, white);
           margin: 0;
-          animation: oc-pulse 1s ease-in-out infinite;
+          animation: oc-pulse 1.1s ease-in-out infinite;
         }
         @keyframes oc-pulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+
         .oc-result-badge {
           display: inline-block;
-          padding: 0.2rem 0.6rem;
+          padding: 0.32rem 0.75rem;
           border-radius: 9999px;
+          font-family: ui-monospace, monospace;
           font-size: 0.72rem;
           font-weight: 700;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
           margin: 0;
+          align-self: flex-start;
         }
+        .oc-result-good {
+          color: #b8ffe1;
+          background: rgba(0,255,178,0.1);
+          box-shadow: 0 0 14px rgba(0,255,178,0.35);
+        }
+        .oc-result-miss {
+          color: var(--tok);
+          background: color-mix(in srgb, var(--tok) 16%, transparent);
+          box-shadow: 0 0 14px color-mix(in srgb, var(--tok) 30%, transparent);
+        }
+
         .oc-feedback {
-          font-size: 0.82rem;
-          color: #888;
+          font-size: 0.85rem;
+          color: #b8b9cc;
           line-height: 1.6;
           margin: 0;
         }
         .oc-saved {
-          font-size: 0.8rem;
+          font-family: ui-monospace, monospace;
+          font-size: 0.78rem;
           font-weight: 700;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: var(--tok);
           margin: 0;
+          text-shadow: 0 0 12px color-mix(in srgb, var(--tok) 60%, transparent);
         }
-        .oc-stars { display: flex; gap: 0.25rem; }
-        .oc-score-title {
+
+        /* ─────────── Stars (teach-back rating) ─────────── */
+        .oc-stars { display: flex; gap: 0.3rem; }
+        .oc-star {
           font-size: 1.5rem;
-          font-weight: 800;
-          margin: 0;
-          text-align: center;
+          color: rgba(255,255,255,0.12);
+          transition: color 0.2s, text-shadow 0.2s;
         }
+        .oc-star-on {
+          color: var(--tok);
+          text-shadow:
+            0 0 12px var(--tok),
+            0 0 4px color-mix(in srgb, var(--tok) 80%, transparent);
+        }
+
+        .oc-score-title {
+          font-family: 'Cormorant Garamond', 'Georgia', serif;
+          font-size: 1.8rem;
+          font-style: italic;
+          font-weight: 600;
+          color: var(--tok);
+          margin: 0;
+          text-shadow: 0 0 18px color-mix(in srgb, var(--tok) 50%, transparent);
+        }
+
+        /* ─────────── Analyzer ─────────── */
         .oc-gap-badge {
           display: inline-block;
-          padding: 0.2rem 0.6rem;
+          padding: 0.25rem 0.65rem;
           border-radius: 9999px;
-          font-size: 0.65rem;
+          font-family: ui-monospace, monospace;
+          font-size: 0.66rem;
           font-weight: 700;
-          letter-spacing: 0.08em;
+          letter-spacing: 0.14em;
           text-transform: uppercase;
+          color: var(--tok);
+          background: color-mix(in srgb, var(--tok) 14%, transparent);
           align-self: flex-start;
         }
-        .oc-concepts { display: flex; flex-direction: column; gap: 0.5rem; }
-        .oc-concept-row { display: flex; align-items: center; gap: 0.65rem; }
-        .oc-concept-label { font-size: 0.75rem; color: #888; min-width: 7rem; }
+        .oc-concepts { display: flex; flex-direction: column; gap: 0.55rem; }
+        .oc-concept-row { display: flex; align-items: center; gap: 0.7rem; }
+        .oc-concept-label {
+          font-family: ui-monospace, monospace;
+          font-size: 0.72rem;
+          color: #b8b9cc;
+          min-width: 7rem;
+          letter-spacing: 0.04em;
+        }
         .oc-concept-bar-bg {
           flex: 1;
           height: 4px;
-          background: #1a1a1a;
+          background: rgba(255,255,255,0.08);
           border-radius: 2px;
           overflow: hidden;
         }
         .oc-concept-bar {
           height: 100%;
           border-radius: 2px;
+          background: var(--tok);
+          box-shadow: 0 0 10px color-mix(in srgb, var(--tok) 60%, transparent);
           transition: width 0.6s ease;
         }
-        .oc-prereqs { display: flex; flex-direction: column; gap: 0.35rem; }
+        .oc-prereqs { display: flex; flex-direction: column; gap: 0.4rem; }
         .oc-prereq-title {
-          font-size: 0.65rem;
+          font-family: ui-monospace, monospace;
+          font-size: 0.62rem;
           font-weight: 700;
-          letter-spacing: 0.08em;
+          letter-spacing: 0.18em;
           text-transform: uppercase;
-          color: #444;
-          margin: 0 0 0.2rem;
+          color: color-mix(in srgb, var(--tok) 70%, white);
+          margin: 0 0 0.25rem;
         }
-        .oc-prereq-row { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; }
+        .oc-prereq-row { display: flex; align-items: center; gap: 0.55rem; font-size: 0.82rem; }
+        .oc-prereq-mark { color: rgba(255,255,255,0.3); font-family: ui-monospace, monospace; }
+        .oc-prereq-mark.on { color: #00FFB2; text-shadow: 0 0 8px rgba(0,255,178,0.6); }
+        .oc-prereq-text { color: rgba(255,255,255,0.4); }
+        .oc-prereq-text.on { color: #d8d9e6; }
 
-        /* ── Confidence Check ── */
-        .oc-cc-belief-wrap { display: flex; flex-direction: column; gap: 0.2rem; }
+        /* ─────────── Confidence Check ─────────── */
+        .oc-cc-belief-wrap { display: flex; flex-direction: column; gap: 0.25rem; }
         .oc-cc-belief-tag {
-          font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em;
-          text-transform: uppercase; color: #444;
+          font-family: ui-monospace, monospace;
+          font-size: 0.6rem; font-weight: 700; letter-spacing: 0.18em;
+          text-transform: uppercase; color: rgba(255,255,255,0.4);
         }
         .oc-cc-belief {
-          font-size: 0.88rem; color: #555;
+          font-family: 'Cormorant Garamond', 'Georgia', serif;
+          font-size: 1rem; font-style: italic; color: rgba(255,255,255,0.4);
           text-decoration: line-through;
           margin: 0; line-height: 1.5;
         }
         .oc-cc-evidence {
-          border-left: 2px solid #5DCAA5;
-          padding-left: 0.75rem;
-          display: flex; flex-direction: column; gap: 0.2rem;
+          border-left: 2px solid var(--tok);
+          padding-left: 0.85rem;
+          display: flex; flex-direction: column; gap: 0.25rem;
+          box-shadow: -1px 0 12px color-mix(in srgb, var(--tok) 30%, transparent);
         }
         .oc-cc-evidence-tag {
-          font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em;
-          text-transform: uppercase; color: #5DCAA5;
+          font-family: ui-monospace, monospace;
+          font-size: 0.6rem; font-weight: 700; letter-spacing: 0.18em;
+          text-transform: uppercase; color: var(--tok);
         }
-        .oc-cc-evidence-text { font-size: 0.82rem; color: #888; margin: 0; line-height: 1.5; }
+        .oc-cc-evidence-text { font-size: 0.86rem; color: #b8b9cc; margin: 0; line-height: 1.55; }
         .oc-cc-reframe {
-          font-size: 1rem; font-weight: 700; color: #fff;
+          font-family: 'Cormorant Garamond', 'Georgia', serif;
+          font-size: 1.25rem; font-style: italic; font-weight: 600; color: #fff;
           margin: 0; line-height: 1.4;
+          text-shadow: 0 0 18px color-mix(in srgb, var(--tok) 35%, transparent);
         }
         .oc-cc-probe {
-          background: rgba(212,83,126,0.1);
-          border-radius: 0.6rem;
-          padding: 0.7rem 0.9rem;
+          background: color-mix(in srgb, var(--tok) 12%, transparent);
+          border-radius: 0.7rem;
+          padding: 0.8rem 0.95rem;
+          border: 1px solid color-mix(in srgb, var(--tok) 25%, transparent);
         }
-        .oc-cc-probe-text { font-size: 0.83rem; color: #D4537E; font-style: italic; margin: 0; line-height: 1.5; }
-        .oc-cc-bridge { font-size: 0.75rem; color: #555; margin: 0; line-height: 1.5; }
+        .oc-cc-probe-text {
+          font-family: 'Cormorant Garamond', 'Georgia', serif;
+          font-size: 0.95rem; font-style: italic; color: var(--tok);
+          margin: 0; line-height: 1.5;
+        }
+        .oc-cc-bridge { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin: 0; line-height: 1.5; }
 
-        /* ── Next Move ── */
-        .oc-nm-headline { font-size: 1rem; font-weight: 700; color: #fff; margin: 0; line-height: 1.4; }
+        /* ─────────── Next Move ─────────── */
+        .oc-nm-headline {
+          font-family: 'Cormorant Garamond', 'Georgia', serif;
+          font-size: 1.2rem; font-style: italic; font-weight: 600;
+          color: #fff; margin: 0; line-height: 1.4;
+        }
         .oc-nm-failure {
-          background: rgba(194,130,40,0.12);
-          border-radius: 0.6rem;
-          padding: 0.7rem 0.9rem;
-          display: flex; flex-direction: column; gap: 0.2rem;
+          background: rgba(244,201,93,0.1);
+          border: 1px solid rgba(244,201,93,0.25);
+          border-radius: 0.7rem;
+          padding: 0.75rem 0.95rem;
+          display: flex; flex-direction: column; gap: 0.25rem;
         }
         .oc-nm-failure-tag {
-          font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em;
-          text-transform: uppercase; color: #C9A84C;
+          font-family: ui-monospace, monospace;
+          font-size: 0.6rem; font-weight: 700; letter-spacing: 0.18em;
+          text-transform: uppercase; color: #F4C95D;
         }
-        .oc-nm-failure-text { font-size: 0.82rem; color: #b8922a; margin: 0; line-height: 1.5; }
+        .oc-nm-failure-text { font-size: 0.85rem; color: #e3c378; margin: 0; line-height: 1.55; }
         .oc-nm-why {
-          border-left: 2px solid #E85A4A;
-          padding-left: 0.75rem;
+          border-left: 2px solid #FF6B5B;
+          padding-left: 0.85rem;
+          box-shadow: -1px 0 12px rgba(255,107,91,0.25);
         }
-        .oc-nm-why-text { font-size: 0.8rem; color: #888; margin: 0; line-height: 1.5; }
+        .oc-nm-why-text { font-size: 0.84rem; color: #b8b9cc; margin: 0; line-height: 1.55; }
         .oc-nm-drill {
-          background: rgba(93,202,165,0.08);
-          border-radius: 0.6rem;
-          padding: 0.7rem 0.9rem;
-          display: flex; flex-direction: column; gap: 0.2rem;
+          background: rgba(93,202,165,0.1);
+          border: 1px solid rgba(93,202,165,0.25);
+          border-radius: 0.7rem;
+          padding: 0.75rem 0.95rem;
+          display: flex; flex-direction: column; gap: 0.25rem;
         }
         .oc-nm-drill-tag {
-          font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em;
+          font-family: ui-monospace, monospace;
+          font-size: 0.6rem; font-weight: 700; letter-spacing: 0.18em;
           text-transform: uppercase; color: #5DCAA5;
         }
-        .oc-nm-drill-text { font-size: 0.82rem; color: #5DCAA5; margin: 0; line-height: 1.5; }
-        .oc-nm-tag-wrap {
-          display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
-        }
+        .oc-nm-drill-text { font-size: 0.85rem; color: #5DCAA5; margin: 0; line-height: 1.55; }
+        .oc-nm-tag-wrap { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
         .oc-nm-tag-label {
-          font-size: 0.6rem; color: #555;
-          text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;
+          font-family: ui-monospace, monospace;
+          font-size: 0.62rem; color: rgba(255,255,255,0.45);
+          text-transform: uppercase; letter-spacing: 0.18em; font-weight: 700;
         }
         .oc-nm-tag {
-          background: rgba(127,119,221,0.15);
-          color: #9F97ED;
-          font-size: 1.1rem;
-          font-weight: 500;
-          padding: 10px 24px;
-          border-radius: 20px;
+          background: color-mix(in srgb, var(--tok) 18%, transparent);
+          color: var(--tok);
+          font-family: 'Cormorant Garamond', 'Georgia', serif;
+          font-size: 1.2rem;
+          font-style: italic;
+          font-weight: 600;
+          padding: 12px 26px;
+          border-radius: 22px;
           text-align: center;
+          border: 1px solid color-mix(in srgb, var(--tok) 35%, transparent);
+          box-shadow: 0 0 22px color-mix(in srgb, var(--tok) 35%, transparent);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .oc-card, .oc-card::before, .oc-label::before, .oc-evaluating { animation: none; }
         }
       `}</style>
     </>

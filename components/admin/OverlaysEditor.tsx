@@ -338,6 +338,8 @@ export default function OverlaysEditor({
   const [loadingFetch, setLoadingFetch] = useState(true);
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [loadingType, setLoadingType] = useState<OverlayType | null>(null);
+  const [importing, setImporting] = useState(false);
+  const [importMsg, setImportMsg] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [selectedSectionIdx, setSelectedSectionIdx] = useState<number>(0);
   const dragIdx = useRef<number | null>(null);
@@ -433,6 +435,40 @@ export default function OverlaysEditor({
     }
   }
 
+  // ── Import overlays from script's `## OVERLAYS JSON:` block ────────────
+  async function importFromScript() {
+    if (importing) return;
+    const ok = rows.length === 0
+      ? true
+      : window.confirm(
+          `This replaces all ${rows.length} existing overlay${rows.length === 1 ? "" : "s"} with a fresh import from the script. Continue?`
+        );
+    if (!ok) return;
+
+    setImporting(true);
+    setImportMsg(null);
+    try {
+      const res = await authFetch("/api/admin/import-overlays-from-script", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lessonId, replace: true }),
+      });
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error ?? "Import failed");
+
+      const newRows: OverlayRow[] = json.data ?? [];
+      setRows(newRows);
+      onSave(rowsToOverlayParts(newRows));
+      setImportMsg(`Imported ${json.count ?? newRows.length} overlay${(json.count ?? newRows.length) === 1 ? "" : "s"}`);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error("[OverlaysEditor] import", msg);
+      setImportMsg(`Error: ${msg}`);
+    } finally {
+      setImporting(false);
+    }
+  }
+
   // ── Delete overlay ──────────────────────────────────────────────────────
   async function remove(id: string) {
     try {
@@ -490,7 +526,32 @@ export default function OverlaysEditor({
       <div className="oe-gen-section">
         <div className="oe-gen-header">
           <span className="oe-gen-title">AI GENERATE</span>
+          <div style={{ flex: 1 }} />
+          <button
+            type="button"
+            className="oe-import-btn"
+            onClick={importFromScript}
+            disabled={importing || !!loadingType}
+            title="Parse `## OVERLAYS JSON:` block in the script and replace the overlays for this lesson"
+          >
+            {importing ? (
+              <>
+                <span className="oe-spinner" style={{ borderTopColor: "#9F97ED" }} />
+                Importing…
+              </>
+            ) : (
+              <>✦ Import from Script</>
+            )}
+          </button>
         </div>
+        {importMsg && (
+          <div
+            className="oe-import-msg"
+            style={{ color: importMsg.startsWith("Error") ? "#E85A4A" : "#9F97ED" }}
+          >
+            {importMsg}
+          </div>
+        )}
 
         {/* Section selector */}
         <div className="oe-section-row">
@@ -668,6 +729,35 @@ export default function OverlaysEditor({
           font-weight: 700;
           letter-spacing: 0.1em;
           color: #555;
+        }
+
+        /* Import-from-script button */
+        .oe-import-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          font-size: 0.7rem;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          padding: 0.4rem 0.8rem;
+          border: 1px solid #9F97ED66;
+          color: #9F97ED;
+          background: rgba(159,151,237,0.08);
+          border-radius: 0.45rem;
+          cursor: pointer;
+          transition: filter 0.15s, opacity 0.15s, box-shadow 0.2s;
+        }
+        .oe-import-btn:hover:not(:disabled) {
+          filter: brightness(1.3);
+          box-shadow: 0 0 0 1px #9F97ED, 0 0 12px rgba(159,151,237,0.4);
+        }
+        .oe-import-btn:disabled { opacity: 0.4; cursor: default; }
+        .oe-import-msg {
+          font-size: 0.7rem;
+          font-family: ui-monospace, monospace;
+          padding: 0.3rem 0.5rem;
+          border-radius: 0.3rem;
+          background: rgba(255,255,255,0.02);
         }
 
         /* Section selector row */
