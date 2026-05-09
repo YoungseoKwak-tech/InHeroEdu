@@ -50,10 +50,21 @@ const KEYWORDS_KO = [
 ];
 
 interface ParsedLine {
-  type: "stage" | "divider" | "text";
+  type: "divider" | "text";
   text: string;
   highlight: boolean;
   score: number;
+}
+
+// Strip inline stage-direction fragments like "[Draw a diagram]" that appear
+// mid-paragraph. Returns the text without the brackets, trimmed.
+function stripInlineStageDirections(text: string): string {
+  // Remove [ ... ] groups, but only when they look like instructor direction
+  // (multi-word, no math/markdown links). This is conservative.
+  return text
+    .replace(/\[[^\]]{6,}\]/g, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
 }
 
 function parseSection(content: string, keywords: string[]): ParsedLine[] {
@@ -62,17 +73,20 @@ function parseSection(content: string, keywords: string[]): ParsedLine[] {
   const paragraphs = content.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
   const result: ParsedLine[] = [];
 
-  for (const raw of paragraphs) {
-    // Stage direction: full-paragraph wrapped in [...]
-    if (raw.startsWith("[") && raw.endsWith("]")) {
-      result.push({ type: "stage", text: raw.slice(1, -1).trim(), highlight: false, score: 0 });
+  for (const original of paragraphs) {
+    // Skip full-paragraph stage directions (e.g. "[Instructor speaks ...]")
+    if (original.startsWith("[") && original.endsWith("]")) {
       continue;
     }
     // Plain divider
-    if (/^-{3,}$/.test(raw)) {
+    if (/^-{3,}$/.test(original)) {
       result.push({ type: "divider", text: "", highlight: false, score: 0 });
       continue;
     }
+
+    // Strip inline stage directions inside otherwise-spoken paragraphs
+    const raw = stripInlineStageDirections(original);
+    if (!raw) continue;
 
     // Score by keyword density
     const lower = raw.toLowerCase();
@@ -213,26 +227,25 @@ export default function LessonTranscriptStudy({ script, lang = "en" }: Props) {
 
               {!collapsed && (
                 <div className="lts-section-body">
-                  {section.lines.map((line, lineIdx) => {
-                    if (line.type === "divider") {
-                      return <hr key={lineIdx} className="lts-divider" />;
-                    }
-                    if (line.type === "stage") {
+                  {section.lines.length === 0 ? (
+                    <p className="lts-empty-line">
+                      {lang === "ko" ? "이 섹션은 대본 외 연출만 있어요." : "(direction only — no lecture text)"}
+                    </p>
+                  ) : (
+                    section.lines.map((line, lineIdx) => {
+                      if (line.type === "divider") {
+                        return <hr key={lineIdx} className="lts-divider" />;
+                      }
                       return (
-                        <p key={lineIdx} className="lts-stage">
+                        <p
+                          key={lineIdx}
+                          className={`lts-line${line.highlight ? " is-key" : ""}`}
+                        >
                           {line.text}
                         </p>
                       );
-                    }
-                    return (
-                      <p
-                        key={lineIdx}
-                        className={`lts-line${line.highlight ? " is-key" : ""}`}
-                      >
-                        {line.text}
-                      </p>
-                    );
-                  })}
+                    })
+                  )}
                 </div>
               )}
             </section>
@@ -425,13 +438,13 @@ const LTS_STYLES = `
     border-left-color: var(--lts-tok);
     box-shadow: 0 0 14px color-mix(in srgb, var(--lts-tok) 12%, transparent);
   }
-  .lts-stage {
+  .lts-empty-line {
     margin: 0;
     padding: 0.25rem 0.7rem;
-    font-size: 0.78rem;
-    font-style: italic;
-    line-height: 1.55;
-    color: #64748b;
+    font-family: ui-monospace, 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    color: rgba(148, 163, 184, 0.45);
   }
   .lts-divider {
     border: 0;
