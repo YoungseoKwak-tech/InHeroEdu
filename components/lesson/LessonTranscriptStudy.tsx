@@ -151,17 +151,26 @@ export default function LessonTranscriptStudy({ script, lang = "en" }: Props) {
   const keywords = lang === "ko" ? KEYWORDS_KO : KEYWORDS_EN;
 
   const prepared = useMemo<PreparedSection[]>(() => {
-    if (!script) return [];
-    const sections = parseScript(script);
-    // Drop the "OVERLAYS JSON" appendix from view (it's machine data, not study material)
-    return sections
-      .filter((s) => !/^\s*overlays\s+json/i.test(s.title))
-      .map((raw) => ({
-        raw,
-        token: getSectionToken(raw.title),
-        lines: parseSection(raw.content, keywords),
-      }));
-  }, [script, keywords]);
+    if (!script?.trim()) return [];
+    const sections = parseScript(script).filter(
+      (s) => !/^\s*overlays\s+json/i.test(s.title)
+    );
+    // Fallback: script has content but no `## ` section headers — treat
+    // the whole thing as one synthetic block so we never throw away the
+    // lecture text.
+    const effective: ScriptSection[] = sections.length > 0
+      ? sections
+      : [{
+          title: lang === "ko" ? "강의" : "Lecture",
+          timestamp: "",
+          content: script.trim(),
+        }];
+    return effective.map((raw) => ({
+      raw,
+      token: getSectionToken(raw.title),
+      lines: parseSection(raw.content, keywords),
+    }));
+  }, [script, keywords, lang]);
 
   const totalWords = useMemo(() => {
     return prepared.reduce((sum, s) => sum + s.raw.content.split(/\s+/).filter(Boolean).length, 0);
