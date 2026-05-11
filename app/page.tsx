@@ -1,6 +1,7 @@
 "use client";
 
 import Hero from "@/components/landing/Hero";
+import FacultyLineup from "@/components/landing/FacultyLineup";
 import ClickSeries from "@/components/landing/ClickSeries";
 import Features from "@/components/landing/Features";
 import SubjectGrid from "@/components/landing/SubjectGrid";
@@ -13,6 +14,7 @@ export default function HomePage() {
     <>
       <Hero />
       <UniversityBanner />
+      <FacultyLineup />
       <ClickSeries />
       <Features />
       <SubjectGrid />

@@ -41,10 +41,16 @@ export default async function CoursesPage() {
       {/* ─── FACULTY GRID ─────────────────────────────────────────────── */}
       <section className="cls-faculty">
         <div className="cls-section-head">
-          <span className="cls-section-tag">THE FACULTY</span>
-          <span className="cls-section-count">{faculty.length} instructors</span>
+          <span className="cls-section-tag">FACULTY · WAVE 01 / VI</span>
+          <span className="cls-section-count">
+            {faculty.length} of 20+ instructors · Wave 02 arriving 2026
+          </span>
         </div>
         <ClassroomGrid faculty={faculty} />
+        <div className="cls-roster-hint">
+          <span className="cls-roster-dot" />
+          <span>Instructor lineup expanding. AP Stats · AP Lit · AP Econ · IB Sciences · and more in onboarding.</span>
+        </div>
       </section>
 
       {/* ─── REST OF LIBRARY ──────────────────────────────────────────── */}
@@ -175,6 +181,27 @@ export default async function CoursesPage() {
           font-size: 0.7rem;
           letter-spacing: 0.1em;
           color: rgba(148,163,184,0.65);
+        }
+
+        .cls-roster-hint {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.55rem;
+          margin-top: 1.1rem;
+          padding: 0.55rem 0.85rem;
+          border-radius: 0.45rem;
+          border: 1px dashed rgba(94, 234, 212, 0.25);
+          background: rgba(94, 234, 212, 0.04);
+          font-family: ui-monospace, 'JetBrains Mono', monospace;
+          font-size: 0.72rem;
+          letter-spacing: 0.06em;
+          color: rgba(94, 234, 212, 0.85);
+        }
+        .cls-roster-dot {
+          width: 6px; height: 6px; border-radius: 50%;
+          background: #5eead4;
+          box-shadow: 0 0 8px rgba(94, 234, 212, 0.7);
+          animation: cls-pulse 1.6s ease-in-out infinite;
         }
 
         .cls-library {
