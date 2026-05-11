@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 import { isPublicTextbookProduct } from "@/lib/textbookProducts";
+import { hasComplimentaryTextbookAccess } from "@/lib/textbookAccess";
 
 // Public: list available textbook products + check purchase for current user
 export async function GET(req: NextRequest) {
@@ -15,18 +16,37 @@ export async function GET(req: NextRequest) {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  let purchased: string[] = [];
-  if (userId) {
-    const { data: purchases } = await supabase
-      .from("textbook_purchases")
-      .select("subject_id")
-      .eq("user_id", userId);
-    purchased = (purchases ?? []).map((p) => p.subject_id);
-  }
-
   const visibleProducts = (products ?? [])
     .filter((product) => isPublicTextbookProduct(product))
     .sort((a, b) => a.title.localeCompare(b.title, "en"));
 
-  return NextResponse.json({ products: visibleProducts, purchased });
+  let purchased: string[] = [];
+  let complimentary = false;
+
+  if (userId) {
+    // Look up the user's email so we can apply the complimentary allowlist
+    // (env-driven COMP_TEXTBOOK_EMAILS + ADMIN_EMAILS) without trusting any
+    // client-supplied value.
+    const { data: authUser } = await supabase.auth.admin.getUserById(userId);
+    const email = authUser?.user?.email ?? null;
+    complimentary = hasComplimentaryTextbookAccess(email);
+
+    if (complimentary) {
+      // Grant access to every visible textbook subject without a row in
+      // textbook_purchases.
+      purchased = visibleProducts.map((p) => p.subject_id);
+    } else {
+      const { data: purchases } = await supabase
+        .from("textbook_purchases")
+        .select("subject_id")
+        .eq("user_id", userId);
+      purchased = (purchases ?? []).map((p) => p.subject_id);
+    }
+  }
+
+  return NextResponse.json({
+    products: visibleProducts,
+    purchased,
+    complimentary,
+  });
 }

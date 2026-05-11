@@ -13,6 +13,7 @@ const keys = [
   "NEXT_PUBLIC_PRELAUNCH_MODE",
   "ADMIN_EMAILS",
   "ADMIN_ROLE_VALUES",
+  "COMP_TEXTBOOK_EMAILS",
 ];
 
 const mode = process.argv[2] === "prod" ? "prod" : "preview";
