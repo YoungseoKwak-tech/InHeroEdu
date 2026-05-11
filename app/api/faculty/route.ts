@@ -1,32 +1,43 @@
 /**
- * Public faculty endpoint — read-only, no auth.
- * Returns the same data the /courses page reads from for the Classroom grid.
- * Useful for diagnosing whether the public Classroom landing actually has
- * the uploaded assets in DB.
+ * Public faculty endpoint — diagnostic build.
+ * Returns the merged assets *plus* the raw DB rows + any select error
+ * so we can see what Supabase actually hands back.
  */
 
 import { NextResponse } from "next/server";
-import { getAllFacultyWithAssets } from "@/lib/facultyAssets";
+import { createAdminClient } from "@/lib/supabase";
+import { FACULTY } from "@/lib/faculty";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  try {
-    const faculty = await getAllFacultyWithAssets();
-    // Strip server-only fields just in case; expose only what the
-    // public Classroom UI needs.
-    const safe = faculty.map((f) => ({
-      id: f.id,
-      name: f.name,
-      subjectShort: f.subjectShort,
-      tagline: f.tagline,
-      imageUrl: f.imageUrl,
-      introVideoUrl: f.introVideoUrl,
-    }));
-    return NextResponse.json({ ok: true, faculty: safe });
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    return NextResponse.json({ ok: false, error: message }, { status: 500 });
-  }
+  const supabase = createAdminClient();
+  const { data, error, count, status, statusText } = await supabase
+    .from("faculty_assets")
+    .select("faculty_id, image_url, intro_video_url, updated_at", { count: "exact" });
+
+  const merged = FACULTY.map((meta) => {
+    const row = (data ?? []).find((r) => r.faculty_id === meta.id);
+    return {
+      id: meta.id,
+      name: meta.name,
+      imageUrl: row?.image_url ?? null,
+      introVideoUrl: row?.intro_video_url ?? null,
+    };
+  });
+
+  return NextResponse.json({
+    ok: !error,
+    diag: {
+      count,
+      status,
+      statusText,
+      error: error
+        ? { message: error.message, details: error.details, hint: error.hint, code: error.code }
+        : null,
+      raw: data,
+    },
+    faculty: merged,
+  });
 }
