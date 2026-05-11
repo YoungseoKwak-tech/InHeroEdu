@@ -16,6 +16,22 @@ interface Props {
   overlay: OverlayRow;
   lessonId: string;
   onComplete: () => void;
+  // ── Session context (threads learning_events.session_id end-to-end) ──
+  sessionId?: string;
+  subjectId?: string;
+  courseId?: string;
+  lessonLang?: "en" | "ko";
+  sectionKey?: string;
+}
+
+// Per-card context attached to every overlay-response log so the API can
+// forward it into the V1 learning_events bridge with full session linkage.
+interface LogContext {
+  sessionId?: string;
+  subjectId?: string;
+  courseId?: string;
+  lessonLang?: "en" | "ko";
+  sectionKey?: string;
 }
 
 // ── Design tokens ──────────────────────────────────────────────────────────
@@ -32,16 +48,29 @@ const TOKENS: Record<string, { color: string; label: string }> = {
 const cardStyle = (tok: string): React.CSSProperties =>
   ({ ["--tok" as string]: tok } as React.CSSProperties);
 
-function logResponse(data: Record<string, unknown>) {
+function logResponse(data: Record<string, unknown>, ctx?: LogContext) {
+  const payload = ctx ? { ...data, ...ctx } : data;
   authFetch("/api/overlay-responses", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify(payload),
   }).catch(() => {});
 }
 
+function pickCtx(props: Props): LogContext {
+  return {
+    sessionId: props.sessionId,
+    subjectId: props.subjectId,
+    courseId: props.courseId,
+    lessonLang: props.lessonLang,
+    sectionKey: props.sectionKey,
+  };
+}
+
 // ── SPARK ──────────────────────────────────────────────────────────────────
-function SparkCard({ overlay, lessonId, onComplete }: Props) {
+function SparkCard(props: Props) {
+  const { overlay, lessonId, onComplete } = props;
+  const ctx = pickCtx(props);
   const data = overlay.data as { prompt?: string };
   const [value, setValue] = useState("");
   const [done, setDone] = useState(false);
@@ -52,7 +81,7 @@ function SparkCard({ overlay, lessonId, onComplete }: Props) {
     logResponse({
       lessonId, overlayId: overlay.id, overlayType: "SPARK",
       response: value.trim(),
-    });
+    }, ctx);
     setTimeout(onComplete, 800);
   }
 
@@ -86,7 +115,9 @@ function SparkCard({ overlay, lessonId, onComplete }: Props) {
 }
 
 // ── GAP CRUNCH ─────────────────────────────────────────────────────────────
-function GapCrunchCard({ overlay, lessonId, onComplete }: Props) {
+function GapCrunchCard(props: Props) {
+  const { overlay, lessonId, onComplete } = props;
+  const ctx = pickCtx(props);
   const data = overlay.data as {
     statement?: string; trap?: string; correct?: string;
     options?: string[]; fixPrompt?: string; gapType?: string;
@@ -121,7 +152,7 @@ function GapCrunchCard({ overlay, lessonId, onComplete }: Props) {
     logResponse({
       lessonId, overlayId: overlay.id, overlayType: "GAP_CRUNCH",
       response: opt, correct: isCorrect, gapType: data.gapType ?? "",
-    });
+    }, ctx);
     setPhase("result");
   }
 
@@ -159,7 +190,9 @@ function GapCrunchCard({ overlay, lessonId, onComplete }: Props) {
 }
 
 // ── TEACH BACK ─────────────────────────────────────────────────────────────
-function TeachBackCard({ overlay, lessonId, onComplete }: Props) {
+function TeachBackCard(props: Props) {
+  const { overlay, lessonId, onComplete } = props;
+  const ctx = pickCtx(props);
   const data = overlay.data as { prompt?: string; aiEvalPrompt?: string };
   const [value, setValue] = useState("");
   const [phase, setPhase] = useState<"write" | "evaluating" | "result">("write");
@@ -191,7 +224,7 @@ function TeachBackCard({ overlay, lessonId, onComplete }: Props) {
     logResponse({
       lessonId, overlayId: overlay.id, overlayType: "TEACH_BACK",
       response: value.trim(), score,
-    });
+    }, ctx);
     setPhase("result");
   }
 
@@ -230,9 +263,18 @@ function TeachBackCard({ overlay, lessonId, onComplete }: Props) {
 }
 
 // ── QUESTION SPRINT ────────────────────────────────────────────────────────
-function QuestionSprintCard({ overlay, lessonId, onComplete }: Props) {
+function QuestionSprintCard(props: Props) {
+  const { overlay, lessonId, onComplete } = props;
+  const ctx = pickCtx(props);
   const data = overlay.data as {
-    questions?: Array<{ question: string; options: string[]; correct: number; explanation: string }>;
+    questions?: Array<{
+      question: string;
+      options: string[];
+      correct: number;
+      explanation: string;
+      gapType?: string;
+      wrongPattern?: string;
+    }>;
     sprintFocus?: string;
   };
   const questions = data.questions ?? [];
@@ -252,6 +294,23 @@ function QuestionSprintCard({ overlay, lessonId, onComplete }: Props) {
     next[idx] = optIdx;
     setAnswers(next);
     setShowExplanation(true);
+
+    // Fire ONE event per question so wrong-answer gap_type + correct flag reach
+    // student_concept_mastery instead of being collapsed into the aggregate.
+    const currentQ = questions[idx];
+    if (currentQ) {
+      const chosenIsCorrect = optIdx === currentQ.correct;
+      const chosenLabel = currentQ.options?.[optIdx] ?? String(optIdx);
+      logResponse({
+        lessonId,
+        overlayId: overlay.id,
+        overlayType: "QUESTION_SPRINT",
+        response: chosenLabel,
+        correct: chosenIsCorrect,
+        gapType: currentQ.gapType?.trim() ? currentQ.gapType : null,
+        questionIdx: idx,
+      }, ctx);
+    }
   }
 
   function advance() {
@@ -260,10 +319,17 @@ function QuestionSprintCard({ overlay, lessonId, onComplete }: Props) {
       setIdx(idx + 1);
     } else {
       const correctCount = answers.filter((a, i) => a === questions[i]?.correct).length;
+      // Final sprint summary — same overlay_type as per-question rows but
+      // distinguishable by `questionIdx: null` + non-null score. V1 bridge
+      // routes this to event_type='overlay_submitted'.
       logResponse({
-        lessonId, overlayId: overlay.id, overlayType: "QUESTION_SPRINT",
-        response: JSON.stringify(answers), score: correctCount,
-      });
+        lessonId,
+        overlayId: overlay.id,
+        overlayType: "QUESTION_SPRINT",
+        response: JSON.stringify(answers),
+        score: correctCount,
+        questionIdx: null,
+      }, ctx);
       setDone(true);
     }
   }
@@ -388,7 +454,9 @@ function AnalyzerCard({ overlay, onComplete }: { overlay: OverlayRow; onComplete
 }
 
 // ── CONFIDENCE CHECK ───────────────────────────────────────────────────────
-function ConfidenceCheckCard({ overlay, lessonId, onComplete }: Props) {
+function ConfidenceCheckCard(props: Props) {
+  const { overlay, lessonId, onComplete } = props;
+  const ctx = pickCtx(props);
   const data = overlay.data as {
     identityBelief?: string;
     evidenceFromPattern?: string;
@@ -405,7 +473,7 @@ function ConfidenceCheckCard({ overlay, lessonId, onComplete }: Props) {
       lessonId, overlayId: overlay.id, overlayType: "CONFIDENCE_CHECK",
       response: response.trim() || "(acknowledged)",
       conceptName: data.reframe?.slice(0, 80) ?? null,
-    });
+    }, ctx);
     setDone(true);
     setTimeout(onComplete, 600);
   }
@@ -456,7 +524,9 @@ function ConfidenceCheckCard({ overlay, lessonId, onComplete }: Props) {
 }
 
 // ── NEXT MOVE ──────────────────────────────────────────────────────────────
-function NextMoveCard({ overlay, lessonId, onComplete }: Props) {
+function NextMoveCard(props: Props) {
+  const { overlay, lessonId, onComplete } = props;
+  const ctx = pickCtx(props);
   const data = overlay.data as {
     predictionHeadline?: string;
     predictedFailure?: string;
@@ -470,7 +540,7 @@ function NextMoveCard({ overlay, lessonId, onComplete }: Props) {
     logResponse({
       lessonId, overlayId: overlay.id, overlayType: "NEXT_MOVE",
       response: data.memoryTag ?? null,
-    });
+    }, ctx);
     onComplete();
   }
 
@@ -513,17 +583,18 @@ function NextMoveCard({ overlay, lessonId, onComplete }: Props) {
 }
 
 // ── Shell ──────────────────────────────────────────────────────────────────
-export default function OverlayCard({ overlay, lessonId, onComplete }: Props) {
+export default function OverlayCard(props: Props) {
+  const { overlay, onComplete } = props;
   const type = (overlay.type ?? "").toUpperCase();
 
   let card: React.ReactNode;
-  if (type === "SPARK")           card = <SparkCard overlay={overlay} lessonId={lessonId} onComplete={onComplete} />;
-  else if (type === "GAP_CRUNCH") card = <GapCrunchCard overlay={overlay} lessonId={lessonId} onComplete={onComplete} />;
-  else if (type === "TEACH_BACK") card = <TeachBackCard overlay={overlay} lessonId={lessonId} onComplete={onComplete} />;
-  else if (type === "QUESTION_SPRINT") card = <QuestionSprintCard overlay={overlay} lessonId={lessonId} onComplete={onComplete} />;
+  if (type === "SPARK")           card = <SparkCard {...props} />;
+  else if (type === "GAP_CRUNCH") card = <GapCrunchCard {...props} />;
+  else if (type === "TEACH_BACK") card = <TeachBackCard {...props} />;
+  else if (type === "QUESTION_SPRINT") card = <QuestionSprintCard {...props} />;
   else if (type === "ANALYZER")         card = <AnalyzerCard overlay={overlay} onComplete={onComplete} />;
-  else if (type === "CONFIDENCE_CHECK") card = <ConfidenceCheckCard overlay={overlay} lessonId={lessonId} onComplete={onComplete} />;
-  else if (type === "NEXT_MOVE")        card = <NextMoveCard overlay={overlay} lessonId={lessonId} onComplete={onComplete} />;
+  else if (type === "CONFIDENCE_CHECK") card = <ConfidenceCheckCard {...props} />;
+  else if (type === "NEXT_MOVE")        card = <NextMoveCard {...props} />;
   else card = (
     <div className="oc-card" style={cardStyle("#9F97ED")}>
       <p className="oc-prompt">Unknown overlay type: {type}</p>
