@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
     // client-supplied value.
     const { data: authUser } = await supabase.auth.admin.getUserById(userId);
     const email = authUser?.user?.email ?? null;
-    complimentary = hasComplimentaryTextbookAccess(email);
+    complimentary = await hasComplimentaryTextbookAccess(email);
 
     if (complimentary) {
       // Grant access to every visible textbook subject without a row in
