@@ -73,6 +73,9 @@ function ClassroomCard({ faculty, order }: { faculty: FacultyWithAssets; order: 
             alt={faculty.name}
             className={`cg-poster ${hover && hasVideo ? "is-faded" : ""}`}
           />
+        ) : hasVideo ? (
+          // Video first-frame underneath is the still — no overlay needed.
+          null
         ) : (
           <div className="cg-poster-fallback">
             <span className="cg-mascot">{faculty.mascotEmoji}</span>
@@ -152,11 +155,8 @@ const CG_STYLES = `
   }
   .cg-poster { z-index: 2; }
   .cg-poster.is-faded { opacity: 0; }
-  .cg-video {
-    z-index: 1;
-    opacity: 0;
-  }
-  .cg-video.is-active { opacity: 1; }
+  /* Show video's first frame as the default still portrait — hover just plays it. */
+  .cg-video { z-index: 1; opacity: 1; }
   .cg-card:hover .cg-poster:not(.is-faded) { transform: scale(1.04); }
   .cg-card:hover .cg-video { transform: scale(1.04); }
 

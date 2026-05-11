@@ -74,7 +74,7 @@ export default function FacultyLineup() {
           </div>
           <h2 className="fl-title">Meet the <em>instructors</em>.</h2>
           <p className="fl-sub">
-            Six personas. Each one would die on their subject's hill. More joining the roster every quarter.
+            Six personas. Each one would die on their subject's hill. New instructor joining the roster every week.
           </p>
         </header>
 
@@ -101,7 +101,7 @@ export default function FacultyLineup() {
             <div className="fl-cover fl-cover-more">
               <span className="fl-more-mark">?</span>
               <div className="fl-more-overlay">
-                <div className="fl-more-tag">WAVE 02 · ARRIVING</div>
+                <div className="fl-more-tag">NEW · EVERY WEEK</div>
                 <div className="fl-more-text">
                   AP Stats · AP Lit · AP Econ · IB Sciences · and more
                 </div>
@@ -344,6 +344,9 @@ function FacultyCard({
             alt={faculty.name}
             className={`fc-poster ${hover && faculty.introVideoUrl ? "is-faded" : ""}`}
           />
+        ) : faculty.introVideoUrl ? (
+          // Video's first frame already shows underneath — no overlay needed.
+          null
         ) : (
           <div className="fc-poster-fallback">
             <span className="fc-mascot">{mascot}</span>
@@ -403,8 +406,9 @@ function FacultyCard({
         }
         .fc-poster { z-index: 2; }
         .fc-poster.is-faded { opacity: 0; }
-        .fc-video { z-index: 1; opacity: 0; }
-        .fc-video.is-active { opacity: 1; }
+        /* Video's first frame is always visible as a "still portrait".
+           Hover just triggers play; opacity stays 1 either way. */
+        .fc-video { z-index: 1; opacity: 1; }
         .fc-card:hover .fc-poster:not(.is-faded) { transform: scale(1.04); }
         .fc-card:hover .fc-video { transform: scale(1.04); }
 

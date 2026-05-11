@@ -43,7 +43,7 @@ export default async function CoursesPage() {
         <div className="cls-section-head">
           <span className="cls-section-tag">FACULTY · WAVE 01 / VI</span>
           <span className="cls-section-count">
-            {faculty.length} of 20+ instructors · Wave 02 arriving 2026
+            {faculty.length} of 20+ instructors · new instructor every week
           </span>
         </div>
         <ClassroomGrid faculty={faculty} />
