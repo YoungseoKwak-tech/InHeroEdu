@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const cols = [
   {
-    heading: "Missions",
+    heading: "Classroom",
     links: [
       { label: "AP Biology",     href: "/courses/ap-biology" },
       { label: "AP Chemistry",   href: "/courses" },

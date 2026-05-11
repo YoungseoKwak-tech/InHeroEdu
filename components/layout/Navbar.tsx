@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import AuthModal from "@/components/auth/AuthModal";
 import { createBrowserClient } from "@/lib/supabase";
 import { authFetch } from "@/lib/client-auth";
 import { normalizeProfileFields } from "@/lib/profile";
 
 const NAV_LINKS = [
-  { href: "/courses",           label: "MISSIONS" },
+  { href: "/courses",           label: "CLASSROOM" },
   { href: "/ai-companion",      label: "AI NAVIGATOR" },
   { href: "/trajectory-lab",    label: "FLIGHT PATH" },
   { href: "/thinking-analyzer", label: "ANALYZER" },
@@ -24,8 +25,10 @@ export default function Navbar() {
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
   const supabase = createBrowserClient();
   const [user, setUser] = useState<{ email: string | undefined } | null>(null);
+  const showKoreanCoursesCta = !(pathname ?? "").startsWith("/kr");
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -39,7 +42,7 @@ export default function Navbar() {
       user_metadata?: Record<string, unknown>;
     }) => {
       const profile = normalizeProfileFields(sessionUser.user_metadata ?? {});
-      if (!profile.name && !profile.grade && !profile.school) return;
+      if (!profile.name && !profile.grade && !profile.school && !profile.referral_student_email) return;
       await authFetch("/api/profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -173,6 +176,45 @@ export default function Navbar() {
 
         {/* Desktop CTA */}
         <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 }} className="hidden md:flex">
+          {showKoreanCoursesCta && (
+            <Link
+              href="/kr/courses"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "8px 14px",
+                borderRadius: "999px",
+                border: "1px solid rgba(0,255,136,0.18)",
+                background: "linear-gradient(135deg, rgba(0,255,136,0.12), rgba(110,96,255,0.12))",
+                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 0 18px rgba(0,255,136,0.08)",
+                color: "#DDFEF0",
+                textDecoration: "none",
+                fontSize: "11px",
+                fontWeight: 700,
+                fontFamily: "'JetBrains Mono', monospace",
+                letterSpacing: "0.08em",
+                whiteSpace: "nowrap",
+                transition: "transform 200ms cubic-bezier(0.16,1,0.3,1), border-color 200ms, box-shadow 200ms, background 200ms",
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.transform = "translateY(-1px)";
+                el.style.borderColor = "rgba(0,255,136,0.36)";
+                el.style.boxShadow = "inset 0 1px 0 rgba(255,255,255,0.06), 0 0 22px rgba(0,255,136,0.14)";
+                el.style.background = "linear-gradient(135deg, rgba(0,255,136,0.18), rgba(110,96,255,0.18))";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.transform = "translateY(0)";
+                el.style.borderColor = "rgba(0,255,136,0.18)";
+                el.style.boxShadow = "inset 0 1px 0 rgba(255,255,255,0.04), 0 0 18px rgba(0,255,136,0.08)";
+                el.style.background = "linear-gradient(135deg, rgba(0,255,136,0.12), rgba(110,96,255,0.12))";
+              }}
+            >
+              한국어 강의 →
+            </Link>
+          )}
           {user ? (
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <Link
@@ -308,6 +350,29 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
+
+          {showKoreanCoursesCta && (
+            <Link
+              href="/kr/courses"
+              style={{
+                marginTop: "12px",
+                padding: "12px 14px",
+                borderRadius: "14px",
+                border: "1px solid rgba(0,255,136,0.18)",
+                background: "linear-gradient(135deg, rgba(0,255,136,0.12), rgba(110,96,255,0.12))",
+                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 0 18px rgba(0,255,136,0.08)",
+                color: "#DDFEF0",
+                textDecoration: "none",
+                fontSize: "12px",
+                fontWeight: 700,
+                fontFamily: "'JetBrains Mono', monospace",
+                letterSpacing: "0.08em",
+              }}
+              onClick={() => setMenuOpen(false)}
+            >
+              한국어 강의 보러가기 →
+            </Link>
+          )}
 
           <div style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "8px" }}>
             {user ? (
