@@ -1,5 +1,10 @@
 export type Difficulty = "Intro" | "Intermediate" | "Advanced";
-export type Category = "AP" | "Honors" | "Core" | "Competition" | "Test Prep";
+export type Category = "AP" | "IB" | "Honors" | "Core" | "Competition" | "Test Prep";
+
+// IB-only metadata. Optional on Course; only set for category === "IB".
+export type Curriculum = "AP" | "IB" | "A_LEVEL" | "SAT" | "OTHER";
+export type IbGroup = 1 | 2 | 3 | 4 | 5 | 6;
+export type IbLevel = "HL" | "SL" | "BOTH";
 
 export interface Unit {
   number: number;
@@ -7,6 +12,9 @@ export interface Unit {
   slug: string;
   examWeight: string;
   topics: string[];
+  // IB-only: which levels this unit is part of. Omit / undefined for AP.
+  ibLevels?: IbLevel[];
+  ibThemeCode?: string;
 }
 
 export interface Course {
@@ -21,6 +29,13 @@ export interface Course {
   icon: string;
   lessonIds: string[];
   units?: Unit[];
+  // IB-only fields. Undefined for AP/other curricula.
+  curriculum?: Curriculum;
+  ibGroup?: IbGroup;
+  ibSyllabusFirstTeaching?: number;
+  // When set, the course supports both HL and SL — lessons inside carry
+  // ib_level: "HL" | "SL" | "BOTH" and the course page renders a toggle.
+  ibLevels?: IbLevel[];
 }
 
 export const courses: Course[] = [
@@ -1120,4 +1135,152 @@ export const courses: Course[] = [
   { id: "sat-reading", subject: "SAT Reading & Writing", subjectEn: "SAT Reading & Writing", category: "Test Prep", description: "Master passage strategy, grammar rules, and time management for high SAT R&W performance.", topicCount: 33, difficulty: "Intermediate", color: "from-rose-500 to-pink-600", icon: "📝", lessonIds: [] },
   { id: "act", subject: "ACT", subjectEn: "ACT", category: "Test Prep", description: "Prepare across ACT Math, English, Reading, and Science with score-focused strategy.", topicCount: 40, difficulty: "Intermediate", color: "from-orange-500 to-red-600", icon: "📋", lessonIds: [] },
   { id: "toefl", subject: "TOEFL", subjectEn: "TOEFL", category: "Test Prep", description: "Build complete Reading, Listening, Speaking, and Writing readiness with score-targeted prep.", topicCount: 36, difficulty: "Intermediate", color: "from-red-500 to-rose-600", icon: "🌐", lessonIds: [] },
+
+  // ─── IB Diploma — Tier 1 (Phase 0 foundation) ────────────────────────
+  // Each course supports both HL and SL via lesson-level ib_level tagging.
+  // Phase 0 ships the registry/metadata only — lesson rows + scripts come
+  // in Phase 1 (Bio first, then Math AA, Chem, Econ).
+
+  // Group 4: Sciences ─── IB Biology (First teaching 2025)
+  {
+    id: "ib-biology",
+    subject: "IB Biology", subjectEn: "IB Biology", category: "IB",
+    curriculum: "IB", ibGroup: 4, ibSyllabusFirstTeaching: 2025, ibLevels: ["HL", "SL"],
+    description: "IB Biology HL/SL through the 2025 syllabus — themed conceptual frame with AI-guided study aware of how you reason.",
+    topicCount: 32, difficulty: "Intermediate", color: "from-green-600 to-emerald-700", icon: "🧬",
+    lessonIds: [],
+    units: [
+      {
+        number: 1, title: "Theme A — Unity and Diversity", slug: "theme-a-unity-and-diversity", examWeight: "Paper 1 & 2",
+        ibThemeCode: "A", ibLevels: ["HL", "SL"],
+        topics: ["A1 Molecules — water, nucleic acids, proteins", "A2 Cells — cell structure and diversity", "A3 Organisms — classification and evolution evidence", "A4 Ecosystems — biodiversity and conservation"],
+      },
+      {
+        number: 2, title: "Theme B — Form and Function", slug: "theme-b-form-and-function", examWeight: "Paper 1 & 2",
+        ibThemeCode: "B", ibLevels: ["HL", "SL"],
+        topics: ["B1 Molecules — carbohydrates, lipids, proteins", "B2 Cells — membranes and organelles", "B3 Organisms — gas exchange, transport, integration", "B4 Ecosystems — adaptation to environment"],
+      },
+      {
+        number: 3, title: "Theme C — Interaction and Interdependence", slug: "theme-c-interaction-and-interdependence", examWeight: "Paper 1 & 2",
+        ibThemeCode: "C", ibLevels: ["HL", "SL"],
+        topics: ["C1 Molecules — enzymes and metabolism", "C2 Cells — chemical signalling", "C3 Organisms — integration and homeostasis", "C4 Ecosystems — populations and communities"],
+      },
+      {
+        number: 4, title: "Theme D — Continuity and Change", slug: "theme-d-continuity-and-change", examWeight: "Paper 1 & 2",
+        ibThemeCode: "D", ibLevels: ["HL", "SL"],
+        topics: ["D1 Molecules — DNA replication, transcription, translation", "D2 Cells — cell cycle and cancer", "D3 Organisms — reproduction and inheritance", "D4 Ecosystems — natural selection and speciation"],
+      },
+    ],
+  },
+
+  // Group 4: Sciences ─── IB Chemistry (First teaching 2023)
+  {
+    id: "ib-chemistry",
+    subject: "IB Chemistry", subjectEn: "IB Chemistry", category: "IB",
+    curriculum: "IB", ibGroup: 4, ibSyllabusFirstTeaching: 2023, ibLevels: ["HL", "SL"],
+    description: "IB Chemistry HL/SL through the Structure / Reactivity framework — quantitative reasoning practice with paper-style overlays.",
+    topicCount: 28, difficulty: "Intermediate", color: "from-cyan-500 to-blue-600", icon: "⚗️",
+    lessonIds: [],
+    units: [
+      {
+        number: 1, title: "Structure 1 — Models of the Particulate Nature of Matter", slug: "structure-1-particulate-nature", examWeight: "Paper 1 & 2",
+        ibThemeCode: "S1", ibLevels: ["HL", "SL"],
+        topics: ["1.1 Atomic structure", "1.2 Nuclear structure", "1.3 Electron configurations", "1.4 Counting particles by mass — the mole", "1.5 Ideal gases"],
+      },
+      {
+        number: 2, title: "Structure 2 — Models of Bonding and Structure", slug: "structure-2-bonding", examWeight: "Paper 1 & 2",
+        ibThemeCode: "S2", ibLevels: ["HL", "SL"],
+        topics: ["2.1 The ionic model", "2.2 The covalent model", "2.3 The metallic model", "2.4 From models to materials"],
+      },
+      {
+        number: 3, title: "Structure 3 — Classification of Matter", slug: "structure-3-classification", examWeight: "Paper 1 & 2",
+        ibThemeCode: "S3", ibLevels: ["HL", "SL"],
+        topics: ["3.1 The periodic table — classification of elements", "3.2 Functional groups — classification of organic compounds"],
+      },
+      {
+        number: 4, title: "Reactivity 1 — What Drives Chemical Reactions?", slug: "reactivity-1-driving-forces", examWeight: "Paper 1 & 2",
+        ibThemeCode: "R1", ibLevels: ["HL", "SL"],
+        topics: ["1.1 Measuring enthalpy changes", "1.2 Energy cycles in reactions", "1.3 Energy from fuels", "1.4 Entropy and spontaneity (HL)"],
+      },
+      {
+        number: 5, title: "Reactivity 2 — How Much, How Fast, and How Far?", slug: "reactivity-2-extent-rate", examWeight: "Paper 1 & 2",
+        ibThemeCode: "R2", ibLevels: ["HL", "SL"],
+        topics: ["2.1 How much? — yield", "2.2 How fast? — rate of reaction", "2.3 How far? — equilibrium"],
+      },
+      {
+        number: 6, title: "Reactivity 3 — Mechanisms of Chemical Change", slug: "reactivity-3-mechanisms", examWeight: "Paper 1 & 2",
+        ibThemeCode: "R3", ibLevels: ["HL", "SL"],
+        topics: ["3.1 Proton transfer reactions", "3.2 Electron transfer reactions", "3.3 Electron sharing reactions", "3.4 Electron-pair sharing reactions (HL)"],
+      },
+    ],
+  },
+
+  // Group 5: Math ─── IB Math AA (Analysis & Approaches, First teaching 2019)
+  {
+    id: "ib-math-aa",
+    subject: "IB Math AA", subjectEn: "IB Math: Analysis and Approaches", category: "IB",
+    curriculum: "IB", ibGroup: 5, ibSyllabusFirstTeaching: 2019, ibLevels: ["HL", "SL"],
+    description: "IB Math AA HL/SL — analytical, proof-driven math with paper-style timed practice and concept-mapped reasoning.",
+    topicCount: 30, difficulty: "Advanced", color: "from-indigo-500 to-purple-600", icon: "∫",
+    lessonIds: [],
+    units: [
+      {
+        number: 1, title: "Topic 1 — Number and Algebra", slug: "topic-1-number-and-algebra", examWeight: "Paper 1 & 2 (HL: + P3)",
+        ibThemeCode: "T1", ibLevels: ["HL", "SL"],
+        topics: ["Sequences and series", "Exponents and logarithms", "Binomial theorem", "Proofs (HL: induction)", "Complex numbers (HL)"],
+      },
+      {
+        number: 2, title: "Topic 2 — Functions", slug: "topic-2-functions", examWeight: "Paper 1 & 2",
+        ibThemeCode: "T2", ibLevels: ["HL", "SL"],
+        topics: ["Linear and quadratic functions", "Transformations of functions", "Rational and exponential functions", "Inverse and composite functions"],
+      },
+      {
+        number: 3, title: "Topic 3 — Geometry and Trigonometry", slug: "topic-3-geometry-and-trig", examWeight: "Paper 1 & 2",
+        ibThemeCode: "T3", ibLevels: ["HL", "SL"],
+        topics: ["3D geometry", "Right and non-right triangles", "Circular functions", "Trigonometric identities and equations", "Vectors and lines in 3D (HL)"],
+      },
+      {
+        number: 4, title: "Topic 4 — Statistics and Probability", slug: "topic-4-stats-and-probability", examWeight: "Paper 1 & 2",
+        ibThemeCode: "T4", ibLevels: ["HL", "SL"],
+        topics: ["Sampling and descriptive statistics", "Probability — Venn, tree, conditional", "Discrete distributions including binomial", "Normal distribution", "Bayes' theorem (HL)"],
+      },
+      {
+        number: 5, title: "Topic 5 — Calculus", slug: "topic-5-calculus", examWeight: "Paper 1 & 2 (HL: + P3)",
+        ibThemeCode: "T5", ibLevels: ["HL", "SL"],
+        topics: ["Limits and continuity", "Differentiation rules", "Applications of derivatives — optimization, kinematics", "Integration techniques and area", "Differential equations (HL)", "Maclaurin series (HL)"],
+      },
+    ],
+  },
+
+  // Group 3: Individuals and Societies ─── IB Economics (First teaching 2022)
+  {
+    id: "ib-economics",
+    subject: "IB Economics", subjectEn: "IB Economics", category: "IB",
+    curriculum: "IB", ibGroup: 3, ibSyllabusFirstTeaching: 2022, ibLevels: ["HL", "SL"],
+    description: "IB Economics HL/SL — micro, macro, and global economy with diagram-driven reasoning and paper-style overlays.",
+    topicCount: 24, difficulty: "Intermediate", color: "from-amber-500 to-orange-600", icon: "📈",
+    lessonIds: [],
+    units: [
+      {
+        number: 1, title: "Unit 1 — Introduction to Economics", slug: "unit-1-introduction", examWeight: "Paper 1 & 2",
+        ibThemeCode: "U1", ibLevels: ["HL", "SL"],
+        topics: ["What is economics?", "How economists approach the world — models, assumptions, real-world relevance", "9 key concepts framework"],
+      },
+      {
+        number: 2, title: "Unit 2 — Microeconomics", slug: "unit-2-microeconomics", examWeight: "Paper 1 & 2 (HL: + P3 calc)",
+        ibThemeCode: "U2", ibLevels: ["HL", "SL"],
+        topics: ["Demand, supply, market equilibrium", "Elasticities", "Government intervention — taxes, subsidies, price controls", "Market failure and externalities", "Firms and market structures (HL)"],
+      },
+      {
+        number: 3, title: "Unit 3 — Macroeconomics", slug: "unit-3-macroeconomics", examWeight: "Paper 1 & 2 (HL: + P3 calc)",
+        ibThemeCode: "U3", ibLevels: ["HL", "SL"],
+        topics: ["Measuring economic activity — GDP, inflation, unemployment", "Aggregate demand and aggregate supply", "Macroeconomic objectives", "Fiscal, monetary, and supply-side policy", "Inequality and poverty"],
+      },
+      {
+        number: 4, title: "Unit 4 — The Global Economy", slug: "unit-4-global-economy", examWeight: "Paper 1 & 2 (HL: + P3 calc)",
+        ibThemeCode: "U4", ibLevels: ["HL", "SL"],
+        topics: ["International trade — comparative advantage, protectionism", "Exchange rates and balance of payments", "Economic integration and globalization", "Sustainable development and economic development"],
+      },
+    ],
+  },
 ];

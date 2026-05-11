@@ -10,7 +10,7 @@ interface CourseFilterProps {
   counts: Record<FilterCategory, number>;
 }
 
-const filters: FilterCategory[] = ["All", "AP", "Honors", "Core", "Competition", "Test Prep"];
+const filters: FilterCategory[] = ["All", "AP", "IB", "Honors", "Core", "Competition", "Test Prep"];
 
 export default function CourseFilter({ onFilterChange, activeFilter, counts }: CourseFilterProps) {
   return (
