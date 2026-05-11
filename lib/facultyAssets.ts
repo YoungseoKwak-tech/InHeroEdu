@@ -4,6 +4,7 @@
  * (Classroom landing, course header, hover card, etc.).
  */
 
+import { unstable_noStore as noStore } from "next/cache";
 import { createAdminClient } from "@/lib/supabase";
 import { FACULTY, type FacultyId, type FacultyMeta } from "@/lib/faculty";
 
@@ -19,6 +20,7 @@ interface AssetRow {
 }
 
 export async function getAllFacultyWithAssets(): Promise<FacultyWithAssets[]> {
+  noStore();
   const supabase = createAdminClient();
   const { data } = await supabase
     .from("faculty_assets")
@@ -40,6 +42,7 @@ export async function getFacultyAssets(facultyId: FacultyId): Promise<{
   imageUrl: string | null;
   introVideoUrl: string | null;
 }> {
+  noStore();
   const supabase = createAdminClient();
   const { data } = await supabase
     .from("faculty_assets")
