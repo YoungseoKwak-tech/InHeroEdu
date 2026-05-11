@@ -32,6 +32,8 @@ export default function LessonScriptEditor({ lessonId, courseId, initialScript, 
   const [selectedSection, setSelectedSection] = useState<Section>("HOOK");
   const [rewriting, setRewriting] = useState(false);
   const [rewritePreview, setRewritePreview] = useState("");
+  const [probing, setProbing] = useState(false);
+  const [probeMsg, setProbeMsg] = useState<string | null>(null);
   const lastSavedScriptRef = useRef(initialScript);
 
   // Sync when parent pushes a fresh script (after generation)
@@ -39,6 +41,40 @@ export default function LessonScriptEditor({ lessonId, courseId, initialScript, 
     setScript(initialScript);
     lastSavedScriptRef.current = initialScript;
   }, [initialScript]);
+
+  // Manual reload — probes /api/admin/lesson-scripts directly for the current
+  // lessonId and reports what came back. Useful when the parent's cached
+  // scriptRecords map is stale or the lessonId mismatches DB.
+  async function probeFromDb() {
+    if (probing || !lessonId) return;
+    setProbing(true);
+    setProbeMsg(null);
+    try {
+      const url = `/api/admin/lesson-scripts?lessonId=${encodeURIComponent(lessonId)}`;
+      const res = await authFetch(url);
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setProbeMsg(`HTTP ${res.status} — ${json.error ?? "unknown"} (queried: ${lessonId})`);
+        return;
+      }
+      const row = json.data as { script?: string | null; script_generated_at?: string | null } | null;
+      if (!row) {
+        setProbeMsg(`No row in lesson_scripts for lesson_id="${lessonId}". Check the ID format vs Batch Generate.`);
+        return;
+      }
+      if (typeof row.script === "string" && row.script.trim()) {
+        setScript(row.script);
+        lastSavedScriptRef.current = row.script;
+        setProbeMsg(`Loaded ${row.script.length} chars from DB (generated ${row.script_generated_at ?? "unknown"}).`);
+      } else {
+        setProbeMsg(`Row exists but script field is empty for "${lessonId}". (script_generated_at=${row.script_generated_at ?? "null"})`);
+      }
+    } catch (err) {
+      setProbeMsg(err instanceof Error ? err.message : String(err));
+    } finally {
+      setProbing(false);
+    }
+  }
 
   // ── Save ────────────────────────────────────────────────────────────────
   async function saveScript(mode: "manual" | "autosave" = "manual") {
@@ -169,6 +205,9 @@ export default function LessonScriptEditor({ lessonId, courseId, initialScript, 
         >
           ↗ View Live
         </a>
+        <button onClick={() => void probeFromDb()} disabled={probing || !lessonId} className="lse-btn-outline" title="Re-fetch script from DB">
+          {probing ? "Probing…" : "↻ Reload from DB"}
+        </button>
         <div style={{ flex: 1 }} />
         <button onClick={() => saveScript("manual")} disabled={saveState === "saving"} className="lse-btn-save">
           {saveState === "saving" && "Saving…"}
@@ -178,6 +217,23 @@ export default function LessonScriptEditor({ lessonId, courseId, initialScript, 
         </button>
       </div>
       {saveError && <div className="lse-save-error">{saveError}</div>}
+
+      {/* Diagnostic status — visible when script is empty so admin sees the queried ID */}
+      {!script.trim() && (
+        <div className="lse-diagnostic">
+          <span className="lse-diagnostic-tag">QUERY</span>
+          <code className="lse-diagnostic-code">{lessonId || "(none)"}</code>
+          <span className="lse-diagnostic-msg">
+            {probeMsg ?? "Editor is empty — click ↻ Reload from DB to verify what the DB has for this lesson_id."}
+          </span>
+        </div>
+      )}
+      {probeMsg && script.trim() && (
+        <div className="lse-diagnostic lse-diagnostic-ok">
+          <span className="lse-diagnostic-tag">OK</span>
+          <span className="lse-diagnostic-msg">{probeMsg}</span>
+        </div>
+      )}
 
       {/* Script textarea */}
       <textarea
@@ -298,6 +354,47 @@ export default function LessonScriptEditor({ lessonId, courseId, initialScript, 
           font-size: 0.76rem;
           color: #fca5a5;
         }
+
+        .lse-diagnostic {
+          display: flex;
+          align-items: center;
+          gap: 0.55rem;
+          flex-wrap: wrap;
+          padding: 0.5rem 0.75rem;
+          border-radius: 0.45rem;
+          border: 1px solid rgba(255, 200, 100, 0.25);
+          background: rgba(255, 200, 100, 0.05);
+          font-size: 0.78rem;
+          color: #e0c285;
+        }
+        .lse-diagnostic-ok {
+          border-color: rgba(94, 234, 212, 0.3);
+          background: rgba(94, 234, 212, 0.06);
+          color: #5eead4;
+        }
+        .lse-diagnostic-tag {
+          font-family: ui-monospace, 'JetBrains Mono', monospace;
+          font-size: 0.62rem;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          padding: 0.18rem 0.45rem;
+          border-radius: 3px;
+          background: rgba(255, 200, 100, 0.12);
+          color: #e0c285;
+        }
+        .lse-diagnostic-ok .lse-diagnostic-tag {
+          background: rgba(94, 234, 212, 0.12);
+          color: #5eead4;
+        }
+        .lse-diagnostic-code {
+          font-family: ui-monospace, 'JetBrains Mono', monospace;
+          font-size: 0.74rem;
+          color: #fff;
+          background: rgba(255, 255, 255, 0.06);
+          padding: 0.12rem 0.4rem;
+          border-radius: 3px;
+        }
+        .lse-diagnostic-msg { flex: 1; min-width: 12rem; line-height: 1.5; }
 
         .lse-editor {
           flex: 1;
