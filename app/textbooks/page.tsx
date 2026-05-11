@@ -112,9 +112,7 @@ function BookCard({ product, owned }: { product: Product; owned: boolean }) {
 
         {owned ? (
           <a
-            href={product.pdf_url ?? "#"}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`/textbooks/${product.subject_id}/read`}
             style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "11px 24px", background: "rgba(0,180,80,0.1)", border: "1px solid rgba(0,180,80,0.25)", color: "#00C850", fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", letterSpacing: "0.12em", textDecoration: "none", transition: "background 200ms" }}
           >
             READ  →

@@ -108,3 +108,27 @@ export async function removeDbCompEmail(emailRaw: string): Promise<void> {
     .eq("email", email);
   if (error) throw new Error(error.message);
 }
+
+/**
+ * Combined gate: a user can read the textbook for `subjectId` if they are
+ * complimentary OR have a row in textbook_purchases.
+ */
+export async function hasTextbookAccess(args: {
+  userId: string;
+  email: string | null | undefined;
+  subjectId: string;
+}): Promise<{ allowed: boolean; reason: "complimentary" | "purchased" | "denied" }> {
+  const comp = await hasComplimentaryTextbookAccess(args.email);
+  if (comp) return { allowed: true, reason: "complimentary" };
+
+  const supabase = createAdminClient();
+  const { data, error } = await supabase
+    .from("textbook_purchases")
+    .select("subject_id")
+    .eq("user_id", args.userId)
+    .eq("subject_id", args.subjectId)
+    .maybeSingle();
+  if (error) return { allowed: false, reason: "denied" };
+  if (data) return { allowed: true, reason: "purchased" };
+  return { allowed: false, reason: "denied" };
+}
