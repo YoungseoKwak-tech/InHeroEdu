@@ -289,7 +289,7 @@ export default function Hero() {
               gap: "8px",
             }}
           >
-            BEGIN MISSION →
+            ENTER THE CLASSROOM →
           </Link>
           <Link
             href="/courses/ap-biology/cell-structure"
