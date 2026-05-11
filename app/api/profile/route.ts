@@ -11,9 +11,21 @@ export async function POST(req: NextRequest) {
   const profile = normalizeProfileFields(body ?? {});
 
   const supabase = createAdminClient();
-  const { error } = await supabase
+  let { error } = await supabase
     .from("profiles")
     .upsert({ id: user.id, ...profile }, { onConflict: "id" });
+
+  if (error && /referral_student_email/i.test(error.message)) {
+    const fallbackProfile = {
+      id: user.id,
+      name: profile.name,
+      grade: profile.grade,
+      school: profile.school,
+    };
+
+    const retry = await supabase.from("profiles").upsert(fallbackProfile, { onConflict: "id" });
+    error = retry.error ?? null;
+  }
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

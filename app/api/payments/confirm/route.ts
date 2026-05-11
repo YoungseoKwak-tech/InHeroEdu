@@ -2,6 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 import { getAuthenticatedUser } from "@/lib/auth";
 import { inferStoredOrderCurrency } from "@/lib/paymentCatalog";
+import {
+  getStoredOrder,
+  markStoredOrderFailed,
+  markStoredOrderPaid,
+} from "@/lib/orderStore";
+import {
+  activatePayPalSubscription,
+  capturePayPalOrder,
+  getPayPalOrder,
+  getPayPalSubscription,
+} from "@/lib/paypal";
 
 function createTossAuthHeader() {
   const secretKey = process.env.TOSS_SECRET_KEY;
@@ -10,6 +21,46 @@ function createTossAuthHeader() {
   }
 
   return `Basic ${Buffer.from(`${secretKey}:`).toString("base64")}`;
+}
+
+function mapStoredOrderForResponse(order: {
+  id: string;
+  serviceId: string;
+  orderName: string;
+  amount: number;
+  currency: "USD" | "KRW";
+  status: string;
+}) {
+  return {
+    id: order.id,
+    serviceId: order.serviceId,
+    orderName: order.orderName,
+    amount: order.amount,
+    currency: order.currency,
+    status: order.status,
+  };
+}
+
+async function unlockTextbookIfNeeded({
+  supabase,
+  userId,
+  serviceId,
+  orderId,
+}: {
+  supabase: ReturnType<typeof createAdminClient>;
+  userId: string | null;
+  serviceId: string;
+  orderId: string;
+}) {
+  if (!userId || !serviceId.startsWith("textbook:")) return;
+
+  const subjectId = serviceId.replace("textbook:", "");
+  await supabase
+    .from("textbook_purchases")
+    .upsert(
+      { user_id: userId, subject_id: subjectId, order_id: orderId },
+      { onConflict: "user_id,subject_id" }
+    );
 }
 
 async function confirmLegacyTextbookPayment({
@@ -68,28 +119,221 @@ async function confirmLegacyTextbookPayment({
 
   return NextResponse.json({
     success: true,
+    provider: "toss",
     tossData,
     order: {
       id: orderId,
       serviceId: `textbook:${subjectId}`,
       orderName: product.title,
-      amountKRW: product.price_krw,
+      amount: product.price_krw,
       currency: "KRW",
+      status: "paid",
+    },
+  });
+}
+
+async function confirmPayPalPayment({
+  supabase,
+  localOrderId,
+  userId,
+  paypalOrderId,
+  subscriptionId,
+}: {
+  supabase: ReturnType<typeof createAdminClient>;
+  localOrderId: string;
+  userId: string | null;
+  paypalOrderId?: string | null;
+  subscriptionId?: string | null;
+}) {
+  const storedOrder = await getStoredOrder(supabase, localOrderId);
+  if (!storedOrder) {
+    return NextResponse.json({ error: "order not found" }, { status: 404 });
+  }
+
+  if (storedOrder.status === "paid") {
+    return NextResponse.json({
+      success: true,
+      provider: "paypal",
+      order: mapStoredOrderForResponse(storedOrder),
+    });
+  }
+
+  const effectiveUserId = userId ?? storedOrder.userId ?? null;
+
+  if (storedOrder.kind === "subscription") {
+    const resolvedSubscriptionId =
+      storedOrder.providerSubscriptionId ?? subscriptionId ?? null;
+
+    if (!resolvedSubscriptionId) {
+      return NextResponse.json({ error: "subscription id missing" }, { status: 400 });
+    }
+
+    let subscription: Record<string, unknown>;
+    try {
+      subscription = await getPayPalSubscription(resolvedSubscriptionId);
+    } catch (error) {
+      await markStoredOrderFailed(supabase, localOrderId, {
+        error: error instanceof Error ? error.message : "subscription lookup failed",
+      });
+      return NextResponse.json({ error: "subscription lookup failed" }, { status: 400 });
+    }
+
+    let subscriptionStatus = String(subscription.status ?? "");
+    if (subscriptionStatus === "APPROVED") {
+      try {
+        await activatePayPalSubscription(resolvedSubscriptionId);
+        subscription = await getPayPalSubscription(resolvedSubscriptionId);
+        subscriptionStatus = String(subscription.status ?? "");
+      } catch {
+        // Some flows auto-activate on approval. We'll accept APPROVED below if it persists.
+      }
+    }
+
+    if (!["APPROVED", "ACTIVE"].includes(subscriptionStatus)) {
+      if (["CANCELLED", "EXPIRED", "SUSPENDED"].includes(subscriptionStatus)) {
+        await markStoredOrderFailed(supabase, localOrderId, subscription);
+      }
+
+      return NextResponse.json(
+        { error: `subscription status: ${subscriptionStatus || "unknown"}` },
+        { status: 400 }
+      );
+    }
+
+    await markStoredOrderPaid(supabase, localOrderId, {
+      userId: effectiveUserId,
+      providerSubscriptionId: resolvedSubscriptionId,
+      rawResponse: subscription,
+    });
+
+    await unlockTextbookIfNeeded({
+      supabase,
+      userId: effectiveUserId,
+      serviceId: storedOrder.serviceId,
+      orderId: localOrderId,
+    });
+
+    return NextResponse.json({
+      success: true,
+      provider: "paypal",
+      order: {
+        ...mapStoredOrderForResponse(storedOrder),
+        status: "paid",
+      },
+    });
+  }
+
+  const resolvedPayPalOrderId =
+    storedOrder.providerOrderId ?? paypalOrderId ?? null;
+
+  if (!resolvedPayPalOrderId) {
+    return NextResponse.json({ error: "paypal order id missing" }, { status: 400 });
+  }
+
+  let captureResponse: Record<string, unknown>;
+  try {
+    captureResponse = await capturePayPalOrder(resolvedPayPalOrderId);
+  } catch (error) {
+    try {
+      const orderState = await getPayPalOrder(resolvedPayPalOrderId);
+      if (String(orderState.status ?? "") === "COMPLETED") {
+        captureResponse = orderState;
+      } else {
+        throw error;
+      }
+    } catch (fallbackError) {
+      await markStoredOrderFailed(supabase, localOrderId, {
+        captureError:
+          fallbackError instanceof Error ? fallbackError.message : "capture failed",
+      });
+
+      return NextResponse.json(
+        {
+          error:
+            fallbackError instanceof Error
+              ? fallbackError.message
+              : "capture failed",
+        },
+        { status: 400 }
+      );
+    }
+  }
+
+  const captureStatus = String(captureResponse.status ?? "");
+  if (captureStatus !== "COMPLETED") {
+    await markStoredOrderFailed(supabase, localOrderId, captureResponse);
+    return NextResponse.json(
+      { error: `order status: ${captureStatus || "unknown"}` },
+      { status: 400 }
+    );
+  }
+
+  await markStoredOrderPaid(supabase, localOrderId, {
+    userId: effectiveUserId,
+    providerOrderId: resolvedPayPalOrderId,
+    rawResponse: captureResponse,
+  });
+
+  await unlockTextbookIfNeeded({
+    supabase,
+    userId: effectiveUserId,
+    serviceId: storedOrder.serviceId,
+    orderId: localOrderId,
+  });
+
+  return NextResponse.json({
+    success: true,
+    provider: "paypal",
+    order: {
+      ...mapStoredOrderForResponse(storedOrder),
+      status: "paid",
     },
   });
 }
 
 export async function POST(req: NextRequest) {
   try {
-    const { paymentKey, orderId, serviceId, subjectId } = await req.json();
-
-    if (!paymentKey || !orderId) {
-      return NextResponse.json({ error: "missing fields" }, { status: 400 });
-    }
+    const body = (await req.json()) as {
+      provider?: string;
+      paymentKey?: string;
+      orderId?: string;
+      localOrderId?: string;
+      serviceId?: string;
+      subjectId?: string;
+      paypalOrderId?: string;
+      subscriptionId?: string;
+      token?: string;
+    };
 
     const supabase = createAdminClient();
     const authedUser = await getAuthenticatedUser(req);
     const authedUserId = authedUser?.id ?? null;
+
+    const provider = body.provider ?? (body.paymentKey ? "toss" : "paypal");
+
+    if (provider === "paypal") {
+      const localOrderId = body.localOrderId ?? body.orderId;
+      if (!localOrderId) {
+        return NextResponse.json({ error: "missing order id" }, { status: 400 });
+      }
+
+      return confirmPayPalPayment({
+        supabase,
+        localOrderId,
+        userId: authedUserId,
+        paypalOrderId: body.paypalOrderId ?? body.token,
+        subscriptionId: body.subscriptionId ?? body.token,
+      });
+    }
+
+    const paymentKey = body.paymentKey;
+    const orderId = body.orderId;
+    const serviceId = body.serviceId;
+    const subjectId = body.subjectId;
+
+    if (!paymentKey || !orderId) {
+      return NextResponse.json({ error: "missing fields" }, { status: 400 });
+    }
 
     const { data: order, error: orderError } = await supabase
       .from("orders")
@@ -141,28 +385,27 @@ export async function POST(req: NextRequest) {
     }
 
     await supabase.from("orders").update(orderUpdate).eq("id", orderId);
-
-    const orderServiceId: string = order.service_id ?? "";
-    if (orderServiceId.startsWith("textbook:") && effectiveUserId) {
-      const textbookSubjectId = orderServiceId.replace("textbook:", "");
-
-      await supabase
-        .from("textbook_purchases")
-        .upsert(
-          { user_id: effectiveUserId, subject_id: textbookSubjectId, order_id: orderId },
-          { onConflict: "user_id,subject_id" }
-        );
-    }
+    await unlockTextbookIfNeeded({
+      supabase,
+      userId: effectiveUserId,
+      serviceId: order.service_id,
+      orderId,
+    });
 
     return NextResponse.json({
       success: true,
+      provider: "toss",
       tossData,
       order: {
         id: order.id,
         serviceId: order.service_id,
         orderName: order.order_name,
         amount: order.amount_krw,
-        currency: inferStoredOrderCurrency(order.service_id ?? "", Number(order.amount_krw)),
+        currency: inferStoredOrderCurrency(
+          order.service_id ?? "",
+          Number(order.amount_krw)
+        ),
+        status: "paid",
       },
     });
   } catch (e) {

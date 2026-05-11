@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 import { requireAuthenticatedUser } from "@/lib/auth";
 import { detectPattern } from "@/lib/pattern-detector";
+import {
+  bestEffortPersistLearningEventV1,
+  inferCourseIdFromLessonId,
+} from "@/lib/learning-tracking";
 
 /**
  * POST /api/lesson-progress
@@ -77,6 +81,31 @@ export async function POST(req: NextRequest) {
     timeSpentSeconds,
     subject
   ).catch((err) => console.error("[pattern-detector]", err));
+
+  void bestEffortPersistLearningEventV1({
+    userId: user.id,
+    event: {
+      schemaVersion: 1,
+      lessonId,
+      courseId: subject ?? inferCourseIdFromLessonId(lessonId),
+      subjectId: subject ?? inferCourseIdFromLessonId(lessonId),
+      sectionKey: partId,
+      eventType:
+        overlayType.toUpperCase() === "QUESTION_SPRINT"
+          ? "question_answered"
+          : "overlay_submitted",
+      gapType,
+      correct: isCorrect,
+      valueNum: timeSpentSeconds,
+      valueText: studentResponse,
+      payload: {
+        source: "lesson_progress_legacy",
+        overlayType,
+        partId,
+      },
+      clientTs: new Date().toISOString(),
+    },
+  });
 
   return NextResponse.json({ ok: true });
 }

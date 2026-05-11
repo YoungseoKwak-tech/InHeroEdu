@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
   const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("lesson_scripts")
-    .select("lesson_id, script, overlays, materials_url, script_generated_at, updated_at")
+    .select("lesson_id, script, overlays, materials_url, video_url, script_generated_at, updated_at")
     .eq("lesson_id", lessonId)
     .single();
 
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
 
   const { data: refreshed, error: refreshError } = await supabase
     .from("lesson_scripts")
-    .select("lesson_id, script, overlays, materials_url, script_generated_at, updated_at")
+    .select("lesson_id, script, overlays, materials_url, video_url, script_generated_at, updated_at")
     .eq("lesson_id", lessonId)
     .maybeSingle();
 
