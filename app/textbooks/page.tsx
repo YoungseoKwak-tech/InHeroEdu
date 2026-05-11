@@ -178,7 +178,7 @@ export default function TextbooksPage() {
           </h1>
 
           <p style={{ fontSize: "17px", color: "#7A7060", lineHeight: 1.7, maxWidth: "520px", marginBottom: "16px" }}>
-            Every Field Manual is AI-generated and final-reviewed by Ivy League students who scored 5s on the actual exam. AP-level depth. $29.
+            Every Field Manual is final-reviewed by Ivy League students who scored 5s on the actual exam. AP-level depth. $29.
           </p>
 
           <div style={{ display: "flex", alignItems: "center", gap: "20px", flexWrap: "wrap" }}>
