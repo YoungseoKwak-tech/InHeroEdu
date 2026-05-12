@@ -13,9 +13,11 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   const supabase = createAdminClient();
+  // SELECT * to capture any column the public endpoint might be missing
+  // when compared to /api/admin/faculty.
   const { data, error, count, status, statusText } = await supabase
     .from("faculty_assets")
-    .select("faculty_id, image_url, intro_video_url, updated_at", { count: "exact" });
+    .select("*", { count: "exact" });
 
   const merged = FACULTY.map((meta) => {
     const row = (data ?? []).find((r) => r.faculty_id === meta.id);
@@ -33,6 +35,7 @@ export async function GET() {
       count,
       status,
       statusText,
+      supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/^https:\/\//, "") ?? null,
       error: error
         ? { message: error.message, details: error.details, hint: error.hint, code: error.code }
         : null,
