@@ -17,8 +17,8 @@ interface Slide {
   eyebrow: string;
   title: string;
   subtitle: string;
-  bodyKo: string;
-  bodyEn: string;
+  body: string;
+  caption: string;
 }
 
 const SLIDES: Slide[] = [
@@ -27,40 +27,40 @@ const SLIDES: Slide[] = [
     eyebrow: "ANNOTATED BY THE ARCHITECT",
     title: "Architect's Personal Notes",
     subtitle: "Handwritten · No filler · Pure logic.",
-    bodyKo:
-      "설계자가 직접 써 내려간 손글씨 주석은 단순한 팁이 아닙니다. 시험장에서 당신의 뇌에 울려 퍼질 '정답의 목소리'입니다.",
-    bodyEn:
-      "Architect-grade annotations. Not study tips — the voice that will replay in your head on test day.",
+    body:
+      "Architect-grade annotations sit alongside the typed chapter. Not study tips — the exact voice that will replay in your head on test day.",
+    caption:
+      "Mechanism-first prose on the left, the Architect's handwritten map of bond types on the right. One spread, two layers of understanding.",
   },
   {
     image: "/textbook-preview/slide-02.png",
     eyebrow: "0.1s CONCEPTUAL SYNC",
     title: "Vesicle Budding, decoded",
-    subtitle: "복잡한 메커니즘 → 단 한 장의 그림.",
-    bodyKo:
-      "남들이 1시간 동안 외우는 메커니즘, 당신은 이 도표 하나로 0.1초 만에 뇌에 동기화(Sync)합니다.",
-    bodyEn:
-      "Every mechanism rebuilt as a single diagram. Memorization is for people who don't have this book.",
+    subtitle: "Complex mechanism → one decisive diagram.",
+    body:
+      "Every mechanism is rebuilt as a single diagram. Memorization is for students who don't have this book.",
+    caption:
+      "The vesicle pathway every student fakes through. Here it's laid out step-by-step with cargo adaptors, COPI/COPII, and recycling routes labelled by hand.",
   },
   {
     image: "/textbook-preview/slide-03.png",
     eyebrow: "FIELD TESTING YOUR LOGIC",
     title: "MCQ + FRQ, exam-grade",
-    subtitle: "에러율 0% 지향, 엄선된 killer 문항.",
-    bodyKo:
-      "배운 논리를 즉시 실전 투입하세요. 에러율 0%를 지향하는 엄선된 킬러 문항들입니다.",
-    bodyEn:
-      "Question packs written to break weak reasoning, not to fill pages. Deploy your logic immediately.",
+    subtitle: "Killer questions, zero filler.",
+    body:
+      "Question packs written to break weak reasoning, not to fill pages. Deploy the chapter's logic immediately.",
+    caption:
+      "Multiple choice on the left, multi-part free response on the right — both calibrated to the traps the AP exam actually uses.",
   },
   {
     image: "/textbook-preview/slide-04.png",
     eyebrow: "THE PERFECT EXECUTION",
     title: "Answer Key + Scoring Rubric",
-    subtitle: "Ivy League 채점 기준표 + 모델 답안.",
-    bodyKo:
-      "채점관이 점수를 깎을 틈을 주지 않는 모델 답안. 논리적인 완벽함이 곧 당신의 점수가 됩니다.",
-    bodyEn:
-      "Rubrics that map the grader's mind, model answers that close every loophole. Perfection by design.",
+    subtitle: "Rubric included. Model answers, by design.",
+    body:
+      "Rubrics that map the grader's mind. Model answers that close every loophole. Perfection by design, not by luck.",
+    caption:
+      "Worked MCQ explanations on the left. FRQ scoring points + a full model answer on the right — written the way an Ivy League 5-scorer would write it.",
   },
 ];
 
@@ -132,8 +132,8 @@ export default function TextbookSlider() {
             <div className="ts-side-eyebrow">{slide.eyebrow}</div>
             <h3 className="ts-side-title">{slide.title}</h3>
             <p className="ts-side-subtitle">{slide.subtitle}</p>
-            <p className="ts-side-body">{slide.bodyKo}</p>
-            <p className="ts-side-body-en">{slide.bodyEn}</p>
+            <p className="ts-side-body">{slide.body}</p>
+            <p className="ts-side-body-en">{slide.caption}</p>
 
             <div className="ts-controls">
               <button
