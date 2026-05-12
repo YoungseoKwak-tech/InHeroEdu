@@ -38,6 +38,7 @@ export default function FacultyLineup() {
   const [rows, setRows] = useState<FacultyRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [playing, setPlaying] = useState<FacultyRow | null>(null);
+  const [showPrincipal, setShowPrincipal] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -92,6 +93,45 @@ export default function FacultyLineup() {
                 />
               ))}
 
+          {/* The Unseen Principal — clickable redacted silhouette */}
+          <button
+            type="button"
+            onClick={() => setShowPrincipal(true)}
+            className="fc-card fc-card-principal"
+            style={{ ["--accent" as string]: "#E5E7EB" }}
+            aria-label="The Unseen Principal"
+          >
+            <div className="fc-cover fc-cover-principal">
+              <div className="fc-principal-frame">
+                <div className="fc-principal-silhouette">
+                  <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    {/* Academic gown silhouette */}
+                    <defs>
+                      <radialGradient id="prinHead" cx="50%" cy="35%" r="60%">
+                        <stop offset="0%" stopColor="#22222b" />
+                        <stop offset="100%" stopColor="#0a0a10" />
+                      </radialGradient>
+                    </defs>
+                    <ellipse cx="100" cy="92" rx="48" ry="56" fill="url(#prinHead)" />
+                    <path
+                      d="M 30 240 Q 30 160 100 150 Q 170 160 170 240 Z"
+                      fill="#0a0a10"
+                    />
+                    {/* Hand on chin — accent */}
+                    <path
+                      d="M 92 145 Q 95 140 105 142 L 108 152 Q 102 156 95 152 Z"
+                      fill="#1a1a22"
+                    />
+                  </svg>
+                </div>
+                <div className="fc-principal-label">
+                  <div className="fc-principal-name">THE UNSEEN PRINCIPAL</div>
+                  <div className="fc-principal-sub">IVY LEAGUE LEGEND, [REDACTED] STUDENT</div>
+                </div>
+              </div>
+            </div>
+          </button>
+
           {/* "?" — more arriving */}
           <Link href="/courses" className="fc-card fc-card-more" style={{ ["--accent" as string]: "#5eead4" }}>
             <div className="fc-cover fc-cover-more">
@@ -117,9 +157,53 @@ export default function FacultyLineup() {
       </div>
 
       <VideoLightbox faculty={playing} onClose={() => setPlaying(null)} />
+      {showPrincipal && <PrincipalModal onClose={() => setShowPrincipal(false)} />}
 
       <style>{FL_STYLES}</style>
     </section>
+  );
+}
+
+function PrincipalModal({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  return (
+    <div className="pm-backdrop" onClick={onClose} role="dialog" aria-modal="true">
+      <div className="pm-shell" onClick={(e) => e.stopPropagation()}>
+        <button type="button" className="pm-close" onClick={onClose} aria-label="Close">✕</button>
+        <div className="pm-stamp">CLASSIFIED · LEVEL 5</div>
+        <div className="pm-silhouette">
+          <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <ellipse cx="100" cy="92" rx="48" ry="56" fill="#0a0a10" />
+            <path d="M 30 240 Q 30 160 100 150 Q 170 160 170 240 Z" fill="#0a0a10" />
+          </svg>
+        </div>
+        <h3 className="pm-title">The Principal is unavailable.</h3>
+        <p className="pm-body">
+          Currently reconstructing logic structures inside the engineering library.
+          <span className="pm-divider"> · </span>
+          Do not disturb.
+        </p>
+        <div className="pm-meta">
+          <div className="pm-meta-row"><span className="pm-k">ALIAS</span><span className="pm-v">[REDACTED]</span></div>
+          <div className="pm-meta-row"><span className="pm-k">EDU</span><span className="pm-v">IVY LEAGUE · ENGINEERING</span></div>
+          <div className="pm-meta-row"><span className="pm-k">ROLE</span><span className="pm-v">THE ARCHITECT — original Korean logic source</span></div>
+          <div className="pm-meta-row"><span className="pm-k">STATUS</span><span className="pm-v"><span className="pm-pulse" /> Reconstructing axioms</span></div>
+        </div>
+        <p className="pm-footer">교장 선생님은 지금 코넬 엔지니어링 도서관에서 로직 구조를 재건축 중입니다. 방해 금지.</p>
+      </div>
+      <style>{PM_STYLES}</style>
+    </div>
   );
 }
 
@@ -426,6 +510,75 @@ const FL_STYLES = `
     overflow: hidden;
   }
 
+  /* Principal card — old-photo / yearbook frame */
+  .fc-card-principal {
+    background: #f1ece2;
+    border: 1px solid rgba(229, 231, 235, 0.4);
+    box-shadow:
+      0 14px 36px rgba(0,0,0,0.5),
+      inset 0 0 0 6px #f1ece2,
+      inset 0 0 0 7px rgba(0,0,0,0.15);
+  }
+  .fc-card-principal:hover:not(:disabled) {
+    box-shadow:
+      0 22px 48px rgba(0,0,0,0.6),
+      inset 0 0 0 6px #f1ece2,
+      inset 0 0 0 7px rgba(0,0,0,0.25),
+      0 0 0 1px #fff,
+      0 0 24px rgba(255,255,255,0.2);
+    border-color: rgba(255, 255, 255, 0.65);
+  }
+  .fc-cover-principal {
+    background: linear-gradient(180deg, #dcd3c1 0%, #c5bba8 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1rem 0.8rem 0.8rem;
+    color: #111;
+  }
+  .fc-principal-frame {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+  .fc-principal-silhouette {
+    width: 65%;
+    aspect-ratio: 1 / 1.2;
+    border-radius: 50%;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 30%, #2a2a32 0%, #0a0a10 100%);
+    border: 4px solid #f1ece2;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.2), inset 0 0 30px rgba(0,0,0,0.5);
+    margin-bottom: 0.4rem;
+  }
+  .fc-principal-silhouette svg { width: 100%; height: 100%; display: block; }
+  .fc-principal-label {
+    text-align: center;
+    width: 100%;
+    padding-top: 0.3rem;
+    border-top: 1px solid rgba(0,0,0,0.2);
+  }
+  .fc-principal-name {
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #1a1a22;
+    margin-bottom: 0.18rem;
+  }
+  .fc-principal-sub {
+    font-family: ui-monospace, 'JetBrains Mono', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 0.16em;
+    color: #555;
+    line-height: 1.3;
+  }
+
   /* "?" more card */
   .fc-card-more { border-style: dashed; }
   .fc-cover-more {
@@ -566,5 +719,126 @@ const VL_STYLES = `
     max-height: 70vh;
     background: #000;
     display: block;
+  }
+`;
+
+const PM_STYLES = `
+  .pm-backdrop {
+    position: fixed; inset: 0;
+    z-index: 90;
+    background: rgba(0,0,0,0.86);
+    backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem;
+    animation: pm-fade 0.25s ease-out;
+  }
+  @keyframes pm-fade { from { opacity: 0; } to { opacity: 1; } }
+  .pm-shell {
+    position: relative;
+    width: min(28rem, 100%);
+    background: linear-gradient(180deg, #131318 0%, #08080d 100%);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 0.85rem;
+    padding: 1.5rem 1.4rem 1.4rem;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+    text-align: center;
+    color: #d8d9e6;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .pm-close {
+    position: absolute;
+    top: 0.7rem; right: 0.7rem;
+    width: 1.8rem; height: 1.8rem;
+    border-radius: 50%;
+    border: 0;
+    background: rgba(255,255,255,0.06);
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    font-size: 0.78rem;
+    transition: background 0.15s;
+  }
+  .pm-close:hover { background: rgba(255,107,91,0.35); color: #fff; }
+  .pm-stamp {
+    font-family: ui-monospace, monospace;
+    font-size: 0.6rem; font-weight: 700;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #ff6b5b;
+    margin-bottom: 1rem;
+    padding: 0.25rem 0.65rem;
+    border: 1px dashed rgba(255,107,91,0.4);
+    border-radius: 0.3rem;
+    display: inline-block;
+    transform: rotate(-2deg);
+  }
+  .pm-silhouette {
+    width: 7rem; height: 7rem;
+    margin: 0.4rem auto 1rem;
+    border-radius: 50%;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 30%, #1a1a22 0%, #050508 100%);
+    border: 2px solid rgba(255,255,255,0.08);
+  }
+  .pm-silhouette svg { width: 100%; height: 100%; }
+  .pm-title {
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #f3f3fb;
+    margin: 0 0 0.55rem;
+    letter-spacing: -0.01em;
+    font-style: italic;
+  }
+  .pm-body {
+    font-size: 0.88rem;
+    color: rgba(216, 217, 230, 0.85);
+    line-height: 1.55;
+    margin: 0 0 1.1rem;
+  }
+  .pm-divider { color: rgba(255,255,255,0.3); }
+  .pm-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.32rem;
+    padding: 0.75rem;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 0.5rem;
+    background: rgba(255,255,255,0.02);
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+  .pm-meta-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.7rem;
+  }
+  .pm-k {
+    color: rgba(94, 234, 212, 0.85);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    min-width: 4rem;
+  }
+  .pm-v { color: rgba(255,255,255,0.9); }
+  .pm-pulse {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #5eead4;
+    box-shadow: 0 0 8px rgba(94,234,212,0.7);
+    margin-right: 0.35rem;
+    vertical-align: middle;
+    animation: fl-pulse 1.6s ease-in-out infinite;
+  }
+  .pm-footer {
+    font-family: 'Pretendard', system-ui, sans-serif;
+    font-size: 0.78rem;
+    color: rgba(148, 163, 184, 0.7);
+    line-height: 1.5;
+    margin: 0;
+    padding-top: 0.6rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
   }
 `;

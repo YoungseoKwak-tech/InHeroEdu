@@ -2,6 +2,8 @@
 
 import Hero from "@/components/landing/Hero";
 import FacultyLineup from "@/components/landing/FacultyLineup";
+import AcademyCampus from "@/components/landing/AcademyCampus";
+import FloatingTA from "@/components/landing/FloatingTA";
 import ClickSeries from "@/components/landing/ClickSeries";
 import Features from "@/components/landing/Features";
 import SubjectGrid from "@/components/landing/SubjectGrid";
@@ -15,6 +17,7 @@ export default function HomePage() {
       <Hero />
       <UniversityBanner />
       <FacultyLineup />
+      <AcademyCampus />
       <ClickSeries />
       <Features />
       <SubjectGrid />
@@ -163,6 +166,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <FloatingTA />
     </>
   );
 }
