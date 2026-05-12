@@ -3,53 +3,19 @@
 /**
  * AcademyCampus — landing-page "campus walk-through" sections below Faculty.
  * Sections in order:
- *   1. Mandatory Textbooks (locker w/ real PDF covers + funny titles)
+ *   1. TextbookSlider ("Inside the Logic" — Field Manual page preview)
  *   2. TA's Desk ("The Unpaid Intern")
  *   3. Bulletin Board (Academic Probation List)
  *   4. School Motto footer
  */
 
-import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-
-const PdfCover = dynamic(() => import("@/components/textbooks/PdfCover"), { ssr: false });
-
-interface Product {
-  id: string;
-  subject_id: string;
-  title: string;
-  pdf_url: string | null;
-  chapters: number;
-}
-
-// Funny subtitles per AP subject — overlaid on the real PDF cover.
-const SNARK_TITLES: Record<string, string> = {
-  "ap-biology": "Campbell's Anatomy of Your Failure",
-  "ap-chemistry": "Coulombic Attraction for Dummies",
-  "ap-physics-1": "The Gospel of the Vacuum",
-  "ap-physics-2": "The Gospel of the Vacuum, Book II",
-  "ap-physics-c-mechanics": "Newton's Spite Volume",
-  "ap-calc-ab": "The Continuity Manifesto",
-  "ap-calc-bc": "The Continuity Manifesto, Annotated",
-  "ap-precalc": "Pre-Suffering Notes",
-  "ap-statistics": "Probability of Disappointment",
-  "ap-us-history": "A Conspiracy of Footnotes",
-  "ap-world-history": "A Globe-Sized Conspiracy",
-  "ap-european-history": "A European Conspiracy of Footnotes",
-  "ap-macroeconomics": "Coffee-Stained Demand Curves",
-  "ap-microeconomics": "Coffee-Stained Demand Curves, Mini",
-  "ap-environmental-science": "Field Notes on the Apocalypse",
-  "ap-computer-science-a": "The Compiler Hates You Too",
-  "ap-computer-science-principles": "How To Talk To A Machine That Won't Listen",
-  "sat-reading": "The Witness Manual",
-  "sat-math": "Trap-Detection Field Guide",
-};
+import TextbookSlider from "@/components/landing/TextbookSlider";
 
 export default function AcademyCampus() {
   return (
     <>
-      <MandatoryTextbooks />
+      <TextbookSlider />
       <TADesk />
       <BulletinBoard />
       <SchoolMotto />
@@ -57,84 +23,7 @@ export default function AcademyCampus() {
   );
 }
 
-// ── 1. Mandatory Textbooks (Locker) ────────────────────────────────────
-function MandatoryTextbooks() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetch("/api/textbook-products", { cache: "no-store" });
-        const json = await res.json();
-        const visible = (json.products ?? []) as Product[];
-        // Surface 6 books max for the landing — featured order
-        setProducts(visible.slice(0, 6));
-      } catch {
-        // noop
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, []);
-
-  return (
-    <section className="mt-root">
-      <div className="mt-stars" aria-hidden="true" />
-      <div className="mt-inner">
-        <header className="mt-head">
-          <div className="mt-eyebrow">
-            <span className="mt-pulse" />
-            <span>THE LIBRARY · MANDATORY READING</span>
-          </div>
-          <h2 className="mt-title">You can't graduate <em>without these</em>.</h2>
-          <p className="mt-sub">
-            Field Manuals reviewed by Ivy League 5-scorers. Every book is the actual reading the faculty would actually assign.
-          </p>
-        </header>
-
-        <div className="mt-locker">
-          <div className="mt-locker-frame">
-            <div className="mt-shelf">
-              {loading
-                ? Array.from({ length: 6 }).map((_, i) => (
-                    <div key={i} className="mt-book mt-book-skeleton" />
-                  ))
-                : products.map((p) => (
-                    <Link key={p.id} href="/textbooks" className="mt-book" title={p.title}>
-                      <div className="mt-book-cover">
-                        {p.pdf_url ? (
-                          <PdfCover url={p.pdf_url} width={140} />
-                        ) : (
-                          <div className="mt-book-fallback" />
-                        )}
-                        <div className="mt-book-snark">
-                          {SNARK_TITLES[p.subject_id] ?? p.title}
-                        </div>
-                      </div>
-                      <div className="mt-book-label">
-                        <span className="mt-book-subject">
-                          {p.subject_id.replace(/-/g, " ").toUpperCase()}
-                        </span>
-                      </div>
-                    </Link>
-                  ))}
-            </div>
-            <div className="mt-shelf-base" aria-hidden="true" />
-          </div>
-
-          <Link href="/textbooks" className="mt-shelf-cta">
-            VIEW THE FULL LIBRARY →
-          </Link>
-        </div>
-      </div>
-
-      <style>{MT_STYLES}</style>
-    </section>
-  );
-}
-
-// ── 2. TA's Desk ("The Unpaid Intern") ─────────────────────────────────
+// ── TA's Desk ("The Unpaid Intern") ────────────────────────────────────
 function TADesk() {
   return (
     <section className="td-root">
@@ -214,7 +103,7 @@ function TADesk() {
   );
 }
 
-// ── 3. Bulletin Board (Academic Probation) ─────────────────────────────
+// ── Bulletin Board (Academic Probation) ────────────────────────────────
 const PROBATION_ITEMS = [
   { text: "42 students forgot the +C on Wednesday's quiz", source: "Dr. L'Hôpital is — and we quote — 'visibly unwell'." },
   { text: '"Mitochondria is the powerhouse" detected in 11 essays today', source: 'Dr. Osmosis has filed paperwork for "academic mourning leave".' },
@@ -257,7 +146,7 @@ function BulletinBoard() {
   );
 }
 
-// ── 4. School Motto footer ─────────────────────────────────────────────
+// ── School Motto footer ────────────────────────────────────────────────
 function SchoolMotto() {
   return (
     <section className="sm-root">
@@ -277,173 +166,6 @@ function SchoolMotto() {
     </section>
   );
 }
-
-// ── Styles ──────────────────────────────────────────────────────────────
-const MT_STYLES = `
-  .mt-root {
-    position: relative;
-    padding: 5rem 1.25rem 4rem;
-    background: linear-gradient(180deg, #03050d 0%, #060810 100%);
-    color: #d8d9e6;
-    overflow: hidden;
-    font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
-  }
-  .mt-stars {
-    position: absolute; inset: 0; pointer-events: none; opacity: 0.3;
-    background-image:
-      radial-gradient(1px 1px at 22% 28%, rgba(255,255,255,0.7), transparent 100%),
-      radial-gradient(1px 1px at 78% 14%, rgba(255,255,255,0.5),  transparent 100%),
-      radial-gradient(1px 1px at 42% 72%, rgba(255,255,255,0.55), transparent 100%);
-    background-size: 280px 280px;
-  }
-  .mt-inner { position: relative; max-width: 84rem; margin: 0 auto; }
-  .mt-head { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 2rem; }
-  .mt-eyebrow {
-    display: inline-flex; align-items: center; gap: 0.55rem;
-    font-family: ui-monospace, monospace;
-    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.24em;
-    text-transform: uppercase; color: #F4C95D;
-    text-shadow: 0 0 10px rgba(244,201,93,0.5);
-  }
-  .mt-pulse {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: #F4C95D; box-shadow: 0 0 10px rgba(244,201,93,0.7);
-    animation: mt-pulse 1.6s ease-in-out infinite;
-  }
-  @keyframes mt-pulse {
-    0%,100% { opacity: 0.55; transform: scale(0.85); }
-    50%     { opacity: 1;    transform: scale(1.15); }
-  }
-  .mt-title {
-    font-family: 'Cormorant Garamond', 'Georgia', serif;
-    font-size: clamp(2rem, 4.2vw, 2.8rem);
-    font-weight: 600; color: #f3f3fb; margin: 0;
-    letter-spacing: -0.02em; line-height: 1.05;
-  }
-  .mt-title em { font-style: italic; color: #F4C95D; text-shadow: 0 0 18px rgba(244,201,93,0.35); }
-  .mt-sub { font-size: 0.92rem; color: #94a3b8; margin: 0; line-height: 1.5; max-width: 38rem; }
-
-  .mt-locker {
-    position: relative;
-    background:
-      linear-gradient(180deg, rgba(244,201,93,0.04) 0%, transparent 100%),
-      #07070d;
-    border: 1px solid rgba(244,201,93,0.15);
-    border-radius: 0.7rem;
-    padding: 1.5rem 1.25rem 1rem;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 24px 60px rgba(0,0,0,0.4);
-  }
-  .mt-locker-frame { position: relative; }
-  .mt-shelf {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
-    gap: 1.2rem 1rem;
-    padding-bottom: 1rem;
-  }
-  .mt-shelf-base {
-    height: 8px;
-    background: linear-gradient(180deg, rgba(120, 85, 30, 0.6), rgba(60, 40, 15, 0.85));
-    border-radius: 2px;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.5);
-    margin-top: -4px;
-  }
-
-  .mt-book {
-    display: flex; flex-direction: column; gap: 0.45rem;
-    text-decoration: none; color: inherit;
-    transition: transform 0.3s ease;
-  }
-  .mt-book:hover { transform: translateY(-4px); }
-  .mt-book-cover {
-    position: relative;
-    aspect-ratio: 3 / 4;
-    border-radius: 0.3rem 0.35rem 0.3rem 0.3rem;
-    overflow: hidden;
-    background: #1a1a22;
-    box-shadow:
-      inset 4px 0 0 rgba(0,0,0,0.35),
-      6px 8px 18px rgba(0,0,0,0.55),
-      inset 0 0 0 1px rgba(255,255,255,0.06);
-    transition: box-shadow 0.3s ease;
-  }
-  .mt-book:hover .mt-book-cover {
-    box-shadow:
-      inset 4px 0 0 rgba(0,0,0,0.35),
-      12px 16px 28px rgba(0,0,0,0.65),
-      inset 0 0 0 1px rgba(244,201,93,0.45),
-      0 0 22px rgba(244,201,93,0.25);
-  }
-  .mt-book-cover :global(canvas), .mt-book-cover :global(img) {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover;
-    display: block;
-  }
-  .mt-book-fallback {
-    position: absolute; inset: 0;
-    background:
-      repeating-linear-gradient(45deg, rgba(244,201,93,0.05) 0 8px, transparent 8px 16px),
-      #0c0c12;
-  }
-  .mt-book-snark {
-    position: absolute;
-    left: 0.4rem; right: 0.4rem; bottom: 0.4rem;
-    z-index: 2;
-    font-family: 'Cormorant Garamond', 'Georgia', serif;
-    font-style: italic;
-    font-size: 0.7rem;
-    line-height: 1.25;
-    color: #fff;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.95), 0 0 12px rgba(0,0,0,0.6);
-    padding: 0.4rem 0.5rem;
-    background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.78) 80%);
-  }
-  .mt-book-label {
-    text-align: left;
-    padding: 0 0.1rem;
-  }
-  .mt-book-subject {
-    font-family: ui-monospace, monospace;
-    font-size: 0.58rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    color: rgba(244,201,93,0.85);
-  }
-
-  .mt-book-skeleton .mt-book-cover {
-    background:
-      linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent),
-      #0c0c12;
-    background-size: 220% 100%, 100% 100%;
-    animation: mt-shimmer 1.6s ease-in-out infinite;
-    aspect-ratio: 3 / 4;
-  }
-  @keyframes mt-shimmer {
-    0% { background-position: -120% 0, 0 0; }
-    100% { background-position: 220% 0, 0 0; }
-  }
-
-  .mt-shelf-cta {
-    display: inline-block;
-    margin-top: 1.4rem;
-    font-family: ui-monospace, monospace;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #F4C95D;
-    text-decoration: none;
-    padding: 0.55rem 0.95rem;
-    border: 1px solid rgba(244,201,93,0.4);
-    border-radius: 0.4rem;
-    background: rgba(244,201,93,0.06);
-    transition: background 0.15s, box-shadow 0.2s;
-  }
-  .mt-shelf-cta:hover {
-    background: rgba(244,201,93,0.16);
-    box-shadow: 0 0 0 1px #F4C95D, 0 0 14px rgba(244,201,93,0.35);
-  }
-`;
 
 const TD_STYLES = `
   .td-root {
@@ -465,7 +187,11 @@ const TD_STYLES = `
   .td-pulse {
     width: 7px; height: 7px; border-radius: 50%;
     background: #A99CFF; box-shadow: 0 0 10px rgba(169,156,255,0.7);
-    animation: mt-pulse 1.6s ease-in-out infinite;
+    animation: td-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes td-pulse {
+    0%,100% { opacity: 0.55; transform: scale(0.85); }
+    50%     { opacity: 1;    transform: scale(1.15); }
   }
   .td-title {
     font-family: 'Cormorant Garamond', 'Georgia', serif;
@@ -591,7 +317,11 @@ const BB_STYLES = `
   .bb-pulse {
     width: 7px; height: 7px; border-radius: 50%;
     background: #FF6B5B; box-shadow: 0 0 10px rgba(255,107,91,0.7);
-    animation: mt-pulse 1.6s ease-in-out infinite;
+    animation: bb-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes bb-pulse {
+    0%,100% { opacity: 0.55; transform: scale(0.85); }
+    50%     { opacity: 1;    transform: scale(1.15); }
   }
   .bb-title {
     font-family: 'Cormorant Garamond', 'Georgia', serif;
