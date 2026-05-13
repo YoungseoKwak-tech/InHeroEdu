@@ -41,13 +41,18 @@ export default async function ClubsDirectoryPage() {
   return (
     <main className="cdir-root">
       <header className="cdir-head">
-        <div className="cdir-eyebrow">CLUBS · ADMIN-CURATED</div>
+        <div className="cdir-eyebrow-row">
+          <div className="cdir-eyebrow">CLUBS</div>
+          <Link href="/clubs/new" className="cdir-found-btn">
+            Found a club →
+          </Link>
+        </div>
         <h1 className="cdir-title">
           The rooms you'd want to <em>belong to</em>.
         </h1>
         <p className="cdir-lede">
-          Five flagship clubs — curated, not crowdsourced. No applications, no leaderboards.
-          Joining is the signal you align with the room. The work is done elsewhere.
+          Flagship clubs — some curated, some founded by students. Meet your room, log meetings,
+          invite a co-founder and a secretary. The work is done elsewhere.
         </p>
       </header>
 
@@ -89,14 +94,32 @@ export default async function ClubsDirectoryPage() {
           font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
         }
         .cdir-head { margin-bottom: 2.6rem; }
+        .cdir-eyebrow-row {
+          display: flex; align-items: center; justify-content: space-between;
+          gap: 1rem; flex-wrap: wrap;
+          margin-bottom: 0.8rem;
+        }
         .cdir-eyebrow {
           font-family: ui-monospace, monospace;
           font-size: 0.7rem;
           letter-spacing: 0.28em;
           color: #F4C95D;
           text-transform: uppercase;
-          margin-bottom: 0.8rem;
         }
+        .cdir-found-btn {
+          font-family: ui-monospace, monospace;
+          font-size: 0.72rem;
+          font-weight: 700;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          text-decoration: none;
+          padding: 0.55rem 0.9rem;
+          color: #0a0a10;
+          background: #F4C95D;
+          border-radius: 0.4rem;
+          transition: filter 0.15s, box-shadow 0.2s;
+        }
+        .cdir-found-btn:hover { filter: brightness(1.08); box-shadow: 0 0 18px rgba(244,201,93,0.45); }
         .cdir-title {
           font-family: 'Cormorant Garamond', 'Georgia', serif;
           font-size: clamp(2rem, 4vw, 2.85rem);

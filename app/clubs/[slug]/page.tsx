@@ -5,13 +5,18 @@ import { unstable_noStore as noStore } from "next/cache";
 import { createAdminClient } from "@/lib/supabase";
 import AuthorChip from "@/components/trajectory/AuthorChip";
 import ClubJoinButton from "@/components/clubs/ClubJoinButton";
+import ClubNotes from "@/components/clubs/ClubNotes";
 import {
+  CLUB_ROLE_LABEL,
   hydrateClubMembers,
+  hydrateMeetingNotes,
   toClubPublic,
   type ClubMemberPublic,
   type ClubMemberRow,
+  type ClubMeetingNoteRow,
   type ClubPublic,
   type ClubRow,
+  type MeetingNotePublic,
 } from "@/lib/clubs";
 
 export const dynamic = "force-dynamic";
@@ -20,7 +25,9 @@ interface PageProps {
   params: { slug: string };
 }
 
-async function loadClub(slug: string): Promise<{ club: ClubPublic; members: ClubMemberPublic[] } | null> {
+async function loadClub(
+  slug: string
+): Promise<{ club: ClubPublic; members: ClubMemberPublic[]; notes: MeetingNotePublic[] } | null> {
   noStore();
   const supabase = createAdminClient();
   const { data: club } = await supabase
@@ -31,13 +38,22 @@ async function loadClub(slug: string): Promise<{ club: ClubPublic; members: Club
     .maybeSingle();
   if (!club) return null;
 
-  const { data: memberRows } = await supabase
-    .from("club_members")
-    .select("*")
-    .eq("club_id", (club as ClubRow).id);
+  const [{ data: memberRows }, { data: noteRows }] = await Promise.all([
+    supabase.from("club_members").select("*").eq("club_id", (club as ClubRow).id),
+    supabase
+      .from("club_meeting_notes")
+      .select("*")
+      .eq("club_id", (club as ClubRow).id)
+      .eq("is_deleted", false)
+      .order("created_at", { ascending: false })
+      .limit(50),
+  ]);
 
-  const members = await hydrateClubMembers((memberRows ?? []) as ClubMemberRow[]);
-  return { club: toClubPublic(club as ClubRow, members.length), members };
+  const [members, notes] = await Promise.all([
+    hydrateClubMembers((memberRows ?? []) as ClubMemberRow[]),
+    hydrateMeetingNotes((noteRows ?? []) as ClubMeetingNoteRow[]),
+  ]);
+  return { club: toClubPublic(club as ClubRow, members.length), members, notes };
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -52,7 +68,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function ClubRoomPage({ params }: PageProps) {
   const data = await loadClub(params.slug);
   if (!data) notFound();
-  const { club, members } = data;
+  const { club, members, notes } = data;
 
   return (
     <main
@@ -102,12 +118,18 @@ export default async function ClubRoomPage({ params }: PageProps) {
                     badges={m.badges}
                     size="md"
                   />
-                  {m.role === "curator" && <span className="cr-curator">curator</span>}
+                  {m.role !== "member" && (
+                    <span className={`cr-role cr-role-${m.role}`}>
+                      {CLUB_ROLE_LABEL[m.role]}
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
           )}
         </section>
+
+        <ClubNotes slug={club.slug} accent={club.accent} initialNotes={notes} />
 
         <footer className="cr-foot">
           <span>This is a curated InHero room. Membership is the signal — the work happens elsewhere (lounges, projects, your trajectory).</span>
@@ -243,15 +265,34 @@ export default async function ClubRoomPage({ params }: PageProps) {
           border-color: color-mix(in srgb, var(--accent) 50%, transparent);
           background: color-mix(in srgb, var(--accent) 6%, transparent);
         }
-        .cr-curator {
+        .cr-role {
           font-family: ui-monospace, monospace;
           font-size: 0.56rem;
           font-weight: 700;
           letter-spacing: 0.22em;
           text-transform: uppercase;
-          color: var(--accent);
-          padding: 0.15rem 0.4rem;
+          padding: 0.18rem 0.45rem;
           border-radius: 0.25rem;
+          line-height: 1;
+        }
+        .cr-role-founder {
+          color: #F4C95D;
+          background: rgba(244,201,93,0.12);
+          border: 1px solid rgba(244,201,93,0.4);
+          text-shadow: 0 0 6px rgba(244,201,93,0.45);
+        }
+        .cr-role-cofounder {
+          color: #FBC95D;
+          background: rgba(244,201,93,0.06);
+          border: 1px solid rgba(244,201,93,0.25);
+        }
+        .cr-role-secretary {
+          color: #5eead4;
+          background: rgba(94,234,212,0.08);
+          border: 1px solid rgba(94,234,212,0.3);
+        }
+        .cr-role-curator {
+          color: var(--accent);
           background: color-mix(in srgb, var(--accent) 12%, transparent);
           border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
         }
