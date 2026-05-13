@@ -17,17 +17,59 @@ export async function GET(req: NextRequest) {
 
   const supabase = createAdminClient();
 
-  // Diagnostic: log connected Supabase URL + total profile count so we can
-  // confirm we're hitting the same project that the user sees in SQL Editor.
-  const supabaseHost = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").replace(/^https?:\/\//, "").split(".")[0];
-  const { count: totalProfiles } = await supabase
+  // Deep diagnostic: pull every row and compare user_ids in JS so we can
+  // see character-level differences if PostgREST's .eq filter is being
+  // weird.
+  const { data: allRows } = await supabase
     .from("profiles_public")
-    .select("*", { count: "exact", head: true });
-  console.log("[/api/profile/me] connection diagnostic", {
-    supabaseHost,
-    totalProfiles,
-    userId: user.id,
+    .select("user_id, display_handle");
+  const rows = (allRows ?? []) as { user_id: string; display_handle: string }[];
+  const match = rows.find((r) => r.user_id === user.id);
+  console.log("[/api/profile/me] deep diagnostic", {
+    userIdRaw: JSON.stringify(user.id),
+    userIdLen: user.id.length,
+    rowCount: rows.length,
+    rowUserIds: rows.map((r) => ({ id: JSON.stringify(r.user_id), len: r.user_id.length, handle: r.display_handle })),
+    jsMatch: !!match,
   });
+
+  // If JS-side comparison finds it, use that directly — bypass PostgREST .eq.
+  if (match) {
+    const fullRow = await supabase
+      .from("profiles_public")
+      .select("*")
+      .eq("user_id", match.user_id)
+      .maybeSingle();
+    if (fullRow.data) {
+      const { data: badges } = await supabase
+        .from("badges")
+        .select("*")
+        .eq("user_id", match.user_id);
+      return NextResponse.json({
+        ok: true,
+        profile: toPublic(fullRow.data as ProfilePublicRow, (badges ?? []) as BadgeRow[]),
+      });
+    }
+    // Fallback: hydrate from the deep-diagnostic row even if .eq fails again.
+    const { data: badges } = await supabase
+      .from("badges")
+      .select("*")
+      .eq("user_id", match.user_id);
+    const minimal: ProfilePublicRow = {
+      user_id: match.user_id,
+      display_handle: match.display_handle,
+      ambition_tags: [],
+      target_schools: [],
+      graduation_year: null,
+      bio: null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+    return NextResponse.json({
+      ok: true,
+      profile: toPublic(minimal, (badges ?? []) as BadgeRow[]),
+    });
+  }
 
   const { data: profile, error: profileErr } = await supabase
     .from("profiles_public")
