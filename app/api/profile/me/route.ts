@@ -16,6 +16,19 @@ export async function GET(req: NextRequest) {
   if (user instanceof NextResponse) return user;
 
   const supabase = createAdminClient();
+
+  // Diagnostic: log connected Supabase URL + total profile count so we can
+  // confirm we're hitting the same project that the user sees in SQL Editor.
+  const supabaseHost = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").replace(/^https?:\/\//, "").split(".")[0];
+  const { count: totalProfiles } = await supabase
+    .from("profiles_public")
+    .select("*", { count: "exact", head: true });
+  console.log("[/api/profile/me] connection diagnostic", {
+    supabaseHost,
+    totalProfiles,
+    userId: user.id,
+  });
+
   const { data: profile, error: profileErr } = await supabase
     .from("profiles_public")
     .select("*")
