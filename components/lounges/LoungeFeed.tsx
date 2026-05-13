@@ -20,6 +20,7 @@ export default function LoungeFeed({ slug, initialPosts }: Props) {
   const [posts, setPosts] = useState<PostPublic[]>(initialPosts);
   const [currentUserHandle, setCurrentUserHandle] = useState<string | null>(null);
   const [currentUserEmail, setCurrentUserEmail] = useState<string | null>(null);
+  const [isSignedIn, setIsSignedIn] = useState<boolean | null>(null);
   const [hasProfile, setHasProfile] = useState<boolean | null>(null);
 
   const [title, setTitle] = useState("");
@@ -44,11 +45,13 @@ export default function LoungeFeed({ slug, initialPosts }: Props) {
         } = await supabase.auth.getSession();
         if (cancelled) return;
         if (!session) {
+          setIsSignedIn(false);
           setCurrentUserHandle(null);
           setCurrentUserEmail(null);
           setHasProfile(false);
           return;
         }
+        setIsSignedIn(true);
         setCurrentUserEmail(session.user.email ?? null);
         const res = await fetch("/api/profile/me", {
           headers: { Authorization: `Bearer ${session.access_token}` },
@@ -63,7 +66,10 @@ export default function LoungeFeed({ slug, initialPosts }: Props) {
           setHasProfile(false);
         }
       } catch {
-        if (!cancelled) setHasProfile(false);
+        if (!cancelled) {
+          setIsSignedIn(false);
+          setHasProfile(false);
+        }
       }
     }
     void loadProfile();
@@ -113,8 +119,27 @@ export default function LoungeFeed({ slug, initialPosts }: Props) {
       <div className="lf-composer">
         {hasProfile === false && (
           <div className="lf-gate">
-            <strong>Claim your trajectory handle to post.</strong>
-            <span>Sign in and complete the 3-step onboarding — then you're in.</span>
+            {isSignedIn ? (
+              <>
+                <strong>One step before you can post: claim your handle.</strong>
+                <span>Pick your trajectory handle + grad year + ambition (takes 30s).</span>
+                <button
+                  type="button"
+                  className="lf-gate-cta"
+                  onClick={() => {
+                    try { window.sessionStorage.removeItem("hom_dismissed_until"); } catch { /* ignore */ }
+                    window.location.reload();
+                  }}
+                >
+                  Claim my handle →
+                </button>
+              </>
+            ) : (
+              <>
+                <strong>Sign in to post in this lounge.</strong>
+                <span>Use the EJECT/SIGN-IN button up top — then claim your handle.</span>
+              </>
+            )}
           </div>
         )}
 
@@ -211,7 +236,27 @@ export default function LoungeFeed({ slug, initialPosts }: Props) {
           font-size: 0.8rem;
         }
         .lf-gate strong { font-weight: 700; letter-spacing: 0.01em; }
-        .lf-gate span { color: rgba(244,201,93,0.8); font-size: 0.74rem; }
+        .lf-gate span { color: rgba(244,201,93,0.8); font-size: 0.74rem; margin-bottom: 0.4rem; }
+        .lf-gate-cta {
+          align-self: flex-start;
+          margin-top: 0.25rem;
+          font-family: ui-monospace, monospace;
+          font-size: 0.72rem;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          padding: 0.55rem 0.9rem;
+          color: #0a0a10;
+          background: #F4C95D;
+          border: 0;
+          border-radius: 0.4rem;
+          cursor: pointer;
+          transition: filter 0.15s, box-shadow 0.2s;
+        }
+        .lf-gate-cta:hover {
+          filter: brightness(1.08);
+          box-shadow: 0 0 16px rgba(244,201,93,0.4);
+        }
 
         .lf-type-row { display: flex; gap: 0.35rem; flex-wrap: wrap; }
         .lf-type {
