@@ -127,8 +127,11 @@ export default function LoungeFeed({ slug, initialPosts }: Props) {
                   type="button"
                   className="lf-gate-cta"
                   onClick={() => {
-                    try { window.sessionStorage.removeItem("hom_dismissed_until"); } catch { /* ignore */ }
-                    window.location.reload();
+                    try {
+                      window.sessionStorage.removeItem("hom_dismissed_until");
+                      window.sessionStorage.setItem("hom_force_open", "1");
+                    } catch { /* ignore */ }
+                    window.dispatchEvent(new Event("inhero:open-handle-modal"));
                   }}
                 >
                   Claim my handle →

@@ -24,6 +24,7 @@ import {
 // Routes that strictly require a Trajectory profile.
 const GATED_PATH_PREFIXES = ["/lounges", "/trajectory", "/clubs", "/command-center"];
 const DISMISS_KEY = "hom_dismissed_until";
+const FORCE_KEY = "hom_force_open";
 const DISMISS_HOURS = 12;
 
 type CheckState =
@@ -49,16 +50,31 @@ export default function HandleOnboardingModal() {
   const [probeError, setProbeError] = useState<string | null>(null);
 
   const isGatedRoute = GATED_PATH_PREFIXES.some((p) => pathname.startsWith(p));
+  const [forceOpen, setForceOpen] = useState<boolean>(false);
 
-  // Hydrate dismissal from sessionStorage.
+  // Hydrate dismissal + force flag from sessionStorage.
   useEffect(() => {
     try {
       const raw = window.sessionStorage.getItem(DISMISS_KEY);
       const until = raw ? parseInt(raw, 10) : 0;
       if (until > Date.now()) setDismissedUntil(until);
+
+      if (window.sessionStorage.getItem(FORCE_KEY) === "1") {
+        setForceOpen(true);
+        window.sessionStorage.removeItem(FORCE_KEY);
+      }
     } catch {
       // ignore
     }
+
+    // Listen for cross-component request to open the modal.
+    function onForce() {
+      try { window.sessionStorage.removeItem(DISMISS_KEY); } catch { /* ignore */ }
+      setDismissedUntil(0);
+      setForceOpen(true);
+    }
+    window.addEventListener("inhero:open-handle-modal", onForce);
+    return () => window.removeEventListener("inhero:open-handle-modal", onForce);
   }, []);
 
   function dismiss() {
@@ -146,7 +162,8 @@ export default function HandleOnboardingModal() {
   }, [handle, needsProfile]);
 
   const isDismissed = dismissedUntil > Date.now();
-  const shouldShow = needsProfile && isGatedRoute && !isDismissed;
+  // Force-open bypasses route gating + dismissal (still requires a signed-in user without a profile).
+  const shouldShow = needsProfile && (forceOpen || (isGatedRoute && !isDismissed));
 
   // ── Lock body scroll while open ────────────────────────────────────────
   useEffect(() => {
