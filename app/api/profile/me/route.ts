@@ -23,11 +23,14 @@ export async function GET(req: NextRequest) {
     .maybeSingle();
 
   if (profileErr) {
+    console.error("[/api/profile/me] read error", { userId: user.id, message: profileErr.message });
     return NextResponse.json({ error: profileErr.message }, { status: 500 });
   }
   if (!profile) {
+    console.log("[/api/profile/me] no profile for user", { userId: user.id });
     return NextResponse.json({ ok: true, profile: null });
   }
+  console.log("[/api/profile/me] profile found", { userId: user.id, handle: (profile as ProfilePublicRow).display_handle });
 
   const { data: badges } = await supabase
     .from("badges")

@@ -88,8 +88,10 @@ export async function POST(req: NextRequest) {
     if (error.code === "23505") {
       return NextResponse.json({ error: "Handle already taken." }, { status: 409 });
     }
+    console.error("[/api/profile/init] upsert error", { userId: user.id, code: error.code, message: error.message });
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+  console.log("[/api/profile/init] upserted profile", { userId: user.id, handle: v.handle, rowUserId: (row as ProfilePublicRow | null)?.user_id });
 
   // Award founding_cohort if we're still under the cap.
   const { count } = await supabase

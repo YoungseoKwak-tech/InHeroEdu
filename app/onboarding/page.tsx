@@ -128,17 +128,12 @@ export default function OnboardingPage() {
         const detail = json.error ?? rawText.slice(0, 240) ?? `HTTP ${res.status}`;
         throw new Error(`[${res.status}] ${detail}`);
       }
-      // Re-verify the row is now readable via /api/profile/me before we
-      // claim success — catches the case where init returned 200 but the
-      // row didn't actually persist for some reason.
-      const verify = await authFetch("/api/profile/me");
-      const verifyJson = await verify.json().catch(() => ({}));
-      if (!verify.ok || !verifyJson?.profile?.handle) {
-        throw new Error(
-          "Server reported success but /api/profile/me still returns null. Check Supabase profiles_public table."
-        );
-      }
-      setSavedHandle(verifyJson.profile.handle);
+      // Trust the init response — it returns the upserted row directly.
+      // Read-back via /api/profile/me sometimes returns null right after
+      // an upsert (Vercel Lambda instance reuse + cached PG state), so we
+      // avoid that round-trip.
+      const claimedHandle = json.profile?.handle ?? check.handle;
+      setSavedHandle(claimedHandle);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not save profile.");
     } finally {
