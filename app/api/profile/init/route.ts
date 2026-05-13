@@ -93,6 +93,20 @@ export async function POST(req: NextRequest) {
   }
   console.log("[/api/profile/init] upserted profile", { userId: user.id, handle: v.handle, rowUserId: (row as ProfilePublicRow | null)?.user_id });
 
+  // Immediate read-back via the same admin client — proves the row truly
+  // committed (vs. PostgREST returning the would-be row without persisting).
+  const { data: verifyRow, error: verifyErr } = await supabase
+    .from("profiles_public")
+    .select("user_id, display_handle")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  console.log("[/api/profile/init] immediate verify", {
+    userId: user.id,
+    found: !!verifyRow,
+    verifyHandle: (verifyRow as { display_handle?: string } | null)?.display_handle,
+    verifyError: verifyErr?.message ?? null,
+  });
+
   // Award founding_cohort if we're still under the cap.
   const { count } = await supabase
     .from("profiles_public")
