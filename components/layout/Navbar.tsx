@@ -9,21 +9,19 @@ import { authFetch } from "@/lib/client-auth";
 import { normalizeProfileFields } from "@/lib/profile";
 
 const NAV_LINKS = [
-  { href: "/courses",           label: "CLASSROOM" },
-  { href: "/ai-companion",      label: "AI NAVIGATOR" },
-  { href: "/trajectory-lab",    label: "FLIGHT PATH" },
-  { href: "/thinking-analyzer", label: "ANALYZER" },
-  { href: "/flashcards",        label: "FLASHCARDS" },
-  { href: "/qa",                label: "Q&A" },
-  { href: "/textbooks",          label: "MANUALS" },
-  { href: "/pricing",           label: "PRICING" },
-  { href: "/dashboard",         label: "COMMAND CENTER" },
+  { href: "/academy",         label: "ACADEMY" },
+  { href: "/library",         label: "LIBRARY" },
+  { href: "/lounges",         label: "LOUNGES" },
+  { href: "/clubs",           label: "CLUBS" },
+  { href: "/trajectory",      label: "TRAJECTORY" },
+  { href: "/command-center",  label: "COMMAND CENTER" },
 ];
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
+  const [authRedirectTo, setAuthRedirectTo] = useState("/dashboard");
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const supabase = createBrowserClient();
@@ -66,8 +64,13 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleOpenAuth = (event: Event) => {
-      const detail = (event as CustomEvent<{ mode?: "login" | "signup" }>).detail;
+      const detail = (event as CustomEvent<{ mode?: "login" | "signup"; redirectTo?: string }>).detail;
       setAuthMode(detail?.mode === "login" ? "login" : "signup");
+      setAuthRedirectTo(
+        typeof detail?.redirectTo === "string" && detail.redirectTo.startsWith("/")
+          ? detail.redirectTo
+          : "/dashboard"
+      );
       setAuthOpen(true);
       setMenuOpen(false);
     };
@@ -419,7 +422,12 @@ export default function Navbar() {
         </div>
       )}
 
-      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} defaultMode={authMode} />
+      <AuthModal
+        isOpen={authOpen}
+        onClose={() => setAuthOpen(false)}
+        defaultMode={authMode}
+        redirectTo={authRedirectTo}
+      />
     </header>
   );
 }
