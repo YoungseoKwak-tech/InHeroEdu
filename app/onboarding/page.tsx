@@ -40,6 +40,7 @@ export default function OnboardingPage() {
   const [tags, setTags] = useState<AmbitionTagId[]>([]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [savedHandle, setSavedHandle] = useState<string | null>(null);
   const lastCheckedRef = useRef("");
 
   // Check auth + redirect if profile already exists.
@@ -120,9 +121,24 @@ export default function OnboardingPage() {
           ambitionTags: tags,
         }),
       });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error ?? `HTTP ${res.status}`);
-      router.replace(`/trajectory/${encodeURIComponent(check.handle)}`);
+      const rawText = await res.text();
+      let json: { ok?: boolean; error?: string; profile?: { handle?: string } } = {};
+      try { json = rawText ? JSON.parse(rawText) : {}; } catch { /* keep raw */ }
+      if (!res.ok || json.ok !== true) {
+        const detail = json.error ?? rawText.slice(0, 240) ?? `HTTP ${res.status}`;
+        throw new Error(`[${res.status}] ${detail}`);
+      }
+      // Re-verify the row is now readable via /api/profile/me before we
+      // claim success — catches the case where init returned 200 but the
+      // row didn't actually persist for some reason.
+      const verify = await authFetch("/api/profile/me");
+      const verifyJson = await verify.json().catch(() => ({}));
+      if (!verify.ok || !verifyJson?.profile?.handle) {
+        throw new Error(
+          "Server reported success but /api/profile/me still returns null. Check Supabase profiles_public table."
+        );
+      }
+      setSavedHandle(verifyJson.profile.handle);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not save profile.");
     } finally {
@@ -160,7 +176,25 @@ export default function OnboardingPage() {
           </div>
         )}
 
-        {authStatus === "in" && (
+        {authStatus === "in" && savedHandle && (
+          <div className="ob-success">
+            <div className="ob-success-glyph">✓</div>
+            <h2 className="ob-success-title">
+              You're <em>in</em>.
+            </h2>
+            <p className="ob-success-sub">
+              Handle <strong>{savedHandle}</strong> claimed. You can post in lounges now.
+            </p>
+            <div className="ob-success-actions">
+              <Link href={`/trajectory/${encodeURIComponent(savedHandle)}`} className="ob-btn-primary">
+                See my trajectory →
+              </Link>
+              <Link href="/lounges/ap-bio" className="ob-btn-ghost">Go post in AP Bio →</Link>
+            </div>
+          </div>
+        )}
+
+        {authStatus === "in" && !savedHandle && (
           <>
             <div className="ob-steps" aria-hidden="true">
               {[0, 1, 2].map((i) => (
@@ -443,7 +477,44 @@ export default function OnboardingPage() {
           color: #ff8b7e;
           font-family: ui-monospace, monospace;
           font-size: 0.78rem;
+          line-height: 1.55;
+          word-break: break-word;
         }
+
+        .ob-success {
+          display: flex; flex-direction: column; align-items: center;
+          text-align: center; gap: 0.3rem;
+          padding: 0.5rem 0.5rem 0.25rem;
+        }
+        .ob-success-glyph {
+          font-size: 2.4rem;
+          color: #5eead4;
+          text-shadow: 0 0 24px rgba(94,234,212,0.5);
+          margin-bottom: 0.3rem;
+        }
+        .ob-success-title {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 1.8rem; font-weight: 600;
+          color: #f3f3fb; margin: 0;
+          line-height: 1.1;
+        }
+        .ob-success-title em { font-style: italic; color: #5eead4; }
+        .ob-success-sub {
+          color: rgba(216,217,230,0.85);
+          font-size: 0.9rem;
+          margin: 0.4rem 0 1.1rem;
+        }
+        .ob-success-sub strong {
+          font-family: 'Cormorant Garamond', serif;
+          font-style: italic;
+          font-weight: 600;
+          color: #5eead4;
+        }
+        .ob-success-actions {
+          display: flex; gap: 0.55rem; flex-wrap: wrap; justify-content: center;
+        }
+        .ob-success-actions .ob-btn-primary,
+        .ob-success-actions .ob-btn-ghost { text-decoration: none; display: inline-flex; }
       `}</style>
     </main>
   );
