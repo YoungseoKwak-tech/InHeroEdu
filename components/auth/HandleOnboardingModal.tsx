@@ -40,6 +40,8 @@ export default function HandleOnboardingModal() {
   const [error, setError] = useState<string | null>(null);
   const lastCheckedRef = useRef("");
 
+  const [probeError, setProbeError] = useState<string | null>(null);
+
   // ── Bootstrap: am I logged in + do I have a profile? ──────────────────
   useEffect(() => {
     let mounted = true;
@@ -47,22 +49,34 @@ export default function HandleOnboardingModal() {
       try {
         const { data: { session } } = await supabase.auth.getSession();
         if (!session?.user) {
-          if (mounted) setNeedsProfile(false);
+          if (mounted) { setNeedsProfile(false); setProbeError(null); }
           return;
         }
         const res = await authFetch("/api/profile/me");
-        if (!res.ok) return;
-        const json = await res.json();
+        const text = await res.text();
+        let json: { ok?: boolean; profile?: unknown; error?: string } = {};
+        try { json = text ? JSON.parse(text) : {}; } catch { /* ignore */ }
         if (!mounted) return;
-        setNeedsProfile(json.ok && json.profile == null);
-      } catch {
-        // silent — modal just won't show
+        if (!res.ok) {
+          // Surface the probe failure inside the modal so missing DB tables
+          // don't silently leave the user stuck on "Setting things up".
+          setProbeError(json.error ?? `Profile lookup failed (HTTP ${res.status})`);
+          setNeedsProfile(true);
+          return;
+        }
+        setProbeError(null);
+        setNeedsProfile(json.ok === true && json.profile == null);
+      } catch (err) {
+        if (!mounted) return;
+        setProbeError(err instanceof Error ? err.message : "Profile lookup failed.");
+        setNeedsProfile(true);
       }
     }
     void probe();
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
       if (!session?.user) {
         setNeedsProfile(false);
+        setProbeError(null);
         return;
       }
       void probe();
@@ -161,6 +175,17 @@ export default function HandleOnboardingModal() {
         <p className="hom-sub">
           Pick the identity ambitious students will recognize you by. You can refine the rest later.
         </p>
+
+        {probeError && (
+          <div className="hom-probe-error">
+            <strong>Profile system not reachable.</strong>{" "}
+            <span>{probeError}</span>
+            <br />
+            <span className="hom-probe-hint">
+              Likely cause: <code>profiles_public</code> / <code>badges</code> tables not yet applied. Run the Phase 1 migration in Supabase, then refresh.
+            </span>
+          </div>
+        )}
 
         {/* Progress dots */}
         <div className="hom-steps" aria-hidden="true">
@@ -487,6 +512,28 @@ export default function HandleOnboardingModal() {
           color: #ff8b7e;
           font-family: ui-monospace, monospace;
           font-size: 0.78rem;
+        }
+        .hom-probe-error {
+          margin-bottom: 1rem;
+          padding: 0.7rem 0.85rem;
+          border-radius: 0.45rem;
+          background: rgba(255,107,91,0.06);
+          border: 1px dashed rgba(255,107,91,0.35);
+          color: #ff8b7e;
+          font-size: 0.78rem;
+          line-height: 1.5;
+        }
+        .hom-probe-error code {
+          font-family: ui-monospace, monospace;
+          background: rgba(255,255,255,0.06);
+          color: #f3f3fb;
+          padding: 0 0.3rem;
+          border-radius: 3px;
+        }
+        .hom-probe-hint {
+          display: inline-block;
+          margin-top: 0.3rem;
+          color: rgba(216,217,230,0.78);
         }
       `}</style>
     </div>
