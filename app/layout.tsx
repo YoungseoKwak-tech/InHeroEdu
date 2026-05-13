@@ -3,6 +3,7 @@ import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import HandleOnboardingModal from "@/components/auth/HandleOnboardingModal";
 import SpaceBackground from "@/components/SpaceBackground";
 import SpaceCursor from "@/components/SpaceCursor";
 import { LanguageProvider } from "@/app/contexts/LanguageContext";
@@ -43,6 +44,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1" style={{ position: 'relative', zIndex: 10 }}>{children}</main>
           <Footer />
+          <HandleOnboardingModal />
         </LanguageProvider>
         <Analytics />
       </body>
