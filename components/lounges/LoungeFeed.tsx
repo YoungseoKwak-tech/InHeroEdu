@@ -123,19 +123,9 @@ export default function LoungeFeed({ slug, initialPosts }: Props) {
               <>
                 <strong>One step before you can post: claim your handle.</strong>
                 <span>Pick your trajectory handle + grad year + ambition (takes 30s).</span>
-                <button
-                  type="button"
-                  className="lf-gate-cta"
-                  onClick={() => {
-                    try {
-                      window.sessionStorage.removeItem("hom_dismissed_until");
-                      window.sessionStorage.setItem("hom_force_open", "1");
-                    } catch { /* ignore */ }
-                    window.dispatchEvent(new Event("inhero:open-handle-modal"));
-                  }}
-                >
+                <a href="/onboarding" className="lf-gate-cta">
                   Claim my handle →
-                </button>
+                </a>
               </>
             ) : (
               <>
@@ -242,12 +232,14 @@ export default function LoungeFeed({ slug, initialPosts }: Props) {
         .lf-gate span { color: rgba(244,201,93,0.8); font-size: 0.74rem; margin-bottom: 0.4rem; }
         .lf-gate-cta {
           align-self: flex-start;
+          display: inline-block;
           margin-top: 0.25rem;
           font-family: ui-monospace, monospace;
           font-size: 0.72rem;
           font-weight: 700;
           letter-spacing: 0.14em;
           text-transform: uppercase;
+          text-decoration: none;
           padding: 0.55rem 0.9rem;
           color: #0a0a10;
           background: #F4C95D;
