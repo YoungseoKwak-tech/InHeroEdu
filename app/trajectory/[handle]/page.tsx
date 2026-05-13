@@ -25,11 +25,29 @@ async function loadProfile(handle: string) {
     .ilike("display_handle", handle)
     .maybeSingle();
   if (!profile) return null;
-  const { data: badges } = await supabase
-    .from("badges")
-    .select("*")
-    .eq("user_id", (profile as ProfilePublicRow).user_id);
-  return toPublic(profile as ProfilePublicRow, (badges ?? []) as BadgeRow[]);
+
+  const userId = (profile as ProfilePublicRow).user_id;
+  const [badgesRes, postsRes, clubsRes] = await Promise.all([
+    supabase.from("badges").select("*").eq("user_id", userId),
+    supabase
+      .from("lounge_posts")
+      .select("id", { count: "exact", head: true })
+      .eq("author_id", userId)
+      .eq("is_deleted", false),
+    supabase
+      .from("club_members")
+      .select("club_id", { count: "exact", head: true })
+      .eq("user_id", userId),
+  ]);
+
+  const base = toPublic(profile as ProfilePublicRow, (badgesRes.data ?? []) as BadgeRow[]);
+  return {
+    ...base,
+    activity: {
+      loungePosts: postsRes.count ?? 0,
+      clubsJoined: clubsRes.count ?? 0,
+    },
+  };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -103,6 +121,20 @@ export default async function TrajectoryProfilePage({ params }: Props) {
               })}
             </div>
           )}
+        </section>
+
+        <section className="tp-section">
+          <div className="tp-section-tag">ACTIVITY</div>
+          <div className="tp-activity">
+            <div className="tp-stat">
+              <span className="tp-stat-num">{profile.activity.loungePosts}</span>
+              <span className="tp-stat-label">lounge {profile.activity.loungePosts === 1 ? "post" : "posts"}</span>
+            </div>
+            <div className="tp-stat">
+              <span className="tp-stat-num">{profile.activity.clubsJoined}</span>
+              <span className="tp-stat-label">{profile.activity.clubsJoined === 1 ? "club" : "clubs"} joined</span>
+            </div>
+          </div>
         </section>
 
         {profile.bio && (
@@ -300,6 +332,27 @@ export default async function TrajectoryProfilePage({ params }: Props) {
           line-height: 1.6;
           color: rgba(216, 217, 230, 0.88);
           margin: 0;
+        }
+
+        .tp-activity { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .tp-stat {
+          display: flex; flex-direction: column; gap: 0.15rem;
+          min-width: 6rem;
+        }
+        .tp-stat-num {
+          font-family: 'Cormorant Garamond', serif;
+          font-style: italic;
+          font-size: 2.2rem;
+          font-weight: 600;
+          color: #f3f3fb;
+          line-height: 1;
+        }
+        .tp-stat-label {
+          font-family: ui-monospace, monospace;
+          font-size: 0.66rem;
+          color: rgba(148,163,184,0.7);
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
         }
 
         .tp-foot {

@@ -41,6 +41,7 @@ export default function OnboardingPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [savedHandle, setSavedHandle] = useState<string | null>(null);
+  const [cohort, setCohort] = useState<{ claimed: number; cap: number; remaining: number } | null>(null);
   const lastCheckedRef = useRef("");
 
   // Check auth + redirect if profile already exists.
@@ -66,6 +67,16 @@ export default function OnboardingPage() {
       }
     }
     void bootstrap();
+
+    // Fetch founding cohort headcount (public, no auth needed).
+    void (async () => {
+      try {
+        const r = await fetch("/api/cohort/count", { cache: "no-store" });
+        const j = await r.json();
+        if (j?.ok) setCohort({ claimed: j.claimed, cap: j.cap, remaining: j.remaining });
+      } catch { /* ignore */ }
+    })();
+
     return () => { mounted = false; };
   }, [router, supabase]);
 
@@ -158,6 +169,31 @@ export default function OnboardingPage() {
         <p className="ob-sub">
           Pick the identity ambitious students will recognize you by. You can refine the rest later.
         </p>
+
+        {cohort && cohort.remaining > 0 && (
+          <div className="ob-cohort">
+            <div className="ob-cohort-row">
+              <span className="ob-cohort-num">{cohort.remaining}</span>
+              <span className="ob-cohort-label">
+                of {cohort.cap} <em>founding cohort</em> seats left
+              </span>
+            </div>
+            <div className="ob-cohort-bar">
+              <div
+                className="ob-cohort-fill"
+                style={{ width: `${Math.min(100, (cohort.claimed / cohort.cap) * 100)}%` }}
+              />
+            </div>
+            <p className="ob-cohort-hint">
+              First 500 trajectories earn the <em>founding cohort</em> badge — permanent, no take-backs.
+            </p>
+          </div>
+        )}
+        {cohort && cohort.remaining === 0 && (
+          <div className="ob-cohort ob-cohort-closed">
+            Founding cohort is fully claimed. You can still build your trajectory — just without the badge.
+          </div>
+        )}
 
         {authStatus === "loading" && (
           <div className="ob-loading">Checking your session…</div>
@@ -338,6 +374,69 @@ export default function OnboardingPage() {
           font-size: 0.8rem;
           color: rgba(148,163,184,0.7);
           text-align: center;
+        }
+
+        .ob-cohort {
+          margin-bottom: 1.3rem;
+          padding: 0.9rem 1rem;
+          border: 1px solid rgba(244,201,93,0.3);
+          background: rgba(244,201,93,0.05);
+          border-radius: 0.6rem;
+        }
+        .ob-cohort-row {
+          display: flex; align-items: baseline; gap: 0.6rem;
+          margin-bottom: 0.55rem;
+        }
+        .ob-cohort-num {
+          font-family: 'Cormorant Garamond', serif;
+          font-style: italic;
+          font-size: 2rem;
+          font-weight: 600;
+          color: #F4C95D;
+          line-height: 1;
+          text-shadow: 0 0 16px rgba(244,201,93,0.35);
+        }
+        .ob-cohort-label {
+          font-family: ui-monospace, monospace;
+          font-size: 0.78rem;
+          color: rgba(216,217,230,0.85);
+          letter-spacing: 0.04em;
+        }
+        .ob-cohort-label em {
+          font-family: 'Cormorant Garamond', serif;
+          font-style: italic;
+          font-size: 1.05em;
+          color: #F4C95D;
+        }
+        .ob-cohort-bar {
+          height: 6px;
+          background: rgba(255,255,255,0.06);
+          border-radius: 3px;
+          overflow: hidden;
+          margin-bottom: 0.55rem;
+        }
+        .ob-cohort-fill {
+          height: 100%;
+          background: linear-gradient(90deg, #F4C95D 0%, rgba(244,201,93,0.6) 100%);
+          box-shadow: 0 0 8px rgba(244,201,93,0.5);
+          transition: width 0.35s;
+        }
+        .ob-cohort-hint {
+          margin: 0;
+          font-family: ui-monospace, monospace;
+          font-size: 0.7rem;
+          color: rgba(216,217,230,0.65);
+          line-height: 1.5;
+        }
+        .ob-cohort-hint em {
+          font-family: 'Cormorant Garamond', serif;
+          font-style: italic;
+          color: #F4C95D;
+        }
+        .ob-cohort-closed {
+          color: rgba(148,163,184,0.7);
+          font-family: ui-monospace, monospace;
+          font-size: 0.78rem;
         }
 
         .ob-signed-out {
