@@ -1,16 +1,15 @@
 "use client";
 
 /**
- * HandleOnboardingModal — forces every authenticated user without a
- * profiles_public row to pick a handle + graduation year + 1-3 ambition
- * tags before they can use the rest of the site.
+ * HandleOnboardingModal — surfaces the 3-step claim flow only on
+ * identity-required routes (lounges, trajectory, clubs, command-center).
  *
- * Mounted globally in app/layout.tsx. Polls /api/profile/me on mount and
- * on auth state change. If the response is { profile: null }, the modal
- * appears.
+ * Includes a "Maybe later" dismiss that persists for 12h via sessionStorage
+ * so the user can browse the public landing without the modal in their face.
  */
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { authFetch } from "@/lib/client-auth";
 import { createBrowserClient } from "@/lib/supabase";
 import {
@@ -22,6 +21,11 @@ import {
   type AmbitionTagId,
 } from "@/lib/trajectory";
 
+// Routes that strictly require a Trajectory profile.
+const GATED_PATH_PREFIXES = ["/lounges", "/trajectory", "/clubs", "/command-center"];
+const DISMISS_KEY = "hom_dismissed_until";
+const DISMISS_HOURS = 12;
+
 type CheckState =
   | { kind: "idle" }
   | { kind: "checking" }
@@ -30,7 +34,9 @@ type CheckState =
 
 export default function HandleOnboardingModal() {
   const supabase = createBrowserClient();
+  const pathname = usePathname() ?? "/";
   const [needsProfile, setNeedsProfile] = useState<boolean>(false);
+  const [dismissedUntil, setDismissedUntil] = useState<number>(0);
   const [step, setStep] = useState<0 | 1 | 2>(0);
   const [handle, setHandle] = useState("");
   const [check, setCheck] = useState<CheckState>({ kind: "idle" });
@@ -41,6 +47,29 @@ export default function HandleOnboardingModal() {
   const lastCheckedRef = useRef("");
 
   const [probeError, setProbeError] = useState<string | null>(null);
+
+  const isGatedRoute = GATED_PATH_PREFIXES.some((p) => pathname.startsWith(p));
+
+  // Hydrate dismissal from sessionStorage.
+  useEffect(() => {
+    try {
+      const raw = window.sessionStorage.getItem(DISMISS_KEY);
+      const until = raw ? parseInt(raw, 10) : 0;
+      if (until > Date.now()) setDismissedUntil(until);
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  function dismiss() {
+    const until = Date.now() + DISMISS_HOURS * 60 * 60 * 1000;
+    try {
+      window.sessionStorage.setItem(DISMISS_KEY, String(until));
+    } catch {
+      // ignore
+    }
+    setDismissedUntil(until);
+  }
 
   // ── Bootstrap: am I logged in + do I have a profile? ──────────────────
   useEffect(() => {
@@ -116,14 +145,17 @@ export default function HandleOnboardingModal() {
     return () => window.clearTimeout(t);
   }, [handle, needsProfile]);
 
+  const isDismissed = dismissedUntil > Date.now();
+  const shouldShow = needsProfile && isGatedRoute && !isDismissed;
+
   // ── Lock body scroll while open ────────────────────────────────────────
   useEffect(() => {
-    if (!needsProfile) return;
+    if (!shouldShow) return;
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = ""; };
-  }, [needsProfile]);
+  }, [shouldShow]);
 
-  if (!needsProfile) return null;
+  if (!shouldShow) return null;
 
   function toggleTag(id: AmbitionTagId) {
     setTags((prev) => {
@@ -165,6 +197,15 @@ export default function HandleOnboardingModal() {
   return (
     <div className="hom-backdrop" role="dialog" aria-modal="true">
       <div className="hom-shell">
+        <button
+          type="button"
+          onClick={dismiss}
+          className="hom-close"
+          aria-label="Dismiss for now"
+          title="Dismiss — you can claim your handle later"
+        >
+          ✕
+        </button>
         <div className="hom-stamp">
           <span className="hom-pulse" />
           <span>TRAJECTORY · CLAIM YOUR HANDLE</span>
@@ -192,6 +233,12 @@ export default function HandleOnboardingModal() {
           {[0, 1, 2].map((i) => (
             <span key={i} className={`hom-step-dot ${i <= step ? "is-active" : ""}`} />
           ))}
+        </div>
+
+        <div className="hom-defer-row">
+          <button type="button" onClick={dismiss} className="hom-defer">
+            Maybe later · let me look around first →
+          </button>
         </div>
 
         {step === 0 && (
@@ -299,6 +346,7 @@ export default function HandleOnboardingModal() {
         }
         @keyframes hom-fade { from { opacity: 0; } to { opacity: 1; } }
         .hom-shell {
+          position: relative;
           width: min(34rem, 100%);
           background: linear-gradient(180deg, #0a0e1a 0%, #050610 100%);
           border: 1px solid rgba(94, 234, 212, 0.18);
@@ -309,6 +357,40 @@ export default function HandleOnboardingModal() {
             0 32px 80px rgba(0,0,0,0.7),
             inset 0 0 0 1px rgba(94, 234, 212, 0.05);
         }
+        .hom-close {
+          position: absolute;
+          top: 0.7rem; right: 0.85rem;
+          width: 26px; height: 26px;
+          padding: 0;
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 50%;
+          color: rgba(148,163,184,0.7);
+          font-family: ui-monospace, monospace;
+          font-size: 0.75rem;
+          cursor: pointer;
+          transition: color 0.15s, border-color 0.15s, background 0.15s;
+        }
+        .hom-close:hover {
+          color: #f3f3fb;
+          background: rgba(255,255,255,0.08);
+          border-color: rgba(255,255,255,0.18);
+        }
+        .hom-defer-row {
+          display: flex; justify-content: flex-end;
+          margin-bottom: 0.4rem;
+        }
+        .hom-defer {
+          background: none; border: 0;
+          padding: 0;
+          font-family: ui-monospace, monospace;
+          font-size: 0.7rem;
+          color: rgba(148,163,184,0.7);
+          letter-spacing: 0.02em;
+          cursor: pointer;
+          transition: color 0.15s;
+        }
+        .hom-defer:hover { color: #5eead4; }
         .hom-stamp {
           display: inline-flex; align-items: center; gap: 0.55rem;
           font-family: ui-monospace, 'JetBrains Mono', monospace;
