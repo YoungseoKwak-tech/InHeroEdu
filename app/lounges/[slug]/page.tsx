@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { createBrowserClient } from "@/lib/supabase";
 import { authFetch } from "@/lib/client-auth";
-import type { ChatMessagePublic, LibraryAggregate } from "@/lib/chat";
+import { REACTION_EMOJI, type ChatMessagePublic, type ChatReactionPublic, type LibraryAggregate } from "@/lib/chat";
 
 type Tab = "chat" | "library" | "pinned";
 const POLL_MS = 8000;
@@ -194,6 +194,23 @@ export default function LoungePage({ params }: PageProps) {
     e.preventDefault();
   }
 
+  async function toggleReaction(messageId: string, emoji: string) {
+    try {
+      const res = await authFetch(`/api/chat/messages/${messageId}/reactions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ emoji }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.ok) throw new Error(json.error ?? `HTTP ${res.status}`);
+      setMessages((prev) => prev.map((m) => (
+        m.id === messageId ? { ...m, reactions: json.reactions as ChatReactionPublic[] } : m
+      )));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    }
+  }
+
   const pinnedMessages = messages.filter((m) => m.isPinned);
 
   return (
@@ -244,7 +261,16 @@ export default function LoungePage({ params }: PageProps) {
                   new Date(m.createdAt).getTime() - new Date(prev.createdAt).getTime() < 5 * 60 * 1000 &&
                   !m.replyTo
                 );
-                return <MessageRow key={m.id} m={m} grouped={sameAuthor} onReply={() => setReplyTo(m)} />;
+                return (
+                  <MessageRow
+                    key={m.id}
+                    m={m}
+                    grouped={sameAuthor}
+                    canReact={authStatus === "ok"}
+                    onReply={() => setReplyTo(m)}
+                    onReact={(emoji) => void toggleReaction(m.id, emoji)}
+                  />
+                );
               })
             )}
             <div ref={feedEndRef} />
@@ -520,8 +546,16 @@ export default function LoungePage({ params }: PageProps) {
 }
 
 function MessageRow({
-  m, grouped, pinned, onReply,
-}: { m: ChatMessagePublic; grouped: boolean; pinned?: boolean; onReply?: () => void; }) {
+  m, grouped, pinned, canReact, onReply, onReact,
+}: {
+  m: ChatMessagePublic;
+  grouped: boolean;
+  pinned?: boolean;
+  canReact?: boolean;
+  onReply?: () => void;
+  onReact?: (emoji: string) => void;
+}) {
+  const [pickerOpen, setPickerOpen] = useState(false);
   const isMe = m.isMine;
   const author = m.author;
   const time = new Date(m.createdAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
@@ -559,26 +593,74 @@ function MessageRow({
           </div>
         )}
 
-        {m.type === "image" && m.attachment ? (
-          <a href={m.attachment.url} target="_blank" rel="noopener noreferrer" className="mr-image">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={m.attachment.url} alt={m.content ?? "image"} loading="lazy" />
-            {m.content && <div className="mr-image-caption">{m.content}</div>}
-          </a>
-        ) : m.type === "file" && m.attachment ? (
-          <a href={m.attachment.url} target="_blank" rel="noopener noreferrer" className={`mr-file ${isMe ? "is-me" : ""}`}>
-            <span className="mr-file-icon">📄</span>
-            <div className="mr-file-body">
-              <div className="mr-file-name">{fileName ?? "file"}</div>
-              <div className="mr-file-meta">
-                {fileSize ? `${Math.round(fileSize / 1024)} KB · ` : ""}Tap to open ↗
+        <div className="mr-bubble-wrap">
+          {m.type === "image" && m.attachment ? (
+            <a href={m.attachment.url} target="_blank" rel="noopener noreferrer" className="mr-image">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={m.attachment.url} alt={m.content ?? "image"} loading="lazy" />
+              {m.content && <div className="mr-image-caption">{m.content}</div>}
+            </a>
+          ) : m.type === "file" && m.attachment ? (
+            <a href={m.attachment.url} target="_blank" rel="noopener noreferrer" className={`mr-file ${isMe ? "is-me" : ""}`}>
+              <span className="mr-file-icon">📄</span>
+              <div className="mr-file-body">
+                <div className="mr-file-name">{fileName ?? "file"}</div>
+                <div className="mr-file-meta">
+                  {fileSize ? `${Math.round(fileSize / 1024)} KB · ` : ""}Tap to open ↗
+                </div>
+                {m.content && <div className="mr-file-caption">{m.content}</div>}
               </div>
-              {m.content && <div className="mr-file-caption">{m.content}</div>}
+            </a>
+          ) : (
+            <div className={`mr-bubble ${isMe ? "is-me" : ""}`} onDoubleClick={onReply}>
+              {m.content}
             </div>
-          </a>
-        ) : (
-          <div className={`mr-bubble ${isMe ? "is-me" : ""}`} onDoubleClick={onReply}>
-            {m.content}
+          )}
+
+          {canReact && onReact && (
+            <div className={`mr-react-wrap ${isMe ? "is-me" : ""}`}>
+              <button
+                type="button"
+                className="mr-react-trigger"
+                onClick={() => setPickerOpen((v) => !v)}
+                title="Add reaction"
+                aria-label="Add reaction"
+              >
+                ☺
+              </button>
+              {pickerOpen && (
+                <div className={`mr-react-picker ${isMe ? "is-me" : ""}`} role="menu">
+                  {REACTION_EMOJI.map((e) => (
+                    <button
+                      key={e}
+                      type="button"
+                      onClick={() => { onReact(e); setPickerOpen(false); }}
+                      className="mr-react-option"
+                    >
+                      {e}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {m.reactions.length > 0 && (
+          <div className={`mr-reactions ${isMe ? "is-me" : ""}`}>
+            {m.reactions.map((r) => (
+              <button
+                key={r.emoji}
+                type="button"
+                onClick={() => onReact?.(r.emoji)}
+                className={`mr-reaction ${r.mine ? "is-mine" : ""}`}
+                disabled={!canReact}
+                title={r.mine ? "Remove your reaction" : "React with this emoji"}
+              >
+                <span className="mr-reaction-emoji">{r.emoji}</span>
+                <span className="mr-reaction-count">{r.count}</span>
+              </button>
+            ))}
           </div>
         )}
       </div>
@@ -666,6 +748,81 @@ function MessageRow({
         .mr-file-name { font-family: ui-monospace, monospace; font-size: 0.82rem; font-weight: 700; color: #f3f3fb; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .mr-file-meta { font-family: ui-monospace, monospace; font-size: 0.66rem; color: rgba(148,163,184,0.6); margin-top: 0.15rem; }
         .mr-file-caption { font-size: 0.8rem; color: rgba(216,217,230,0.85); margin-top: 0.25rem; line-height: 1.4; }
+
+        .mr-bubble-wrap {
+          position: relative;
+          display: inline-flex;
+        }
+        .mr-react-wrap {
+          position: absolute;
+          top: -10px;
+          right: -32px;
+          opacity: 0;
+          transition: opacity 0.15s;
+        }
+        .mr.is-me .mr-react-wrap, .mr-react-wrap.is-me { right: auto; left: -32px; }
+        .mr:hover .mr-react-wrap { opacity: 1; }
+        .mr-react-trigger {
+          width: 26px; height: 26px;
+          border-radius: 50%;
+          background: rgba(8,10,18,0.92);
+          border: 1px solid rgba(255,255,255,0.12);
+          color: rgba(216,217,230,0.7);
+          font-size: 0.85rem;
+          cursor: pointer;
+          line-height: 1;
+          padding: 0;
+        }
+        .mr-react-trigger:hover { color: #5eead4; border-color: rgba(94,234,212,0.5); }
+        .mr-react-picker {
+          position: absolute;
+          top: 28px;
+          right: 0;
+          display: flex;
+          gap: 0.15rem;
+          padding: 0.3rem 0.4rem;
+          background: rgba(8,10,18,0.96);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(94,234,212,0.4);
+          border-radius: 999px;
+          box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+          z-index: 10;
+        }
+        .mr-react-picker.is-me { right: auto; left: 0; }
+        .mr-react-option {
+          width: 32px; height: 32px;
+          padding: 0;
+          background: transparent;
+          border: 0;
+          font-size: 1.1rem;
+          cursor: pointer;
+          border-radius: 50%;
+          transition: background 0.15s, transform 0.15s;
+        }
+        .mr-react-option:hover { background: rgba(94,234,212,0.12); transform: scale(1.15); }
+
+        .mr-reactions {
+          display: flex; flex-wrap: wrap; gap: 0.25rem;
+          margin-top: 0.3rem;
+          padding: 0 0.1rem;
+        }
+        .mr-reactions.is-me { justify-content: flex-end; }
+        .mr-reaction {
+          display: inline-flex; align-items: center; gap: 0.22rem;
+          padding: 0.16rem 0.5rem;
+          border-radius: 999px;
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.08);
+          font-family: ui-monospace, monospace;
+          font-size: 0.72rem;
+          color: rgba(216,217,230,0.82);
+          cursor: pointer;
+          transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.15s;
+        }
+        .mr-reaction:hover:not(:disabled) { border-color: rgba(94,234,212,0.5); transform: translateY(-1px); }
+        .mr-reaction.is-mine { background: rgba(94,234,212,0.14); border-color: rgba(94,234,212,0.55); color: #5eead4; }
+        .mr-reaction-emoji { font-size: 0.95em; }
+        .mr-reaction-count { font-weight: 700; }
       `}</style>
     </div>
   );

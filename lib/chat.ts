@@ -43,6 +43,14 @@ export interface ChatAuthorPublic {
   mentor: MentorPublic | null;
 }
 
+export interface ChatReactionPublic {
+  emoji: string;
+  count: number;
+  mine: boolean;
+}
+
+export const REACTION_EMOJI = ["👏", "🔥", "💡", "📌", "❤️", "✓", "🤔", "😂"] as const;
+
 export interface ChatMessagePublic {
   id: string;
   type: ChatMessageType;
@@ -54,6 +62,7 @@ export interface ChatMessagePublic {
   replyTo: { id: string; handle: string | null; snippet: string } | null;
   attachment: { url: string; meta: Record<string, unknown> } | null;
   links: string[];
+  reactions: ChatReactionPublic[];
 }
 
 // ── URL extraction ──────────────────────────────────────────────────
@@ -85,8 +94,9 @@ export async function hydrateChatMessages(
   const replyIds = Array.from(
     new Set(rows.map((r) => r.reply_to_id).filter((x): x is string => !!x))
   );
+  const messageIds = rows.map((r) => r.id);
 
-  const [profilesRes, badgesRes, mentorMap, replyRowsRes] = await Promise.all([
+  const [profilesRes, badgesRes, mentorMap, replyRowsRes, reactionsRes] = await Promise.all([
     authorIds.length === 0
       ? Promise.resolve({ data: [] })
       : supabase.from("profiles_public").select("*").in("user_id", authorIds),
@@ -97,6 +107,9 @@ export async function hydrateChatMessages(
     replyIds.length === 0
       ? Promise.resolve({ data: [] })
       : supabase.from("chat_messages").select("id, content, author_id").in("id", replyIds),
+    messageIds.length === 0
+      ? Promise.resolve({ data: [] })
+      : supabase.from("chat_reactions").select("message_id, user_id, emoji").in("message_id", messageIds),
   ]);
 
   const profileMap = new Map<string, ProfilePublicRow>(
@@ -112,6 +125,18 @@ export async function hydrateChatMessages(
   const replyMap = new Map<string, { content: string | null; author_id: string | null }>(
     replyRows.map((r) => [r.id, { content: r.content, author_id: r.author_id }])
   );
+
+  // Aggregate reactions per message_id
+  const reactionRows = (reactionsRes.data ?? []) as { message_id: string; user_id: string; emoji: string }[];
+  const reactionAgg = new Map<string, Map<string, { count: number; mine: boolean }>>();
+  for (const r of reactionRows) {
+    const byEmoji = reactionAgg.get(r.message_id) ?? new Map<string, { count: number; mine: boolean }>();
+    const cur = byEmoji.get(r.emoji) ?? { count: 0, mine: false };
+    cur.count += 1;
+    if (currentUserId && r.user_id === currentUserId) cur.mine = true;
+    byEmoji.set(r.emoji, cur);
+    reactionAgg.set(r.message_id, byEmoji);
+  }
 
   function authorFor(userId: string | null): ChatAuthorPublic | null {
     if (!userId) return null;
@@ -151,6 +176,11 @@ export async function hydrateChatMessages(
         ? { url: r.attachment_url, meta: r.attachment_meta ?? {} }
         : null,
       links: extractUrls(r.content),
+      reactions: Array.from(reactionAgg.get(r.id)?.entries() ?? []).map(([emoji, agg]) => ({
+        emoji,
+        count: agg.count,
+        mine: agg.mine,
+      })),
     };
   });
 }

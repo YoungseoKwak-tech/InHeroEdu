@@ -123,6 +123,11 @@ export default async function TrajectoryProfilePage({ params }: Props) {
               </span>
             ))}
           </div>
+          <div className="tp-actions">
+            <Link href={`/dm/${encodeURIComponent(profile.handle)}`} className="tp-message-cta">
+              ✶ Message {profile.handle}
+            </Link>
+          </div>
         </header>
 
         {/* Badges */}
@@ -331,6 +336,19 @@ export default async function TrajectoryProfilePage({ params }: Props) {
           background: rgba(94,234,212,0.06);
           border-color: rgba(94,234,212,0.3);
         }
+        .tp-actions { margin-top: 0.95rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .tp-message-cta {
+          font-family: ui-monospace, monospace;
+          font-size: 0.72rem; font-weight: 700;
+          letter-spacing: 0.14em; text-transform: uppercase;
+          padding: 0.55rem 0.9rem;
+          color: #0a0a10;
+          background: #A99CFF;
+          border-radius: 0.45rem;
+          text-decoration: none;
+          transition: filter 0.15s, box-shadow 0.2s;
+        }
+        .tp-message-cta:hover { filter: brightness(1.08); box-shadow: 0 0 16px rgba(169,156,255,0.5); }
 
         .tp-section { margin-bottom: 1.6rem; }
         .tp-section-tag {
