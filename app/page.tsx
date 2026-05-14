@@ -1,7 +1,6 @@
 "use client";
 
 import Hero from "@/components/landing/Hero";
-import ActivityStream from "@/components/activity/ActivityStream";
 import FacultyLineup from "@/components/landing/FacultyLineup";
 import AcademyCampus from "@/components/landing/AcademyCampus";
 import FloatingTA from "@/components/landing/FloatingTA";
@@ -16,7 +15,6 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <ActivityStream />
       <UniversityBanner />
       <FacultyLineup />
       <AcademyCampus />

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
-import { emitActivity } from "@/lib/activity";
 import type { ClubRow } from "@/lib/clubs";
 
 export const runtime = "nodejs";
@@ -62,20 +61,6 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
       .from("club_members")
       .insert({ club_id: (club as ClubRow).id, user_id: user.id });
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-
-    const clubRow = club as ClubRow;
-    void emitActivity("club_joined", {
-      actorUserId: user.id,
-      subjectType: "club",
-      subjectId: clubRow.slug,
-      payload: {
-        clubSlug: clubRow.slug,
-        clubName: clubRow.name,
-        glyph: clubRow.glyph,
-        accent: clubRow.accent,
-      },
-    });
-
     return NextResponse.json({ ok: true, isMember: true });
   }
 }

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
-import { emitActivity } from "@/lib/activity";
 import {
   deriveSlugFromName,
   toClubPublic,
@@ -162,22 +161,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: memberErr.message }, { status: 500 });
   }
 
-  const clubRow = club as ClubRow;
-  void emitActivity("club_founded", {
-    actorUserId: user.id,
-    subjectType: "club",
-    subjectId: clubRow.slug,
-    payload: {
-      clubSlug: clubRow.slug,
-      clubName: clubRow.name,
-      mission: clubRow.mission,
-      glyph: clubRow.glyph,
-      accent: clubRow.accent,
-    },
-  });
-
   return NextResponse.json({
     ok: true,
-    club: toClubPublic(clubRow, 1),
+    club: toClubPublic(club as ClubRow, 1),
   });
 }

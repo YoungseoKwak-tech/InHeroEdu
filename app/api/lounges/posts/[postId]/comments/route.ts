@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
-import { emitActivity } from "@/lib/activity";
 import {
   hydrateCommentsWithAuthors,
   type LoungeCommentRow,
@@ -48,18 +47,11 @@ export async function POST(req: NextRequest, { params }: { params: { postId: str
   // Verify post exists and isn't deleted.
   const { data: post } = await supabase
     .from("lounge_posts")
-    .select("id, lounge_id, title")
+    .select("id")
     .eq("id", postId)
     .eq("is_deleted", false)
     .maybeSingle();
   if (!post) return NextResponse.json({ error: "post not found" }, { status: 404 });
-
-  // Fetch lounge slug + name for the activity event.
-  const { data: lounge } = await supabase
-    .from("lounges")
-    .select("slug, name")
-    .eq("id", (post as { lounge_id: string }).lounge_id)
-    .maybeSingle();
 
   const { data: inserted, error } = await supabase
     .from("lounge_post_comments")
@@ -69,19 +61,5 @@ export async function POST(req: NextRequest, { params }: { params: { postId: str
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   const [comment] = await hydrateCommentsWithAuthors([inserted as LoungeCommentRow]);
-
-  void emitActivity("lounge_comment", {
-    actorUserId: user.id,
-    subjectType: "lounge_comment",
-    subjectId: (inserted as LoungeCommentRow).id,
-    payload: {
-      loungeSlug: (lounge as { slug?: string } | null)?.slug ?? null,
-      loungeName: (lounge as { name?: string } | null)?.name ?? null,
-      postId,
-      postTitle: (post as { title: string }).title,
-      snippet: text.slice(0, 140),
-    },
-  });
-
   return NextResponse.json({ ok: true, comment });
 }

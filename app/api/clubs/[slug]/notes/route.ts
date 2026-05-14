@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
-import { emitActivity } from "@/lib/activity";
 import {
   hydrateMeetingNotes,
   type ClubMeetingNoteRow,
@@ -108,20 +107,5 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   const [note] = await hydrateMeetingNotes([inserted as ClubMeetingNoteRow]);
-
-  const clubRow = club as ClubRow;
-  void emitActivity("club_note_added", {
-    actorUserId: user.id,
-    subjectType: "club_note",
-    subjectId: (inserted as ClubMeetingNoteRow).id,
-    payload: {
-      clubSlug: clubRow.slug,
-      clubName: clubRow.name,
-      glyph: clubRow.glyph,
-      accent: clubRow.accent,
-      title,
-    },
-  });
-
   return NextResponse.json({ ok: true, note });
 }

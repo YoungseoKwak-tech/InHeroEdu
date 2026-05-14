@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
-import { emitActivity } from "@/lib/activity";
 import {
   AMBITION_TAGS,
   FOUNDING_COHORT_CAP,
@@ -108,50 +107,17 @@ export async function POST(req: NextRequest) {
     verifyError: verifyErr?.message ?? null,
   });
 
-  // Detect whether this was a fresh row vs. an update (compare timestamps).
-  const isFirstClaim =
-    !verifyRow ||
-    new Date((row as ProfilePublicRow).created_at).getTime() >=
-      new Date((row as ProfilePublicRow).updated_at).getTime() - 1000;
-
   // Award founding_cohort if we're still under the cap.
   const { count } = await supabase
     .from("profiles_public")
     .select("*", { count: "exact", head: true });
-  let awardedFoundingCohort = false;
   if (typeof count === "number" && count <= FOUNDING_COHORT_CAP) {
-    const { data: priorBadges } = await supabase
-      .from("badges")
-      .select("badge_type")
-      .eq("user_id", user.id);
-    const already = ((priorBadges ?? []) as { badge_type: string }[]).some(
-      (b) => b.badge_type === "founding_cohort"
-    );
     await supabase
       .from("badges")
       .upsert(
         { user_id: user.id, badge_type: "founding_cohort" },
         { onConflict: "user_id,badge_type" }
       );
-    if (!already) awardedFoundingCohort = true;
-  }
-
-  // Activity emits: profile_claimed (first time only) + badge_earned.
-  if (isFirstClaim) {
-    void emitActivity("profile_claimed", {
-      actorUserId: user.id,
-      subjectType: "profile",
-      subjectId: user.id,
-      payload: { handle: v.handle, graduationYear: year },
-    });
-  }
-  if (awardedFoundingCohort) {
-    void emitActivity("badge_earned", {
-      actorUserId: user.id,
-      subjectType: "badge",
-      subjectId: "founding_cohort",
-      payload: { badgeType: "founding_cohort", handle: v.handle },
-    });
   }
 
   const { data: badges } = await supabase
