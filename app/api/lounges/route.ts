@@ -16,15 +16,28 @@ export interface PreviewMessage {
 /** GET /api/lounges — list active lounges + post count + live chat preview. */
 export async function GET() {
   const supabase = createAdminClient();
-  const { data: lounges, error } = await supabase
+  // NOTE: We deliberately do NOT use .eq("is_active", true) in the query —
+  // PostgREST schema cache can stop returning newly-inserted rows after
+  // ALTER TABLE without a manual `NOTIFY pgrst, 'reload schema'`. We fetch
+  // all and filter in JS, same workaround as /api/profile/me.
+  const { data: allLounges, error } = await supabase
     .from("lounges")
     .select("id, slug, name, subject_category, description, is_active, created_at")
-    .eq("is_active", true)
     .order("created_at", { ascending: true });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  const loungeIds = (lounges ?? []).map((l) => l.id);
+  const lounges = ((allLounges ?? []) as Array<{
+    id: string;
+    slug: string;
+    name: string;
+    subject_category: string | null;
+    description: string | null;
+    is_active: boolean;
+    created_at: string;
+  }>).filter((l) => l.is_active !== false);
+
+  const loungeIds = lounges.map((l) => l.id);
 
   // Post counts (forum-style threaded posts).
   const postCounts = new Map<string, number>();
@@ -109,7 +122,7 @@ export async function GET() {
 
   return NextResponse.json({
     ok: true,
-    lounges: (lounges ?? []).map((l) => ({
+    lounges: lounges.map((l) => ({
       slug: l.slug,
       name: l.name,
       subjectCategory: l.subject_category,
