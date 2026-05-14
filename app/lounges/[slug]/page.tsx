@@ -79,9 +79,12 @@ export default async function LoungePage({ params }: PageProps) {
   return (
     <main className="lp-root">
       <header className="lp-head">
-        <Link href="/lounges" className="lp-back">
-          ← All lounges
-        </Link>
+        <div className="lp-head-nav">
+          <Link href="/lounges" className="lp-back">← All lounges</Link>
+          <Link href={`/lounges/${lounge.slug}/chat`} className="lp-chat-cta">
+            Open chat view →
+          </Link>
+        </div>
         {lounge.subjectCategory && (
           <div className="lp-cat">{lounge.subjectCategory}</div>
         )}
@@ -100,6 +103,11 @@ export default async function LoungePage({ params }: PageProps) {
           font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
         }
         .lp-head { margin-bottom: 2rem; }
+        .lp-head-nav {
+          display: flex; justify-content: space-between; align-items: center;
+          gap: 0.85rem; flex-wrap: wrap;
+          margin-bottom: 1rem;
+        }
         .lp-back {
           font-family: ui-monospace, monospace;
           font-size: 0.72rem;
@@ -107,11 +115,21 @@ export default async function LoungePage({ params }: PageProps) {
           color: rgba(148,163,184,0.7);
           text-decoration: none;
           text-transform: uppercase;
-          display: inline-block;
-          margin-bottom: 1rem;
           transition: color 0.15s;
         }
         .lp-back:hover { color: #5eead4; }
+        .lp-chat-cta {
+          font-family: ui-monospace, monospace;
+          font-size: 0.7rem; font-weight: 700;
+          letter-spacing: 0.14em; text-transform: uppercase;
+          padding: 0.45rem 0.8rem;
+          color: #0a0a10;
+          background: #5eead4;
+          border-radius: 0.4rem;
+          text-decoration: none;
+          transition: filter 0.15s, box-shadow 0.2s;
+        }
+        .lp-chat-cta:hover { filter: brightness(1.08); box-shadow: 0 0 14px rgba(94,234,212,0.4); }
         .lp-cat {
           font-family: ui-monospace, monospace;
           font-size: 0.7rem;
