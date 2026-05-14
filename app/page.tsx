@@ -16,10 +16,10 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <DropFeaturedCard />
       <UniversityBanner />
       <FacultyLineup />
       <AcademyCampus />
+      <DropFeaturedCard />
       <ClickSeries />
       <Features />
       <SubjectGrid />
