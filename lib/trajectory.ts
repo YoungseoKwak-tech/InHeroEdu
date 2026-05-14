@@ -55,6 +55,7 @@ export const GRAD_YEARS: number[] = Array.from({ length: 7 }, (_, i) => CURRENT_
 // ── Badges ─────────────────────────────────────────────────────────────
 export type BadgeType =
   | "founding_cohort"
+  | "founding_circle"
   | "verified_ap5"
   | "research_contributor"
   | "olympiad_qualifier"
@@ -75,6 +76,11 @@ export const BADGE_META: Record<BadgeType, BadgeMeta> = {
     id: "founding_cohort", label: "Founding Cohort", short: "Founding",
     glyph: "✦", accent: "#F4C95D",
     blurb: "One of the first students inside InHero. Permanent.",
+  },
+  founding_circle: {
+    id: "founding_circle", label: "Founding Circle", short: "Circle",
+    glyph: "◈", accent: "#FF6B5B",
+    blurb: "One of the first 100 to complete the full trajectory ritual. Permanent.",
   },
   verified_ap5: {
     id: "verified_ap5", label: "Verified AP 5", short: "AP 5",
@@ -110,6 +116,24 @@ export function getBadgeMeta(type: string): BadgeMeta | null {
 // Founding cohort cap — first N profiles get the badge.
 export const FOUNDING_COHORT_CAP = 500;
 
+// Founding circle = elite subset who completed the full identity ritual.
+export const FOUNDING_CIRCLE_CAP = 100;
+
+// What counts as a completed ritual: all 4 fields non-empty (post-trim).
+export function isRitualComplete(profile: {
+  dream_school?: string | null;
+  intended_field?: string | null;
+  current_obsession?: string | null;
+  building_what?: string | null;
+}): boolean {
+  return Boolean(
+    profile.dream_school?.trim() &&
+    profile.intended_field?.trim() &&
+    profile.current_obsession?.trim() &&
+    profile.building_what?.trim()
+  );
+}
+
 // ── DB row shapes ──────────────────────────────────────────────────────
 export interface ProfilePublicRow {
   user_id: string;
@@ -118,6 +142,10 @@ export interface ProfilePublicRow {
   target_schools: string[];
   graduation_year: number | null;
   bio: string | null;
+  dream_school: string | null;
+  intended_field: string | null;
+  current_obsession: string | null;
+  building_what: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -135,6 +163,10 @@ export interface TrajectoryPublic {
   graduationYear: number | null;
   ambitionTags: string[];
   bio: string | null;
+  dreamSchool: string | null;
+  intendedField: string | null;
+  currentObsession: string | null;
+  buildingWhat: string | null;
   badges: { type: string; meta: BadgeMeta | null; earnedAt: string }[];
 }
 
@@ -144,6 +176,10 @@ export function toPublic(profile: ProfilePublicRow, badges: BadgeRow[]): Traject
     graduationYear: profile.graduation_year,
     ambitionTags: profile.ambition_tags,
     bio: profile.bio,
+    dreamSchool: profile.dream_school,
+    intendedField: profile.intended_field,
+    currentObsession: profile.current_obsession,
+    buildingWhat: profile.building_what,
     badges: badges
       .sort((a, b) => a.earned_at < b.earned_at ? 1 : -1)
       .map((b) => ({

@@ -156,6 +156,41 @@ export default async function TrajectoryProfilePage({ params }: Props) {
           )}
         </section>
 
+        {(profile.dreamSchool ||
+          profile.intendedField ||
+          profile.currentObsession ||
+          profile.buildingWhat) && (
+          <section className="tp-section">
+            <div className="tp-section-tag">THE RITUAL</div>
+            <dl className="tp-ritual">
+              {profile.dreamSchool && (
+                <div className="tp-ritual-row">
+                  <dt>Dream school</dt>
+                  <dd>{profile.dreamSchool}</dd>
+                </div>
+              )}
+              {profile.intendedField && (
+                <div className="tp-ritual-row">
+                  <dt>Intended field</dt>
+                  <dd>{profile.intendedField}</dd>
+                </div>
+              )}
+              {profile.currentObsession && (
+                <div className="tp-ritual-row">
+                  <dt>Current obsession</dt>
+                  <dd>{profile.currentObsession}</dd>
+                </div>
+              )}
+              {profile.buildingWhat && (
+                <div className="tp-ritual-row tp-ritual-row-long">
+                  <dt>Building</dt>
+                  <dd>{profile.buildingWhat}</dd>
+                </div>
+              )}
+            </dl>
+          </section>
+        )}
+
         <section className="tp-section">
           <div className="tp-section-tag">ACTIVITY</div>
           <div className="tp-activity">
@@ -416,6 +451,38 @@ export default async function TrajectoryProfilePage({ params }: Props) {
           background: rgba(244,201,93,0.1);
           border: 1px solid rgba(244,201,93,0.3);
           color: #F4C95D;
+        }
+
+        .tp-ritual { margin: 0; display: flex; flex-direction: column; gap: 0.7rem; }
+        .tp-ritual-row {
+          display: grid;
+          grid-template-columns: 9rem 1fr;
+          gap: 0.85rem;
+          padding-bottom: 0.6rem;
+          border-bottom: 1px dashed rgba(255,255,255,0.05);
+        }
+        .tp-ritual-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .tp-ritual-row dt {
+          font-family: ui-monospace, monospace;
+          font-size: 0.62rem;
+          font-weight: 700;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: rgba(148,163,184,0.7);
+          padding-top: 0.2rem;
+        }
+        .tp-ritual-row dd {
+          margin: 0;
+          font-family: 'Cormorant Garamond', 'Georgia', serif;
+          font-style: italic;
+          font-size: 1.05rem;
+          color: #f3f3fb;
+          line-height: 1.5;
+          white-space: pre-wrap;
+        }
+        .tp-ritual-row-long dd { font-size: 0.96rem; font-style: normal; font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif; color: rgba(216,217,230,0.92); }
+        @media (max-width: 540px) {
+          .tp-ritual-row { grid-template-columns: 1fr; gap: 0.25rem; }
         }
 
         .tp-activity { display: flex; gap: 1.5rem; flex-wrap: wrap; }

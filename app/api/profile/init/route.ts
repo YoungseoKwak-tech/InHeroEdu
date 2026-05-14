@@ -3,8 +3,10 @@ import { requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
 import {
   AMBITION_TAGS,
+  FOUNDING_CIRCLE_CAP,
   FOUNDING_COHORT_CAP,
   GRAD_YEARS,
+  isRitualComplete,
   toPublic,
   validateHandle,
   type BadgeRow,
@@ -27,7 +29,15 @@ export async function POST(req: NextRequest) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
 
-  let body: { handle?: string; graduationYear?: number; ambitionTags?: string[] };
+  let body: {
+    handle?: string;
+    graduationYear?: number;
+    ambitionTags?: string[];
+    dreamSchool?: string | null;
+    intendedField?: string | null;
+    currentObsession?: string | null;
+    buildingWhat?: string | null;
+  };
   try {
     body = await req.json();
   } catch {
@@ -54,6 +64,20 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Pick at least one ambition tag." }, { status: 400 });
   }
 
+  // Identity-ritual fields — all optional individually, but completing
+  // all four unlocks the Founding Circle badge while seats remain.
+  function cleanRitual(raw: unknown, max: number): string | null {
+    if (typeof raw !== "string") return null;
+    const t = raw.trim();
+    if (!t) return null;
+    if (t.length > max) return t.slice(0, max);
+    return t;
+  }
+  const dreamSchool      = cleanRitual(body.dreamSchool, 120);
+  const intendedField    = cleanRitual(body.intendedField, 120);
+  const currentObsession = cleanRitual(body.currentObsession, 240);
+  const buildingWhat     = cleanRitual(body.buildingWhat, 400);
+
   const supabase = createAdminClient();
 
   // Re-check handle availability at the moment of insert (race-safe via the
@@ -76,6 +100,10 @@ export async function POST(req: NextRequest) {
         display_handle: v.handle,
         graduation_year: year,
         ambition_tags: tags,
+        dream_school: dreamSchool,
+        intended_field: intendedField,
+        current_obsession: currentObsession,
+        building_what: buildingWhat,
         updated_at: now,
       },
       { onConflict: "user_id" }
@@ -118,6 +146,33 @@ export async function POST(req: NextRequest) {
         { user_id: user.id, badge_type: "founding_cohort" },
         { onConflict: "user_id,badge_type" }
       );
+  }
+
+  // Award founding_circle if (a) the user has completed all 4 ritual
+  // fields and (b) fewer than FOUNDING_CIRCLE_CAP rows already qualify.
+  if (
+    isRitualComplete({
+      dream_school: dreamSchool,
+      intended_field: intendedField,
+      current_obsession: currentObsession,
+      building_what: buildingWhat,
+    })
+  ) {
+    const { count: ritualCount } = await supabase
+      .from("profiles_public")
+      .select("user_id", { count: "exact", head: true })
+      .not("dream_school", "is", null)
+      .not("intended_field", "is", null)
+      .not("current_obsession", "is", null)
+      .not("building_what", "is", null);
+    if (typeof ritualCount === "number" && ritualCount <= FOUNDING_CIRCLE_CAP) {
+      await supabase
+        .from("badges")
+        .upsert(
+          { user_id: user.id, badge_type: "founding_circle" },
+          { onConflict: "user_id,badge_type" }
+        );
+    }
   }
 
   const { data: badges } = await supabase

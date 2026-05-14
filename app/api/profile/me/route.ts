@@ -62,6 +62,10 @@ export async function GET(req: NextRequest) {
       target_schools: [],
       graduation_year: null,
       bio: null,
+      dream_school: null,
+      intended_field: null,
+      current_obsession: null,
+      building_what: null,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };
