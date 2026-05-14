@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { createBrowserClient } from "@/lib/supabase";
 import { authFetch } from "@/lib/client-auth";
-import { REACTION_EMOJI, type ChatMessagePublic, type ChatReactionPublic, type LibraryAggregate } from "@/lib/chat";
+import { REACTION_EMOJI, type ChatMessagePublic, type ChatReactionPublic } from "@/lib/chat";
 
-type Tab = "chat" | "library" | "pinned";
+type Tab = "chat" | "pinned";
 const POLL_MS = 8000;
 const MAX_UPLOAD = 20 * 1024 * 1024; // 20 MB
 const IMAGE_MIMES = new Set(["image/jpeg", "image/png", "image/gif", "image/webp", "image/heic", "image/heif"]);
@@ -21,8 +21,6 @@ export default function LoungePage({ params }: PageProps) {
   const [loungeName, setLoungeName] = useState<string>("");
 
   const [messages, setMessages] = useState<ChatMessagePublic[]>([]);
-  const [library, setLibrary] = useState<LibraryAggregate | null>(null);
-  const [libraryCounts, setLibraryCounts] = useState<{ photos: number; files: number; links: number }>({ photos: 0, files: 0, links: 0 });
 
   const [authStatus, setAuthStatus] = useState<"loading" | "out" | "no_profile" | "ok">("loading");
   const [draft, setDraft] = useState("");
@@ -87,8 +85,6 @@ export default function LoungePage({ params }: PageProps) {
           const fresh = (json.messages as ChatMessagePublic[]).filter((m) => !seen.has(m.id));
           if (fresh.length === 0) return prev;
           lastSeenRef.current = fresh[fresh.length - 1].createdAt;
-          // Any new attachment or link invalidates library cache.
-          if (fresh.some((m) => m.attachment || m.links.length > 0)) setLibrary(null);
           return [...prev, ...fresh];
         });
       } catch { /* ignore */ }
@@ -96,22 +92,6 @@ export default function LoungePage({ params }: PageProps) {
     const t = window.setInterval(() => void poll(), POLL_MS);
     return () => { cancelled = true; window.clearInterval(t); };
   }, [slug]);
-
-  // Lazy-load library when its tab is opened
-  useEffect(() => {
-    if (tab !== "library" || library) return;
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await fetch(`/api/lounges/${slug}/chat/library`, { cache: "no-store" });
-        const json = await res.json();
-        if (cancelled || !json.ok) return;
-        setLibrary(json.library);
-        setLibraryCounts(json.counts);
-      } catch { /* ignore */ }
-    })();
-    return () => { cancelled = true; };
-  }, [tab, slug, library]);
 
   useEffect(() => {
     if (tab !== "chat") return;
@@ -132,7 +112,6 @@ export default function LoungePage({ params }: PageProps) {
       const m = json.message as ChatMessagePublic;
       setMessages((prev) => [...prev, m]);
       lastSeenRef.current = m.createdAt;
-      if (m.links.length > 0) setLibrary(null);
       setDraft(""); setReplyTo(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
@@ -160,7 +139,6 @@ export default function LoungePage({ params }: PageProps) {
       const m = json.message as ChatMessagePublic;
       setMessages((prev) => [...prev, m]);
       lastSeenRef.current = m.createdAt;
-      setLibrary(null);
       setDraft(""); setReplyTo(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
@@ -231,14 +209,9 @@ export default function LoungePage({ params }: PageProps) {
           </div>
         </div>
         <div className="lc-tabs">
-          {(["chat", "library", "pinned"] as const).map((t) => (
+          {(["chat", "pinned"] as const).map((t) => (
             <button key={t} className={`lc-tab ${tab === t ? "is-active" : ""}`} onClick={() => setTab(t)}>
               {t === "chat" && "Chat"}
-              {t === "library" && (
-                <>Library {libraryCounts.photos + libraryCounts.files + libraryCounts.links > 0 && (
-                  <span className="lc-tab-num">{libraryCounts.photos + libraryCounts.files + libraryCounts.links}</span>
-                )}</>
-              )}
               {t === "pinned" && (
                 <>Pinned {pinnedMessages.length > 0 && <span className="lc-tab-num">{pinnedMessages.length}</span>}</>
               )}
@@ -333,73 +306,6 @@ export default function LoungePage({ params }: PageProps) {
             <div className="lc-compose-hint">Paste an image from clipboard or drag a file anywhere on the page to upload.</div>
           </footer>
         </>
-      )}
-
-      {tab === "library" && (
-        <section className="lc-library">
-          {!library ? (
-            <div className="lc-empty">Loading library…</div>
-          ) : library.photos.length + library.files.length + library.links.length === 0 ? (
-            <div className="lc-empty">No photos, files, or links yet. Anything shared in chat lands here automatically.</div>
-          ) : (
-            <>
-              {library.photos.length > 0 && (
-                <div className="lc-lib-section">
-                  <h2 className="lc-lib-title">PHOTOS · {library.photos.length}</h2>
-                  <div className="lc-lib-photos">
-                    {library.photos.map((p) => (
-                      <a key={p.messageId} href={p.url} target="_blank" rel="noopener noreferrer" className="lc-lib-photo">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={p.url} alt={p.alt ?? ""} loading="lazy" />
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {library.files.length > 0 && (
-                <div className="lc-lib-section">
-                  <h2 className="lc-lib-title">FILES · {library.files.length}</h2>
-                  <ul className="lc-lib-list">
-                    {library.files.map((f) => (
-                      <li key={f.messageId} className="lc-lib-file">
-                        <a href={f.url} target="_blank" rel="noopener noreferrer">
-                          <span className="lc-lib-file-name">📄 {f.fileName}</span>
-                          <span className="lc-lib-file-meta">
-                            {f.size ? `${Math.round(f.size / 1024)} KB · ` : ""}
-                            by <em>{f.author?.handle ?? "—"}</em>
-                            {" · "}{new Date(f.createdAt).toLocaleDateString()}
-                          </span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {library.links.length > 0 && (
-                <div className="lc-lib-section">
-                  <h2 className="lc-lib-title">LINKS · {library.links.length}</h2>
-                  <ul className="lc-lib-list">
-                    {library.links.map((l, i) => {
-                      const host = (() => { try { return new URL(l.url).host; } catch { return l.url; } })();
-                      return (
-                        <li key={`${l.messageId}-${i}`} className="lc-lib-link">
-                          <a href={l.url} target="_blank" rel="noopener noreferrer">
-                            <span className="lc-lib-link-host">🔗 {host}</span>
-                            <span className="lc-lib-link-snippet">{l.snippet}</span>
-                            <span className="lc-lib-link-meta">
-                              by <em>{l.author?.handle ?? "—"}</em>
-                              {" · "}{new Date(l.createdAt).toLocaleDateString()}
-                            </span>
-                          </a>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              )}
-            </>
-          )}
-        </section>
       )}
 
       {tab === "pinned" && (
