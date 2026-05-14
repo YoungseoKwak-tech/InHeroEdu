@@ -3,6 +3,7 @@
  */
 
 import { createAdminClient } from "@/lib/supabase";
+import { loadMentorProfiles, type MentorPublic } from "@/lib/mentors";
 import { getBadgeMeta, type BadgeMeta, type BadgeRow, type ProfilePublicRow } from "@/lib/trajectory";
 
 export const CLUB_ROLES = ["founder", "cofounder", "secretary", "member", "curator"] as const;
@@ -85,6 +86,7 @@ export interface ClubMemberPublic {
   isFeatured: boolean;
   joinedAt: string;
   badges: { type: string; meta: BadgeMeta | null }[];
+  mentor: MentorPublic | null;
 }
 
 export interface MeetingNotePublic {
@@ -147,9 +149,10 @@ export async function hydrateClubMembers(
   const supabase = createAdminClient();
   const userIds = Array.from(new Set(members.map((m) => m.user_id)));
 
-  const [profilesRes, badgesRes] = await Promise.all([
+  const [profilesRes, badgesRes, mentorMap] = await Promise.all([
     supabase.from("profiles_public").select("*").in("user_id", userIds),
     supabase.from("badges").select("*").in("user_id", userIds),
+    loadMentorProfiles(userIds),
   ]);
 
   const profileMap = new Map<string, ProfilePublicRow>(
@@ -178,6 +181,7 @@ export async function hydrateClubMembers(
         isFeatured: m.is_featured,
         joinedAt: m.joined_at,
         badges,
+        mentor: mentorMap.get(m.user_id) ?? null,
       } satisfies ClubMemberPublic;
     })
     .filter((m): m is ClubMemberPublic => m !== null)

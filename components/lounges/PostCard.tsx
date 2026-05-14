@@ -126,6 +126,7 @@ export default function PostCard({ post, currentUserHandle, isAdmin, onDelete }:
             handle={post.author.handle}
             graduationYear={post.author.graduationYear}
             badges={post.author.badges}
+            mentor={post.author.mentor}
             size="sm"
           />
         ) : (
@@ -182,6 +183,7 @@ export default function PostCard({ post, currentUserHandle, isAdmin, onDelete }:
                     handle={c.author.handle}
                     graduationYear={c.author.graduationYear}
                     badges={c.author.badges}
+                    mentor={c.author.mentor}
                     size="sm"
                   />
                 ) : (

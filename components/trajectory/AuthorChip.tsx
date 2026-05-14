@@ -10,10 +10,16 @@
 import Link from "next/link";
 import { getBadgeMeta, type BadgeMeta } from "@/lib/trajectory";
 
+interface MentorMini {
+  university: string;
+  universityRole: string;
+}
+
 interface Props {
   handle: string;
   graduationYear?: number | null;
   badges?: { type: string }[];
+  mentor?: MentorMini | null;
   size?: "sm" | "md";
   link?: boolean;          // wrap in Link → /trajectory/[handle]
 }
@@ -22,6 +28,7 @@ export default function AuthorChip({
   handle,
   graduationYear,
   badges = [],
+  mentor,
   size = "md",
   link = true,
 }: Props) {
@@ -33,8 +40,16 @@ export default function AuthorChip({
   const yearShort = graduationYear ? `'${String(graduationYear).slice(-2)}` : null;
 
   const inner = (
-    <span className={`ac-root ac-${size}`}>
+    <span className={`ac-root ac-${size} ${mentor ? "ac-is-mentor" : ""}`}>
       <span className="ac-handle">{handle}</span>
+      {mentor && (
+        <span className="ac-mentor" title={`${mentor.university} · ${mentor.universityRole}`}>
+          <span className="ac-mentor-glyph">★</span>
+          <span className="ac-mentor-label">
+            MENTOR · {mentor.universityRole}
+          </span>
+        </span>
+      )}
       {resolvedBadges.map((b) => (
         <span
           key={b.id}
@@ -70,6 +85,32 @@ export default function AuthorChip({
         }
         .ac-sm .ac-handle { font-size: 0.85rem; }
         .ac-md .ac-handle { font-size: 1rem; }
+        .ac-is-mentor .ac-handle {
+          color: #F4C95D;
+          text-shadow: 0 0 12px rgba(244,201,93,0.25);
+        }
+
+        .ac-mentor {
+          display: inline-flex; align-items: center; gap: 0.3rem;
+          padding: 0.16rem 0.5rem;
+          border-radius: 0.3rem;
+          background: linear-gradient(90deg, rgba(244,201,93,0.18), rgba(244,201,93,0.06));
+          border: 1px solid rgba(244,201,93,0.55);
+          color: #F4C95D;
+          font-family: ui-monospace, 'JetBrains Mono', monospace;
+          font-size: 0.58rem;
+          font-weight: 800;
+          letter-spacing: 0.14em;
+          white-space: nowrap;
+          line-height: 1;
+          text-shadow: 0 0 6px rgba(244,201,93,0.4);
+          box-shadow: 0 0 10px rgba(244,201,93,0.15);
+        }
+        .ac-sm .ac-mentor { font-size: 0.5rem; padding: 0.12rem 0.4rem; }
+        .ac-mentor-glyph {
+          font-size: 0.85em;
+          text-shadow: 0 0 8px rgba(244,201,93,0.7);
+        }
 
         .ac-badge {
           --accent: #5eead4;

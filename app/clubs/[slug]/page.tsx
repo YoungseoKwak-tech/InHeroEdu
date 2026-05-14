@@ -116,6 +116,7 @@ export default async function ClubRoomPage({ params }: PageProps) {
                     handle={m.handle}
                     graduationYear={m.graduationYear}
                     badges={m.badges}
+                    mentor={m.mentor}
                     size="md"
                   />
                   {m.role !== "member" && (

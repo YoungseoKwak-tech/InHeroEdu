@@ -3,6 +3,7 @@
  */
 
 import { createAdminClient } from "@/lib/supabase";
+import { loadMentorProfiles, type MentorPublic } from "@/lib/mentors";
 import {
   getBadgeMeta,
   type BadgeMeta,
@@ -75,6 +76,7 @@ export interface AuthorPublic {
   handle: string;
   graduationYear: number | null;
   badges: { type: string; meta: BadgeMeta | null }[];
+  mentor: MentorPublic | null;
 }
 
 export interface PostPublic {
@@ -101,7 +103,8 @@ export interface CommentPublic {
 function authorFromMaps(
   authorId: string,
   profileMap: Map<string, ProfilePublicRow>,
-  badgeMap: Map<string, BadgeRow[]>
+  badgeMap: Map<string, BadgeRow[]>,
+  mentorMap: Map<string, MentorPublic>
 ): AuthorPublic | null {
   const profile = profileMap.get(authorId);
   if (!profile) return null;
@@ -113,6 +116,7 @@ function authorFromMaps(
     handle: profile.display_handle,
     graduationYear: profile.graduation_year,
     badges,
+    mentor: mentorMap.get(authorId) ?? null,
   };
 }
 
@@ -126,7 +130,7 @@ export async function hydratePostsWithAuthors(
   const authorIds = Array.from(new Set(posts.map((p) => p.author_id)));
   const postIds = posts.map((p) => p.id);
 
-  const [profilesRes, badgesRes, reactionsRes, commentCountsRes] = await Promise.all([
+  const [profilesRes, badgesRes, reactionsRes, commentCountsRes, mentorMap] = await Promise.all([
     supabase.from("profiles_public").select("*").in("user_id", authorIds),
     supabase.from("badges").select("*").in("user_id", authorIds),
     supabase.from("lounge_reactions").select("post_id, user_id, kind").in("post_id", postIds),
@@ -135,6 +139,7 @@ export async function hydratePostsWithAuthors(
       .select("post_id")
       .in("post_id", postIds)
       .eq("is_deleted", false),
+    loadMentorProfiles(authorIds),
   ]);
 
   const profileMap = new Map<string, ProfilePublicRow>(
@@ -175,7 +180,7 @@ export async function hydratePostsWithAuthors(
     body: p.body,
     postType: p.post_type,
     createdAt: p.created_at,
-    author: authorFromMaps(p.author_id, profileMap, badgeMap),
+    author: authorFromMaps(p.author_id, profileMap, badgeMap, mentorMap),
     reactionCounts: reactionCountByPost.get(p.id) ?? { up: 0, fire: 0, check: 0 },
     myReactions: Array.from(myReactionsByPost.get(p.id) ?? []),
     commentCount: commentCountByPost.get(p.id) ?? 0,
@@ -189,9 +194,10 @@ export async function hydrateCommentsWithAuthors(
   const supabase = createAdminClient();
   const authorIds = Array.from(new Set(comments.map((c) => c.author_id)));
 
-  const [profilesRes, badgesRes] = await Promise.all([
+  const [profilesRes, badgesRes, mentorMap] = await Promise.all([
     supabase.from("profiles_public").select("*").in("user_id", authorIds),
     supabase.from("badges").select("*").in("user_id", authorIds),
+    loadMentorProfiles(authorIds),
   ]);
   const profileMap = new Map<string, ProfilePublicRow>(
     ((profilesRes.data ?? []) as ProfilePublicRow[]).map((p) => [p.user_id, p])
@@ -207,7 +213,7 @@ export async function hydrateCommentsWithAuthors(
     id: c.id,
     body: c.body,
     createdAt: c.created_at,
-    author: authorFromMaps(c.author_id, profileMap, badgeMap),
+    author: authorFromMaps(c.author_id, profileMap, badgeMap, mentorMap),
   }));
 }
 

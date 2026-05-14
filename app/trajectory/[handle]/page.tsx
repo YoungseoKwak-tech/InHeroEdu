@@ -10,6 +10,7 @@ import {
   type BadgeRow,
   type ProfilePublicRow,
 } from "@/lib/trajectory";
+import { toMentorPublic, type MentorProfileRow, type MentorPublic } from "@/lib/mentors";
 
 export const dynamic = "force-dynamic";
 
@@ -27,7 +28,7 @@ async function loadProfile(handle: string) {
   if (!profile) return null;
 
   const userId = (profile as ProfilePublicRow).user_id;
-  const [badgesRes, postsRes, clubsRes] = await Promise.all([
+  const [badgesRes, postsRes, clubsRes, mentorRes] = await Promise.all([
     supabase.from("badges").select("*").eq("user_id", userId),
     supabase
       .from("lounge_posts")
@@ -38,11 +39,21 @@ async function loadProfile(handle: string) {
       .from("club_members")
       .select("club_id", { count: "exact", head: true })
       .eq("user_id", userId),
+    supabase
+      .from("mentor_profiles")
+      .select("*")
+      .eq("user_id", userId)
+      .eq("is_verified", true)
+      .maybeSingle(),
   ]);
 
   const base = toPublic(profile as ProfilePublicRow, (badgesRes.data ?? []) as BadgeRow[]);
+  const mentor: MentorPublic | null = mentorRes.data
+    ? toMentorPublic(mentorRes.data as MentorProfileRow)
+    : null;
   return {
     ...base,
+    mentor,
     activity: {
       loungePosts: postsRes.count ?? 0,
       clubsJoined: clubsRes.count ?? 0,
@@ -67,13 +78,35 @@ export default async function TrajectoryProfilePage({ params }: Props) {
 
   const yearShort = profile.graduationYear ? `'${String(profile.graduationYear).slice(-2)}` : null;
 
+  const isMentor = !!profile.mentor;
+
   return (
-    <main className="tp-root">
+    <main className={`tp-root ${isMentor ? "tp-mentor-mode" : ""}`}>
       <div className="tp-stars" aria-hidden="true" />
       <div className="tp-glow" aria-hidden="true" />
 
       <article className="tp-shell">
-        <Link href="/trajectory" className="tp-back">← Trajectory</Link>
+        <Link href={isMentor ? "/mentors" : "/trajectory"} className="tp-back">
+          ← {isMentor ? "All mentors" : "Trajectory"}
+        </Link>
+
+        {profile.mentor && (
+          <section className="tp-mentor">
+            <div className="tp-mentor-stamp">
+              <span className="tp-mentor-glyph">★</span>
+              <span>VERIFIED MENTOR · {profile.mentor.universityRole.toUpperCase()}</span>
+            </div>
+            <div className="tp-mentor-uni">{profile.mentor.university}</div>
+            <p className="tp-mentor-blurb">{profile.mentor.introBlurb}</p>
+            {profile.mentor.specialties.length > 0 && (
+              <div className="tp-mentor-specs">
+                {profile.mentor.specialties.map((s) => (
+                  <span key={s} className="tp-mentor-spec">{s}</span>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
 
         {/* Identity header */}
         <header className="tp-head">
@@ -332,6 +365,57 @@ export default async function TrajectoryProfilePage({ params }: Props) {
           line-height: 1.6;
           color: rgba(216, 217, 230, 0.88);
           margin: 0;
+        }
+
+        .tp-mentor-mode .tp-shell {
+          border-color: rgba(244,201,93,0.4);
+          box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 30px rgba(244,201,93,0.12);
+        }
+        .tp-mentor {
+          margin: 0 -0.25rem 1.6rem;
+          padding: 1rem 1.15rem;
+          background: linear-gradient(135deg, rgba(244,201,93,0.1), rgba(244,201,93,0.03));
+          border: 1px solid rgba(244,201,93,0.4);
+          border-radius: 0.7rem;
+        }
+        .tp-mentor-stamp {
+          display: inline-flex; align-items: center; gap: 0.5rem;
+          font-family: ui-monospace, 'JetBrains Mono', monospace;
+          font-size: 0.62rem;
+          font-weight: 800;
+          letter-spacing: 0.22em;
+          color: #F4C95D;
+          text-shadow: 0 0 10px rgba(244,201,93,0.5);
+          margin-bottom: 0.4rem;
+        }
+        .tp-mentor-glyph { font-size: 0.85em; }
+        .tp-mentor-uni {
+          font-family: 'Cormorant Garamond', 'Georgia', serif;
+          font-style: italic;
+          font-weight: 600;
+          font-size: 1.3rem;
+          color: #f3f3fb;
+          margin-bottom: 0.4rem;
+          line-height: 1.15;
+        }
+        .tp-mentor-blurb {
+          font-size: 0.92rem;
+          color: rgba(216,217,230,0.88);
+          line-height: 1.55;
+          margin: 0 0 0.7rem;
+        }
+        .tp-mentor-specs { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+        .tp-mentor-spec {
+          font-family: ui-monospace, monospace;
+          font-size: 0.65rem;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          padding: 0.2rem 0.5rem;
+          border-radius: 0.3rem;
+          background: rgba(244,201,93,0.1);
+          border: 1px solid rgba(244,201,93,0.3);
+          color: #F4C95D;
         }
 
         .tp-activity { display: flex; gap: 1.5rem; flex-wrap: wrap; }
