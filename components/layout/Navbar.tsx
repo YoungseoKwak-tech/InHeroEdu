@@ -232,9 +232,22 @@ export default function Navbar() {
               >
                 BILLING
               </Link>
-              <span style={{ fontSize: "12px", fontFamily: "'JetBrains Mono', monospace", color: "#444466" }}>
+              <Link
+                href="/me"
+                title="Your dashboard"
+                style={{
+                  fontSize: "12px",
+                  fontFamily: "'JetBrains Mono', monospace",
+                  color: "#8888AA",
+                  textDecoration: "none",
+                  letterSpacing: "0.04em",
+                  transition: "color 200ms",
+                }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#00FF88")}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "#8888AA")}
+              >
                 {user.email?.split("@")[0]}
-              </span>
+              </Link>
               <button
                 onClick={handleSignOut}
                 style={{
