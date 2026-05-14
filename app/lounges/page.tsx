@@ -180,8 +180,8 @@ export default async function LoungesDirectoryPage() {
         .ldir-row { display: flex; flex-direction: column; gap: 1rem; }
         .ldir-row.is-paired {
           display: grid;
-          grid-template-columns: minmax(260px, 22rem) 1fr;
-          gap: 1.4rem;
+          grid-template-columns: minmax(340px, 28rem) minmax(0, 1fr);
+          gap: 1.6rem;
           align-items: stretch;
         }
         .ldir-row.is-paired .ldir-card {
