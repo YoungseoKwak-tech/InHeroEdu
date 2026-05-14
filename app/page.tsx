@@ -1,6 +1,7 @@
 "use client";
 
 import Hero from "@/components/landing/Hero";
+import DropFeaturedCard from "@/components/drops/DropFeaturedCard";
 import FacultyLineup from "@/components/landing/FacultyLineup";
 import AcademyCampus from "@/components/landing/AcademyCampus";
 import FloatingTA from "@/components/landing/FloatingTA";
@@ -15,6 +16,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <DropFeaturedCard />
       <UniversityBanner />
       <FacultyLineup />
       <AcademyCampus />
