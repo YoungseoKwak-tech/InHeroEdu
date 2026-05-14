@@ -56,6 +56,7 @@ export const GRAD_YEARS: number[] = Array.from({ length: 7 }, (_, i) => CURRENT_
 export type BadgeType =
   | "founding_cohort"
   | "founding_circle"
+  | "school_verified"
   | "verified_ap5"
   | "research_contributor"
   | "olympiad_qualifier"
@@ -81,6 +82,11 @@ export const BADGE_META: Record<BadgeType, BadgeMeta> = {
     id: "founding_circle", label: "Founding Circle", short: "Circle",
     glyph: "◈", accent: "#FF6B5B",
     blurb: "One of the first 100 to complete the full trajectory ritual. Permanent.",
+  },
+  school_verified: {
+    id: "school_verified", label: "School Verified", short: "Verified",
+    glyph: "✓", accent: "#7DD3FC",
+    blurb: "Real student at a verified institution. Confirmed via .edu email, acceptance letter, or LinkedIn.",
   },
   verified_ap5: {
     id: "verified_ap5", label: "Verified AP 5", short: "AP 5",

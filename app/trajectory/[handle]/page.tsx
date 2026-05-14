@@ -213,7 +213,10 @@ export default async function TrajectoryProfilePage({ params }: Props) {
         )}
 
         <footer className="tp-foot">
-          <span>This is a public InHero trajectory profile. More layers (clubs, projects, accepted-student archive) arrive this cohort.</span>
+          <span>
+            This is a public InHero trajectory profile. Want a Verified Student badge?{" "}
+            <Link href="/verify" className="tp-verify-link">Submit a verification →</Link>
+          </span>
         </footer>
       </article>
 
@@ -516,6 +519,13 @@ export default async function TrajectoryProfilePage({ params }: Props) {
           letter-spacing: 0.04em;
           line-height: 1.55;
         }
+        .tp-verify-link {
+          color: #7DD3FC;
+          text-decoration: none;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+        }
+        .tp-verify-link:hover { text-decoration: underline; }
       `}</style>
     </main>
   );

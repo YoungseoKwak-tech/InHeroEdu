@@ -75,7 +75,7 @@ export interface LoungeReactionRow {
 export interface AuthorPublic {
   handle: string;
   graduationYear: number | null;
-  badges: { type: string; meta: BadgeMeta | null }[];
+  badges: { type: string; meta: BadgeMeta | null; metadata: Record<string, unknown> }[];
   mentor: MentorPublic | null;
 }
 
@@ -111,6 +111,7 @@ function authorFromMaps(
   const badges = (badgeMap.get(authorId) ?? []).map((b) => ({
     type: b.badge_type,
     meta: getBadgeMeta(b.badge_type),
+    metadata: (b.badge_metadata as Record<string, unknown>) ?? {},
   }));
   return {
     handle: profile.display_handle,

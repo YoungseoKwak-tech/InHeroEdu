@@ -18,7 +18,7 @@ interface MentorMini {
 interface Props {
   handle: string;
   graduationYear?: number | null;
-  badges?: { type: string }[];
+  badges?: { type: string; metadata?: Record<string, unknown> | null }[];
   mentor?: MentorMini | null;
   size?: "sm" | "md";
   link?: boolean;          // wrap in Link → /trajectory/[handle]
@@ -32,8 +32,21 @@ export default function AuthorChip({
   size = "md",
   link = true,
 }: Props) {
-  const resolvedBadges: BadgeMeta[] = badges
-    .map((b) => getBadgeMeta(b.type))
+  // Resolve up to 2 badges; for school_verified, override the short label
+  // with the school name from metadata (e.g., "Cornell").
+  const resolvedBadges = badges
+    .map((b) => {
+      const base = getBadgeMeta(b.type);
+      if (!base) return null;
+      if (b.type === "school_verified") {
+        const school = typeof b.metadata?.school === "string" ? (b.metadata.school as string) : null;
+        if (school) {
+          const shortSchool = school.split(/\s+/)[0]; // "Cornell University" → "Cornell"
+          return { ...base, short: shortSchool, blurb: `Verified student at ${school}.` };
+        }
+      }
+      return base;
+    })
     .filter((b): b is BadgeMeta => Boolean(b))
     .slice(0, 2);
 

@@ -85,7 +85,7 @@ export interface ClubMemberPublic {
   role: ClubRole;
   isFeatured: boolean;
   joinedAt: string;
-  badges: { type: string; meta: BadgeMeta | null }[];
+  badges: { type: string; meta: BadgeMeta | null; metadata: Record<string, unknown> }[];
   mentor: MentorPublic | null;
 }
 
@@ -172,6 +172,7 @@ export async function hydrateClubMembers(
       const badges = (badgeMap.get(m.user_id) ?? []).map((b) => ({
         type: b.badge_type,
         meta: getBadgeMeta(b.badge_type),
+        metadata: (b.badge_metadata as Record<string, unknown>) ?? {},
       }));
       return {
         userId: m.user_id,
