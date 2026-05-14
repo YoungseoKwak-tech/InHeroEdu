@@ -38,10 +38,31 @@ interface LoungeListing {
 }
 
 const LOUNGE_EMOJI: Record<string, string> = {
-  "ap-bio":     "🧬",
-  "ap-chem":    "⚗️",
-  "ap-physics": "⚛️",
-  "ap-calc-bc": "∫",
+  // AP
+  "ap-bio":                "🧬",
+  "ap-chem":               "⚗️",
+  "ap-physics":            "⚛️",
+  "ap-calc-bc":            "∫",
+  // College / Admissions
+  "sat":                   "📐",
+  "admissions":            "🎓",
+  "essay-writing":         "✍️",
+  "college-results":       "📨",
+  "summer-programs":       "☀️",
+  "scholarship":           "🏆",
+  // Track
+  "research":              "🔬",
+  "cs-ai":                 "💻",
+  "pre-med":               "🩺",
+  "engineering":           "⚙️",
+  "olympiad":              "🏅",
+  "startup-projects":      "🚀",
+  // Cohort / Life
+  "productivity-study":    "⏱",
+  "international-students":"🌐",
+  "debate-humanities":     "📜",
+  "qna":                   "❓",
+  "weekly-drops":          "💎",
 };
 
 async function fetchLounges(): Promise<LoungeListing[]> {
@@ -81,70 +102,33 @@ export default async function LoungesDirectoryPage() {
           No lounges live yet. The first one (AP Biology) is being seeded — refresh in a minute.
         </div>
       ) : (
-        <div className="ldir-stack">
-          {lounges.map((l) => {
-            const hasManual = !!FIELD_MANUAL_BY_LOUNGE[l.slug];
-            const emoji = LOUNGE_EMOJI[l.slug] ?? "◈";
-            const preview = l.previewMessages ?? [];
-            const hiddenCount = Math.max(0, l.chatCount - preview.length);
-            return (
-              <article key={l.slug} className={`ldir-row ${hasManual ? "is-paired" : ""}`}>
-                <Link href={`/lounges/${l.slug}`} className="ldir-card">
-                  <div className="ldir-card-top">
-                    {l.subjectCategory && (
-                      <span className="ldir-cat">{l.subjectCategory}</span>
-                    )}
-                    <span className="ldir-count">
-                      {l.chatCount > 0 ? `${l.chatCount} messages` : `${l.postCount} posts`}
-                    </span>
-                  </div>
-                  <h2 className="ldir-name">
-                    <span className="ldir-name-emoji" aria-hidden="true">{emoji}</span>
-                    {l.name}
-                  </h2>
-                  {l.description && <p className="ldir-desc">{l.description}</p>}
-
-                  {preview.length > 0 && (
-                    <div className="ldir-chat" aria-label="Live chat preview">
-                      <div className="ldir-chat-tag">
-                        <span className="ldir-chat-pulse" />
-                        <span>LIVE · IN CHAT NOW</span>
-                      </div>
-                      <ul className="ldir-chat-list">
-                        {preview.map((m) => (
-                          <li key={m.id} className="ldir-chat-msg">
-                            <span className={`ldir-chat-handle ${m.isMentor ? "is-mentor" : ""}`}>
-                              {m.handle ?? "—"}
-                            </span>
-                            <span className="ldir-chat-text">{m.content}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      <div className="ldir-chat-lock">
-                        <span className="ldir-chat-lock-icon">🔒</span>
-                        <span>
-                          {hiddenCount > 0
-                            ? `Locked · enter to read ${hiddenCount} more →`
-                            : "Locked · enter the room →"}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
-                  {preview.length === 0 && (
-                    <span className="ldir-enter">Enter →</span>
-                  )}
-                </Link>
-
-                {hasManual && (
+        <>
+          {/* Paired hero rows: lounge card + Field Manual side-by-side */}
+          <div className="ldir-stack">
+            {lounges
+              .filter((l) => !!FIELD_MANUAL_BY_LOUNGE[l.slug])
+              .map((l) => (
+                <article key={l.slug} className="ldir-row is-paired">
+                  <LoungeCard lounge={l} variant="hero" />
                   <section className="ldir-manual" aria-label={`${l.name} Field Manual preview`}>
                     <TextbookSlider />
                   </section>
-                )}
-              </article>
-            );
-          })}
-        </div>
+                </article>
+              ))}
+          </div>
+
+          {/* Grid of remaining free lounges */}
+          {lounges.some((l) => !FIELD_MANUAL_BY_LOUNGE[l.slug]) && (
+            <>
+              <div className="ldir-section-tag">EVERY OTHER ROOM</div>
+              <div className="ldir-grid">
+                {lounges
+                  .filter((l) => !FIELD_MANUAL_BY_LOUNGE[l.slug])
+                  .map((l) => <LoungeCard key={l.slug} lounge={l} variant="grid" />)}
+              </div>
+            </>
+          )}
+        </>
       )}
 
       <style>{`
@@ -361,8 +345,119 @@ export default async function LoungesDirectoryPage() {
           color: #5eead4;
         }
         .ldir-chat-lock-icon { font-size: 0.85em; }
+
+        /* SECTION TAG between hero pair and grid */
+        .ldir-section-tag {
+          margin: 3rem 0 1.2rem;
+          font-family: ui-monospace, monospace;
+          font-size: 0.66rem; font-weight: 800;
+          letter-spacing: 0.28em;
+          color: rgba(148,163,184,0.55);
+          text-transform: uppercase;
+          padding-bottom: 0.6rem;
+          border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* GRID for non-paired lounges (compact cards) */
+        .ldir-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+          gap: 0.95rem;
+        }
+        .ldir-row.is-grid { display: block; }
+        .ldir-row.is-grid .ldir-card {
+          height: 100%;
+          padding: 1.1rem 1.2rem 1rem;
+          display: flex; flex-direction: column;
+        }
+        .ldir-row.is-grid .ldir-name { font-size: 1.25rem; margin-bottom: 0.4rem; }
+        .ldir-row.is-grid .ldir-desc {
+          font-size: 0.84rem;
+          margin-bottom: 0.65rem;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        .ldir-row.is-grid .ldir-chat {
+          margin-top: 0.5rem;
+          padding: 0.65rem 0.8rem 0;
+          max-height: 11rem;
+        }
+        .ldir-row.is-grid .ldir-chat-list {
+          padding-bottom: 2.2rem;
+          gap: 0.3rem;
+        }
+        .ldir-row.is-grid .ldir-chat-msg { font-size: 0.78rem; }
+        .ldir-row.is-grid .ldir-chat-lock {
+          padding: 0.55rem 0.75rem 0.6rem;
+          font-size: 0.65rem;
+        }
       `}</style>
     </main>
   );
+}
+
+// ─── LoungeCard ────────────────────────────────────────────────
+function LoungeCard({
+  lounge: l,
+  variant,
+}: {
+  lounge: LoungeListing;
+  variant: "hero" | "grid";
+}) {
+  const emoji = LOUNGE_EMOJI[l.slug] ?? "◈";
+  const preview = l.previewMessages ?? [];
+  const hiddenCount = Math.max(0, l.chatCount - preview.length);
+  const visibleMessages = variant === "grid" ? preview.slice(-3) : preview;
+
+  const inner = (
+    <Link href={`/lounges/${l.slug}`} className="ldir-card">
+      <div className="ldir-card-top">
+        {l.subjectCategory && <span className="ldir-cat">{l.subjectCategory}</span>}
+        <span className="ldir-count">
+          {l.chatCount > 0 ? `${l.chatCount} messages` : `${l.postCount} posts`}
+        </span>
+      </div>
+      <h2 className="ldir-name">
+        <span className="ldir-name-emoji" aria-hidden="true">{emoji}</span>
+        {l.name}
+      </h2>
+      {l.description && <p className="ldir-desc">{l.description}</p>}
+
+      {visibleMessages.length > 0 ? (
+        <div className="ldir-chat" aria-label="Live chat preview">
+          <div className="ldir-chat-tag">
+            <span className="ldir-chat-pulse" />
+            <span>LIVE · IN CHAT NOW</span>
+          </div>
+          <ul className="ldir-chat-list">
+            {visibleMessages.map((m) => (
+              <li key={m.id} className="ldir-chat-msg">
+                <span className={`ldir-chat-handle ${m.isMentor ? "is-mentor" : ""}`}>
+                  {m.handle ?? "—"}
+                </span>
+                <span className="ldir-chat-text">{m.content}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="ldir-chat-lock">
+            <span className="ldir-chat-lock-icon">🔒</span>
+            <span>
+              {hiddenCount > 0
+                ? `Locked · enter to read ${hiddenCount} more →`
+                : "Locked · enter the room →"}
+            </span>
+          </div>
+        </div>
+      ) : (
+        <span className="ldir-enter">Enter →</span>
+      )}
+    </Link>
+  );
+
+  // Hero variant is wrapped by the parent <article className="ldir-row is-paired">.
+  if (variant === "hero") return inner;
+  return <article className="ldir-row is-grid">{inner}</article>;
 }
 
