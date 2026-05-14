@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
+import { emitActivity } from "@/lib/activity";
 import { canAssignRoles, CLUB_ROLES, type ClubRole, type ClubRow } from "@/lib/clubs";
 
 export const runtime = "nodejs";
@@ -100,6 +101,23 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
         role,
       });
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  // Only emit for "elevated" roles (founder/cofounder/secretary/curator).
+  if (role !== "member") {
+    const clubRow = club as ClubRow;
+    void emitActivity("club_role_assigned", {
+      actorUserId: target.user_id,
+      subjectType: "club",
+      subjectId: clubRow.slug,
+      payload: {
+        clubSlug: clubRow.slug,
+        clubName: clubRow.name,
+        glyph: clubRow.glyph,
+        accent: clubRow.accent,
+        role,
+      },
+    });
   }
 
   return NextResponse.json({ ok: true, handle: target.display_handle, role });

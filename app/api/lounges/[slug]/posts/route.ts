@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
+import { emitActivity } from "@/lib/activity";
 import {
   hydratePostsWithAuthors,
   POST_RATE_LIMIT,
@@ -57,7 +58,7 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
   // Lounge lookup.
   const { data: lounge } = await supabase
     .from("lounges")
-    .select("id, slug")
+    .select("id, slug, name")
     .eq("slug", slug)
     .eq("is_active", true)
     .maybeSingle();
@@ -96,6 +97,18 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
     lounge.slug,
     user.id
   );
+
+  void emitActivity("lounge_post", {
+    actorUserId: user.id,
+    subjectType: "lounge_post",
+    subjectId: (inserted as LoungePostRow).id,
+    payload: {
+      loungeSlug: lounge.slug,
+      loungeName: (lounge as { name: string }).name,
+      title,
+      postType,
+    },
+  });
 
   return NextResponse.json({ ok: true, post });
 }
