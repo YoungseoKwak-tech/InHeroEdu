@@ -64,33 +64,36 @@ export default async function LoungesDirectoryPage() {
         </div>
       ) : (
         <div className="ldir-stack">
-          {lounges.map((l) => (
-            <article key={l.slug} className="ldir-row">
-              <Link href={`/lounges/${l.slug}`} className="ldir-card">
-                <div className="ldir-card-top">
-                  {l.subjectCategory && (
-                    <span className="ldir-cat">{l.subjectCategory}</span>
-                  )}
-                  <span className="ldir-count">{l.postCount} posts</span>
-                </div>
-                <h2 className="ldir-name">{l.name}</h2>
-                {l.description && <p className="ldir-desc">{l.description}</p>}
-                <span className="ldir-enter">Enter →</span>
-              </Link>
+          {lounges.map((l) => {
+            const hasManual = !!FIELD_MANUAL_BY_LOUNGE[l.slug];
+            return (
+              <article key={l.slug} className={`ldir-row ${hasManual ? "is-paired" : ""}`}>
+                <Link href={`/lounges/${l.slug}`} className="ldir-card">
+                  <div className="ldir-card-top">
+                    {l.subjectCategory && (
+                      <span className="ldir-cat">{l.subjectCategory}</span>
+                    )}
+                    <span className="ldir-count">{l.postCount} posts</span>
+                  </div>
+                  <h2 className="ldir-name">{l.name}</h2>
+                  {l.description && <p className="ldir-desc">{l.description}</p>}
+                  <span className="ldir-enter">Enter →</span>
+                </Link>
 
-              {FIELD_MANUAL_BY_LOUNGE[l.slug] && (
-                <section className="ldir-manual" aria-label={`${l.name} Field Manual preview`}>
-                  <TextbookSlider />
-                </section>
-              )}
-            </article>
-          ))}
+                {hasManual && (
+                  <section className="ldir-manual" aria-label={`${l.name} Field Manual preview`}>
+                    <TextbookSlider />
+                  </section>
+                )}
+              </article>
+            );
+          })}
         </div>
       )}
 
       <style>{`
         .ldir-root {
-          max-width: 920px;
+          max-width: 1320px;
           margin: 0 auto;
           padding: 4rem 1.5rem 5rem;
           color: #d8d9e6;
@@ -134,8 +137,22 @@ export default async function LoungesDirectoryPage() {
           display: flex; flex-direction: column;
           gap: 2.2rem;
         }
-        .ldir-row {
-          display: flex; flex-direction: column; gap: 1rem;
+        .ldir-row { display: flex; flex-direction: column; gap: 1rem; }
+        .ldir-row.is-paired {
+          display: grid;
+          grid-template-columns: minmax(260px, 22rem) 1fr;
+          gap: 1.4rem;
+          align-items: stretch;
+        }
+        .ldir-row.is-paired .ldir-card {
+          display: flex; flex-direction: column;
+          height: 100%;
+        }
+        .ldir-row.is-paired .ldir-name { font-size: 1.55rem; }
+        .ldir-row.is-paired .ldir-desc { font-size: 0.88rem; }
+        .ldir-row.is-paired .ldir-enter { margin-top: auto; }
+        @media (max-width: 900px) {
+          .ldir-row.is-paired { grid-template-columns: 1fr; }
         }
         .ldir-card {
           display: block;
@@ -196,9 +213,8 @@ export default async function LoungesDirectoryPage() {
         }
 
         .ldir-manual {
-          /* Lets TextbookSlider escape the directory's max-width and breathe.
-             The slider already brings its own dark background + padding. */
-          margin: 0.4rem -1.5rem 0;
+          min-width: 0; /* lets grid item shrink */
+          /* TextbookSlider brings its own padding + dark wash. */
         }
       `}</style>
     </main>
