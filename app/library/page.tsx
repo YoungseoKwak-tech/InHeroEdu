@@ -295,55 +295,70 @@ export default function LibraryPage() {
 }
 
 function FeedCard({ item }: { item: FeedItem }) {
-  const href = item.lounge ? `/lounges/${item.lounge.slug}` : item.attachmentUrl;
-  const isExternal = !item.lounge;
+  const detailHref = `/library/${item.id}`;
+  const loungeHref = item.lounge ? `/lounges/${item.lounge.slug}` : null;
+
   return (
-    <Link
-      href={href}
-      target={isExternal ? "_blank" : undefined}
-      rel={isExternal ? "noopener noreferrer" : undefined}
-      className={`fc ${item.isInheroOfficial ? "is-official" : "is-community"}`}
-    >
-      <div className="fc-preview">
-        {item.isImage ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.attachmentUrl} alt={item.title} loading="lazy" />
-        ) : (
-          <div className="fc-placeholder">
-            <span className="fc-placeholder-emoji" aria-hidden="true">
-              {DOC_GROUP_EMOJI[item.folder]}
-            </span>
-            <span className="fc-placeholder-mime">
-              {item.mimeType?.split("/").pop()?.toUpperCase() ?? "FILE"}
-            </span>
-          </div>
-        )}
-        <div className="fc-badges">
-          {item.folder === "this-week" && <span className="fc-badge fc-badge-week">💎 FREE THIS WEEK</span>}
-          {item.isInheroOfficial && <span className="fc-badge fc-badge-official">⭐ INHERO ORIGINAL</span>}
-          {!item.isInheroOfficial && item.folder !== "this-week" && (
-            <span className="fc-badge fc-badge-community">✦ ORIGINAL</span>
+    <div className={`fc ${item.isInheroOfficial ? "is-official" : "is-community"}`}>
+      {/* Thumbnail — click goes to detail page */}
+      <Link href={detailHref} className="fc-preview-link" aria-label={`Open ${item.title}`}>
+        <div className="fc-preview">
+          {item.isImage ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={item.attachmentUrl} alt={item.title} loading="lazy" />
+          ) : (
+            <div className="fc-placeholder">
+              <span className="fc-placeholder-emoji" aria-hidden="true">
+                {DOC_GROUP_EMOJI[item.folder]}
+              </span>
+              <span className="fc-placeholder-mime">
+                {item.mimeType?.split("/").pop()?.toUpperCase() ?? "FILE"}
+              </span>
+            </div>
           )}
+          <div className="fc-badges">
+            {item.folder === "this-week" && <span className="fc-badge fc-badge-week">💎 FREE THIS WEEK</span>}
+            {item.isInheroOfficial && <span className="fc-badge fc-badge-official">⭐ INHERO ORIGINAL</span>}
+            {!item.isInheroOfficial && item.folder !== "this-week" && (
+              <span className="fc-badge fc-badge-community">✦ ORIGINAL</span>
+            )}
+          </div>
         </div>
-      </div>
+      </Link>
+
       <div className="fc-body">
-        <div className="fc-title">{item.title}</div>
+        {/* Title — click goes to detail page */}
+        <Link href={detailHref} className="fc-title-link">
+          <div className="fc-title">{item.title}</div>
+        </Link>
+
+        {/* Folder + Lounge — lounge name is its own link to the Lounge */}
         <div className="fc-meta">
           <span aria-hidden="true">{DOC_GROUP_EMOJI[item.folder]}</span>{" "}
           {DOC_GROUP_LABELS[item.folder]}
-          {item.lounge && (
+          {item.lounge && loungeHref && (
             <>
               {" · "}
-              <span className="fc-lounge">{item.lounge.name}</span>
+              <Link href={loungeHref} className="fc-lounge-link">
+                {item.lounge.name}
+              </Link>
             </>
           )}
         </div>
+
         <div className="fc-foot">
           {item.author && <span className="fc-author">by <em>{item.author.handle}</em></span>}
           <span className="fc-counts">
             <span title="Downloads">{item.downloadCount} ↓</span>
             <span title="Upvotes">{item.upvoteCount} ▲</span>
-            <span title="Comments">{item.commentCount} 💬</span>
+            {/* Comment count — click jumps to #comments on the detail page */}
+            <Link
+              href={`${detailHref}#comments`}
+              className="fc-comments-link"
+              title="View comments"
+            >
+              {item.commentCount} 💬
+            </Link>
           </span>
         </div>
       </div>
@@ -357,8 +372,6 @@ function FeedCard({ item }: { item: FeedItem }) {
           border: 1px solid rgba(255,255,255,0.06);
           border-radius: 0.7rem;
           overflow: hidden;
-          color: inherit;
-          text-decoration: none;
           transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
         }
         .fc:hover {
@@ -368,6 +381,15 @@ function FeedCard({ item }: { item: FeedItem }) {
         }
         .fc.is-official:hover { border-color: rgba(244,201,93,0.5); box-shadow: 0 10px 32px rgba(0,0,0,0.4), 0 0 18px rgba(244,201,93,0.18); }
 
+        .fc-preview-link {
+          display: block;
+          color: inherit;
+          text-decoration: none;
+        }
+        .fc-preview-link:focus-visible {
+          outline: 2px solid var(--accent);
+          outline-offset: -2px;
+        }
         .fc-preview {
           position: relative;
           background: linear-gradient(135deg, rgba(94,234,212,0.06), rgba(110,96,255,0.04));
@@ -400,17 +422,18 @@ function FeedCard({ item }: { item: FeedItem }) {
           border-radius: 0.3rem;
           backdrop-filter: blur(6px);
         }
-        .fc-badge-official {
-          background: rgba(244,201,93,0.85); color: #1a1306;
-        }
-        .fc-badge-community {
-          background: rgba(94,234,212,0.85); color: #062320;
-        }
-        .fc-badge-week {
-          background: rgba(125,211,252,0.9); color: #022035;
-        }
+        .fc-badge-official { background: rgba(244,201,93,0.85); color: #1a1306; }
+        .fc-badge-community { background: rgba(94,234,212,0.85); color: #062320; }
+        .fc-badge-week { background: rgba(125,211,252,0.9); color: #022035; }
 
         .fc-body { padding: 0.7rem 0.85rem 0.85rem; }
+
+        .fc-title-link {
+          color: inherit;
+          text-decoration: none;
+          display: block;
+        }
+        .fc-title-link:hover .fc-title { color: var(--accent); }
         .fc-title {
           font-size: 0.94rem;
           font-weight: 600;
@@ -422,6 +445,7 @@ function FeedCard({ item }: { item: FeedItem }) {
           line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
+          transition: color 0.12s;
         }
         .fc-meta {
           font-family: ui-monospace, monospace;
@@ -430,7 +454,12 @@ function FeedCard({ item }: { item: FeedItem }) {
           letter-spacing: 0.04em;
           margin-bottom: 0.55rem;
         }
-        .fc-lounge { color: rgba(94,234,212,0.85); }
+        .fc-lounge-link {
+          color: rgba(94,234,212,0.85);
+          text-decoration: none;
+        }
+        .fc-lounge-link:hover { color: var(--accent); text-decoration: underline; }
+
         .fc-foot {
           display: flex; align-items: center; justify-content: space-between;
           gap: 0.5rem;
@@ -454,8 +483,13 @@ function FeedCard({ item }: { item: FeedItem }) {
           font-size: 0.66rem;
           color: rgba(148,163,184,0.7);
         }
+        .fc-comments-link {
+          color: rgba(148,163,184,0.7);
+          text-decoration: none;
+        }
+        .fc-comments-link:hover { color: var(--accent); }
       `}</style>
-    </Link>
+    </div>
   );
 }
 
