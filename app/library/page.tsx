@@ -295,13 +295,17 @@ export default function LibraryPage() {
 }
 
 function FeedCard({ item }: { item: FeedItem }) {
+  // Primary click target on a card body is the reader. Detail page is
+  // only reachable now via the comments icon (#comments anchor) or a
+  // shared link.
+  const readerHref = `/library/${item.id}/read`;
   const detailHref = `/library/${item.id}`;
   const loungeHref = item.lounge ? `/lounges/${item.lounge.slug}` : null;
 
   return (
     <div className={`fc ${item.isInheroOfficial ? "is-official" : "is-community"}`}>
-      {/* Thumbnail — click goes to detail page */}
-      <Link href={detailHref} className="fc-preview-link" aria-label={`Open ${item.title}`}>
+      {/* Thumbnail — click goes straight into the reader */}
+      <Link href={readerHref} className="fc-preview-link" aria-label={`Open ${item.title}`}>
         <div className="fc-preview">
           {item.isImage ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -327,8 +331,8 @@ function FeedCard({ item }: { item: FeedItem }) {
       </Link>
 
       <div className="fc-body">
-        {/* Title — click goes to detail page */}
-        <Link href={detailHref} className="fc-title-link">
+        {/* Title — click goes straight into the reader */}
+        <Link href={readerHref} className="fc-title-link">
           <div className="fc-title">{item.title}</div>
         </Link>
 
