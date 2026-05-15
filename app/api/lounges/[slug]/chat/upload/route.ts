@@ -160,5 +160,34 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
   }
 
   const [message] = await hydrateChatMessages([inserted as ChatMessageRow], user.id);
+
+  // Dual-write to lounge_resources for the /library feed. Defensive: if the
+  // table doesn't exist yet (migration not applied), the chat upload still
+  // succeeds — we just skip the feed mirror.
+  if (group) {
+    const insertedRow = inserted as { id: string; created_at: string };
+    const { error: resourceErr } = await supabase
+      .from("lounge_resources")
+      .insert({
+        chat_message_id: insertedRow.id,
+        lounge_id: loungeRow.id,
+        author_id: user.id,
+        folder_type: group,
+        title: caption || file.name || "Untitled",
+        attachment_url: publicUrl,
+        attachment_meta: attachmentMeta,
+        file_name: file.name || cleanName,
+        file_size: file.size,
+        mime_type: file.type || "application/octet-stream",
+        is_inhero_official: isAdminEmail(user.email),
+        review_status: "approved",
+        created_at: insertedRow.created_at,
+      });
+    if (resourceErr && !/relation .* does not exist/i.test(resourceErr.message)) {
+      // Real error (constraint, FK, etc.) — log but don't fail the upload.
+      console.error("[chat/upload] lounge_resources mirror failed:", resourceErr.message);
+    }
+  }
+
   return NextResponse.json({ ok: true, message });
 }
