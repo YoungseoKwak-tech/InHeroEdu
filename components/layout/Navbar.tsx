@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import AuthModal from "@/components/auth/AuthModal";
+import AdminNotificationBell from "@/components/admin/AdminNotificationBell";
 import { createBrowserClient } from "@/lib/supabase";
 import { authFetch } from "@/lib/client-auth";
 import { normalizeProfileFields } from "@/lib/profile";
@@ -220,6 +221,7 @@ export default function Navbar() {
           )}
           {user ? (
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <AdminNotificationBell />
               <Link
                 href="/billing"
                 style={{
