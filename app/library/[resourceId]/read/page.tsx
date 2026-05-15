@@ -148,15 +148,18 @@ export default function ReadPage() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const pdfjsLib: any = await import("pdfjs-dist/legacy/build/pdf.mjs");
         pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
-        // cMapUrl + standardFontDataUrl: without these, PDFs containing
-        // CIDFont/CMap-encoded fonts render with missing glyphs (blank
-        // pages). Assets live in /public, copied at postinstall by
-        // scripts/copy-pdfjs-assets.mjs.
+        // cMapUrl + standardFontDataUrl: required for PDFs with CIDFont/
+        // CMap-encoded glyphs. Sourced from jsdelivr (pinned to the
+        // version in package.json) because Vercel's static asset deploy
+        // for /public/cmaps was unreliable for this repo — see commits
+        // 06fc515d, 20b246d9. We still ship the files locally in /public
+        // for dev offline; the CDN is the production path.
+        const PDFJS_VERSION = "5.7.284";
         const loadingTask = pdfjsLib.getDocument({
           data: bytes,
-          cMapUrl: "/cmaps/",
+          cMapUrl: `https://cdn.jsdelivr.net/npm/pdfjs-dist@${PDFJS_VERSION}/cmaps/`,
           cMapPacked: true,
-          standardFontDataUrl: "/standard_fonts/",
+          standardFontDataUrl: `https://cdn.jsdelivr.net/npm/pdfjs-dist@${PDFJS_VERSION}/standard_fonts/`,
         });
         const pdf = await Promise.race([
           loadingTask.promise,
