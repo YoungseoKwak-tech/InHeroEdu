@@ -990,34 +990,62 @@ function MessageRow({
 
         <div className="mr-bubble-wrap">
           {m.type === "image" && m.attachment ? (
-            <a href={m.attachment.url} target="_blank" rel="noopener noreferrer" className="mr-image">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={m.attachment.url} alt={m.content ?? "image"} loading="lazy" />
-              {groupKey && (
-                <div className="mr-group-chip">
-                  <span aria-hidden="true">{DOC_GROUP_EMOJI[groupKey]}</span>
-                  <span>{DOC_GROUP_LABELS[groupKey]}</span>
-                </div>
-              )}
-              {m.content && <div className="mr-image-caption">{m.content}</div>}
-            </a>
+            (() => {
+              const readerHref = m.attachment.resourceId
+                ? `/library/${m.attachment.resourceId}/read`
+                : null;
+              const imageBody = (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={m.attachment.url} alt={m.content ?? "image"} loading="lazy" />
+                  {groupKey && (
+                    <div className="mr-group-chip">
+                      <span aria-hidden="true">{DOC_GROUP_EMOJI[groupKey]}</span>
+                      <span>{DOC_GROUP_LABELS[groupKey]}</span>
+                    </div>
+                  )}
+                  {m.content && <div className="mr-image-caption">{m.content}</div>}
+                </>
+              );
+              return readerHref ? (
+                <Link href={readerHref} className="mr-image">{imageBody}</Link>
+              ) : (
+                // Legacy fallback: pre-backfill attachments with no lounge_resource
+                // row still link to the raw URL. After the 20260517 migration
+                // runs on every env this path should never fire.
+                <a href={m.attachment.url} target="_blank" rel="noopener noreferrer" className="mr-image">{imageBody}</a>
+              );
+            })()
           ) : m.type === "file" && m.attachment ? (
-            <a href={m.attachment.url} target="_blank" rel="noopener noreferrer" className={`mr-file ${isMe ? "is-me" : ""}`}>
-              <span className="mr-file-icon">📄</span>
-              <div className="mr-file-body">
-                <div className="mr-file-name">{fileName ?? "file"}</div>
-                <div className="mr-file-meta">
-                  {fileSize ? `${Math.round(fileSize / 1024)} KB · ` : ""}Tap to open ↗
-                </div>
-                {groupKey && (
-                  <div className="mr-group-chip is-inline">
-                    <span aria-hidden="true">{DOC_GROUP_EMOJI[groupKey]}</span>
-                    <span>{DOC_GROUP_LABELS[groupKey]}</span>
+            (() => {
+              const readerHref = m.attachment.resourceId
+                ? `/library/${m.attachment.resourceId}/read`
+                : null;
+              const fileBody = (
+                <>
+                  <span className="mr-file-icon">📄</span>
+                  <div className="mr-file-body">
+                    <div className="mr-file-name">{fileName ?? "file"}</div>
+                    <div className="mr-file-meta">
+                      {fileSize ? `${Math.round(fileSize / 1024)} KB · ` : ""}
+                      {readerHref ? "Open in Reader →" : "Tap to open ↗"}
+                    </div>
+                    {groupKey && (
+                      <div className="mr-group-chip is-inline">
+                        <span aria-hidden="true">{DOC_GROUP_EMOJI[groupKey]}</span>
+                        <span>{DOC_GROUP_LABELS[groupKey]}</span>
+                      </div>
+                    )}
+                    {m.content && <div className="mr-file-caption">{m.content}</div>}
                   </div>
-                )}
-                {m.content && <div className="mr-file-caption">{m.content}</div>}
-              </div>
-            </a>
+                </>
+              );
+              return readerHref ? (
+                <Link href={readerHref} className={`mr-file ${isMe ? "is-me" : ""}`}>{fileBody}</Link>
+              ) : (
+                <a href={m.attachment.url} target="_blank" rel="noopener noreferrer" className={`mr-file ${isMe ? "is-me" : ""}`}>{fileBody}</a>
+              );
+            })()
           ) : (
             <div className={`mr-bubble ${isMe ? "is-me" : ""}`} onDoubleClick={onReply}>
               {m.content}

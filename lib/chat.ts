@@ -60,7 +60,7 @@ export interface ChatMessagePublic {
   isMine: boolean;
   author: ChatAuthorPublic | null;
   replyTo: { id: string; handle: string | null; snippet: string } | null;
-  attachment: { url: string; meta: Record<string, unknown> } | null;
+  attachment: { url: string; meta: Record<string, unknown>; resourceId: string | null } | null;
   links: string[];
   reactions: ChatReactionPublic[];
 }
@@ -96,7 +96,15 @@ export async function hydrateChatMessages(
   );
   const messageIds = rows.map((r) => r.id);
 
-  const [profilesRes, badgesRes, mentorMap, replyRowsRes, reactionsRes] = await Promise.all([
+  // Messages that have attachments — we'll look up their lounge_resources
+  // row (linked by chat_message_id, UNIQUE) so the chat UI can route
+  // attachment clicks into /library/[id]/read instead of leaking the
+  // raw Supabase Storage URL.
+  const attachmentMessageIds = rows
+    .filter((r) => !!r.attachment_url)
+    .map((r) => r.id);
+
+  const [profilesRes, badgesRes, mentorMap, replyRowsRes, reactionsRes, resourcesRes] = await Promise.all([
     authorIds.length === 0
       ? Promise.resolve({ data: [] })
       : supabase.from("profiles_public").select("*").in("user_id", authorIds),
@@ -110,7 +118,21 @@ export async function hydrateChatMessages(
     messageIds.length === 0
       ? Promise.resolve({ data: [] })
       : supabase.from("chat_reactions").select("message_id, user_id, emoji").in("message_id", messageIds),
+    attachmentMessageIds.length === 0
+      ? Promise.resolve({ data: [] })
+      : supabase
+          .from("lounge_resources")
+          .select("id, chat_message_id")
+          .in("chat_message_id", attachmentMessageIds),
   ]);
+
+  // Defensive: lounge_resources may not exist yet (migration not run);
+  // in that case the .in() query fails. The map ends up empty and the
+  // client falls back to the legacy raw-URL behaviour for old chats.
+  const resourceByMessageId = new Map<string, string>();
+  for (const row of (resourcesRes.data ?? []) as { id: string; chat_message_id: string | null }[]) {
+    if (row.chat_message_id) resourceByMessageId.set(row.chat_message_id, row.id);
+  }
 
   const profileMap = new Map<string, ProfilePublicRow>(
     ((profilesRes.data ?? []) as ProfilePublicRow[]).map((p) => [p.user_id, p])
@@ -173,7 +195,11 @@ export async function hydrateChatMessages(
           }
         : null,
       attachment: r.attachment_url
-        ? { url: r.attachment_url, meta: r.attachment_meta ?? {} }
+        ? {
+            url: r.attachment_url,
+            meta: r.attachment_meta ?? {},
+            resourceId: resourceByMessageId.get(r.id) ?? null,
+          }
         : null,
       links: extractUrls(r.content),
       reactions: Array.from(reactionAgg.get(r.id)?.entries() ?? []).map(([emoji, agg]) => ({
