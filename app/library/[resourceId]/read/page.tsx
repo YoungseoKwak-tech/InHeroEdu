@@ -136,14 +136,25 @@ export default function ReadPage() {
   // Load PDF bytes + parse with pdfjs. Timeout guards against a stuck
   // worker fetch (the previous "black screen" bug was a missing
   // pdf.worker.min.mjs — getDocument().promise hung forever).
+  //
+  // We fetch the file via our same-origin proxy /api/library/resource/[id]/file
+  // because the chat-attachments Supabase bucket doesn't send a
+  // CORS header for cross-origin fetch — direct fetch fails with
+  // "Failed to fetch" in the browser. The proxy also auth-gates the
+  // file, which the bucket itself does not (it's public-readable).
   useEffect(() => {
-    if (!resource || !resource.isPdf) return;
+    if (!resource || !resource.isPdf || !resourceId) return;
     let cancelled = false;
     setPdfLoading(true);
     void (async () => {
       try {
-        const response = await fetch(resource.attachmentUrl, { cache: "no-store" });
-        if (!response.ok) throw new Error(`Failed to load PDF (${response.status})`);
+        const response = await authFetch(`/api/library/resource/${resourceId}/file`, {
+          cache: "no-store",
+        });
+        if (!response.ok) {
+          const text = await response.text().catch(() => "");
+          throw new Error(`Failed to load PDF (${response.status}) ${text.slice(0, 200)}`);
+        }
         const bytes = new Uint8Array(await response.arrayBuffer());
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const pdfjsLib: any = await import("pdfjs-dist/legacy/build/pdf.mjs");
