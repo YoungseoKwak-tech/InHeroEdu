@@ -10,9 +10,10 @@ interface Props {
   isOpen: boolean
   onClose: () => void
   defaultMode?: 'login' | 'signup'
+  redirectTo?: string
 }
 
-export default function AuthModal({ isOpen, onClose, defaultMode = 'login' }: Props) {
+export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redirectTo = '/dashboard' }: Props) {
   const { lang } = useLang()
   const supabase = createBrowserClient()
   const [mode, setMode] = useState<'login' | 'signup'>(defaultMode)
@@ -21,6 +22,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login' }: Pr
   const [name, setName] = useState('')
   const [grade, setGrade] = useState('')
   const [school, setSchool] = useState('')
+  const [referralStudentEmail, setReferralStudentEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
@@ -54,7 +56,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login' }: Pr
     background: 'rgba(255,255,255,0.06)',
     border: '1px solid rgba(255,255,255,0.12)',
     color: '#fff',
-    fontSize: '14px',
+    fontSize: '16px',
     outline: 'none',
     boxSizing: 'border-box' as const,
     transition: 'border-color 0.2s, background 0.2s',
@@ -82,7 +84,12 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login' }: Pr
 
     try {
       if (mode === 'signup') {
-        const profile = normalizeProfileFields({ name, grade, school })
+        const profile = normalizeProfileFields({
+          name,
+          grade,
+          school,
+          referral_student_email: referralStudentEmail,
+        })
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
@@ -143,7 +150,9 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login' }: Pr
   const handleGoogle = async () => {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${window.location.origin}/dashboard` },
+      options: {
+        redirectTo: `${window.location.origin}${redirectTo.startsWith('/') ? redirectTo : '/dashboard'}`,
+      },
     })
   }
 
@@ -173,7 +182,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login' }: Pr
           background: 'linear-gradient(180deg, rgba(14,14,14,0.98), rgba(8,8,8,0.98))',
           border: '1px solid rgba(255,255,255,0.08)',
           boxShadow: '0 32px 90px rgba(0,0,0,0.72)',
-          maxHeight: 'min(760px, calc(100vh - 48px))',
+          maxHeight: 'min(760px, calc(100dvh - 48px))',
           overflowY: 'auto',
         }}
       >
@@ -339,6 +348,21 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login' }: Pr
                     onBlur={(e) => focusInput(e.target, false)}
                   />
                 </div>
+              </div>
+            )}
+
+            {mode === 'signup' && (
+              <div>
+                <label style={labelStyle}>{ko ? '추천학생 이메일' : 'Referral student email'}</label>
+                <input
+                  type="email"
+                  placeholder={ko ? '추천한 학생 이메일 (선택)' : 'Student email who referred you (optional)'}
+                  value={referralStudentEmail}
+                  onChange={(e) => setReferralStudentEmail(e.target.value)}
+                  style={inputStyle}
+                  onFocus={(e) => focusInput(e.target, true)}
+                  onBlur={(e) => focusInput(e.target, false)}
+                />
               </div>
             )}
 

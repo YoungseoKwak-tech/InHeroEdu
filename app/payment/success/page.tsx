@@ -12,22 +12,55 @@ function SuccessInner() {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    const paymentKey = params.get("paymentKey");
-    const orderId = params.get("orderId");
-    const amount = params.get("amount");
+    const provider = params.get("provider");
     const serviceId = params.get("serviceId");
     const subjectId = params.get("subjectId");
 
-    if (!paymentKey || !orderId || !amount) {
-      setStatus("error");
-      setErrorMsg("결제 정보가 없습니다.");
-      return;
+    const isPayPal =
+      provider === "paypal" ||
+      params.has("localOrderId") ||
+      params.has("token") ||
+      params.has("subscription_id");
+
+    let body: Record<string, unknown> | null = null;
+
+    if (isPayPal) {
+      const localOrderId = params.get("localOrderId") ?? params.get("orderId");
+      const paypalOrderId = params.get("token");
+      const subscriptionId = params.get("subscription_id") ?? params.get("ba_token");
+
+      if (!localOrderId) {
+        setStatus("error");
+        setErrorMsg("결제 정보가 없습니다.");
+        return;
+      }
+
+      body = {
+        provider: "paypal",
+        localOrderId,
+        serviceId,
+        subjectId,
+        ...(paypalOrderId ? { paypalOrderId } : {}),
+        ...(subscriptionId ? { subscriptionId } : {}),
+      };
+    } else {
+      const paymentKey = params.get("paymentKey");
+      const orderId = params.get("orderId");
+      const amount = params.get("amount");
+
+      if (!paymentKey || !orderId || !amount) {
+        setStatus("error");
+        setErrorMsg("결제 정보가 없습니다.");
+        return;
+      }
+
+      body = { paymentKey, orderId, amount: Number(amount), serviceId, subjectId };
     }
 
     authFetch("/api/payments/confirm", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ paymentKey, orderId, amount: Number(amount), serviceId, subjectId }),
+      body: JSON.stringify(body),
     })
       .then((r) => r.json())
       .then((data) => {

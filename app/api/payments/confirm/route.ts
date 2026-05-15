@@ -409,7 +409,15 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (e) {
-    console.error(e);
-    return NextResponse.json({ error: "server error" }, { status: 500 });
+    const message = e instanceof Error ? e.message : String(e);
+    console.error("[api/payments/confirm] failed", {
+      message,
+      stack: e instanceof Error ? e.stack : undefined,
+      name: e instanceof Error ? e.name : undefined,
+    });
+    return NextResponse.json(
+      { error: message || "server error", scope: "payment_confirm" },
+      { status: 500 }
+    );
   }
 }

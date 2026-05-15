@@ -86,7 +86,15 @@ export async function POST(req: NextRequest) {
       paymentMode: clientKey.startsWith("live_") ? "live" : "test",
     });
   } catch (e) {
-    console.error(e);
-    return NextResponse.json({ error: "server error" }, { status: 500 });
+    const message = e instanceof Error ? e.message : String(e);
+    console.error("[api/payments/toss] failed", {
+      message,
+      stack: e instanceof Error ? e.stack : undefined,
+      name: e instanceof Error ? e.name : undefined,
+    });
+    return NextResponse.json(
+      { error: message || "server error", scope: "toss_checkout" },
+      { status: 500 }
+    );
   }
 }

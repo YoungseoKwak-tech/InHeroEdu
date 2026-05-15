@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { authFetch } from "@/lib/client-auth";
 import { createBrowserClient } from "@/lib/supabase";
 
 interface PaymentButtonProps {
@@ -8,25 +9,20 @@ interface PaymentButtonProps {
   amount: number;
   orderName: string;
   subjectId?: string;
+  returnTo?: string;
   label?: string;
   className?: string;
   style?: React.CSSProperties;
 }
 
-declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    TossPayments: (clientKey: string) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      payment: (params: { customerKey: string }) => any;
-    };
-  }
-}
-
-function openAuthModal() {
+function openAuthModal(returnTo?: string) {
   window.dispatchEvent(
     new CustomEvent("inhero:open-auth", {
-      detail: { mode: "signup", source: "payment" },
+      detail: {
+        mode: "signup",
+        source: "payment",
+        redirectTo: typeof returnTo === "string" && returnTo.startsWith("/") ? returnTo : "/dashboard",
+      },
     })
   );
 }
@@ -34,83 +30,45 @@ function openAuthModal() {
 export default function PaymentButton({
   serviceId,
   subjectId,
-  label = "결제하기",
+  returnTo,
+  label = "Checkout",
   className = "btn-primary text-sm py-2.5 px-6",
   style,
 }: PaymentButtonProps) {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  async function launchToss(userId: string, customerName: string, customerEmail: string) {
+  async function launchPayPal(customerName: string, customerEmail: string) {
     setLoading(true);
-
+    setError(null);
     try {
-      const res = await fetch("/api/payments/toss", {
+      const res = await authFetch("/api/payments/paypal", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ serviceId, subjectId, userId }),
+        body: JSON.stringify({ serviceId, subjectId, customerName, customerEmail, returnTo }),
       });
 
-      const {
-        clientKey,
-        orderId,
-        amount: serverAmount,
-        currency,
-        orderName: serverOrderName,
-        method,
-        provider,
-        error,
-      } = (await res.json()) as {
-        clientKey?: string;
-        orderId?: string;
-        amount?: number;
-        currency?: "USD" | "KRW";
-        orderName?: string;
-        method?: string;
-        provider?: string;
+      const data = (await res.json().catch(() => ({}))) as {
+        approveUrl?: string;
         error?: string;
+        scope?: string;
       };
-
-      if (error || !clientKey || !orderId || !serverOrderName || typeof serverAmount !== "number") {
-        throw new Error(error ?? "order error");
-      }
-
-      if (typeof window.TossPayments !== "function") {
-        throw new Error("결제창을 아직 불러오지 못했어요. 잠시 후 다시 시도해주세요.");
-      }
-
-      const toss = window.TossPayments(clientKey);
-      const payment = toss.payment({ customerKey: userId });
-      const successUrl = new URL("/payment/success", window.location.origin);
-      successUrl.searchParams.set("serviceId", serviceId);
-      if (subjectId) successUrl.searchParams.set("subjectId", subjectId);
-
-      const failUrl = new URL("/payment/fail", window.location.origin);
-      failUrl.searchParams.set("serviceId", serviceId);
-      if (subjectId) failUrl.searchParams.set("subjectId", subjectId);
-
-      await payment.requestPayment({
-        method: method ?? "FOREIGN_EASY_PAY",
-        provider: provider ?? "PAYPAL",
-        amount: {
-          value: serverAmount,
-          currency: currency ?? "USD",
-        },
-        orderId,
-        orderName: serverOrderName,
-        customerName,
-        customerEmail,
-        metadata: {
+      if (!res.ok || !data.approveUrl) {
+        const reason = data.error || `HTTP ${res.status}`;
+        console.error("[PaymentButton] checkout failed", {
+          status: res.status,
+          scope: data.scope,
+          error: data.error,
           serviceId,
-          ...(subjectId ? { subjectId } : {}),
-        },
-        successUrl: successUrl.toString(),
-        failUrl: failUrl.toString(),
-      });
+          subjectId,
+        });
+        throw new Error(reason);
+      }
+
+      window.location.href = data.approveUrl;
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : "오류가 발생했어요.";
-      if (!msg.includes("PAY_PROCESS_CANCELED")) {
-        alert(msg);
-      }
+      setError(msg);
       setLoading(false);
     }
   }
@@ -122,7 +80,7 @@ export default function PaymentButton({
     } = await supabase.auth.getSession();
 
     if (!session?.user) {
-      openAuthModal();
+      openAuthModal(returnTo);
       return;
     }
 
@@ -132,17 +90,40 @@ export default function PaymentButton({
       userEmail.split("@")[0] ||
       "InHero Student";
 
-    await launchToss(session.user.id, userName, userEmail);
+    await launchPayPal(userName, userEmail);
   }
 
   return (
-    <button
-      onClick={handleClick}
-      disabled={loading}
-      className={style ? undefined : className}
-      style={style ? { ...style, opacity: loading ? 0.6 : 1, cursor: loading ? "default" : "pointer" } : undefined}
-    >
-      {loading ? "처리 중…" : label}
-    </button>
+    <div style={{ display: "flex", flexDirection: "column", gap: 8, width: style?.width ?? "auto" }}>
+      <button
+        onClick={handleClick}
+        disabled={loading}
+        className={style ? undefined : className}
+        style={style ? { ...style, opacity: loading ? 0.6 : 1, cursor: loading ? "default" : "pointer" } : undefined}
+      >
+        {loading ? "처리 중…" : label}
+      </button>
+      {error && (
+        <div
+          role="alert"
+          style={{
+            padding: "10px 12px",
+            borderRadius: 10,
+            background: "rgba(239,68,68,0.08)",
+            border: "1px solid rgba(239,68,68,0.32)",
+            color: "#fca5a5",
+            fontSize: 12,
+            lineHeight: 1.5,
+            fontFamily: "ui-monospace, monospace",
+            wordBreak: "break-word",
+          }}
+        >
+          <div style={{ fontWeight: 700, marginBottom: 4, letterSpacing: "0.08em", textTransform: "uppercase", fontSize: 10 }}>
+            Checkout failed
+          </div>
+          {error}
+        </div>
+      )}
+    </div>
   );
 }

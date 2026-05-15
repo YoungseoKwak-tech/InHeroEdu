@@ -5,6 +5,16 @@ import Link from "next/link";
 import { createBrowserClient } from "@/lib/supabase";
 import { authFetch } from "@/lib/client-auth";
 import { REACTION_EMOJI, type ChatMessagePublic, type ChatReactionPublic } from "@/lib/chat";
+import SeedDiscussions from "@/components/lounges/SeedDiscussions";
+import LiveActivityHeader from "@/components/lounges/LiveActivityHeader";
+import { getSeedTopics } from "@/lib/seedDiscussions";
+import { buildSeededMessages } from "@/lib/seed/loungeSeedMessages";
+import {
+  DOC_GROUPS,
+  DOC_GROUP_EMOJI,
+  DOC_GROUP_LABELS,
+  type DocGroup,
+} from "@/lib/docGroups";
 
 type Tab = "chat" | "pinned";
 const POLL_MS = 8000;
@@ -28,6 +38,21 @@ export default function LoungePage({ params }: PageProps) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [replyTo, setReplyTo] = useState<ChatMessagePublic | null>(null);
+  // Folder picker state. Two entry points feed the same picker:
+  //   1) "+" button — pickerOpen=true, no file yet. Click a chip → opens OS
+  //      file dialog with that folder pre-selected via chosenGroup.
+  //   2) Paste / drag — file arrives first → pendingFile set → picker shows →
+  //      click chip → upload immediately.
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [chosenGroup, setChosenGroup] = useState<DocGroup | null>(null);
+  // Single page-level "now" tick. MessageRow consumes this to render relative
+  // timestamps without each row running its own setInterval.
+  const [nowTs, setNowTs] = useState<number>(() => Date.now());
+  useEffect(() => {
+    const t = window.setInterval(() => setNowTs(Date.now()), 30_000);
+    return () => window.clearInterval(t);
+  }, []);
 
   const lastSeenRef = useRef<string | null>(null);
   const feedEndRef = useRef<HTMLDivElement>(null);
@@ -60,8 +85,24 @@ export default function LoungePage({ params }: PageProps) {
         if (!mounted) return;
         if (json.ok) {
           setLoungeName(json.lounge?.name ?? "");
-          setMessages(json.messages ?? []);
-          if (json.messages?.length) lastSeenRef.current = json.messages[json.messages.length - 1].createdAt;
+          // Merge seeded history (display-only, never POSTed) with real DB
+          // messages from the API, sorted chronologically. Seeded messages
+          // are backdated up to 24h ago and feel like history the user is
+          // dropping into.
+          const realMessages: ChatMessagePublic[] = json.messages ?? [];
+          const seededHistory = buildSeededMessages(slug);
+          const merged: ChatMessagePublic[] = [...seededHistory, ...realMessages].sort(
+            (a, b) => a.createdAt.localeCompare(b.createdAt)
+          );
+          setMessages(merged);
+          // lastSeenRef tracks only the latest REAL DB message's timestamp,
+          // so polling asks the API for real messages newer than that. Seed
+          // messages never come through the API.
+          if (realMessages.length > 0) {
+            lastSeenRef.current = realMessages[realMessages.length - 1].createdAt;
+          } else {
+            lastSeenRef.current = new Date().toISOString();
+          }
         }
       } catch (err) {
         if (mounted) setError(err instanceof Error ? err.message : String(err));
@@ -118,7 +159,7 @@ export default function LoungePage({ params }: PageProps) {
     } finally { setSending(false); }
   }
 
-  async function uploadFile(file: File) {
+  async function uploadFile(file: File, group: DocGroup | null) {
     if (uploading || authStatus !== "ok") return;
     if (file.size > MAX_UPLOAD) {
       setError(`File too large. Max ${MAX_UPLOAD / (1024 * 1024)} MB.`);
@@ -130,6 +171,7 @@ export default function LoungePage({ params }: PageProps) {
       form.append("file", file);
       if (draft.trim()) form.append("caption", draft.trim());
       if (replyTo?.id) form.append("replyToId", replyTo.id);
+      if (group) form.append("group", group);
       const res = await authFetch(`/api/lounges/${slug}/chat/upload`, {
         method: "POST",
         body: form,
@@ -142,13 +184,65 @@ export default function LoungePage({ params }: PageProps) {
       setDraft(""); setReplyTo(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
-    } finally { setUploading(false); }
+    } finally { setUploading(false); setPendingFile(null); }
+  }
+
+  // File pickers stage the file; the user picks a folder before the upload fires.
+  function stageFile(file: File | null | undefined) {
+    if (!file) return;
+    if (file.size > MAX_UPLOAD) {
+      setError(`File too large. Max ${MAX_UPLOAD / (1024 * 1024)} MB.`);
+      return;
+    }
+    setError(null);
+    setPendingFile(file);
+  }
+
+  // "+" button: open the folder picker. Don't open the OS file dialog yet —
+  // that happens after the user picks a folder.
+  function openAttachPicker() {
+    if (authStatus !== "ok" || uploading) return;
+    setError(null);
+    setPickerOpen(true);
+  }
+
+  function cancelAttachPicker() {
+    setPickerOpen(false);
+    setPendingFile(null);
+    setChosenGroup(null);
+  }
+
+  // User clicked a folder chip (or "skip"). Two paths:
+  //   - file already in hand (paste/drag) → upload now
+  //   - no file yet → remember group, open OS file dialog
+  function chooseGroup(g: DocGroup | null) {
+    if (pendingFile) {
+      void uploadFile(pendingFile, g);
+      return;
+    }
+    setChosenGroup(g);
+    setPickerOpen(false);
+    fileInputRef.current?.click();
   }
 
   function onFilePick(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
-    if (file) void uploadFile(file);
     if (e.target) e.target.value = ""; // reset so same file can be picked again
+    if (!file) return;
+    if (chosenGroup !== null || pickerOpen) {
+      // "+" flow — group was picked before the OS dialog opened.
+      const g = chosenGroup;
+      setChosenGroup(null);
+      setPickerOpen(false);
+      if (file.size > MAX_UPLOAD) {
+        setError(`File too large. Max ${MAX_UPLOAD / (1024 * 1024)} MB.`);
+        return;
+      }
+      void uploadFile(file, g);
+      return;
+    }
+    // Fallback: stage and show picker (e.g. picker bypassed somehow).
+    stageFile(file);
   }
 
   function onPaste(e: React.ClipboardEvent<HTMLInputElement>) {
@@ -158,15 +252,14 @@ export default function LoungePage({ params }: PageProps) {
       const it = items[i];
       if (it.kind === "file") {
         const file = it.getAsFile();
-        if (file) { e.preventDefault(); void uploadFile(file); return; }
+        if (file) { e.preventDefault(); stageFile(file); return; }
       }
     }
   }
 
   function onDrop(e: React.DragEvent<HTMLDivElement>) {
     e.preventDefault();
-    const file = e.dataTransfer?.files?.[0];
-    if (file) void uploadFile(file);
+    stageFile(e.dataTransfer?.files?.[0]);
   }
   function onDragOver(e: React.DragEvent<HTMLDivElement>) {
     e.preventDefault();
@@ -190,6 +283,7 @@ export default function LoungePage({ params }: PageProps) {
   }
 
   const pinnedMessages = messages.filter((m) => m.isPinned);
+  const seedTopics = getSeedTopics(slug);
 
   return (
     <main className="lc-root" onDragOver={onDragOver} onDrop={onDrop}>
@@ -200,12 +294,9 @@ export default function LoungePage({ params }: PageProps) {
         </div>
         <div className="lc-title-row">
           <span className="lc-glyph">◈</span>
-          <div>
+          <div className="lc-title-block">
             <h1 className="lc-title">{loungeName || slug}</h1>
-            <div className="lc-room-meta">
-              <span className="lc-online-dot" />
-              <span>{messages.length} messages</span>
-            </div>
+            <LiveActivityHeader slug={slug} />
           </div>
         </div>
         <div className="lc-tabs">
@@ -221,8 +312,14 @@ export default function LoungePage({ params }: PageProps) {
       </header>
 
       {tab === "chat" && (
-        <>
-          <section className="lc-feed">
+        <div className={`lc-body ${seedTopics.length > 0 ? "has-seed" : ""}`}>
+          {seedTopics.length > 0 && (
+            <aside className="lc-seed-pane">
+              <SeedDiscussions topics={seedTopics} loungeName={loungeName} />
+            </aside>
+          )}
+          <div className="lc-chat-pane">
+            <section className="lc-feed">
             {messages.length === 0 ? (
               <div className="lc-empty">No messages yet. Drop the first one — set the tone for the lounge.</div>
             ) : (
@@ -239,6 +336,7 @@ export default function LoungePage({ params }: PageProps) {
                     key={m.id}
                     m={m}
                     grouped={sameAuthor}
+                    nowTs={nowTs}
                     canReact={authStatus === "ok"}
                     onReply={() => setReplyTo(m)}
                     onReact={(emoji) => void toggleReaction(m.id, emoji)}
@@ -250,6 +348,59 @@ export default function LoungePage({ params }: PageProps) {
           </section>
 
           <footer className="lc-compose">
+            {(pickerOpen || pendingFile) && (
+              <div className="lc-group-picker" role="dialog" aria-label="Pick a folder for your upload">
+                <div className="lc-group-head">
+                  <div className="lc-group-file">
+                    <span aria-hidden="true">{pendingFile ? "📎" : "📁"}</span>
+                    <div>
+                      <div className="lc-group-file-name">
+                        {pendingFile ? pendingFile.name : "Add a file"}
+                      </div>
+                      <div className="lc-group-file-meta">
+                        {pendingFile
+                          ? `${Math.round(pendingFile.size / 1024)} KB · pick a folder to upload`
+                          : "Pick a folder, then choose a file"}
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    className="lc-group-cancel"
+                    onClick={cancelAttachPicker}
+                    aria-label="Cancel attachment"
+                  >
+                    ✕
+                  </button>
+                </div>
+                <div className="lc-group-grid">
+                  {DOC_GROUPS.map((g) => (
+                    <button
+                      key={g}
+                      type="button"
+                      className="lc-group-chip"
+                      onClick={() => chooseGroup(g)}
+                      disabled={uploading}
+                    >
+                      <span className="lc-group-chip-emoji" aria-hidden="true">{DOC_GROUP_EMOJI[g]}</span>
+                      <span className="lc-group-chip-label">{DOC_GROUP_LABELS[g]}</span>
+                    </button>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  className="lc-group-skip"
+                  onClick={() => chooseGroup(null)}
+                  disabled={uploading}
+                >
+                  {uploading
+                    ? "Uploading…"
+                    : pendingFile
+                      ? "Skip — upload without a folder"
+                      : "Skip — choose a file without a folder"}
+                </button>
+              </div>
+            )}
             {replyTo && (
               <div className="lc-reply-strip">
                 <span className="lc-reply-bar" />
@@ -272,7 +423,7 @@ export default function LoungePage({ params }: PageProps) {
                 <button
                   type="button"
                   className="lc-attach"
-                  onClick={() => fileInputRef.current?.click()}
+                  onClick={openAttachPicker}
                   disabled={uploading || sending}
                   title="Attach photo or file"
                 >
@@ -293,19 +444,33 @@ export default function LoungePage({ params }: PageProps) {
                 </button>
               </div>
             ) : authStatus === "no_profile" ? (
-              <div className="lc-gate">
-                <strong>Claim your trajectory handle to chat.</strong>
-                <Link href="/onboarding" className="lc-gate-cta">Claim handle →</Link>
-              </div>
+              <Link href="/onboarding" className="lc-gate lc-gate-tap">
+                <strong>Claim your trajectory handle to chat</strong>
+                <span className="lc-gate-arrow">→</span>
+              </Link>
             ) : authStatus === "out" ? (
-              <div className="lc-gate"><strong>Sign in to chat in this lounge.</strong></div>
+              <button
+                type="button"
+                className="lc-gate lc-gate-tap"
+                onClick={() => {
+                  window.dispatchEvent(
+                    new CustomEvent("inhero:open-auth", {
+                      detail: { mode: "signup", redirectTo: `/lounges/${slug}` },
+                    })
+                  );
+                }}
+              >
+                <strong>Sign up to chat in this lounge</strong>
+                <span className="lc-gate-arrow">→</span>
+              </button>
             ) : (
               <div className="lc-gate">Loading…</div>
             )}
             {error && <div className="lc-error">{error}</div>}
             <div className="lc-compose-hint">Paste an image from clipboard or drag a file anywhere on the page to upload.</div>
           </footer>
-        </>
+          </div>
+        </div>
       )}
 
       {tab === "pinned" && (
@@ -313,7 +478,7 @@ export default function LoungePage({ params }: PageProps) {
           {pinnedMessages.length === 0 ? (
             <div className="lc-empty">No pinned messages yet. Admins can pin from chat.</div>
           ) : (
-            pinnedMessages.map((m) => <MessageRow key={m.id} m={m} grouped={false} pinned />)
+            pinnedMessages.map((m) => <MessageRow key={m.id} m={m} grouped={false} nowTs={nowTs} pinned />)
           )}
         </section>
       )}
@@ -323,11 +488,41 @@ export default function LoungePage({ params }: PageProps) {
           --accent: #5eead4;
           display: flex; flex-direction: column;
           min-height: calc(100vh - 4rem);
-          max-width: 880px;
-          margin: 0 auto;
-          padding: 1.5rem 1rem 0;
+          /* Full screen width — no centered cap. The chat tab splits into
+             [seed pane | chat pane] when seed topics exist, and falls back
+             to a centered narrow column when there's no seed content. */
+          margin: 0;
+          padding: 1.25rem 1.5rem 0;
           color: #d8d9e6;
           font-family: 'Inter', 'Space Grotesk', system-ui, sans-serif;
+        }
+
+        .lc-body {
+          display: flex; flex-direction: column;
+          flex: 1; min-height: 0;
+        }
+        .lc-body.has-seed {
+          display: grid;
+          grid-template-columns: minmax(360px, 40%) minmax(0, 1fr);
+          gap: 1.5rem;
+          align-items: stretch;
+        }
+        .lc-body:not(.has-seed) .lc-chat-pane {
+          max-width: 880px; width: 100%; margin: 0 auto;
+        }
+        .lc-seed-pane {
+          min-height: 0;
+          max-height: calc(100vh - 12rem);
+          overflow-y: auto;
+          padding-right: 0.25rem;
+        }
+        .lc-chat-pane {
+          display: flex; flex-direction: column;
+          min-height: 0;
+        }
+        @media (max-width: 980px) {
+          .lc-body.has-seed { grid-template-columns: 1fr; gap: 1rem; }
+          .lc-seed-pane { max-height: none; overflow: visible; }
         }
         .lc-head { display: flex; flex-direction: column; gap: 0.7rem; padding-bottom: 0.6rem; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 0.8rem; }
         .lc-head-row { display: flex; gap: 0.85rem; align-items: center; }
@@ -341,6 +536,7 @@ export default function LoungePage({ params }: PageProps) {
         .lc-back:hover { color: var(--accent); }
         .lc-back-quiet { color: rgba(148,163,184,0.45); margin-left: auto; }
         .lc-title-row { display: flex; align-items: center; gap: 0.7rem; }
+        .lc-title-block { display: flex; flex-direction: column; gap: 0.35rem; min-width: 0; }
         .lc-glyph { font-size: 1.7rem; color: var(--accent); text-shadow: 0 0 14px rgba(94,234,212,0.45); line-height: 1; }
         .lc-title { font-family: 'Cormorant Garamond', serif; font-size: 1.55rem; font-weight: 600; color: #f3f3fb; margin: 0; line-height: 1.1; letter-spacing: -0.005em; }
         .lc-room-meta { display: flex; align-items: center; gap: 0.4rem; font-family: ui-monospace, monospace; font-size: 0.7rem; color: rgba(148,163,184,0.7); }
@@ -408,6 +604,95 @@ export default function LoungePage({ params }: PageProps) {
           letter-spacing: 0.06em;
         }
 
+        /* Doc-folder picker: appears after a file is staged, before upload */
+        .lc-group-picker {
+          margin-bottom: 0.65rem;
+          padding: 0.75rem 0.85rem 0.65rem;
+          background: rgba(94,234,212,0.04);
+          border: 1px solid rgba(94,234,212,0.3);
+          border-radius: 0.6rem;
+        }
+        .lc-group-head {
+          display: flex; align-items: flex-start; justify-content: space-between;
+          gap: 0.65rem;
+          margin-bottom: 0.65rem;
+        }
+        .lc-group-file { display: flex; align-items: center; gap: 0.55rem; min-width: 0; }
+        .lc-group-file > span { font-size: 1.05rem; }
+        .lc-group-file-name {
+          font-family: ui-monospace, monospace;
+          font-size: 0.82rem;
+          color: #f3f3fb;
+          font-weight: 600;
+          overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+          max-width: 28ch;
+        }
+        .lc-group-file-meta {
+          font-family: ui-monospace, monospace;
+          font-size: 0.66rem;
+          color: rgba(148,163,184,0.7);
+          margin-top: 0.15rem;
+        }
+        .lc-group-cancel {
+          background: transparent;
+          border: 0;
+          color: rgba(148,163,184,0.6);
+          font-size: 0.85rem;
+          cursor: pointer;
+        }
+        .lc-group-cancel:hover { color: #ff8b7e; }
+
+        .lc-group-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+          gap: 0.35rem;
+          margin-bottom: 0.55rem;
+        }
+        .lc-group-chip {
+          display: flex; align-items: center; gap: 0.4rem;
+          padding: 0.45rem 0.55rem;
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 0.4rem;
+          color: rgba(216,217,230,0.85);
+          font-family: inherit;
+          font-size: 0.78rem;
+          font-weight: 600;
+          cursor: pointer;
+          text-align: left;
+          transition: border-color 0.12s, background 0.12s, transform 0.12s;
+        }
+        .lc-group-chip:hover:not(:disabled) {
+          border-color: rgba(94,234,212,0.5);
+          background: rgba(94,234,212,0.08);
+          color: #f3f3fb;
+          transform: translateY(-1px);
+        }
+        .lc-group-chip:disabled { opacity: 0.4; cursor: default; }
+        .lc-group-chip-emoji { font-size: 1rem; line-height: 1; flex-shrink: 0; }
+        .lc-group-chip-label {
+          overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+
+        .lc-group-skip {
+          width: 100%;
+          padding: 0.45rem;
+          background: transparent;
+          border: 1px dashed rgba(148,163,184,0.3);
+          border-radius: 0.4rem;
+          color: rgba(148,163,184,0.75);
+          font-family: ui-monospace, monospace;
+          font-size: 0.68rem; font-weight: 700;
+          letter-spacing: 0.12em;
+          cursor: pointer;
+          text-transform: uppercase;
+        }
+        .lc-group-skip:hover:not(:disabled) {
+          border-color: rgba(148,163,184,0.5);
+          color: #d8d9e6;
+        }
+        .lc-group-skip:disabled { opacity: 0.5; cursor: default; }
+
         .lc-reply-strip { display: flex; align-items: stretch; gap: 0.5rem; padding: 0.5rem 0.7rem; margin-bottom: 0.5rem; background: rgba(94,234,212,0.06); border: 1px solid rgba(94,234,212,0.25); border-radius: 0.45rem; }
         .lc-reply-bar { width: 2px; background: var(--accent); border-radius: 1px; }
         .lc-reply-text { flex: 1; min-width: 0; }
@@ -418,6 +703,29 @@ export default function LoungePage({ params }: PageProps) {
         .lc-reply-cancel:hover { color: #ff8b7e; }
 
         .lc-gate { padding: 0.85rem 1rem; background: rgba(244,201,93,0.06); border: 1px solid rgba(244,201,93,0.28); border-radius: 0.5rem; color: #F4C95D; font-size: 0.84rem; display: flex; flex-direction: column; gap: 0.5rem; }
+        .lc-gate-tap {
+          display: flex; flex-direction: row; align-items: center; justify-content: space-between;
+          gap: 0.75rem;
+          width: 100%;
+          min-height: 56px;
+          padding: 16px 18px;
+          font-size: 16px;
+          font-family: inherit;
+          text-align: left;
+          text-decoration: none;
+          cursor: pointer;
+          background: linear-gradient(135deg, rgba(244,201,93,0.16), rgba(244,201,93,0.06));
+          border: 1px solid rgba(244,201,93,0.45);
+          color: #F4C95D;
+          transition: background 0.15s, border-color 0.15s, transform 0.1s;
+        }
+        .lc-gate-tap:hover, .lc-gate-tap:active {
+          background: linear-gradient(135deg, rgba(244,201,93,0.24), rgba(244,201,93,0.1));
+          border-color: rgba(244,201,93,0.7);
+        }
+        .lc-gate-tap:active { transform: scale(0.99); }
+        .lc-gate-tap strong { font-weight: 700; }
+        .lc-gate-arrow { font-size: 1.1rem; font-weight: 800; flex-shrink: 0; }
         .lc-gate-cta { align-self: flex-start; padding: 0.4rem 0.7rem; background: #F4C95D; color: #0a0a10; border-radius: 0.35rem; font-family: ui-monospace, monospace; font-size: 0.66rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; }
         .lc-error { margin-top: 0.5rem; padding: 0.5rem 0.7rem; background: rgba(255,107,91,0.08); border: 1px solid rgba(255,107,91,0.3); border-radius: 0.4rem; color: #ff8b7e; font-family: ui-monospace, monospace; font-size: 0.76rem; }
 
@@ -451,11 +759,25 @@ export default function LoungePage({ params }: PageProps) {
   );
 }
 
+function formatRelativeTime(isoTs: string, nowMs: number): string {
+  const t = new Date(isoTs).getTime();
+  if (Number.isNaN(t)) return "";
+  const diff = Math.max(0, nowMs - t);
+  if (diff < 30_000) return "just now";
+  if (diff < 60 * 60_000) return `${Math.floor(diff / 60_000)}m`;
+  if (diff < 24 * 60 * 60_000) return `${Math.floor(diff / (60 * 60_000))}h`;
+  const day = new Date(t).toDateString();
+  const yesterday = new Date(nowMs - 24 * 60 * 60_000).toDateString();
+  if (day === yesterday) return "Yesterday";
+  return new Date(t).toLocaleDateString([], { month: "short", day: "numeric" });
+}
+
 function MessageRow({
-  m, grouped, pinned, canReact, onReply, onReact,
+  m, grouped, pinned, canReact, onReply, onReact, nowTs,
 }: {
   m: ChatMessagePublic;
   grouped: boolean;
+  nowTs: number;
   pinned?: boolean;
   canReact?: boolean;
   onReply?: () => void;
@@ -464,9 +786,11 @@ function MessageRow({
   const [pickerOpen, setPickerOpen] = useState(false);
   const isMe = m.isMine;
   const author = m.author;
-  const time = new Date(m.createdAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  const time = formatRelativeTime(m.createdAt, nowTs);
   const fileName = (m.attachment?.meta?.fileName as string | undefined) ?? null;
   const fileSize = (m.attachment?.meta?.size as number | undefined) ?? null;
+  const rawGroup = m.attachment?.meta?.group as string | undefined;
+  const groupKey: DocGroup | null = rawGroup && (DOC_GROUPS as readonly string[]).includes(rawGroup) ? (rawGroup as DocGroup) : null;
 
   return (
     <div className={`mr ${isMe ? "is-me" : ""} ${grouped ? "is-grouped" : ""} ${pinned ? "is-pinned" : ""}`}>
@@ -482,10 +806,11 @@ function MessageRow({
         {!grouped && (
           <div className="mr-byline">
             <span className={`mr-name ${author?.mentor ? "is-mentor" : ""}`}>{author?.handle ?? "—"}</span>
+            <span className="mr-time-sep" aria-hidden="true">·</span>
+            <span className="mr-time" title={new Date(m.createdAt).toLocaleString()}>{time}</span>
             {author?.mentor && (
               <span className="mr-mentor">★ MENTOR · {author.mentor.universityRole.toUpperCase()}</span>
             )}
-            <span className="mr-time">{time}</span>
             {pinned && <span className="mr-pin-flag">📌 PINNED</span>}
           </div>
         )}
@@ -504,6 +829,12 @@ function MessageRow({
             <a href={m.attachment.url} target="_blank" rel="noopener noreferrer" className="mr-image">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={m.attachment.url} alt={m.content ?? "image"} loading="lazy" />
+              {groupKey && (
+                <div className="mr-group-chip">
+                  <span aria-hidden="true">{DOC_GROUP_EMOJI[groupKey]}</span>
+                  <span>{DOC_GROUP_LABELS[groupKey]}</span>
+                </div>
+              )}
               {m.content && <div className="mr-image-caption">{m.content}</div>}
             </a>
           ) : m.type === "file" && m.attachment ? (
@@ -514,6 +845,12 @@ function MessageRow({
                 <div className="mr-file-meta">
                   {fileSize ? `${Math.round(fileSize / 1024)} KB · ` : ""}Tap to open ↗
                 </div>
+                {groupKey && (
+                  <div className="mr-group-chip is-inline">
+                    <span aria-hidden="true">{DOC_GROUP_EMOJI[groupKey]}</span>
+                    <span>{DOC_GROUP_LABELS[groupKey]}</span>
+                  </div>
+                )}
                 {m.content && <div className="mr-file-caption">{m.content}</div>}
               </div>
             </a>
@@ -598,7 +935,8 @@ function MessageRow({
         .mr-name { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 600; color: #f3f3fb; font-size: 0.92rem; }
         .mr-name.is-mentor { color: #F4C95D; }
         .mr-mentor { font-family: ui-monospace, monospace; font-size: 0.52rem; font-weight: 800; letter-spacing: 0.18em; color: #F4C95D; padding: 0.13rem 0.4rem; border-radius: 0.25rem; background: rgba(244,201,93,0.1); border: 1px solid rgba(244,201,93,0.4); }
-        .mr-time { font-family: ui-monospace, monospace; font-size: 0.62rem; color: rgba(148,163,184,0.5); }
+        .mr-time { font-family: ui-monospace, monospace; font-size: 0.66rem; color: rgba(148,163,184,0.65); cursor: default; }
+        .mr-time-sep { font-family: ui-monospace, monospace; font-size: 0.7rem; color: rgba(148,163,184,0.4); }
         .mr-pin-flag { font-family: ui-monospace, monospace; font-size: 0.55rem; font-weight: 800; letter-spacing: 0.18em; color: #F4C95D; }
 
         .mr-reply { display: flex; gap: 0.45rem; padding: 0.35rem 0; font-size: 0.76rem; max-width: 100%; }
@@ -654,6 +992,24 @@ function MessageRow({
         .mr-file-name { font-family: ui-monospace, monospace; font-size: 0.82rem; font-weight: 700; color: #f3f3fb; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .mr-file-meta { font-family: ui-monospace, monospace; font-size: 0.66rem; color: rgba(148,163,184,0.6); margin-top: 0.15rem; }
         .mr-file-caption { font-size: 0.8rem; color: rgba(216,217,230,0.85); margin-top: 0.25rem; line-height: 1.4; }
+
+        .mr-group-chip {
+          display: inline-flex; align-items: center; gap: 0.32rem;
+          margin: 0.4rem 0.65rem;
+          padding: 0.2rem 0.5rem;
+          background: rgba(94,234,212,0.1);
+          border: 1px solid rgba(94,234,212,0.4);
+          border-radius: 0.3rem;
+          font-family: ui-monospace, monospace;
+          font-size: 0.62rem;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          color: #5eead4;
+          text-transform: uppercase;
+          line-height: 1.2;
+        }
+        .mr-group-chip.is-inline { margin: 0.3rem 0 0; }
+        .mr-group-chip > span:first-child { font-size: 0.85em; }
 
         .mr-bubble-wrap {
           position: relative;

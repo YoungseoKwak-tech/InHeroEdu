@@ -2,6 +2,15 @@ import { PRICING } from "@/lib/pricing";
 import { TEXTBOOK_PRICE_KRW, TEXTBOOK_PRICE_USD } from "@/lib/textbookPricing";
 
 export type PaymentCurrency = "USD" | "KRW";
+export type PaymentKind = "subscription" | "one_time";
+
+export type PaymentCatalogEntry = {
+  serviceId: string;
+  orderName: string;
+  amountUSD: number;
+  currency: PaymentCurrency;
+  kind: PaymentKind;
+};
 
 export const DEFAULT_PAYMENT_CURRENCY = "USD" as const;
 export const DEFAULT_TOSS_METHOD = "FOREIGN_EASY_PAY";
@@ -61,8 +70,44 @@ function getCatalogEntries(): CatalogEntry[] {
   ];
 }
 
+function isSubscriptionServiceId(serviceId: string) {
+  return [
+    ...PRICING.aiPlans.map((item) => item.id),
+    ...PRICING.subscriptions.map((item) => item.id),
+    ...PRICING.gradePackages.map((item) => item.id),
+    ...PRICING.competitionPackages.map((item) => item.id),
+  ].some((id) => id === serviceId);
+}
+
 export function findCatalogEntry(serviceId: string) {
   return getCatalogEntries().find((entry) => entry.id === serviceId) ?? null;
+}
+
+export function getPaymentCatalogEntry(serviceId: string): PaymentCatalogEntry | null {
+  const entry = findCatalogEntry(serviceId);
+  if (!entry || typeof entry.priceUSD !== "number") return null;
+
+  return {
+    serviceId,
+    orderName: entry.name,
+    amountUSD: entry.priceUSD,
+    currency: "USD",
+    kind: isSubscriptionServiceId(serviceId) ? "subscription" : "one_time",
+  };
+}
+
+export function getTextbookPaymentEntry(title: string, subjectId: string): PaymentCatalogEntry {
+  return {
+    serviceId: `textbook:${subjectId}`,
+    orderName: title,
+    amountUSD: TEXTBOOK_PRICE_USD,
+    currency: "USD",
+    kind: "one_time",
+  };
+}
+
+export function formatPayPalAmount(amountUSD: number) {
+  return Number(amountUSD).toFixed(2);
 }
 
 export function buildUsdQuoteForService(serviceId: string): {
@@ -106,4 +151,44 @@ export function inferStoredOrderCurrency(serviceId: string, rawAmount: number): 
   }
 
   return rawAmount >= 1000 ? "KRW" : "USD";
+}
+
+export function inferStoredOrderAmount(row: Record<string, unknown>) {
+  const candidates = [
+    row.amount,
+    row.amount_krw,
+    row.amountUSD,
+    row.amount_usd,
+    row.price,
+    row.price_krw,
+    row.price_usd,
+  ];
+
+  for (const candidate of candidates) {
+    if (typeof candidate === "number" && Number.isFinite(candidate)) {
+      return candidate;
+    }
+    if (typeof candidate === "string" && candidate.trim()) {
+      const parsed = Number(candidate);
+      if (!Number.isNaN(parsed)) return parsed;
+    }
+  }
+
+  return 0;
+}
+
+export function inferStoredOrderCurrencyFromRow(row: Record<string, unknown>): PaymentCurrency {
+  const explicitCurrency =
+    typeof row.currency === "string" ? row.currency.toUpperCase() : "";
+  if (explicitCurrency === "USD" || explicitCurrency === "KRW") {
+    return explicitCurrency;
+  }
+
+  if (typeof row.amount_krw === "number" || typeof row.price_krw === "number") return "KRW";
+  if (typeof row.amount_usd === "number" || typeof row.amountUSD === "number" || typeof row.price_usd === "number") {
+    return "USD";
+  }
+
+  const amount = inferStoredOrderAmount(row);
+  return amount >= 1000 ? "KRW" : "USD";
 }
