@@ -84,15 +84,12 @@ export default function ResourceDetailPage() {
       <header className="rd-topbar">
         <Link href="/library" className="rd-back">← Back to Library</Link>
         <div className="rd-actions">
-          <a
-            href={resource.attachmentUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href={`/library/${resource.id}/read`}
             className="rd-action rd-action-primary"
-            download={resource.fileName ?? undefined}
           >
-            ↓ Download
-          </a>
+            📖 Open in Reader →
+          </Link>
           {/* Edit + Delete ship in Round 2 — only the author/admin will see them then */}
         </div>
       </header>
@@ -279,6 +276,8 @@ function PreviewSurface({ resource }: { resource: Resource }) {
           src={resource.attachmentUrl}
           alt={resource.title}
           className="ps-img"
+          draggable={false}
+          onContextMenu={(e) => e.preventDefault()}
         />
         <style jsx>{`
           .ps-img {
@@ -288,32 +287,61 @@ function PreviewSurface({ resource }: { resource: Resource }) {
             max-height: 80vh;
             object-fit: contain;
             background: #0a0a10;
+            -webkit-user-drag: none;
+            user-drag: none;
+            user-select: none;
           }
         `}</style>
       </>
     );
   }
+  // PDFs go to the reader — no inline iframe, no download URL.
   if (resource.isPdf) {
     return (
       <>
-        <iframe
-          src={resource.attachmentUrl}
-          title={resource.title}
-          className="ps-pdf"
-        />
+        <Link href={`/library/${resource.id}/read`} className="ps-pdf-tile">
+          <div className="ps-pdf-emoji" aria-hidden="true">📖</div>
+          <div className="ps-pdf-title">Open this manual in the InHero Reader</div>
+          <div className="ps-pdf-sub">Read inside InHero · no download, no print</div>
+          <div className="ps-pdf-cta">📖 Open in Reader →</div>
+        </Link>
         <style jsx>{`
-          .ps-pdf {
-            display: block;
-            width: 100%;
-            height: 80vh;
-            border: 0;
-            background: #0a0a10;
+          .ps-pdf-tile {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 0.65rem;
+            padding: 4rem 1.5rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(94,234,212,0.06), rgba(110,96,255,0.04));
+            text-decoration: none;
+            color: inherit;
+            transition: background 0.18s;
+          }
+          .ps-pdf-tile:hover { background: linear-gradient(135deg, rgba(94,234,212,0.12), rgba(110,96,255,0.08)); }
+          .ps-pdf-emoji { font-size: 3.2rem; line-height: 1; }
+          .ps-pdf-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem; font-weight: 600;
+            color: #f3f3fb;
+          }
+          .ps-pdf-sub {
+            font-family: ui-monospace, monospace;
+            font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em;
+            color: rgba(148,163,184,0.72);
+          }
+          .ps-pdf-cta {
+            margin-top: 0.7rem;
+            font-family: ui-monospace, monospace;
+            font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em;
+            color: #062320;
+            background: #5eead4;
+            padding: 0.55rem 1rem;
+            border-radius: 0.45rem;
           }
         `}</style>
       </>
     );
   }
-  // Anything else (zip, docx, etc.) — no inline preview, just a download link.
+  // zip, docx, etc. — no inline preview yet, no download surfaced.
   return (
     <>
       <div className="ps-other">
@@ -322,7 +350,7 @@ function PreviewSurface({ resource }: { resource: Resource }) {
         </div>
         <div className="ps-other-name">{resource.fileName ?? resource.title}</div>
         <div className="ps-other-meta">
-          {resource.mimeType ?? "file"} · no inline preview — use the Download button above
+          {resource.mimeType ?? "file"} · no inline preview for this format yet
         </div>
       </div>
       <style jsx>{`

@@ -75,27 +75,32 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   const lounge = loungeRes.data as { id: string; slug: string; name: string } | null;
   const profile = profileRes.data as { user_id: string; display_handle: string | null } | null;
 
-  return NextResponse.json({
-    resource: {
-      id: resource.id,
-      title: resource.title,
-      description: resource.description,
-      folder: resource.folder_type,
-      attachmentUrl: resource.attachment_url,
-      fileName: resource.file_name,
-      fileSize: resource.file_size,
-      mimeType: resource.mime_type,
-      isImage: typeof resource.mime_type === "string" && resource.mime_type.startsWith("image/"),
-      isPdf: resource.mime_type === "application/pdf",
-      isInheroOfficial: resource.is_inhero_official,
-      isSeeded: resource.is_seeded,
-      downloadCount: resource.download_count,
-      upvoteCount: resource.upvote_count,
-      commentCount: resource.comment_count,
-      createdAt: resource.created_at,
-      isMine: resource.author_id === user.id,
-      lounge: lounge ? { slug: lounge.slug, name: lounge.name } : null,
-      author: profile?.display_handle ? { handle: profile.display_handle } : null,
+  return NextResponse.json(
+    {
+      resource: {
+        id: resource.id,
+        title: resource.title,
+        description: resource.description,
+        folder: resource.folder_type,
+        attachmentUrl: resource.attachment_url,
+        fileName: resource.file_name,
+        fileSize: resource.file_size,
+        mimeType: resource.mime_type,
+        isImage: typeof resource.mime_type === "string" && resource.mime_type.startsWith("image/"),
+        isPdf: resource.mime_type === "application/pdf",
+        isInheroOfficial: resource.is_inhero_official,
+        isSeeded: resource.is_seeded,
+        downloadCount: resource.download_count,
+        upvoteCount: resource.upvote_count,
+        commentCount: resource.comment_count,
+        createdAt: resource.created_at,
+        isMine: resource.author_id === user.id,
+        lounge: lounge ? { slug: lounge.slug, name: lounge.name } : null,
+        author: profile?.display_handle ? { handle: profile.display_handle } : null,
+      },
     },
-  });
+    {
+      headers: { "Cache-Control": "private, no-store, must-revalidate" },
+    }
+  );
 }

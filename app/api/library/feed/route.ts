@@ -185,7 +185,12 @@ export async function GET(req: NextRequest) {
     nextCursor = encodeCursor(last.created_at, last.id);
   }
 
-  return NextResponse.json({ items: hydrated, nextCursor });
+  return NextResponse.json(
+    { items: hydrated, nextCursor },
+    {
+      headers: { "Cache-Control": "private, no-store, must-revalidate" },
+    }
+  );
 }
 
 function trendingScore(r: ResourceRow): number {
