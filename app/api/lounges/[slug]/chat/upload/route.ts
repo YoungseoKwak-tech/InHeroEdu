@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAuthenticatedUser } from "@/lib/auth";
+import { requireAuthenticatedUser, isAdminEmail } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
 import {
   CHAT_RATE_LIMIT,
@@ -7,6 +7,7 @@ import {
   hydrateChatMessages,
   type ChatMessageRow,
 } from "@/lib/chat";
+import { isDocGroup, type DocGroup } from "@/lib/docGroups";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -52,6 +53,13 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
   const caption = String(form.get("caption") ?? "").trim();
   const replyToIdRaw = form.get("replyToId");
   const replyToId = typeof replyToIdRaw === "string" && replyToIdRaw.length > 0 ? replyToIdRaw : null;
+  // Optional doc folder taxonomy. "this-week" is admin-only — drop on the floor
+  // for non-admins so a tampered client can't sneak uploads into the free tier.
+  const groupRaw = form.get("group");
+  const group: DocGroup | null = typeof groupRaw === "string" && isDocGroup(groupRaw) ? groupRaw : null;
+  if (group === "this-week" && !isAdminEmail(user.email)) {
+    return NextResponse.json({ error: "this-week is admin-only" }, { status: 403 });
+  }
 
   const supabase = createAdminClient();
 
@@ -130,6 +138,7 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
     size: file.size,
     mimeType: file.type || "application/octet-stream",
     storagePath: path,
+    ...(group ? { group } : {}),
   };
 
   const { data: inserted, error } = await supabase

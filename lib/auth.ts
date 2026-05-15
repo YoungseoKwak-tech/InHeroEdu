@@ -28,6 +28,11 @@ function getBearerToken(req: Request | NextRequest): string | null {
   return authHeader.slice("Bearer ".length).trim();
 }
 
+export function isAdminEmail(email: string | null | undefined): boolean {
+  if (!email) return false;
+  return ADMIN_EMAILS.includes(email.toLowerCase());
+}
+
 export async function getAuthenticatedUser(
   req: Request | NextRequest
 ): Promise<AuthedUser | null> {

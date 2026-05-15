@@ -13,6 +13,8 @@ import {
   DOC_GROUPS,
   DOC_GROUP_EMOJI,
   DOC_GROUP_LABELS,
+  DOC_GROUP_BLURBS,
+  USER_UPLOADABLE_GROUPS,
   type DocGroup,
 } from "@/lib/docGroups";
 
@@ -407,7 +409,7 @@ export default function LoungePage({ params }: PageProps) {
                   </button>
                 </div>
                 <div className="lc-group-grid">
-                  {DOC_GROUPS.map((g) => (
+                  {USER_UPLOADABLE_GROUPS.map((g) => (
                     <button
                       key={g}
                       type="button"
@@ -417,8 +419,13 @@ export default function LoungePage({ params }: PageProps) {
                     >
                       <span className="lc-group-chip-emoji" aria-hidden="true">{DOC_GROUP_EMOJI[g]}</span>
                       <span className="lc-group-chip-label">{DOC_GROUP_LABELS[g]}</span>
+                      <span className="lc-group-chip-blurb">{DOC_GROUP_BLURBS[g]}</span>
                     </button>
                   ))}
+                </div>
+                <div className="lc-group-note">
+                  <span aria-hidden="true">💎</span>
+                  <span>This Week is admin-curated. Free for all users.</span>
                 </div>
                 <button
                   type="button"
@@ -566,6 +573,9 @@ export default function LoungePage({ params }: PageProps) {
           display: flex; flex-direction: column;
           min-height: 0;
           position: relative;
+          background: #d1d5db;
+          border-radius: 0.75rem;
+          padding: 0 0.9rem;
         }
         @media (max-width: 980px) {
           .lc-body.has-seed { grid-template-columns: 1fr; gap: 1rem; }
@@ -725,22 +735,27 @@ export default function LoungePage({ params }: PageProps) {
 
         .lc-group-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-          gap: 0.35rem;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 0.55rem;
           margin-bottom: 0.55rem;
         }
+        @media (max-width: 640px) {
+          .lc-group-grid { grid-template-columns: repeat(2, 1fr); gap: 0.4rem; }
+        }
         .lc-group-chip {
-          display: flex; align-items: center; gap: 0.4rem;
-          padding: 0.45rem 0.55rem;
+          display: flex; flex-direction: column; align-items: flex-start;
+          gap: 0.25rem;
+          padding: 0.85rem 0.9rem 0.9rem;
           background: rgba(255,255,255,0.03);
           border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 0.4rem;
-          color: rgba(216,217,230,0.85);
+          border-radius: 0.55rem;
+          color: rgba(216,217,230,0.95);
           font-family: inherit;
-          font-size: 0.78rem;
-          font-weight: 600;
+          font-size: 0.82rem;
+          font-weight: 700;
           cursor: pointer;
           text-align: left;
+          min-height: 84px;
           transition: border-color 0.12s, background 0.12s, transform 0.12s;
         }
         .lc-group-chip:hover:not(:disabled) {
@@ -750,10 +765,34 @@ export default function LoungePage({ params }: PageProps) {
           transform: translateY(-1px);
         }
         .lc-group-chip:disabled { opacity: 0.4; cursor: default; }
-        .lc-group-chip-emoji { font-size: 1rem; line-height: 1; flex-shrink: 0; }
+        .lc-group-chip-emoji { font-size: 1.4rem; line-height: 1; }
         .lc-group-chip-label {
+          font-size: 0.84rem; font-weight: 700;
           overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+          max-width: 100%;
         }
+        .lc-group-chip-blurb {
+          font-family: ui-monospace, monospace;
+          font-size: 0.66rem;
+          font-weight: 500;
+          color: rgba(148,163,184,0.72);
+          line-height: 1.35;
+          margin-top: 0.05rem;
+        }
+        .lc-group-chip:hover:not(:disabled) .lc-group-chip-blurb { color: rgba(216,217,230,0.85); }
+        .lc-group-note {
+          display: flex; align-items: center; gap: 0.45rem;
+          padding: 0.55rem 0.7rem;
+          margin-bottom: 0.55rem;
+          background: rgba(244,201,93,0.06);
+          border: 1px solid rgba(244,201,93,0.25);
+          border-radius: 0.4rem;
+          font-family: ui-monospace, monospace;
+          font-size: 0.7rem;
+          letter-spacing: 0.04em;
+          color: rgba(244,201,93,0.92);
+        }
+        .lc-group-note > span:first-child { font-size: 0.95rem; }
 
         .lc-group-skip {
           width: 100%;
@@ -1166,6 +1205,102 @@ function MessageRow({
         .mr-reaction.is-mine { background: rgba(94,234,212,0.14); border-color: rgba(94,234,212,0.55); color: #5eead4; }
         .mr-reaction-emoji { font-size: 0.95em; }
         .mr-reaction-count { font-weight: 700; }
+
+        /* Light-grey chat pane: flip text/bubble/input colors to dark so
+           they read against #d1d5db. Scoped to .lc-chat-pane only — the
+           seed pane keeps the dark theme. */
+        .lc-chat-pane { color: #1a1b22; }
+        .lc-chat-pane .mr-bubble {
+          background: #ffffff;
+          border-color: rgba(0,0,0,0.08);
+          color: #1a1b22;
+        }
+        .lc-chat-pane .mr-bubble.is-me {
+          background: linear-gradient(135deg, rgba(94,234,212,0.55), rgba(94,234,212,0.25));
+          border-color: rgba(20,160,140,0.5);
+          color: #0a0a10;
+        }
+        .lc-chat-pane .mr-name { color: #111827; }
+        .lc-chat-pane .mr-time { color: rgba(30,30,40,0.55); }
+        .lc-chat-pane .mr-time-sep { color: rgba(30,30,40,0.35); }
+        .lc-chat-pane .mr-reply-snippet { color: rgba(30,30,40,0.6); }
+        .lc-chat-pane .mr-file {
+          background: rgba(255,255,255,0.85);
+          border-color: rgba(0,0,0,0.08);
+        }
+        .lc-chat-pane .mr-file-name { color: #111827; }
+        .lc-chat-pane .mr-file-meta { color: rgba(30,30,40,0.55); }
+        .lc-chat-pane .mr-file-caption { color: rgba(30,30,40,0.8); }
+        .lc-chat-pane .mr-image-caption { color: rgba(30,30,40,0.85); background: rgba(255,255,255,0.9); }
+        .lc-chat-pane .lc-empty {
+          color: rgba(30,30,40,0.55);
+          border-color: rgba(20,160,140,0.45);
+        }
+        .lc-chat-pane .lc-input {
+          background: rgba(255,255,255,0.85);
+          border-color: rgba(0,0,0,0.12);
+          color: #111827;
+        }
+        .lc-chat-pane .lc-input::placeholder { color: rgba(30,30,40,0.45); }
+        .lc-chat-pane .lc-attach {
+          background: rgba(255,255,255,0.7);
+          border-color: rgba(0,0,0,0.12);
+          color: rgba(30,30,40,0.75);
+        }
+        .lc-chat-pane .lc-attach:hover:not(:disabled) {
+          background: rgba(94,234,212,0.18);
+          color: #0a7d6f;
+        }
+        .lc-chat-pane .lc-compose { border-top-color: rgba(0,0,0,0.08); }
+        .lc-chat-pane .lc-compose-hint { color: rgba(30,30,40,0.5); }
+        .lc-chat-pane .lc-reply-snippet { color: rgba(30,30,40,0.65); }
+        .lc-chat-pane .mr-react-trigger {
+          background: rgba(255,255,255,0.85);
+          border-color: rgba(0,0,0,0.1);
+          color: rgba(30,30,40,0.7);
+        }
+        .lc-chat-pane .mr-react-trigger:hover { color: #0a7d6f; border-color: rgba(20,160,140,0.5); }
+        .lc-chat-pane .mr-react-picker {
+          background: #ffffff;
+          border-color: rgba(0,0,0,0.1);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        .lc-chat-pane .mr-reaction {
+          background: rgba(255,255,255,0.85);
+          border-color: rgba(0,0,0,0.1);
+          color: rgba(30,30,40,0.85);
+        }
+        .lc-chat-pane .mr-reaction.is-mine { background: rgba(94,234,212,0.3); border-color: rgba(20,160,140,0.55); color: #0a7d6f; }
+
+        /* Upload picker — also lives inside .lc-chat-pane, needs the same flip */
+        .lc-chat-pane .lc-group-picker {
+          background: rgba(255,255,255,0.7);
+          border-color: rgba(20,160,140,0.35);
+        }
+        .lc-chat-pane .lc-group-file-name { color: #111827; }
+        .lc-chat-pane .lc-group-file-meta { color: rgba(30,30,40,0.6); }
+        .lc-chat-pane .lc-group-cancel { color: rgba(30,30,40,0.55); }
+        .lc-chat-pane .lc-group-cancel:hover { color: #b9352b; }
+        .lc-chat-pane .lc-group-chip {
+          background: rgba(255,255,255,0.85);
+          border-color: rgba(0,0,0,0.08);
+          color: #111827;
+        }
+        .lc-chat-pane .lc-group-chip:hover:not(:disabled) {
+          background: rgba(94,234,212,0.18);
+          border-color: rgba(20,160,140,0.5);
+          color: #0a7d6f;
+        }
+        .lc-chat-pane .lc-group-chip-blurb { color: rgba(30,30,40,0.6); }
+        .lc-chat-pane .lc-group-chip:hover:not(:disabled) .lc-group-chip-blurb { color: rgba(30,30,40,0.85); }
+        .lc-chat-pane .lc-group-skip {
+          border-color: rgba(0,0,0,0.2);
+          color: rgba(30,30,40,0.7);
+        }
+        .lc-chat-pane .lc-group-skip:hover:not(:disabled) {
+          border-color: rgba(0,0,0,0.4);
+          color: #111827;
+        }
       `}</style>
     </div>
   );
