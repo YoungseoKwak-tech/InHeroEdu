@@ -133,7 +133,9 @@ export default function ReadPage() {
     return () => { cancelled = true; };
   }, [resourceId]);
 
-  // Load PDF bytes + parse with pdfjs.
+  // Load PDF bytes + parse with pdfjs. Timeout guards against a stuck
+  // worker fetch (the previous "black screen" bug was a missing
+  // pdf.worker.min.mjs — getDocument().promise hung forever).
   useEffect(() => {
     if (!resource || !resource.isPdf) return;
     let cancelled = false;
@@ -146,10 +148,19 @@ export default function ReadPage() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const pdfjsLib: any = await import("pdfjs-dist/legacy/build/pdf.mjs");
         pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
-        const pdf = await pdfjsLib.getDocument({ data: bytes }).promise;
+        const loadingTask = pdfjsLib.getDocument({ data: bytes });
+        const pdf = await Promise.race([
+          loadingTask.promise,
+          new Promise((_, reject) =>
+            setTimeout(
+              () => reject(new Error("PDF loader timed out. The pdf.js worker may be missing.")),
+              30_000
+            )
+          ),
+        ]);
         if (cancelled) return;
         pdfRef.current = pdf as PdfDoc;
-        setPageCount(pdf.numPages);
+        setPageCount((pdf as PdfDoc).numPages);
         setPosition(1);
       } catch (e) {
         if (!cancelled) setError(e instanceof Error ? e.message : String(e));
@@ -394,35 +405,43 @@ export default function ReadPage() {
             onDragStart={(e) => e.preventDefault()}
           />
         ) : resource.isPdf ? (
-          <div className={`rd-book ${viewMode === "spread" ? "is-spread" : "is-single"}`}>
-            {viewMode === "spread" ? (
-              <>
-                {leftPage ? (
-                  <div className="rd-page rd-page-left">
-                    <canvas ref={leftCanvasRef} className="rd-canvas" />
-                  </div>
+          <>
+            {pageCount > 0 && (
+              <div className={`rd-book ${viewMode === "spread" ? "is-spread" : "is-single"}`}>
+                {viewMode === "spread" ? (
+                  <>
+                    {leftPage ? (
+                      <div className="rd-page rd-page-left">
+                        <canvas ref={leftCanvasRef} className="rd-canvas" />
+                      </div>
+                    ) : (
+                      <div className="rd-page rd-page-blank" aria-hidden="true" />
+                    )}
+                    {rightPage && rightPage <= pageCount ? (
+                      <div className="rd-page rd-page-right">
+                        <canvas ref={rightCanvasRef} className="rd-canvas" />
+                      </div>
+                    ) : (
+                      <div className="rd-page rd-page-blank" aria-hidden="true" />
+                    )}
+                  </>
                 ) : (
-                  <div className="rd-page rd-page-blank" aria-hidden="true" />
-                )}
-                {rightPage && rightPage <= pageCount ? (
-                  <div className="rd-page rd-page-right">
-                    <canvas ref={rightCanvasRef} className="rd-canvas" />
+                  <div className="rd-page rd-page-single">
+                    <canvas ref={singleCanvasRef} className="rd-canvas" />
                   </div>
-                ) : (
-                  <div className="rd-page rd-page-blank" aria-hidden="true" />
                 )}
-              </>
-            ) : (
-              <div className="rd-page rd-page-single">
-                <canvas ref={singleCanvasRef} className="rd-canvas" />
+                {rendering && (
+                  <div className="rd-stage-overlay">Rendering page…</div>
+                )}
               </div>
             )}
-            {(pdfLoading || rendering) && (
-              <div className="rd-stage-overlay">
-                {pdfLoading ? "Opening reader…" : "Rendering page…"}
+            {(pdfLoading || pageCount === 0) && (
+              <div className="rd-load">
+                <div className="rd-load-spinner" aria-hidden="true" />
+                <div className="rd-load-text">Opening reader…</div>
               </div>
             )}
-          </div>
+          </>
         ) : (
           <div className="rd-unsupported">
             <div className="rd-unsupported-emoji" aria-hidden="true">{DOC_GROUP_EMOJI[resource.folder]}</div>
@@ -647,6 +666,27 @@ export default function ReadPage() {
           font-size: 0.78rem; letter-spacing: 0.08em;
           backdrop-filter: blur(2px);
           z-index: 4;
+        }
+
+        /* Stage-level loader — visible while PDF bytes + worker are still
+           fetching. Lives outside .rd-book because that element has no
+           size until pageCount > 0, which would hide an inner overlay. */
+        .rd-load {
+          display: flex; flex-direction: column; align-items: center; gap: 0.8rem;
+          color: rgba(216,217,230,0.78);
+          font-family: ui-monospace, monospace;
+          font-size: 0.78rem; letter-spacing: 0.08em;
+        }
+        .rd-load-spinner {
+          width: 36px; height: 36px;
+          border-radius: 50%;
+          border: 2.5px solid rgba(94,234,212,0.2);
+          border-top-color: var(--accent);
+          animation: rd-spin 0.85s linear infinite;
+        }
+        @keyframes rd-spin {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
         }
 
         .rd-unsupported {
