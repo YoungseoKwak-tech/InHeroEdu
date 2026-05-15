@@ -148,7 +148,16 @@ export default function ReadPage() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const pdfjsLib: any = await import("pdfjs-dist/legacy/build/pdf.mjs");
         pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
-        const loadingTask = pdfjsLib.getDocument({ data: bytes });
+        // cMapUrl + standardFontDataUrl: without these, PDFs containing
+        // CIDFont/CMap-encoded fonts render with missing glyphs (blank
+        // pages). Assets live in /public, copied at postinstall by
+        // scripts/copy-pdfjs-assets.mjs.
+        const loadingTask = pdfjsLib.getDocument({
+          data: bytes,
+          cMapUrl: "/cmaps/",
+          cMapPacked: true,
+          standardFontDataUrl: "/standard_fonts/",
+        });
         const pdf = await Promise.race([
           loadingTask.promise,
           new Promise((_, reject) =>
