@@ -26,12 +26,29 @@ export default function AdminNotificationBell() {
   const [allowed, setAllowed] = useState<boolean | null>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const lastSeenIdRef = useRef<string | null>(null);
+  // Hold the interval handle so refresh() can cancel itself when it
+  // learns the user isn't admin. Previously the interval was scoped to
+  // the useEffect cleanup, so 401/403/204 responses kept it firing
+  // every 10s for non-admins — visible as a relentless stream of
+  // /api/admin/notifications hits in the browser console.
+  const intervalRef = useRef<number | null>(null);
+
+  function stopPolling() {
+    if (intervalRef.current !== null) {
+      window.clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }
 
   async function refresh() {
     try {
       const res = await authFetch("/api/admin/notifications");
-      if (res.status === 401 || res.status === 403) {
+      // 204 = "you're not admin, nothing to show." 401/403 are legacy
+      // hard-fail codes; treat the same way. In every case, give up
+      // polling — admin status can't change without a page reload.
+      if (res.status === 204 || res.status === 401 || res.status === 403) {
         setAllowed(false);
+        stopPolling();
         return;
       }
       if (!res.ok) return;
@@ -54,8 +71,9 @@ export default function AdminNotificationBell() {
 
   useEffect(() => {
     void refresh();
-    const t = window.setInterval(() => void refresh(), POLL_MS);
-    return () => window.clearInterval(t);
+    intervalRef.current = window.setInterval(() => void refresh(), POLL_MS);
+    return () => stopPolling();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Close on outside click.
@@ -96,7 +114,11 @@ export default function AdminNotificationBell() {
     }
   }
 
-  if (allowed === false) return null;
+  // Render nothing until we've confirmed admin (allowed === true). Both
+  // null (probing) and false (definitively not admin) render no DOM —
+  // avoids a brief bell flash for the 99% non-admin case before the
+  // first refresh() completes.
+  if (allowed !== true) return null;
 
   return (
     <div ref={wrapRef} style={{ position: "relative" }}>

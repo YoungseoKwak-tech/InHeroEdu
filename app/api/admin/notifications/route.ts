@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdminUser } from "@/lib/auth";
+import { getAuthenticatedUser, isAdminEmail, requireAdminUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
 
 export const runtime = "nodejs";
@@ -35,8 +35,17 @@ function shape(row: Row) {
 }
 
 export async function GET(req: NextRequest) {
-  const admin = await requireAdminUser(req);
-  if (admin instanceof NextResponse) return admin;
+  // Soft auth gate: this endpoint polls every 10s from the navbar for
+  // every authenticated user. Returning 401/403 for non-admins floods
+  // the console with errors on a per-user basis and leaves an interval
+  // hot in the client. 204 No Content tells the client "you have
+  // nothing here" without surfacing as an error; the bell's polling
+  // loop reads 204 and shuts itself down. PATCH (mark-read) still uses
+  // requireAdminUser since that's a real write.
+  const user = await getAuthenticatedUser(req);
+  if (!user || !isAdminEmail(user.email)) {
+    return new Response(null, { status: 204 });
+  }
 
   const supabase = createAdminClient();
   const { data, error } = await supabase
