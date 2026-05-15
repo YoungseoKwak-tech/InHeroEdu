@@ -8,8 +8,3 @@ node_modules/
 tsconfig.tsbuildinfo
 .DS_Store
 .claude/settings.local.json
-
-# pdfjs assets copied by scripts/copy-pdfjs-assets.mjs at postinstall.
-# Regenerated on every npm install; not committed.
-/public/cmaps/
-/public/standard_fonts/
