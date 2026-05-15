@@ -56,7 +56,25 @@ export default function LoungePage({ params }: PageProps) {
 
   const lastSeenRef = useRef<string | null>(null);
   const feedEndRef = useRef<HTMLDivElement>(null);
+  const feedScrollRef = useRef<HTMLElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const prevMessagesLenRef = useRef<number>(0);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  function isFeedAtBottom() {
+    const el = feedScrollRef.current;
+    if (!el) return true;
+    return el.scrollHeight - el.scrollTop - el.clientHeight < 100;
+  }
+
+  function onFeedScroll() {
+    if (isFeedAtBottom()) setUnreadCount(0);
+  }
+
+  function jumpToBottom() {
+    feedEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    setUnreadCount(0);
+  }
 
   // Initial fetch + auth
   useEffect(() => {
@@ -136,7 +154,22 @@ export default function LoungePage({ params }: PageProps) {
 
   useEffect(() => {
     if (tab !== "chat") return;
-    feedEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    const prev = prevMessagesLenRef.current;
+    const grew = messages.length > prev;
+    prevMessagesLenRef.current = messages.length;
+
+    if (!grew) {
+      // Initial mount or message edit — pin to bottom without animation.
+      feedEndRef.current?.scrollIntoView({ block: "end" });
+      setUnreadCount(0);
+      return;
+    }
+
+    if (isFeedAtBottom()) {
+      feedEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    } else {
+      setUnreadCount((n) => n + (messages.length - prev));
+    }
   }, [messages, tab]);
 
   async function send() {
@@ -319,7 +352,7 @@ export default function LoungePage({ params }: PageProps) {
             </aside>
           )}
           <div className="lc-chat-pane">
-            <section className="lc-feed">
+            <section className="lc-feed" ref={feedScrollRef} onScroll={onFeedScroll}>
             {messages.length === 0 ? (
               <div className="lc-empty">No messages yet. Drop the first one — set the tone for the lounge.</div>
             ) : (
@@ -469,6 +502,11 @@ export default function LoungePage({ params }: PageProps) {
             {error && <div className="lc-error">{error}</div>}
             <div className="lc-compose-hint">Paste an image from clipboard or drag a file anywhere on the page to upload.</div>
           </footer>
+          {unreadCount > 0 && (
+            <button type="button" className="lc-new-pill" onClick={jumpToBottom}>
+              ↓ {unreadCount} new {unreadCount === 1 ? "message" : "messages"}
+            </button>
+          )}
           </div>
         </div>
       )}
@@ -487,14 +525,22 @@ export default function LoungePage({ params }: PageProps) {
         .lc-root {
           --accent: #5eead4;
           display: flex; flex-direction: column;
-          min-height: calc(100vh - 4rem);
+          height: calc(100vh - 4rem);
+          overflow: hidden;
           /* Full screen width — no centered cap. The chat tab splits into
              [seed pane | chat pane] when seed topics exist, and falls back
-             to a centered narrow column when there's no seed content. */
+             to a centered narrow column when there's no seed content. Only
+             the feed scrolls; header + input stay fixed. */
           margin: 0;
           padding: 1.25rem 1.5rem 0;
           color: #d8d9e6;
           font-family: 'Inter', 'Space Grotesk', system-ui, sans-serif;
+        }
+        @media (max-width: 760px) {
+          .lc-root {
+            height: calc(100dvh - 4rem);
+            padding: 0.85rem 1rem 0;
+          }
         }
 
         .lc-body {
@@ -519,10 +565,15 @@ export default function LoungePage({ params }: PageProps) {
         .lc-chat-pane {
           display: flex; flex-direction: column;
           min-height: 0;
+          position: relative;
         }
         @media (max-width: 980px) {
           .lc-body.has-seed { grid-template-columns: 1fr; gap: 1rem; }
           .lc-seed-pane { max-height: none; overflow: visible; }
+        }
+        @media (max-width: 760px) {
+          .lc-seed-pane { display: none; }
+          .lc-body.has-seed { grid-template-columns: 1fr; }
         }
         .lc-head { display: flex; flex-direction: column; gap: 0.7rem; padding-bottom: 0.6rem; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 0.8rem; }
         .lc-head-row { display: flex; gap: 0.85rem; align-items: center; }
@@ -557,10 +608,40 @@ export default function LoungePage({ params }: PageProps) {
         .lc-tab-num { font-size: 0.6rem; font-weight: 800; padding: 0.1rem 0.4rem; border-radius: 999px; background: rgba(94,234,212,0.18); color: var(--accent); }
         .lc-tab.is-active .lc-tab-num { background: var(--accent); color: #0a0a10; }
 
-        .lc-feed { flex: 1; overflow-y: auto; padding: 0.6rem 0 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+        .lc-feed { flex: 1; min-height: 0; overflow-y: auto; padding: 0.6rem 0 1rem; display: flex; flex-direction: column; gap: 0.5rem; scroll-behavior: smooth; }
         .lc-empty { padding: 2.5rem 1rem; font-family: ui-monospace, monospace; font-size: 0.85rem; color: rgba(148,163,184,0.6); text-align: center; border: 1px dashed rgba(94,234,212,0.18); border-radius: 0.6rem; }
 
-        .lc-compose { padding: 0.75rem 0; border-top: 1px solid rgba(255,255,255,0.05); }
+        .lc-compose {
+          flex-shrink: 0;
+          padding: 0.75rem 0;
+          padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+          border-top: 1px solid rgba(255,255,255,0.05);
+          background: inherit;
+        }
+
+        .lc-new-pill {
+          position: absolute;
+          right: 1rem;
+          bottom: 6.5rem;
+          z-index: 12;
+          padding: 0.55rem 0.95rem;
+          background: var(--accent);
+          color: #0a0a10;
+          border: 0;
+          border-radius: 999px;
+          font-family: ui-monospace, monospace;
+          font-size: 0.76rem;
+          font-weight: 800;
+          letter-spacing: 0.04em;
+          cursor: pointer;
+          box-shadow: 0 8px 24px rgba(94,234,212,0.32), 0 0 18px rgba(94,234,212,0.4);
+          animation: lc-pill-in 0.18s ease-out;
+        }
+        .lc-new-pill:hover { filter: brightness(1.06); }
+        @keyframes lc-pill-in {
+          from { opacity: 0; transform: translateY(8px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
         .lc-input-row { display: flex; gap: 0.5rem; align-items: center; }
         .lc-attach {
           width: 2.4rem; height: 2.4rem;
