@@ -20,7 +20,11 @@ import {
 
 type Tab = "chat" | "pinned";
 const POLL_MS = 8000;
-const MAX_UPLOAD = 20 * 1024 * 1024; // 20 MB
+// Vercel's serverless body limit is ~4.5 MB; bigger payloads are rejected
+// by the platform with a plain-text 413 before the route runs. Cap below
+// that so the client preflights cleanly. Larger uploads need direct-to-
+// Supabase-Storage signed URLs (deferred).
+const MAX_UPLOAD = 4 * 1024 * 1024; // 4 MB
 const IMAGE_MIMES = new Set(["image/jpeg", "image/png", "image/gif", "image/webp", "image/heic", "image/heif"]);
 
 interface PageProps { params: { slug: string }; }
@@ -211,8 +215,18 @@ export default function LoungePage({ params }: PageProps) {
         method: "POST",
         body: form,
       });
-      const json = await res.json();
-      if (!res.ok || !json.ok) throw new Error(json.error ?? `HTTP ${res.status}`);
+      // Tolerate non-JSON responses (Vercel platform 413s come back as
+      // "Request Entity Too Large" plain text, etc.). Parse text first.
+      const raw = await res.text();
+      let json: { ok?: boolean; error?: string; message?: ChatMessagePublic } = {};
+      try { json = raw ? JSON.parse(raw) : {}; } catch { /* keep json empty */ }
+      if (!res.ok || !json.ok) {
+        const friendly =
+          res.status === 413
+            ? `File too large. Max ${MAX_UPLOAD / (1024 * 1024)} MB.`
+            : json.error ?? (raw && raw.length < 200 ? raw : `HTTP ${res.status}`);
+        throw new Error(friendly);
+      }
       const m = json.message as ChatMessagePublic;
       setMessages((prev) => [...prev, m]);
       lastSeenRef.current = m.createdAt;

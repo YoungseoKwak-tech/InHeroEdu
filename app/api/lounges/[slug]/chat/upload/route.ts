@@ -13,7 +13,9 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const BUCKET = "chat-attachments";
-const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20 MB
+// Matches the client-side cap. Vercel's platform 413s anything bigger than
+// ~4.5 MB before this route is reached — see app/lounges/[slug]/page.tsx.
+const MAX_FILE_SIZE = 4 * 1024 * 1024; // 4 MB
 const IMAGE_MIMES = new Set([
   "image/jpeg", "image/png", "image/gif", "image/webp", "image/heic", "image/heif",
 ]);
