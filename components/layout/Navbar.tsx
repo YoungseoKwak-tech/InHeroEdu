@@ -11,7 +11,6 @@ import { normalizeProfileFields } from "@/lib/profile";
 
 const NAV_LINKS = [
   { href: "/academy",         label: "ACADEMY" },
-  { href: "/library",         label: "LIBRARY" },
   { href: "/lounges",         label: "LOUNGES" },
   { href: "/clubs",           label: "CLUBS" },
   { href: "/trajectory",      label: "TRAJECTORY" },
