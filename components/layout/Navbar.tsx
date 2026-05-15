@@ -27,7 +27,16 @@ export default function Navbar() {
   const pathname = usePathname();
   const supabase = createBrowserClient();
   const [user, setUser] = useState<{ email: string | undefined } | null>(null);
-  const showKoreanCoursesCta = !(pathname ?? "").startsWith("/kr");
+  // Defense-in-depth against React #418/#423 hydration mismatch — defer
+  // any auth-dependent render branch until after first client effect.
+  // useState(null) above is theoretically safe (server + client both null
+  // initially), but if Supabase ever resolves a session synchronously
+  // from cookie before paint, the auth UI would diverge.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+  // Korean toggle dropped — site is English-only. /kr routes remain
+  // accessible by direct URL but aren't promoted in nav.
+  void pathname;
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -180,46 +189,9 @@ export default function Navbar() {
 
         {/* Desktop CTA */}
         <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 }} className="hidden md:flex">
-          {showKoreanCoursesCta && (
-            <Link
-              href="/kr/courses"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "8px 14px",
-                borderRadius: "999px",
-                border: "1px solid rgba(0,255,136,0.18)",
-                background: "linear-gradient(135deg, rgba(0,255,136,0.12), rgba(110,96,255,0.12))",
-                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 0 18px rgba(0,255,136,0.08)",
-                color: "#DDFEF0",
-                textDecoration: "none",
-                fontSize: "11px",
-                fontWeight: 700,
-                fontFamily: "'JetBrains Mono', monospace",
-                letterSpacing: "0.08em",
-                whiteSpace: "nowrap",
-                transition: "transform 200ms cubic-bezier(0.16,1,0.3,1), border-color 200ms, box-shadow 200ms, background 200ms",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.transform = "translateY(-1px)";
-                el.style.borderColor = "rgba(0,255,136,0.36)";
-                el.style.boxShadow = "inset 0 1px 0 rgba(255,255,255,0.06), 0 0 22px rgba(0,255,136,0.14)";
-                el.style.background = "linear-gradient(135deg, rgba(0,255,136,0.18), rgba(110,96,255,0.18))";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.transform = "translateY(0)";
-                el.style.borderColor = "rgba(0,255,136,0.18)";
-                el.style.boxShadow = "inset 0 1px 0 rgba(255,255,255,0.04), 0 0 18px rgba(0,255,136,0.08)";
-                el.style.background = "linear-gradient(135deg, rgba(0,255,136,0.12), rgba(110,96,255,0.12))";
-              }}
-            >
-              한국어 강의 →
-            </Link>
-          )}
-          {user ? (
+          {!mounted ? (
+            <div aria-hidden="true" style={{ width: 120, height: 32 }} />
+          ) : user ? (
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <AdminNotificationBell />
               <Link
@@ -369,31 +341,10 @@ export default function Navbar() {
             </Link>
           ))}
 
-          {showKoreanCoursesCta && (
-            <Link
-              href="/kr/courses"
-              style={{
-                marginTop: "12px",
-                padding: "12px 14px",
-                borderRadius: "14px",
-                border: "1px solid rgba(0,255,136,0.18)",
-                background: "linear-gradient(135deg, rgba(0,255,136,0.12), rgba(110,96,255,0.12))",
-                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 0 18px rgba(0,255,136,0.08)",
-                color: "#DDFEF0",
-                textDecoration: "none",
-                fontSize: "12px",
-                fontWeight: 700,
-                fontFamily: "'JetBrains Mono', monospace",
-                letterSpacing: "0.08em",
-              }}
-              onClick={() => setMenuOpen(false)}
-            >
-              한국어 강의 보러가기 →
-            </Link>
-          )}
-
           <div style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "8px" }}>
-            {user ? (
+            {!mounted ? (
+              <div aria-hidden="true" style={{ height: 32 }} />
+            ) : user ? (
               <>
                 <Link
                   href="/billing"

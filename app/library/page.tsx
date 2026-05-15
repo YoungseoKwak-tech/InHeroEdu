@@ -186,7 +186,7 @@ export default function LibraryPage() {
           <FeedCard key={it.id} item={it} />
         ))}
         {loading &&
-          Array.from({ length: 6 }).map((_, i) => <ShimmerCard key={`s-${i}`} />)}
+          Array.from({ length: 6 }).map((_, i) => <ShimmerCard key={`s-${i}`} index={i} />)}
       </section>
 
       {!loading && items.length === 0 && !error && (
@@ -497,9 +497,12 @@ function FeedCard({ item }: { item: FeedItem }) {
   );
 }
 
-function ShimmerCard() {
-  // Variable height shimmer so the masonry layout reads as alive on load.
-  const h = 180 + Math.floor(Math.random() * 120);
+// Deterministic per-index heights — using Math.random() during render
+// produced different values on SSR vs CSR and triggered React #425.
+const SHIMMER_HEIGHTS = [180, 220, 260, 300, 240, 200, 280, 260];
+
+function ShimmerCard({ index }: { index: number }) {
+  const h = SHIMMER_HEIGHTS[index % SHIMMER_HEIGHTS.length];
   return (
     <div className="sk" style={{ height: h }}>
       <style jsx>{`
