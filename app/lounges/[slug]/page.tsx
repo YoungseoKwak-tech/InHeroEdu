@@ -20,11 +20,10 @@ import {
 
 type Tab = "chat" | "pinned";
 const POLL_MS = 8000;
-// Vercel's serverless body limit is ~4.5 MB; bigger payloads are rejected
-// by the platform with a plain-text 413 before the route runs. Cap below
-// that so the client preflights cleanly. Larger uploads need direct-to-
-// Supabase-Storage signed URLs (deferred).
-const MAX_UPLOAD = 4 * 1024 * 1024; // 4 MB
+// Direct-to-Supabase-Storage upload bypasses Vercel's 4.5 MB body limit.
+// Cap mirrors the server (sign/route.ts) which mirrors the bucket's
+// per-file ceiling on Supabase free-tier (50 MB).
+const MAX_UPLOAD = 50 * 1024 * 1024; // 50 MB
 const IMAGE_MIMES = new Set(["image/jpeg", "image/png", "image/gif", "image/webp", "image/heic", "image/heif"]);
 
 interface PageProps { params: { slug: string }; }
@@ -206,34 +205,65 @@ export default function LoungePage({ params }: PageProps) {
     }
     setUploading(true); setError(null);
     try {
-      const form = new FormData();
-      form.append("file", file);
-      if (draft.trim()) form.append("caption", draft.trim());
-      if (replyTo?.id) form.append("replyToId", replyTo.id);
-      if (group) form.append("group", group);
-      const res = await authFetch(`/api/lounges/${slug}/chat/upload`, {
+      // Step 1 — sign: get a one-shot Supabase Storage upload URL.
+      const signRes = await authFetch(`/api/lounges/${slug}/chat/upload/sign`, {
         method: "POST",
-        body: form,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fileName: file.name || "file",
+          fileSize: file.size,
+          mimeType: file.type || "application/octet-stream",
+        }),
       });
-      // Tolerate non-JSON responses (Vercel platform 413s come back as
-      // "Request Entity Too Large" plain text, etc.). Parse text first.
-      const raw = await res.text();
-      let json: { ok?: boolean; error?: string; message?: ChatMessagePublic } = {};
-      try { json = raw ? JSON.parse(raw) : {}; } catch { /* keep json empty */ }
-      if (!res.ok || !json.ok) {
-        const friendly =
-          res.status === 413
-            ? `File too large. Max ${MAX_UPLOAD / (1024 * 1024)} MB.`
-            : json.error ?? (raw && raw.length < 200 ? raw : `HTTP ${res.status}`);
-        throw new Error(friendly);
+      const signJson = await parseJsonTolerant(signRes);
+      if (!signRes.ok || !signJson?.path) {
+        throw new Error(asString(signJson?.error) ?? `sign failed (${signRes.status})`);
       }
-      const m = json.message as ChatMessagePublic;
+
+      // Step 2 — direct upload to Supabase (no Vercel limit on this hop).
+      const { error: uploadErr } = await supabase.storage
+        .from(signJson.bucket as string)
+        .uploadToSignedUrl(signJson.path as string, signJson.token as string, file, {
+          contentType: file.type || "application/octet-stream",
+          upsert: false,
+        });
+      if (uploadErr) throw new Error(`upload failed: ${uploadErr.message}`);
+
+      // Step 3 — finalize: server creates chat_messages + lounge_resources.
+      const finRes = await authFetch(`/api/lounges/${slug}/chat/upload/finalize`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          path: signJson.path,
+          fileName: file.name || "file",
+          fileSize: file.size,
+          mimeType: file.type || "application/octet-stream",
+          caption: draft.trim() || undefined,
+          replyToId: replyTo?.id ?? null,
+          group,
+        }),
+      });
+      const finJson = await parseJsonTolerant(finRes);
+      if (!finRes.ok || !finJson?.ok) {
+        throw new Error(asString(finJson?.error) ?? `finalize failed (${finRes.status})`);
+      }
+      const m = finJson.message as ChatMessagePublic;
       setMessages((prev) => [...prev, m]);
       lastSeenRef.current = m.createdAt;
       setDraft(""); setReplyTo(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally { setUploading(false); setPendingFile(null); }
+  }
+
+  async function parseJsonTolerant(res: Response): Promise<Record<string, unknown> | null> {
+    const raw = await res.text();
+    if (!raw) return null;
+    try { return JSON.parse(raw) as Record<string, unknown>; } catch { return null; }
+  }
+
+  function asString(v: unknown): string | undefined {
+    return typeof v === "string" ? v : undefined;
   }
 
   // File pickers stage the file; the user picks a folder before the upload fires.
