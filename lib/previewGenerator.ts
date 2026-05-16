@@ -75,6 +75,19 @@ export async function generatePreviewsForResource(resourceId: string): Promise<G
     if (!pdfResp.ok) throw new Error(`PDF fetch failed: ${pdfResp.status}`);
     const pdfBytes = new Uint8Array(await pdfResp.arrayBuffer());
 
+    // pdfjs-dist v5 references DOMMatrix, ImageData, and Path2D during
+    // page rendering. Those are browser globals; in Node we polyfill
+    // them with @napi-rs/canvas's drop-in implementations. ORDER MATTERS:
+    // the polyfills must be on globalThis BEFORE pdfjs's module body
+    // evaluates, otherwise pdfjs records `undefined` references at
+    // import time and rendering throws "DOMMatrix is not defined".
+    const canvasMod = await import("@napi-rs/canvas");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const g = globalThis as any;
+    if (!g.DOMMatrix && canvasMod.DOMMatrix) g.DOMMatrix = canvasMod.DOMMatrix;
+    if (!g.ImageData && canvasMod.ImageData) g.ImageData = canvasMod.ImageData;
+    if (!g.Path2D && canvasMod.Path2D) g.Path2D = canvasMod.Path2D;
+
     // Load pdfjs without the worker. workerSrc = false plus
     // disableWorker: true are belt+suspenders so neither pdfjs nor any
     // of its internal code paths tries to require()/import() the
@@ -101,10 +114,9 @@ export async function generatePreviewsForResource(resourceId: string): Promise<G
     const pdf = await loadingTask.promise;
     const totalPages: number = pdf.numPages ?? 0;
 
-    // Canvas backend. @napi-rs/canvas provides a Node-native Canvas2D
-    // implementation; declared as a direct dep so we don't rely on
-    // pdf-to-png-converter's transitive resolution.
-    const { createCanvas } = await import("@napi-rs/canvas");
+    // createCanvas from the same @napi-rs/canvas module loaded above
+    // for the globalThis polyfills — no second import needed.
+    const { createCanvas } = canvasMod;
     const { default: sharp } = await import("sharp");
 
     const uploadedUrls: { page1?: string; page2?: string; page3?: string } = {};
