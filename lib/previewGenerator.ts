@@ -7,16 +7,21 @@
 // the URL can fetch it directly. Updates lounge_resources with the
 // resulting URLs + total_pages + preview_generation_status.
 //
-// Invoked from /api/library/resource/[id]/process-preview, which is
-// fire-and-forget POST'd by the upload finalize route after a row is
-// inserted. Idempotent — re-running re-renders and re-uploads
-// (upsert: true on the storage uploads).
+// Implementation note: was originally written against
+// pdf-to-png-converter, but that package loads
+// pdfjs-dist/legacy/build/pdf.worker.mjs via require.resolve at
+// runtime, which fails in Vercel's serverless bundle. Re-implemented
+// directly against pdfjs-dist + @napi-rs/canvas with
+// disableWorker: true so everything runs on the function's main
+// thread. No worker file required.
 
 import { createAdminClient } from "@/lib/supabase";
 
 const PREVIEW_BUCKET = "resource_previews";
 const PREVIEW_WIDTH = 800;
+const RENDER_SCALE = 1.8;
 const BLUR_RADIUS = 12;
+const PAGES_TO_RENDER = 3;
 
 interface GeneratePreviewsResult {
   ok: boolean;
@@ -68,29 +73,62 @@ export async function generatePreviewsForResource(resourceId: string): Promise<G
     // Fetch the PDF bytes.
     const pdfResp = await fetch(r.attachment_url, { cache: "no-store" });
     if (!pdfResp.ok) throw new Error(`PDF fetch failed: ${pdfResp.status}`);
-    const pdfBytes = Buffer.from(await pdfResp.arrayBuffer());
+    const pdfBytes = new Uint8Array(await pdfResp.arrayBuffer());
 
-    // Render up to 3 pages. pdf-to-png-converter handles pdfjs +
-    // canvas under the hood and works in Node serverless without
-    // libcairo. viewportScale 1.8 gives crisp output at PREVIEW_WIDTH.
-    const { pdfToPng } = await import("pdf-to-png-converter");
-    const pages = await pdfToPng(pdfBytes, {
-      viewportScale: 1.8,
-      pagesToProcess: [1, 2, 3],
-      disableFontFace: false,
+    // Load pdfjs without the worker. workerSrc = false plus
+    // disableWorker: true are belt+suspenders so neither pdfjs nor any
+    // of its internal code paths tries to require()/import() the
+    // .worker.mjs file (which doesn't ship in the Vercel bundle).
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const pdfjsLib: any = await import("pdfjs-dist/legacy/build/pdf.mjs");
+    if (pdfjsLib.GlobalWorkerOptions) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = false;
+    }
+
+    const loadingTask = pdfjsLib.getDocument({
+      data: pdfBytes,
+      disableWorker: true,
+      // Standard fonts can't be fetched in Node — disable font face
+      // rendering so the engine falls back to outline-only glyphs.
+      // Output is slightly less faithful for embedded display fonts
+      // but doesn't block rendering on missing assets.
+      disableFontFace: true,
       useSystemFonts: false,
+      isEvalSupported: false,
+      // Tame verbosity in serverless logs.
+      verbosity: 0,
     });
+    const pdf = await loadingTask.promise;
+    const totalPages: number = pdf.numPages ?? 0;
 
-    // Sharp pipeline for resize + (page 2/3) blur.
+    // Canvas backend. @napi-rs/canvas provides a Node-native Canvas2D
+    // implementation; declared as a direct dep so we don't rely on
+    // pdf-to-png-converter's transitive resolution.
+    const { createCanvas } = await import("@napi-rs/canvas");
     const { default: sharp } = await import("sharp");
 
     const uploadedUrls: { page1?: string; page2?: string; page3?: string } = {};
+    const pageLimit = Math.min(PAGES_TO_RENDER, totalPages);
 
-    for (let i = 0; i < pages.length; i++) {
-      const pageNum = i + 1;
+    for (let pageNum = 1; pageNum <= pageLimit; pageNum++) {
+      const page = await pdf.getPage(pageNum);
+      const viewport = page.getViewport({ scale: RENDER_SCALE });
+      const canvas = createCanvas(Math.ceil(viewport.width), Math.ceil(viewport.height));
+      const ctx = canvas.getContext("2d");
+      // pdfjs writes RGBA into the canvas context; fill with white
+      // first so transparent regions of the PDF (most of them) read
+      // as paper, not as an alpha hole.
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // The pdfjs type for canvasContext is a CanvasRenderingContext2D
+      // from the DOM lib; @napi-rs/canvas matches the surface at
+      // runtime but TS doesn't see the equivalence.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await page.render({ canvasContext: ctx as any, viewport }).promise;
+
+      const rawPng = canvas.toBuffer("image/png");
       const isClear = pageNum === 1;
-      const pipeline = sharp(pages[i].content)
-        .resize({ width: PREVIEW_WIDTH, withoutEnlargement: true });
+      const pipeline = sharp(rawPng).resize({ width: PREVIEW_WIDTH, withoutEnlargement: true });
       if (!isClear) pipeline.blur(BLUR_RADIUS);
       const buf = await pipeline.png({ quality: isClear ? 88 : 70 }).toBuffer();
 
@@ -109,14 +147,10 @@ export async function generatePreviewsForResource(resourceId: string): Promise<G
       if (pageNum === 3) uploadedUrls.page3 = pub.publicUrl;
     }
 
-    // Total page count: pdf-to-png-converter exposes it on each page.
-    // Fallback to the largest pageNumber returned if missing.
-    const totalPages =
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (pages[0] as any)?.pageCount ??
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      pages.reduce((acc, p) => Math.max(acc, (p as any).pageNumber ?? 0), 0) ??
-      null;
+    // Free pdfjs worker-side data; cheap and avoids accumulated state
+    // if many resources are processed in one function lifetime.
+    try { await pdf.cleanup?.(); } catch { /* ignore */ }
+    try { await pdf.destroy?.(); } catch { /* ignore */ }
 
     const { error: updErr } = await supabase
       .from("lounge_resources")
@@ -133,7 +167,7 @@ export async function generatePreviewsForResource(resourceId: string): Promise<G
     return {
       ok: true,
       resourceId,
-      totalPages: totalPages ?? undefined,
+      totalPages,
       previewPage1Url: uploadedUrls.page1,
       previewPage2Url: uploadedUrls.page2,
       previewPage3Url: uploadedUrls.page3,
