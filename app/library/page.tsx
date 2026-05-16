@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { authFetch } from "@/lib/client-auth";
 import { createBrowserClient } from "@/lib/supabase";
+import PdfThumbnailBackfill from "@/components/library/PdfThumbnailBackfill";
 import {
   DOC_GROUP_EMOJI,
   DOC_GROUP_LABELS,
@@ -555,17 +556,20 @@ function FeedCard({
   const [confirming, setConfirming] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  // Preview carousel state. previewPages is built once per render from
-  // the URLs the server returned. Pages 2 + 3 are baked-blurred at
-  // generation time; the `blurred` flag drives the small "🔒 page N"
-  // overlay that tells the user why content isn't readable.
+  // Local override so the card can swap in a browser-generated
+  // thumbnail without waiting for a feed refetch. Initialized from the
+  // server-provided URL; PdfThumbnailBackfill calls setLocalPreview1Url
+  // when it finishes rendering + uploading.
+  const [localPreview1Url, setLocalPreview1Url] = useState<string | null>(item.previewPage1Url);
   const previewPages: { url: string; blurred: boolean }[] = [];
-  if (item.previewPage1Url) previewPages.push({ url: item.previewPage1Url, blurred: false });
+  if (localPreview1Url) previewPages.push({ url: localPreview1Url, blurred: false });
   if (item.previewPage2Url) previewPages.push({ url: item.previewPage2Url, blurred: true });
   if (item.previewPage3Url) previewPages.push({ url: item.previewPage3Url, blurred: true });
   const hasPreviews = previewPages.length > 0;
   const [previewIndex, setPreviewIndex] = useState(0);
   const currentPreview = hasPreviews ? previewPages[previewIndex] : null;
+  const isPdf = item.mimeType === "application/pdf";
+  const needsThumbnailBackfill = isPdf && !localPreview1Url;
 
   function cyclePreviewNext(e: React.MouseEvent) {
     e.preventDefault();
@@ -699,10 +703,16 @@ function FeedCard({
                   {DOC_GROUP_EMOJI[item.folder]}
                 </span>
                 <span className="fc-placeholder-mime">
-                  {item.previewStatus === "processing" || item.previewStatus === "pending"
+                  {needsThumbnailBackfill
                     ? "Generating preview…"
                     : item.mimeType?.split("/").pop()?.toUpperCase() ?? "FILE"}
                 </span>
+                {needsThumbnailBackfill && (
+                  <PdfThumbnailBackfill
+                    resourceId={item.id}
+                    onGenerated={setLocalPreview1Url}
+                  />
+                )}
               </div>
             )}
             <div className="fc-badges">
