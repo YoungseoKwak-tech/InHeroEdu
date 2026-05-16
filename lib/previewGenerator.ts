@@ -88,15 +88,15 @@ export async function generatePreviewsForResource(resourceId: string): Promise<G
     if (!g.ImageData && canvasMod.ImageData) g.ImageData = canvasMod.ImageData;
     if (!g.Path2D && canvasMod.Path2D) g.Path2D = canvasMod.Path2D;
 
-    // Load pdfjs without the worker. workerSrc = false plus
-    // disableWorker: true are belt+suspenders so neither pdfjs nor any
-    // of its internal code paths tries to require()/import() the
-    // .worker.mjs file (which doesn't ship in the Vercel bundle).
+    // Load pdfjs. DO NOT touch GlobalWorkerOptions.workerSrc — pdfjs
+    // type-checks it and rejects anything that isn't a non-empty
+    // string ("Invalid workerSrc type"). Leaving it at its default
+    // combined with disableWorker:true on the loading task is what
+    // tells pdfjs to run on the function's main thread, which is the
+    // only mode that works in Vercel serverless (no worker file ships
+    // in the bundle, no Web Worker constructor exists in Node).
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const pdfjsLib: any = await import("pdfjs-dist/legacy/build/pdf.mjs");
-    if (pdfjsLib.GlobalWorkerOptions) {
-      pdfjsLib.GlobalWorkerOptions.workerSrc = false;
-    }
 
     const loadingTask = pdfjsLib.getDocument({
       data: pdfBytes,
