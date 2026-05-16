@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { authFetch } from "@/lib/client-auth";
+import { createBrowserClient } from "@/lib/supabase";
 import {
   DOC_GROUP_EMOJI,
   DOC_GROUP_LABELS,
@@ -22,6 +23,7 @@ interface FeedItem {
   isImage: boolean;
   isInheroOfficial: boolean;
   isSeeded: boolean;
+  isMine: boolean;
   downloadCount: number;
   upvoteCount: number;
   commentCount: number;
@@ -33,6 +35,7 @@ interface FeedItem {
 interface FeedResponse {
   items: FeedItem[];
   nextCursor: string | null;
+  viewerIsAdmin?: boolean;
 }
 
 const SORT_TABS: { key: Sort; label: string }[] = [
@@ -64,10 +67,16 @@ export default function LibraryPage() {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // viewer-level admin flag — comes back on every feed page; the
+  // last-seen value drives whether each card shows the Delete affordance
+  // when the viewer isn't the author.
+  const [viewerIsAdmin, setViewerIsAdmin] = useState(false);
+  const [profileStatus, setProfileStatus] = useState<"loading" | "out" | "no_profile" | "ok">("loading");
 
   const sentinelRef = useRef<HTMLDivElement>(null);
   // Single in-flight guard. Prevents double-fetch on rapid IO callbacks.
   const fetchingRef = useRef(false);
+  const supabase = createBrowserClient();
 
   // Reset feed on filter change.
   useEffect(() => {
@@ -77,8 +86,41 @@ export default function LibraryPage() {
     setError(null);
   }, [sort, folder, official]);
 
+  // Lightweight profile probe: if a logged-in user hasn't claimed a handle
+  // yet, surface an explicit CTA so uploads/chat don't feel broken.
+  useEffect(() => {
+    let mounted = true;
+    async function probeProfile() {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!mounted) return;
+        if (!session?.access_token) {
+          setProfileStatus("out");
+          return;
+        }
+
+        const res = await authFetch("/api/profile/me", { cache: "no-store" });
+        const json = await res.json().catch(() => ({}));
+        if (!mounted) return;
+        if (json?.profile?.handle) {
+          setProfileStatus("ok");
+        } else if (res.ok) {
+          setProfileStatus("no_profile");
+        } else {
+          setProfileStatus("out");
+        }
+      } catch {
+        if (mounted) setProfileStatus("out");
+      }
+    }
+    void probeProfile();
+    return () => {
+      mounted = false;
+    };
+  }, [supabase]);
+
   const loadMore = useCallback(async () => {
-    if (fetchingRef.current || !hasMore) return;
+    if (fetchingRef.current || !hasMore || profileStatus === "loading" || profileStatus === "out") return;
     fetchingRef.current = true;
     setLoading(true);
     setError(null);
@@ -93,6 +135,11 @@ export default function LibraryPage() {
 
       const res = await authFetch(`/api/library/feed?${qs.toString()}`);
       if (!res.ok) {
+        if (res.status === 401 || res.status === 403) {
+          setProfileStatus("out");
+          setHasMore(false);
+          return;
+        }
         const text = await res.text();
         throw new Error(text || `feed ${res.status}`);
       }
@@ -100,6 +147,7 @@ export default function LibraryPage() {
       setItems((prev) => [...prev, ...json.items]);
       setCursor(json.nextCursor);
       setHasMore(json.nextCursor !== null && json.items.length > 0);
+      if (typeof json.viewerIsAdmin === "boolean") setViewerIsAdmin(json.viewerIsAdmin);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to load feed");
       setHasMore(false);
@@ -107,12 +155,13 @@ export default function LibraryPage() {
       setLoading(false);
       fetchingRef.current = false;
     }
-  }, [sort, folder, official, cursor, hasMore]);
+  }, [sort, folder, official, cursor, hasMore, profileStatus]);
 
   // Kick the initial load whenever filters reset.
   useEffect(() => {
+    if (profileStatus === "loading" || profileStatus === "out") return;
     if (items.length === 0 && hasMore && !loading) void loadMore();
-  }, [items.length, hasMore, loading, loadMore]);
+  }, [items.length, hasMore, loading, loadMore, profileStatus]);
 
   // IntersectionObserver-driven infinite scroll.
   useEffect(() => {
@@ -179,11 +228,61 @@ export default function LibraryPage() {
         </div>
       </div>
 
+      {profileStatus === "no_profile" && (
+        <div className="lib-banner">
+          <div className="lib-banner-copy">
+            <div className="lib-banner-kicker">UPLOADS LOCKED</div>
+            <div className="lib-banner-title">Claim your trajectory handle to publish to the Library.</div>
+            <div className="lib-banner-sub">
+              You can browse now, but your uploads and lounge posts won&apos;t appear until onboarding is complete.
+            </div>
+          </div>
+          <Link href="/onboarding?next=%2Flibrary" className="lib-banner-cta">
+            Claim handle →
+          </Link>
+        </div>
+      )}
+
+      {profileStatus === "out" && (
+        <div className="lib-login-gate">
+          <div className="lib-login-kicker">SIGN IN REQUIRED</div>
+          <div className="lib-login-title">Log in to unlock the Library feed.</div>
+          <div className="lib-login-sub">
+            The Library is available after sign-in. Once you're in, the feed loads here instead of a blank dark page.
+          </div>
+          <div className="lib-login-actions">
+            <Link href="/auth/login?redirect=%2Flibrary" className="lib-login-cta">
+              Sign in →
+            </Link>
+            <button
+              type="button"
+              className="lib-login-secondary"
+              onClick={() => {
+                window.dispatchEvent(
+                  new CustomEvent("inhero:open-auth", {
+                    detail: { mode: "login", redirectTo: "/library" },
+                  })
+                );
+              }}
+            >
+              Open login modal
+            </button>
+          </div>
+        </div>
+      )}
+
       {error && <div className="lib-error">{error}</div>}
 
       <section className="lib-grid">
         {items.map((it) => (
-          <FeedCard key={it.id} item={it} />
+          <FeedCard
+            key={it.id}
+            item={it}
+            viewerIsAdmin={viewerIsAdmin}
+            onDeleted={(deletedId) =>
+              setItems((prev) => prev.filter((x) => x.id !== deletedId))
+            }
+          />
         ))}
         {loading &&
           Array.from({ length: 6 }).map((_, i) => <ShimmerCard key={`s-${i}`} index={i} />)}
@@ -205,8 +304,14 @@ export default function LibraryPage() {
           padding: 2rem 1.5rem 4rem;
           color: #d8d9e6;
           font-family: 'Inter', 'Space Grotesk', system-ui, sans-serif;
-          max-width: 1600px;
-          margin: 0 auto;
+          /* Full-bleed feed — drop the 1600px cap so the masonry breathes
+             into the viewport on wide screens. Side padding stays so
+             cards don't hug the edges. */
+          max-width: 100%;
+          margin: 0;
+        }
+        @media (max-width: 760px) {
+          .lib-root { padding: 1.25rem 0.85rem 3rem; }
         }
         .lib-head { margin-bottom: 1.5rem; }
         .lib-eyebrow {
@@ -262,6 +367,130 @@ export default function LibraryPage() {
         }
         .lib-chip-sm { font-size: 0.72rem; padding: 0.32rem 0.6rem; }
 
+        .lib-banner {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 1rem;
+          padding: 1rem 1.1rem;
+          margin: 0 0 1rem;
+          background: linear-gradient(135deg, rgba(244,201,93,0.12), rgba(94,234,212,0.08));
+          border: 1px solid rgba(244,201,93,0.28);
+          border-radius: 0.85rem;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+        }
+        .lib-banner-copy { display: flex; flex-direction: column; gap: 0.3rem; }
+        .lib-banner-kicker {
+          font-family: ui-monospace, monospace;
+          font-size: 0.66rem;
+          font-weight: 800;
+          letter-spacing: 0.18em;
+          color: #F4C95D;
+        }
+        .lib-banner-title {
+          font-size: 1rem;
+          font-weight: 700;
+          color: #f3f3fb;
+        }
+        .lib-banner-sub {
+          max-width: 56ch;
+          font-size: 0.86rem;
+          line-height: 1.5;
+          color: rgba(216,217,230,0.82);
+        }
+        .lib-banner-cta {
+          flex-shrink: 0;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 2.35rem;
+          padding: 0.55rem 0.9rem;
+          border-radius: 999px;
+          background: #F4C95D;
+          color: #111014;
+          text-decoration: none;
+          font-family: ui-monospace, monospace;
+          font-size: 0.78rem;
+          font-weight: 800;
+          letter-spacing: 0.12em;
+        }
+        .lib-banner-cta:hover { filter: brightness(1.03); }
+        @media (max-width: 760px) {
+          .lib-banner {
+            flex-direction: column;
+            align-items: stretch;
+          }
+          .lib-banner-cta {
+            width: 100%;
+          }
+        }
+
+        .lib-login-gate {
+          display: flex;
+          flex-direction: column;
+          gap: 0.45rem;
+          padding: 1.1rem 1.15rem;
+          margin: 0 0 1rem;
+          background:
+            radial-gradient(circle at top left, rgba(94,234,212,0.14), transparent 52%),
+            linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+          border: 1px solid rgba(94,234,212,0.22);
+          border-radius: 0.95rem;
+          box-shadow: 0 12px 32px rgba(0,0,0,0.24);
+        }
+        .lib-login-kicker {
+          font-family: ui-monospace, monospace;
+          font-size: 0.66rem;
+          font-weight: 800;
+          letter-spacing: 0.18em;
+          color: var(--accent);
+        }
+        .lib-login-title {
+          font-size: 1.05rem;
+          font-weight: 800;
+          color: #f3f3fb;
+        }
+        .lib-login-sub {
+          max-width: 56ch;
+          font-size: 0.88rem;
+          line-height: 1.55;
+          color: rgba(216,217,230,0.82);
+        }
+        .lib-login-actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.55rem;
+          margin-top: 0.35rem;
+        }
+        .lib-login-cta,
+        .lib-login-secondary {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 2.35rem;
+          padding: 0.55rem 0.9rem;
+          border-radius: 999px;
+          border: 1px solid rgba(94,234,212,0.25);
+          font-family: ui-monospace, monospace;
+          font-size: 0.78rem;
+          font-weight: 800;
+          letter-spacing: 0.12em;
+          text-decoration: none;
+          cursor: pointer;
+        }
+        .lib-login-cta {
+          background: var(--accent);
+          color: #0a0a10;
+        }
+        .lib-login-secondary {
+          background: rgba(255,255,255,0.02);
+          color: #f3f3fb;
+        }
+        .lib-login-cta:hover,
+        .lib-login-secondary:hover {
+          filter: brightness(1.05);
+        }
+
         .lib-error {
           padding: 0.85rem 1rem; margin-bottom: 1rem;
           background: rgba(255,139,126,0.08);
@@ -271,13 +500,18 @@ export default function LibraryPage() {
           font-size: 0.85rem;
         }
 
-        /* Pinterest-style masonry via CSS columns — no JS layout deps */
+        /* Pinterest-style masonry via CSS columns. Switched from a
+           fixed column-count (was: 4/3/2) to column-width auto-fill so
+           the layout scales smoothly with viewport width — wide screens
+           pack more columns; narrow drop to two without a breakpoint
+           cliff. */
         .lib-grid {
-          column-count: 4;
+          column-width: 280px;
           column-gap: 1rem;
         }
-        @media (max-width: 1280px) { .lib-grid { column-count: 3; } }
-        @media (max-width: 760px)  { .lib-grid { column-count: 2; column-gap: 0.6rem; } }
+        @media (max-width: 760px) {
+          .lib-grid { column-width: 160px; column-gap: 0.6rem; }
+        }
 
         .lib-empty {
           padding: 3rem 1rem;
@@ -294,16 +528,117 @@ export default function LibraryPage() {
   );
 }
 
-function FeedCard({ item }: { item: FeedItem }) {
+function FeedCard({
+  item,
+  viewerIsAdmin,
+  onDeleted,
+}: {
+  item: FeedItem;
+  viewerIsAdmin: boolean;
+  onDeleted: (id: string) => void;
+}) {
   // Primary click target on a card body is the reader. Detail page is
   // only reachable now via the comments icon (#comments anchor) or a
   // shared link.
   const readerHref = `/library/${item.id}/read`;
   const detailHref = `/library/${item.id}`;
   const loungeHref = item.lounge ? `/lounges/${item.lounge.slug}` : null;
+  const canDelete = item.isMine || viewerIsAdmin;
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [confirming, setConfirming] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  // Click outside the ⋯ menu closes it. Mounted only while open so we
+  // don't leak listeners across every card on the feed.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onDocClick = () => setMenuOpen(false);
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, [menuOpen]);
+
+  async function doDelete() {
+    if (deleting) return;
+    setDeleting(true);
+    try {
+      const res = await authFetch(`/api/library/resource/${item.id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok && res.status !== 204) {
+        // Surface a real error rather than silent failure — owner/admin
+        // sees what went wrong.
+        let msg = `HTTP ${res.status}`;
+        try {
+          const j = (await res.json()) as { error?: string };
+          if (j.error) msg = j.error;
+        } catch { /* ignore */ }
+        throw new Error(msg);
+      }
+      onDeleted(item.id);
+    } catch (e) {
+      // eslint-disable-next-line no-alert
+      alert(`Could not delete: ${e instanceof Error ? e.message : String(e)}`);
+      setDeleting(false);
+      setConfirming(false);
+    }
+  }
 
   return (
     <div className={`fc ${item.isInheroOfficial ? "is-official" : "is-community"}`}>
+      {/* Owner / admin delete affordance. Sits inside .fc but OUTSIDE
+          the preview-link <Link> so a click here never navigates into
+          the reader. The confirming overlay fills the card and stops
+          propagation in its own onClick. */}
+      {canDelete && (
+        <div className="fc-owner-menu" onMouseDown={(e) => e.stopPropagation()}>
+          <button
+            type="button"
+            className="fc-menu-trigger"
+            aria-label="Card options"
+            onClick={(e) => { e.stopPropagation(); setMenuOpen((v) => !v); }}
+          >
+            ⋯
+          </button>
+          {menuOpen && (
+            <div className="fc-menu-dropdown" onMouseDown={(e) => e.stopPropagation()}>
+              <button
+                type="button"
+                className="fc-menu-item fc-menu-delete"
+                onClick={(e) => { e.stopPropagation(); setMenuOpen(false); setConfirming(true); }}
+              >
+                🗑️ Delete
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {confirming && (
+        <div className="fc-confirm" onMouseDown={(e) => e.stopPropagation()}>
+          <div className="fc-confirm-title">Delete this resource?</div>
+          <div className="fc-confirm-sub">&ldquo;{item.title}&rdquo;</div>
+          <div className="fc-confirm-meta">All upvotes and comments are removed too.</div>
+          <div className="fc-confirm-actions">
+            <button
+              type="button"
+              className="fc-confirm-cancel"
+              onClick={() => setConfirming(false)}
+              disabled={deleting}
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              className="fc-confirm-go"
+              onClick={() => void doDelete()}
+              disabled={deleting}
+            >
+              {deleting ? "Deleting…" : "Delete"}
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Thumbnail — click goes straight into the reader */}
       <Link href={readerHref} className="fc-preview-link" aria-label={`Open ${item.title}`}>
         <div className="fc-preview">
@@ -376,8 +711,111 @@ function FeedCard({ item }: { item: FeedItem }) {
           border: 1px solid rgba(255,255,255,0.06);
           border-radius: 0.7rem;
           overflow: hidden;
+          position: relative;
           transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
         }
+
+        /* Owner / admin ⋯ menu — absolutely positioned over the thumbnail.
+           Lives outside the preview-link <Link> so clicks don't navigate. */
+        .fc-owner-menu {
+          position: absolute;
+          top: 0.5rem;
+          right: 0.5rem;
+          z-index: 5;
+        }
+        .fc-menu-trigger {
+          width: 28px; height: 28px;
+          display: inline-flex; align-items: center; justify-content: center;
+          border-radius: 6px;
+          background: rgba(0,0,0,0.6);
+          border: 1px solid rgba(255,255,255,0.08);
+          color: rgba(255,255,255,0.92);
+          font-size: 16px;
+          line-height: 1;
+          cursor: pointer;
+          backdrop-filter: blur(8px);
+        }
+        .fc-menu-trigger:hover { background: rgba(0,0,0,0.85); }
+        .fc-menu-dropdown {
+          position: absolute;
+          top: 32px;
+          right: 0;
+          min-width: 140px;
+          padding: 4px;
+          background: rgba(10,6,18,0.96);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 8px;
+          backdrop-filter: blur(16px);
+          box-shadow: 0 10px 32px rgba(0,0,0,0.5);
+        }
+        .fc-menu-item {
+          display: block;
+          width: 100%;
+          padding: 8px 12px;
+          background: none;
+          border: 0;
+          border-radius: 4px;
+          color: rgba(255,255,255,0.88);
+          text-align: left;
+          font-family: inherit;
+          font-size: 0.82rem;
+          cursor: pointer;
+        }
+        .fc-menu-delete:hover { background: rgba(239,68,68,0.16); color: #ff8b7e; }
+
+        .fc-confirm {
+          position: absolute;
+          inset: 0;
+          z-index: 6;
+          display: flex; flex-direction: column; align-items: center; justify-content: center;
+          gap: 0.4rem;
+          padding: 1rem;
+          background: rgba(10,6,18,0.94);
+          backdrop-filter: blur(8px);
+          text-align: center;
+        }
+        .fc-confirm-title {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 1.05rem;
+          font-weight: 600;
+          color: #f3f3fb;
+        }
+        .fc-confirm-sub {
+          font-size: 0.78rem;
+          color: rgba(216,217,230,0.85);
+          max-width: 90%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .fc-confirm-meta {
+          font-family: ui-monospace, monospace;
+          font-size: 0.62rem;
+          color: rgba(148,163,184,0.6);
+          margin-bottom: 0.5rem;
+        }
+        .fc-confirm-actions { display: inline-flex; gap: 0.4rem; }
+        .fc-confirm-cancel, .fc-confirm-go {
+          padding: 0.45rem 0.85rem;
+          border-radius: 999px;
+          font-family: ui-monospace, monospace;
+          font-size: 0.7rem;
+          font-weight: 700;
+          letter-spacing: 0.12em;
+          cursor: pointer;
+        }
+        .fc-confirm-cancel {
+          background: transparent;
+          border: 1px solid rgba(255,255,255,0.15);
+          color: rgba(216,217,230,0.9);
+        }
+        .fc-confirm-cancel:disabled { opacity: 0.4; cursor: default; }
+        .fc-confirm-go {
+          background: #ef4444;
+          border: 1px solid #ef4444;
+          color: #fff;
+        }
+        .fc-confirm-go:disabled { opacity: 0.55; cursor: default; }
         .fc:hover {
           transform: translateY(-2px);
           border-color: rgba(94,234,212,0.4);

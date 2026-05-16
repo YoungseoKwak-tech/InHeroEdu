@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAuthenticatedUser } from "@/lib/auth";
+import { requireAuthenticatedUser, isAdminEmail } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
-import type { DocGroup } from "@/lib/docGroups";
+import { isDocGroup, type DocGroup } from "@/lib/docGroups";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -27,6 +27,115 @@ interface ResourceRow {
   created_at: string;
 }
 
+interface ChatMessageRowFallback {
+  id: string;
+  context_id: string;
+  author_id: string | null;
+  content: string | null;
+  attachment_url: string | null;
+  attachment_meta: Record<string, unknown> | null;
+  created_at: string;
+}
+
+function stringMeta(meta: Record<string, unknown> | null, key: string): string | null {
+  if (!meta) return null;
+  const value = meta[key];
+  return typeof value === "string" && value.trim().length > 0 ? value : null;
+}
+
+function numberMeta(meta: Record<string, unknown> | null, key: string): number | null {
+  if (!meta) return null;
+  const value = meta[key];
+  return typeof value === "number" && Number.isFinite(value) ? value : null;
+}
+
+function folderFromMeta(meta: Record<string, unknown> | null): DocGroup {
+  const raw = stringMeta(meta, "group");
+  return raw && isDocGroup(raw) ? raw : "notes";
+}
+
+function mimeFromMeta(meta: Record<string, unknown> | null): string | null {
+  return stringMeta(meta, "mimeType");
+}
+
+function titleFromFallback(message: ChatMessageRowFallback): string {
+  const meta = message.attachment_meta;
+  return (
+    stringMeta(meta, "title") ??
+    message.content ??
+    stringMeta(meta, "fileName") ??
+    "Untitled"
+  );
+}
+
+async function loadFallbackResource(
+  supabase: ReturnType<typeof createAdminClient>,
+  id: string,
+  userId: string
+) {
+  const { data: message, error } = await supabase
+    .from("chat_messages")
+    .select("id, context_id, author_id, content, attachment_url, attachment_meta, created_at")
+    .eq("id", id)
+    .eq("is_deleted", false)
+    .maybeSingle();
+
+  if (error) {
+    return { error };
+  }
+  if (!message) {
+    return { data: null as null };
+  }
+
+  const row = message as ChatMessageRowFallback;
+  if (!row.attachment_url) {
+    return { data: null as null };
+  }
+
+  const meta = row.attachment_meta ?? {};
+  const mimeType = mimeFromMeta(meta) ?? (stringMeta(meta, "fileName")?.toLowerCase().endsWith(".pdf") ? "application/pdf" : null);
+
+  const [loungeRes, profileRes] = await Promise.all([
+    supabase.from("lounges").select("id, slug, name").eq("id", row.context_id).maybeSingle(),
+    row.author_id
+      ? supabase
+          .from("profiles_public")
+          .select("user_id, display_handle")
+          .eq("user_id", row.author_id)
+          .maybeSingle()
+      : Promise.resolve({ data: null }),
+  ]);
+
+  const lounge = loungeRes.data as { id: string; slug: string; name: string } | null;
+  const profile = profileRes.data as { user_id: string; display_handle: string | null } | null;
+
+  return {
+    data: {
+      resource: {
+        id: row.id,
+        title: titleFromFallback(row),
+        description: null,
+        folder: folderFromMeta(meta),
+        attachmentUrl: row.attachment_url,
+        fileName: stringMeta(meta, "fileName"),
+        fileSize: numberMeta(meta, "size"),
+        mimeType,
+        isImage: row.attachment_url.startsWith("data:image/") || row.attachment_url.endsWith(".png") || row.attachment_url.endsWith(".jpg") || row.attachment_url.endsWith(".jpeg") || row.attachment_url.endsWith(".webp") || (mimeType?.startsWith("image/") ?? false),
+        isPdf: mimeType === "application/pdf",
+        isInheroOfficial: false,
+        isSeeded: false,
+        downloadCount: 0,
+        upvoteCount: 0,
+        commentCount: 0,
+        createdAt: row.created_at,
+        isMine: row.author_id === userId,
+        lounge: lounge ? { slug: lounge.slug, name: lounge.name } : null,
+        author: profile?.display_handle ? { handle: profile.display_handle } : null,
+      },
+    },
+  };
+}
+
 /**
  * GET /api/library/resource/[id]
  *
@@ -49,15 +158,36 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     )
     .eq("id", id)
     .eq("review_status", "approved")
+    .is("deleted_at", null)
     .maybeSingle();
 
   if (error) {
     if (/relation .* does not exist/i.test(error.message)) {
-      return NextResponse.json({ error: "library not yet provisioned" }, { status: 404 });
+      const fallback = await loadFallbackResource(supabase, id, user.id);
+      if ("error" in fallback && fallback.error) {
+        return NextResponse.json({ error: fallback.error.message }, { status: 500 });
+      }
+      if (!fallback.data) {
+        return NextResponse.json({ error: "not found" }, { status: 404 });
+      }
+      return NextResponse.json(fallback.data, {
+        headers: { "Cache-Control": "private, no-store, must-revalidate" },
+      });
     }
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-  if (!row) return NextResponse.json({ error: "not found" }, { status: 404 });
+  if (!row) {
+    const fallback = await loadFallbackResource(supabase, id, user.id);
+    if ("error" in fallback && fallback.error) {
+      return NextResponse.json({ error: fallback.error.message }, { status: 500 });
+    }
+    if (!fallback.data) {
+      return NextResponse.json({ error: "not found" }, { status: 404 });
+    }
+    return NextResponse.json(fallback.data, {
+      headers: { "Cache-Control": "private, no-store, must-revalidate" },
+    });
+  }
 
   const resource = row as ResourceRow;
 
@@ -103,4 +233,57 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
       headers: { "Cache-Control": "private, no-store, must-revalidate" },
     }
   );
+}
+
+/**
+ * DELETE /api/library/resource/[id]
+ *
+ * Soft-deletes the resource. Allowed if the caller is the original
+ * author OR an admin (isAdminEmail). Sets deleted_at + deleted_by; the
+ * row stays in the DB so it can be recovered. Feed + GET queries
+ * filter on deleted_at IS NULL. Hard-delete cron is a future round.
+ */
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+  const user = await requireAuthenticatedUser(req);
+  if (user instanceof NextResponse) return user;
+
+  const id = String(params.id ?? "").trim();
+  if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
+
+  const supabase = createAdminClient();
+
+  const { data: row, error: lookupErr } = await supabase
+    .from("lounge_resources")
+    .select("id, author_id, deleted_at")
+    .eq("id", id)
+    .maybeSingle();
+  if (lookupErr) {
+    if (/relation .* does not exist/i.test(lookupErr.message)) {
+      return NextResponse.json({ error: "library not yet provisioned" }, { status: 404 });
+    }
+    return NextResponse.json({ error: lookupErr.message }, { status: 500 });
+  }
+  if (!row) return NextResponse.json({ error: "not found" }, { status: 404 });
+
+  const r = row as { id: string; author_id: string | null; deleted_at: string | null };
+  if (r.deleted_at) {
+    // Already gone — idempotent success.
+    return new Response(null, { status: 204 });
+  }
+
+  const isOwner = r.author_id === user.id;
+  const isAdmin = isAdminEmail(user.email);
+  if (!isOwner && !isAdmin) {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  }
+
+  const { error: updErr } = await supabase
+    .from("lounge_resources")
+    .update({ deleted_at: new Date().toISOString(), deleted_by: user.id })
+    .eq("id", id);
+  if (updErr) {
+    return NextResponse.json({ error: updErr.message }, { status: 500 });
+  }
+
+  return new Response(null, { status: 204 });
 }
