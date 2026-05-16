@@ -2,23 +2,21 @@
 
 // Browser-side PDF thumbnail generator. Mounted by the library card
 // when a PDF resource has no preview_page_1_url yet. Uses pdfjs in the
-// browser (same engine the reader already uses, with the worker file
-// served from /pdf.worker.min.mjs) to render page 1 to a canvas at
-// 800px width, uploads the PNG to Supabase Storage via a signed URL,
-// then PATCHes the row.
+// browser (same engine the reader already uses) to render page 1, then
+// uploads via the existing /preview/sign + /preview/finalize pair.
 //
 // Renders nothing in the DOM. Self-throttled by an IntersectionObserver
 // on a marker so we only do the work for cards a viewer actually sees.
 // Also self-throttled by a per-session Set so we don't loop on rows
-// the API refused.
+// the API refused, and a 2-slot semaphore so we don't fire all visible
+// renders at once.
 
 import { useEffect, useRef } from "react";
 import { authFetch } from "@/lib/client-auth";
+import { renderPdfPage1ToJpegBlob } from "@/lib/pdfThumbnailRender";
+import { uploadThumbnailForResource } from "@/lib/clientThumbnailUpload";
 
-const PDFJS_VERSION = "5.7.284";
-const TARGET_WIDTH = 800;
 const VIEWPORT_MARGIN = "200px";
-const JPEG_QUALITY = 0.85;
 const MAX_CONCURRENT = 2;
 
 const inFlightOrDone = new Set<string>();
@@ -37,9 +35,6 @@ function diag(payload: Record<string, unknown>) {
   } catch { /* ignore */ }
 }
 
-// Tiny FIFO semaphore so initial-page-load doesn't fire 10+ pdfjs
-// renders at once. Two slots is enough to keep the viewport filling
-// quickly without thrashing the network or CPU.
 let activeGenerations = 0;
 const waitingQueue: Array<() => void> = [];
 function acquireSlot(): Promise<void> {
@@ -89,94 +84,15 @@ export default function PdfThumbnailBackfill({ resourceId, onGenerated }: Props)
         const bytes = new Uint8Array(await fileResp.arrayBuffer());
         if (cancelled) return;
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const pdfjsLib: any = await import("pdfjs-dist/legacy/build/pdf.mjs");
-        pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
-        const loadingTask = pdfjsLib.getDocument({
-          data: bytes,
-          cMapUrl: `https://cdn.jsdelivr.net/npm/pdfjs-dist@${PDFJS_VERSION}/cmaps/`,
-          cMapPacked: true,
-          standardFontDataUrl: `https://cdn.jsdelivr.net/npm/pdfjs-dist@${PDFJS_VERSION}/standard_fonts/`,
-        });
-        const pdf = await loadingTask.promise;
+        const blob = await renderPdfPage1ToJpegBlob(bytes);
         if (cancelled) return;
 
-        const page = await pdf.getPage(1);
-        const baseViewport = page.getViewport({ scale: 1 });
-        const scale = TARGET_WIDTH / baseViewport.width;
-        const viewport = page.getViewport({ scale });
-
-        const canvas = document.createElement("canvas");
-        canvas.width = Math.ceil(viewport.width);
-        canvas.height = Math.ceil(viewport.height);
-        const ctx = canvas.getContext("2d");
-        if (!ctx) throw new Error("no 2d context");
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        await page.render({ canvasContext: ctx, viewport }).promise;
-        if (cancelled) return;
-
-        // JPEG instead of PNG: encodes faster, ~5-10x smaller, so the
-        // upload step finishes in a fraction of the time AND the
-        // resulting URL loads faster on subsequent views.
-        const blob = await new Promise<Blob | null>((resolve) =>
-          canvas.toBlob(resolve, "image/jpeg", JPEG_QUALITY),
-        );
-        if (!blob) throw new Error("toBlob returned null");
-        if (cancelled) return;
-
-        const signResp = await authFetch(`/api/library/resource/${resourceId}/preview/sign`, {
-          method: "POST",
-        });
-        if (signResp.status === 409) {
-          // Another tab/viewer already generated it. Read the URL back
-          // from the response and surface it; the row is already
-          // patched.
-          const j = (await signResp.json().catch(() => null)) as { url?: string } | null;
-          if (j?.url) onGenerated(j.url);
-          return;
-        }
-        if (!signResp.ok) throw new Error(`sign: ${signResp.status}`);
-        const signed = (await signResp.json()) as {
-          signedUrl: string;
-          path: string;
-          token: string;
-        };
-
-        // Supabase signed upload URL accepts PUT with the file body.
-        // Wrap separately so we can distinguish a network/CORS throw
-        // (no response at all) from an HTTP-level failure (response
-        // with body).
-        let putResp: Response;
-        try {
-          putResp = await fetch(signed.signedUrl, {
-            method: "PUT",
-            headers: { "Content-Type": "image/jpeg" },
-            body: blob,
-          });
-        } catch (netErr) {
-          const msg = netErr instanceof Error ? netErr.message : String(netErr);
-          throw new Error(`PUT network/CORS: ${msg}`);
-        }
-        if (!putResp.ok && putResp.status !== 200) {
-          const errBody = await putResp.text().catch(() => "");
-          throw new Error(`PUT HTTP ${putResp.status}: ${errBody.slice(0, 400)}`);
-        }
-        if (cancelled) return;
-
-        const finalizeResp = await authFetch(
-          `/api/library/resource/${resourceId}/preview/finalize`,
-          { method: "POST" },
-        );
-        if (!finalizeResp.ok) throw new Error(`finalize: ${finalizeResp.status}`);
-        const finalized = (await finalizeResp.json()) as { previewPage1Url?: string };
-        if (cancelled || !finalized.previewPage1Url) return;
-        onGenerated(finalized.previewPage1Url);
+        const url = await uploadThumbnailForResource(resourceId, blob);
+        if (cancelled || !url) return;
+        onGenerated(url);
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
         const name = e instanceof Error ? e.name : undefined;
-        // Browser console for live debugging, plus a server-side log
-        // sink so failures show up in `vercel logs --query diag`.
         // eslint-disable-next-line no-console
         console.error("[PdfThumbnailBackfill]", resourceId, name, msg);
         diag({
@@ -208,6 +124,5 @@ export default function PdfThumbnailBackfill({ resourceId, onGenerated }: Props)
     };
   }, [resourceId, onGenerated]);
 
-  // Marker for IntersectionObserver. Zero visual footprint.
   return <div ref={markerRef} aria-hidden="true" style={{ width: 0, height: 0 }} />;
 }

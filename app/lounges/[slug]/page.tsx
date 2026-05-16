@@ -206,6 +206,22 @@ export default function LoungePage({ params }: PageProps) {
       return;
     }
     setUploading(true); setError(null);
+
+    // Layer 1: kick off page-1 thumbnail render in parallel with the
+    // PDF upload. By the time finalize hands back resourceId, the JPEG
+    // blob is usually already in memory, ready for a background upload
+    // — so when anyone opens /library, preview_page_1_url is already
+    // populated and the card renders instantly (no "Generating…").
+    // Only for PDFs; images are their own thumbnail.
+    const isPdf = (file.type || "").toLowerCase() === "application/pdf";
+    const thumbnailPromise: Promise<Blob | null> = isPdf
+      ? file.arrayBuffer()
+          .then((buf) => import("@/lib/pdfThumbnailRender").then((m) =>
+            m.renderPdfPage1ToJpegBlob(new Uint8Array(buf))
+          ))
+          .catch(() => null)
+      : Promise.resolve(null);
+
     try {
       // Step 1 — sign: get a one-shot Supabase Storage upload URL.
       const signRes = await authFetch(`/api/lounges/${slug}/chat/upload/sign`, {
@@ -261,6 +277,19 @@ export default function LoungePage({ params }: PageProps) {
       setMessages((prev) => [...prev, m]);
       lastSeenRef.current = m.createdAt;
       setDraft(""); setReplyTo(null);
+
+      // Step 4 (background, non-blocking) — once we have a resourceId
+      // and the thumbnail blob, ship it to /preview/sign + /preview/finalize.
+      // Errors are swallowed because the library-card backfill path
+      // will re-attempt next time the card is viewed if this fails.
+      const resourceId = m.attachment?.resourceId;
+      if (isPdf && resourceId) {
+        void thumbnailPromise.then(async (blob) => {
+          if (!blob) return;
+          const mod = await import("@/lib/clientThumbnailUpload");
+          await mod.uploadThumbnailForResource(resourceId, blob);
+        }).catch(() => undefined);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally { setUploading(false); setPendingFile(null); }
