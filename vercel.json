@@ -22,6 +22,15 @@
     },
     "app/api/admin/generate-script-sync/route.ts": {
       "maxDuration": 300
+    },
+    "app/api/library/resource/[id]/process-preview/route.ts": {
+      "maxDuration": 60
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/cron/cleanup-deleted-resources",
+      "schedule": "0 3 * * *"
+    }
+  ]
 }

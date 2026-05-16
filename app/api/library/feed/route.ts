@@ -32,6 +32,11 @@ interface ResourceRow {
   upvote_count: number;
   comment_count: number;
   created_at: string;
+  preview_page_1_url: string | null;
+  preview_page_2_url: string | null;
+  preview_page_3_url: string | null;
+  total_pages: number | null;
+  preview_generation_status: string | null;
 }
 
 interface ChatAttachmentRow {
@@ -63,6 +68,11 @@ interface FeedRow {
   upvote_count: number;
   comment_count: number;
   created_at: string;
+  preview_page_1_url: string | null;
+  preview_page_2_url: string | null;
+  preview_page_3_url: string | null;
+  total_pages: number | null;
+  preview_generation_status: string | null;
 }
 
 interface LoungeJoin { id: string; slug: string; name: string }
@@ -115,7 +125,7 @@ export async function GET(req: NextRequest) {
   const resourceQuery = supabase
     .from("lounge_resources")
     .select(
-      "id, chat_message_id, lounge_id, author_id, folder_type, title, description, attachment_url, attachment_meta, file_name, file_size, mime_type, is_inhero_official, is_seeded, download_count, upvote_count, comment_count, created_at"
+      "id, chat_message_id, lounge_id, author_id, folder_type, title, description, attachment_url, attachment_meta, file_name, file_size, mime_type, is_inhero_official, is_seeded, download_count, upvote_count, comment_count, created_at, preview_page_1_url, preview_page_2_url, preview_page_3_url, total_pages, preview_generation_status"
     )
     .eq("review_status", "approved")
     .is("deleted_at", null)
@@ -173,6 +183,11 @@ export async function GET(req: NextRequest) {
       upvote_count: r.upvote_count,
       comment_count: r.comment_count,
       created_at: r.created_at,
+      preview_page_1_url: r.preview_page_1_url,
+      preview_page_2_url: r.preview_page_2_url,
+      preview_page_3_url: r.preview_page_3_url,
+      total_pages: r.total_pages,
+      preview_generation_status: r.preview_generation_status,
     })),
     ...chatRows
       .filter((row) => !!row.attachment_url && !resourceMessageIds.has(row.id))
@@ -200,6 +215,11 @@ export async function GET(req: NextRequest) {
           upvote_count: 0,
           comment_count: 0,
           created_at: row.created_at,
+          preview_page_1_url: null,
+          preview_page_2_url: null,
+          preview_page_3_url: null,
+          total_pages: null,
+          preview_generation_status: null,
         };
       }),
   ];
@@ -277,6 +297,11 @@ export async function GET(req: NextRequest) {
       // level lets the client gate any global admin-only affordances
       // without a separate API call.
       isMine: r.author_id === user.id,
+      previewPage1Url: r.preview_page_1_url,
+      previewPage2Url: r.preview_page_2_url,
+      previewPage3Url: r.preview_page_3_url,
+      totalPages: r.total_pages,
+      previewStatus: r.preview_generation_status,
       lounge: lounge ? { slug: lounge.slug, name: lounge.name } : null,
       author: profile?.display_handle ? { handle: profile.display_handle } : null,
     };

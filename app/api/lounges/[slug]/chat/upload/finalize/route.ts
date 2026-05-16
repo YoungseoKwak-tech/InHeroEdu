@@ -114,6 +114,7 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
     size: fileSize,
     mimeType,
     storagePath: path,
+    isInheroOfficial: isAdminEmail(user.email),
     ...(group ? { group } : {}),
   };
 
@@ -135,13 +136,13 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  const [message] = await hydrateChatMessages([inserted as ChatMessageRow], user.id);
-
-  // Dual-write to lounge_resources for /library. Defensive: skip if the
-  // table doesn't exist yet (migration not applied).
+  // Dual-write to lounge_resources for /library before hydrating so the
+  // freshly returned message already includes the library resource id.
   if (group) {
     const insertedRow = inserted as { id: string; created_at: string };
-    const { error: resourceErr } = await supabase
+    const resourceIdFallback = insertedRow.id;
+    let resourceId: string | null = resourceIdFallback;
+    const { data: resourceRow, error: resourceErr } = await supabase
       .from("lounge_resources")
       .insert({
         chat_message_id: insertedRow.id,
@@ -157,11 +158,58 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
         is_inhero_official: isAdminEmail(user.email),
         review_status: "approved",
         created_at: insertedRow.created_at,
-      });
+      })
+      .select("id")
+      .single();
     if (resourceErr && !/relation .* does not exist/i.test(resourceErr.message)) {
       console.error("[chat/upload/finalize] lounge_resources mirror failed:", resourceErr.message);
     }
+
+    resourceId = (resourceRow as { id: string } | null | undefined)?.id ?? resourceIdFallback;
+    if (resourceId) {
+      await supabase
+        .from("chat_messages")
+        .update({
+          attachment_meta: { ...attachmentMeta, resourceId },
+        })
+        .eq("id", insertedRow.id);
+
+      // Fire-and-forget preview generation. The request lands on
+      // /process-preview as an independent serverless invocation; even
+      // if this finalize function dies as soon as we return below, the
+      // preview render keeps running in its own function. Only kick off
+      // for PDFs — images don't need rendered previews and are already
+      // their own thumbnail.
+      if (mimeType === "application/pdf" && resourceRow) {
+        const origin = req.nextUrl.origin;
+        const token = process.env.PREVIEW_PROCESS_TOKEN ?? "";
+        void fetch(`${origin}/api/library/resource/${resourceId}/process-preview`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-internal-preview-token": token,
+          },
+        }).catch((e) => {
+          console.error("[chat/upload/finalize] preview kickoff failed:", e);
+        });
+      }
+    }
+
+    let [message] = await hydrateChatMessages([inserted as ChatMessageRow], user.id);
+    if (message?.attachment && resourceId) {
+      message = {
+        ...message,
+        attachment: {
+          ...message.attachment,
+          resourceId,
+        },
+      };
+    }
+
+    return NextResponse.json({ ok: true, message });
   }
+
+  const [message] = await hydrateChatMessages([inserted as ChatMessageRow], user.id);
 
   return NextResponse.json({ ok: true, message });
 }

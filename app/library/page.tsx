@@ -28,6 +28,13 @@ interface FeedItem {
   upvoteCount: number;
   commentCount: number;
   createdAt: string;
+  // Server-rendered preview pages from /api/library/resource/[id]/process-preview.
+  // page 1 is full clarity, pages 2 & 3 are baked-blurred PNGs.
+  previewPage1Url: string | null;
+  previewPage2Url: string | null;
+  previewPage3Url: string | null;
+  totalPages: number | null;
+  previewStatus: string | null;
   lounge: { slug: string; name: string } | null;
   author: { handle: string } | null;
 }
@@ -548,6 +555,29 @@ function FeedCard({
   const [confirming, setConfirming] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
+  // Preview carousel state. previewPages is built once per render from
+  // the URLs the server returned. Pages 2 + 3 are baked-blurred at
+  // generation time; the `blurred` flag drives the small "🔒 page N"
+  // overlay that tells the user why content isn't readable.
+  const previewPages: { url: string; blurred: boolean }[] = [];
+  if (item.previewPage1Url) previewPages.push({ url: item.previewPage1Url, blurred: false });
+  if (item.previewPage2Url) previewPages.push({ url: item.previewPage2Url, blurred: true });
+  if (item.previewPage3Url) previewPages.push({ url: item.previewPage3Url, blurred: true });
+  const hasPreviews = previewPages.length > 0;
+  const [previewIndex, setPreviewIndex] = useState(0);
+  const currentPreview = hasPreviews ? previewPages[previewIndex] : null;
+
+  function cyclePreviewNext(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    setPreviewIndex((i) => (i + 1) % previewPages.length);
+  }
+  function cyclePreviewPrev(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    setPreviewIndex((i) => (i === 0 ? previewPages.length - 1 : i - 1));
+  }
+
   // Click outside the ⋯ menu closes it. Mounted only while open so we
   // don't leak listeners across every card on the feed.
   useEffect(() => {
@@ -639,31 +669,80 @@ function FeedCard({
         </div>
       )}
 
-      {/* Thumbnail — click goes straight into the reader */}
-      <Link href={readerHref} className="fc-preview-link" aria-label={`Open ${item.title}`}>
-        <div className="fc-preview">
-          {item.isImage ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={item.attachmentUrl} alt={item.title} loading="lazy" />
-          ) : (
-            <div className="fc-placeholder">
-              <span className="fc-placeholder-emoji" aria-hidden="true">
-                {DOC_GROUP_EMOJI[item.folder]}
-              </span>
-              <span className="fc-placeholder-mime">
-                {item.mimeType?.split("/").pop()?.toUpperCase() ?? "FILE"}
-              </span>
-            </div>
-          )}
-          <div className="fc-badges">
-            {item.folder === "this-week" && <span className="fc-badge fc-badge-week">💎 FREE THIS WEEK</span>}
-            {item.isInheroOfficial && <span className="fc-badge fc-badge-official">⭐ INHERO ORIGINAL</span>}
-            {!item.isInheroOfficial && item.folder !== "this-week" && (
-              <span className="fc-badge fc-badge-community">✦ ORIGINAL</span>
+      {/* Thumbnail — click goes straight into the reader. Preview
+          carousel arrows are stacked on top, outside the Link so they
+          don't navigate. */}
+      <div className="fc-preview-wrap">
+        <Link href={readerHref} className="fc-preview-link" aria-label={`Open ${item.title}`}>
+          <div className="fc-preview">
+            {item.isImage ? (
+              // Image resources are their own thumbnail — no preview pipeline.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={item.attachmentUrl} alt={item.title} loading="lazy" draggable={false} />
+            ) : currentPreview ? (
+              <>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={currentPreview.url}
+                  alt={`${item.title} — preview page ${previewIndex + 1}`}
+                  className={`fc-preview-img ${currentPreview.blurred ? "is-blurred" : ""}`}
+                  loading="lazy"
+                  draggable={false}
+                />
+                {currentPreview.blurred && (
+                  <span className="fc-preview-locked">🔒 page {previewIndex + 1}</span>
+                )}
+              </>
+            ) : (
+              <div className="fc-placeholder">
+                <span className="fc-placeholder-emoji" aria-hidden="true">
+                  {DOC_GROUP_EMOJI[item.folder]}
+                </span>
+                <span className="fc-placeholder-mime">
+                  {item.previewStatus === "processing" || item.previewStatus === "pending"
+                    ? "Generating preview…"
+                    : item.mimeType?.split("/").pop()?.toUpperCase() ?? "FILE"}
+                </span>
+              </div>
             )}
+            <div className="fc-badges">
+              {item.folder === "this-week" && <span className="fc-badge fc-badge-week">💎 FREE THIS WEEK</span>}
+              {item.isInheroOfficial && <span className="fc-badge fc-badge-official">⭐ INHERO ORIGINAL</span>}
+              {!item.isInheroOfficial && item.folder !== "this-week" && (
+                <span className="fc-badge fc-badge-community">✦ ORIGINAL</span>
+              )}
+            </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+        {/* Carousel controls — siblings of the Link, not inside it, so
+            arrow clicks never navigate. Hidden on cards with only one
+            preview page or none. */}
+        {previewPages.length > 1 && (
+          <div className="fc-carousel" aria-label="Cycle preview pages">
+            <button
+              type="button"
+              className="fc-carousel-arrow"
+              onClick={cyclePreviewPrev}
+              aria-label="Previous preview"
+            >
+              ◀
+            </button>
+            <span className="fc-carousel-dots">
+              {previewPages.map((_, i) => (
+                <span key={i} className={`fc-carousel-dot ${i === previewIndex ? "is-active" : ""}`} />
+              ))}
+            </span>
+            <button
+              type="button"
+              className="fc-carousel-arrow"
+              onClick={cyclePreviewNext}
+              aria-label="Next preview"
+            >
+              ▶
+            </button>
+          </div>
+        )}
+      </div>
 
       <div className="fc-body">
         {/* Title — click goes straight into the reader */}
@@ -823,6 +902,9 @@ function FeedCard({
         }
         .fc.is-official:hover { border-color: rgba(244,201,93,0.5); box-shadow: 0 10px 32px rgba(0,0,0,0.4), 0 0 18px rgba(244,201,93,0.18); }
 
+        .fc-preview-wrap {
+          position: relative;
+        }
         .fc-preview-link {
           display: block;
           color: inherit;
@@ -837,6 +919,71 @@ function FeedCard({
           background: linear-gradient(135deg, rgba(94,234,212,0.06), rgba(110,96,255,0.04));
         }
         .fc-preview img { display: block; width: 100%; height: auto; }
+        .fc-preview-img.is-blurred {
+          /* Server-baked blur — this class is purely a marker. */
+          opacity: 0.96;
+        }
+        .fc-preview-locked {
+          position: absolute;
+          top: 0.65rem;
+          right: 0.65rem;
+          padding: 0.18rem 0.5rem;
+          background: rgba(0,0,0,0.72);
+          color: rgba(255,255,255,0.92);
+          font-family: ui-monospace, monospace;
+          font-size: 0.58rem;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          border-radius: 999px;
+          backdrop-filter: blur(6px);
+          pointer-events: none;
+        }
+
+        /* Preview carousel — visible only on hover desktop, always
+           visible on touch / narrow viewports so the affordance is
+           still discoverable without a hover state. */
+        .fc-carousel {
+          position: absolute;
+          bottom: 0.55rem;
+          left: 50%;
+          transform: translateX(-50%);
+          display: inline-flex;
+          align-items: center;
+          gap: 0.45rem;
+          padding: 0.22rem 0.55rem;
+          background: rgba(0,0,0,0.65);
+          backdrop-filter: blur(8px);
+          border-radius: 999px;
+          opacity: 0;
+          transition: opacity 0.18s ease;
+          z-index: 4;
+        }
+        .fc-preview-wrap:hover .fc-carousel,
+        .fc-carousel:focus-within { opacity: 1; }
+        @media (hover: none) {
+          .fc-carousel { opacity: 1; }
+        }
+        .fc-carousel-arrow {
+          background: transparent;
+          border: 0;
+          color: rgba(255,255,255,0.88);
+          font-size: 0.7rem;
+          padding: 0.18rem 0.32rem;
+          cursor: pointer;
+          border-radius: 4px;
+        }
+        .fc-carousel-arrow:hover { background: rgba(255,255,255,0.14); }
+        .fc-carousel-dots {
+          display: inline-flex;
+          gap: 0.25rem;
+        }
+        .fc-carousel-dot {
+          width: 5px; height: 5px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.32);
+          transition: background 0.12s;
+        }
+        .fc-carousel-dot.is-active { background: rgba(255,255,255,0.95); }
         .fc-placeholder {
           display: flex; flex-direction: column; align-items: center; justify-content: center;
           gap: 0.55rem;
