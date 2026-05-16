@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@/lib/supabase";
 import { authFetch } from "@/lib/client-auth";
 import { REACTION_EMOJI, type ChatMessagePublic, type ChatReactionPublic } from "@/lib/chat";
@@ -30,6 +31,7 @@ interface PageProps { params: { slug: string }; }
 
 export default function LoungePage({ params }: PageProps) {
   const { slug } = params;
+  const router = useRouter();
   const supabase = createBrowserClient();
 
   const [tab, setTab] = useState<Tab>("chat");
@@ -216,6 +218,10 @@ export default function LoungePage({ params }: PageProps) {
         }),
       });
       const signJson = await parseJsonTolerant(signRes);
+      if (signJson?.code === "NO_PROFILE") {
+        router.push(`/onboarding?next=${encodeURIComponent(`/lounges/${slug}`)}`);
+        return;
+      }
       if (!signRes.ok || !signJson?.path) {
         throw new Error(asString(signJson?.error) ?? `sign failed (${signRes.status})`);
       }
@@ -244,6 +250,10 @@ export default function LoungePage({ params }: PageProps) {
         }),
       });
       const finJson = await parseJsonTolerant(finRes);
+      if (finJson?.code === "NO_PROFILE") {
+        router.push(`/onboarding?next=${encodeURIComponent(`/lounges/${slug}`)}`);
+        return;
+      }
       if (!finRes.ok || !finJson?.ok) {
         throw new Error(asString(finJson?.error) ?? `finalize failed (${finRes.status})`);
       }
@@ -528,8 +538,13 @@ export default function LoungePage({ params }: PageProps) {
                 </button>
               </div>
             ) : authStatus === "no_profile" ? (
-              <Link href="/onboarding" className="lc-gate lc-gate-tap">
-                <strong>Claim your trajectory handle to chat</strong>
+              <Link href={`/onboarding?next=${encodeURIComponent(`/lounges/${slug}`)}`} className="lc-gate lc-gate-tap">
+                <span className="lc-gate-copy">
+                  <strong>Claim your trajectory handle to chat or upload</strong>
+                  <span className="lc-gate-sub">
+                    Uploads won&apos;t publish to Library until your trajectory is claimed.
+                  </span>
+                </span>
                 <span className="lc-gate-arrow">→</span>
               </Link>
             ) : authStatus === "out" ? (
@@ -888,7 +903,9 @@ export default function LoungePage({ params }: PageProps) {
           border-color: rgba(244,201,93,0.7);
         }
         .lc-gate-tap:active { transform: scale(0.99); }
+        .lc-gate-copy { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
         .lc-gate-tap strong { font-weight: 700; }
+        .lc-gate-sub { font-size: 0.76rem; line-height: 1.4; color: rgba(216,217,230,0.82); }
         .lc-gate-arrow { font-size: 1.1rem; font-weight: 800; flex-shrink: 0; }
         .lc-gate-cta { align-self: flex-start; padding: 0.4rem 0.7rem; background: #F4C95D; color: #0a0a10; border-radius: 0.35rem; font-family: ui-monospace, monospace; font-size: 0.66rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; }
         .lc-error { margin-top: 0.5rem; padding: 0.5rem 0.7rem; background: rgba(255,107,91,0.08); border: 1px solid rgba(255,107,91,0.3); border-radius: 0.4rem; color: #ff8b7e; font-family: ui-monospace, monospace; font-size: 0.76rem; }

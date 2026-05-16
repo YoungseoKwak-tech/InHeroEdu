@@ -42,7 +42,7 @@ export default function RootLayout({
         <SpaceCursor />
         <LanguageProvider>
           <Navbar />
-          <main className="flex-1" style={{ position: 'relative', zIndex: 10 }}>{children}</main>
+          <main className="flex-1" style={{ position: 'relative' }}>{children}</main>
           <Footer />
           <HandleOnboardingModal />
         </LanguageProvider>

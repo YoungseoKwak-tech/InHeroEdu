@@ -13,9 +13,18 @@ declare global {
 export function createBrowserClient(): SupabaseClient {
   if (globalThis.__inheroBrowserSupabase) return globalThis.__inheroBrowserSupabase;
 
+  const supabaseUrl = normalizeSupabaseEnvValue(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    "NEXT_PUBLIC_SUPABASE_URL"
+  );
+  const supabaseAnonKey = normalizeSupabaseEnvValue(
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY"
+  );
+
   globalThis.__inheroBrowserSupabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    supabaseUrl,
+    supabaseAnonKey
   );
 
   return globalThis.__inheroBrowserSupabase;
@@ -27,9 +36,29 @@ export function createBrowserClient(): SupabaseClient {
 // (writes succeeded, immediate read-back saw them, but a subsequent request
 // did not — classic warm-instance state corruption).
 export function createAdminClient(): SupabaseClient {
+  const supabaseUrl = normalizeSupabaseEnvValue(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    "NEXT_PUBLIC_SUPABASE_URL"
+  );
+  const serviceRoleKey = normalizeSupabaseEnvValue(
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
+    "SUPABASE_SERVICE_ROLE_KEY"
+  );
+
   return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    supabaseUrl,
+    serviceRoleKey,
     { auth: { autoRefreshToken: false, persistSession: false } }
   );
+}
+
+export function normalizeSupabaseEnvValue(
+  value: string | undefined,
+  name: string
+): string {
+  const normalized = value?.replace(/\\n/g, "").trim() ?? "";
+  if (!normalized) {
+    throw new Error(`Missing Supabase environment variable: ${name}`);
+  }
+  return normalized;
 }

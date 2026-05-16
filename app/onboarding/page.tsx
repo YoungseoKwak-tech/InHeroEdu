@@ -31,6 +31,8 @@ type CheckState =
 export default function OnboardingPage() {
   const router = useRouter();
   const supabase = createBrowserClient();
+  const [continueHref, setContinueHref] = useState<string | null>(null);
+  const [searchReady, setSearchReady] = useState(false);
 
   const [authStatus, setAuthStatus] = useState<"loading" | "out" | "in">("loading");
   const [step, setStep] = useState<0 | 1 | 2 | 3>(0);
@@ -52,8 +54,20 @@ export default function OnboardingPage() {
   const [cohort, setCohort] = useState<{ claimed: number; cap: number; remaining: number } | null>(null);
   const lastCheckedRef = useRef("");
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const requestedNext = params.get("next");
+    const safeNext =
+      requestedNext && requestedNext.startsWith("/") && !requestedNext.startsWith("//")
+        ? requestedNext
+        : null;
+    setContinueHref(safeNext);
+    setSearchReady(true);
+  }, []);
+
   // Check auth + redirect if profile already exists.
   useEffect(() => {
+    if (!searchReady) return;
     let mounted = true;
     async function bootstrap() {
       try {
@@ -68,7 +82,7 @@ export default function OnboardingPage() {
         const res = await authFetch("/api/profile/me");
         const json = await res.json().catch(() => ({}));
         if (json?.profile?.handle) {
-          router.replace(`/trajectory/${encodeURIComponent(json.profile.handle)}`);
+          router.replace(continueHref ?? `/trajectory/${encodeURIComponent(json.profile.handle)}`);
         }
       } catch {
         if (mounted) setAuthStatus("out");
@@ -86,7 +100,7 @@ export default function OnboardingPage() {
     })();
 
     return () => { mounted = false; };
-  }, [router, supabase]);
+  }, [continueHref, router, searchReady, supabase]);
 
   // Debounced handle check.
   useEffect(() => {
@@ -246,6 +260,11 @@ export default function OnboardingPage() {
               <Link href={`/trajectory/${encodeURIComponent(savedHandle)}`} className="ob-btn-primary">
                 See my trajectory →
               </Link>
+              {continueHref && (
+                <Link href={continueHref} className="ob-btn-ghost">
+                  Continue →
+                </Link>
+              )}
               <Link href="/lounges/ap-bio" className="ob-btn-ghost">Go post in AP Bio →</Link>
             </div>
           </div>

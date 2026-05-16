@@ -20,6 +20,17 @@ const IMAGE_MIMES = new Set([
   "image/jpeg", "image/png", "image/gif", "image/webp", "image/heic", "image/heif",
 ]);
 
+function noProfileResponse() {
+  return NextResponse.json(
+    {
+      error: "Claim your trajectory handle before chatting.",
+      code: "NO_PROFILE",
+      onboardingUrl: "/onboarding",
+    },
+    { status: 403 }
+  );
+}
+
 function safeFilename(raw: string): string {
   // Strip extension-unsafe chars; keep alnum + . _ - and lowercase
   const base = raw.replace(/[^\w.\-]+/g, "_").slice(0, 80);
@@ -69,7 +80,7 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
   const { data: profiles } = await supabase.from("profiles_public").select("user_id");
   const hasProfile = ((profiles ?? []) as { user_id: string }[]).some((p) => p.user_id === user.id);
   if (!hasProfile) {
-    return NextResponse.json({ error: "Claim your trajectory handle before chatting." }, { status: 403 });
+    return noProfileResponse();
   }
 
   // Lounge lookup.
@@ -140,6 +151,7 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
     size: file.size,
     mimeType: file.type || "application/octet-stream",
     storagePath: path,
+    isInheroOfficial: isAdminEmail(user.email),
     ...(group ? { group } : {}),
   };
 
@@ -161,14 +173,15 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  const [message] = await hydrateChatMessages([inserted as ChatMessageRow], user.id);
-
-  // Dual-write to lounge_resources for the /library feed. Defensive: if the
-  // table doesn't exist yet (migration not applied), the chat upload still
-  // succeeds — we just skip the feed mirror.
+  // Dual-write to lounge_resources for the /library feed before we hydrate
+  // the message. That way the response already carries resourceId and the
+  // chat card can jump straight into /library/[id]/read instead of falling
+  // back to the raw storage URL.
   if (group) {
     const insertedRow = inserted as { id: string; created_at: string };
-    const { error: resourceErr } = await supabase
+    const resourceIdFallback = insertedRow.id;
+    let resourceId: string | null = resourceIdFallback;
+    const { data: resourceRow, error: resourceErr } = await supabase
       .from("lounge_resources")
       .insert({
         chat_message_id: insertedRow.id,
@@ -184,12 +197,38 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
         is_inhero_official: isAdminEmail(user.email),
         review_status: "approved",
         created_at: insertedRow.created_at,
-      });
+      })
+      .select("id")
+      .single();
     if (resourceErr && !/relation .* does not exist/i.test(resourceErr.message)) {
       // Real error (constraint, FK, etc.) — log but don't fail the upload.
       console.error("[chat/upload] lounge_resources mirror failed:", resourceErr.message);
     }
+
+    resourceId = (resourceRow as { id: string } | null | undefined)?.id ?? resourceIdFallback;
+    if (resourceId) {
+      await supabase
+        .from("chat_messages")
+        .update({
+          attachment_meta: { ...attachmentMeta, resourceId },
+        })
+        .eq("id", insertedRow.id);
+    }
+
+    let [message] = await hydrateChatMessages([inserted as ChatMessageRow], user.id);
+    if (message?.attachment && resourceId) {
+      message = {
+        ...message,
+        attachment: {
+          ...message.attachment,
+          resourceId,
+        },
+      };
+    }
+
+    return NextResponse.json({ ok: true, message });
   }
 
+  const [message] = await hydrateChatMessages([inserted as ChatMessageRow], user.id);
   return NextResponse.json({ ok: true, message });
 }

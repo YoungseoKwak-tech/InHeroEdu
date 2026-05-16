@@ -3,6 +3,7 @@ import type { Course } from "@/lib/data/courses";
 
 interface CourseCardProps {
   course: Course;
+  hrefBase?: string;
 }
 
 const difficultyColor: Record<string, string> = {
@@ -11,7 +12,7 @@ const difficultyColor: Record<string, string> = {
   "Advanced": "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
 };
 
-export default function CourseCard({ course }: CourseCardProps) {
+export default function CourseCard({ course, hrefBase = "/courses" }: CourseCardProps) {
 
   return (
     <div className="relative group">
@@ -55,7 +56,7 @@ export default function CourseCard({ course }: CourseCardProps) {
           {/* CTA */}
           <div className="mt-5">
             <Link
-              href={`/courses/${course.id}`}
+              href={`${hrefBase}/${course.id}`}
               className="w-full btn-primary text-center text-sm py-2.5 block rounded-xl"
             >
               Preview course →

@@ -12,6 +12,17 @@ import {
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+function noProfileResponse() {
+  return NextResponse.json(
+    {
+      error: "Claim your trajectory handle before chatting.",
+      code: "NO_PROFILE",
+      onboardingUrl: "/onboarding",
+    },
+    { status: 403 }
+  );
+}
+
 /**
  * GET /api/lounges/[slug]/chat/messages?limit=50&after=ISO
  *   Returns most-recent first. With after=, returns only messages strictly
@@ -90,10 +101,7 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
   const { data: profiles } = await supabase.from("profiles_public").select("user_id");
   const hasProfile = ((profiles ?? []) as { user_id: string }[]).some((p) => p.user_id === user.id);
   if (!hasProfile) {
-    return NextResponse.json(
-      { error: "Claim your trajectory handle before chatting." },
-      { status: 403 }
-    );
+    return noProfileResponse();
   }
 
   // Lounge lookup.

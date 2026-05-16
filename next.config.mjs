@@ -23,14 +23,15 @@ const nextConfig = {
   //                          real file in node_modules and the fake
   //                          worker spins up on the main thread.
   //   sharp                — libvips native module
-  //   pdf-to-png-converter — depends on @napi-rs/canvas .node binary
+  //   pdf-to-img           — wraps pdfjs + @napi-rs/canvas; native
+  //                          binary + worker-resolve concerns as above
   //   @napi-rs/canvas      — native canvas binary
   experimental: {
     serverComponentsExternalPackages: [
       "pdf-parse",
       "pdfjs-dist",
       "sharp",
-      "pdf-to-png-converter",
+      "pdf-to-img",
       "@napi-rs/canvas",
     ],
   },

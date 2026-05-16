@@ -2,6 +2,7 @@ import { courses } from "@/lib/data/courses";
 import { getLessonsByCourse } from "@/lib/data/lessons";
 import { getLessonPlayerData } from "@/lib/lessons";
 import { getCourseLessonsWithClips } from "@/lib/getCourseLessons";
+import { resolveCourseId } from "@/lib/courseAliases";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -10,8 +11,11 @@ interface Props {
   params: { subject: string };
 }
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const course = courses.find((c) => c.id === params.subject);
+  const resolvedSubject = resolveCourseId(params.subject);
+  const course = courses.find((c) => c.id === resolvedSubject);
   if (!course) return { title: "Course | InHero" };
   return {
     title: `${course.subject} | InHero`,
@@ -24,7 +28,8 @@ export async function generateStaticParams() {
 }
 
 export default async function CoursePage({ params }: Props) {
-  const course = courses.find((c) => c.id === params.subject);
+  const resolvedSubject = resolveCourseId(params.subject);
+  const course = courses.find((c) => c.id === resolvedSubject);
   if (!course) notFound();
 
   const staticLessons = getLessonsByCourse(course.id);

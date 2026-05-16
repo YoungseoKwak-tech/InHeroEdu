@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { courses } from "@/lib/data/courses";
 import { lessons as lessonDict } from "@/lib/data/lessons";
 import { authFetch } from "@/lib/client-auth";
+import { resolveCourseId } from "@/lib/courseAliases";
 import ScriptGenerator from "@/components/admin/ScriptGenerator";
 import LessonScriptEditor from "@/components/admin/LessonScriptEditor";
 import OverlaysEditor from "@/components/admin/OverlaysEditor";
@@ -577,8 +578,8 @@ export default function AdminLessonsPage() {
                 </button>
               ))}
               {selectedKind === "lesson" && selectedCourseId && selectedItemId && (
-                <a
-                  href={`/courses/${selectedCourseId}/${selectedItemId}`}
+                  <a
+                  href={`/courses/${resolveCourseId(selectedCourseId)}/${selectedItemId}`}
                   target="_blank"
                   rel="noreferrer"
                   className="alp-tab alp-tab-link"

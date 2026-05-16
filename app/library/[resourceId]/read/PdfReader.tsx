@@ -516,7 +516,7 @@ export default function PdfReader() {
           overflow: hidden;
           user-select: none;
           -webkit-user-select: none;
-          z-index: 100;
+          z-index: 1000;
         }
         .rd-root.is-fs { background: #000; }
 

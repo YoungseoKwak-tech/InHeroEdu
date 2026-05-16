@@ -18,12 +18,17 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { createBrowserClient } from "@/lib/supabase";
 import { authFetch } from "@/lib/client-auth";
+import { createBrowserClient } from "@/lib/supabase";
 import { parseScript } from "@/lib/parseScript";
 import { overlaysWithTimestamps } from "@/lib/overlays";
 import VideoLessonPlayer from "@/components/lesson/VideoLessonPlayer";
+import LessonWorkspaceShell from "@/components/lesson/LessonWorkspaceShell";
 import type { OverlayRow } from "@/lib/overlays";
+
+interface TimedOverlay extends OverlayRow {
+  triggerAt?: number;
+}
 
 interface Props {
   lessonId: string;
@@ -32,17 +37,42 @@ interface Props {
   title: string;
   courseId: string;
   courseName: string;
+  courseHref?: string;
+  redirectHref?: string;
+  nextLessonHref?: string | null;
   nextLessonId?: string | null;
+  lessonScript?: string;
+  lessonLang?: "en" | "ko";
+  isFreePreviewLesson?: boolean;
+  initialOverlays?: OverlayRow[];
 }
 
 type AuthState = "loading" | "authenticated" | "guest";
+type AccessState = "loading" | "granted" | "denied";
 
 export default function VideoLessonGate({
-  lessonId, videoUrl, script, title, courseId, courseName, nextLessonId,
+  lessonId,
+  videoUrl,
+  script,
+  title,
+  courseId,
+  courseName,
+  courseHref,
+  redirectHref,
+  nextLessonHref,
+  nextLessonId,
+  lessonScript,
+  lessonLang,
+  isFreePreviewLesson,
+  initialOverlays,
 }: Props) {
   const [authState, setAuthState] = useState<AuthState>("loading");
+  const [accessState, setAccessState] = useState<AccessState>("loading");
   const [completed, setCompleted] = useState(false);
-  const [timedOverlays, setTimedOverlays] = useState<(OverlayRow & { triggerAt: number })[]>([]);
+  const [timedOverlays, setTimedOverlays] = useState<TimedOverlay[]>([]);
+  const resolvedCourseHref = courseHref ?? `/courses/${courseId}`;
+  const resolvedRedirectHref = redirectHref ?? `${resolvedCourseHref}/${lessonId}`;
+  const resolvedNextLessonHref = nextLessonHref ?? (nextLessonId ? `${resolvedCourseHref}/${nextLessonId}` : null);
 
   useEffect(() => {
     const supabase = createBrowserClient();
@@ -51,19 +81,54 @@ export default function VideoLessonGate({
     });
   }, []);
 
+  useEffect(() => {
+    let cancelled = false;
+    async function checkAccess() {
+      if (authState !== "authenticated") {
+        setAccessState("loading");
+        return;
+      }
+      if (isFreePreviewLesson) {
+        setAccessState("granted");
+        return;
+      }
+      setAccessState("loading");
+      try {
+        const response = await authFetch(`/api/course-access?courseId=${encodeURIComponent(courseId)}`);
+        const json = await response.json();
+        if (!cancelled) {
+          setAccessState(response.ok && json?.hasAccess ? "granted" : "denied");
+        }
+      } catch {
+        if (!cancelled) setAccessState("denied");
+      }
+    }
+
+    checkAccess();
+    return () => {
+      cancelled = true;
+    };
+  }, [authState, courseId, isFreePreviewLesson]);
+
   // Fetch overlays and merge timestamps when authenticated
   useEffect(() => {
-    if (authState !== "authenticated") return;
+    if (authState !== "authenticated" || accessState !== "granted") return;
+    if (initialOverlays?.length) {
+      const sections = parseScript(script);
+      const merged = overlaysWithTimestamps(initialOverlays, sections);
+      setTimedOverlays(merged.length > 0 ? merged : initialOverlays);
+      return;
+    }
     authFetch(`/api/overlays?lessonId=${lessonId}`)
       .then((r) => r.json())
       .then((j) => {
         if (!j.ok || !j.data?.length) return;
         const sections = parseScript(script);
         const merged = overlaysWithTimestamps(j.data as OverlayRow[], sections);
-        setTimedOverlays(merged);
+        setTimedOverlays(merged.length > 0 ? merged : (j.data as OverlayRow[]));
       })
       .catch(() => {});
-  }, [authState, lessonId, script]);
+  }, [authState, accessState, initialOverlays, lessonId, script]);
 
   if (authState === "loading") {
     return (
@@ -84,8 +149,38 @@ export default function VideoLessonGate({
             Sign in to watch <strong>{title}</strong>.
           </p>
           <div className="vlg-locked-actions">
-            <Link href="/auth/login" className="vlg-btn-primary">Sign In to Watch</Link>
-            <Link href={`/courses/${courseId}`} className="vlg-btn-ghost">← Back to {courseName}</Link>
+            <Link href={`/auth/login?redirect=${encodeURIComponent(resolvedRedirectHref)}`} className="vlg-btn-primary">
+              Sign In to Watch
+            </Link>
+            <Link href={resolvedCourseHref} className="vlg-btn-ghost">← Back to {courseName}</Link>
+          </div>
+        </div>
+        <style>{lockedCss}</style>
+      </div>
+    );
+  }
+
+  if (accessState === "loading") {
+    return (
+      <div className="vlg-center">
+        <div className="vlg-spinner" />
+        <style>{spinnerCss}</style>
+      </div>
+    );
+  }
+
+  if (accessState === "denied") {
+    return (
+      <div className="vlg-center">
+        <div className="vlg-locked-card">
+          <div className="vlg-lock-icon">🔐</div>
+          <h2 className="vlg-locked-title">Course Locked</h2>
+          <p className="vlg-locked-body">
+            You are signed in, but <strong>{courseName}</strong> requires an active pass to continue.
+          </p>
+          <div className="vlg-locked-actions">
+            <Link href="/pricing" className="vlg-btn-primary">Unlock with InHero Pass</Link>
+            <Link href={resolvedCourseHref} className="vlg-btn-ghost">← Back to {courseName}</Link>
           </div>
         </div>
         <style>{lockedCss}</style>
@@ -101,10 +196,10 @@ export default function VideoLessonGate({
           <h2 className="vlg-locked-title">Lesson complete!</h2>
           <p className="vlg-locked-body">Your responses have been saved.</p>
           <div className="vlg-locked-actions">
-            {nextLessonId ? (
-              <Link href={`/courses/${courseId}/${nextLessonId}`} className="vlg-btn-primary">Next Lesson →</Link>
+            {resolvedNextLessonHref ? (
+              <Link href={resolvedNextLessonHref} className="vlg-btn-primary">Next Lesson →</Link>
             ) : (
-              <Link href={`/courses/${courseId}`} className="vlg-btn-primary">Back to Course →</Link>
+              <Link href={resolvedCourseHref} className="vlg-btn-primary">Back to Course →</Link>
             )}
             <button
               onClick={() => setCompleted(false)}
@@ -121,46 +216,22 @@ export default function VideoLessonGate({
   }
 
   return (
-    <>
-      <div className="vlg-breadcrumb">
-        <div className="vlg-breadcrumb-inner">
-          <Link href={`/courses/${courseId}`} className="vlg-back-link">← {courseName}</Link>
-          <span className="vlg-sep">/</span>
-          <span className="vlg-current">{title}</span>
-        </div>
-      </div>
+    <LessonWorkspaceShell
+      courseId={courseId}
+      lessonId={lessonId}
+      title={title}
+      courseName={courseName}
+      courseHref={resolvedCourseHref}
+      lessonScript={lessonScript}
+      lessonLang={lessonLang}
+    >
       <VideoLessonPlayer
         lessonId={lessonId}
         videoUrl={videoUrl}
         overlays={timedOverlays}
         onComplete={() => setCompleted(true)}
       />
-      <style>{`
-        .vlg-breadcrumb {
-          background: #0d0d0d;
-          border-bottom: 1px solid #1a1a1a;
-          padding: 0.55rem 1rem;
-        }
-        .vlg-breadcrumb-inner {
-          max-width: 52rem;
-          margin: 0 auto;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-size: 0.75rem;
-        }
-        .vlg-back-link { color: #555; text-decoration: none; transition: color 0.15s; }
-        .vlg-back-link:hover { color: #00FFB2; }
-        .vlg-sep { color: #333; }
-        .vlg-current {
-          color: #888;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          max-width: 20rem;
-        }
-      `}</style>
-    </>
+    </LessonWorkspaceShell>
   );
 }
 

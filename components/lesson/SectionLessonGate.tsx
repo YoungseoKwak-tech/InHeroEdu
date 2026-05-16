@@ -8,8 +8,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { authFetch } from "@/lib/client-auth";
 import { createBrowserClient } from "@/lib/supabase";
 import type { PlaylistItem } from "@/lib/buildPlaylist";
+import LessonWorkspaceShell from "@/components/lesson/LessonWorkspaceShell";
 
 const SectionLessonPlayer = dynamic(
   () => import("@/components/lesson/SectionLessonPlayer"),
@@ -22,16 +24,38 @@ interface Props {
   title: string;
   courseId: string;
   courseName: string;
+  courseHref?: string;
+  redirectHref?: string;
+  nextLessonHref?: string | null;
   nextLessonId?: string | null;
+  lessonScript?: string;
+  lessonLang?: "en" | "ko";
+  isFreePreviewLesson?: boolean;
 }
 
 type AuthState = "loading" | "authenticated" | "guest";
+type AccessState = "loading" | "granted" | "denied";
 
 export default function SectionLessonGate({
-  playlist, lessonId, title, courseId, courseName, nextLessonId,
+  playlist,
+  lessonId,
+  title,
+  courseId,
+  courseName,
+  courseHref,
+  redirectHref,
+  nextLessonHref,
+  nextLessonId,
+  lessonScript,
+  lessonLang,
+  isFreePreviewLesson,
 }: Props) {
   const [authState, setAuthState] = useState<AuthState>("loading");
+  const [accessState, setAccessState] = useState<AccessState>("loading");
   const [completed, setCompleted] = useState(false);
+  const resolvedCourseHref = courseHref ?? `/courses/${courseId}`;
+  const resolvedRedirectHref = redirectHref ?? `${resolvedCourseHref}/${lessonId}`;
+  const resolvedNextLessonHref = nextLessonHref ?? (nextLessonId ? `${resolvedCourseHref}/${nextLessonId}` : null);
 
   useEffect(() => {
     const supabase = createBrowserClient();
@@ -39,6 +63,35 @@ export default function SectionLessonGate({
       setAuthState(session ? "authenticated" : "guest");
     });
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function checkAccess() {
+      if (authState !== "authenticated") {
+        setAccessState("loading");
+        return;
+      }
+      if (isFreePreviewLesson) {
+        setAccessState("granted");
+        return;
+      }
+      setAccessState("loading");
+      try {
+        const response = await authFetch(`/api/course-access?courseId=${encodeURIComponent(courseId)}`);
+        const json = await response.json();
+        if (!cancelled) {
+          setAccessState(response.ok && json?.hasAccess ? "granted" : "denied");
+        }
+      } catch {
+        if (!cancelled) setAccessState("denied");
+      }
+    }
+
+    checkAccess();
+    return () => {
+      cancelled = true;
+    };
+  }, [authState, courseId, isFreePreviewLesson]);
 
   if (authState === "loading") {
     return (
@@ -57,8 +110,38 @@ export default function SectionLessonGate({
           <h2 className="slg-title">Preview Locked</h2>
           <p className="slg-body">Sign in to watch <strong>{title}</strong>.</p>
           <div className="slg-actions">
-            <Link href="/auth/login" className="slg-btn-primary">Sign In to Watch</Link>
-            <Link href={`/courses/${courseId}`} className="slg-btn-ghost">← Back to {courseName}</Link>
+            <Link href={`/auth/login?redirect=${encodeURIComponent(resolvedRedirectHref)}`} className="slg-btn-primary">
+              Sign In to Watch
+            </Link>
+            <Link href={resolvedCourseHref} className="slg-btn-ghost">← Back to {courseName}</Link>
+          </div>
+        </div>
+        <style>{sharedCss}</style>
+      </div>
+    );
+  }
+
+  if (accessState === "loading") {
+    return (
+      <div className="slg-center">
+        <div className="slg-spinner" />
+        <style>{sharedCss}</style>
+      </div>
+    );
+  }
+
+  if (accessState === "denied") {
+    return (
+      <div className="slg-center">
+        <div className="slg-card">
+          <div className="slg-icon">🔐</div>
+          <h2 className="slg-title">Course Locked</h2>
+          <p className="slg-body">
+            You are signed in, but <strong>{courseName}</strong> requires an active pass to continue.
+          </p>
+          <div className="slg-actions">
+            <Link href="/pricing" className="slg-btn-primary">Unlock with InHero Pass</Link>
+            <Link href={resolvedCourseHref} className="slg-btn-ghost">← Back to {courseName}</Link>
           </div>
         </div>
         <style>{sharedCss}</style>
@@ -74,10 +157,10 @@ export default function SectionLessonGate({
           <h2 className="slg-title" style={{ color: "#C9A84C" }}>Lesson Complete</h2>
           <p className="slg-body">Your responses have been saved.</p>
           <div className="slg-actions">
-            {nextLessonId ? (
-              <Link href={`/courses/${courseId}/${nextLessonId}`} className="slg-btn-primary">Next Lesson →</Link>
+            {resolvedNextLessonHref ? (
+              <Link href={resolvedNextLessonHref} className="slg-btn-primary">Next Lesson →</Link>
             ) : (
-              <Link href={`/courses/${courseId}`} className="slg-btn-primary">Back to Course →</Link>
+              <Link href={resolvedCourseHref} className="slg-btn-primary">Back to Course →</Link>
             )}
             <button
               className="slg-btn-ghost"
@@ -94,36 +177,21 @@ export default function SectionLessonGate({
   }
 
   return (
-    <>
-      <div className="slg-breadcrumb">
-        <div className="slg-breadcrumb-inner">
-          <Link href={`/courses/${courseId}`} className="slg-back">← {courseName}</Link>
-          <span className="slg-sep">/</span>
-          <span className="slg-current">{title}</span>
-        </div>
-      </div>
+    <LessonWorkspaceShell
+      courseId={courseId}
+      lessonId={lessonId}
+      title={title}
+      courseName={courseName}
+      courseHref={resolvedCourseHref}
+      lessonScript={lessonScript}
+      lessonLang={lessonLang}
+    >
       <SectionLessonPlayer
         playlist={playlist}
         lessonId={lessonId}
         onComplete={() => setCompleted(true)}
       />
-      <style>{`
-        .slg-breadcrumb {
-          background: #0d0d0d;
-          border-bottom: 1px solid #1a1a1a;
-          padding: 0.55rem 1rem;
-        }
-        .slg-breadcrumb-inner {
-          max-width: 52rem; margin: 0 auto;
-          display: flex; align-items: center; gap: 0.5rem;
-          font-size: 0.75rem; font-family: 'Inter', system-ui, sans-serif;
-        }
-        .slg-back { color: #555; text-decoration: none; transition: color 0.15s; }
-        .slg-back:hover { color: #00FFB2; }
-        .slg-sep { color: #333; }
-        .slg-current { color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 20rem; }
-      `}</style>
-    </>
+    </LessonWorkspaceShell>
   );
 }
 

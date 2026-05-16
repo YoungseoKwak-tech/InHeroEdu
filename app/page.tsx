@@ -1,6 +1,6 @@
 "use client";
 
-import Hero from "@/components/landing/Hero";
+import HomeHeroDualPath from "@/components/landing/HomeHeroDualPath";
 import DropFeaturedCard from "@/components/drops/DropFeaturedCard";
 import FacultyLineup from "@/components/landing/FacultyLineup";
 import AcademyCampus from "@/components/landing/AcademyCampus";
@@ -15,7 +15,7 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <>
-      <Hero />
+      <HomeHeroDualPath locale="en" />
       <UniversityBanner />
       <FacultyLineup />
       <AcademyCampus />

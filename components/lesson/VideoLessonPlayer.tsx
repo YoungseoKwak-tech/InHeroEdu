@@ -14,12 +14,12 @@
  *   onComplete     — called when video ends and all overlays have fired
  */
 
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import OverlayCard from "@/components/lesson/OverlayCard";
 import type { OverlayRow } from "@/lib/overlays";
 
 interface TimedOverlay extends OverlayRow {
-  triggerAt: number;
+  triggerAt?: number;
 }
 
 interface Props {
@@ -34,9 +34,26 @@ export default function VideoLessonPlayer({ lessonId, videoUrl, overlays, onComp
   const firedRef = useRef<Set<string>>(new Set());
   const [activeOverlay, setActiveOverlay] = useState<TimedOverlay | null>(null);
   const [overlayVisible, setOverlayVisible] = useState(false);
+  const [duration, setDuration] = useState<number | null>(null);
 
-  // Sort overlays by triggerAt for efficiency
-  const sortedOverlays = [...overlays].sort((a, b) => a.triggerAt - b.triggerAt);
+  const sortedOverlays = useMemo(() => {
+    const timed = overlays.filter((overlay) => typeof overlay.triggerAt === "number");
+    const untimed = overlays.filter((overlay) => typeof overlay.triggerAt !== "number");
+
+    if (timed.length > 0) {
+      return [...timed, ...untimed].sort((a, b) => (a.triggerAt ?? Number.POSITIVE_INFINITY) - (b.triggerAt ?? Number.POSITIVE_INFINITY));
+    }
+
+    if (!duration || untimed.length === 0) {
+      return [...overlays];
+    }
+
+    const step = duration / (untimed.length + 1);
+    return untimed.map((overlay, index) => ({
+      ...overlay,
+      triggerAt: step * (index + 1),
+    }));
+  }, [overlays, duration]);
 
   // timeupdate handler — check if any overlay should fire
   const handleTimeUpdate = useCallback(() => {
@@ -45,6 +62,7 @@ export default function VideoLessonPlayer({ lessonId, videoUrl, overlays, onComp
 
     const currentTime = video.currentTime;
     for (const overlay of sortedOverlays) {
+      if (typeof overlay.triggerAt !== "number") continue;
       if (!firedRef.current.has(overlay.id) && currentTime >= overlay.triggerAt) {
         video.pause();
         firedRef.current.add(overlay.id);
@@ -87,6 +105,7 @@ export default function VideoLessonPlayer({ lessonId, videoUrl, overlays, onComp
           src={videoUrl}
           controls
           playsInline
+          onLoadedMetadata={() => setDuration(videoRef.current?.duration ?? null)}
           onEnded={handleVideoEnded}
         />
       </div>

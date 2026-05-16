@@ -39,16 +39,23 @@ export async function GET() {
 
   const loungeIds = lounges.map((l) => l.id);
 
-  // Post counts (forum-style threaded posts).
+  // Post counts (forum-style threaded posts) + distinct authors per lounge.
+  // userCount is the union of post authors + chat authors below; we feed it
+  // through one Set per lounge so the final number is unique-people.
   const postCounts = new Map<string, number>();
+  const userSets = new Map<string, Set<string>>();
   if (loungeIds.length > 0) {
     const { data: posts } = await supabase
       .from("lounge_posts")
-      .select("lounge_id")
+      .select("lounge_id, author_id")
       .in("lounge_id", loungeIds)
       .eq("is_deleted", false);
-    for (const p of (posts ?? []) as { lounge_id: string }[]) {
+    for (const p of (posts ?? []) as { lounge_id: string; author_id: string | null }[]) {
       postCounts.set(p.lounge_id, (postCounts.get(p.lounge_id) ?? 0) + 1);
+      if (p.author_id) {
+        if (!userSets.has(p.lounge_id)) userSets.set(p.lounge_id, new Set());
+        userSets.get(p.lounge_id)!.add(p.author_id);
+      }
     }
   }
 
@@ -100,6 +107,10 @@ export async function GET() {
 
     for (const r of rows) {
       chatCounts.set(r.context_id, (chatCounts.get(r.context_id) ?? 0) + 1);
+      if (r.author_id) {
+        if (!userSets.has(r.context_id)) userSets.set(r.context_id, new Set());
+        userSets.get(r.context_id)!.add(r.author_id);
+      }
       const list = previewByLounge.get(r.context_id) ?? [];
       if (list.length >= 8) continue;
       let content: string;
@@ -129,6 +140,7 @@ export async function GET() {
       description: l.description,
       postCount: postCounts.get(l.id) ?? 0,
       chatCount: chatCounts.get(l.id) ?? 0,
+      userCount: userSets.get(l.id)?.size ?? 0,
       // Reverse so the preview reads top→bottom (oldest first).
       previewMessages: (previewByLounge.get(l.id) ?? []).slice().reverse(),
     })),

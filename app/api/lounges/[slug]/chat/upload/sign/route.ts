@@ -9,6 +9,17 @@ export const dynamic = "force-dynamic";
 const BUCKET = "chat-attachments";
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB — Supabase free-tier per-file default
 
+function noProfileResponse() {
+  return NextResponse.json(
+    {
+      error: "Claim your trajectory handle before chatting.",
+      code: "NO_PROFILE",
+      onboardingUrl: "/onboarding",
+    },
+    { status: 403 }
+  );
+}
+
 function safeFilename(raw: string): string {
   const base = raw.replace(/[^\w.\-]+/g, "_").slice(0, 80);
   return base.length > 0 ? base : "file";
@@ -55,7 +66,7 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
   const { data: profiles } = await supabase.from("profiles_public").select("user_id");
   const hasProfile = ((profiles ?? []) as { user_id: string }[]).some((p) => p.user_id === user.id);
   if (!hasProfile) {
-    return NextResponse.json({ error: "Claim your trajectory handle before chatting." }, { status: 403 });
+    return noProfileResponse();
   }
 
   // Lounge lookup.

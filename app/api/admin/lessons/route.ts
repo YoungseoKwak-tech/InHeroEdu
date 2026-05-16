@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 import { requireAdminUser } from "@/lib/auth";
 import breakdown from "@/lib/data/ap-lesson-breakdown.json";
+import { getCourseIdVariants, getLessonIdVariants, resolveCourseId } from "@/lib/courseAliases";
 
 type FallbackLessonRow = {
   id: string;
@@ -15,13 +16,16 @@ type FallbackLessonRow = {
 };
 
 function buildFallbackLessons(courseId: string): FallbackLessonRow[] {
-  const course = breakdown.courses.find((item) => item.courseId === courseId);
+  const course = getCourseIdVariants(courseId)
+    .map((variant) => breakdown.courses.find((item) => item.courseId === variant))
+    .find(Boolean);
   if (!course) return [];
+  const normalizedCourseId = resolveCourseId(courseId);
 
   return course.units.flatMap((unit) =>
     unit.lessons.map((lesson) => ({
-      id: `${course.courseId}-u${unit.unitNumber}-l${lesson.lessonNumber}`,
-      course_id: course.courseId,
+      id: `${normalizedCourseId}-u${unit.unitNumber}-l${lesson.lessonNumber}`,
+      course_id: normalizedCourseId,
       unit_number: unit.unitNumber,
       unit_title: unit.unitTitle,
       lesson_number: lesson.lessonNumber,
@@ -48,10 +52,11 @@ export async function GET(req: NextRequest) {
   const supabase = createAdminClient();
 
   // Fetch all lessons for this course
+  const courseVariants = getCourseIdVariants(courseId);
   const { data: lessons, error: lessonsErr } = await supabase
     .from("lessons")
     .select("id, course_id, unit_number, unit_title, lesson_number, title, topics, exam_tip")
-    .eq("course_id", courseId)
+    .in("course_id", courseVariants)
     .order("unit_number", { ascending: true })
     .order("lesson_number", { ascending: true });
 
@@ -75,7 +80,7 @@ export async function GET(req: NextRequest) {
   }
 
   // Fetch script status for all lesson IDs in one query
-  const lessonIds = resolvedLessons.map((l) => l.id);
+  const lessonIds = resolvedLessons.flatMap((lesson) => getLessonIdVariants(lesson.id, courseId));
   const { data: scripts } = await supabase
     .from("lesson_scripts")
     .select("lesson_id, script_generated_at")
@@ -87,7 +92,7 @@ export async function GET(req: NextRequest) {
 
   const data = resolvedLessons.map((l) => ({
     ...l,
-    hasScript: scriptMap.get(l.id) ?? false,
+    hasScript: getLessonIdVariants(l.id, courseId).some((candidate) => scriptMap.get(candidate) ?? false),
   }));
 
   return NextResponse.json({ data });

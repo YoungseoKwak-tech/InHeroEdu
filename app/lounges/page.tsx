@@ -3,6 +3,9 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import { unstable_noStore as noStore } from "next/cache";
 import TextbookSlider from "@/components/landing/TextbookSlider";
+import LoungeSidebar from "@/components/lounges/LoungeSidebar";
+import { getSeedPreviewBubbles } from "@/lib/seedDiscussions";
+import { getLiveConfig } from "@/lib/seed/loungeRoster";
 
 export const dynamic = "force-dynamic";
 
@@ -22,6 +25,10 @@ interface PreviewMessage {
   id: string;
   handle: string | null;
   isMentor: boolean;
+  /** True for InHero-seeded starter prompts; styled distinctly and never claimed as real activity. */
+  isSeed?: boolean;
+  /** True for the official u/inhero_seed system author (the gold ★ row). */
+  isSeedBot?: boolean;
   content: string;
   type: "text" | "image" | "file";
   createdAt: string;
@@ -34,8 +41,175 @@ interface LoungeListing {
   description: string | null;
   postCount: number;
   chatCount: number;
+  /** Distinct users who've posted or chatted in this lounge. Real, not mocked. */
+  userCount: number;
   previewMessages: PreviewMessage[];
 }
+
+// Hand-curated trending order. #1 anchors the hero pair; #2/#3 surface
+// in the grid with a 🔥 TRENDING stamp + hover-reveal rep material.
+const TRENDING_RANK: Record<string, 1 | 2 | 3> = {
+  "ap-bio":     1,
+  "sat":        2,
+  "admissions": 3,
+};
+
+interface RepMaterial {
+  kicker: string;
+  title: string;
+  subtitle: string;
+  glyph: string;
+  accent: string;
+}
+
+// Each lounge has a "rep doc" — the headline artifact you'd hover the card to
+// preview. Most are COMING SOON placeholders; the copy sets the voice.
+const REP_MATERIAL: Record<string, RepMaterial> = {
+  // COLLEGE
+  "sat": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "SAT Trap Database",
+    subtitle: "240+ traps logged. Reading misdirections, math grid-in tricks, the questions that wreck scores.",
+    glyph: "📐",
+    accent: "#7DD3FC",
+  },
+  "admissions": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "Ivy Essay Archive",
+    subtitle: "Dissected essays from accepted applicants. Openings, cuts, the line that made a reader pause.",
+    glyph: "🎓",
+    accent: "#A99CFF",
+  },
+  "essay-writing": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "Cut Files: Personal Statements",
+    subtitle: "Annotated rejections + accepted drafts side-by-side. The literal red-pen line edits, not the polished final.",
+    glyph: "✍️",
+    accent: "#F9A8D4",
+  },
+  "college-results": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "Decision Pattern Tracker",
+    subtitle: "Every decision tagged by stats, school, and the one variable that probably moved the outcome.",
+    glyph: "📨",
+    accent: "#86EFAC",
+  },
+  "summer-programs": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "RSI / MITES Acceptance Files",
+    subtitle: "Redacted applications from people who got in. What was on the page, in their own words.",
+    glyph: "☀️",
+    accent: "#FCD34D",
+  },
+  "scholarship": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "Winning Essay Archive",
+    subtitle: "Coca-Cola, Davidson, Regeneron — the actual winning essays, not the press releases.",
+    glyph: "🏆",
+    accent: "#F4C95D",
+  },
+  // TRACK
+  "research": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "Cold Email Logbook",
+    subtitle: "Emails that got PI responses + the ones that got ignored. The difference annotated line by line.",
+    glyph: "🔬",
+    accent: "#5eead4",
+  },
+  "cs-ai": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "Side Project Build Logs",
+    subtitle: "Real shipped projects. User counts, git history, the boring engineering parts people leave out of demos.",
+    glyph: "💻",
+    accent: "#7DD3FC",
+  },
+  "pre-med": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "MCAT Decoder",
+    subtitle: "Section-by-section pattern recognition + clinical-hours playbook from people already in the path.",
+    glyph: "🩺",
+    accent: "#FCA5A5",
+  },
+  "engineering": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "Build Portfolios That Hit",
+    subtitle: "ECE, ME, BME, AERO — the kind of project work engineering programs actually reward at admit.",
+    glyph: "⚙️",
+    accent: "#A99CFF",
+  },
+  "olympiad": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "Medal Postmortems",
+    subtitle: "USAMO / USAPHO / USABO winners on the problems they got wrong and the patterns that took years to internalize.",
+    glyph: "🏅",
+    accent: "#F4C95D",
+  },
+  "startup-projects": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "Founder Build Logs",
+    subtitle: "Side projects that became products. Hackathon entries with brutal teardowns of why a thing did or didn't work.",
+    glyph: "🚀",
+    accent: "#ff8b7e",
+  },
+  // COHORT
+  "productivity-study": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "Week-12 Survival Stacks",
+    subtitle: "Systems that held up when AP season, apps, and extracurriculars collided. Not the influencer version.",
+    glyph: "⏱",
+    accent: "#86EFAC",
+  },
+  "international-students": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "Visa & Adjustment Field Guide",
+    subtitle: "F-1 timing, dorm reality, what to do when your parents don't know how US college actually works.",
+    glyph: "🌐",
+    accent: "#7DD3FC",
+  },
+  "debate-humanities": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "LD Case Vault",
+    subtitle: "Winning cases, philosophy primers, the writers serious debaters actually read. Policy + LD + PF.",
+    glyph: "📜",
+    accent: "#F9A8D4",
+  },
+  "qna": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "Questions That Got Answered",
+    subtitle: "The threads where mentors actually showed up. Tagged by what made them work — and what got ignored.",
+    glyph: "❓",
+    accent: "#A99CFF",
+  },
+  "weekly-drops": {
+    kicker: "ROLLING · UPDATED FRIDAY",
+    title: "This Week's Drops",
+    subtitle: "Everything published into the cohort this week — docs, files, mentor pickups, the one thing worth opening.",
+    glyph: "💎",
+    accent: "#F4C95D",
+  },
+  // AP (ap-bio is the hero variant — its Field Manual is the rep doc)
+  "ap-chem": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "Equilibrium Trap Database",
+    subtitle: "The FRQ question types that wreck scores, with the canonical wrong-answer chain for each.",
+    glyph: "⚗️",
+    accent: "#86EFAC",
+  },
+  "ap-physics": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "Mechanics Mistake Map",
+    subtitle: "Torque, rotational motion, the diagram errors that lose half-credit even when the math is right.",
+    glyph: "⚛️",
+    accent: "#7DD3FC",
+  },
+  "ap-calc-bc": {
+    kicker: "FEATURED DROP · COMING SOON",
+    title: "Series Convergence Cheatsheet",
+    subtitle: "Every test (ratio, root, alternating, integral) with the trap setup that makes students pick the wrong one.",
+    glyph: "∫",
+    accent: "#FCD34D",
+  },
+};
 
 const LOUNGE_EMOJI: Record<string, string> = {
   // AP
@@ -82,7 +256,15 @@ async function fetchLounges(): Promise<LoungeListing[]> {
 }
 
 export default async function LoungesDirectoryPage() {
-  const lounges = await fetchLounges();
+  const rawLounges = await fetchLounges();
+  // Mix InHero-seeded starter bubbles into each card's preview so the
+  // "LIVE · IN CHAT NOW" panel feels populated. Real messages are kept at
+  // the tail (most recent) so they win the slice(-3) in grid view.
+  const lounges: LoungeListing[] = rawLounges.map((l) => {
+    const seeds = getSeedPreviewBubbles(l.slug, 5);
+    if (seeds.length === 0) return l;
+    return { ...l, previewMessages: [...seeds, ...(l.previewMessages ?? [])] };
+  });
 
   return (
     <main className="ldir-root">
@@ -102,7 +284,11 @@ export default async function LoungesDirectoryPage() {
           No lounges live yet. The first one (AP Biology) is being seeded — refresh in a minute.
         </div>
       ) : (
-        <>
+        <div className="ldir-shell">
+        <aside className="ldir-sidebar">
+          <LoungeSidebar lounges={lounges.map(({ slug, name }) => ({ slug, name }))} />
+        </aside>
+        <div className="ldir-main">
           {/* Paired hero rows: lounge card + Field Manual side-by-side */}
           <div className="ldir-stack">
             {lounges
@@ -117,27 +303,52 @@ export default async function LoungesDirectoryPage() {
               ))}
           </div>
 
-          {/* Grid of remaining free lounges */}
+          {/* Grid of remaining free lounges — trending #2/#3 first */}
           {lounges.some((l) => !FIELD_MANUAL_BY_LOUNGE[l.slug]) && (
             <>
               <div className="ldir-section-tag">EVERY OTHER ROOM</div>
               <div className="ldir-grid">
                 {lounges
                   .filter((l) => !FIELD_MANUAL_BY_LOUNGE[l.slug])
+                  .sort((a, b) => {
+                    const ra = TRENDING_RANK[a.slug] ?? 99;
+                    const rb = TRENDING_RANK[b.slug] ?? 99;
+                    return ra - rb;
+                  })
                   .map((l) => <LoungeCard key={l.slug} lounge={l} variant="grid" />)}
               </div>
             </>
           )}
-        </>
+        </div>
+        </div>
       )}
 
       <style>{`
         .ldir-root {
-          max-width: 1320px;
-          margin: 0 auto;
-          padding: 4rem 1.5rem 5rem;
+          /* Full-width — left margin is filled by the LoungeSidebar */
+          margin: 0;
+          padding: 3rem 1.5rem 5rem;
           color: #d8d9e6;
           font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+        }
+        .ldir-shell {
+          display: grid;
+          grid-template-columns: minmax(240px, 280px) minmax(0, 1fr);
+          gap: 1.75rem;
+          align-items: flex-start;
+        }
+        .ldir-sidebar {
+          position: sticky;
+          top: 1.5rem;
+          align-self: start;
+          max-height: calc(100vh - 4rem);
+          overflow-y: auto;
+          padding-right: 0.25rem;
+        }
+        .ldir-main { min-width: 0; }
+        @media (max-width: 980px) {
+          .ldir-shell { grid-template-columns: 1fr; gap: 1rem; }
+          .ldir-sidebar { position: static; max-height: none; overflow: visible; }
         }
         .ldir-head { margin-bottom: 2.4rem; }
         .ldir-eyebrow {
@@ -213,6 +424,31 @@ export default async function LoungesDirectoryPage() {
           display: flex; justify-content: space-between; align-items: center;
           margin-bottom: 0.65rem;
         }
+
+        /* TRENDING STAMPS */
+        .ldir-stamp {
+          display: inline-flex; align-items: center; gap: 0.4rem;
+          padding: 0.22rem 0.5rem;
+          border-radius: 0.3rem;
+          font-family: ui-monospace, 'JetBrains Mono', monospace;
+          font-size: 0.58rem; font-weight: 800;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          margin-bottom: 0.55rem;
+          line-height: 1;
+        }
+        .ldir-stamp-hot {
+          background: rgba(255,107,91,0.12);
+          border: 1px solid rgba(255,107,91,0.55);
+          color: #ff8b7e;
+          text-shadow: 0 0 6px rgba(255,107,91,0.45);
+          box-shadow: 0 0 18px rgba(255,107,91,0.18);
+        }
+        .ldir-stamp-trending {
+          background: rgba(244,201,93,0.1);
+          border: 1px solid rgba(244,201,93,0.4);
+          color: #F4C95D;
+        }
         .ldir-cat {
           font-family: ui-monospace, monospace;
           font-size: 0.62rem;
@@ -229,6 +465,40 @@ export default async function LoungesDirectoryPage() {
           font-size: 0.7rem;
           color: rgba(148,163,184,0.7);
         }
+
+        /* Live ambient row on every card — pulsing green dot + counts. */
+        .ldir-live {
+          display: flex; align-items: center; flex-wrap: wrap;
+          gap: 0.32rem;
+          margin-bottom: 0.55rem;
+          padding: 0.3rem 0.5rem;
+          background: rgba(93,202,165,0.05);
+          border: 1px solid rgba(93,202,165,0.18);
+          border-radius: 0.35rem;
+          font-family: ui-monospace, 'JetBrains Mono', monospace;
+          font-size: 0.66rem;
+          color: rgba(148,163,184,0.78);
+          line-height: 1.2;
+        }
+        .ldir-live strong {
+          color: #f3f3fb;
+          font-weight: 700;
+          font-variant-numeric: tabular-nums;
+          margin-right: 0.08rem;
+        }
+        .ldir-live-dot {
+          width: 7px; height: 7px; border-radius: 50%;
+          background: #5DCAA5;
+          box-shadow: 0 0 6px rgba(93,202,165,0.7);
+          animation: ldir-live-pulse 1.6s ease-in-out infinite;
+          margin-right: 0.18rem;
+          flex-shrink: 0;
+        }
+        @keyframes ldir-live-pulse {
+          0%,100% { opacity: 0.55; transform: scale(0.85); }
+          50%     { opacity: 1;    transform: scale(1.2); }
+        }
+        .ldir-live-sep { color: rgba(148,163,184,0.35); margin: 0 0.05rem; }
         .ldir-name {
           font-family: 'Cormorant Garamond', serif;
           font-size: 1.4rem;
@@ -330,6 +600,11 @@ export default async function LoungesDirectoryPage() {
           color: #F4C95D;
           text-shadow: 0 0 8px rgba(244,201,93,0.3);
         }
+        .ldir-chat-handle.is-seed {
+          color: #F4C95D;
+          text-shadow: 0 0 8px rgba(244,201,93,0.3);
+          letter-spacing: 0.01em;
+        }
         .ldir-chat-text { color: rgba(216,217,230,0.85); }
 
         .ldir-chat-lock {
@@ -393,6 +668,64 @@ export default async function LoungesDirectoryPage() {
           padding: 0.55rem 0.75rem 0.6rem;
           font-size: 0.65rem;
         }
+
+        /* HOVER-REVEAL REP DOC — fades over the card on hover.
+           Accent color comes from --rep-accent inline style per material. */
+        .ldir-card.is-revealable { position: relative; }
+        .ldir-rep {
+          position: absolute;
+          inset: 0.5rem;
+          display: flex; flex-direction: column;
+          align-items: center; justify-content: center;
+          text-align: center;
+          gap: 0.5rem;
+          padding: 1rem 1.1rem;
+          background: rgba(8,10,18,0.97);
+          border: 1px solid color-mix(in srgb, var(--rep-accent, #5eead4) 50%, transparent);
+          border-radius: 0.7rem;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.18s ease;
+          z-index: 2;
+          box-shadow: 0 0 0 1px color-mix(in srgb, var(--rep-accent, #5eead4) 12%, transparent),
+                      0 22px 44px rgba(0,0,0,0.45);
+        }
+        .ldir-card.is-revealable:hover .ldir-rep { opacity: 1; }
+        .ldir-rep-kicker {
+          font-family: ui-monospace, monospace;
+          font-size: 0.58rem; font-weight: 800;
+          letter-spacing: 0.22em;
+          color: var(--rep-accent, #5eead4);
+          text-transform: uppercase;
+        }
+        .ldir-rep-glyph {
+          font-size: 2rem;
+          line-height: 1;
+          filter: drop-shadow(0 0 16px color-mix(in srgb, var(--rep-accent, #5eead4) 45%, transparent));
+        }
+        .ldir-rep-title {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 1.3rem;
+          font-weight: 600;
+          color: #f3f3fb;
+          line-height: 1.15;
+          margin: 0;
+        }
+        .ldir-rep-subtitle {
+          font-size: 0.78rem;
+          line-height: 1.5;
+          color: rgba(216,217,230,0.82);
+          margin: 0;
+          max-width: 30ch;
+        }
+        .ldir-rep-cta {
+          margin-top: 0.3rem;
+          font-family: ui-monospace, monospace;
+          font-size: 0.68rem; font-weight: 700;
+          letter-spacing: 0.14em;
+          color: var(--rep-accent, #5eead4);
+          text-transform: uppercase;
+        }
       `}</style>
     </main>
   );
@@ -411,14 +744,46 @@ function LoungeCard({
   const hiddenCount = Math.max(0, l.chatCount - preview.length);
   const visibleMessages = variant === "grid" ? preview.slice(-3) : preview;
 
+  const rank = TRENDING_RANK[l.slug];
+  const repMaterial = REP_MATERIAL[l.slug];
+  const canHoverReveal = variant === "grid" && !!repMaterial;
+
+  const liveConfig = getLiveConfig(l.slug);
+
   const inner = (
-    <Link href={`/lounges/${l.slug}`} className="ldir-card">
+    <Link href={`/lounges/${l.slug}`} className={`ldir-card ${canHoverReveal ? "is-revealable" : ""}`}>
       <div className="ldir-card-top">
         {l.subjectCategory && <span className="ldir-cat">{l.subjectCategory}</span>}
         <span className="ldir-count">
-          {l.chatCount > 0 ? `${l.chatCount} messages` : `${l.postCount} posts`}
+          {l.postCount} docs · {l.userCount} active
         </span>
       </div>
+
+      <div className="ldir-live">
+        <span className="ldir-live-dot" aria-hidden="true" />
+        <strong>{liveConfig.onlineBase.toLocaleString()}</strong>
+        <span>online</span>
+        <span className="ldir-live-sep" aria-hidden="true">·</span>
+        <strong>{liveConfig.messagesTodayStart.toLocaleString()}</strong>
+        <span>today</span>
+        <span className="ldir-live-sep" aria-hidden="true">·</span>
+        <strong>{liveConfig.typingBase}</strong>
+        <span>typing</span>
+      </div>
+
+      {rank === 1 && (
+        <div className="ldir-stamp ldir-stamp-hot">
+          <span aria-hidden="true">🔥</span>
+          <span>HOT · #1 TRENDING</span>
+        </div>
+      )}
+      {(rank === 2 || rank === 3) && (
+        <div className="ldir-stamp ldir-stamp-trending">
+          <span aria-hidden="true">🔥</span>
+          <span>TRENDING · #{rank}</span>
+        </div>
+      )}
+
       <h2 className="ldir-name">
         <span className="ldir-name-emoji" aria-hidden="true">{emoji}</span>
         {l.name}
@@ -429,17 +794,23 @@ function LoungeCard({
         <div className="ldir-chat" aria-label="Live chat preview">
           <div className="ldir-chat-tag">
             <span className="ldir-chat-pulse" />
-            <span>LIVE · IN CHAT NOW</span>
+            <span>{visibleMessages.some((m) => m.isSeed) ? "LIVE · STARTER CHATS" : "LIVE · IN CHAT NOW"}</span>
           </div>
           <ul className="ldir-chat-list">
-            {visibleMessages.map((m) => (
-              <li key={m.id} className="ldir-chat-msg">
-                <span className={`ldir-chat-handle ${m.isMentor ? "is-mentor" : ""}`}>
-                  {m.handle ?? "—"}
-                </span>
-                <span className="ldir-chat-text">{m.content}</span>
-              </li>
-            ))}
+            {visibleMessages.map((m) => {
+              const isSeedBot = !!m.isSeedBot;
+              return (
+                <li key={m.id} className="ldir-chat-msg">
+                  <span
+                    className={`ldir-chat-handle ${m.isMentor ? "is-mentor" : ""} ${isSeedBot ? "is-seed" : ""}`}
+                  >
+                    {isSeedBot && <span aria-hidden="true">★ </span>}
+                    {m.handle ?? "—"}
+                  </span>
+                  <span className="ldir-chat-text">{m.content}</span>
+                </li>
+              );
+            })}
           </ul>
           <div className="ldir-chat-lock">
             <span className="ldir-chat-lock-icon">🔒</span>
@@ -453,11 +824,25 @@ function LoungeCard({
       ) : (
         <span className="ldir-enter">Enter →</span>
       )}
+
+      {canHoverReveal && repMaterial && (
+        <div
+          className="ldir-rep"
+          style={{ ["--rep-accent" as string]: repMaterial.accent }}
+          aria-hidden="true"
+        >
+          <div className="ldir-rep-kicker">{repMaterial.kicker}</div>
+          <div className="ldir-rep-glyph">{repMaterial.glyph}</div>
+          <div className="ldir-rep-title">{repMaterial.title}</div>
+          <p className="ldir-rep-subtitle">{repMaterial.subtitle}</p>
+          <div className="ldir-rep-cta">Enter the room →</div>
+        </div>
+      )}
     </Link>
   );
 
   // Hero variant is wrapped by the parent <article className="ldir-row is-paired">.
   if (variant === "hero") return inner;
-  return <article className="ldir-row is-grid">{inner}</article>;
+  return <article className={`ldir-row is-grid ${rank ? "is-trending" : ""}`}>{inner}</article>;
 }
 

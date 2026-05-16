@@ -134,6 +134,12 @@ export async function hydrateChatMessages(
     if (row.chat_message_id) resourceByMessageId.set(row.chat_message_id, row.id);
   }
 
+  function resourceIdFromMeta(meta: Record<string, unknown> | null): string | null {
+    if (!meta) return null;
+    const value = meta.resourceId;
+    return typeof value === "string" && value.trim().length > 0 ? value : null;
+  }
+
   const profileMap = new Map<string, ProfilePublicRow>(
     ((profilesRes.data ?? []) as ProfilePublicRow[]).map((p) => [p.user_id, p])
   );
@@ -179,6 +185,7 @@ export async function hydrateChatMessages(
   return rows.map((r) => {
     const replyOriginal = r.reply_to_id ? replyMap.get(r.reply_to_id) : null;
     const replyAuthor = replyOriginal?.author_id ? authorFor(replyOriginal.author_id) : null;
+    const metaResourceId = resourceIdFromMeta(r.attachment_meta);
     return {
       id: r.id,
       type: r.type,
@@ -198,7 +205,7 @@ export async function hydrateChatMessages(
         ? {
             url: r.attachment_url,
             meta: r.attachment_meta ?? {},
-            resourceId: resourceByMessageId.get(r.id) ?? null,
+            resourceId: resourceByMessageId.get(r.id) ?? metaResourceId,
           }
         : null,
       links: extractUrls(r.content),
