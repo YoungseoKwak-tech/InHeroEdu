@@ -7,7 +7,12 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const BUCKET = "chat-attachments";
-const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB — Supabase free-tier per-file default
+// 5 GB per file — Supabase Pro per-file ceiling. The bucket itself
+// must have `file_size_limit` set to at least this value in Supabase
+// Dashboard or via SQL, otherwise the signed-URL upload will error
+// with "The object exceeded the maximum allowed size" regardless of
+// what we check here.
+const MAX_FILE_SIZE = 5 * 1024 * 1024 * 1024;
 
 function noProfileResponse() {
   return NextResponse.json(
@@ -55,7 +60,7 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
   if (fileSize <= 0) return NextResponse.json({ error: "fileSize required" }, { status: 400 });
   if (fileSize > MAX_FILE_SIZE) {
     return NextResponse.json(
-      { error: `File too large. Max ${MAX_FILE_SIZE / (1024 * 1024)} MB.` },
+      { error: "File too large. Max 5 GB." },
       { status: 400 }
     );
   }

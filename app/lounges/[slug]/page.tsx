@@ -24,7 +24,8 @@ const POLL_MS = 8000;
 // Direct-to-Supabase-Storage upload bypasses Vercel's 4.5 MB body limit.
 // Cap mirrors the server (sign/route.ts) which mirrors the bucket's
 // per-file ceiling on Supabase free-tier (50 MB).
-const MAX_UPLOAD = 50 * 1024 * 1024; // 50 MB
+const MAX_UPLOAD = 5 * 1024 * 1024 * 1024; // 5 GB — Supabase Pro per-file ceiling
+const MAX_UPLOAD_LABEL = "5 GB";
 const IMAGE_MIMES = new Set(["image/jpeg", "image/png", "image/gif", "image/webp", "image/heic", "image/heif"]);
 
 interface PageProps { params: { slug: string }; }
@@ -202,7 +203,7 @@ export default function LoungePage({ params }: PageProps) {
   async function uploadFile(file: File, group: DocGroup | null) {
     if (uploading || authStatus !== "ok") return;
     if (file.size > MAX_UPLOAD) {
-      setError(`File too large. Max ${MAX_UPLOAD / (1024 * 1024)} MB.`);
+      setError(`File too large. Max ${MAX_UPLOAD_LABEL}.`);
       return;
     }
     setUploading(true); setError(null);
@@ -406,7 +407,7 @@ export default function LoungePage({ params }: PageProps) {
   function stageFile(file: File | null | undefined) {
     if (!file) return;
     if (file.size > MAX_UPLOAD) {
-      setError(`File too large. Max ${MAX_UPLOAD / (1024 * 1024)} MB.`);
+      setError(`File too large. Max ${MAX_UPLOAD_LABEL}.`);
       return;
     }
     setError(null);
@@ -450,7 +451,7 @@ export default function LoungePage({ params }: PageProps) {
       setChosenGroup(null);
       setPickerOpen(false);
       if (file.size > MAX_UPLOAD) {
-        setError(`File too large. Max ${MAX_UPLOAD / (1024 * 1024)} MB.`);
+        setError(`File too large. Max ${MAX_UPLOAD_LABEL}.`);
         return;
       }
       void uploadFile(file, g);
