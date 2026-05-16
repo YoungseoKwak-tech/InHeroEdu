@@ -18,8 +18,33 @@ import { authFetch } from "@/lib/client-auth";
 const PDFJS_VERSION = "5.7.284";
 const TARGET_WIDTH = 800;
 const VIEWPORT_MARGIN = "200px";
+const JPEG_QUALITY = 0.85;
+const MAX_CONCURRENT = 2;
 
 const inFlightOrDone = new Set<string>();
+
+// Tiny FIFO semaphore so initial-page-load doesn't fire 10+ pdfjs
+// renders at once. Two slots is enough to keep the viewport filling
+// quickly without thrashing the network or CPU.
+let activeGenerations = 0;
+const waitingQueue: Array<() => void> = [];
+function acquireSlot(): Promise<void> {
+  if (activeGenerations < MAX_CONCURRENT) {
+    activeGenerations++;
+    return Promise.resolve();
+  }
+  return new Promise((resolve) => {
+    waitingQueue.push(() => {
+      activeGenerations++;
+      resolve();
+    });
+  });
+}
+function releaseSlot() {
+  activeGenerations--;
+  const next = waitingQueue.shift();
+  if (next) next();
+}
 
 interface Props {
   resourceId: string;
@@ -40,7 +65,9 @@ export default function PdfThumbnailBackfill({ resourceId, onGenerated }: Props)
     async function run() {
       if (inFlightOrDone.has(resourceId)) return;
       inFlightOrDone.add(resourceId);
+      await acquireSlot();
       try {
+        if (cancelled) return;
         const fileResp = await authFetch(`/api/library/resource/${resourceId}/file`, {
           cache: "no-store",
         });
@@ -75,8 +102,11 @@ export default function PdfThumbnailBackfill({ resourceId, onGenerated }: Props)
         await page.render({ canvasContext: ctx, viewport }).promise;
         if (cancelled) return;
 
+        // JPEG instead of PNG: encodes faster, ~5-10x smaller, so the
+        // upload step finishes in a fraction of the time AND the
+        // resulting URL loads faster on subsequent views.
         const blob = await new Promise<Blob | null>((resolve) =>
-          canvas.toBlob(resolve, "image/png", 0.92),
+          canvas.toBlob(resolve, "image/jpeg", JPEG_QUALITY),
         );
         if (!blob) throw new Error("toBlob returned null");
         if (cancelled) return;
@@ -102,7 +132,7 @@ export default function PdfThumbnailBackfill({ resourceId, onGenerated }: Props)
         // Supabase signed upload URL accepts PUT with the file body.
         const putResp = await fetch(signed.signedUrl, {
           method: "PUT",
-          headers: { "Content-Type": "image/png" },
+          headers: { "Content-Type": "image/jpeg" },
           body: blob,
         });
         if (!putResp.ok && putResp.status !== 200) {
@@ -122,6 +152,8 @@ export default function PdfThumbnailBackfill({ resourceId, onGenerated }: Props)
         // Swallow — generation is opportunistic. Leave the placeholder
         // in place. Another viewer/refresh can try again next session
         // (the in-flight Set is module-scoped, per-session).
+      } finally {
+        releaseSlot();
       }
     }
 

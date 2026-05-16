@@ -6,7 +6,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const BUCKET = "resource_previews";
-const PATH_SUFFIX = "page-1.png";
+const PATH_SUFFIX = "page-1.jpg";
 
 /**
  * POST /api/library/resource/[id]/preview/finalize
