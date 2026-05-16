@@ -228,6 +228,10 @@ export default function LoungePage({ params }: PageProps) {
       mimeType: file.type,
       group,
       pending: true,
+      // Survives id swap during finalize so the (potentially slow)
+      // pdfjs render can still find this message after its
+      // optimistic-id was replaced with the real chat_messages.id.
+      _tempId: tempId,
     };
     if (imageLocalUrl) optimisticMeta.localThumbnailUrl = imageLocalUrl;
     const optimistic: ChatMessagePublic = {
@@ -273,13 +277,15 @@ export default function LoungePage({ params }: PageProps) {
           ))
           .then((blob) => {
             pdfLocalUrl = URL.createObjectURL(blob);
-            // Patch optimistic OR (if finalize already raced ahead)
-            // the replaced real message — keyed by tempId first, then
-            // by the resourceId we'll have set after replacement.
+            // Patch either the still-optimistic message (id===tempId)
+            // OR the real one that already replaced it. Finalize
+            // preserves meta._tempId on the real message specifically
+            // so this race is recoverable for slow renders.
             setMessages((prev) =>
               prev.map((m) => {
-                const matchesTemp = m.id === tempId;
-                if (!matchesTemp) return m;
+                const matchesById = m.id === tempId;
+                const matchesByMeta = m.attachment?.meta?._tempId === tempId;
+                if (!matchesById && !matchesByMeta) return m;
                 if (!m.attachment) return m;
                 return {
                   ...m,
@@ -363,6 +369,10 @@ export default function LoungePage({ params }: PageProps) {
               ...m.attachment,
               meta: {
                 ...m.attachment.meta,
+                // Carry the temp id forward so a still-in-flight
+                // thumbnail render can find this message after the id
+                // swap.
+                _tempId: tempId,
                 ...(carriedThumb ? { localThumbnailUrl: carriedThumb } : {}),
               },
             },
