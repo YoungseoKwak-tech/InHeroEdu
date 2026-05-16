@@ -35,6 +35,26 @@ const nextConfig = {
       "unpdf",
       "@napi-rs/canvas",
     ],
+    // Force-include the @napi-rs/canvas package + its platform-specific
+    // binary siblings into the function bundle. Without this, Next.js's
+    // static analysis can't see `() => import("@napi-rs/canvas")`, so
+    // node-file-tracer skips it and the function bundle on Vercel has
+    // no `/var/task/node_modules/@napi-rs/canvas` to require from at
+    // runtime. The `-*` glob captures the per-platform binary packages
+    // (e.g. @napi-rs/canvas-linux-x64-gnu) that the main package
+    // dynamically loads at startup.
+    outputFileTracingIncludes: {
+      "/api/admin/preview-backfill": [
+        "./node_modules/@napi-rs/canvas/**/*",
+        "./node_modules/@napi-rs/canvas-*/**/*",
+      ],
+      // Catch-all for any other admin route that ends up calling the
+      // thumbnail generator (e.g. lesson-material upload).
+      "/api/admin/**/*": [
+        "./node_modules/@napi-rs/canvas/**/*",
+        "./node_modules/@napi-rs/canvas-*/**/*",
+      ],
+    },
   },
 };
 
