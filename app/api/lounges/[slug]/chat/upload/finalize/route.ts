@@ -173,26 +173,6 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
           attachment_meta: { ...attachmentMeta, resourceId },
         })
         .eq("id", insertedRow.id);
-
-      // Fire-and-forget preview generation. The request lands on
-      // /process-preview as an independent serverless invocation; even
-      // if this finalize function dies as soon as we return below, the
-      // preview render keeps running in its own function. Only kick off
-      // for PDFs — images don't need rendered previews and are already
-      // their own thumbnail.
-      if (mimeType === "application/pdf" && resourceRow) {
-        const origin = req.nextUrl.origin;
-        const token = process.env.PREVIEW_PROCESS_TOKEN ?? "";
-        void fetch(`${origin}/api/library/resource/${resourceId}/process-preview`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-internal-preview-token": token,
-          },
-        }).catch((e) => {
-          console.error("[chat/upload/finalize] preview kickoff failed:", e);
-        });
-      }
     }
 
     let [message] = await hydrateChatMessages([inserted as ChatMessageRow], user.id);
