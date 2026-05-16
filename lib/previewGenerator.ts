@@ -7,10 +7,11 @@
 // the URL can fetch it directly. Updates lounge_resources with the
 // resulting URLs + total_pages + preview_generation_status.
 //
-// Engine: pdf-to-img (Node-native via @napi-rs/canvas) wrapped in
-// lib/server/pdf-thumbnail. pdfjs-dist is intentionally NOT imported
-// here — the client-side reader still uses it, but on Vercel
-// serverless its worker-loading path is structurally incompatible.
+// Engine: unpdf (serverless-friendly pdfjs fork + @napi-rs/canvas)
+// wrapped in lib/server/pdf-thumbnail. pdfjs-dist is intentionally
+// NOT imported here — the client-side reader still uses it, but on
+// Vercel serverless its worker-loading path is structurally
+// incompatible.
 
 import { createAdminClient } from "@/lib/supabase";
 import { generatePdfPagePreviews } from "@/lib/server/pdf-thumbnail";
