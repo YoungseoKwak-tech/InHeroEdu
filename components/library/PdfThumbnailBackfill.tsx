@@ -23,6 +23,20 @@ const MAX_CONCURRENT = 2;
 
 const inFlightOrDone = new Set<string>();
 
+// Temporary: post structured failure payloads to /api/diag so the
+// silent catch below isn't a debugging dead end. Remove once the
+// upload flow is verified working end-to-end on prod.
+function diag(payload: Record<string, unknown>) {
+  try {
+    void authFetch("/api/diag", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      keepalive: true,
+    }).catch(() => undefined);
+  } catch { /* ignore */ }
+}
+
 // Tiny FIFO semaphore so initial-page-load doesn't fire 10+ pdfjs
 // renders at once. Two slots is enough to keep the viewport filling
 // quickly without thrashing the network or CPU.
@@ -130,13 +144,23 @@ export default function PdfThumbnailBackfill({ resourceId, onGenerated }: Props)
         };
 
         // Supabase signed upload URL accepts PUT with the file body.
-        const putResp = await fetch(signed.signedUrl, {
-          method: "PUT",
-          headers: { "Content-Type": "image/jpeg" },
-          body: blob,
-        });
+        // Wrap separately so we can distinguish a network/CORS throw
+        // (no response at all) from an HTTP-level failure (response
+        // with body).
+        let putResp: Response;
+        try {
+          putResp = await fetch(signed.signedUrl, {
+            method: "PUT",
+            headers: { "Content-Type": "image/jpeg" },
+            body: blob,
+          });
+        } catch (netErr) {
+          const msg = netErr instanceof Error ? netErr.message : String(netErr);
+          throw new Error(`PUT network/CORS: ${msg}`);
+        }
         if (!putResp.ok && putResp.status !== 200) {
-          throw new Error(`upload: ${putResp.status}`);
+          const errBody = await putResp.text().catch(() => "");
+          throw new Error(`PUT HTTP ${putResp.status}: ${errBody.slice(0, 400)}`);
         }
         if (cancelled) return;
 
@@ -148,10 +172,20 @@ export default function PdfThumbnailBackfill({ resourceId, onGenerated }: Props)
         const finalized = (await finalizeResp.json()) as { previewPage1Url?: string };
         if (cancelled || !finalized.previewPage1Url) return;
         onGenerated(finalized.previewPage1Url);
-      } catch {
-        // Swallow — generation is opportunistic. Leave the placeholder
-        // in place. Another viewer/refresh can try again next session
-        // (the in-flight Set is module-scoped, per-session).
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : String(e);
+        const name = e instanceof Error ? e.name : undefined;
+        // Browser console for live debugging, plus a server-side log
+        // sink so failures show up in `vercel logs --query diag`.
+        // eslint-disable-next-line no-console
+        console.error("[PdfThumbnailBackfill]", resourceId, name, msg);
+        diag({
+          source: "PdfThumbnailBackfill",
+          resourceId,
+          name,
+          error: msg,
+          ts: new Date().toISOString(),
+        });
       } finally {
         releaseSlot();
       }
