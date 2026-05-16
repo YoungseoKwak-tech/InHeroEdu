@@ -207,18 +207,90 @@ export default function LoungePage({ params }: PageProps) {
     }
     setUploading(true); setError(null);
 
-    // Layer 1: kick off page-1 thumbnail render in parallel with the
-    // PDF upload. By the time finalize hands back resourceId, the JPEG
-    // blob is usually already in memory, ready for a background upload
-    // — so when anyone opens /library, preview_page_1_url is already
-    // populated and the card renders instantly (no "Generating…").
-    // Only for PDFs; images are their own thumbnail.
     const isPdf = (file.type || "").toLowerCase() === "application/pdf";
+    const isImage = (file.type || "").toLowerCase().startsWith("image/");
+
+    // Optimistic message: append immediately so the user sees the
+    // chat bubble the instant they click upload, instead of staring
+    // at "Uploading…" for 5–6s while the PDF bytes move to Supabase.
+    // For images we have a thumbnail right away from the local File.
+    // For PDFs we patch in the rendered page-1 once the parallel
+    // render finishes (~300ms typical). The optimistic message is
+    // marked pending=true so it can show an "Uploading…" affordance
+    // and is replaced in-place when chat/upload/finalize returns.
+    const tempId = `temp-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    let imageLocalUrl: string | null = null;
+    if (isImage) imageLocalUrl = URL.createObjectURL(file);
+    const optimisticMeta: Record<string, unknown> = {
+      fileName: file.name,
+      size: file.size,
+      mimeType: file.type,
+      group,
+      pending: true,
+    };
+    if (imageLocalUrl) optimisticMeta.localThumbnailUrl = imageLocalUrl;
+    const optimistic: ChatMessagePublic = {
+      id: tempId,
+      type: isImage ? "image" : "file",
+      content: draft.trim() || null,
+      createdAt: new Date().toISOString(),
+      isPinned: false,
+      isMine: true,
+      author: null,
+      replyTo: replyTo
+        ? {
+            id: replyTo.id,
+            handle: replyTo.author?.handle ?? null,
+            snippet: (replyTo.content ?? "").slice(0, 80),
+          }
+        : null,
+      attachment: {
+        url: imageLocalUrl ?? "pending",
+        meta: optimisticMeta,
+        resourceId: null,
+      },
+      links: [],
+      reactions: [],
+    };
+    setMessages((prev) => [...prev, optimistic]);
+    // Clear composer + reply so the user can start the next message
+    // right away. pendingFile cleared in finally so the upload state
+    // stays consistent on error.
+    setDraft("");
+    setReplyTo(null);
+
+    // Layer 1: kick off page-1 thumbnail render in parallel with the
+    // PDF upload. Patches the optimistic message with a local blob
+    // URL as soon as the render finishes. Same blob is later shipped
+    // to Supabase in the background (Step 4 below) so anyone opening
+    // /library sees the cached thumbnail.
+    let pdfLocalUrl: string | null = null;
     const thumbnailPromise: Promise<Blob | null> = isPdf
       ? file.arrayBuffer()
           .then((buf) => import("@/lib/pdfThumbnailRender").then((m) =>
             m.renderPdfPage1ToJpegBlob(new Uint8Array(buf))
           ))
+          .then((blob) => {
+            pdfLocalUrl = URL.createObjectURL(blob);
+            // Patch optimistic OR (if finalize already raced ahead)
+            // the replaced real message — keyed by tempId first, then
+            // by the resourceId we'll have set after replacement.
+            setMessages((prev) =>
+              prev.map((m) => {
+                const matchesTemp = m.id === tempId;
+                if (!matchesTemp) return m;
+                if (!m.attachment) return m;
+                return {
+                  ...m,
+                  attachment: {
+                    ...m.attachment,
+                    meta: { ...m.attachment.meta, localThumbnailUrl: pdfLocalUrl },
+                  },
+                };
+              })
+            );
+            return blob;
+          })
           .catch(() => null)
       : Promise.resolve(null);
 
@@ -274,9 +346,29 @@ export default function LoungePage({ params }: PageProps) {
         throw new Error(asString(finJson?.error) ?? `finalize failed (${finRes.status})`);
       }
       const m = finJson.message as ChatMessagePublic;
-      setMessages((prev) => [...prev, m]);
+      // Replace the optimistic message in place (matched by tempId)
+      // with the real one from the server, preserving the local
+      // thumbnail URL we already rendered so the chat bubble doesn't
+      // briefly lose its image. The pending flag falls away because
+      // the server-side meta doesn't include it.
+      setMessages((prev) =>
+        prev.map((existing) => {
+          if (existing.id !== tempId) return existing;
+          const carriedThumb = pdfLocalUrl ?? imageLocalUrl;
+          if (!m.attachment) return m;
+          return {
+            ...m,
+            attachment: {
+              ...m.attachment,
+              meta: {
+                ...m.attachment.meta,
+                ...(carriedThumb ? { localThumbnailUrl: carriedThumb } : {}),
+              },
+            },
+          };
+        })
+      );
       lastSeenRef.current = m.createdAt;
-      setDraft(""); setReplyTo(null);
 
       // Step 4 (background, non-blocking) — once we have a resourceId
       // and the thumbnail blob, ship it to /preview/sign + /preview/finalize.
@@ -291,6 +383,11 @@ export default function LoungePage({ params }: PageProps) {
         }).catch(() => undefined);
       }
     } catch (err) {
+      // Remove the optimistic message + revoke any local blob URLs
+      // we attached so the browser can reclaim the memory.
+      setMessages((prev) => prev.filter((existing) => existing.id !== tempId));
+      if (imageLocalUrl) URL.revokeObjectURL(imageLocalUrl);
+      if (pdfLocalUrl) URL.revokeObjectURL(pdfLocalUrl);
       setError(err instanceof Error ? err.message : String(err));
     } finally { setUploading(false); setPendingFile(null); }
   }
@@ -1067,14 +1164,21 @@ function MessageRow({
               const readerHref = m.attachment.resourceId
                 ? `/library/${m.attachment.resourceId}/read`
                 : null;
+              const localThumb = m.attachment.meta?.localThumbnailUrl as string | undefined;
+              const isPending = m.attachment.meta?.pending === true;
               const fileBody = (
                 <>
-                  <span className="mr-file-icon">📄</span>
+                  {localThumb ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img className="mr-file-thumb" src={localThumb} alt="" draggable={false} />
+                  ) : (
+                    <span className="mr-file-icon">📄</span>
+                  )}
                   <div className="mr-file-body">
                     <div className="mr-file-name">{fileName ?? "file"}</div>
                     <div className="mr-file-meta">
                       {fileSize ? `${Math.round(fileSize / 1024)} KB · ` : ""}
-                      {readerHref ? "Open in Reader →" : "Tap to open ↗"}
+                      {isPending ? "Uploading…" : readerHref ? "Open in Reader →" : "Tap to open ↗"}
                     </div>
                     {groupKey && (
                       <div className="mr-group-chip is-inline">
@@ -1086,6 +1190,9 @@ function MessageRow({
                   </div>
                 </>
               );
+              if (isPending) {
+                return <div className={`mr-file is-pending ${isMe ? "is-me" : ""}`}>{fileBody}</div>;
+              }
               return readerHref ? (
                 <Link href={readerHref} className={`mr-file ${isMe ? "is-me" : ""}`}>{fileBody}</Link>
               ) : (
@@ -1226,6 +1333,19 @@ function MessageRow({
         .mr-file:hover { border-color: rgba(94,234,212,0.5); background: rgba(94,234,212,0.06); }
         .mr-file.is-me { background: linear-gradient(135deg, rgba(94,234,212,0.18), rgba(94,234,212,0.06)); border-color: rgba(94,234,212,0.35); }
         .mr-file-icon { font-size: 1.4rem; }
+        .mr-file-thumb {
+          width: 56px;
+          height: 72px;
+          object-fit: cover;
+          border-radius: 4px;
+          background: #fff;
+          flex-shrink: 0;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+        .mr-file.is-pending {
+          opacity: 0.85;
+          cursor: progress;
+        }
         .mr-file-body { min-width: 0; flex: 1; }
         .mr-file-name { font-family: ui-monospace, monospace; font-size: 0.82rem; font-weight: 700; color: #f3f3fb; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .mr-file-meta { font-family: ui-monospace, monospace; font-size: 0.66rem; color: rgba(148,163,184,0.6); margin-top: 0.15rem; }
