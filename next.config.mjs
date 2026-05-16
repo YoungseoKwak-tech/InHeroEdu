@@ -8,12 +8,20 @@ const nextConfig = {
       },
     ],
   },
-  // Keep pdf-parse (and its internal pdfjs-dist dependency) as a native
-  // Node.js require so webpack never tries to bundle it. Bundling it pulls
-  // in browser-only DOM APIs (DOMMatrix, ImageData, Path2D) that don't
-  // exist in the Node.js runtime and crash the build.
+  // Keep these as native Node requires so webpack doesn't try to bundle
+  // them. They each have native (.node) binaries or browser-only APIs
+  // (pdf-parse / pdfjs-dist) that webpack chokes on:
+  //   pdf-parse            — internal pdfjs-dist pulls DOMMatrix/ImageData
+  //   sharp                — libvips native module
+  //   pdf-to-png-converter — depends on @napi-rs/canvas .node binary
+  //   @napi-rs/canvas      — native canvas binary
   experimental: {
-    serverComponentsExternalPackages: ["pdf-parse"],
+    serverComponentsExternalPackages: [
+      "pdf-parse",
+      "sharp",
+      "pdf-to-png-converter",
+      "@napi-rs/canvas",
+    ],
   },
 };
 
