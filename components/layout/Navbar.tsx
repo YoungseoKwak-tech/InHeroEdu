@@ -13,6 +13,7 @@ const NAV_LINKS = [
   { href: "/academy",         label: "ACADEMY" },
   { href: "/lounges",         label: "LOUNGES" },
   { href: "/library",         label: "LIBRARY" },
+  { href: "/my-space",        label: "MY SPACE" },
   { href: "/clubs",           label: "CLUBS" },
   { href: "/trajectory",      label: "TRAJECTORY" },
   { href: "/command-center",  label: "COMMAND CENTER" },

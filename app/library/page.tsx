@@ -5,12 +5,16 @@ import Link from "next/link";
 import { authFetch } from "@/lib/client-auth";
 import { createBrowserClient } from "@/lib/supabase";
 import PdfThumbnailBackfill from "@/components/library/PdfThumbnailBackfill";
+import SaveButton from "@/components/my-space/SaveButton";
+import ReactionPicker from "@/components/my-space/ReactionPicker";
 import {
   DOC_GROUP_EMOJI,
   DOC_GROUP_LABELS,
   USER_UPLOADABLE_GROUPS,
   type DocGroup,
 } from "@/lib/docGroups";
+
+type ReactionType = "heart" | "fire" | "lightbulb" | "pin";
 
 type Sort = "new" | "trending";
 type OfficialFilter = "all" | "official" | "community";
@@ -80,6 +84,13 @@ export default function LibraryPage() {
   // when the viewer isn't the author.
   const [viewerIsAdmin, setViewerIsAdmin] = useState(false);
   const [profileStatus, setProfileStatus] = useState<"loading" | "out" | "no_profile" | "ok">("loading");
+  // Per-viewer saves + reactions for currently visible cards. Hydrated
+  // in batch from /api/my-space/viewer-state when new pages load.
+  const [savedMap, setSavedMap] = useState<Record<string, boolean>>({});
+  const [reactionMap, setReactionMap] = useState<Record<string, ReactionType[]>>({});
+  // IDs we've already hydrated, so we only ask about new ones on
+  // subsequent pages.
+  const hydratedIdsRef = useRef<Set<string>>(new Set());
 
   const sentinelRef = useRef<HTMLDivElement>(null);
   // Single in-flight guard. Prevents double-fetch on rapid IO callbacks.
@@ -92,7 +103,42 @@ export default function LibraryPage() {
     setCursor(null);
     setHasMore(true);
     setError(null);
+    setSavedMap({});
+    setReactionMap({});
+    hydratedIdsRef.current = new Set();
   }, [sort, folder, official]);
+
+  // Hydrate viewer's save/reaction state for any newly-loaded cards.
+  useEffect(() => {
+    if (profileStatus !== "ok") return;
+    const pending = items
+      .map((it) => it.id)
+      .filter((id) => !hydratedIdsRef.current.has(id));
+    if (pending.length === 0) return;
+    pending.forEach((id) => hydratedIdsRef.current.add(id));
+    void (async () => {
+      try {
+        const qs = new URLSearchParams({ ids: pending.join(",") });
+        const res = await authFetch(`/api/my-space/viewer-state?${qs.toString()}`);
+        if (!res.ok) return;
+        const json = (await res.json()) as {
+          saves: Record<string, true>;
+          reactions: Record<string, string[]>;
+        };
+        setSavedMap((prev) => ({ ...prev, ...json.saves }));
+        const nextReactions: Record<string, ReactionType[]> = {};
+        for (const [id, kinds] of Object.entries(json.reactions ?? {})) {
+          nextReactions[id] = kinds.filter(
+            (k): k is ReactionType =>
+              k === "heart" || k === "fire" || k === "lightbulb" || k === "pin"
+          );
+        }
+        setReactionMap((prev) => ({ ...prev, ...nextReactions }));
+      } catch {
+        // best-effort hydration; buttons still work without it
+      }
+    })();
+  }, [items, profileStatus]);
 
   // Lightweight profile probe: if a logged-in user hasn't claimed a handle
   // yet, surface an explicit CTA so uploads/chat don't feel broken.
@@ -287,6 +333,8 @@ export default function LibraryPage() {
             key={it.id}
             item={it}
             viewerIsAdmin={viewerIsAdmin}
+            initialSaved={savedMap[it.id] ?? false}
+            initialReactions={reactionMap[it.id] ?? []}
             onDeleted={(deletedId) =>
               setItems((prev) => prev.filter((x) => x.id !== deletedId))
             }
@@ -539,10 +587,14 @@ export default function LibraryPage() {
 function FeedCard({
   item,
   viewerIsAdmin,
+  initialSaved,
+  initialReactions,
   onDeleted,
 }: {
   item: FeedItem;
   viewerIsAdmin: boolean;
+  initialSaved: boolean;
+  initialReactions: ReactionType[];
   onDeleted: (id: string) => void;
 }) {
   // Primary click target on a card body is the reader. Detail page is
@@ -619,33 +671,38 @@ function FeedCard({
 
   return (
     <div className={`fc ${item.isInheroOfficial ? "is-official" : "is-community"}`}>
-      {/* Owner / admin delete affordance. Sits inside .fc but OUTSIDE
-          the preview-link <Link> so a click here never navigates into
-          the reader. The confirming overlay fills the card and stops
-          propagation in its own onClick. */}
-      {canDelete && (
-        <div className="fc-owner-menu" onMouseDown={(e) => e.stopPropagation()}>
-          <button
-            type="button"
-            className="fc-menu-trigger"
-            aria-label="Card options"
-            onClick={(e) => { e.stopPropagation(); setMenuOpen((v) => !v); }}
-          >
-            ⋯
-          </button>
-          {menuOpen && (
-            <div className="fc-menu-dropdown" onMouseDown={(e) => e.stopPropagation()}>
-              <button
-                type="button"
-                className="fc-menu-item fc-menu-delete"
-                onClick={(e) => { e.stopPropagation(); setMenuOpen(false); setConfirming(true); }}
-              >
-                🗑️ Delete
-              </button>
-            </div>
-          )}
-        </div>
-      )}
+      {/* Hover-revealed affordances at top-right: SaveButton (always),
+          owner / admin ⋯ menu (only when canDelete). Both live OUTSIDE
+          the preview-link <Link> so clicks here never navigate. */}
+      <div className="fc-affordances" onMouseDown={(e) => e.stopPropagation()}>
+        <SaveButton
+          resourceId={item.id}
+          initialSaved={initialSaved}
+        />
+        {canDelete && (
+          <div className="fc-owner-menu">
+            <button
+              type="button"
+              className="fc-menu-trigger"
+              aria-label="Card options"
+              onClick={(e) => { e.stopPropagation(); setMenuOpen((v) => !v); }}
+            >
+              ⋯
+            </button>
+            {menuOpen && (
+              <div className="fc-menu-dropdown" onMouseDown={(e) => e.stopPropagation()}>
+                <button
+                  type="button"
+                  className="fc-menu-item fc-menu-delete"
+                  onClick={(e) => { e.stopPropagation(); setMenuOpen(false); setConfirming(true); }}
+                >
+                  🗑️ Delete
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
 
       {confirming && (
         <div className="fc-confirm" onMouseDown={(e) => e.stopPropagation()}>
@@ -724,6 +781,14 @@ function FeedCard({
             </div>
           </div>
         </Link>
+        {/* Reaction picker — sibling of the preview-link so taps never
+            navigate. Hover-revealed on desktop, always visible on touch. */}
+        <div className="fc-reactions">
+          <ReactionPicker
+            resourceId={item.id}
+            initialReactions={initialReactions}
+          />
+        </div>
         {/* Carousel controls — siblings of the Link, not inside it, so
             arrow clicks never navigate. Hidden on cards with only one
             preview page or none. */}
@@ -804,13 +869,33 @@ function FeedCard({
           transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
         }
 
-        /* Owner / admin ⋯ menu — absolutely positioned over the thumbnail.
-           Lives outside the preview-link <Link> so clicks don't navigate. */
-        .fc-owner-menu {
+        /* Hover-revealed affordances row at top-right: SaveButton plus
+           optional owner ⋯ menu. Lives outside the preview-link so
+           clicks here never navigate. */
+        .fc-affordances {
           position: absolute;
           top: 0.5rem;
           right: 0.5rem;
           z-index: 5;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.32rem;
+          opacity: 0;
+          transform: translateY(-2px);
+          transition: opacity 0.18s ease, transform 0.18s ease;
+        }
+        .fc:hover .fc-affordances,
+        .fc-affordances:focus-within {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        @media (hover: none) {
+          .fc-affordances { opacity: 1; transform: none; }
+        }
+
+        /* Owner / admin ⋯ menu — now nested inside .fc-affordances. */
+        .fc-owner-menu {
+          position: relative;
         }
         .fc-menu-trigger {
           width: 28px; height: 28px;
@@ -947,6 +1032,23 @@ function FeedCard({
           border-radius: 999px;
           backdrop-filter: blur(6px);
           pointer-events: none;
+        }
+
+        /* Reaction picker — anchored bottom-right of the preview.
+           Hover-revealed on desktop (same logic as the affordances row);
+           always visible on touch. */
+        .fc-reactions {
+          position: absolute;
+          bottom: 0.55rem;
+          right: 0.55rem;
+          z-index: 4;
+          opacity: 0;
+          transition: opacity 0.18s ease;
+        }
+        .fc:hover .fc-reactions,
+        .fc-reactions:focus-within { opacity: 1; }
+        @media (hover: none) {
+          .fc-reactions { opacity: 1; }
         }
 
         /* Preview carousel — visible only on hover desktop, always
