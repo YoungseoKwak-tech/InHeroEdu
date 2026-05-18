@@ -96,6 +96,37 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
   const isImage = IMAGE_MIMES.has(mimeType);
   const messageType = isImage ? "image" : "file";
 
+  // ── Dedup guard: same lounge + same uploader + same fileName +
+  // same fileSize within the last 24h. The chat upload UI lets a
+  // student re-tap the same file (or get an upload retried), and
+  // without this check each click creates a fresh chat_messages
+  // row — observed in the AP Bio lounge where one file was
+  // uploaded 11 times in May 2026. If we find a recent match, we
+  // return that existing message and remove the freshly-uploaded
+  // (now orphan) storage object.
+  if (!isImage) {
+    const dedupSince = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    const { data: recents } = await supabase
+      .from("chat_messages")
+      .select("*")
+      .eq("context_type", "lounge")
+      .eq("context_id", loungeRow.id)
+      .eq("author_id", user.id)
+      .eq("is_deleted", false)
+      .gte("created_at", dedupSince)
+      .order("created_at", { ascending: false })
+      .limit(20);
+    const existing = (recents ?? []).find((m) => {
+      const meta = (m as { attachment_meta: Record<string, unknown> | null }).attachment_meta ?? {};
+      return meta.fileName === fileName && meta.size === fileSize;
+    });
+    if (existing) {
+      void supabase.storage.from(BUCKET).remove([path]);
+      const [message] = await hydrateChatMessages([existing as ChatMessageRow], user.id);
+      return NextResponse.json({ ok: true, message, dedup: true });
+    }
+  }
+
   // Validate reply target (if any).
   let validatedReplyId: string | null = null;
   if (replyToId) {
