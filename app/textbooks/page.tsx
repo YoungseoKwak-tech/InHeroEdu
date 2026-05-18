@@ -1,300 +1,244 @@
 "use client";
 
+/**
+ * /textbooks — index of InHero-authored textbooks.
+ *
+ * Cards link to /textbooks/[slug] TOC. Real entries come from
+ * GET /api/textbooks (textbooks table, is_published=true). The
+ * "Coming soon" placeholders are hard-coded for now so the page
+ * doesn't look empty during the AP Bio → Chem → Physics rollout.
+ */
+
 import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import { createBrowserClient } from "@/lib/supabase";
-import PaymentButton from "@/components/PaymentButton";
-import { textbookPriceLabelUSD } from "@/lib/textbookPricing";
+import Link from "next/link";
 
-const PdfCover = dynamic(() => import("@/components/textbooks/PdfCover"), { ssr: false });
-
-interface Product {
-  id: string;
-  subject_id: string;
+interface Textbook {
+  slug: string;
   title: string;
-  pdf_url: string | null;
-  price_krw: number;
-  chapters: number;
-  status: string;
+  subtitle: string | null;
+  author_name: string;
+  total_pages: number | null;
+  total_chapters: number | null;
+  total_units: number | null;
+  cover_url: string | null;
 }
 
-// ── tiny starfield ──────────────────────────────────────────────────────────
-function Stars({ count = 80 }: { count?: number }) {
-  const stars = Array.from({ length: count }, (_, i) => ({
-    left: `${(i * 137.508) % 100}%`,
-    top:  `${(i * 97.3)   % 100}%`,
-    size: i % 7 === 0 ? 2 : i % 3 === 0 ? 1.5 : 1,
-    opacity: 0.08 + (i % 5) * 0.06,
-  }));
+const COMING_SOON = [
+  { slug: "ap-chem-ultimate",    title: "AP Chemistry", subtitle: "The Ultimate Guide", emoji: "⚗️" },
+  { slug: "ap-physics-ultimate", title: "AP Physics",   subtitle: "The Ultimate Guide", emoji: "⚛️" },
+];
 
-  return (
-    <div style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" }}>
-      {stars.map((s, i) => (
-        <div key={i} style={{ position: "absolute", left: s.left, top: s.top, width: s.size, height: s.size, borderRadius: "50%", background: "#EDE8DC", opacity: s.opacity }} />
-      ))}
-    </div>
-  );
-}
+const EMOJI_BY_SLUG: Record<string, string> = {
+  "ap-bio-ultimate":     "🧬",
+  "ap-chem-ultimate":    "⚗️",
+  "ap-physics-ultimate": "⚛️",
+};
 
-// ── book card ───────────────────────────────────────────────────────────────
-function BookCard({ product, owned }: { product: Product; owned: boolean }) {
-  const BUY_STYLE: React.CSSProperties = {
-    display: "inline-flex", alignItems: "center", gap: "8px",
-    padding: "11px 24px",
-    background: "rgba(200,146,58,0.1)",
-    border: "1px solid rgba(200,146,58,0.3)",
-    color: "#C8923A",
-    fontFamily: "'JetBrains Mono', monospace",
-    fontSize: "11px",
-    letterSpacing: "0.12em",
-    cursor: "pointer",
-    transition: "all 200ms",
-    width: "100%",
-    justifyContent: "center",
-  };
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{ display: "flex", flexDirection: "column", gap: "20px" }}
-    >
-      {/* Cover */}
-      <div style={{ position: "relative", transition: "transform 400ms cubic-bezier(0.16,1,0.3,1)", transform: hovered ? "translateY(-6px)" : "translateY(0)" }}>
-        {/* Book shadow */}
-        <div style={{ position: "absolute", bottom: "-12px", left: "6%", right: "6%", height: "20px", background: "radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, transparent 70%)", filter: "blur(8px)", transition: "opacity 400ms", opacity: hovered ? 0.8 : 0.4 }} />
-
-        {/* Book spine illusion */}
-        <div style={{ position: "absolute", left: 0, top: "2px", bottom: "2px", width: "10px", background: "linear-gradient(to right, rgba(0,0,0,0.6), transparent)", zIndex: 1, borderRadius: "1px 0 0 1px" }} />
-
-        {/* Cover image */}
-        <div style={{ position: "relative", overflow: "hidden", border: "1px solid rgba(200,146,58,0.15)", boxShadow: hovered ? "0 24px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(200,146,58,0.12)" : "0 12px 40px rgba(0,0,0,0.5)" }}>
-          {product.pdf_url ? (
-            <PdfCover url={product.pdf_url} width={280} />
-          ) : (
-            <div style={{ width: "100%", aspectRatio: "8.5/11", background: "linear-gradient(160deg, #1A1208 0%, #0D0A06 100%)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <span style={{ color: "#4A3820", fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", letterSpacing: "0.12em" }}>LOADING</span>
-            </div>
-          )}
-
-          {/* Lock overlay for non-owners */}
-          {!owned && (
-            <div style={{ position: "absolute", inset: 0, background: "rgba(10,8,5,0.55)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "8px", backdropFilter: "blur(1px)", opacity: hovered ? 1 : 0, transition: "opacity 300ms" }}>
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C8923A" strokeWidth="1.5" strokeLinecap="round">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-              </svg>
-              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "0.16em", color: "#C8923A" }}>GET ACCESS</span>
-            </div>
-          )}
-
-          {/* Owned badge */}
-          {owned && (
-            <div style={{ position: "absolute", top: "12px", right: "12px", background: "rgba(0,180,80,0.15)", border: "1px solid rgba(0,180,80,0.3)", padding: "3px 10px" }}>
-              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "9px", letterSpacing: "0.14em", color: "#00C850" }}>OWNED</span>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Meta */}
-      <div>
-        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "#C8923A", letterSpacing: "0.14em", marginBottom: "6px" }}>
-          {product.subject_id.replace(/-/g, " ").toUpperCase()}
-        </div>
-        <div style={{ fontSize: "17px", fontWeight: 700, color: "#EDE8DC", letterSpacing: "-0.02em", marginBottom: "4px", lineHeight: 1.2 }}>
-          {product.title}
-        </div>
-        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#6A6050", marginBottom: "16px" }}>
-          {product.chapters} chapters
-        </div>
-
-        {owned ? (
-          <a
-            href={product.pdf_url ?? "#"}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "11px 24px", background: "rgba(0,180,80,0.1)", border: "1px solid rgba(0,180,80,0.25)", color: "#00C850", fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", letterSpacing: "0.12em", textDecoration: "none", transition: "background 200ms" }}
-          >
-            READ  →
-          </a>
-        ) : (
-          <PaymentButton
-            serviceId="textbook"
-            subjectId={product.subject_id}
-            amount={product.price_krw}
-            orderName={product.title}
-            label={`${textbookPriceLabelUSD()}  →`}
-            style={BUY_STYLE}
-          />
-        )}
-      </div>
-    </div>
-  );
-}
-
-// ── main page ───────────────────────────────────────────────────────────────
-export default function TextbooksPage() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [purchased, setPurchased] = useState<string[]>([]);
+export default function TextbooksIndexPage() {
+  const [textbooks, setTextbooks] = useState<Textbook[]>([]);
   const [loading, setLoading] = useState(true);
-  const supabase = createBrowserClient();
-  const featuredProduct = products[0] ?? null;
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
     (async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      const userId = session?.user?.id ?? "";
-      const res = await fetch(`/api/textbook-products${userId ? `?userId=${userId}` : ""}`);
-      if (res.ok) {
-        const { products: p, purchased: pur } = await res.json();
-        setProducts(p);
-        setPurchased(pur);
+      try {
+        const res = await fetch("/api/textbooks", { cache: "no-store" });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json?.error ?? `HTTP ${res.status}`);
+        if (!cancelled) setTextbooks(json.textbooks ?? []);
+      } catch (e) {
+        if (!cancelled) setError(e instanceof Error ? e.message : "Failed to load");
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-      setLoading(false);
     })();
+    return () => { cancelled = true; };
   }, []);
 
   return (
-    <div style={{ background: "#0B0905", minHeight: "100vh", color: "#EDE8DC", fontFamily: "'Space Grotesk', sans-serif", paddingTop: "64px" }}>
-
-      {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section style={{ position: "relative", padding: "100px 24px 80px", overflow: "hidden" }}>
-        <Stars count={100} />
-
-        {/* Warm glow from below */}
-        <div style={{ position: "absolute", bottom: "-60px", left: "50%", transform: "translateX(-50%)", width: "600px", height: "200px", background: "radial-gradient(ellipse, rgba(200,146,58,0.07) 0%, transparent 70%)", pointerEvents: "none" }} />
-
-        <div style={{ position: "relative", maxWidth: "760px", margin: "0 auto" }}>
-          <div style={{ marginBottom: "28px" }}>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "0.22em", color: "#C8923A", textTransform: "uppercase" }}>
-              Field Manuals  ·  InHero
-            </span>
-          </div>
-
-          <h1 style={{ fontSize: "clamp(44px, 7vw, 82px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.0, marginBottom: "28px" }}>
-            The study guide<br />
-            <em style={{ fontStyle: "italic", color: "#C8923A", fontWeight: 700 }}>built by the people</em><br />
-            who aced it.
-          </h1>
-
-          <p style={{ fontSize: "17px", color: "#7A7060", lineHeight: 1.7, maxWidth: "520px", marginBottom: "16px" }}>
-            Every Field Manual is final-reviewed by Ivy League students who scored 5s on the actual exam. AP-level depth. $29.
-          </p>
-
-          <div style={{ display: "flex", alignItems: "center", gap: "20px", flexWrap: "wrap" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <div style={{ width: "1px", height: "32px", background: "rgba(200,146,58,0.3)" }} />
-              <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#6A6050", letterSpacing: "0.08em" }}>
-                SUBSCRIBERS GET ALL MANUALS FREE
-              </span>
-            </div>
-          </div>
+    <main className="tx-root">
+      <div className="tx-shell">
+        <div className="tx-stamp">
+          <span className="tx-pulse" />
+          <span>TEXTBOOKS · CORNELL CURATED</span>
         </div>
-      </section>
+        <h1 className="tx-title">
+          The InHero <em>library</em>.
+        </h1>
+        <p className="tx-sub">
+          AP textbooks built from the ground up by Cornell students who got 5s.
+          Every chapter parsed, every concept analyzed, every page searchable.
+        </p>
 
-      {/* ── BOOKS GRID ───────────────────────────────────────────────────── */}
-      <section style={{ maxWidth: "1100px", margin: "0 auto", padding: "40px 24px 100px" }}>
+        {loading && <div className="tx-status">Loading…</div>}
+        {error && <div className="tx-status tx-status-err">{error}</div>}
 
-        {loading ? (
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "300px", gap: "12px" }}>
-            <div style={{ width: "20px", height: "20px", border: "1px solid #C8923A", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 1s linear infinite" }} />
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", color: "#6A6050", letterSpacing: "0.1em" }}>LOADING MANUALS</span>
-          </div>
-        ) : products.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "80px 0", color: "#4A3820", fontFamily: "'JetBrains Mono', monospace", fontSize: "12px", letterSpacing: "0.12em" }}>
-            NO MANUALS PUBLISHED YET
-          </div>
-        ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "64px 48px" }}>
-            {products.map((p) => (
-              <BookCard key={p.id} product={p} owned={purchased.includes(p.subject_id)} />
+        {!loading && !error && (
+          <div className="tx-grid">
+            {textbooks.map((t) => (
+              <Link key={t.slug} href={`/textbooks/${t.slug}`} className="tx-card">
+                <div className="tx-card-emoji">{EMOJI_BY_SLUG[t.slug] ?? "📚"}</div>
+                <div className="tx-card-tier">✨ AI · Cornell-curated</div>
+                <div className="tx-card-title">{t.title}</div>
+                {t.subtitle && <div className="tx-card-sub">{t.subtitle}</div>}
+                <div className="tx-card-meta">
+                  {t.total_chapters ?? "?"} chapters · {t.total_units ?? "?"} units · {t.total_pages ?? "?"} pages
+                </div>
+                <div className="tx-card-by">By {t.author_name}</div>
+                <div className="tx-card-cta">Open table of contents →</div>
+              </Link>
             ))}
+            {COMING_SOON
+              .filter((c) => !textbooks.some((t) => t.slug === c.slug))
+              .map((c) => (
+                <div key={c.slug} className="tx-card tx-card-soon">
+                  <div className="tx-card-emoji">{c.emoji}</div>
+                  <div className="tx-card-tier tx-card-tier-soon">COMING SOON</div>
+                  <div className="tx-card-title">{c.title}</div>
+                  <div className="tx-card-sub">{c.subtitle}</div>
+                  <div className="tx-card-soon-hint">In the queue — same Cornell-curated pipeline as AP Bio.</div>
+                </div>
+              ))}
           </div>
         )}
-      </section>
-
-      {/* ── IVY REVIEWED BAR ─────────────────────────────────────────────── */}
-      <section style={{ borderTop: "1px solid rgba(255,255,255,0.04)", borderBottom: "1px solid rgba(255,255,255,0.04)", padding: "48px 24px" }}>
-        <div style={{ maxWidth: "900px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "40px" }}>
-          {[
-            { num: "5",   label: "AP exam score — our reviewers" },
-            { num: String(featuredProduct?.chapters ?? 65), label: `Chapters in ${featuredProduct?.title ?? "our first manual"}` },
-            { num: "$29", label: "One-time. No subscription needed." },
-            { num: "∞",   label: "Included free with any plan" },
-          ].map(({ num, label }) => (
-            <div key={label}>
-              <div style={{ fontSize: "40px", fontWeight: 800, letterSpacing: "-0.04em", color: "#C8923A", lineHeight: 1, marginBottom: "8px" }}>{num}</div>
-              <div style={{ fontSize: "13px", color: "#6A6050", lineHeight: 1.5 }}>{label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── WHAT'S INSIDE ────────────────────────────────────────────────── */}
-      <section style={{ maxWidth: "900px", margin: "0 auto", padding: "80px 24px" }}>
-        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "0.18em", color: "#6A6050", marginBottom: "16px" }}>
-          INSIDE EVERY CHAPTER
-        </div>
-        <h2 style={{ fontSize: "36px", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: "48px" }}>
-          Not a summary. A real textbook.
-        </h2>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1px", background: "rgba(255,255,255,0.04)" }}>
-          {[
-            { label: "3–4 Deep Sections",    desc: "350–500 words each, mechanism-first — not just definitions" },
-            { label: "AP Exam Alert Boxes",  desc: "Flags every common trap that costs students points on the real exam" },
-            { label: "Key Terms",            desc: "3–6 per section with full mechanistic definitions" },
-            { label: "5 MCQs per chapter",   desc: "AP-level distractors with 80–120 word worked explanations" },
-            { label: "3 FRQs per chapter",   desc: "Multi-part (a)(b)(c)(d) with full rubric and model answer" },
-            { label: "Ivy Reviewed",         desc: "Final pass by students who scored 5s and got into top universities" },
-          ].map(({ label, desc }) => (
-            <div key={label} style={{ padding: "28px 24px", background: "#0B0905" }}>
-              <div style={{ width: "6px", height: "6px", background: "#C8923A", marginBottom: "16px", opacity: 0.7 }} />
-              <div style={{ fontSize: "15px", fontWeight: 700, color: "#EDE8DC", marginBottom: "8px", lineHeight: 1.3 }}>{label}</div>
-              <div style={{ fontSize: "13px", color: "#6A6050", lineHeight: 1.6 }}>{desc}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── BOTTOM CTA ───────────────────────────────────────────────────── */}
-      <section style={{ position: "relative", borderTop: "1px solid rgba(255,255,255,0.04)", padding: "100px 24px", textAlign: "center", overflow: "hidden" }}>
-        <Stars count={60} />
-        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "500px", height: "200px", background: "radial-gradient(ellipse, rgba(200,146,58,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
-
-        <div style={{ position: "relative" }}>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", letterSpacing: "0.2em", color: "#6A6050", marginBottom: "20px" }}>
-            READY
-          </div>
-          <h2 style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.1, marginBottom: "40px" }}>
-            One textbook. One time.<br />
-            <span style={{ color: "#C8923A" }}>$29.</span>
-          </h2>
-
-          {featuredProduct ? (
-            <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-              <PaymentButton
-                serviceId="textbook"
-                subjectId={featuredProduct.subject_id}
-                amount={featuredProduct.price_krw}
-                orderName={featuredProduct.title}
-                label={`GET ${featuredProduct.title.toUpperCase()}  →`}
-                style={{ display: "inline-flex", alignItems: "center", gap: "10px", padding: "16px 40px", background: "#C8923A", color: "#0B0905", fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, fontSize: "12px", letterSpacing: "0.14em", border: "none", cursor: "pointer", transition: "opacity 200ms" }}
-              />
-            </div>
-          ) : (
-            <div style={{ color: "#6A6050", fontFamily: "'JetBrains Mono', monospace", fontSize: "11px", letterSpacing: "0.12em" }}>
-              NO LIVE MANUAL AVAILABLE YET
-            </div>
-          )}
-        </div>
-      </section>
+      </div>
 
       <style>{`
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .tx-root {
+          min-height: 100vh;
+          padding: 3rem 1.25rem 5rem;
+          background:
+            radial-gradient(ellipse at 50% 0%, rgba(94,234,212,0.05), transparent 55%),
+            radial-gradient(ellipse at 90% 80%, rgba(169,156,255,0.04), transparent 60%),
+            #050610;
+          font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+          color: #d8d9e6;
+        }
+        .tx-shell { max-width: 64rem; margin: 0 auto; }
+
+        .tx-stamp {
+          display: inline-flex; align-items: center; gap: 0.55rem;
+          font-family: ui-monospace, 'JetBrains Mono', monospace;
+          font-size: 0.62rem; font-weight: 700;
+          letter-spacing: 0.22em; text-transform: uppercase;
+          color: #5eead4;
+          text-shadow: 0 0 10px rgba(94,234,212,0.5);
+          margin-bottom: 0.85rem;
+        }
+        .tx-pulse {
+          width: 7px; height: 7px; border-radius: 50%;
+          background: #5eead4;
+          box-shadow: 0 0 10px rgba(94,234,212,0.7);
+          animation: tx-pulse 1.6s ease-in-out infinite;
+        }
+        @keyframes tx-pulse {
+          0%,100% { opacity: 0.55; transform: scale(0.85); }
+          50%     { opacity: 1;    transform: scale(1.15); }
+        }
+        .tx-title {
+          font-family: 'Cormorant Garamond', 'Georgia', serif;
+          font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 600;
+          color: #f3f3fb;
+          margin: 0 0 0.55rem;
+          letter-spacing: -0.02em; line-height: 1.1;
+        }
+        .tx-title em { font-style: italic; color: #5eead4; text-shadow: 0 0 20px rgba(94,234,212,0.4); }
+        .tx-sub { font-size: 1rem; color: rgba(148,163,184,0.85); margin: 0 0 2.5rem; max-width: 36rem; line-height: 1.6; }
+
+        .tx-status {
+          padding: 2rem 0;
+          font-family: ui-monospace, monospace;
+          font-size: 0.85rem;
+          color: rgba(148,163,184,0.7);
+        }
+        .tx-status-err { color: #ff8b7e; }
+
+        .tx-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+          gap: 1.1rem;
+        }
+        .tx-card {
+          display: flex; flex-direction: column; gap: 0.55rem;
+          padding: 1.5rem 1.5rem 1.65rem;
+          background: linear-gradient(180deg, rgba(8,10,18,0.85), rgba(8,10,18,0.65));
+          border: 1px solid rgba(94, 234, 212, 0.18);
+          border-radius: 14px;
+          text-decoration: none;
+          color: inherit;
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+                      border-color 200ms ease,
+                      box-shadow 240ms ease;
+        }
+        .tx-card:hover {
+          transform: translateY(-3px);
+          border-color: rgba(94,234,212,0.45);
+          box-shadow:
+            0 24px 48px rgba(0,0,0,0.45),
+            0 0 28px rgba(94,234,212,0.15);
+        }
+        .tx-card-emoji { font-size: 2.2rem; line-height: 1; margin-bottom: 0.45rem; }
+        .tx-card-tier {
+          font-family: ui-monospace, monospace;
+          font-size: 0.6rem; font-weight: 700;
+          letter-spacing: 0.18em; text-transform: uppercase;
+          color: #F4C95D;
+          text-shadow: 0 0 10px rgba(244,201,93,0.35);
+        }
+        .tx-card-title {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 1.7rem; font-weight: 600;
+          color: #f3f3fb;
+          line-height: 1.1;
+          letter-spacing: -0.01em;
+        }
+        .tx-card-sub {
+          font-family: 'Cormorant Garamond', serif;
+          font-style: italic;
+          font-size: 1rem;
+          color: rgba(216,217,230,0.85);
+          margin-bottom: 0.35rem;
+        }
+        .tx-card-meta {
+          font-family: ui-monospace, monospace;
+          font-size: 0.72rem;
+          color: rgba(148,163,184,0.7);
+          letter-spacing: 0.04em;
+        }
+        .tx-card-by {
+          font-size: 0.78rem;
+          color: rgba(148,163,184,0.85);
+        }
+        .tx-card-cta {
+          font-family: ui-monospace, monospace;
+          font-size: 0.74rem; font-weight: 600;
+          color: #5eead4;
+          letter-spacing: 0.1em;
+          margin-top: auto;
+          padding-top: 0.5rem;
+        }
+        .tx-card-soon {
+          opacity: 0.7;
+          cursor: default;
+          border-color: rgba(148,163,184,0.18);
+        }
+        .tx-card-soon:hover {
+          transform: none;
+          border-color: rgba(148,163,184,0.25);
+          box-shadow: none;
+        }
+        .tx-card-tier-soon { color: rgba(148,163,184,0.7); text-shadow: none; }
+        .tx-card-soon-hint {
+          font-family: ui-monospace, monospace;
+          font-size: 0.74rem;
+          color: rgba(148,163,184,0.6);
+          line-height: 1.5;
+          margin-top: 0.55rem;
+        }
       `}</style>
-    </div>
+    </main>
   );
 }
