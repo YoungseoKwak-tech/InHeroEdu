@@ -172,34 +172,23 @@ export default async function ChapterReaderPage({
         </details>
       )}
 
-      {/* ── PDF reader ──────────────────────────────────────────── */}
+      {/* ── Read chapter CTA ────────────────────────────────────── */}
       <section className="rd-pdf-wrap">
         {chapter.pdf_url ? (
-          <>
-            <div className="rd-pdf-actions">
-              <a
-                href={chapter.pdf_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rd-pdf-btn"
-              >
-                Open in new tab ↗
-              </a>
-              <a
-                href={chapter.pdf_url}
-                download={`${chapter.chapter_number}-${chapter.title.replace(/[^\w]+/g, "-")}.pdf`}
-                className="rd-pdf-btn"
-              >
-                Download
-              </a>
-            </div>
-            <iframe
-              src={chapter.pdf_url}
-              title={`${chapter.title} (PDF)`}
-              className="rd-pdf"
-              loading="lazy"
-            />
-          </>
+          <Link
+            href={`/textbooks/${textbook.slug}/${chapter.chapter_number}/read`}
+            className="rd-read-cta"
+          >
+            <span className="rd-read-icon" aria-hidden="true">📖</span>
+            <span className="rd-read-text">
+              <span className="rd-read-title">Read chapter</span>
+              <span className="rd-read-meta">
+                {chapter.page_count ?? "—"} pages
+                {chapter.estimated_read_time ? ` · ${chapter.estimated_read_time} min` : ""}
+              </span>
+            </span>
+            <span className="rd-read-arrow" aria-hidden="true">→</span>
+          </Link>
         ) : (
           <div className="rd-pdf-missing">
             PDF is still processing. Check back in a few minutes — the
@@ -425,35 +414,53 @@ const readerCss = `
     max-width: 56rem; margin: 0 auto;
     padding: 0 1.25rem;
   }
-  .rd-pdf-actions {
-    display: flex; justify-content: flex-end; gap: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-  .rd-pdf-btn {
-    font-family: ui-monospace, monospace;
-    font-size: 0.7rem; font-weight: 600;
-    letter-spacing: 0.08em;
-    color: rgba(148, 163, 184, 0.85);
+  /* Read-chapter CTA: violet gradient card that opens the full-
+     screen <PdfReader> on /read. Sits where the iframe used to. */
+  .rd-read-cta {
+    display: flex; align-items: center; gap: 1.15rem;
+    padding: 1.5rem 1.65rem;
+    background:
+      radial-gradient(ellipse at 0% 50%, rgba(169, 156, 255, 0.16), transparent 60%),
+      linear-gradient(135deg, rgba(169, 156, 255, 0.12), rgba(94, 234, 212, 0.05));
+    border: 1px solid rgba(169, 156, 255, 0.35);
+    border-radius: 16px;
     text-decoration: none;
-    padding: 0.4rem 0.7rem;
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    border-radius: 0.4rem;
-    transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+    color: inherit;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    transition: transform 200ms ease, border-color 200ms ease, box-shadow 240ms ease;
   }
-  .rd-pdf-btn:hover {
-    color: #5eead4;
-    border-color: rgba(94, 234, 212, 0.4);
-    background: rgba(94, 234, 212, 0.05);
+  .rd-read-cta:hover {
+    transform: translateY(-2px);
+    border-color: rgba(169, 156, 255, 0.6);
+    box-shadow: 0 24px 56px rgba(169, 156, 255, 0.25);
   }
-  .rd-pdf {
-    width: 100%;
-    height: 82vh;
-    min-height: 32rem;
-    border: 1px solid rgba(94, 234, 212, 0.15);
-    border-radius: 12px;
-    background: #0a0e1a;
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+  .rd-read-cta:hover .rd-read-arrow { transform: translateX(6px); }
+  .rd-read-icon {
+    font-size: 2.4rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 14px rgba(169, 156, 255, 0.35));
   }
+  .rd-read-text { display: flex; flex-direction: column; gap: 0.1rem; flex: 1; min-width: 0; }
+  .rd-read-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.65rem; font-weight: 600;
+    color: #f3f3fb;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  .rd-read-meta {
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    color: rgba(216, 217, 230, 0.7);
+    letter-spacing: 0.04em;
+  }
+  .rd-read-arrow {
+    font-size: 1.6rem;
+    color: #a99cff;
+    text-shadow: 0 0 16px rgba(169, 156, 255, 0.55);
+    transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
   .rd-pdf-missing {
     padding: 2.5rem 1.5rem;
     background: rgba(255, 107, 91, 0.05);
@@ -530,7 +537,6 @@ const readerCss = `
     .rd-bar-progress { display: none; }
     .rd-head { padding: 2rem 1.25rem 1.25rem; }
     .rd-title { font-size: 2rem; }
-    .rd-pdf { height: 70vh; min-height: 24rem; }
     .rd-nav { grid-template-columns: 1fr; }
     .rd-nav-next { text-align: left; }
   }

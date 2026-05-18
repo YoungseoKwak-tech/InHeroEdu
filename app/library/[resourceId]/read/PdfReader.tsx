@@ -23,6 +23,30 @@ interface Resource {
   author: { handle: string } | null;
 }
 
+/**
+ * Optional drop-in data for callers outside /library (e.g. the
+ * textbook chapter reader). When passed, the component skips its
+ * /api/library/resource/{id} metadata fetch and uses the supplied
+ * values directly; the PDF bytes are fetched from `fileUrl`
+ * (callers point this at their own same-origin proxy so pdfjs can
+ * avoid Supabase Storage CORS).
+ *
+ * The library code path (no source prop, reads resourceId from
+ * URL params) is unchanged.
+ */
+export interface ReaderSource {
+  fileUrl: string;
+  title: string;
+  subtitle?: string;
+  eyebrow?: string;
+  backHref: string;
+  closeHref?: string;
+}
+
+interface Props {
+  source?: ReaderSource;
+}
+
 // pdfjs returns this opaque-ish type; we only need a couple of methods.
 type PdfDoc = {
   numPages: number;
@@ -55,9 +79,12 @@ function spreadForPage(page: number): number {
   return Math.ceil((page + 1) / 2);
 }
 
-export default function PdfReader() {
+export default function PdfReader({ source }: Props = {}) {
   const params = useParams<{ resourceId: string }>();
-  const resourceId = params?.resourceId;
+  // When a source prop is provided, the resourceId-from-URL path is
+  // bypassed entirely. We still keep the local var defined so the
+  // existing useEffect deps + JSX references compile unchanged.
+  const resourceId = source ? null : params?.resourceId ?? null;
 
   const rootRef = useRef<HTMLDivElement>(null);
   const leftCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -108,8 +135,28 @@ export default function PdfReader() {
     };
   }, [bumpControls]);
 
-  // Load resource metadata.
+  // Load resource metadata. Source mode synthesizes the Resource
+  // shape from the prop so the rest of the rendering code (which
+  // reads resource.title, resource.isPdf, etc.) doesn't need to
+  // know about the textbook caller.
   useEffect(() => {
+    if (source) {
+      setResource({
+        id: "textbook-chapter",
+        title: source.title,
+        folder: "notes" as DocGroup,
+        attachmentUrl: source.fileUrl,
+        mimeType: "application/pdf",
+        isImage: false,
+        isPdf: true,
+        isInheroOfficial: false,
+        lounge: null,
+        author: null,
+      });
+      setMetaLoading(false);
+      setError(null);
+      return;
+    }
     if (!resourceId) return;
     let cancelled = false;
     setMetaLoading(true);
@@ -131,7 +178,7 @@ export default function PdfReader() {
       }
     })();
     return () => { cancelled = true; };
-  }, [resourceId]);
+  }, [resourceId, source]);
 
   // Load PDF bytes + parse with pdfjs. Timeout guards against a stuck
   // worker fetch (the previous "black screen" bug was a missing
@@ -143,12 +190,22 @@ export default function PdfReader() {
   // "Failed to fetch" in the browser. The proxy also auth-gates the
   // file, which the bucket itself does not (it's public-readable).
   useEffect(() => {
-    if (!resource || !resource.isPdf || !resourceId) return;
+    if (!resource || !resource.isPdf) return;
+    // Source mode points fileUrl at its own same-origin proxy
+    // (e.g. /api/textbooks/[slug]/chapters/[n]/file). Library mode
+    // uses the legacy proxy. Either way we go through authFetch so
+    // cookies + auth headers travel.
+    const fileUrl = source
+      ? source.fileUrl
+      : resourceId
+        ? `/api/library/resource/${resourceId}/file`
+        : null;
+    if (!fileUrl) return;
     let cancelled = false;
     setPdfLoading(true);
     void (async () => {
       try {
-        const response = await authFetch(`/api/library/resource/${resourceId}/file`, {
+        const response = await authFetch(fileUrl, {
           cache: "no-store",
         });
         if (!response.ok) {
@@ -192,7 +249,7 @@ export default function PdfReader() {
       }
     })();
     return () => { cancelled = true; };
-  }, [resource]);
+  }, [resource, source, resourceId]);
 
   // Current pair (depends on viewMode).
   const { leftPage, rightPage } = useMemo<{ leftPage: number | null; rightPage: number | null }>(() => {
@@ -317,9 +374,14 @@ export default function PdfReader() {
   }, [goPrev, goNext, toggleFullscreen]);
 
   if (metaLoading) return <ReaderSkeleton />;
-  if (error || !resource) return <ReaderError message={error} resourceId={resourceId} />;
+  if (error || !resource) return <ReaderError message={error} resourceId={resourceId ?? undefined} />;
 
-  const detailHref = `/library/${resourceId}`;
+  // Back arrow + close × destinations. Source mode (textbook
+  // chapter reader) routes both back to the chapter overview by
+  // default; library mode keeps the existing /library/{id} +
+  // /library targets.
+  const detailHref = source?.backHref ?? `/library/${resourceId}`;
+  const closeHref = source?.closeHref ?? source?.backHref ?? "/library";
   const pageIndicator =
     viewMode === "spread"
       ? leftPage && rightPage && rightPage <= pageCount
@@ -344,21 +406,30 @@ export default function PdfReader() {
         <div className="rd-titleblock">
           <div className="rd-title">{resource.title}</div>
           <div className="rd-sub">
-            {resource.isInheroOfficial && <span className="rd-badge rd-badge-official">⭐ INHERO</span>}
-            {!resource.isInheroOfficial && <span className="rd-badge rd-badge-community">✦ ORIGINAL</span>}
-            <span aria-hidden="true">{DOC_GROUP_EMOJI[resource.folder]}</span>{" "}
-            {DOC_GROUP_LABELS[resource.folder]}
-            {resource.lounge && (
+            {source ? (
               <>
-                {" · "}
-                <Link href={`/lounges/${resource.lounge.slug}`} className="rd-lounge-link">
-                  {resource.lounge.name}
-                </Link>
+                {source.eyebrow && <span className="rd-badge rd-badge-official">{source.eyebrow}</span>}
+                {source.subtitle && <span>{source.subtitle}</span>}
               </>
-            )}
-            {resource.author && (
+            ) : (
               <>
-                {" · "}by <em>{resource.author.handle}</em>
+                {resource.isInheroOfficial && <span className="rd-badge rd-badge-official">⭐ INHERO</span>}
+                {!resource.isInheroOfficial && <span className="rd-badge rd-badge-community">✦ ORIGINAL</span>}
+                <span aria-hidden="true">{DOC_GROUP_EMOJI[resource.folder]}</span>{" "}
+                {DOC_GROUP_LABELS[resource.folder]}
+                {resource.lounge && (
+                  <>
+                    {" · "}
+                    <Link href={`/lounges/${resource.lounge.slug}`} className="rd-lounge-link">
+                      {resource.lounge.name}
+                    </Link>
+                  </>
+                )}
+                {resource.author && (
+                  <>
+                    {" · "}by <em>{resource.author.handle}</em>
+                  </>
+                )}
               </>
             )}
           </div>
@@ -391,7 +462,7 @@ export default function PdfReader() {
           >
             📑
           </button>
-          <Link href="/library" className="rd-icon-btn" title="Close (Esc)" aria-label="Close reader">
+          <Link href={closeHref} className="rd-icon-btn" title="Close (Esc)" aria-label="Close reader">
             ×
           </Link>
         </div>
