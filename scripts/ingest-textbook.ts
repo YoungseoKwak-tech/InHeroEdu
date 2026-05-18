@@ -630,14 +630,38 @@ async function main() {
   });
   const ai = new Anthropic({ apiKey: ANTHROPIC_KEY });
 
+  // Resume cache: AI analyses are durable per (slug, chapterNumber).
+  // We write after every successful call so a crash mid-loop only
+  // discards the in-flight chapter. Fallback shapes (from errors)
+  // are NOT cached so a future run will retry them.
+  const cacheDir = path.resolve("scripts/.ingest-cache");
+  const cachePath = path.join(cacheDir, `${args.slug}.json`);
+  await fs.mkdir(cacheDir, { recursive: true });
+  const cache: Record<string, AIAnalysis> = await fs
+    .readFile(cachePath, "utf8")
+    .then((s) => JSON.parse(s) as Record<string, AIAnalysis>)
+    .catch(() => ({}));
+  const cachedCount = Object.keys(cache).length;
+  if (cachedCount > 0) {
+    console.log(`\nResuming from cache: ${cachedCount} chapter(s) already analyzed`);
+  }
+
   console.log("\nStep 3/4: AI analysis…");
   const analyses: AIAnalysis[] = [];
   let totalCost = 0;
   for (const ch of chapters) {
     process.stdout.write(`   ${ch.chapterNumber} ${ch.title.slice(0, 40).padEnd(40)} `);
+    const cached = cache[ch.chapterNumber];
+    if (cached) {
+      analyses.push(cached);
+      console.log(`cached (${cached.keyConcepts.length} concepts, ${cached.difficulty})`);
+      continue;
+    }
     try {
       const a = await analyzeChapter(ai, ch, args.course);
       analyses.push(a);
+      cache[ch.chapterNumber] = a;
+      await fs.writeFile(cachePath, JSON.stringify(cache, null, 2));
       totalCost += AI_COST_PER_CHAPTER_USD;
       console.log(`OK (${a.keyConcepts.length} concepts, ${a.difficulty})`);
     } catch (e) {
@@ -652,7 +676,7 @@ async function main() {
       });
     }
   }
-  console.log(`   Total AI cost (est): $${totalCost.toFixed(2)}`);
+  console.log(`   Total AI cost (est): $${totalCost.toFixed(2)} (${cachedCount} cached, ${chapters.length - cachedCount} attempted)`);
 
   console.log("\nStep 4/4: writing to DB + uploading per-chapter PDFs…");
   try {
