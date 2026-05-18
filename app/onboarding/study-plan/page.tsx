@@ -128,6 +128,10 @@ export default function StudyPlanOnboardingPage() {
 
   const totalExams = selected.length;
   const examsByCat = useMemo(() => EXAMS_BY_CATEGORY, []);
+  // Today as ISO YYYY-MM-DD for the date-input min attr. Computed
+  // once per mount; new students shouldn't be able to pick a past
+  // exam date.
+  const todayISO = useMemo(() => new Date().toISOString().slice(0, 10), []);
 
   return (
     <main className="sp-root">
@@ -243,6 +247,7 @@ export default function StudyPlanOnboardingPage() {
                         <input
                           type="date"
                           value={cur}
+                          min={todayISO}
                           onChange={(ev) => setDates((d) => ({ ...d, [slug]: ev.target.value }))}
                           className="sp-date-input"
                         />

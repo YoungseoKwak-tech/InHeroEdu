@@ -87,9 +87,21 @@ const DAYS: { key: keyof StudyPlan["weekly_schedule"]; label: string; abbr: stri
 ];
 
 function daysUntil(isoDate: string): number {
+  // Signed delta — callers handle "past" (< 0) and "today" (=== 0)
+  // explicitly via classifyCountdown below.
   const target = new Date(isoDate + "T00:00:00Z").getTime();
   const now = Date.now();
-  return Math.max(0, Math.ceil((target - now) / (1000 * 60 * 60 * 24)));
+  return Math.ceil((target - now) / (1000 * 60 * 60 * 24));
+}
+
+type CountdownState = "past" | "today" | "critical" | "soon" | "future";
+
+function classifyCountdown(days: number): CountdownState {
+  if (days < 0) return "past";
+  if (days === 0) return "today";
+  if (days <= 7) return "critical";
+  if (days <= 14) return "soon";
+  return "future";
 }
 
 function todayKey(): string {
@@ -122,6 +134,33 @@ export default function MyPlanPage() {
   const [plan, setPlan] = useState<StudyPlan | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [shifting, setShifting] = useState(false);
+
+  // Rebuild the plan against the current EXAM_CATALOG default dates.
+  // Used by the "Plan for AP 2027" banner when the existing selections
+  // straddle a closed exam cycle. Custom user-set dates are replaced;
+  // students can re-edit afterwards.
+  async function shiftToCurrentCycle() {
+    if (!plan || shifting) return;
+    setShifting(true);
+    try {
+      const exams = plan.exam_selections.map((e) => {
+        const catalog = findExam(e.slug);
+        return { slug: e.slug, exam_date: catalog?.default_exam_date ?? e.exam_date };
+      });
+      const res = await authFetch("/api/generate-plan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ grade: plan.grade, exams }),
+      });
+      const json = await res.json();
+      if (res.ok && json?.plan) setPlan(json.plan as StudyPlan);
+    } catch {
+      // Swallow — banner re-appears on next render if any date still past.
+    } finally {
+      setShifting(false);
+    }
+  }
 
   useEffect(() => {
     let mounted = true;
@@ -224,39 +263,76 @@ export default function MyPlanPage() {
           </p>
         </section>
 
+        {/* Past-cycle banner: any exam date in the past gets a one-tap
+            "rebuild on this year's catalog dates" affordance. */}
+        {plan.exam_selections.some((e) => daysUntil(e.exam_date) < 0) && (
+          <section className="mp-banner">
+            <div className="mp-banner-text">
+              <strong>Looks like part of your plan is in the past.</strong>
+              <span> The AP 2026 cycle has wrapped — want to roll those exams forward to the 2027 dates?</span>
+            </div>
+            <button
+              type="button"
+              className="mp-banner-btn"
+              disabled={shifting}
+              onClick={() => void shiftToCurrentCycle()}
+            >
+              {shifting ? "Updating…" : "Plan for AP 2027 →"}
+            </button>
+          </section>
+        )}
+
         {/* ── COUNTDOWN STRIP ────────────────────────────────────── */}
         <section className="mp-counts">
-          {plan.exam_selections.map((exam) => {
-            const catalog = findExam(exam.slug);
-            const days = daysUntil(exam.exam_date);
-            const urgent = days < 14;
-            const p = pal(catalog?.accent ?? "slate");
-            const totalCh = exam.total_chapters ?? 0;
-            const completedCh = 0; // TODO: real progress when student_chapter_progress is hot
-            const pct = totalCh > 0 ? Math.round((completedCh / totalCh) * 100) : 0;
-            return (
-              <div key={exam.slug} className="mp-count-card">
-                <div className="mp-count-head">
-                  <span className="mp-count-emoji">{catalog?.emoji ?? "📚"}</span>
-                  <span className="mp-count-name">{catalog?.short_name ?? exam.name}</span>
+          {[...plan.exam_selections]
+            .sort((a, b) => {
+              // Future first (ascending by date), then past (most-recent past first).
+              const da = daysUntil(a.exam_date);
+              const db = daysUntil(b.exam_date);
+              const pa = da < 0, pb = db < 0;
+              if (pa && !pb) return 1;
+              if (!pa && pb) return -1;
+              return da - db;
+            })
+            .map((exam) => {
+              const catalog = findExam(exam.slug);
+              const days = daysUntil(exam.exam_date);
+              const state = classifyCountdown(days);
+              const p = pal(catalog?.accent ?? "slate");
+              const totalCh = exam.total_chapters ?? 0;
+              const completedCh = 0; // TODO: real progress when student_chapter_progress is hot
+              const pct = totalCh > 0 ? Math.round((completedCh / totalCh) * 100) : 0;
+              return (
+                <div key={exam.slug} className={`mp-count-card mp-state-${state}`}>
+                  <div className="mp-count-head">
+                    <span className="mp-count-emoji">{catalog?.emoji ?? "📚"}</span>
+                    <span className="mp-count-name">{catalog?.short_name ?? exam.name}</span>
+                  </div>
+                  <div className="mp-count-days">
+                    {state === "past" ? (
+                      <span className="mp-count-label">Past</span>
+                    ) : state === "today" ? (
+                      <span className="mp-count-label mp-count-label-today">Today</span>
+                    ) : (
+                      <>
+                        <span className="mp-count-num">{days}</span>
+                        <span className="mp-count-unit">day{days === 1 ? "" : "s"}</span>
+                      </>
+                    )}
+                  </div>
+                  {totalCh > 0 ? (
+                    <>
+                      <div className="mp-count-bar">
+                        <div className="mp-count-fill" style={{ width: `${pct}%`, background: p.bar, boxShadow: `0 0 10px ${p.glow}` }} />
+                      </div>
+                      <div className="mp-count-meta">{pct}% · {totalCh} chapters</div>
+                    </>
+                  ) : (
+                    <div className="mp-count-meta">{new Date(exam.exam_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</div>
+                  )}
                 </div>
-                <div className={`mp-count-days ${urgent ? "is-urgent" : ""}`}>
-                  <span className="mp-count-num">{days}</span>
-                  <span className="mp-count-unit">days</span>
-                </div>
-                {totalCh > 0 ? (
-                  <>
-                    <div className="mp-count-bar">
-                      <div className="mp-count-fill" style={{ width: `${pct}%`, background: p.bar, boxShadow: `0 0 10px ${p.glow}` }} />
-                    </div>
-                    <div className="mp-count-meta">{pct}% · {totalCh} chapters</div>
-                  </>
-                ) : (
-                  <div className="mp-count-meta">{new Date(exam.exam_date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</div>
-                )}
-              </div>
-            );
-          })}
+              );
+            })}
         </section>
 
         {/* ── WEEKLY CALENDAR ────────────────────────────────────── */}
@@ -479,7 +555,7 @@ const pageCss = `
     letter-spacing: 0.04em;
     color: rgba(216,217,230,0.9);
   }
-  .mp-count-days { display: flex; align-items: baseline; gap: 0.4rem; }
+  .mp-count-days { display: flex; align-items: baseline; gap: 0.4rem; min-height: 3.4rem; }
   .mp-count-num {
     font-family: 'Cormorant Garamond', serif;
     font-size: 3.4rem; font-weight: 600;
@@ -487,11 +563,72 @@ const pageCss = `
     line-height: 0.9;
     letter-spacing: -0.02em;
   }
-  .mp-count-days.is-urgent .mp-count-num {
-    color: #FF6B5B;
-    text-shadow: 0 0 18px rgba(255,107,91,0.35);
-  }
   .mp-count-unit { font-family: ui-monospace, monospace; font-size: 0.7rem; color: rgba(148,163,184,0.7); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* ── Countdown states ────────────────────────────────────────── */
+  /* soon = 8–14 days out: amber warning, no pulse */
+  .mp-state-soon .mp-count-num {
+    color: #F4C95D;
+    text-shadow: 0 0 14px rgba(244,201,93,0.3);
+  }
+  /* critical = 1–7 days out: coral with gentle pulse */
+  .mp-state-critical .mp-count-num {
+    color: #FF6B5B;
+    text-shadow: 0 0 18px rgba(255,107,91,0.4);
+    animation: mp-count-pulse 2s ease-in-out infinite;
+  }
+  @keyframes mp-count-pulse {
+    0%, 100% { text-shadow: 0 0 14px rgba(255,107,91,0.3); }
+    50%      { text-shadow: 0 0 22px rgba(255,107,91,0.6); }
+  }
+  /* today = exam day: large coral label, no number */
+  .mp-state-today { border-color: rgba(255,107,91,0.45); box-shadow: 0 0 24px rgba(255,107,91,0.18); }
+  .mp-count-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem; font-weight: 600;
+    color: rgba(148,163,184,0.55);
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .mp-count-label-today {
+    color: #FF6B5B;
+    font-style: italic;
+    font-size: 2.6rem;
+    text-shadow: 0 0 20px rgba(255,107,91,0.55);
+    animation: mp-count-pulse 2s ease-in-out infinite;
+  }
+  /* past = exam already happened: desaturate the whole card */
+  .mp-state-past {
+    opacity: 0.55;
+    border-color: rgba(148,163,184,0.12);
+  }
+  .mp-state-past:hover { transform: none; border-color: rgba(148,163,184,0.2); box-shadow: none; }
+  .mp-state-past .mp-count-fill { filter: grayscale(0.7); opacity: 0.6; }
+
+  /* ── Past-cycle banner ───────────────────────────────────────── */
+  .mp-banner {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 0.95rem 1.15rem;
+    background: linear-gradient(135deg, rgba(244,201,93,0.08), rgba(255,107,91,0.06));
+    border: 1px solid rgba(244,201,93,0.32);
+    border-radius: 0.7rem;
+    flex-wrap: wrap;
+  }
+  .mp-banner-text { flex: 1; min-width: 14rem; font-size: 0.9rem; color: rgba(216,217,230,0.92); line-height: 1.5; }
+  .mp-banner-text strong { color: #F4C95D; font-weight: 600; }
+  .mp-banner-btn {
+    font-family: ui-monospace, monospace;
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 0.6rem 0.95rem;
+    color: #0a0a10;
+    background: linear-gradient(135deg, #F4C95D 0%, #FF6B5B 100%);
+    border: 0; border-radius: 0.45rem;
+    cursor: pointer;
+    transition: filter 150ms ease, box-shadow 200ms ease, transform 100ms ease;
+  }
+  .mp-banner-btn:hover:not(:disabled) { filter: brightness(1.08); box-shadow: 0 0 22px rgba(244,201,93,0.45); transform: translateY(-1px); }
+  .mp-banner-btn:disabled { opacity: 0.55; cursor: default; }
   .mp-count-bar {
     height: 5px;
     background: rgba(255,255,255,0.06);
