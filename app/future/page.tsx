@@ -15,6 +15,10 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { authFetch } from "@/lib/client-auth";
 import { createBrowserClient } from "@/lib/supabase";
+import SplitSelf from "@/components/future-self/SplitSelf";
+import { computeSynchronization, syncCaption } from "@/lib/future-self/compute";
+
+const PULSE_FLAG_KEY = "inhero.future.pulse";
 
 interface PathState {
   slug: string;
@@ -41,15 +45,6 @@ interface FutureState {
 }
 
 // 4 orbital positions (clockwise from top): N, E, S, W. Each value
-// is { angleDeg, radiusPx } translated into SVG coords at render
-// time. Index in array matches index in PATHS catalog order.
-const ORBIT_POSITIONS = [
-  { x: 200, y: 60  },   // researcher (top)
-  { x: 360, y: 240 },   // founder (right)
-  { x: 200, y: 420 },   // doctor (bottom)
-  { x: 40,  y: 240 },   // artist (left)
-];
-
 function formatEvent(ev: RecentEvent): string {
   switch (ev.event_type) {
     case "chapter_complete": {
@@ -87,6 +82,13 @@ export default function FuturePage() {
   const [state, setState] = useState<FutureState | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
+  // Resonance-bar hover-preview: when set, SplitSelf renders as
+  // if this single path were the only resonance source.
+  const [hoveredPath, setHoveredPath] = useState<string | null>(null);
+  // Bumps each time we pick up a pending pulse from localStorage
+  // (set by the chapter completion ritual). SplitSelf fires its
+  // one-shot pulse whenever this changes.
+  const [pulseToken, setPulseToken] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -116,10 +118,46 @@ export default function FuturePage() {
     return state.paths.find((p) => p.slug === state.dominant_path)?.name ?? null;
   }, [state]);
 
-  const clarityLabel = useMemo(() => {
-    if (!state) return "—";
-    return `${Math.round(state.silhouette_clarity * 100)}%`;
+  // Estimate "recent study hours" from the count of session_logged
+  // events in the past 7 days — each event implies ~30 min of
+  // session. Best we can do without a separate API call.
+  const recentStudyHours = useMemo(() => {
+    if (!state) return 0;
+    const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    const events = state.recent_events.filter(
+      (e) => e.event_type === "session_logged" && new Date(e.occurred_at).getTime() >= sevenDaysAgo,
+    );
+    return events.reduce((sum, e) => {
+      const secs = (e.payload?.duration_seconds as number | undefined) ?? 0;
+      return sum + secs / 3600;
+    }, 0);
   }, [state]);
+
+  // Computed sync (real value, based on all paths).
+  const realSync = useMemo(() => {
+    if (!state) return 0;
+    return computeSynchronization(state.paths, recentStudyHours);
+  }, [state, recentStudyHours]);
+
+  // Effective sync — hover-preview overrides the real value so the
+  // character morphs to the hovered path's solo resonance.
+  const displayedSync = useMemo(() => {
+    if (!state || !hoveredPath) return realSync;
+    const p = state.paths.find((x) => x.slug === hoveredPath);
+    return p ? Math.min(100, p.resonance * 100) : realSync;
+  }, [state, hoveredPath, realSync]);
+
+  // Pick up the chapter-completion pulse flag (set by the ritual).
+  // One-shot: clear immediately so navigating away + back doesn't
+  // replay it.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (authStatus !== "in") return;
+    if (window.localStorage.getItem(PULSE_FLAG_KEY)) {
+      window.localStorage.removeItem(PULSE_FLAG_KEY);
+      setPulseToken((n) => n + 1);
+    }
+  }, [authStatus]);
 
   if (authStatus === "loading") return <ShellMsg msg="opening observatory…" />;
   if (authStatus === "out") return <ShellMsg msg="sign in to observe your future self." />;
@@ -131,68 +169,42 @@ export default function FuturePage() {
       <header className="ft-head">
         <div className="ft-stamp">
           <span className="ft-stamp-dot" />
-          <span>FUTURE SELF · v0.1 · OBSERVING</span>
+          <span>SELF-SYNCHRONIZATION · {Math.round(realSync)}%</span>
         </div>
         <h1 className="ft-title">
           The version of you that's <em>arriving</em>.
         </h1>
         <p className="ft-sub">
-          Future-self synchronization: <span className="ft-sync">{clarityLabel}</span>
-          {dominantName && <> · dominant trace <em>{dominantName.toLowerCase()}</em></>}
+          Your present and possible selves are merging.
+          {dominantName && <> Dominant trace <em>{dominantName.toLowerCase()}</em>.</>}
         </p>
       </header>
 
-      <section className="ft-stage" aria-label="Future self silhouette">
-        <Silhouette clarity={state.silhouette_clarity} />
-        <svg className="ft-orbital" viewBox="0 0 400 480" aria-hidden="true">
-          {/* Path connection lines from silhouette center to each orbital glyph */}
-          {state.paths.map((p, i) => {
-            const pos = ORBIT_POSITIONS[i] ?? ORBIT_POSITIONS[0];
-            return (
-              <line
-                key={`line-${p.slug}`}
-                x1={200} y1={240}
-                x2={pos.x} y2={pos.y}
-                stroke={p.accent}
-                strokeOpacity={0.15 + p.resonance * 0.6}
-                strokeWidth={1}
-                strokeDasharray="3 4"
-              />
-            );
-          })}
-        </svg>
-        {state.paths.map((p, i) => {
-          const pos = ORBIT_POSITIONS[i] ?? ORBIT_POSITIONS[0];
-          const opacity = 0.32 + p.resonance * 0.68;
-          return (
-            <button
-              key={p.slug}
-              type="button"
-              className={`ft-orb ${expanded === p.slug ? "is-active" : ""}`}
-              style={{
-                left:  `calc(${(pos.x / 400) * 100}% - 24px)`,
-                top:   `calc(${(pos.y / 480) * 100}% - 24px)`,
-                color: p.accent,
-                opacity,
-                boxShadow: `0 0 ${8 + p.resonance * 28}px ${p.accent}55`,
-              }}
-              onClick={() => setExpanded((cur) => (cur === p.slug ? null : p.slug))}
-              aria-label={`${p.name} resonance ${Math.round(p.resonance * 100)}%`}
-            >
-              <span>{p.glyph}</span>
-            </button>
-          );
-        })}
+      <section className="ft-stage-split" aria-label="Split self character">
+        <SplitSelf synchronization={displayedSync} pulseToken={pulseToken} />
+        <div className="ft-caption">
+          <em>{syncCaption(displayedSync)}</em>
+          <span className="ft-caption-hint" title="The seam never reaches zero — the imperfection is what makes it human.">
+            the seam never closes
+          </span>
+        </div>
       </section>
 
       <section className="ft-bars">
-        <div className="ft-bars-head">resonance bars</div>
+        <div className="ft-bars-head">
+          resonance bars
+          <span className="ft-bars-hint">hover to preview that path's signature on the character</span>
+        </div>
         {state.paths.map((p) => (
           <button
             key={p.slug}
             type="button"
             className={`ft-bar ${expanded === p.slug ? "is-open" : ""}`}
             onClick={() => setExpanded((cur) => (cur === p.slug ? null : p.slug))}
+            onMouseEnter={() => setHoveredPath(p.slug)}
+            onMouseLeave={() => setHoveredPath((cur) => (cur === p.slug ? null : cur))}
+            onFocus={() => setHoveredPath(p.slug)}
+            onBlur={() => setHoveredPath((cur) => (cur === p.slug ? null : cur))}
           >
             <div className="ft-bar-row">
               <span className="ft-bar-glyph" style={{ color: p.accent }}>{p.glyph}</span>
@@ -248,50 +260,6 @@ export default function FuturePage() {
 
       <style>{css}</style>
     </main>
-  );
-}
-
-function Silhouette({ clarity }: { clarity: number }) {
-  // Stroke opacity + inner-glow intensity both grow with clarity.
-  // Clarity 0 = ghostly outline; clarity 1 = strongly-defined
-  // figure with luminous core.
-  const strokeOpacity = 0.18 + clarity * 0.65;
-  const coreOpacity = 0.04 + clarity * 0.45;
-  return (
-    <svg className="ft-silhouette" viewBox="0 0 400 480" aria-hidden="true">
-      <defs>
-        <radialGradient id="ft-core" cx="50%" cy="48%" r="40%">
-          <stop offset="0%"  stopColor="#a99cff" stopOpacity={coreOpacity} />
-          <stop offset="60%" stopColor="#5eead4" stopOpacity={coreOpacity * 0.5} />
-          <stop offset="100%" stopColor="transparent" stopOpacity="0" />
-        </radialGradient>
-        <linearGradient id="ft-stroke" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"  stopColor="#a99cff" />
-          <stop offset="100%" stopColor="#5eead4" />
-        </linearGradient>
-      </defs>
-      {/* Inner glow / core */}
-      <ellipse cx="200" cy="240" rx="90" ry="170" fill="url(#ft-core)" />
-      {/* Head */}
-      <circle cx="200" cy="155" r="46"
-        fill="none" stroke="url(#ft-stroke)" strokeOpacity={strokeOpacity} strokeWidth="1.5" />
-      {/* Neck */}
-      <path d="M186 195 Q186 215 196 220 L204 220 Q214 215 214 195"
-        fill="none" stroke="url(#ft-stroke)" strokeOpacity={strokeOpacity} strokeWidth="1.5" />
-      {/* Shoulders + torso */}
-      <path d="M140 250 Q200 220 260 250 L268 360 Q200 380 132 360 Z"
-        fill="none" stroke="url(#ft-stroke)" strokeOpacity={strokeOpacity} strokeWidth="1.5" />
-      {/* Constellation dots inside silhouette (3 stars for active synapses) */}
-      <circle cx="180" cy="170" r="1.6" fill="#a99cff" opacity={0.5 + clarity * 0.5}>
-        <animate attributeName="opacity" values={`${0.3 + clarity * 0.4};${0.7 + clarity * 0.3};${0.3 + clarity * 0.4}`} dur="3.2s" repeatCount="indefinite" />
-      </circle>
-      <circle cx="218" cy="262" r="1.6" fill="#5eead4" opacity={0.5 + clarity * 0.5}>
-        <animate attributeName="opacity" values={`${0.3 + clarity * 0.4};${0.7 + clarity * 0.3};${0.3 + clarity * 0.4}`} dur="4.1s" repeatCount="indefinite" />
-      </circle>
-      <circle cx="192" cy="310" r="1.6" fill="#F4C95D" opacity={0.5 + clarity * 0.5}>
-        <animate attributeName="opacity" values={`${0.3 + clarity * 0.4};${0.7 + clarity * 0.3};${0.3 + clarity * 0.4}`} dur="2.6s" repeatCount="indefinite" />
-      </circle>
-    </svg>
   );
 }
 
@@ -367,31 +335,45 @@ const css = `
   }
 
   /* ── Silhouette + orbital ───────────────────────────────────── */
-  .ft-stage {
+  /* ── SplitSelf stage ────────────────────────────────────────── */
+  .ft-stage-split {
     position: relative;
-    width: min(28rem, 100%);
-    aspect-ratio: 400 / 480;
-    margin: 0 auto 3rem;
+    width: min(22rem, 100%);
+    margin: 0 auto 2.2rem;
   }
-  .ft-silhouette, .ft-orbital {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
+  .ft-caption {
+    display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+    margin-top: 0.6rem;
+    text-align: center;
   }
-  .ft-orbital line { transition: stroke-opacity 600ms ease; }
-
-  .ft-orb {
-    position: absolute;
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    border: 1px solid currentColor;
-    background: rgba(8, 10, 18, 0.9);
-    display: inline-flex; align-items: center; justify-content: center;
-    font-size: 1.3rem;
-    cursor: pointer;
-    transition: transform 200ms ease, opacity 200ms ease, box-shadow 240ms ease;
+  .ft-caption em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.05rem, 2.4vw, 1.2rem);
+    color: rgba(216, 217, 230, 0.92);
+    letter-spacing: -0.005em;
+    line-height: 1.4;
+    transition: color 600ms ease;
   }
-  .ft-orb:hover, .ft-orb.is-active { transform: scale(1.12); opacity: 1 !important; }
+  .ft-caption-hint {
+    font-family: ui-monospace, monospace;
+    font-size: 0.62rem;
+    color: rgba(148, 163, 184, 0.5);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    cursor: help;
+    border-bottom: 1px dotted rgba(148, 163, 184, 0.25);
+    padding-bottom: 0.05rem;
+  }
+  .ft-bars-hint {
+    display: block;
+    font-family: ui-monospace, monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    text-transform: none;
+    color: rgba(148, 163, 184, 0.5);
+    margin-top: 0.2rem;
+  }
 
   /* ── Resonance bars ─────────────────────────────────────────── */
   .ft-bars { max-width: 48rem; margin: 0 auto 3rem; }

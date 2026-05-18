@@ -64,6 +64,14 @@ export default function ChapterCompletionTrigger({
     setDeltas(null);
     setDominant(null);
     setSubmitting(false);
+    // Drop a flag so the next /future render fires the one-shot
+    // sync pulse on SplitSelf. Stored client-side only — server
+    // already has the durable resonance state.
+    try {
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem("inhero.future.pulse", "1");
+      }
+    } catch { /* private mode etc. */ }
     if (nextHref) router.push(nextHref);
     else router.push(`/textbooks/${textbookSlug}`);
   }
