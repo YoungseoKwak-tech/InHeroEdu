@@ -59,8 +59,8 @@ export const EXAM_CATALOG: ExamCatalogEntry[] = [
   { slug: "sat", name: "SAT",         short_name: "SAT", category: "standardized", default_exam_date: "2027-06-05", emoji: "📝", accent: "violet", lounge_slug: "sat" },
   { slug: "act", name: "ACT",         short_name: "ACT", category: "standardized", default_exam_date: "2027-06-12", emoji: "📝", accent: "violet" },
   // ── College apps ──────────────────────────────────────────────
-  { slug: "common-app",   name: "Common App essays",    short_name: "Common App", category: "college-apps", default_exam_date: "2026-11-01", emoji: "✍️", accent: "amber",  lounge_slug: "essay-writing" },
-  { slug: "supplements",  name: "Supplemental essays",  short_name: "Supps",      category: "college-apps", default_exam_date: "2026-12-01", emoji: "✍️", accent: "amber",  lounge_slug: "essay-writing" },
+  { slug: "common-app",   name: "Common App essays",    short_name: "Common App", category: "college-apps", default_exam_date: "2026-11-01", emoji: "✍️", accent: "amber",  lounge_slug: "admissions" },
+  { slug: "supplements",  name: "Supplemental essays",  short_name: "Supps",      category: "college-apps", default_exam_date: "2026-12-01", emoji: "✍️", accent: "amber",  lounge_slug: "admissions" },
   { slug: "interview-prep", name: "Interview prep",     short_name: "Interview",  category: "college-apps", default_exam_date: "2027-02-01", emoji: "🎤", accent: "rose",   lounge_slug: "admissions" },
 ];
 
