@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
 import { isDocGroup, type DocGroup } from "@/lib/docGroups";
+import { recordInteraction } from "@/lib/ml/collaborative-filtering";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -67,6 +68,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: insErr.message }, { status: 500 });
   }
 
+  await recordInteraction(user.id, resourceId, "save");
+
   return NextResponse.json({ saved: true, collectionId });
 }
 
@@ -115,6 +118,7 @@ export async function PATCH(req: NextRequest) {
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
+    await recordInteraction(user.id, resourceId, "save");
   }
   return NextResponse.json({ saved: true, collectionId });
 }

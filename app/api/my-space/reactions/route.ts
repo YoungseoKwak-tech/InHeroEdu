@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
 import { isDocGroup, type DocGroup } from "@/lib/docGroups";
+import { recordInteraction } from "@/lib/ml/collaborative-filtering";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -59,6 +60,7 @@ export async function POST(req: NextRequest) {
     if (insErr) {
       return NextResponse.json({ error: insErr.message }, { status: 500 });
     }
+    await recordInteraction(user.id, resourceId, "reaction");
     active = true;
   }
 
