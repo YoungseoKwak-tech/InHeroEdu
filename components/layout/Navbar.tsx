@@ -10,6 +10,7 @@ import { authFetch } from "@/lib/client-auth";
 import { normalizeProfileFields } from "@/lib/profile";
 
 const NAV_LINKS = [
+  { href: "/my-plan",         label: "MY PLAN" },
   { href: "/academy",         label: "ACADEMY" },
   { href: "/lounges",         label: "LOUNGES" },
   { href: "/library",         label: "LIBRARY" },
