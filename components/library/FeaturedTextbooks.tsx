@@ -30,10 +30,6 @@ const EMOJI_BY_SLUG: Record<string, string> = {
   "ap-physics-ultimate": "⚛️",
 };
 
-const AUTHOR_TAG: Record<string, string> = {
-  "Youngseo Kwak": "Cornell '27",
-};
-
 export default function FeaturedTextbooks() {
   const [textbooks, setTextbooks] = useState<Textbook[]>([]);
 
@@ -63,24 +59,23 @@ export default function FeaturedTextbooks() {
       <div className={`ft-strip ft-count-${Math.min(textbooks.length, 3)}`}>
         {textbooks.map((t) => {
           const emoji = EMOJI_BY_SLUG[t.slug] ?? "📚";
-          const authorTag = AUTHOR_TAG[t.author_name] ?? "";
+          const metaParts = [
+            t.total_chapters ? `${t.total_chapters} chapters` : null,
+            t.total_pages ? `${t.total_pages} pages` : null,
+          ].filter(Boolean);
           return (
             <Link key={t.slug} href={`/textbooks/${t.slug}`} className="ft-card">
               <div className="ft-card-glyph">{emoji}</div>
               <div className="ft-card-body">
-                <div className="ft-card-tier">✨ AI · Cornell-curated</div>
                 <div className="ft-card-title">
                   {t.title}
                   {t.subtitle && (
                     <span className="ft-card-subtitle"> — {t.subtitle}</span>
                   )}
                 </div>
-                <div className="ft-card-meta">
-                  By <em>{t.author_name}</em>
-                  {authorTag && ` · ${authorTag}`}
-                  {t.total_chapters && ` · ${t.total_chapters} chapters`}
-                  {t.total_pages && ` · ${t.total_pages} pages`}
-                </div>
+                {metaParts.length > 0 && (
+                  <div className="ft-card-meta">{metaParts.join(" · ")}</div>
+                )}
               </div>
               <div className="ft-card-cta">
                 <span>Open textbook</span>
@@ -161,13 +156,6 @@ export default function FeaturedTextbooks() {
           filter: drop-shadow(0 0 18px rgba(169, 156, 255, 0.35));
         }
         .ft-card-body { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
-        .ft-card-tier {
-          font-family: ui-monospace, monospace;
-          font-size: 0.6rem; font-weight: 700;
-          letter-spacing: 0.18em; text-transform: uppercase;
-          color: #F4C95D;
-          text-shadow: 0 0 10px rgba(244, 201, 93, 0.3);
-        }
         .ft-card-title {
           font-family: 'Cormorant Garamond', 'Georgia', serif;
           font-size: 1.65rem; font-weight: 600;
@@ -186,7 +174,6 @@ export default function FeaturedTextbooks() {
           color: rgba(148, 163, 184, 0.78);
           letter-spacing: 0.04em;
         }
-        .ft-card-meta em { font-style: normal; color: #5eead4; font-weight: 600; }
 
         .ft-card-cta {
           display: inline-flex; align-items: center; gap: 0.45rem;
