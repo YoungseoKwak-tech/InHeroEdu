@@ -5,6 +5,7 @@ import Link from "next/link";
 import { authFetch } from "@/lib/client-auth";
 import { createBrowserClient } from "@/lib/supabase";
 import PdfThumbnailBackfill from "@/components/library/PdfThumbnailBackfill";
+import FeaturedTextbooks from "@/components/library/FeaturedTextbooks";
 import SaveButton from "@/components/my-space/SaveButton";
 import ReactionPicker from "@/components/my-space/ReactionPicker";
 import ConfirmDialog from "@/components/shared/ConfirmDialog";
@@ -240,6 +241,8 @@ export default function LibraryPage() {
         <div className="lib-eyebrow">LIBRARY</div>
         <h1 className="lib-title">Every resource. Every Lounge. One feed.</h1>
       </header>
+
+      <FeaturedTextbooks />
 
       <div className="lib-controls">
         <div className="lib-tabs">
