@@ -58,9 +58,15 @@ function releaseSlot() {
 interface Props {
   resourceId: string;
   onGenerated: (url: string) => void;
+  // Called when the backfill bails — fetch error, pdfjs render
+  // exception, sign endpoint 404 (e.g. the card came from a chat
+  // message with no lounge_resources mirror), etc. Lets the card
+  // swap the "Generating preview…" label for the emoji + filetype
+  // fallback instead of stalling forever.
+  onFailed?: () => void;
 }
 
-export default function PdfThumbnailBackfill({ resourceId, onGenerated }: Props) {
+export default function PdfThumbnailBackfill({ resourceId, onGenerated, onFailed }: Props) {
   const markerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -102,6 +108,7 @@ export default function PdfThumbnailBackfill({ resourceId, onGenerated }: Props)
           error: msg,
           ts: new Date().toISOString(),
         });
+        if (!cancelled) onFailed?.();
       } finally {
         releaseSlot();
       }
@@ -122,7 +129,7 @@ export default function PdfThumbnailBackfill({ resourceId, onGenerated }: Props)
       cancelled = true;
       observer?.disconnect();
     };
-  }, [resourceId, onGenerated]);
+  }, [resourceId, onGenerated, onFailed]);
 
   return <div ref={markerRef} aria-hidden="true" style={{ width: 0, height: 0 }} />;
 }

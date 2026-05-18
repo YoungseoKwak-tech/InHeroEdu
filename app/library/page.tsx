@@ -7,6 +7,7 @@ import { createBrowserClient } from "@/lib/supabase";
 import PdfThumbnailBackfill from "@/components/library/PdfThumbnailBackfill";
 import SaveButton from "@/components/my-space/SaveButton";
 import ReactionPicker from "@/components/my-space/ReactionPicker";
+import ConfirmDialog from "@/components/shared/ConfirmDialog";
 import {
   DOC_GROUP_EMOJI,
   DOC_GROUP_LABELS,
@@ -607,12 +608,18 @@ function FeedCard({
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   // Local override so the card can swap in a browser-generated
   // thumbnail without waiting for a feed refetch. Initialized from the
   // server-provided URL; PdfThumbnailBackfill calls setLocalPreview1Url
   // when it finishes rendering + uploading.
   const [localPreview1Url, setLocalPreview1Url] = useState<string | null>(item.previewPage1Url);
+  // Set when PdfThumbnailBackfill reports a failure (sign 404,
+  // pdfjs render exception, etc). Lets the placeholder swap the
+  // "Generating preview…" label for the emoji + filetype fallback
+  // instead of looping forever.
+  const [backfillFailed, setBackfillFailed] = useState(false);
   const previewPages: { url: string; blurred: boolean }[] = [];
   if (localPreview1Url) previewPages.push({ url: localPreview1Url, blurred: false });
   if (item.previewPage2Url) previewPages.push({ url: item.previewPage2Url, blurred: true });
@@ -621,7 +628,7 @@ function FeedCard({
   const [previewIndex, setPreviewIndex] = useState(0);
   const currentPreview = hasPreviews ? previewPages[previewIndex] : null;
   const isPdf = item.mimeType === "application/pdf";
-  const needsThumbnailBackfill = isPdf && !localPreview1Url;
+  const needsThumbnailBackfill = isPdf && !localPreview1Url && !backfillFailed;
 
   function cyclePreviewNext(e: React.MouseEvent) {
     e.preventDefault();
@@ -638,9 +645,13 @@ function FeedCard({
   // don't leak listeners across every card on the feed.
   useEffect(() => {
     if (!menuOpen) return;
-    const onDocClick = () => setMenuOpen(false);
-    document.addEventListener("mousedown", onDocClick);
-    return () => document.removeEventListener("mousedown", onDocClick);
+    const onDocPointerDown = (event: PointerEvent) => {
+      const target = event.target;
+      if (target instanceof Node && menuRef.current?.contains(target)) return;
+      setMenuOpen(false);
+    };
+    document.addEventListener("pointerdown", onDocPointerDown);
+    return () => document.removeEventListener("pointerdown", onDocPointerDown);
   }, [menuOpen]);
 
   async function doDelete() {
@@ -680,12 +691,16 @@ function FeedCard({
           initialSaved={initialSaved}
         />
         {canDelete && (
-          <div className="fc-owner-menu">
+          <div className="fc-owner-menu" ref={menuRef}>
             <button
               type="button"
               className="fc-menu-trigger"
               aria-label="Card options"
-              onClick={(e) => { e.stopPropagation(); setMenuOpen((v) => !v); }}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setMenuOpen((v) => !v);
+              }}
             >
               ⋯
             </button>
@@ -694,7 +709,12 @@ function FeedCard({
                 <button
                   type="button"
                   className="fc-menu-item fc-menu-delete"
-                  onClick={(e) => { e.stopPropagation(); setMenuOpen(false); setConfirming(true); }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setMenuOpen(false);
+                    setConfirming(true);
+                  }}
                 >
                   🗑️ Delete
                 </button>
@@ -704,31 +724,22 @@ function FeedCard({
         )}
       </div>
 
-      {confirming && (
-        <div className="fc-confirm" onMouseDown={(e) => e.stopPropagation()}>
-          <div className="fc-confirm-title">Delete this resource?</div>
-          <div className="fc-confirm-sub">&ldquo;{item.title}&rdquo;</div>
-          <div className="fc-confirm-meta">All upvotes and comments are removed too.</div>
-          <div className="fc-confirm-actions">
-            <button
-              type="button"
-              className="fc-confirm-cancel"
-              onClick={() => setConfirming(false)}
-              disabled={deleting}
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              className="fc-confirm-go"
-              onClick={() => void doDelete()}
-              disabled={deleting}
-            >
-              {deleting ? "Deleting…" : "Delete"}
-            </button>
-          </div>
-        </div>
-      )}
+      <ConfirmDialog
+        open={confirming}
+        title="Delete this resource?"
+        message={
+          <>
+            "{item.title}" will disappear from the library feed. This action cannot be undone.
+          </>
+        }
+        confirmLabel="Delete"
+        loading={deleting}
+        destructive
+        onConfirm={doDelete}
+        onCancel={() => {
+          if (!deleting) setConfirming(false);
+        }}
+      />
 
       {/* Thumbnail — click goes straight into the reader. Preview
           carousel arrows are stacked on top, outside the Link so they
@@ -768,6 +779,7 @@ function FeedCard({
                   <PdfThumbnailBackfill
                     resourceId={item.id}
                     onGenerated={setLocalPreview1Url}
+                    onFailed={() => setBackfillFailed(true)}
                   />
                 )}
               </div>
@@ -937,59 +949,6 @@ function FeedCard({
         }
         .fc-menu-delete:hover { background: rgba(239,68,68,0.16); color: #ff8b7e; }
 
-        .fc-confirm {
-          position: absolute;
-          inset: 0;
-          z-index: 6;
-          display: flex; flex-direction: column; align-items: center; justify-content: center;
-          gap: 0.4rem;
-          padding: 1rem;
-          background: rgba(10,6,18,0.94);
-          backdrop-filter: blur(8px);
-          text-align: center;
-        }
-        .fc-confirm-title {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 1.05rem;
-          font-weight: 600;
-          color: #f3f3fb;
-        }
-        .fc-confirm-sub {
-          font-size: 0.78rem;
-          color: rgba(216,217,230,0.85);
-          max-width: 90%;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-        .fc-confirm-meta {
-          font-family: ui-monospace, monospace;
-          font-size: 0.62rem;
-          color: rgba(148,163,184,0.6);
-          margin-bottom: 0.5rem;
-        }
-        .fc-confirm-actions { display: inline-flex; gap: 0.4rem; }
-        .fc-confirm-cancel, .fc-confirm-go {
-          padding: 0.45rem 0.85rem;
-          border-radius: 999px;
-          font-family: ui-monospace, monospace;
-          font-size: 0.7rem;
-          font-weight: 700;
-          letter-spacing: 0.12em;
-          cursor: pointer;
-        }
-        .fc-confirm-cancel {
-          background: transparent;
-          border: 1px solid rgba(255,255,255,0.15);
-          color: rgba(216,217,230,0.9);
-        }
-        .fc-confirm-cancel:disabled { opacity: 0.4; cursor: default; }
-        .fc-confirm-go {
-          background: #ef4444;
-          border: 1px solid #ef4444;
-          color: #fff;
-        }
-        .fc-confirm-go:disabled { opacity: 0.55; cursor: default; }
         .fc:hover {
           transform: translateY(-2px);
           border-color: rgba(94,234,212,0.4);
