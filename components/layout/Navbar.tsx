@@ -10,15 +10,14 @@ import { authFetch } from "@/lib/client-auth";
 import { normalizeProfileFields } from "@/lib/profile";
 
 const NAV_LINKS = [
+  { href: "/future",          label: "🌌 FUTURE" },
+  { href: "/brain",           label: "🧠 BRAIN" },
   { href: "/my-plan",         label: "MY PLAN" },
   { href: "/textbooks",       label: "TEXTBOOKS" },
-  { href: "/academy",         label: "ACADEMY" },
-  { href: "/lounges",         label: "LOUNGES" },
   { href: "/library",         label: "LIBRARY" },
-  { href: "/my-space",        label: "MY SPACE" },
+  { href: "/lounges",         label: "LOUNGES" },
   { href: "/clubs",           label: "CLUBS" },
-  { href: "/trajectory",      label: "TRAJECTORY" },
-  { href: "/command-center",  label: "COMMAND CENTER" },
+  { href: "/my-space",        label: "MY SPACE" },
 ];
 
 export default function Navbar() {

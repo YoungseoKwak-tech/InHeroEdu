@@ -572,6 +572,11 @@ export default function LibraryPage() {
         @media (max-width: 760px) {
           .lib-grid { column-width: 160px; column-gap: 0.6rem; }
         }
+        /* Phone: drop to a single full-width column for readability —
+           the masonry 2-up at 160px is too cramped on a 375px screen. */
+        @media (max-width: 480px) {
+          .lib-grid { column-count: 1; column-width: auto; }
+        }
 
         .lib-empty {
           padding: 3rem 1rem;

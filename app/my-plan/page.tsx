@@ -556,6 +556,22 @@ const pageCss = `
     grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
     gap: 0.85rem;
   }
+  /* Phone breakpoint: drop minmax to keep two cards per row at
+     375px (instead of a single full-width column of 8 cards). */
+  @media (max-width: 520px) {
+    .mp-counts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.55rem; }
+    .mp-count-card { padding: 0.85rem 0.85rem 0.8rem; }
+    .mp-count-num  { font-size: 2.6rem; }
+    .mp-count-label { font-size: 2rem; }
+    .mp-count-label-today { font-size: 2.1rem; }
+  }
+  /* Past-cycle banner reflows on narrow viewports — text + button
+     stack with the button full-width so the touch target stays 44px. */
+  @media (max-width: 520px) {
+    .mp-banner { flex-direction: column; align-items: stretch; gap: 0.7rem; }
+    .mp-banner-text { min-width: 0; font-size: 0.85rem; }
+    .mp-banner-btn { width: 100%; padding: 0.75rem 1rem; }
+  }
   .mp-count-card {
     padding: 1.05rem 1.15rem 1rem;
     background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
