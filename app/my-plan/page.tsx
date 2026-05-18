@@ -110,16 +110,20 @@ function todayKey(): string {
   return ["sun", "mon", "tue", "wed", "thu", "fri", "sat"][dow];
 }
 
-// Tailwind color name → CSS hex pair (bar gradient + glow).
+// Subject color palette — desaturated ~40% vs. the original
+// tailwind-bright values so the countdown strip and weekly
+// calendar feel cosmic-watercolor instead of rainbow-neon. Each
+// entry is still distinguishable; glow + chip alphas dropped too
+// so the muted hues don't bloom on dark backgrounds.
 const COLOR_PALETTE: Record<string, { bar: string; glow: string; chip: string }> = {
-  emerald: { bar: "linear-gradient(90deg, #34d399, #5eead4)", glow: "rgba(94,234,212,0.4)",  chip: "rgba(94,234,212,0.12)" },
-  orange:  { bar: "linear-gradient(90deg, #fb923c, #fbbf24)", glow: "rgba(251,146,60,0.4)",  chip: "rgba(251,146,60,0.12)" },
-  sky:     { bar: "linear-gradient(90deg, #38bdf8, #818cf8)", glow: "rgba(56,189,248,0.4)",  chip: "rgba(56,189,248,0.12)" },
-  rose:    { bar: "linear-gradient(90deg, #fb7185, #f472b6)", glow: "rgba(251,113,133,0.4)", chip: "rgba(251,113,133,0.12)" },
-  violet:  { bar: "linear-gradient(90deg, #a78bfa, #c084fc)", glow: "rgba(167,139,250,0.4)", chip: "rgba(167,139,250,0.12)" },
-  amber:   { bar: "linear-gradient(90deg, #fbbf24, #f59e0b)", glow: "rgba(251,191,36,0.4)",  chip: "rgba(251,191,36,0.12)" },
-  indigo:  { bar: "linear-gradient(90deg, #818cf8, #a78bfa)", glow: "rgba(129,140,248,0.4)", chip: "rgba(129,140,248,0.12)" },
-  slate:   { bar: "linear-gradient(90deg, #94a3b8, #cbd5e1)", glow: "rgba(148,163,184,0.4)", chip: "rgba(148,163,184,0.12)" },
+  emerald: { bar: "linear-gradient(90deg, #6ea394, #8dc8ba)", glow: "rgba(141,200,186,0.28)", chip: "rgba(141,200,186,0.08)" },
+  orange:  { bar: "linear-gradient(90deg, #d99a72, #d3b162)", glow: "rgba(217,154,114,0.28)", chip: "rgba(217,154,114,0.08)" },
+  sky:     { bar: "linear-gradient(90deg, #6fa5c2, #8d99c8)", glow: "rgba(111,165,194,0.28)", chip: "rgba(111,165,194,0.08)" },
+  rose:    { bar: "linear-gradient(90deg, #c8939c, #c397ad)", glow: "rgba(200,147,156,0.28)", chip: "rgba(200,147,156,0.08)" },
+  violet:  { bar: "linear-gradient(90deg, #a89ec4, #b5a4c6)", glow: "rgba(168,158,196,0.28)", chip: "rgba(168,158,196,0.08)" },
+  amber:   { bar: "linear-gradient(90deg, #c2a565, #b08e44)", glow: "rgba(194,165,101,0.28)", chip: "rgba(194,165,101,0.08)" },
+  indigo:  { bar: "linear-gradient(90deg, #8d99c8, #a89ec4)", glow: "rgba(141,153,200,0.28)", chip: "rgba(141,153,200,0.08)" },
+  slate:   { bar: "linear-gradient(90deg, #94a3b8, #b6c0cf)", glow: "rgba(148,163,184,0.28)", chip: "rgba(148,163,184,0.08)" },
 };
 
 function pal(color: string) {
