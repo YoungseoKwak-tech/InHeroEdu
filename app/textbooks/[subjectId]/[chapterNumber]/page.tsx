@@ -10,6 +10,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase";
+import ChapterCompletionTrigger from "@/components/future/ChapterCompletionTrigger";
 
 export const dynamic = "force-dynamic";
 
@@ -38,7 +39,7 @@ interface NavEntry {
 
 interface PageData {
   chapter: ChapterRow;
-  textbook: { slug: string; title: string };
+  textbook: { slug: string; title: string; course_slug: string | null };
   prev: NavEntry | null;
   next: NavEntry | null;
   ordinal: number;
@@ -49,7 +50,7 @@ async function loadPage(slug: string, chapterNumber: string): Promise<PageData |
   const sb = createAdminClient();
   const { data: textbook } = await sb
     .from("textbooks")
-    .select("id, slug, title")
+    .select("id, slug, title, course_slug")
     .eq("slug", slug)
     .eq("is_published", true)
     .maybeSingle();
@@ -72,7 +73,11 @@ async function loadPage(slug: string, chapterNumber: string): Promise<PageData |
 
   return {
     chapter: list[idx],
-    textbook: { slug: textbook.slug as string, title: textbook.title as string },
+    textbook: {
+      slug: textbook.slug as string,
+      title: textbook.title as string,
+      course_slug: (textbook.course_slug as string | null) ?? null,
+    },
     prev: idx > 0 ? proj(list[idx - 1]) : null,
     next: idx < list.length - 1 ? proj(list[idx + 1]) : null,
     ordinal: list[idx].ordinal,
@@ -225,6 +230,13 @@ export default async function ChapterReaderPage({
           </div>
         )}
       </nav>
+
+      <ChapterCompletionTrigger
+        chapterId={chapter.id}
+        subjectSlug={textbook.course_slug}
+        nextHref={next ? `/textbooks/${textbook.slug}/${next.chapter_number}` : null}
+        textbookSlug={textbook.slug}
+      />
 
       <style>{readerCss}</style>
     </main>
