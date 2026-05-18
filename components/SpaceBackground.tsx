@@ -396,19 +396,31 @@ export default function SpaceBackground() {
         </div>
       </div>
 
-      {/* Astronaut — fixed hero-right position */}
+      {/* Astronaut — anchored to the bottom-right corner so it stays
+          out of card grids and weekly-calendar columns on /my-plan,
+          /library, and the textbook reader. Scaled down + lower
+          z-index so content cards always layer above. pointerEvents
+          off keeps clicks passing through. Hidden on viewports
+          under 900px via .astronaut-container in globals.css. */}
+      {/* Outer wrapper owns position + scale + opacity so it doesn't
+          clobber the transform animations on .astronaut-container
+          (drift) and .astronaut-float (bob). */}
       <div
-        className="astronaut-container"
         style={{
           position: "fixed",
-          right: "18%",
-          top: "52%",
-          zIndex: 3,
+          right: "2%",
+          bottom: "4%",
+          zIndex: 1,
+          transform: "scale(0.7)",
+          transformOrigin: "bottom right",
+          opacity: 0.85,
           pointerEvents: "none",
         }}
       >
-        <div className="astronaut-float">
-          <Astronaut />
+        <div className="astronaut-container">
+          <div className="astronaut-float">
+            <Astronaut />
+          </div>
         </div>
       </div>
     </>
