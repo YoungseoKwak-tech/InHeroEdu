@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { getLiveConfig } from "@/lib/seed/loungeRoster";
+import styles from "./HomeHeroDualPath.module.css";
 
 type Locale = "en" | "ko";
 
@@ -83,7 +84,7 @@ function OrbitRings() {
   return (
     <canvas
       ref={canvasRef}
-      className="hh-orbit"
+      className={styles.hhOrbit}
       aria-hidden="true"
     />
   );
@@ -207,12 +208,12 @@ export default function HomeHeroDualPath({ locale = "en" }: Props) {
   const typing = useDriftingTyping();
 
   return (
-    <section className="hh-root">
+    <section className={styles.hhRoot}>
       <OrbitRings />
 
-      <div className="hh-content">
+      <div className={styles.hhContent}>
         {/* Logo */}
-        <div className="hh-logo">
+        <div className={styles.hhLogo}>
           <Image
             src="/logo-black.png"
             alt="InHero"
@@ -230,325 +231,72 @@ export default function HomeHeroDualPath({ locale = "en" }: Props) {
         </div>
 
         {/* MISSION CONTROL HUD badge — preserved from previous hero */}
-        <div className="hh-badge-wrap">
-          <span className="hh-badge">
-            <span className="hh-badge-dot" aria-hidden="true" />
+        <div className={styles.hhBadgeWrap}>
+          <span className={styles.hhBadge}>
+            <span className={styles.hhBadgeDot} aria-hidden="true" />
             {copy.badge}
           </span>
         </div>
 
         {/* Headline */}
-        <h1 className="hh-h1">
+        <h1 className={styles.hhH1}>
           {copy.headline}{" "}
-          <span className="hh-h1-em">{copy.headlineEm}</span>
+          <span className={styles.hhH1Em}>{copy.headlineEm}</span>
         </h1>
 
         {/* Tagline — smaller / lighter than the headline */}
-        <p className="hh-tag">{copy.tagline}</p>
+        <p className={styles.hhTag}>{copy.tagline}</p>
 
         {/* Dual-path card grid */}
-        <div className="hh-grid">
-          <Link href={copy.leftHref} className="hh-card hh-card-left">
-            <span className="hh-card-icon" aria-hidden="true">{copy.leftIcon}</span>
-            <h2 className="hh-card-title">{copy.leftTitle}</h2>
-            <p className="hh-card-body">{copy.leftBody}</p>
-            <div className="hh-card-rule" />
-            <div className="hh-card-stats">
+        <div className={styles.hhGrid}>
+          <Link href={copy.leftHref} className={`${styles.hhCard} ${styles.hhCardLeft}`}>
+            <span className={styles.hhCardIcon} aria-hidden="true">{copy.leftIcon}</span>
+            <h2 className={styles.hhCardTitle}>{copy.leftTitle}</h2>
+            <p className={styles.hhCardBody}>{copy.leftBody}</p>
+            <div className={styles.hhCardRule} />
+            <div className={styles.hhCardStats}>
               <span>{copy.leftStat1}</span>
               <span>{copy.leftStat2}</span>
             </div>
-            <span className="hh-card-arrow" aria-hidden="true">→</span>
+            <span className={styles.hhCardArrow} aria-hidden="true">→</span>
           </Link>
 
-          <Link href={copy.rightHref} className="hh-card hh-card-right">
-            <span className="hh-card-icon" aria-hidden="true">{copy.rightIcon}</span>
-            <h2 className="hh-card-title">{copy.rightTitle}</h2>
-            <p className="hh-card-body">{copy.rightBody}</p>
-            <div className="hh-card-rule" />
-            <div className="hh-card-stats">
-              <span className="hh-online-row">
-                <span className="hh-online-dot" aria-hidden="true" />
+          <Link href={copy.rightHref} className={`${styles.hhCard} ${styles.hhCardRight}`}>
+            <span className={styles.hhCardIcon} aria-hidden="true">{copy.rightIcon}</span>
+            <h2 className={styles.hhCardTitle}>{copy.rightTitle}</h2>
+            <p className={styles.hhCardBody}>{copy.rightBody}</p>
+            <div className={styles.hhCardRule} />
+            <div className={styles.hhCardStats}>
+              <span className={styles.hhOnlineRow}>
+                <span className={styles.hhOnlineDot} aria-hidden="true" />
                 {locale === "ko" ? (
                   <>
-                    지금 <span key={`online-${online}`} className="hh-num-fade">{online}</span>{copy.rightStat1Suffix}
+                    지금 <span key={`online-${online}`} className={styles.hhNumFade}>{online}</span>{copy.rightStat1Suffix}
                   </>
                 ) : (
                   <>
-                    <span key={`online-${online}`} className="hh-num-fade">{online}</span> {copy.rightStat1Suffix}
+                    <span key={`online-${online}`} className={styles.hhNumFade}>{online}</span> {copy.rightStat1Suffix}
                   </>
                 )}
               </span>
               <span>
                 {locale === "ko" ? (
-                  <>지금 <span className="hh-typing-num">{typing}</span>{copy.rightStat2Suffix}</>
+                  <>지금 <span className={styles.hhTypingNum}>{typing}</span>{copy.rightStat2Suffix}</>
                 ) : (
-                  <><span className="hh-typing-num">{typing}</span> {copy.rightStat2Suffix}</>
+                  <><span className={styles.hhTypingNum}>{typing}</span> {copy.rightStat2Suffix}</>
                 )}
               </span>
             </div>
-            <span className="hh-card-arrow" aria-hidden="true">→</span>
+            <span className={styles.hhCardArrow} aria-hidden="true">→</span>
           </Link>
         </div>
 
         {/* Proof bar — preserved, moved below the cards */}
-        <div className="hh-stats">{copy.statsLine}</div>
+        <div className={styles.hhStats}>{copy.statsLine}</div>
       </div>
 
-      <div className="hh-bottom-fade" aria-hidden="true" />
+      <div className={styles.hhBottomFade} aria-hidden="true" />
 
-      <style>{`
-        .hh-root {
-          position: relative;
-          min-height: 100vh;
-          display: flex; flex-direction: column;
-          align-items: center; justify-content: center;
-          overflow: hidden;
-          padding: 80px 24px;
-        }
-        .hh-orbit {
-          position: absolute;
-          top: 50%; left: 50%;
-          width: 900px; height: 900px;
-          margin: -450px 0 0 -450px;
-          pointer-events: none;
-          z-index: 0;
-          opacity: 0.5;
-        }
-        .hh-content {
-          position: relative;
-          z-index: 10;
-          width: 100%;
-          max-width: 1080px;
-          margin: 0 auto;
-          text-align: center;
-        }
-        .hh-logo { margin-bottom: 32px; }
-
-        /* MISSION CONTROL badge */
-        .hh-badge-wrap { margin-bottom: 24px; }
-        .hh-badge {
-          display: inline-flex; align-items: center; gap: 10px;
-          padding: 8px 18px;
-          background: rgba(0,255,136,0.05);
-          border: 1px solid rgba(0,255,136,0.2);
-          border-radius: 3px;
-          font-family: 'JetBrains Mono', ui-monospace, monospace;
-          font-size: 11px; font-weight: 600;
-          letter-spacing: 0.18em;
-          color: #00FF88;
-          text-transform: uppercase;
-        }
-        .hh-badge-dot {
-          width: 7px; height: 7px; border-radius: 50%;
-          background: #00FF88;
-          box-shadow: 0 0 8px rgba(0,255,136,0.85);
-          flex-shrink: 0;
-          animation: hh-pulse 1.5s ease-in-out infinite;
-        }
-
-        /* Headline */
-        .hh-h1 {
-          font-family: 'Space Grotesk', system-ui, sans-serif;
-          font-size: clamp(40px, 6.4vw, 80px);
-          font-weight: 700;
-          line-height: 1.02;
-          letter-spacing: -0.03em;
-          color: #FFFFFF;
-          margin: 0;
-          text-shadow: 0 0 60px rgba(0,255,136,0.12);
-        }
-        .hh-h1-em {
-          background: linear-gradient(135deg, #ffffff 0%, #a0ffd6 40%, #00FF88 100%);
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-
-        /* Tagline — smaller / lighter than headline */
-        .hh-tag {
-          font-family: 'Cormorant Garamond', 'Inter', serif;
-          font-size: clamp(16px, 1.6vw, 20px);
-          line-height: 1.55;
-          color: rgba(216, 217, 230, 0.78);
-          margin: 18px auto 48px;
-          max-width: 600px;
-          font-style: italic;
-        }
-
-        /* Card grid */
-        .hh-grid {
-          display: grid;
-          grid-template-columns: minmax(0, 480px) minmax(0, 480px);
-          gap: 32px;
-          justify-content: center;
-          margin-bottom: 40px;
-        }
-        @media (max-width: 860px) {
-          .hh-grid { grid-template-columns: 1fr; max-width: 480px; margin-left: auto; margin-right: auto; }
-        }
-
-        .hh-card {
-          position: relative;
-          display: flex; flex-direction: column;
-          text-align: left;
-          padding: 32px 32px 60px;
-          border-radius: 14px;
-          border: 1px solid rgba(255,255,255,0.08);
-          background: rgba(8, 10, 18, 0.65);
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
-          color: #f3f3fb;
-          text-decoration: none;
-          overflow: hidden;
-          transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
-                      border-color 280ms ease,
-                      box-shadow 320ms ease;
-        }
-        /* Card-specific radial glow */
-        .hh-card::before {
-          content: "";
-          position: absolute; inset: 0;
-          pointer-events: none;
-          z-index: 0;
-          opacity: 0.55;
-          transition: opacity 320ms ease;
-        }
-        .hh-card-left::before {
-          background: radial-gradient(ellipse at 30% 0%, rgba(125, 211, 252, 0.18) 0%, transparent 55%);
-        }
-        .hh-card-right::before {
-          background: radial-gradient(ellipse at 70% 0%, rgba(244, 201, 93, 0.18) 0%, transparent 55%);
-        }
-        .hh-card > * { position: relative; z-index: 1; }
-
-        .hh-card:hover {
-          transform: translateY(-4px);
-          border-color: rgba(255,255,255,0.32);
-          box-shadow:
-            0 24px 48px rgba(0,0,0,0.45),
-            0 0 0 1px rgba(255,255,255,0.04) inset;
-        }
-        .hh-card-left:hover {
-          box-shadow:
-            0 24px 48px rgba(0,0,0,0.45),
-            0 0 32px rgba(125, 211, 252, 0.22);
-        }
-        .hh-card-right:hover {
-          box-shadow:
-            0 24px 48px rgba(0,0,0,0.45),
-            0 0 32px rgba(244, 201, 93, 0.22);
-        }
-        .hh-card:hover::before { opacity: 0.85; }
-
-        .hh-card-icon {
-          font-size: 32px;
-          line-height: 1;
-          margin-bottom: 20px;
-          font-family: 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
-          letter-spacing: 0.08em;
-        }
-        .hh-card-title {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 32px;
-          font-weight: 600;
-          line-height: 1.1;
-          color: #ffffff;
-          margin: 0 0 16px;
-          letter-spacing: -0.01em;
-        }
-        .hh-card-body {
-          font-family: 'Inter', system-ui, sans-serif;
-          font-size: 15px;
-          line-height: 1.65;
-          color: rgba(216, 217, 230, 0.78);
-          margin: 0 0 22px;
-        }
-        .hh-card-rule {
-          width: 100%;
-          height: 1px;
-          background: linear-gradient(90deg, rgba(255,255,255,0.18), transparent);
-          margin-bottom: 14px;
-        }
-        .hh-card-stats {
-          display: flex; flex-direction: column;
-          gap: 6px;
-          font-family: 'JetBrains Mono', ui-monospace, monospace;
-          font-size: 12.5px;
-          letter-spacing: 0.04em;
-          color: rgba(216, 217, 230, 0.72);
-        }
-        .hh-card-stats strong { color: #f3f3fb; font-weight: 700; }
-
-        .hh-online-row { display: inline-flex; align-items: center; gap: 8px; }
-        .hh-online-dot {
-          width: 8px; height: 8px; border-radius: 50%;
-          background: #5DCAA5;
-          box-shadow: 0 0 8px rgba(93, 202, 165, 0.85);
-          animation: hh-pulse 1.5s ease-in-out infinite;
-          flex-shrink: 0;
-        }
-        .hh-num-fade {
-          color: #f3f3fb;
-          font-weight: 700;
-          font-variant-numeric: tabular-nums;
-          display: inline-block;
-          animation: hh-num-fade-in 0.4s ease-out;
-        }
-        .hh-typing-num {
-          color: #f3f3fb;
-          font-weight: 700;
-          font-variant-numeric: tabular-nums;
-        }
-
-        .hh-card-arrow {
-          position: absolute;
-          right: 28px; bottom: 24px;
-          font-family: 'JetBrains Mono', ui-monospace, monospace;
-          font-size: 22px;
-          color: rgba(255,255,255,0.45);
-          transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
-                      color 220ms ease;
-        }
-        .hh-card:hover .hh-card-arrow {
-          transform: translateX(4px);
-          color: #ffffff;
-        }
-
-        /* Proof bar — moved below the cards */
-        .hh-stats {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          padding: 14px 26px;
-          background: rgba(0, 255, 136, 0.03);
-          border: 1px solid rgba(0, 255, 136, 0.1);
-          border-radius: 3px;
-          font-family: 'JetBrains Mono', ui-monospace, monospace;
-          font-size: 10.5px;
-          font-weight: 600;
-          letter-spacing: 0.12em;
-          color: #00FF88;
-          margin: 0 auto;
-        }
-
-        .hh-bottom-fade {
-          position: absolute;
-          bottom: 0; left: 0; right: 0;
-          height: 140px;
-          background: linear-gradient(to bottom, transparent, #00000A);
-          pointer-events: none;
-          z-index: 5;
-        }
-
-        @keyframes hh-pulse {
-          0%, 100% { opacity: 0.4; transform: scale(0.85); }
-          50%      { opacity: 1;   transform: scale(1.2); }
-        }
-        @keyframes hh-num-fade-in {
-          from { opacity: 0.3; transform: translateY(1px); }
-          to   { opacity: 1;   transform: translateY(0); }
-        }
-      `}</style>
     </section>
   );
 }
