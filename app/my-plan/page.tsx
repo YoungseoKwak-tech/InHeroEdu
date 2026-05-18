@@ -369,12 +369,25 @@ export default function MyPlanPage() {
                       );
                       const style = {
                         background: p.chip,
-                        borderColor: p.glow.replace("0.4", "0.35"),
+                        borderColor: p.glow.replace("0.28", "0.3"),
                       } as React.CSSProperties;
-                      return b.chapter_number ? (
+                      // Route AP Bio blocks to the chapter reader;
+                      // every other subject falls back to its lounge
+                      // (per the EXAM_CATALOG lounge_slug mapping) so
+                      // students still get somewhere useful even
+                      // before that subject has a textbook.
+                      const blockHref = (() => {
+                        if (b.chapter_number && b.subject_slug === "ap-bio") {
+                          return `/textbooks/ap-bio-ultimate/${b.chapter_number}`;
+                        }
+                        const catalog = findExam(b.subject_slug);
+                        if (catalog?.lounge_slug) return `/lounges/${catalog.lounge_slug}`;
+                        return null;
+                      })();
+                      return blockHref ? (
                         <Link
                           key={i}
-                          href={`/textbooks/ap-bio-ultimate/${b.chapter_number}`}
+                          href={blockHref}
                           className="mp-block-card mp-block-card-link"
                           style={style}
                         >
