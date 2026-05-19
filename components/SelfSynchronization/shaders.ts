@@ -222,43 +222,46 @@ export const eyeFragment = /* glsl */ `
   }
 
   void main() {
-    vec2 c = vUv - vec2(0.5);
+    // Stretch UV vertically so the sclera reads as almond-
+    // shaped (wider than tall), like real eyes — not a round
+    // circle. Iris + pupil stay round in screen space because
+    // they're measured against the original centered uv.
+    vec2 ec = (vUv - 0.5) * vec2(1.0, 1.6);
+    float dE = length(ec);
+    if (dE > 0.40) discard;
+
+    vec2 c = vUv - 0.5;
     float d = length(c);
-    if (d > 0.40) discard;
 
-    // Sclera (off-white) — base for the visible disc.
     vec3 sclera = vec3(0.96, 0.95, 0.93);
-
-    // LEFT iris: muted brown.
     vec3 leftIris = vec3(0.29, 0.21, 0.145);
 
-    // RIGHT iris: violet center → teal edge + tiny sparkle stars.
-    float r = clamp(d / 0.18, 0.0, 1.0);
+    float r = clamp(d / 0.16, 0.0, 1.0);
     vec3 rightIris = mix(vec3(0.65, 0.45, 1.0), vec3(0.35, 0.92, 0.85), r);
-    if (uSide > 0.5 && d < 0.18) {
+    if (uSide > 0.5 && d < 0.16) {
       float starHash = hash21(c * 30.0);
       float star = step(0.965, starHash) * 0.85;
-      // Twinkle the stars at slightly different phases.
       star *= 0.6 + 0.4 * sin(uTime * 4.2 + starHash * 12.0);
       rightIris += vec3(star);
     }
 
     vec3 iris = mix(leftIris, rightIris, uSide);
 
-    // Blend: iris where d < 0.18, sclera outside that.
-    vec3 col = mix(iris, sclera, smoothstep(0.16, 0.20, d));
+    // Iris fills inside 0.16, sclera outside (smaller iris per
+    // spec — was 0.18).
+    vec3 col = mix(iris, sclera, smoothstep(0.14, 0.18, d));
 
-    // Pupil — solid black inside r < 0.07.
-    col = mix(vec3(0.0), col, smoothstep(0.058, 0.075, d));
+    // Pupil — smaller (0.055, was 0.07).
+    col = mix(vec3(0.0), col, smoothstep(0.045, 0.060, d));
 
     // Catch light at upper-left of pupil.
     vec2 cl = c - vec2(-0.04, 0.04);
     float clDist = length(cl);
-    float clMask = 1.0 - smoothstep(0.0, 0.025, clDist);
+    float clMask = 1.0 - smoothstep(0.0, 0.022, clDist);
     col = mix(col, vec3(1.0), clMask * 0.95);
 
-    // Soft outer edge so the disc fades into the face plane.
-    float edge = 1.0 - smoothstep(0.36, 0.40, d);
+    // Soft outer edge — fades the almond into the face plane.
+    float edge = 1.0 - smoothstep(0.36, 0.40, dE);
     gl_FragColor = vec4(col, edge);
   }
 `;
