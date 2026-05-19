@@ -206,63 +206,46 @@ export const eyeVertex = /* glsl */ `
   }
 `;
 
-// Procedural eye: sclera + iris + pupil + catch-light. uSide:
-//   0 = LEFT (tired, dim brown iris)
-//   1 = RIGHT (galaxy iris — violet→teal radial with sparkle stars)
-// The plane is rectangular but we mask to a circle via discard so
-// the eye reads as a sphere on the face. Catch-light position
-// fixed at (-0.04, +0.04) in centered UV space.
+// Galaxy iris — used ONLY on the right eye, painted on a small
+// plane sitting in front of the sclera sphere. The LEFT eye is
+// pure geometry (a tiny dark pupil sphere + a skin-tone half
+// dome covering the upper half for the tired look). Kept
+// deliberately small + clean per the Memoji-style rollback.
 export const eyeFragment = /* glsl */ `
   uniform float uTime;
-  uniform float uSide;
+  uniform float uCompletion;
   varying vec2 vUv;
 
-  float hash21(vec2 p) {
+  float hash(vec2 p) {
     return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
   }
 
   void main() {
-    // Stretch UV vertically so the sclera reads as almond-
-    // shaped (wider than tall), like real eyes — not a round
-    // circle. Iris + pupil stay round in screen space because
-    // they're measured against the original centered uv.
-    vec2 ec = (vUv - 0.5) * vec2(1.0, 1.6);
-    float dE = length(ec);
-    if (dE > 0.40) discard;
-
     vec2 c = vUv - 0.5;
     float d = length(c);
+    if (d > 0.5) discard;
 
-    vec3 sclera = vec3(0.96, 0.95, 0.93);
-    vec3 leftIris = vec3(0.29, 0.21, 0.145);
+    // Iris ring: warm-white center → violet mid → teal outer.
+    vec3 col = mix(vec3(0.9, 0.95, 1.0), vec3(0.5, 0.45, 0.95), d * 2.0);
+    col = mix(col, vec3(0.2, 0.7, 0.85), pow(d * 2.0, 2.0));
 
-    float r = clamp(d / 0.16, 0.0, 1.0);
-    vec3 rightIris = mix(vec3(0.65, 0.45, 1.0), vec3(0.35, 0.92, 0.85), r);
-    if (uSide > 0.5 && d < 0.16) {
-      float starHash = hash21(c * 30.0);
-      float star = step(0.965, starHash) * 0.85;
-      star *= 0.6 + 0.4 * sin(uTime * 4.2 + starHash * 12.0);
-      rightIris += vec3(star);
-    }
+    // Sparkle stars inside the iris.
+    float star = step(0.94, hash(floor(vUv * 18.0)));
+    col += vec3(1.0) * star * 0.8;
 
-    vec3 iris = mix(leftIris, rightIris, uSide);
-
-    // Iris fills inside 0.16, sclera outside (smaller iris per
-    // spec — was 0.18).
-    vec3 col = mix(iris, sclera, smoothstep(0.14, 0.18, d));
-
-    // Pupil — smaller (0.055, was 0.07).
-    col = mix(vec3(0.0), col, smoothstep(0.045, 0.060, d));
+    // Pupil — soft dark center.
+    float pupil = 1.0 - smoothstep(0.08, 0.14, d);
+    col = mix(col, vec3(0.02, 0.0, 0.05), pupil);
 
     // Catch light at upper-left of pupil.
-    vec2 cl = c - vec2(-0.04, 0.04);
-    float clDist = length(cl);
-    float clMask = 1.0 - smoothstep(0.0, 0.022, clDist);
-    col = mix(col, vec3(1.0), clMask * 0.95);
+    float catchL = 1.0 - smoothstep(0.0, 0.03, length(c - vec2(-0.08, 0.08)));
+    col += vec3(1.0) * catchL;
 
-    // Soft outer edge — fades the almond into the face plane.
-    float edge = 1.0 - smoothstep(0.36, 0.40, dE);
-    gl_FragColor = vec4(col, edge);
+    // Subtle ambient pulse + amplified pulse during completion.
+    col *= 1.0 + sin(uTime * 1.5) * 0.08 + uCompletion * 1.5;
+
+    float alpha = 1.0 - smoothstep(0.42, 0.5, d);
+    gl_FragColor = vec4(col, alpha);
   }
 `;
 
