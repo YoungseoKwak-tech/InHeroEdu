@@ -29,6 +29,15 @@
   position: absolute;
   top: 1.1rem;
   left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  z-index: 5;
+  pointer-events: none;
+  user-select: none;
+}
+.hudLine {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
@@ -38,9 +47,6 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: rgba(184, 168, 245, 0.9);
-  z-index: 5;
-  pointer-events: none;
-  user-select: none;
 }
 .dot {
   width: 7px;
@@ -52,19 +58,16 @@
 }
 .hudPct { color: #d8d9e6; font-variant-numeric: tabular-nums; }
 .hudSub {
-  display: block;
-  margin-top: 0.4rem;
-  font-size: 9px;
-  letter-spacing: 0.18em;
-  color: rgba(148, 163, 184, 0.7);
-  text-transform: none;
-}
-.hudSub em {
   font-family: "Cormorant Garamond", "Georgia", serif;
   font-style: italic;
-  color: rgba(184, 168, 245, 0.85);
+  font-size: 12px;
   letter-spacing: 0;
+  text-transform: none;
+  color: rgba(216, 217, 230, 0.7);
 }
+
+/* SpaceBackground suppression while the hero is mounted lives in
+   app/globals.css (CSS Modules forbid pure-global selectors). */
 
 @keyframes ss-pulse {
   0%, 100% { opacity: 0.55; transform: scale(0.85); }

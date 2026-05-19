@@ -473,3 +473,19 @@
     animation: none !important;
   }
 }
+
+/* ── SelfSynchronization hero: suppress global SpaceBackground
+   sprites while the hero is mounted (added to <body> by
+   components/SelfSynchronization/SelfSynchronization.tsx).
+   Nebula blobs stay — they read as ambient. */
+body.ss-hero-active .astronaut-container,
+body.ss-hero-active .ship-patrol-a,
+body.ss-hero-active .ship-patrol-b,
+body.ss-hero-active .ship-freighter-flight,
+body.ss-hero-active .ship-interceptor,
+body.ss-hero-active .planet-float-1,
+body.ss-hero-active .planet-float-2,
+body.ss-hero-active .planet-float-3,
+body.ss-hero-active .planet-ring {
+  display: none !important;
+}

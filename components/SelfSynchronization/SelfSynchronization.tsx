@@ -32,6 +32,11 @@ export default function SelfSynchronization(props: SelfSynchronizationProps) {
 
   useEffect(() => {
     if (!canvasRef.current || !containerRef.current) return;
+    // Tag <body> while the hero is mounted so SpaceBackground
+    // sprites (astronaut, ships, planets) get hidden via the
+    // global CSS rule in our module. Restored on unmount.
+    document.body.classList.add("ss-hero-active");
+
     // Read ?demo=true from the URL post-mount to avoid Suspense
     // gymnastics around useSearchParams during static prerender.
     const queryDemo = typeof window !== "undefined"
@@ -57,6 +62,7 @@ export default function SelfSynchronization(props: SelfSynchronizationProps) {
     return () => {
       scene.dispose();
       sceneRef.current = null;
+      document.body.classList.remove("ss-hero-active");
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -70,15 +76,17 @@ export default function SelfSynchronization(props: SelfSynchronizationProps) {
       <canvas ref={canvasRef} className={styles.canvas} />
 
       <div className={styles.hud} aria-live="polite">
-        <span className={styles.dot} aria-hidden="true" />
-        SYNCHRONIZATION ·{" "}
-        <span ref={syncLabelRef} className={styles.hudPct}>
-          {props.initialSync ?? 8}
-        </span>
-        %
-        <span className={styles.hudSub}>
-          <em>your present and possible selves are merging</em>
-        </span>
+        <div className={styles.hudLine}>
+          <span className={styles.dot} aria-hidden="true" />
+          SYNCHRONIZATION ·{" "}
+          <span ref={syncLabelRef} className={styles.hudPct}>
+            {props.initialSync ?? 8}
+          </span>
+          %
+        </div>
+        <div className={styles.hudSub}>
+          your present and possible selves are merging
+        </div>
       </div>
 
       <div className={styles.caption}>

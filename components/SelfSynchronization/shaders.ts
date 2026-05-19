@@ -134,8 +134,11 @@ export const particleVertex = /* glsl */ `
     vec4 mv = modelViewMatrix * vec4(p, 1.0);
     gl_Position = projectionMatrix * mv;
     float sizeScale = aSide > 0.0 ? 1.25 : 0.85;
-    gl_PointSize = aSize * sizeScale * uPixelRatio * (250.0 / -mv.z);
-    vAlpha = (aSide > 0.0 ? 0.85 : 0.45) + uCompletion * 0.25;
+    // 60% smaller than v1 + hard cap at 8px so particles never
+    // bokeh-over the character.
+    float raw = aSize * sizeScale * uPixelRatio * (100.0 / -mv.z);
+    gl_PointSize = min(8.0, raw);
+    vAlpha = (aSide > 0.0 ? 0.6 : 0.3) + uCompletion * 0.2;
   }
 `;
 
