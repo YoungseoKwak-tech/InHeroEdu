@@ -1,0 +1,31 @@
+// Shared types for the SelfSynchronization hero.
+// Kept minimal — scene.ts owns its own Three.js types internally.
+
+export interface SelfSynchronizationProps {
+  /** Starting sync percent (0–100). Default 8. */
+  initialSync?: number;
+  /** Use the 2.5s test timer instead of the 25-min real timer. */
+  demoMode?: boolean;
+  /** Fires after a focus session completes; arg is the new sync %. */
+  onFocusComplete?: (newSync: number) => void;
+  /** Fires when the user clicks ▶ START FOCUS. */
+  onFocusStart?: () => void;
+  /** Optional extra class on the outer container. */
+  className?: string;
+}
+
+export interface SyncSceneOptions {
+  canvas: HTMLCanvasElement;
+  container: HTMLDivElement;
+  initialSync: number;
+  demoMode: boolean;
+  onFocusComplete?: (newSync: number) => void;
+  onFocusStart?: () => void;
+  /** Refs the scene drives from inside the RAF loop, set by the wrapper. */
+  syncLabel?: HTMLElement | null;
+  countdownLabel?: HTMLElement | null;
+  flashEl?: HTMLElement | null;
+  shockEl?: HTMLElement | null;
+  popupEl?: HTMLElement | null;
+  startBtn?: HTMLButtonElement | null;
+}
