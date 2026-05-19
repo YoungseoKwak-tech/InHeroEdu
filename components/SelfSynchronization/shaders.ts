@@ -84,10 +84,18 @@ export const splitFragment = /* glsl */ `
     vec3 rightBase = uBaseColor;
     vec3 rightCol  = rightBase * (0.32 + key * 0.85)
                    + vec3(0.55, 0.60, 0.95) * fill * 0.35
-                   + vec3(0.72, 0.66, 0.96) * rim * 0.65;
-    // Fake subsurface on thin edges (cheeks, ears, hand silhouette)
-    float sss = pow(1.0 - max(dot(N, vViewDir), 0.0), 4.0) * max(0.0, key);
-    rightCol += vec3(0.95, 0.55, 0.55) * sss * 0.15;
+                   // Rim term softened (0.65 → 0.5) so faces don't
+                   // halogen-glow on the cheek and nose tip.
+                   + vec3(0.72, 0.66, 0.96) * rim * 0.50;
+    // Subsurface scattering — warm red bleed on thin angles, tinted
+    // by the base color so hair/cloth/skin all behave naturally.
+    vec3 ssColor = vec3(0.92, 0.55, 0.50);
+    float ss = pow(1.0 - max(dot(N, vViewDir), 0.0), 1.5);
+    rightCol += ssColor * ss * 0.15 * uBaseColor;
+    // Edge subsurface highlight at the silhouette — keeps cheeks
+    // and ears feeling fleshy.
+    float ssEdge = pow(1.0 - max(dot(N, vViewDir), 0.0), 4.0) * max(0.0, key);
+    rightCol += vec3(0.95, 0.55, 0.55) * ssEdge * 0.10;
 
     // ── Blend halves ──────────────────────────────────────────
     vec3 col = mix(leftCol, rightCol, side);
@@ -187,6 +195,71 @@ export const auraVertex = /* glsl */ `
   void main() {
     vUv = uv;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
+
+export const eyeVertex = /* glsl */ `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
+
+// Procedural eye: sclera + iris + pupil + catch-light. uSide:
+//   0 = LEFT (tired, dim brown iris)
+//   1 = RIGHT (galaxy iris — violet→teal radial with sparkle stars)
+// The plane is rectangular but we mask to a circle via discard so
+// the eye reads as a sphere on the face. Catch-light position
+// fixed at (-0.04, +0.04) in centered UV space.
+export const eyeFragment = /* glsl */ `
+  uniform float uTime;
+  uniform float uSide;
+  varying vec2 vUv;
+
+  float hash21(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+  }
+
+  void main() {
+    vec2 c = vUv - vec2(0.5);
+    float d = length(c);
+    if (d > 0.40) discard;
+
+    // Sclera (off-white) — base for the visible disc.
+    vec3 sclera = vec3(0.96, 0.95, 0.93);
+
+    // LEFT iris: muted brown.
+    vec3 leftIris = vec3(0.29, 0.21, 0.145);
+
+    // RIGHT iris: violet center → teal edge + tiny sparkle stars.
+    float r = clamp(d / 0.18, 0.0, 1.0);
+    vec3 rightIris = mix(vec3(0.65, 0.45, 1.0), vec3(0.35, 0.92, 0.85), r);
+    if (uSide > 0.5 && d < 0.18) {
+      float starHash = hash21(c * 30.0);
+      float star = step(0.965, starHash) * 0.85;
+      // Twinkle the stars at slightly different phases.
+      star *= 0.6 + 0.4 * sin(uTime * 4.2 + starHash * 12.0);
+      rightIris += vec3(star);
+    }
+
+    vec3 iris = mix(leftIris, rightIris, uSide);
+
+    // Blend: iris where d < 0.18, sclera outside that.
+    vec3 col = mix(iris, sclera, smoothstep(0.16, 0.20, d));
+
+    // Pupil — solid black inside r < 0.07.
+    col = mix(vec3(0.0), col, smoothstep(0.058, 0.075, d));
+
+    // Catch light at upper-left of pupil.
+    vec2 cl = c - vec2(-0.04, 0.04);
+    float clDist = length(cl);
+    float clMask = 1.0 - smoothstep(0.0, 0.025, clDist);
+    col = mix(col, vec3(1.0), clMask * 0.95);
+
+    // Soft outer edge so the disc fades into the face plane.
+    float edge = 1.0 - smoothstep(0.36, 0.40, d);
+    gl_FragColor = vec4(col, edge);
   }
 `;
 

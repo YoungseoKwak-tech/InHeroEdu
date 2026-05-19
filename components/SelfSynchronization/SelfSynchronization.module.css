@@ -60,10 +60,10 @@
 .hudSub {
   font-family: "Cormorant Garamond", "Georgia", serif;
   font-style: italic;
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 0;
   text-transform: none;
-  color: rgba(216, 217, 230, 0.7);
+  color: rgba(216, 217, 230, 0.6);
 }
 
 /* SpaceBackground suppression while the hero is mounted lives in

@@ -15,6 +15,8 @@ import {
   seamFragment,
   auraVertex,
   auraFragment,
+  eyeVertex,
+  eyeFragment,
 } from "./shaders";
 import type { SyncSceneOptions } from "./types";
 
@@ -179,11 +181,11 @@ export class SyncScene {
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(28, 1, 0.1, 50);
-    // Pulled back so the upper body occupies ~60% of viewport
-    // height instead of filling it. lookAt aimed at chest level
-    // (y=0.9) so the head sits in the upper third.
-    this.camera.position.set(0, 1.2, 6.8);
-    this.camera.lookAt(0, 0.9, 0);
+    // Smaller head + 6.5x body ratio lets the camera move slightly
+    // closer; lookAt aimed at chest (y=0.7) shows the full upper
+    // body including hands.
+    this.camera.position.set(0, 0.9, 5.8);
+    this.camera.lookAt(0, 0.7, 0);
 
     this.uPixelRatio.value = Math.min(window.devicePixelRatio || 1, 2);
   }
@@ -218,7 +220,9 @@ export class SyncScene {
 
   private _buildCharacter() {
     this.charGroup = new THREE.Group();
-    this.charGroup.position.set(0, 0.0, 0);
+    // Subtle weight-shift lean — keeps the figure from reading as
+    // a stiff action figure.
+    this.charGroup.position.set(0.02, 0.0, 0);
     this.scene.add(this.charGroup);
 
     const skinMat  = this._makeSplitMat(COLOR_SKIN);
@@ -227,181 +231,248 @@ export class SyncScene {
     const pantsMat = this._makeSplitMat(COLOR_PANTS);
 
     // ── HEAD ─────────────────────────────────────────────────
+    // Head smaller (radius 0.26, was 0.32) and shifted down so
+    // the head:body ratio reads ~1:6.5 instead of 1:3 (Mii-mode).
     this.headGroup = new THREE.Group();
-    this.headGroup.position.y = 1.55;
+    this.headGroup.position.y = 1.40;
+    this.headGroup.rotation.z = -0.03; // tiny natural tilt
     this.charGroup.add(this.headGroup);
 
-    const skull = new THREE.Mesh(new THREE.SphereGeometry(0.32, 48, 48), skinMat);
+    const skull = new THREE.Mesh(new THREE.SphereGeometry(0.26, 48, 48), skinMat);
     skull.scale.set(0.92, 1.08, 0.95);
     this.headGroup.add(skull);
 
-    const jaw = new THREE.Mesh(new THREE.SphereGeometry(0.2, 32, 32), skinMat);
+    const jaw = new THREE.Mesh(new THREE.SphereGeometry(0.16, 32, 32), skinMat);
     jaw.scale.set(0.95, 0.7, 0.85);
-    jaw.position.set(0, -0.20, 0.02);
+    jaw.position.set(0, -0.16, 0.02);
     this.headGroup.add(jaw);
 
-    // Nose: cone pushed forward through the skull face plane (z=0.30).
-    const nose = new THREE.Mesh(new THREE.ConeGeometry(0.035, 0.09, 16), skinMat);
-    nose.rotation.x = Math.PI;
-    nose.position.set(0, -0.05, 0.33);
+    // Forehead → nose-bridge ridge (small skin-colored ellipse) —
+    // gives the face dimensional structure instead of features
+    // floating on a flat sphere.
+    const noseBridge = new THREE.Mesh(new THREE.SphereGeometry(0.04, 16, 16), skinMat);
+    noseBridge.scale.set(0.3, 1.5, 0.4);
+    noseBridge.position.set(0, 0.02, 0.215);
+    this.headGroup.add(noseBridge);
+
+    // Nose tip (rounder than the prior cone).
+    const nose = new THREE.Mesh(new THREE.SphereGeometry(0.035, 20, 20), skinMat);
+    nose.scale.set(0.8, 1.5, 1.2);
+    nose.position.set(0, -0.06, 0.23);
     this.headGroup.add(nose);
 
-    // Ears: at the equator of the skull, slightly wider than the
-    // half-width so they read at the side of the head.
+    // Ears.
     for (const sx of [-1, 1]) {
-      const ear = new THREE.Mesh(new THREE.SphereGeometry(0.05, 20, 20), skinMat);
+      const ear = new THREE.Mesh(new THREE.SphereGeometry(0.045, 20, 20), skinMat);
       ear.scale.set(0.5, 1.1, 0.8);
-      ear.position.set(0.32 * sx, 0, 0);
+      ear.position.set(0.27 * sx, -0.02, -0.02);
       this.headGroup.add(ear);
     }
 
     // ── HAIR ─────────────────────────────────────────────────
-    // Cap: half-dome that stops well above the face plane so it
-    // doesn't read as a helmet. theta_length 0.55π lifts the
-    // hairline above the forehead.
+    // Cap lifted slightly + extended back so it doesn't grip the
+    // forehead like a swim cap.
     const hairCap = new THREE.Mesh(
-      new THREE.SphereGeometry(0.36, 48, 48, 0, Math.PI * 2, 0, Math.PI * 0.55),
+      new THREE.SphereGeometry(0.30, 48, 48, 0, Math.PI * 2, 0, Math.PI * 0.55),
       hairMat,
     );
-    hairCap.scale.set(1.0, 1.0, 1.05);
-    hairCap.position.y = 0.05;
+    hairCap.scale.set(1.05, 1.05, 1.12);
+    hairCap.position.y = 0.10;
     this.headGroup.add(hairCap);
 
-    // Single swept-forward bang on the LEFT (asymmetric, gives
-    // the face direction without floating tufts in front).
-    const bang = new THREE.Mesh(new THREE.SphereGeometry(0.15, 20, 20), hairMat);
+    // Asymmetric sweep — LEFT bang.
+    const bang = new THREE.Mesh(new THREE.SphereGeometry(0.13, 20, 20), hairMat);
     bang.scale.set(1.8, 0.4, 0.5);
-    bang.position.set(-0.05, 0.22, 0.28);
-    bang.rotation.set(-0.15, 0, 0.3);
+    bang.position.set(-0.08, 0.18, 0.22);
+    bang.rotation.set(-0.15, 0, 0.4);
     this.headGroup.add(bang);
 
-    // Side hair strands — frame the cheeks.
+    // Second hair lock on the RIGHT — falls forward.
+    const lock = new THREE.Mesh(new THREE.SphereGeometry(0.07, 20, 20), hairMat);
+    lock.scale.set(1.0, 1.6, 0.5);
+    lock.position.set(0.12, 0.08, 0.19);
+    lock.rotation.z = -0.3;
+    this.headGroup.add(lock);
+
+    // Side hair strands — shorter so they don't poke wide.
     for (const sx of [-1, 1]) {
-      const side = new THREE.Mesh(new THREE.SphereGeometry(0.08, 20, 20), hairMat);
-      side.scale.set(0.5, 1.8, 0.6);
-      side.position.set(0.30 * sx, -0.10, 0.05);
+      const side = new THREE.Mesh(new THREE.SphereGeometry(0.07, 20, 20), hairMat);
+      side.scale.set(0.5, 1.2, 0.6);
+      side.position.set(0.26 * sx, -0.05, 0.05);
       this.headGroup.add(side);
     }
-    // Back hair deliberately removed — let the upper-body
-    // silhouette breathe. Re-add later if hairstyle gains length.
 
     // ── EYES ─────────────────────────────────────────────────
-    // Bigger PlaneGeometry per spec — 0.20 × 0.18. LEFT is dim/
-    // half-closed (baseline scale.y 0.45). RIGHT is bright with a
-    // violet glow ring behind it.
-    const leftEyeMat = new THREE.MeshBasicMaterial({ color: 0x2a2025, transparent: true, opacity: 0.55 });
-    this.leftEye = new THREE.Mesh(new THREE.PlaneGeometry(0.20, 0.18), leftEyeMat);
-    this.leftEye.position.set(-0.11, 0.02, 0.30);
-    this.leftEye.scale.y = 0.45;
+    // Eyes use a dedicated procedural shader (sclera + iris +
+    // pupil + catch light). depthTest + depthWrite OFF and a high
+    // renderOrder so the disc always paints over the skull curve
+    // instead of getting z-fought.
+    const leftEyeMat = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: this.uTime,
+        uSide: { value: 0 },
+      },
+      vertexShader: eyeVertex,
+      fragmentShader: eyeFragment,
+      transparent: true,
+      depthTest: false,
+      depthWrite: false,
+    });
+    this.leftEye = new THREE.Mesh(new THREE.PlaneGeometry(0.16, 0.14), leftEyeMat);
+    this.leftEye.position.set(-0.085, 0.0, 0.245);
+    this.leftEye.scale.y = 0.45; // tired/half-closed baseline
+    this.leftEye.renderOrder = 10;
     this.headGroup.add(this.leftEye);
 
-    const rightEyeMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    this.rightEye = new THREE.Mesh(new THREE.PlaneGeometry(0.20, 0.18), rightEyeMat);
-    this.rightEye.position.set(0.11, 0.02, 0.30);
+    const rightEyeMat = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: this.uTime,
+        uSide: { value: 1 },
+      },
+      vertexShader: eyeVertex,
+      fragmentShader: eyeFragment,
+      transparent: true,
+      depthTest: false,
+      depthWrite: false,
+    });
+    this.rightEye = new THREE.Mesh(new THREE.PlaneGeometry(0.16, 0.14), rightEyeMat);
+    this.rightEye.position.set(0.085, 0.0, 0.245);
+    this.rightEye.renderOrder = 10;
     this.headGroup.add(this.rightEye);
 
-    const rightEyeGlowMat = new THREE.MeshBasicMaterial({ color: 0xa78bfa, transparent: true, opacity: 0.45 });
-    this.rightEyeGlow = new THREE.Mesh(new THREE.PlaneGeometry(0.24, 0.22), rightEyeGlowMat);
-    this.rightEyeGlow.position.set(0.11, 0.02, 0.298);
+    // Soft violet glow ring behind the right eye, slightly larger
+    // than the eye plane.
+    const rightEyeGlowMat = new THREE.MeshBasicMaterial({
+      color: 0xa78bfa,
+      transparent: true,
+      opacity: 0.35,
+      depthWrite: false,
+    });
+    this.rightEyeGlow = new THREE.Mesh(new THREE.PlaneGeometry(0.20, 0.18), rightEyeGlowMat);
+    this.rightEyeGlow.position.set(0.085, 0.0, 0.243);
+    this.rightEyeGlow.renderOrder = 9;
     this.headGroup.add(this.rightEyeGlow);
 
     // Eyebrows just above each eye.
-    const browLMat = new THREE.MeshBasicMaterial({ color: 0x2a2025, transparent: true, opacity: 0.5 });
-    const browL = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.015, 0.02), browLMat);
-    browL.position.set(-0.11, 0.13, 0.30);
+    const browLMat = new THREE.MeshBasicMaterial({ color: 0x2a2025, transparent: true, opacity: 0.55 });
+    const browL = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.013, 0.018), browLMat);
+    browL.position.set(-0.085, 0.10, 0.24);
     browL.rotation.z = 0.15;
     this.headGroup.add(browL);
     const browRMat = new THREE.MeshBasicMaterial({ color: 0x3a2418 });
-    const browR = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.015, 0.02), browRMat);
-    browR.position.set(0.11, 0.13, 0.30);
+    const browR = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.013, 0.018), browRMat);
+    browR.position.set(0.085, 0.10, 0.24);
     browR.rotation.z = -0.1;
     this.headGroup.add(browR);
 
-    // Mouth (scale.y animates 0.3 → 2.7 on completion = "oh shit").
-    const mouthMat = new THREE.MeshBasicMaterial({ color: 0xb84656 });
-    this.mouth = new THREE.Mesh(new THREE.SphereGeometry(0.04, 20, 16), mouthMat);
-    this.mouth.scale.set(1.4, 0.3, 0.5);
-    this.mouth.position.set(0, -0.16, 0.30);
+    // Mouth: small + pinker.
+    const mouthMat = new THREE.MeshBasicMaterial({ color: 0xc4666e });
+    this.mouth = new THREE.Mesh(new THREE.SphereGeometry(0.03, 20, 16), mouthMat);
+    this.mouth.scale.set(1.8, 0.5, 0.4);
+    this.mouth.position.set(0, -0.16, 0.245);
     this.headGroup.add(this.mouth);
 
-    // Right-side blush — pulled out a touch further so it reads.
-    const blushMat = new THREE.MeshBasicMaterial({ color: 0xff9999, transparent: true, opacity: 0.35 });
-    const blush = new THREE.Mesh(new THREE.CircleGeometry(0.05, 24), blushMat);
-    blush.position.set(0.16, -0.10, 0.29);
+    // Upper-lip line — subtle torus arc.
+    const lipMat = new THREE.MeshBasicMaterial({ color: 0xa44850, transparent: true, opacity: 0.6 });
+    const lipLine = new THREE.Mesh(
+      new THREE.TorusGeometry(0.04, 0.005, 8, 16, Math.PI),
+      lipMat,
+    );
+    lipLine.position.set(0, -0.155, 0.245);
+    lipLine.rotation.x = Math.PI * 0.1;
+    this.headGroup.add(lipLine);
+
+    // Right-side blush.
+    const blushMat = new THREE.MeshBasicMaterial({ color: 0xff9999, transparent: true, opacity: 0.32 });
+    const blush = new THREE.Mesh(new THREE.CircleGeometry(0.045, 24), blushMat);
+    blush.position.set(0.13, -0.09, 0.244);
     this.headGroup.add(blush);
 
     // ── NECK ─────────────────────────────────────────────────
-    const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.13, 0.18, 24), skinMat);
-    neck.position.y = 1.25;
+    // Visible skin neck connecting head → collarbone.
+    const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.11, 0.20, 24), skinMat);
+    neck.position.y = 1.18;
     this.charGroup.add(neck);
 
+    // ── COLLARBONE / UPPER CHEST ─────────────────────────────
+    // A flattened sphere of skin tone sits between the neck and
+    // the top of the torso — kills the floating-head look.
+    const collarBone = new THREE.Mesh(new THREE.SphereGeometry(0.16, 32, 32), skinMat);
+    collarBone.scale.set(1.6, 0.3, 0.6);
+    collarBone.position.y = 1.05;
+    this.charGroup.add(collarBone);
+
     // ── TORSO ────────────────────────────────────────────────
-    // Hourglass profile: narrow at shoulders, chest taper, waist
-    // pinch, hip widens slightly. Replaces the prior "refrigerator
-    // block" lathe points.
+    // 9-point profile — clavicle dip, shoulder bone, chest taper,
+    // ribs, waist pinch, hip widen.
     const torsoProfile = [
-      new THREE.Vector2(0.001,  0.40),
-      new THREE.Vector2(0.32,   0.40),  // shoulders narrower
-      new THREE.Vector2(0.40,   0.20),  // taper to chest
-      new THREE.Vector2(0.38,   0.0),
-      new THREE.Vector2(0.36,  -0.25),  // waist pinch
-      new THREE.Vector2(0.40,  -0.50),  // hip widens slightly
-      new THREE.Vector2(0.001, -0.50),
+      new THREE.Vector2(0.001,  0.55),
+      new THREE.Vector2(0.18,   0.50),
+      new THREE.Vector2(0.28,   0.40),
+      new THREE.Vector2(0.32,   0.20),
+      new THREE.Vector2(0.34,   0.0),
+      new THREE.Vector2(0.32,  -0.20),
+      new THREE.Vector2(0.28,  -0.40),
+      new THREE.Vector2(0.32,  -0.60),
+      new THREE.Vector2(0.001, -0.60),
     ];
     const torso = new THREE.Mesh(new THREE.LatheGeometry(torsoProfile, 48), clothMat);
-    torso.position.y = 0.55;
+    torso.position.y = 0.45;
     this.charGroup.add(torso);
 
-    // Collar
+    // V-neck collar — sits at the very top of the shirt.
     const collar = new THREE.Mesh(
-      new THREE.TorusGeometry(0.14, 0.025, 12, 32, Math.PI),
+      new THREE.TorusGeometry(0.12, 0.022, 12, 32, Math.PI),
       clothMat,
     );
-    collar.position.set(0, 1.1, 0.05);
+    collar.position.set(0, 0.96, 0.10);
     collar.rotation.x = -0.3;
     this.charGroup.add(collar);
 
     // ── ARMS ─────────────────────────────────────────────────
-    // All ~35% slimmer than v1 + brought closer to the body so
-    // they don't read as Doraemon arms.
+    // Tucked closer (x=±0.32, was ±0.42) and hung more naturally
+    // (rotation.z = ±0.05 instead of ±0.15). Shoulder cap
+    // intentionally overlaps the torso silhouette by ~0.02 so
+    // there's no visible seam.
     for (const sx of [-1, 1]) {
       const armGroup = new THREE.Group();
-      armGroup.position.set(0.42 * sx, 1.0, 0);
-      armGroup.rotation.z = 0.15 * sx;
+      armGroup.position.set(0.32 * sx, 0.95, 0);
+      armGroup.rotation.z = 0.05 * sx;
       this.charGroup.add(armGroup);
 
-      const shoulder = new THREE.Mesh(new THREE.SphereGeometry(0.09, 24, 24), clothMat);
+      const shoulder = new THREE.Mesh(new THREE.SphereGeometry(0.10, 24, 24), clothMat);
       armGroup.add(shoulder);
-      const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.06, 0.45, 20), clothMat);
-      upper.position.y = -0.28;
+      const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.06, 0.42, 20), clothMat);
+      upper.position.y = -0.26;
       armGroup.add(upper);
-      const elbow = new THREE.Mesh(new THREE.SphereGeometry(0.055, 20, 20), skinMat);
-      elbow.position.y = -0.52;
+      const elbow = new THREE.Mesh(new THREE.SphereGeometry(0.05, 20, 20), skinMat);
+      elbow.position.y = -0.50;
       armGroup.add(elbow);
-      const fore = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.045, 0.42, 20), skinMat);
-      fore.position.y = -0.75;
+      const fore = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.05, 0.40, 20), skinMat);
+      fore.position.y = -0.72;
       armGroup.add(fore);
-      const hand = new THREE.Mesh(new THREE.SphereGeometry(0.055, 20, 20), skinMat);
-      hand.scale.set(0.85, 1.25, 0.55);
-      hand.position.y = -1.0;
+      const hand = new THREE.Mesh(new THREE.SphereGeometry(0.06, 20, 20), skinMat);
+      hand.scale.set(0.85, 1.3, 0.55);
+      hand.position.y = -0.97;
       armGroup.add(hand);
 
       armGroup.userData.armSide = sx;
       armGroup.name = sx < 0 ? "armLeft" : "armRight";
     }
 
-    // ── LOWER BODY (pants) ───────────────────────────────────
+    // ── LOWER BODY (pants) — slight tilt for natural pose ────
     const pantsProfile = [
-      new THREE.Vector2(0.001, 0.0),
-      new THREE.Vector2(0.45, -0.05),
-      new THREE.Vector2(0.5,  -0.3),
-      new THREE.Vector2(0.42, -0.6),
-      new THREE.Vector2(0.32, -1.0),
-      new THREE.Vector2(0.28, -1.3),
+      new THREE.Vector2(0.001,  0.0),
+      new THREE.Vector2(0.36, -0.05),
+      new THREE.Vector2(0.40, -0.30),
+      new THREE.Vector2(0.34, -0.60),
+      new THREE.Vector2(0.28, -1.0),
+      new THREE.Vector2(0.24, -1.3),
       new THREE.Vector2(0.001,-1.35),
     ];
     const pants = new THREE.Mesh(new THREE.LatheGeometry(pantsProfile, 36), pantsMat);
-    pants.position.y = 0.0;
+    pants.position.y = -0.15;
+    pants.rotation.z = 0.02; // subtle hip tilt
     this.charGroup.add(pants);
   }
 
@@ -619,7 +690,7 @@ export class SyncScene {
     const camBreatheX = this.prefersReducedMotion ? 0 : Math.sin(t * 0.18) * 0.06;
     const camBreatheY = this.prefersReducedMotion ? 0 : Math.sin(t * 0.13) * 0.04;
     this.camera.position.x = camBreatheX + this.smoothedMouse.x * 0.1;
-    this.camera.position.y = 1.2 + camBreatheY + this.smoothedMouse.y * 0.06;
+    this.camera.position.y = 0.9 + camBreatheY + this.smoothedMouse.y * 0.06;
 
     // Head subtly tracks mouse.
     if (!this.prefersReducedMotion) {
@@ -681,7 +752,7 @@ export class SyncScene {
       }
     }
 
-    this.camera.lookAt(0, 0.9, 0);
+    this.camera.lookAt(0, 0.7, 0);
     this.renderer.render(this.scene, this.camera);
   };
 
