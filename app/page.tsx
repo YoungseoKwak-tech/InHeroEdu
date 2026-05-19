@@ -1,6 +1,6 @@
 "use client";
 
-import SelfSynchronization from "@/components/SelfSynchronization/SelfSynchronization";
+import HomeHeroDualPath from "@/components/landing/HomeHeroDualPath";
 import DropFeaturedCard from "@/components/drops/DropFeaturedCard";
 import FacultyLineup from "@/components/landing/FacultyLineup";
 import AcademyCampus from "@/components/landing/AcademyCampus";
@@ -17,9 +17,7 @@ export default function HomePage() {
   return (
     <>
       <SignedInRedirector />
-      <section style={{ padding: "5rem 1.5rem 3rem", position: "relative", zIndex: 10 }}>
-        <SelfSynchronization />
-      </section>
+      <HomeHeroDualPath locale="en" />
       <UniversityBanner />
       <FacultyLineup />
       <AcademyCampus />
