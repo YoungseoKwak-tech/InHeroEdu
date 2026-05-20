@@ -97,18 +97,29 @@ export default function OriginalsSidebar() {
             t.total_chapters ? `${t.total_chapters} ch` : null,
             t.total_pages    ? `${t.total_pages} pages` : null,
           ].filter(Boolean);
+          // Card chrome lives on the inner <div className="orig-card">
+          // — IDENTICAL element type to the Coming Soon cards below.
+          // The outer <Link> only provides navigation + the focus ring.
+          // Previously the chrome was on a <Link> (rendered as <a>) and
+          // didn't visually match the <div> Coming Soon cards.
           return (
-            <Link key={t.slug} href={`/textbooks/${t.slug}`} className="orig-card">
-              <div className="orig-card-glyph">{emoji}</div>
-              <div className="orig-card-tier orig-card-tier-live">
-                ✨ AI · CORNELL-CURATED
+            <Link
+              key={t.slug}
+              href={`/textbooks/${t.slug}`}
+              className="orig-card-link"
+            >
+              <div className="orig-card">
+                <div className="orig-card-glyph">{emoji}</div>
+                <div className="orig-card-tier orig-card-tier-live">
+                  ✨ AI · CORNELL-CURATED
+                </div>
+                <div className="orig-card-title">{t.title}</div>
+                <div className="orig-card-sub">{t.subtitle ?? "The Ultimate Guide"}</div>
+                {metaParts.length > 0 && (
+                  <div className="orig-card-meta">{metaParts.join(" · ")}</div>
+                )}
+                <div className="orig-card-cta">Open table of contents →</div>
               </div>
-              <div className="orig-card-title">{t.title}</div>
-              <div className="orig-card-sub">{t.subtitle ?? "The Ultimate Guide"}</div>
-              {metaParts.length > 0 && (
-                <div className="orig-card-meta">{metaParts.join(" · ")}</div>
-              )}
-              <div className="orig-card-cta">Open table of contents →</div>
             </Link>
           );
         })}
@@ -185,11 +196,10 @@ export default function OriginalsSidebar() {
           gap: 0;
         }
 
-        /* IDENTICAL shell for every card — live + soon. Same
-           background, border, radius, padding, and margin-bottom so
-           the three render as siblings. The card background is one
-           step BRIGHTER than the panel background so each card
-           visibly floats. */
+        /* IDENTICAL shell for every card — live + soon. Card chrome
+           is always on a <div className="orig-card"> so AP Bio's
+           wrapper <a> can't accidentally pick up an <a>-targeting
+           reset and lose its border/background. */
         .orig-card {
           display: flex;
           flex-direction: column;
@@ -199,17 +209,29 @@ export default function OriginalsSidebar() {
           border: 1px solid #2a3144;
           border-radius: 12px;
           background: #1a1f2c;
-          text-decoration: none;
-          color: inherit;
           transition: transform 180ms ease, border-color 180ms ease, box-shadow 220ms ease;
         }
         .orig-card:last-child { margin-bottom: 0; }
-        a.orig-card:hover {
+
+        /* Outer Link wrapper for live cards — invisible, just provides
+           the click target + focus ring. The card chrome lives on the
+           inner .orig-card div, identical to the Coming Soon cards. */
+        .orig-card-link {
+          display: block;
+          text-decoration: none;
+          color: inherit;
+          border-radius: 12px;
+        }
+        .orig-card-link:hover .orig-card {
           transform: translateY(-1px);
           border-color: rgba(245, 199, 102, 0.45);
           box-shadow: 0 14px 36px rgba(245, 199, 102, 0.12);
         }
-        a.orig-card:hover .orig-card-cta { transform: translateX(2px); }
+        .orig-card-link:hover .orig-card-cta { transform: translateX(2px); }
+        .orig-card-link:focus-visible {
+          outline: 2px solid #F5C766;
+          outline-offset: 2px;
+        }
 
         /* Coming Soon: keep IDENTICAL geometry (same padding, border,
            background, radius). Only the glyph dims + a light overall
