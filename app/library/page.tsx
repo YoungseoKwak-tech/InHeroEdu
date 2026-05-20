@@ -383,12 +383,20 @@ export default function LibraryPage() {
         );
       };
 
+      console.log("[lib-upload] finalize OK", {
+        resourceId: uploadedResource?.id,
+        hasResource: !!uploadedResource,
+      });
+
+      // Optimistic show for immediate feedback (fast)
       if (uploadedResource) {
         revealUploadedResource(uploadedResource);
-        window.setTimeout(() => revealUploadedResource(uploadedResource), 80);
-      } else {
-        setFeedVersion((version) => version + 1);
       }
+      // ALWAYS refetch from the feed so what the user sees matches DB
+      // truth. If the server returned a resource that isn't actually in
+      // lounge_resources (silent-mirror-failure regression), the refetch
+      // will overwrite the optimistic state with real rows.
+      setFeedVersion((version) => version + 1);
     } catch (err) {
       setUploadError(err instanceof Error ? err.message : String(err));
     } finally {
