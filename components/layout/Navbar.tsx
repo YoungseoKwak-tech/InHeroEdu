@@ -10,16 +10,16 @@ import { authFetch } from "@/lib/client-auth";
 import { normalizeProfileFields } from "@/lib/profile";
 
 const NAV_LINKS = [
-  { href: "/future",          label: "🌌 FUTURE" },
+  // { href: "/future",          label: "🌌 FUTURE" }, // hidden — restore when /future is demo-ready
   { href: "/brain",           label: "🧠 BRAIN" },
   { href: "/my-plan",         label: "MY PLAN" },
-  { href: "/textbooks",       label: "TEXTBOOKS" },
+  // { href: "/textbooks",       label: "TEXTBOOKS" }, // merged into LIBRARY (sidebar) — /textbooks redirects to /library
   { href: "/academy",         label: "ACADEMY" },
   { href: "/lounges",         label: "LOUNGES" },
   { href: "/library",         label: "LIBRARY" },
   { href: "/my-space",        label: "MY SPACE" },
   { href: "/clubs",           label: "CLUBS" },
-  { href: "/trajectory",      label: "TRAJECTORY" },
+  // { href: "/trajectory",      label: "TRAJECTORY" }, // hidden — restore when /trajectory is demo-ready
   { href: "/command-center",  label: "COMMAND CENTER" },
 ];
 

@@ -491,3 +491,25 @@ body.ss-hero-active .planet-float-3,
 body.ss-hero-active .planet-ring {
   display: none !important;
 }
+
+/* /library — dim the SpaceBackground decorations so the 50:50 panels
+ * don't have to compete with a giant planet sitting on top of them.
+ * Nebula blobs stay (ambient). */
+body.lib-quiet-bg .astronaut-container,
+body.lib-quiet-bg .ship-patrol-a,
+body.lib-quiet-bg .ship-patrol-b,
+body.lib-quiet-bg .ship-freighter-flight,
+body.lib-quiet-bg .ship-hero-flight,
+body.lib-quiet-bg .ship-interceptor-flight,
+body.lib-quiet-bg .ship-interceptor {
+  opacity: 0.35 !important;
+  pointer-events: none !important;
+}
+body.lib-quiet-bg .planet-float-1,
+body.lib-quiet-bg .planet-float-2,
+body.lib-quiet-bg .planet-float-3,
+body.lib-quiet-bg .planet-ring {
+  opacity: 0.3 !important;
+  transform: scale(0.7) !important;
+  pointer-events: none !important;
+}

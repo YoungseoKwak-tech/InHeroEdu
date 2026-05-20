@@ -5,11 +5,12 @@ import Link from "next/link";
 import { authFetch } from "@/lib/client-auth";
 import { createBrowserClient } from "@/lib/supabase";
 import PdfThumbnailBackfill from "@/components/library/PdfThumbnailBackfill";
-import FeaturedTextbooks from "@/components/library/FeaturedTextbooks";
+import OriginalsSidebar from "@/components/library/OriginalsSidebar";
 import SaveButton from "@/components/my-space/SaveButton";
 import ReactionPicker from "@/components/my-space/ReactionPicker";
 import ConfirmDialog from "@/components/shared/ConfirmDialog";
 import {
+  DOC_GROUP_BLURBS,
   DOC_GROUP_EMOJI,
   DOC_GROUP_LABELS,
   USER_UPLOADABLE_GROUPS,
@@ -52,6 +53,12 @@ interface FeedResponse {
   viewerIsAdmin?: boolean;
 }
 
+interface LoungeOption {
+  slug: string;
+  name: string;
+  subjectCategory: string | null;
+}
+
 const SORT_TABS: { key: Sort; label: string }[] = [
   { key: "trending", label: "Trending" },
   { key: "new", label: "New" },
@@ -72,6 +79,9 @@ const OFFICIAL_OPTIONS: { key: OfficialFilter; label: string }[] = [
   { key: "community", label: "✦ Community" },
 ];
 
+const MAX_LIBRARY_UPLOAD = 5 * 1024 * 1024 * 1024;
+const MAX_LIBRARY_UPLOAD_LABEL = "5 GB";
+
 export default function LibraryPage() {
   const [sort, setSort] = useState<Sort>("new");
   const [folder, setFolder] = useState<DocGroup | "all">("all");
@@ -90,9 +100,19 @@ export default function LibraryPage() {
   // in batch from /api/my-space/viewer-state when new pages load.
   const [savedMap, setSavedMap] = useState<Record<string, boolean>>({});
   const [reactionMap, setReactionMap] = useState<Record<string, ReactionType[]>>({});
+  const [feedVersion, setFeedVersion] = useState(0);
+  const [lounges, setLounges] = useState<LoungeOption[]>([]);
+  const [uploadOpen, setUploadOpen] = useState(false);
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [uploadTitle, setUploadTitle] = useState("");
+  const [uploadGroup, setUploadGroup] = useState<DocGroup>("notes");
+  const [uploadLounge, setUploadLounge] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   // IDs we've already hydrated, so we only ask about new ones on
   // subsequent pages.
   const hydratedIdsRef = useRef<Set<string>>(new Set());
+  const requestSeqRef = useRef(0);
 
   const sentinelRef = useRef<HTMLDivElement>(null);
   // Single in-flight guard. Prevents double-fetch on rapid IO callbacks.
@@ -101,14 +121,17 @@ export default function LibraryPage() {
 
   // Reset feed on filter change.
   useEffect(() => {
+    requestSeqRef.current += 1;
+    fetchingRef.current = false;
     setItems([]);
     setCursor(null);
     setHasMore(true);
     setError(null);
+    setLoading(false);
     setSavedMap({});
     setReactionMap({});
     hydratedIdsRef.current = new Set();
-  }, [sort, folder, official]);
+  }, [sort, folder, official, feedVersion]);
 
   // Hydrate viewer's save/reaction state for any newly-loaded cards.
   useEffect(() => {
@@ -175,8 +198,208 @@ export default function LibraryPage() {
     };
   }, [supabase]);
 
+  // Dim the global SpaceBackground sprites while the user is on
+  // /library — the catalog + feed panels carry the page now, the
+  // planets just need to be ambient atmosphere.
+  useEffect(() => {
+    document.body.classList.add("lib-quiet-bg");
+    return () => { document.body.classList.remove("lib-quiet-bg"); };
+  }, []);
+
+  useEffect(() => {
+    if (profileStatus !== "ok") return;
+    let mounted = true;
+    void (async () => {
+      try {
+        const res = await authFetch("/api/lounges", { cache: "no-store" });
+        if (!res.ok) return;
+        const json = (await res.json()) as { lounges?: LoungeOption[] };
+        const nextLounges = json.lounges ?? [];
+        if (!mounted) return;
+        setLounges(nextLounges);
+        setUploadLounge((current) => current || nextLounges[0]?.slug || "ap-bio");
+      } catch {
+        // Upload can still fall back to AP Bio if the lounge list probe fails.
+        if (mounted) setUploadLounge((current) => current || "ap-bio");
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, [profileStatus]);
+
+  function openUploadDialog() {
+    setUploadError(null);
+    if (profileStatus === "out") {
+      window.dispatchEvent(
+        new CustomEvent("inhero:open-auth", {
+          detail: { mode: "login", redirectTo: "/library" },
+        })
+      );
+      return;
+    }
+    if (profileStatus === "no_profile") {
+      window.location.href = "/onboarding?next=%2Flibrary";
+      return;
+    }
+    setUploadGroup(folder === "all" ? "notes" : folder);
+    setUploadOpen(true);
+  }
+
+  function closeUploadDialog() {
+    if (uploading) return;
+    setUploadOpen(false);
+    setUploadFile(null);
+    setUploadTitle("");
+    setUploadGroup("notes");
+    setUploadError(null);
+  }
+
+  function onUploadFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0] ?? null;
+    if (event.target) event.target.value = "";
+    setUploadError(null);
+    if (!file) return;
+    if (file.size > MAX_LIBRARY_UPLOAD) {
+      setUploadError(`File too large. Max ${MAX_LIBRARY_UPLOAD_LABEL}.`);
+      return;
+    }
+    setUploadFile(file);
+    setUploadTitle((current) => current || file.name);
+  }
+
+  async function uploadToLibrary() {
+    if (uploading) return;
+    if (!uploadFile) {
+      setUploadError("Choose a file first.");
+      return;
+    }
+    const file = uploadFile;
+    const loungeSlug = uploadLounge || lounges[0]?.slug || "ap-bio";
+    if (!loungeSlug) {
+      setUploadError("Choose a lounge.");
+      return;
+    }
+
+    setUploading(true);
+    setUploadError(null);
+    try {
+      const mimeType = file.type || "application/octet-stream";
+      const title = uploadTitle.trim() || file.name || "Untitled";
+      const signRes = await authFetch(`/api/lounges/${encodeURIComponent(loungeSlug)}/chat/upload/sign`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fileName: file.name || "file",
+          fileSize: file.size,
+          mimeType,
+        }),
+      });
+      const signJson = (await signRes.json().catch(() => null)) as {
+        error?: string;
+        code?: string;
+        path?: string;
+        token?: string;
+        bucket?: string;
+      } | null;
+      if (signJson?.code === "NO_PROFILE") {
+        window.location.href = "/onboarding?next=%2Flibrary";
+        return;
+      }
+      if (!signRes.ok || !signJson?.path || !signJson.token || !signJson.bucket) {
+        throw new Error(signJson?.error ?? `Upload sign failed (${signRes.status})`);
+      }
+
+      const { error: storageErr } = await supabase.storage
+        .from(signJson.bucket)
+        .uploadToSignedUrl(signJson.path, signJson.token, file, {
+          contentType: mimeType,
+          upsert: false,
+        });
+      if (storageErr) throw new Error(`Storage upload failed: ${storageErr.message}`);
+
+      const finalizeRes = await authFetch(
+        `/api/lounges/${encodeURIComponent(loungeSlug)}/chat/upload/finalize`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            path: signJson.path,
+            fileName: file.name || "file",
+            fileSize: file.size,
+            mimeType,
+            caption: title,
+            group: uploadGroup,
+            publishToLibrary: true,
+          }),
+        }
+      );
+      const finalizeJson = (await finalizeRes.json().catch(() => null)) as {
+        ok?: boolean;
+        error?: string;
+        message?: { attachment?: { resourceId?: string | null } | null };
+        resource?: FeedItem | null;
+      } | null;
+      if (!finalizeRes.ok || !finalizeJson?.ok) {
+        throw new Error(finalizeJson?.error ?? `Upload finalize failed (${finalizeRes.status})`);
+      }
+
+      const resourceId = finalizeJson.message?.attachment?.resourceId;
+      let uploadedResource = finalizeJson.resource ?? null;
+      if (mimeType.toLowerCase() === "application/pdf" && resourceId) {
+        try {
+          const [{ renderPdfPage1ToJpegBlob }, { uploadThumbnailForResource }] = await Promise.all([
+            import("@/lib/pdfThumbnailRender"),
+            import("@/lib/clientThumbnailUpload"),
+          ]);
+          const blob = await renderPdfPage1ToJpegBlob(new Uint8Array(await file.arrayBuffer()));
+          const previewUrl = await uploadThumbnailForResource(resourceId, blob);
+          if (uploadedResource && previewUrl) {
+            uploadedResource = { ...uploadedResource, previewPage1Url: previewUrl };
+          }
+        } catch {
+          // Library card backfill will retry if thumbnail generation fails here.
+        }
+      }
+
+      setUploadOpen(false);
+      setUploadFile(null);
+      setUploadTitle("");
+      setUploadGroup("notes");
+
+      const revealUploadedResource = (resource: FeedItem | null) => {
+        if (!resource) return;
+        const folderMatches = folder === "all" || resource.folder === folder;
+        const officialMatches =
+          official === "all" ||
+          (official === "official" && resource.isInheroOfficial) ||
+          (official === "community" && !resource.isInheroOfficial);
+        if (!folderMatches || !officialMatches) return;
+        setItems((prev) =>
+          collapseFeedDuplicates([
+            resource,
+            ...prev.filter((item) => item.id !== resource.id),
+          ])
+        );
+      };
+
+      if (uploadedResource) {
+        revealUploadedResource(uploadedResource);
+        window.setTimeout(() => revealUploadedResource(uploadedResource), 80);
+      } else {
+        setFeedVersion((version) => version + 1);
+      }
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setUploading(false);
+    }
+  }
+
   const loadMore = useCallback(async () => {
     if (fetchingRef.current || !hasMore || profileStatus === "loading" || profileStatus === "out") return;
+    const requestSeq = requestSeqRef.current;
+    const requestCursor = cursor;
     fetchingRef.current = true;
     setLoading(true);
     setError(null);
@@ -187,9 +410,12 @@ export default function LibraryPage() {
       if (folder !== "all") qs.set("folder", folder);
       if (official === "official") qs.set("official", "true");
       if (official === "community") qs.set("official", "false");
-      if (cursor) qs.set("cursor", cursor);
+      if (requestCursor) qs.set("cursor", requestCursor);
 
-      const res = await authFetch(`/api/library/feed?${qs.toString()}`);
+      const res = await authFetch(`/api/library/feed?${qs.toString()}`, {
+        cache: "no-store",
+      });
+      if (requestSeq !== requestSeqRef.current) return;
       if (!res.ok) {
         if (res.status === 401 || res.status === 403) {
           setProfileStatus("out");
@@ -200,7 +426,18 @@ export default function LibraryPage() {
         throw new Error(text || `feed ${res.status}`);
       }
       const json = (await res.json()) as FeedResponse;
-      setItems((prev) => [...prev, ...json.items]);
+      if (requestSeq !== requestSeqRef.current) return;
+      setItems((prev) => {
+        const base = requestCursor ? prev : [];
+        const byId = new Map<string, FeedItem>();
+        for (const item of base) {
+          byId.set(item.id, item);
+        }
+        for (const item of json.items) {
+          byId.set(item.id, item);
+        }
+        return collapseFeedDuplicates(Array.from(byId.values()));
+      });
       setCursor(json.nextCursor);
       setHasMore(json.nextCursor !== null && json.items.length > 0);
       if (typeof json.viewerIsAdmin === "boolean") setViewerIsAdmin(json.viewerIsAdmin);
@@ -209,7 +446,9 @@ export default function LibraryPage() {
       setHasMore(false);
     } finally {
       setLoading(false);
-      fetchingRef.current = false;
+      if (requestSeq === requestSeqRef.current) {
+        fetchingRef.current = false;
+      }
     }
   }, [sort, folder, official, cursor, hasMore, profileStatus]);
 
@@ -237,14 +476,32 @@ export default function LibraryPage() {
 
   return (
     <main className="lib-root">
+      <div className="lib-shell">
       <header className="lib-head">
         <div className="lib-eyebrow">LIBRARY</div>
         <h1 className="lib-title">Every resource. Every Lounge. One feed.</h1>
       </header>
 
-      <FeaturedTextbooks />
+      <div className="lib-with-sidebar">
+        <OriginalsSidebar />
+
+        <div className="lib-feed-col">
 
       <div className="lib-controls">
+        <div className="lib-action-row">
+          <button
+            type="button"
+            className="lib-upload-btn"
+            onClick={openUploadDialog}
+            disabled={uploading || profileStatus === "loading"}
+          >
+            {uploading ? "Uploading..." : "+ Upload to Library"}
+          </button>
+          <span className="lib-upload-hint">
+            Upload notes, guides, FRQs, study plans, or essays directly here.
+          </span>
+        </div>
+
         <div className="lib-tabs">
           {SORT_TABS.map((t) => (
             <button
@@ -285,6 +542,105 @@ export default function LibraryPage() {
           ))}
         </div>
       </div>
+
+      {uploadOpen && (
+        <div className="lib-upload-backdrop" role="presentation" onMouseDown={closeUploadDialog}>
+          <div
+            className="lib-upload-panel"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="library-upload-title"
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <div className="lib-upload-head">
+              <div>
+                <div className="lib-upload-kicker">PUBLISH RESOURCE</div>
+                <h2 id="library-upload-title" className="lib-upload-title">Upload straight to Library</h2>
+              </div>
+              <button
+                type="button"
+                className="lib-upload-close"
+                onClick={closeUploadDialog}
+                disabled={uploading}
+                aria-label="Close upload"
+              >
+                ×
+              </button>
+            </div>
+
+            <label className="lib-upload-drop">
+              <input
+                type="file"
+                className="lib-upload-input"
+                onChange={onUploadFileChange}
+                disabled={uploading}
+              />
+              <span className="lib-upload-drop-icon">⇧</span>
+              <span className="lib-upload-drop-title">
+                {uploadFile ? uploadFile.name : "Choose a file"}
+              </span>
+              <span className="lib-upload-drop-sub">
+                {uploadFile
+                  ? `${formatBytes(uploadFile.size)} · ${uploadFile.type || "file"}`
+                  : `PDFs, images, and documents up to ${MAX_LIBRARY_UPLOAD_LABEL}`}
+              </span>
+            </label>
+
+            <label className="lib-upload-field">
+              <span>Display title</span>
+              <input
+                value={uploadTitle}
+                onChange={(event) => setUploadTitle(event.target.value)}
+                placeholder="Resource title"
+                disabled={uploading}
+              />
+            </label>
+
+            <label className="lib-upload-field">
+              <span>Lounge</span>
+              <select
+                value={uploadLounge}
+                onChange={(event) => setUploadLounge(event.target.value)}
+                disabled={uploading}
+              >
+                {(lounges.length > 0 ? lounges : [{ slug: "ap-bio", name: "AP Biology Lounge", subjectCategory: "AP Biology" }]).map((lounge) => (
+                  <option key={lounge.slug} value={lounge.slug}>
+                    {lounge.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <div className="lib-upload-folder-label">Folder</div>
+            <div className="lib-upload-groups">
+              {USER_UPLOADABLE_GROUPS.map((groupKey) => (
+                <button
+                  key={groupKey}
+                  type="button"
+                  className={`lib-upload-group ${uploadGroup === groupKey ? "is-active" : ""}`}
+                  onClick={() => setUploadGroup(groupKey)}
+                  disabled={uploading}
+                >
+                  <span className="lib-upload-group-emoji" aria-hidden="true">{DOC_GROUP_EMOJI[groupKey]}</span>
+                  <span className="lib-upload-group-name">{DOC_GROUP_LABELS[groupKey]}</span>
+                  <span className="lib-upload-group-blurb">{DOC_GROUP_BLURBS[groupKey]}</span>
+                </button>
+              ))}
+            </div>
+
+            {uploadError && <div className="lib-upload-error">{uploadError}</div>}
+
+            <div className="lib-upload-actions">
+              <button type="button" className="lib-upload-cancel" onClick={closeUploadDialog} disabled={uploading}>
+                Cancel
+              </button>
+              <button type="button" className="lib-upload-submit" onClick={() => void uploadToLibrary()} disabled={uploading || !uploadFile}>
+                {uploading ? "Publishing..." : "Publish to Library"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {profileStatus === "no_profile" && (
         <div className="lib-banner">
@@ -356,24 +712,61 @@ export default function LibraryPage() {
 
       <div ref={sentinelRef} className="lib-sentinel" aria-hidden="true" />
 
+        </div>{/* /lib-feed-col */}
+      </div>{/* /lib-with-sidebar */}
+      </div>{/* /lib-shell */}
+
       <style jsx>{`
         .lib-root {
           --accent: #5eead4;
           --gold: #F4C95D;
           min-height: calc(100vh - 4rem);
-          padding: 2rem 1.5rem 4rem;
           color: #d8d9e6;
           font-family: 'Inter', 'Space Grotesk', system-ui, sans-serif;
-          /* Full-bleed feed — drop the 1600px cap so the masonry breathes
-             into the viewport on wide screens. Side padding stays so
-             cards don't hug the edges. */
-          max-width: 100%;
-          margin: 0;
+          position: relative;
+        }
+
+        /* Centered shell. The 1600px cap + 48px side padding give both
+           panels real breathing room without going edge-to-edge on
+           ultrawide. Header lives inside the shell so it lines up with
+           the panel edges. */
+        .lib-shell {
+          max-width: 1800px;
+          margin: 0 auto;
+          padding: 2rem 3rem 4rem;
+          position: relative;
+          z-index: 1;
+        }
+        @media (max-width: 1024px) {
+          .lib-shell { padding: 1.75rem 1.5rem 3.5rem; }
         }
         @media (max-width: 760px) {
-          .lib-root { padding: 1.25rem 0.85rem 3rem; }
+          .lib-shell { padding: 1.25rem 0.85rem 3rem; }
         }
         .lib-head { margin-bottom: 1.5rem; }
+
+        /* 1:4 split — Originals is the narrow context sidebar, the
+           community feed gets the main content area. Stacks below
+           1024px so each panel keeps a usable width on tablet/phone. */
+        .lib-with-sidebar {
+          display: grid;
+          grid-template-columns: 1fr 4fr;
+          gap: 2rem;
+          align-items: start;
+        }
+        .lib-feed-col {
+          min-width: 0;
+          padding: 1.5rem;
+          background: rgba(15, 18, 24, 0.6);
+          border: 1px solid #232838;
+          border-radius: 12px;
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+        }
+        @media (max-width: 1024px) {
+          .lib-with-sidebar { grid-template-columns: 1fr; gap: 1.25rem; }
+          .lib-feed-col { padding: 1.25rem; }
+        }
         .lib-eyebrow {
           font-family: ui-monospace, monospace;
           font-size: 0.72rem; font-weight: 800; letter-spacing: 0.22em;
@@ -389,6 +782,38 @@ export default function LibraryPage() {
         }
 
         .lib-controls { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.4rem; }
+        .lib-action-row {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 0.75rem;
+          margin-bottom: 0.15rem;
+        }
+        .lib-upload-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 2.55rem;
+          padding: 0.65rem 1rem;
+          border: 1px solid rgba(94,234,212,0.65);
+          border-radius: 999px;
+          background: linear-gradient(135deg, #5eead4, #8cf6e8);
+          color: #071014;
+          font-family: ui-monospace, monospace;
+          font-size: 0.76rem;
+          font-weight: 900;
+          letter-spacing: 0.1em;
+          cursor: pointer;
+          box-shadow: 0 12px 34px rgba(94,234,212,0.2);
+        }
+        .lib-upload-btn:hover:not(:disabled) { filter: brightness(1.04); transform: translateY(-1px); }
+        .lib-upload-btn:disabled { opacity: 0.55; cursor: default; }
+        .lib-upload-hint {
+          font-family: ui-monospace, monospace;
+          font-size: 0.68rem;
+          letter-spacing: 0.06em;
+          color: rgba(148,163,184,0.68);
+        }
         .lib-tabs { display: flex; gap: 0.25rem; }
         .lib-tab {
           font-family: ui-monospace, monospace;
@@ -426,6 +851,212 @@ export default function LibraryPage() {
           color: var(--accent);
         }
         .lib-chip-sm { font-size: 0.72rem; padding: 0.32rem 0.6rem; }
+
+        .lib-upload-backdrop {
+          position: fixed;
+          inset: 0;
+          z-index: 1000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1rem;
+          background: rgba(2,4,12,0.76);
+          backdrop-filter: blur(10px);
+        }
+        .lib-upload-panel {
+          width: min(100%, 34rem);
+          max-height: min(92vh, 48rem);
+          overflow-y: auto;
+          padding: 1.1rem;
+          border: 1px solid rgba(94,234,212,0.24);
+          border-radius: 18px;
+          background:
+            radial-gradient(circle at 20% 0%, rgba(94,234,212,0.14), transparent 44%),
+            radial-gradient(circle at 100% 20%, rgba(244,201,93,0.1), transparent 38%),
+            rgba(8,10,20,0.98);
+          box-shadow: 0 28px 90px rgba(0,0,0,0.62), 0 0 36px rgba(94,234,212,0.12);
+        }
+        .lib-upload-head {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 1rem;
+          margin-bottom: 0.95rem;
+        }
+        .lib-upload-kicker {
+          font-family: ui-monospace, monospace;
+          font-size: 0.64rem;
+          font-weight: 900;
+          letter-spacing: 0.2em;
+          color: var(--accent);
+        }
+        .lib-upload-title {
+          margin: 0.15rem 0 0;
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 1.55rem;
+          line-height: 1.05;
+          color: #f3f3fb;
+        }
+        .lib-upload-close {
+          width: 2rem;
+          height: 2rem;
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 999px;
+          background: rgba(255,255,255,0.04);
+          color: rgba(216,217,230,0.85);
+          font-size: 1.25rem;
+          cursor: pointer;
+        }
+        .lib-upload-close:hover:not(:disabled) { color: #ff8b7e; border-color: rgba(255,139,126,0.34); }
+        .lib-upload-drop {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 0.35rem;
+          min-height: 9.5rem;
+          padding: 1rem;
+          border: 1px dashed rgba(94,234,212,0.38);
+          border-radius: 14px;
+          background: rgba(94,234,212,0.05);
+          cursor: pointer;
+          text-align: center;
+        }
+        .lib-upload-input { display: none; }
+        .lib-upload-drop-icon {
+          width: 2.25rem;
+          height: 2.25rem;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 999px;
+          background: rgba(94,234,212,0.15);
+          color: var(--accent);
+          font-family: ui-monospace, monospace;
+          font-weight: 900;
+        }
+        .lib-upload-drop-title {
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          color: #f3f3fb;
+          font-weight: 800;
+        }
+        .lib-upload-drop-sub {
+          font-family: ui-monospace, monospace;
+          font-size: 0.68rem;
+          color: rgba(148,163,184,0.72);
+        }
+        .lib-upload-field {
+          display: flex;
+          flex-direction: column;
+          gap: 0.35rem;
+          margin-top: 0.8rem;
+        }
+        .lib-upload-field > span,
+        .lib-upload-folder-label {
+          font-family: ui-monospace, monospace;
+          font-size: 0.66rem;
+          font-weight: 900;
+          letter-spacing: 0.14em;
+          color: rgba(216,217,230,0.76);
+          text-transform: uppercase;
+        }
+        .lib-upload-field input,
+        .lib-upload-field select {
+          width: 100%;
+          min-height: 2.55rem;
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 10px;
+          background: rgba(255,255,255,0.04);
+          color: #f3f3fb;
+          padding: 0.65rem 0.75rem;
+          font-family: inherit;
+          outline: none;
+        }
+        .lib-upload-field input:focus,
+        .lib-upload-field select:focus {
+          border-color: rgba(94,234,212,0.65);
+          box-shadow: 0 0 0 1px rgba(94,234,212,0.3);
+        }
+        .lib-upload-folder-label { margin-top: 0.85rem; margin-bottom: 0.45rem; }
+        .lib-upload-groups {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 0.5rem;
+        }
+        .lib-upload-group {
+          display: grid;
+          grid-template-columns: auto 1fr;
+          gap: 0.18rem 0.45rem;
+          align-items: start;
+          padding: 0.75rem;
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 12px;
+          background: rgba(255,255,255,0.035);
+          color: rgba(216,217,230,0.9);
+          text-align: left;
+          cursor: pointer;
+        }
+        .lib-upload-group.is-active {
+          border-color: rgba(94,234,212,0.7);
+          background: rgba(94,234,212,0.12);
+          color: #f3f3fb;
+        }
+        .lib-upload-group-emoji { grid-row: span 2; }
+        .lib-upload-group-name { font-size: 0.82rem; font-weight: 800; }
+        .lib-upload-group-blurb {
+          font-size: 0.68rem;
+          color: rgba(148,163,184,0.74);
+        }
+        .lib-upload-error {
+          margin-top: 0.8rem;
+          padding: 0.72rem 0.8rem;
+          border: 1px solid rgba(255,139,126,0.35);
+          border-radius: 10px;
+          background: rgba(255,139,126,0.08);
+          color: #ff8b7e;
+          font-size: 0.82rem;
+        }
+        .lib-upload-actions {
+          display: flex;
+          justify-content: flex-end;
+          gap: 0.55rem;
+          margin-top: 1rem;
+        }
+        .lib-upload-cancel,
+        .lib-upload-submit {
+          min-height: 2.4rem;
+          padding: 0.58rem 0.9rem;
+          border-radius: 999px;
+          font-family: ui-monospace, monospace;
+          font-size: 0.72rem;
+          font-weight: 900;
+          letter-spacing: 0.1em;
+          cursor: pointer;
+        }
+        .lib-upload-cancel {
+          border: 1px solid rgba(255,255,255,0.12);
+          background: rgba(255,255,255,0.03);
+          color: rgba(216,217,230,0.88);
+        }
+        .lib-upload-submit {
+          border: 1px solid var(--accent);
+          background: var(--accent);
+          color: #071014;
+        }
+        .lib-upload-cancel:disabled,
+        .lib-upload-submit:disabled {
+          opacity: 0.5;
+          cursor: default;
+        }
+        @media (max-width: 560px) {
+          .lib-upload-groups { grid-template-columns: 1fr; }
+          .lib-upload-actions { flex-direction: column-reverse; }
+          .lib-upload-cancel,
+          .lib-upload-submit { width: 100%; }
+        }
 
         .lib-banner {
           display: flex;
@@ -565,12 +1196,16 @@ export default function LibraryPage() {
            the layout scales smoothly with viewport width — wide screens
            pack more columns; narrow drop to two without a breakpoint
            cliff. */
+        /* Masonry inside the right-hand panel. Tighter column-width
+           than the old full-bleed feed because the panel is now
+           ~half the viewport — 220px gives 2 columns at ~700px panel
+           and one column on phones. */
         .lib-grid {
-          column-width: 280px;
-          column-gap: 1rem;
+          column-width: 220px;
+          column-gap: 0.9rem;
         }
         @media (max-width: 760px) {
-          .lib-grid { column-width: 160px; column-gap: 0.6rem; }
+          .lib-grid { column-width: 150px; column-gap: 0.6rem; }
         }
         /* Phone: drop to a single full-width column for readability —
            the masonry 2-up at 160px is too cramped on a 375px screen. */
@@ -591,6 +1226,38 @@ export default function LibraryPage() {
       `}</style>
     </main>
   );
+}
+
+function formatBytes(bytes: number): string {
+  if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
+  const units = ["B", "KB", "MB", "GB"];
+  let value = bytes;
+  let unitIndex = 0;
+  while (value >= 1024 && unitIndex < units.length - 1) {
+    value /= 1024;
+    unitIndex += 1;
+  }
+  return `${value >= 10 || unitIndex === 0 ? value.toFixed(0) : value.toFixed(1)} ${units[unitIndex]}`;
+}
+
+function feedDedupeKey(item: FeedItem): string {
+  const loungeSlug = item.lounge?.slug ?? "";
+  const title = item.title.trim().toLowerCase();
+  const folder = item.folder;
+  const mimeType = (item.mimeType ?? "").toLowerCase();
+  return `${loungeSlug}|${folder}|${title}|${mimeType}`;
+}
+
+function collapseFeedDuplicates(items: FeedItem[]): FeedItem[] {
+  const seen = new Set<string>();
+  const out: FeedItem[] = [];
+  for (const item of items) {
+    const key = feedDedupeKey(item);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(item);
+  }
+  return out;
 }
 
 function FeedCard({
@@ -669,6 +1336,13 @@ function FeedCard({
       const res = await authFetch(`/api/library/resource/${item.id}`, {
         method: "DELETE",
       });
+      if (res.status === 404) {
+        // Old/stale cards may point at IDs that no longer exist. The user
+        // intent is still satisfied: remove it locally and do not alert.
+        setConfirming(false);
+        onDeleted(item.id);
+        return;
+      }
       if (!res.ok && res.status !== 204) {
         // Surface a real error rather than silent failure — owner/admin
         // sees what went wrong.
@@ -737,7 +1411,7 @@ function FeedCard({
         title="Delete this resource?"
         message={
           <>
-            "{item.title}" will disappear from the library feed. This action cannot be undone.
+            "{item.title}" will disappear from the Library and its Lounge attachment. This action cannot be undone.
           </>
         }
         confirmLabel="Delete"
@@ -861,17 +1535,32 @@ function FeedCard({
 
         <div className="fc-foot">
           {item.author && <span className="fc-author">by <em>{item.author.handle}</em></span>}
-          <span className="fc-counts">
-            <span title="Downloads">{item.downloadCount} ↓</span>
-            <span title="Upvotes">{item.upvoteCount} ▲</span>
-            {/* Comment count — click jumps to #comments on the detail page */}
-            <Link
-              href={`${detailHref}#comments`}
-              className="fc-comments-link"
-              title="View comments"
-            >
-              {item.commentCount} 💬
-            </Link>
+          <span className="fc-card-actions">
+            {canDelete && (
+              <button
+                type="button"
+                className="fc-delete-direct"
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  setConfirming(true);
+                }}
+              >
+                Delete
+              </button>
+            )}
+            <span className="fc-counts">
+              <span title="Downloads">{item.downloadCount} ↓</span>
+              <span title="Upvotes">{item.upvoteCount} ▲</span>
+              {/* Comment count — click jumps to #comments on the detail page */}
+              <Link
+                href={`${detailHref}#comments`}
+                className="fc-comments-link"
+                title="View comments"
+              >
+                {item.commentCount} 💬
+              </Link>
+            </span>
           </span>
         </div>
       </div>
@@ -1144,6 +1833,29 @@ function FeedCard({
           font-size: 1.05em;
           font-weight: 600;
           color: #f3f3fb;
+        }
+        .fc-card-actions {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.55rem;
+          margin-left: auto;
+        }
+        .fc-delete-direct {
+          border: 1px solid rgba(255,139,126,0.32);
+          border-radius: 999px;
+          background: rgba(255,139,126,0.08);
+          color: #ff8b7e;
+          padding: 0.22rem 0.48rem;
+          font-family: ui-monospace, monospace;
+          font-size: 0.58rem;
+          font-weight: 900;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          cursor: pointer;
+        }
+        .fc-delete-direct:hover {
+          background: rgba(239,68,68,0.18);
+          border-color: rgba(255,139,126,0.58);
         }
         .fc-counts {
           display: inline-flex; gap: 0.55rem;
