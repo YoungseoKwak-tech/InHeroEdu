@@ -126,7 +126,7 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
       void supabase.storage.from(BUCKET).remove([path]);
       const [message] = await hydrateChatMessages([existing as ChatMessageRow], user.id);
       const existingId = (existing as { id: string }).id;
-      const { data: existingResource } = await supabase
+      let { data: existingResource } = await supabase
         .from("lounge_resources")
         .select(
           "id, title, folder_type, attachment_url, mime_type, is_inhero_official, is_seeded, download_count, upvote_count, comment_count, created_at, preview_page_1_url, author_id"
@@ -137,6 +137,108 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
         .order("created_at", { ascending: false })
         .limit(1)
         .maybeSingle();
+
+      // BACKFILL: dedup matched an old chat_messages row but its
+      // lounge_resources mirror is missing (no live row visible to
+      // the feed query). This is the "zombie chat_message" failure
+      // mode where a pre-fix upload created a chat_messages row
+      // without a successful mirror INSERT — re-uploading the same
+      // file hits this dedup branch forever and the row never
+      // surfaces in /library. Without the backfill, the dedup branch
+      // returns resource:null and the user sees vanish-on-refresh.
+      if (!existingResource && group) {
+        const existingRow = existing as {
+          id: string;
+          attachment_url: string | null;
+          attachment_meta: Record<string, unknown> | null;
+          created_at: string;
+        };
+        const meta = (existingRow.attachment_meta ?? {}) as Record<string, unknown>;
+        const backfillFileName =
+          typeof meta.fileName === "string" ? meta.fileName : fileName;
+        const backfillFileSize =
+          typeof meta.size === "number" ? meta.size : fileSize;
+        const backfillMime =
+          typeof meta.mimeType === "string" ? meta.mimeType : mimeType;
+
+        // Detect a soft-deleted mirror first. chat_message_id is
+        // UNIQUE on lounge_resources, so an INSERT would collide with
+        // it. If found, undelete + approve instead of inserting.
+        const { data: zombieMirror } = await supabase
+          .from("lounge_resources")
+          .select("id, deleted_at, review_status")
+          .eq("chat_message_id", existingId)
+          .maybeSingle();
+
+        if (zombieMirror) {
+          console.log("[finalize] dedup hit + soft-deleted mirror — undeleting", {
+            chat_message_id: existingId,
+            mirror_id: (zombieMirror as { id: string }).id,
+          });
+          const { data: undeleted, error: undeleteErr } = await supabase
+            .from("lounge_resources")
+            .update({
+              deleted_at: null,
+              deleted_by: null,
+              review_status: "approved",
+            })
+            .eq("id", (zombieMirror as { id: string }).id)
+            .select(
+              "id, title, folder_type, attachment_url, mime_type, is_inhero_official, is_seeded, download_count, upvote_count, comment_count, created_at, preview_page_1_url, author_id"
+            )
+            .single();
+          if (undeleteErr) {
+            console.error("[finalize] mirror undelete failed:", undeleteErr.message);
+            if (publishToLibrary) {
+              return NextResponse.json(
+                { error: `Library publish undelete failed: ${undeleteErr.message}` },
+                { status: 500 }
+              );
+            }
+          } else if (undeleted) {
+            existingResource = undeleted;
+          }
+        } else {
+          console.log("[finalize] dedup hit + mirror missing — backfilling", {
+            chat_message_id: existingId,
+          });
+          const { data: backfilledRow, error: backfillErr } = await supabase
+            .from("lounge_resources")
+            .insert({
+              chat_message_id: existingId,
+              lounge_id: loungeRow.id,
+              author_id: user.id,
+              folder_type: group,
+              title: caption || backfillFileName || "Untitled",
+              attachment_url: existingRow.attachment_url ?? publicUrl,
+              attachment_meta: meta,
+              file_name: backfillFileName,
+              file_size: backfillFileSize,
+              mime_type: backfillMime,
+              is_inhero_official: isAdminEmail(user.email),
+              review_status: "approved",
+              created_at: existingRow.created_at,
+            })
+            .select(
+              "id, title, folder_type, attachment_url, mime_type, is_inhero_official, is_seeded, download_count, upvote_count, comment_count, created_at, preview_page_1_url, author_id"
+            )
+            .single();
+          if (backfillErr) {
+            console.error("[finalize] mirror backfill failed:", backfillErr.message);
+            if (publishToLibrary) {
+              return NextResponse.json(
+                { error: `Library publish backfill failed: ${backfillErr.message}` },
+                { status: 500 }
+              );
+            }
+          } else if (backfilledRow) {
+            existingResource = backfilledRow;
+            console.log("[finalize] mirror backfilled", {
+              resourceId: (backfilledRow as { id: string }).id,
+            });
+          }
+        }
+      }
 
       const resourceCard = existingResource
         ? {
@@ -165,6 +267,16 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
           }
         : null;
 
+      if (publishToLibrary && !resourceCard) {
+        // Dedup hit + backfill + undelete all came up empty. Don't
+        // silently return ok with resource:null — the user just
+        // clicked Upload and we have nothing to show them.
+        console.error("[finalize] dedup hit but no resource available", { existingId });
+        return NextResponse.json(
+          { error: "Library publish failed: dedup match has no live mirror" },
+          { status: 500 }
+        );
+      }
       return NextResponse.json({ ok: true, message, dedup: true, resource: resourceCard });
     }
   }
