@@ -35,16 +35,6 @@ interface ResourceRow {
   preview_page_1_url: string | null;
 }
 
-interface ChatAttachmentRow {
-  id: string;
-  context_id: string;
-  author_id: string | null;
-  content: string | null;
-  attachment_url: string | null;
-  attachment_meta: Record<string, unknown> | null;
-  created_at: string;
-}
-
 interface FeedRow {
   id: string;
   chat_message_id: string | null;
@@ -130,83 +120,45 @@ export async function GET(req: NextRequest) {
   if (folder) resourceQueryFiltered = resourceQueryFiltered.eq("folder_type", folder);
   if (officialFilter !== null) resourceQueryFiltered = resourceQueryFiltered.eq("is_inhero_official", officialFilter);
 
-  let chatQuery = supabase
-    .from("chat_messages")
-    .select("id, context_id, author_id, content, attachment_url, attachment_meta, created_at")
-    .eq("context_type", "lounge")
-    .eq("is_deleted", false)
-    .order("created_at", { ascending: false })
-    .order("id", { ascending: false })
-    .limit(HYDRATION_LIMIT);
-
-  if (loungeIdFilter) chatQuery = chatQuery.eq("context_id", loungeIdFilter);
-
-  const [resourceRes, chatRes] = await Promise.all([resourceQueryFiltered, chatQuery]);
+  const resourceRes = await resourceQueryFiltered;
   if (resourceRes.error && !isMissingRelationError(resourceRes.error)) {
     return NextResponse.json({ error: resourceRes.error.message }, { status: 500 });
   }
-  if (chatRes.error && !isMissingRelationError(chatRes.error)) {
-    return NextResponse.json({ error: chatRes.error.message }, { status: 500 });
-  }
 
   const resourceRows = (resourceRes.data ?? []) as ResourceRow[];
-  const chatRows = (chatRes.data ?? []) as ChatAttachmentRow[];
-  const resourceMessageIds = new Set(
-    resourceRows.map((row) => row.chat_message_id).filter((id): id is string => !!id)
-  );
+  // Safety dedupe for historical duplicate uploads:
+  // keep only the newest row for effectively identical files in the
+  // same lounge/folder so the Library never floods with copies.
+  const dedupedResourceRows: ResourceRow[] = [];
+  const seenResourceKeys = new Set<string>();
+  for (const row of resourceRows) {
+    const key = dedupeResourceKey(row);
+    if (seenResourceKeys.has(key)) continue;
+    seenResourceKeys.add(key);
+    dedupedResourceRows.push(row);
+  }
 
-  let items: FeedRow[] = [
-    ...resourceRows.map((r) => ({
-      id: r.id,
-      chat_message_id: r.chat_message_id,
-      lounge_id: r.lounge_id,
-      author_id: r.author_id,
-      folder_type: r.folder_type,
-      title: r.title,
-      description: r.description,
-      attachment_url: r.attachment_url,
-      attachment_meta: r.attachment_meta,
-      file_name: r.file_name,
-      file_size: r.file_size,
-      mime_type: r.mime_type,
-      is_inhero_official: r.is_inhero_official,
-      is_seeded: r.is_seeded,
-      download_count: r.download_count,
-      upvote_count: r.upvote_count,
-      comment_count: r.comment_count,
-      created_at: r.created_at,
-      preview_page_1_url: r.preview_page_1_url,
-    })),
-    ...chatRows
-      .filter((row) => !!row.attachment_url && !resourceMessageIds.has(row.id))
-      .map((row) => {
-        const meta = row.attachment_meta ?? {};
-        const fileName = stringMeta(meta, "fileName");
-        const mimeType = mimeFromMeta(meta) ?? (fileName?.toLowerCase().endsWith(".pdf") ? "application/pdf" : null);
-        const resourceId = stringMeta(meta, "resourceId") ?? row.id;
-        return {
-          id: resourceId,
-          chat_message_id: row.id,
-          lounge_id: row.context_id,
-          author_id: row.author_id,
-          folder_type: folderFromMeta(meta),
-          title: titleFromFallback(row.content, meta),
-          description: null,
-          attachment_url: row.attachment_url as string,
-          attachment_meta: meta,
-          file_name: fileName,
-          file_size: numberMeta(meta, "size"),
-          mime_type: mimeType,
-          is_inhero_official: booleanMeta(meta, "isInheroOfficial") ?? false,
-          is_seeded: false,
-          download_count: 0,
-          upvote_count: 0,
-          comment_count: 0,
-          created_at: row.created_at,
-          preview_page_1_url: null,
-        };
-      }),
-  ];
+  let items: FeedRow[] = dedupedResourceRows.map((r) => ({
+    id: r.id,
+    chat_message_id: r.chat_message_id,
+    lounge_id: r.lounge_id,
+    author_id: r.author_id,
+    folder_type: r.folder_type,
+    title: r.title,
+    description: r.description,
+    attachment_url: r.attachment_url,
+    attachment_meta: r.attachment_meta,
+    file_name: r.file_name,
+    file_size: r.file_size,
+    mime_type: r.mime_type,
+    is_inhero_official: r.is_inhero_official,
+    is_seeded: r.is_seeded,
+    download_count: r.download_count,
+    upvote_count: r.upvote_count,
+    comment_count: r.comment_count,
+    created_at: r.created_at,
+    preview_page_1_url: r.preview_page_1_url,
+  }));
 
   if (folder) {
     items = items.filter((item) => item.folder_type === folder);
@@ -311,42 +263,6 @@ function trendingScore(r: FeedRow): number {
   return engagement / Math.pow(ageHours + 2, 1.5);
 }
 
-function stringMeta(meta: Record<string, unknown> | null, key: string): string | null {
-  if (!meta) return null;
-  const value = meta[key];
-  return typeof value === "string" && value.trim().length > 0 ? value : null;
-}
-
-function numberMeta(meta: Record<string, unknown> | null, key: string): number | null {
-  if (!meta) return null;
-  const value = meta[key];
-  return typeof value === "number" && Number.isFinite(value) ? value : null;
-}
-
-function booleanMeta(meta: Record<string, unknown> | null, key: string): boolean | null {
-  if (!meta) return null;
-  const value = meta[key];
-  return typeof value === "boolean" ? value : null;
-}
-
-function folderFromMeta(meta: Record<string, unknown> | null): DocGroup {
-  const raw = stringMeta(meta, "group");
-  return raw && isDocGroup(raw) ? raw : "notes";
-}
-
-function mimeFromMeta(meta: Record<string, unknown> | null): string | null {
-  return stringMeta(meta, "mimeType");
-}
-
-function titleFromFallback(content: string | null, meta: Record<string, unknown> | null): string {
-  return (
-    stringMeta(meta, "title") ??
-    content ??
-    stringMeta(meta, "fileName") ??
-    "Untitled"
-  );
-}
-
 function isMissingRelationError(error: { message: string }): boolean {
   return /relation .* does not exist/i.test(error.message);
 }
@@ -368,4 +284,19 @@ function decodeCursor(cursor: string): { createdAt: string; id: string } | null 
 
 function isAfterCursor(item: { created_at: string; id: string }, cursor: { createdAt: string; id: string }): boolean {
   return item.created_at < cursor.createdAt || (item.created_at === cursor.createdAt && item.id < cursor.id);
+}
+
+function dedupeResourceKey(row: ResourceRow): string {
+  const normTitle = row.title.trim().toLowerCase();
+  const loungeId = row.lounge_id ?? "";
+  const folder = row.folder_type ?? "";
+  const mime = (row.mime_type ?? "").toLowerCase();
+  const author = row.author_id ?? "";
+  // Include author so a user's own duplicate uploads collapse but
+  // a user upload of "X.pdf" doesn't get collapsed against a seeded
+  // "X.pdf" from a different author (which was causing fresh
+  // uploads to vanish from the feed entirely).
+  // Intentionally ignore file_size so re-exports of the same name
+  // with tiny byte differences still collapse for the SAME author.
+  return `${loungeId}|${folder}|${normTitle}|${mime}|${author}`;
 }

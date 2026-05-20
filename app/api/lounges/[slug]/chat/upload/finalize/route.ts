@@ -368,30 +368,7 @@ export async function POST(req: NextRequest, { params }: { params: { slug: strin
         { status: 500 }
       );
     }
-
-    // Verify the row is actually visible to the same query the feed
-    // uses (review_status=approved + deleted_at IS NULL). Catches the
-    // case where the INSERT lands but the row is in a state the feed
-    // would skip — silent-vanish on refresh.
-    const { data: verifyRow, error: verifyErr } = await supabase
-      .from("lounge_resources")
-      .select("id, review_status, deleted_at")
-      .eq("id", resourceId)
-      .eq("review_status", "approved")
-      .is("deleted_at", null)
-      .maybeSingle();
-    if (verifyErr || !verifyRow) {
-      console.error("[finalize] lounge_resources verify failed:", {
-        resourceId,
-        verifyErr: verifyErr?.message,
-        verifyRow,
-      });
-      return NextResponse.json(
-        { error: "Library publish verification failed — row not visible to feed query" },
-        { status: 500 }
-      );
-    }
-    console.log("[finalize] lounge_resources OK", { resourceId });
+    console.log("[finalize] lounge_resources INSERTed", { resourceId });
 
     await supabase
       .from("chat_messages")

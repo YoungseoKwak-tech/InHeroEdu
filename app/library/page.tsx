@@ -1253,7 +1253,11 @@ function feedDedupeKey(item: FeedItem): string {
   const title = item.title.trim().toLowerCase();
   const folder = item.folder;
   const mimeType = (item.mimeType ?? "").toLowerCase();
-  return `${loungeSlug}|${folder}|${title}|${mimeType}`;
+  // Author included so a user's upload of "X.pdf" isn't collapsed
+  // against a seeded "X.pdf" from a different author. Must mirror
+  // the server-side dedupeResourceKey in /api/library/feed.
+  const author = item.author?.handle ?? "";
+  return `${loungeSlug}|${folder}|${title}|${mimeType}|${author}`;
 }
 
 function collapseFeedDuplicates(items: FeedItem[]): FeedItem[] {
