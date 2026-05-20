@@ -1249,15 +1249,12 @@ function formatBytes(bytes: number): string {
 }
 
 function feedDedupeKey(item: FeedItem): string {
-  const loungeSlug = item.lounge?.slug ?? "";
-  const title = item.title.trim().toLowerCase();
-  const folder = item.folder;
-  const mimeType = (item.mimeType ?? "").toLowerCase();
-  // Author included so a user's upload of "X.pdf" isn't collapsed
-  // against a seeded "X.pdf" from a different author. Must mirror
-  // the server-side dedupeResourceKey in /api/library/feed.
-  const author = item.author?.handle ?? "";
-  return `${loungeSlug}|${folder}|${title}|${mimeType}|${author}`;
+  // Dedup by id only — the previous content-based key was collapsing
+  // legitimate fresh user uploads against seeded entries with the
+  // same title. Server-side feed dedup was dropped for the same
+  // reason; this mirror is now only protecting against literal
+  // duplicate-id renders (e.g. optimistic + refetch overlap).
+  return item.id;
 }
 
 function collapseFeedDuplicates(items: FeedItem[]): FeedItem[] {

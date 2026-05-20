@@ -126,19 +126,14 @@ export async function GET(req: NextRequest) {
   }
 
   const resourceRows = (resourceRes.data ?? []) as ResourceRow[];
-  // Safety dedupe for historical duplicate uploads:
-  // keep only the newest row for effectively identical files in the
-  // same lounge/folder so the Library never floods with copies.
-  const dedupedResourceRows: ResourceRow[] = [];
-  const seenResourceKeys = new Set<string>();
-  for (const row of resourceRows) {
-    const key = dedupeResourceKey(row);
-    if (seenResourceKeys.has(key)) continue;
-    seenResourceKeys.add(key);
-    dedupedResourceRows.push(row);
-  }
-
-  let items: FeedRow[] = dedupedResourceRows.map((r) => ({
+  // Feed-level dedup REMOVED — it was collapsing legitimate fresh
+  // user uploads against seeded entries with the same title (the
+  // "vanish on refresh" symptom). The chat-side dedup in finalize
+  // already prevents same-user double-uploads of the same fileName+
+  // fileSize within 24h, which was the original duplicate-flood
+  // motivation. Per-row uniqueness now relies on id, which is
+  // sufficient.
+  let items: FeedRow[] = resourceRows.map((r) => ({
     id: r.id,
     chat_message_id: r.chat_message_id,
     lounge_id: r.lounge_id,
