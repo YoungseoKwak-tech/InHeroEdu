@@ -1,8 +1,10 @@
 // Shared types for the SelfSynchronization hero.
 // Kept minimal — scene.ts owns its own Three.js types internally.
 
+import type { OutfitId } from "./wardrobe/outfits";
+
 export interface SelfSynchronizationProps {
-  /** Starting sync percent (0–100). Default 8. */
+  /** Starting sync percent (0–100). Default 30 (hoodie + varsity demo-ready). */
   initialSync?: number;
   /** Use the 2.5s test timer instead of the 25-min real timer. */
   demoMode?: boolean;
@@ -19,8 +21,12 @@ export interface SyncSceneOptions {
   container: HTMLDivElement;
   initialSync: number;
   demoMode: boolean;
+  initialPastOutfit?: OutfitId;
+  initialFutureOutfit?: OutfitId;
   onFocusComplete?: (newSync: number) => void;
   onFocusStart?: () => void;
+  /** Fires when the displayed sync's integer value changes. */
+  onSyncChange?: (sync: number) => void;
   /** Refs the scene drives from inside the RAF loop, set by the wrapper. */
   syncLabel?: HTMLElement | null;
   countdownLabel?: HTMLElement | null;

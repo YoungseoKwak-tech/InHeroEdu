@@ -3,10 +3,10 @@
 /**
  * SelfSynchronization — landing-page hero.
  *
- * Thin React shell that mounts a `SyncScene` (Three.js) into a
- * canvas, exposes the overlay HUD + CTA + completion overlays as
- * sibling DOM nodes, and forwards the few callbacks (focus
- * start/end). Heavy lifting is in scene.ts.
+ * Mounts the Three.js scene + the dual wardrobe UI. The character
+ * is split down the middle: the LEFT half is dressed by the past-self
+ * wardrobe (warm/amber accent), the RIGHT half by the future-self
+ * wardrobe (cool/purple accent). The user customizes both halves.
  *
  * The scene instance is created once per mount and disposed on
  * unmount — disposal cancels RAF, removes every listener, and
@@ -14,10 +14,16 @@
  * doesn't leak GPU memory.
  */
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SyncScene } from "./scene";
 import type { SelfSynchronizationProps } from "./types";
 import styles from "./SelfSynchronization.module.css";
+import PastWardrobe from "./wardrobe/PastWardrobe";
+import FutureWardrobe from "./wardrobe/FutureWardrobe";
+import type { OutfitId } from "./wardrobe/outfits";
+
+const INITIAL_PAST: OutfitId = "tshirt";
+const INITIAL_FUTURE: OutfitId = "shirt";
 
 export default function SelfSynchronization(props: SelfSynchronizationProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,15 +36,18 @@ export default function SelfSynchronization(props: SelfSynchronizationProps) {
   const popupRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<SyncScene | null>(null);
 
+  // 30% sync = the past tracksuit/sweater + future varsity unlocked,
+  // labcoat/suit/gown still locked. Demo-friendly: play immediately
+  // AND have a clear chase target.
+  const initialSync = props.initialSync ?? 30;
+  const [syncValue, setSyncValue] = useState(initialSync);
+  const [pastOutfit, setPastOutfit] = useState<OutfitId>(INITIAL_PAST);
+  const [futureOutfit, setFutureOutfit] = useState<OutfitId>(INITIAL_FUTURE);
+
   useEffect(() => {
     if (!canvasRef.current || !containerRef.current) return;
-    // Tag <body> while the hero is mounted so SpaceBackground
-    // sprites (astronaut, ships, planets) get hidden via the
-    // global CSS rule in our module. Restored on unmount.
     document.body.classList.add("ss-hero-active");
 
-    // Read ?demo=true from the URL post-mount to avoid Suspense
-    // gymnastics around useSearchParams during static prerender.
     const queryDemo = typeof window !== "undefined"
       ? new URLSearchParams(window.location.search).get("demo") === "true"
       : false;
@@ -47,10 +56,13 @@ export default function SelfSynchronization(props: SelfSynchronizationProps) {
     const scene = new SyncScene({
       canvas: canvasRef.current,
       container: containerRef.current,
-      initialSync: props.initialSync ?? 8,
+      initialSync,
       demoMode,
+      initialPastOutfit: INITIAL_PAST,
+      initialFutureOutfit: INITIAL_FUTURE,
       onFocusComplete: props.onFocusComplete,
       onFocusStart: props.onFocusStart,
+      onSyncChange: setSyncValue,
       syncLabel: syncLabelRef.current,
       countdownLabel: countdownRef.current,
       startBtn: btnRef.current,
@@ -67,6 +79,15 @@ export default function SelfSynchronization(props: SelfSynchronizationProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleSelectPast = (id: OutfitId) => {
+    sceneRef.current?.swapPastOutfit(id);
+    setPastOutfit(id);
+  };
+  const handleSelectFuture = (id: OutfitId) => {
+    sceneRef.current?.swapFutureOutfit(id);
+    setFutureOutfit(id);
+  };
+
   return (
     <div
       ref={containerRef}
@@ -80,7 +101,7 @@ export default function SelfSynchronization(props: SelfSynchronizationProps) {
           <span className={styles.dot} aria-hidden="true" />
           SYNCHRONIZATION ·{" "}
           <span ref={syncLabelRef} className={styles.hudPct}>
-            {props.initialSync ?? 8}
+            {initialSync}
           </span>
           %
         </div>
@@ -89,8 +110,19 @@ export default function SelfSynchronization(props: SelfSynchronizationProps) {
         </div>
       </div>
 
+      <PastWardrobe
+        syncValue={syncValue}
+        currentOutfit={pastOutfit}
+        onSelect={handleSelectPast}
+      />
+      <FutureWardrobe
+        syncValue={syncValue}
+        currentOutfit={futureOutfit}
+        onSelect={handleSelectFuture}
+      />
+
       <div className={styles.caption}>
-        the version of you that's arriving.
+        the version of you that&apos;s arriving.
       </div>
 
       <div className={styles.ctaWrap}>

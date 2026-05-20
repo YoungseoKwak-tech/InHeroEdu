@@ -19,6 +19,13 @@ import {
   eyeFragment,
 } from "./shaders";
 import type { SyncSceneOptions } from "./types";
+import { getOutfit, type OutfitId } from "./wardrobe/outfits";
+import {
+  applyClipping,
+  cloneMatWithColor,
+  type OutfitMaterials,
+  type OutfitSide,
+} from "./wardrobe/OutfitMesh";
 
 const BREATH_SPEED = 0.7;
 const IDLE_SWAY_FREQ = 0.4;
@@ -55,9 +62,26 @@ export class SyncScene {
   // Character + groups
   private charGroup!: THREE.Group;
   private headGroup!: THREE.Group;
+  private hairGroup!: THREE.Group;
   private leftEye!: THREE.Mesh;
   private rightEye!: THREE.Mesh;
   private mouth!: THREE.Mesh;
+
+  // Upper-sleeve refs so each side's outfit can recolor its own arm
+  // independently; clothMat is the fallback used when neither side
+  // has set an override.
+  private leftSleeve!: THREE.Mesh;
+  private rightSleeve!: THREE.Mesh;
+  private clothMat!: THREE.ShaderMaterial;
+
+  // Two simultaneously-equipped outfits. Each is clipped to its
+  // half (past → x<0, future → x>0) so the figure shows both selves
+  // merging at the seam.
+  private pastOutfitGroup: THREE.Group | null = null;
+  private futureOutfitGroup: THREE.Group | null = null;
+  private currentPastId: OutfitId = "tshirt";
+  private currentFutureId: OutfitId = "shirt";
+  private lastSyncBroadcast = -1;
 
   // Shared uniforms across every body material.
   private uTime = { value: 0 };
@@ -79,8 +103,9 @@ export class SyncScene {
   private raf = 0;
   private clock = new THREE.Clock();
   private startTime = 0;
-  private targetSync: number; // 0–100
-  private displayedSync: number; // 0–100, smoothed
+  private earnedSync: number; // 0–100, the running base value bumps land on
+  private targetSync: number; // 0–100, earnedSync + oscillation wave
+  private displayedSync: number; // 0–100, smoothed toward targetSync
   private demoPulseAt = 0;
   private demoFlickerEvery = 2.5;
   private mouse = { x: 0, y: 0 };
@@ -116,12 +141,15 @@ export class SyncScene {
     this.canvas = opts.canvas;
     this.container = opts.container;
     this.opts = opts;
+    this.earnedSync = opts.initialSync;
     this.targetSync = opts.initialSync;
     this.displayedSync = opts.initialSync;
 
     this._initRenderer();
     this._buildLights();
     this._buildCharacter();
+    this.swapPastOutfit(opts.initialPastOutfit ?? "tshirt");
+    this.swapFutureOutfit(opts.initialFutureOutfit ?? "shirt");
     this._buildBackground();
     this._setupEvents();
     this._resize();
@@ -142,6 +170,76 @@ export class SyncScene {
       this.opts.startBtn.style.pointerEvents = "none";
     }
     this.opts.onFocusStart?.();
+  }
+
+  /**
+   * Swap the LEFT-half (past self) outfit. Disposes any prior past
+   * group's meshes + materials, builds the new one, applies the
+   * x<0 clipping plane, and recolors the LEFT upper sleeve to match.
+   */
+  public swapPastOutfit(id: OutfitId) {
+    this._swapSide("past", id);
+  }
+
+  /** Same as swapPastOutfit but for the RIGHT-half (future self). */
+  public swapFutureOutfit(id: OutfitId) {
+    this._swapSide("future", id);
+  }
+
+  private _swapSide(side: OutfitSide, id: OutfitId) {
+    const currentId = side === "past" ? this.currentPastId : this.currentFutureId;
+    const currentGroup = side === "past" ? this.pastOutfitGroup : this.futureOutfitGroup;
+    if (currentGroup && currentId === id) return;
+
+    const def = getOutfit(id, side);
+
+    if (currentGroup) {
+      this.charGroup.remove(currentGroup);
+      this._disposeOutfit(currentGroup);
+    }
+
+    const mats: OutfitMaterials = { primary: this.clothMat, accent: this.clothMat };
+    const group = def.build(mats);
+    applyClipping(group, side);
+    this.charGroup.add(group);
+
+    if (side === "past") {
+      this.pastOutfitGroup = group;
+      this.currentPastId = id;
+    } else {
+      this.futureOutfitGroup = group;
+      this.currentFutureId = id;
+    }
+
+    const sleeveSide = side === "past" ? "left" : "right";
+    const override = group.userData.sleeveOverride as number | undefined;
+    if (typeof override === "number") this._applySleeveOverride(sleeveSide, override);
+    else                              this._applySleeveOverride(sleeveSide, null);
+  }
+
+  /**
+   * Replace one upper sleeve's material. `null` reverts to the
+   * shared default clothMat (used when an outfit has no sleeve
+   * override, e.g. the hoodie).
+   */
+  private _applySleeveOverride(side: "left" | "right", hexColor: number | null) {
+    const sleeve = side === "left" ? this.leftSleeve : this.rightSleeve;
+    const oldMat = sleeve.material as THREE.Material;
+    sleeve.material = hexColor === null
+      ? this.clothMat
+      : cloneMatWithColor(this.clothMat, hexColor);
+    if (oldMat !== this.clothMat) oldMat.dispose();
+  }
+
+  private _disposeOutfit(group: THREE.Group) {
+    group.traverse((obj) => {
+      if (obj instanceof THREE.Mesh) {
+        obj.geometry.dispose();
+        const m = obj.material as THREE.Material | THREE.Material[];
+        if (Array.isArray(m)) m.forEach((x) => x.dispose());
+        else if (m)           m.dispose();
+      }
+    });
   }
 
   public dispose() {
@@ -177,13 +275,16 @@ export class SyncScene {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     this.renderer.setClearColor(0x000000, 0);
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+    // Required for the half-body wardrobe clipping (past on x<0,
+    // future on x>0). Each outfit's materials carry a THREE.Plane.
+    this.renderer.localClippingEnabled = true;
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(28, 1, 0.1, 50);
-    // Smaller head + 6.5x body ratio lets the camera move slightly
-    // closer; lookAt aimed at chest (y=0.7) shows the full upper
-    // body including hands.
-    this.camera.position.set(0, 0.9, 5.8);
+    // Pulled in a touch from the previous (0, 0.9, 5.8). Looking at
+    // chest height (0.7) reads as eye-level for the new shorter
+    // proportions.
+    this.camera.position.set(0, 0.7, 5.5);
     this.camera.lookAt(0, 0.7, 0);
 
     this.uPixelRatio.value = Math.min(window.devicePixelRatio || 1, 2);
@@ -218,11 +319,11 @@ export class SyncScene {
   }
 
   private _buildCharacter() {
-    // ── ROLLBACK: minimal Memoji-style character. ───────────
-    // Face = clean skull + simple eyes + tiny smile only.
-    // NO jaw / chin / cheekbones / brow ridge / nose / nostrils
-    // / ears / eyebrows / lips / blush / collarbone disc.
-    // Less is more.
+    // Minimal Memoji-style figure with the corrected proportions:
+    // shorter arms (upper 0.32, fore 0.30), wider shoulder span
+    // (arms at ±0.42 instead of ±0.30), head + neck dropped to
+    // match the shorter torso baseline. Both eyes alive — the LEFT
+    // gets a warm brown iris, the RIGHT keeps the galaxy iris.
 
     this.charGroup = new THREE.Group();
     this.charGroup.position.set(0.02, 0.0, 0); // tiny weight-shift lean
@@ -230,12 +331,13 @@ export class SyncScene {
 
     const skinMat  = this._makeSplitMat(COLOR_SKIN);
     const hairMat  = this._makeSplitMat(COLOR_HAIR);
-    const clothMat = this._makeSplitMat(COLOR_SHIRT);
+    this.clothMat  = this._makeSplitMat(COLOR_SHIRT);
+    const clothMat = this.clothMat;
     const pantsMat = this._makeSplitMat(COLOR_PANTS);
 
-    // ── HEAD: just a clean sphere, slightly egg-shaped ───────
+    // ── HEAD ────────────────────────────────────────────────
     this.headGroup = new THREE.Group();
-    this.headGroup.position.y = 1.40;
+    this.headGroup.position.y = 1.30;
     this.headGroup.rotation.z = -0.03;
     this.charGroup.add(this.headGroup);
 
@@ -244,60 +346,54 @@ export class SyncScene {
     const head = new THREE.Mesh(headGeo, skinMat);
     this.headGroup.add(head);
 
-    // ── HAIR: cap + one swept bang. No side strands, no back.
+    // ── HAIR: cap + swept bang, wrapped in a group so we could
+    // toggle visibility later (currently always visible — the
+    // gown's cap occludes from above without needing a hide).
+    this.hairGroup = new THREE.Group();
+    this.headGroup.add(this.hairGroup);
+
     const hairCap = new THREE.Mesh(
       new THREE.SphereGeometry(0.34, 48, 48, 0, Math.PI * 2, 0, Math.PI * 0.5),
       hairMat,
     );
     hairCap.position.y = 0.08;
-    this.headGroup.add(hairCap);
+    this.hairGroup.add(hairCap);
 
     const bangGeo = new THREE.SphereGeometry(0.15, 24, 24);
     bangGeo.scale(1.6, 0.4, 0.6);
     const bang = new THREE.Mesh(bangGeo, hairMat);
     bang.position.set(-0.05, 0.22, 0.22);
     bang.rotation.set(-0.2, 0, 0.3);
-    this.headGroup.add(bang);
+    this.hairGroup.add(bang);
 
-    // ── EYES ─────────────────────────────────────────────────
-    // Shared sclera oval (sphere geometry, squashed flat-ish).
+    // ── EYES — both alive, just differently colored ─────────
+    // Shared sclera (warm-white squashed sphere).
     const scleraGeo = new THREE.SphereGeometry(0.055, 24, 24);
     scleraGeo.scale(1.3, 1.0, 0.5);
+    const scleraMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
-    // LEFT (tired): warm-white sclera + tiny dark pupil + droopy
-    // upper lid (top-hemisphere skin dome covering the upper
-    // half of the sclera).
-    this.leftEye = new THREE.Mesh(
-      scleraGeo,
-      new THREE.MeshBasicMaterial({ color: 0xf5f0ec }),
-    );
+    // LEFT — warm brown iris + tiny dark pupil. Reads as a normal,
+    // present human eye (no more droopy half-lid).
+    this.leftEye = new THREE.Mesh(scleraGeo, scleraMat);
     this.leftEye.position.set(-0.11, 0.04, 0.28);
     this.headGroup.add(this.leftEye);
 
-    const leftPupilGeo = new THREE.SphereGeometry(0.018, 16, 16);
-    leftPupilGeo.scale(1, 1, 0.3);
-    const leftPupil = new THREE.Mesh(
-      leftPupilGeo,
-      new THREE.MeshBasicMaterial({ color: 0x2a2018 }),
+    const leftIris = new THREE.Mesh(
+      new THREE.SphereGeometry(0.025, 16, 16),
+      new THREE.MeshBasicMaterial({ color: 0x4a3525 }),
     );
-    leftPupil.position.set(-0.11, 0.035, 0.32);
+    leftIris.position.set(-0.11, 0.04, 0.325);
+    this.headGroup.add(leftIris);
+
+    const leftPupil = new THREE.Mesh(
+      new THREE.SphereGeometry(0.010, 12, 12),
+      new THREE.MeshBasicMaterial({ color: 0x1a0f08 }),
+    );
+    leftPupil.position.set(-0.11, 0.04, 0.336);
     this.headGroup.add(leftPupil);
 
-    // Upper-lid hemisphere — top half of a sphere, no rotation,
-    // so the dome occludes the upper half of the sclera from
-    // the camera. Reads as a drooping eyelid (tired).
-    const lidGeo = new THREE.SphereGeometry(0.06, 24, 24, 0, Math.PI * 2, 0, Math.PI * 0.5);
-    lidGeo.scale(1.3, 1.0, 0.5);
-    const leftLid = new THREE.Mesh(lidGeo, skinMat);
-    leftLid.position.set(-0.11, 0.04, 0.28);
-    this.headGroup.add(leftLid);
-
-    // RIGHT (alive): bright sclera + galaxy iris shader plane
-    // sitting just in front of the sclera.
-    this.rightEye = new THREE.Mesh(
-      scleraGeo,
-      new THREE.MeshBasicMaterial({ color: 0xffffff }),
-    );
+    // RIGHT — galaxy iris (shader plane in front of sclera).
+    this.rightEye = new THREE.Mesh(scleraGeo, scleraMat);
     this.rightEye.position.set(0.11, 0.04, 0.28);
     this.headGroup.add(this.rightEye);
 
@@ -317,7 +413,7 @@ export class SyncScene {
     rightIris.renderOrder = 10;
     this.headGroup.add(rightIris);
 
-    // ── MOUTH: tiny smile curve (torus arc), period ─────────
+    // ── MOUTH ───────────────────────────────────────────────
     const mouthGeo = new THREE.TorusGeometry(0.035, 0.006, 8, 16, Math.PI);
     this.mouth = new THREE.Mesh(
       mouthGeo,
@@ -327,58 +423,50 @@ export class SyncScene {
     this.mouth.rotation.z = Math.PI;
     this.headGroup.add(this.mouth);
 
-    // ── NECK: clean cylinder ────────────────────────────────
+    // ── NECK — lowered with the head + shorter torso ────────
     const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.12, 0.20, 24), skinMat);
-    neck.position.y = 1.15;
+    neck.position.y = 1.00;
     this.charGroup.add(neck);
 
-    // ── TORSO: simple 7-point silhouette ─────────────────────
-    const torsoProfile = [
-      new THREE.Vector2(0.001,  0.55),
-      new THREE.Vector2(0.18,   0.50),
-      new THREE.Vector2(0.32,   0.35),
-      new THREE.Vector2(0.36,   0.10),
-      new THREE.Vector2(0.34,  -0.20),
-      new THREE.Vector2(0.36,  -0.50),
-      new THREE.Vector2(0.001, -0.55),
-    ];
-    const torso = new THREE.Mesh(new THREE.LatheGeometry(torsoProfile, 48), clothMat);
-    torso.position.y = 0.45;
-    this.charGroup.add(torso);
+    // ── TORSO ───────────────────────────────────────────────
+    // Provided by the equipped past + future outfits (clipped
+    // halves). The base character does not build a default torso.
 
-    // ── ARMS ─────────────────────────────────────────────────
-    // Shoulder cap overlaps torso silhouette by ~0.02 → no gap.
+    // ── ARMS — shorter (upper 0.32 + fore 0.30 = ~0.7 reach),
+    // wider shoulder span (±0.42), small outward tilt (±0.06).
     for (const sx of [-1, 1]) {
       const armGroup = new THREE.Group();
-      armGroup.position.set(0.30 * sx, 1.05, 0);
-      armGroup.rotation.z = 0.08 * sx;
+      armGroup.position.set(0.42 * sx, 1.02, 0);
+      armGroup.rotation.z = 0.06 * sx;
       this.charGroup.add(armGroup);
 
       const shoulder = new THREE.Mesh(new THREE.SphereGeometry(0.085, 24, 24), clothMat);
       armGroup.add(shoulder);
 
-      const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.06, 0.42, 20), clothMat);
-      upper.position.y = -0.26;
+      const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.06, 0.32, 20), clothMat);
+      upper.position.y = -0.18;
       armGroup.add(upper);
+      if (sx < 0) this.leftSleeve = upper;
+      else        this.rightSleeve = upper;
 
       const elbow = new THREE.Mesh(new THREE.SphereGeometry(0.05, 20, 20), skinMat);
-      elbow.position.y = -0.50;
+      elbow.position.y = -0.36;
       armGroup.add(elbow);
 
-      const fore = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.05, 0.40, 20), skinMat);
-      fore.position.y = -0.72;
+      const fore = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.05, 0.30, 20), skinMat);
+      fore.position.y = -0.52;
       armGroup.add(fore);
 
       const hand = new THREE.Mesh(new THREE.SphereGeometry(0.06, 20, 20), skinMat);
       hand.scale.set(0.85, 1.3, 0.55);
-      hand.position.y = -0.97;
+      hand.position.y = -0.72;
       armGroup.add(hand);
 
       armGroup.userData.armSide = sx;
       armGroup.name = sx < 0 ? "armLeft" : "armRight";
     }
 
-    // ── LOWER BODY (pants) — slight hip tilt for natural pose
+    // ── LOWER BODY (pants) ─────────────────────────────────
     const pantsProfile = [
       new THREE.Vector2(0.001,  0.0),
       new THREE.Vector2(0.36, -0.05),
@@ -541,24 +629,29 @@ export class SyncScene {
     this.uTime.value = t;
 
     // ── Demo loop oscillation when no focus is running ─────
+    // The oscillation rides ON TOP of earnedSync (which accumulates
+    // each completed focus). That way the wardrobe unlock thresholds
+    // actually become reachable as the user completes sessions.
     if (!this.inFocus && !this.prefersReducedMotion) {
       if (t > this.demoPulseAt) {
         this.demoPulseAt = t + this.demoFlickerEvery;
       }
       const wave = Math.sin(t * 0.4) * 1.5;
-      this.targetSync = this.opts.initialSync + wave;
+      this.targetSync = Math.min(100, this.earnedSync + wave);
     }
 
     // ── Smooth displayed sync toward target ────────────────
     this.displayedSync += (this.targetSync - this.displayedSync) * Math.min(1, dt * 4);
     this.uSync.value = this._clamp01(this.displayedSync / 100);
 
-    // ── Update sync label in HUD ───────────────────────────
-    if (this.opts.syncLabel) {
-      const next = Math.round(this.displayedSync);
-      if (this.opts.syncLabel.textContent !== String(next)) {
-        this.opts.syncLabel.textContent = String(next);
-      }
+    // ── Update sync label in HUD + broadcast to React ──────
+    const nextInt = Math.round(this.displayedSync);
+    if (this.opts.syncLabel && this.opts.syncLabel.textContent !== String(nextInt)) {
+      this.opts.syncLabel.textContent = String(nextInt);
+    }
+    if (nextInt !== this.lastSyncBroadcast) {
+      this.lastSyncBroadcast = nextInt;
+      this.opts.onSyncChange?.(nextInt);
     }
 
     // ── Glitch pulses on LEFT side ─────────────────────────
@@ -590,7 +683,7 @@ export class SyncScene {
     const camBreatheX = this.prefersReducedMotion ? 0 : Math.sin(t * 0.18) * 0.06;
     const camBreatheY = this.prefersReducedMotion ? 0 : Math.sin(t * 0.13) * 0.04;
     this.camera.position.x = camBreatheX + this.smoothedMouse.x * 0.1;
-    this.camera.position.y = 0.9 + camBreatheY + this.smoothedMouse.y * 0.06;
+    this.camera.position.y = 0.7 + camBreatheY + this.smoothedMouse.y * 0.06;
 
     // Head subtly tracks mouse.
     if (!this.prefersReducedMotion) {
@@ -627,7 +720,7 @@ export class SyncScene {
       const camPulse = since < 0.7
         ? (since / 0.7)
         : 1 - ((since - 0.7) / (COMPLETION_PULSE_DURATION - 0.7));
-      const z = 5.2 - 0.3 * Math.max(0, Math.min(1, camPulse));
+      const z = 5.5 - 0.3 * Math.max(0, Math.min(1, camPulse));
       this.camera.position.z = z;
       // uCompletion falls off quadratically over the pulse duration.
       const u = Math.max(0, 1 - since / COMPLETION_PULSE_DURATION);
@@ -641,7 +734,7 @@ export class SyncScene {
       if (since >= COMPLETION_PULSE_DURATION) {
         this.uCompletion.value = 0;
         this.completionStartedAt = 0;
-        this.camera.position.z = 5.2;
+        this.camera.position.z = 5.5;
         this.mouth.scale.y = 0.3;
         // Restore CTA after the cinematic ends.
         if (this.opts.startBtn) {
@@ -661,13 +754,14 @@ export class SyncScene {
   private _triggerCompletion() {
     this.inFocus = false;
     this.completionStartedAt = this.clock.getElapsedTime();
-    this.targetSync = Math.min(100, this.targetSync + SYNC_BUMP_PER_FOCUS);
+    this.earnedSync = Math.min(100, this.earnedSync + SYNC_BUMP_PER_FOCUS);
+    this.targetSync = this.earnedSync;
 
     this._playFlash();
     this._playShock();
     this._playPopup();
 
-    this.opts.onFocusComplete?.(this.targetSync);
+    this.opts.onFocusComplete?.(this.earnedSync);
   }
 
   private _playFlash() {

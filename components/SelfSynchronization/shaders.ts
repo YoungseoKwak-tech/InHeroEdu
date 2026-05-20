@@ -60,54 +60,45 @@ export const splitFragment = /* glsl */ `
     float sideRaw = vWorldPos.x - splitX;
     float side    = smoothstep(-0.025, 0.025, sideRaw);
 
-    // ── LEFT: desaturated, glitchy, dim ────────────────────────
-    float lum       = dot(uBaseColor, vec3(0.299, 0.587, 0.114));
-    vec3  leftBase  = mix(uBaseColor, vec3(lum), 0.85) * 0.35;
-    float fresnelL  = pow(1.0 - max(dot(vNormal, vViewDir), 0.0), 2.2);
-    vec3  rimColdL  = vec3(0.42, 0.45, 0.62) * fresnelL * 0.55;
-    float topDim    = max(0.0, vNormal.y) * 0.18;
-    float dust      = noise(vWorldPos.xy * 22.0 + uTime * 0.3) * 0.07;
-    // Glitch bands: a horizontal-band threshold modulated by uGlitch
-    float band      = step(0.94, fract(vWorldPos.y * 7.0 - uTime * 4.0));
-    float glitchAmt = band * uGlitch;
-    vec3  leftCol   = leftBase + rimColdL + topDim + dust;
-    leftCol         = mix(leftCol, vec3(0.55, 0.10, 0.18), glitchAmt * 0.7);
-
-    // ── RIGHT: alive, three-point lit ─────────────────────────
     vec3 N = normalize(vNormal);
+
+    // ── LEFT: present, grounded, slightly warmer/duller (not dead).
+    // Same person on both sides — just one register is "grounded".
+    float lum      = dot(uBaseColor, vec3(0.299, 0.587, 0.114));
+    vec3  leftBase = mix(uBaseColor, vec3(lum), 0.30) * 0.75;
+    float topL     = max(dot(N, vec3(0.2, 1.0, 0.3)), 0.0);
+    vec3  leftCol  = leftBase + vec3(0.15, 0.13, 0.10) * topL;
+    float n        = noise(vWorldPos.xy * 50.0 + uTime * 1.2);
+    leftCol       *= 0.92 + n * 0.10;
+    // (uGlitch intentionally unused — no more glitch bands.)
+
+    // ── RIGHT: future, elevated, slightly cooler/brighter.
+    // Three-point lighting with the rim + fresnel intentionally
+    // softened so the face doesn't halogen-glow.
     vec3 keyDir  = normalize(vec3( 0.5, 0.9,  0.7));
     vec3 fillDir = normalize(vec3(-0.4, 0.4,  0.5));
-    vec3 rimDir  = normalize(vec3( 0.7, 0.2, -0.5));
     float key  = max(0.0, dot(N, keyDir));
     float fill = max(0.0, dot(N, fillDir));
     float rim  = pow(1.0 - max(dot(N, vViewDir), 0.0), 3.0);
     vec3 rightBase = uBaseColor;
-    vec3 rightCol  = rightBase * (0.32 + key * 0.85)
-                   + vec3(0.55, 0.60, 0.95) * fill * 0.35
-                   // Rim term softened (0.65 → 0.5) so faces don't
-                   // halogen-glow on the cheek and nose tip.
-                   + vec3(0.72, 0.66, 0.96) * rim * 0.50;
-    // Subsurface scattering — warm red bleed on thin angles, tinted
-    // by the base color so hair/cloth/skin all behave naturally.
+    vec3 rightCol  = rightBase * (0.45 + key * 0.55)
+                   + vec3(0.55, 0.60, 0.95) * fill * 0.22
+                   + vec3(0.72, 0.66, 0.96) * rim * 0.28;
+    // Subtle SSS, no separate edge highlight — keeps faces fleshy
+    // but doesn't draw a halo on the silhouette.
     vec3 ssColor = vec3(0.92, 0.55, 0.50);
     float ss = pow(1.0 - max(dot(N, vViewDir), 0.0), 1.5);
-    rightCol += ssColor * ss * 0.15 * uBaseColor;
-    // Edge subsurface highlight at the silhouette — keeps cheeks
-    // and ears feeling fleshy.
-    float ssEdge = pow(1.0 - max(dot(N, vViewDir), 0.0), 4.0) * max(0.0, key);
-    rightCol += vec3(0.95, 0.55, 0.55) * ssEdge * 0.10;
+    rightCol += ssColor * ss * 0.08 * uBaseColor;
 
     // ── Blend halves ──────────────────────────────────────────
     vec3 col = mix(leftCol, rightCol, side);
 
-    // ── Seam glow at the split ────────────────────────────────
-    float seamPulse  = 0.65 + 0.35 * sin(uTime * 2.6);
-    float seamGlow   = exp(-abs(sideRaw) * 45.0) * seamPulse;
-    col += vec3(0.78, 0.62, 1.0) * seamGlow * 0.7;
+    // ── Seam glow at the split (softer, no pulse) ────────────
+    float seamGlow = exp(-abs(sideRaw) * 45.0);
+    col += vec3(0.72, 0.66, 0.96) * seamGlow * 0.5;
 
     // ── Completion burst ─────────────────────────────────────
     if (uCompletion > 0.001) {
-      // White flare on RIGHT, violet ghost on LEFT.
       col += vec3(1.0) * uCompletion * side * 0.55;
       col += vec3(0.65, 0.45, 1.0) * uCompletion * (1.0 - side) * 0.35;
     }
