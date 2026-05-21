@@ -253,7 +253,17 @@ export async function GET(req: NextRequest) {
   }
 
   return NextResponse.json(
-    { items: hydrated, nextCursor, viewerIsAdmin },
+    {
+      items: hydrated,
+      nextCursor,
+      viewerIsAdmin,
+      _debug: {
+        dbCount: resourceRows.length,
+        hydratedCount: hydrated.length,
+        deployVersion: "diag-v3",
+        ts: new Date().toISOString(),
+      },
+    },
     {
       headers: { "Cache-Control": "private, no-store, must-revalidate" },
     }
