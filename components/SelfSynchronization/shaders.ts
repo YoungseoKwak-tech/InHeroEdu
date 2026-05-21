@@ -1,0 +1,262 @@
+// All GLSL strings for SelfSynchronization. Four programs:
+//   - splitVertex / splitFragment    → every body part (skin, hair, cloth, pants)
+//   - particleVertex / particleFragment → background sparks
+//   - seamVertex / seamFragment      → vertical energy strip
+//   - auraVertex / auraFragment      → additive plane behind the figure
+//
+// Each fragment shader stays under ~80 lines and uses the same
+// uniform set so the JS side only has to swap uBaseColor per part.
+
+export const splitVertex = /* glsl */ `
+  uniform float uTime;
+  varying vec3 vWorldPos;
+  varying vec3 vNormal;
+  varying vec3 vViewDir;
+  varying vec2 vUv;
+
+  void main() {
+    vUv = uv;
+    // Subtle breathing — overall scale modulation so the figure
+    // looks alive even before any sync change.
+    float breath = 1.0 + sin(uTime * 0.7) * 0.008;
+    vec3 pos = position * breath;
+
+    vec4 worldPos = modelMatrix * vec4(pos, 1.0);
+    vWorldPos = worldPos.xyz;
+    vNormal   = normalize(mat3(modelMatrix) * normal);
+    vViewDir  = normalize(cameraPosition - worldPos.xyz);
+    gl_Position = projectionMatrix * viewMatrix * worldPos;
+  }
+`;
+
+export const splitFragment = /* glsl */ `
+  uniform float uTime;
+  uniform float uSync;
+  uniform float uCompletion;
+  uniform float uGlitch;
+  uniform vec3  uBaseColor;
+  varying vec3 vWorldPos;
+  varying vec3 vNormal;
+  varying vec3 vViewDir;
+  varying vec2 vUv;
+
+  // Cheap 2D fractal noise — used for the LEFT-side static + the
+  // glitch band displacement on the seam.
+  float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+  float noise(vec2 p) {
+    vec2 i = floor(p); vec2 f = fract(p);
+    float a = hash(i);
+    float b = hash(i + vec2(1.0, 0.0));
+    float c = hash(i + vec2(0.0, 1.0));
+    float d = hash(i + vec2(1.0, 1.0));
+    vec2 u = f * f * (3.0 - 2.0 * f);
+    return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+  }
+
+  void main() {
+    // Split position: as uSync rises, the seam moves left so the
+    // ideal half takes over more of the figure. uSync ∈ [0, 1].
+    float splitX  = -(uSync - 0.08) * 1.5;
+    float sideRaw = vWorldPos.x - splitX;
+    float side    = smoothstep(-0.025, 0.025, sideRaw);
+
+    vec3 N = normalize(vNormal);
+
+    // ── LEFT: present, grounded, slightly warmer/duller (not dead).
+    // Same person on both sides — just one register is "grounded".
+    float lum      = dot(uBaseColor, vec3(0.299, 0.587, 0.114));
+    vec3  leftBase = mix(uBaseColor, vec3(lum), 0.30) * 0.75;
+    float topL     = max(dot(N, vec3(0.2, 1.0, 0.3)), 0.0);
+    vec3  leftCol  = leftBase + vec3(0.15, 0.13, 0.10) * topL;
+    float n        = noise(vWorldPos.xy * 50.0 + uTime * 1.2);
+    leftCol       *= 0.92 + n * 0.10;
+    // (uGlitch intentionally unused — no more glitch bands.)
+
+    // ── RIGHT: future, elevated, slightly cooler/brighter.
+    // Three-point lighting with the rim + fresnel intentionally
+    // softened so the face doesn't halogen-glow.
+    vec3 keyDir  = normalize(vec3( 0.5, 0.9,  0.7));
+    vec3 fillDir = normalize(vec3(-0.4, 0.4,  0.5));
+    float key  = max(0.0, dot(N, keyDir));
+    float fill = max(0.0, dot(N, fillDir));
+    float rim  = pow(1.0 - max(dot(N, vViewDir), 0.0), 3.0);
+    vec3 rightBase = uBaseColor;
+    vec3 rightCol  = rightBase * (0.45 + key * 0.55)
+                   + vec3(0.55, 0.60, 0.95) * fill * 0.22
+                   + vec3(0.72, 0.66, 0.96) * rim * 0.28;
+    // Subtle SSS, no separate edge highlight — keeps faces fleshy
+    // but doesn't draw a halo on the silhouette.
+    vec3 ssColor = vec3(0.92, 0.55, 0.50);
+    float ss = pow(1.0 - max(dot(N, vViewDir), 0.0), 1.5);
+    rightCol += ssColor * ss * 0.08 * uBaseColor;
+
+    // ── Blend halves ──────────────────────────────────────────
+    vec3 col = mix(leftCol, rightCol, side);
+
+    // ── Seam glow at the split (softer, no pulse) ────────────
+    float seamGlow = exp(-abs(sideRaw) * 45.0);
+    col += vec3(0.72, 0.66, 0.96) * seamGlow * 0.5;
+
+    // ── Completion burst ─────────────────────────────────────
+    if (uCompletion > 0.001) {
+      col += vec3(1.0) * uCompletion * side * 0.55;
+      col += vec3(0.65, 0.45, 1.0) * uCompletion * (1.0 - side) * 0.35;
+    }
+
+    // Gamma-ish output for nicer values without a tonemap pass.
+    col = pow(max(col, 0.0), vec3(0.92));
+    gl_FragColor = vec4(col, 1.0);
+  }
+`;
+
+export const particleVertex = /* glsl */ `
+  uniform float uTime;
+  uniform float uCompletion;
+  uniform float uPixelRatio;
+  attribute float aSpeed;
+  attribute float aSide;
+  attribute float aSize;
+  varying float vSide;
+  varying float vAlpha;
+
+  void main() {
+    vSide = aSide; // -1 left, +1 right
+    vec3 p = position;
+    // Drift upward; wrap at top.
+    float y = mod(p.y + uTime * aSpeed * 0.4, 4.0) - 1.5;
+    p.y = y;
+    // Subtle horizontal wobble.
+    p.x += sin(uTime * 0.6 + position.z * 4.0) * 0.05;
+    // Completion: pulled toward seam (x → 0).
+    p.x += aSide * 0.3 * uCompletion;
+
+    vec4 mv = modelViewMatrix * vec4(p, 1.0);
+    gl_Position = projectionMatrix * mv;
+    float sizeScale = aSide > 0.0 ? 1.25 : 0.85;
+    // 60% smaller than v1 + hard cap at 8px so particles never
+    // bokeh-over the character.
+    float raw = aSize * sizeScale * uPixelRatio * (100.0 / -mv.z);
+    gl_PointSize = min(8.0, raw);
+    vAlpha = (aSide > 0.0 ? 0.6 : 0.3) + uCompletion * 0.2;
+  }
+`;
+
+export const particleFragment = /* glsl */ `
+  varying float vSide;
+  varying float vAlpha;
+  void main() {
+    vec2 c = gl_PointCoord - 0.5;
+    float d = length(c);
+    if (d > 0.5) discard;
+    // Right side: violet → teal blend; left side: dim grey.
+    vec3 right = mix(vec3(0.55, 0.40, 0.95), vec3(0.40, 0.92, 0.85), 0.5);
+    vec3 left  = vec3(0.32, 0.32, 0.42);
+    vec3 col   = mix(left, right, smoothstep(-0.1, 0.1, vSide));
+    float a = (1.0 - d * 2.0) * vAlpha;
+    gl_FragColor = vec4(col, a);
+  }
+`;
+
+export const seamVertex = /* glsl */ `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
+
+export const seamFragment = /* glsl */ `
+  uniform float uTime;
+  uniform float uCompletion;
+  varying vec2 vUv;
+  void main() {
+    // Energy travelling upward along the strip.
+    float t = sin(vUv.y * 18.0 - uTime * 3.5) * 0.5 + 0.5;
+    float pulse = pow(t, 5.0);
+    // Center column glow — falls off horizontally.
+    float core = exp(-pow((vUv.x - 0.5) * 5.0, 2.0));
+    float a = pulse * core * (0.8 + uCompletion * 1.5);
+    vec3 col = mix(vec3(0.65, 0.50, 1.0), vec3(0.55, 0.95, 0.92), pulse);
+    gl_FragColor = vec4(col, a);
+  }
+`;
+
+export const auraVertex = /* glsl */ `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
+
+export const eyeVertex = /* glsl */ `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
+
+// Galaxy iris — used ONLY on the right eye, painted on a small
+// plane sitting in front of the sclera sphere. The LEFT eye is
+// pure geometry (a tiny dark pupil sphere + a skin-tone half
+// dome covering the upper half for the tired look). Kept
+// deliberately small + clean per the Memoji-style rollback.
+export const eyeFragment = /* glsl */ `
+  uniform float uTime;
+  uniform float uCompletion;
+  varying vec2 vUv;
+
+  float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+  }
+
+  void main() {
+    vec2 c = vUv - 0.5;
+    float d = length(c);
+    if (d > 0.5) discard;
+
+    // Iris ring: warm-white center → violet mid → teal outer.
+    vec3 col = mix(vec3(0.9, 0.95, 1.0), vec3(0.5, 0.45, 0.95), d * 2.0);
+    col = mix(col, vec3(0.2, 0.7, 0.85), pow(d * 2.0, 2.0));
+
+    // Sparkle stars inside the iris.
+    float star = step(0.94, hash(floor(vUv * 18.0)));
+    col += vec3(1.0) * star * 0.8;
+
+    // Pupil — soft dark center.
+    float pupil = 1.0 - smoothstep(0.08, 0.14, d);
+    col = mix(col, vec3(0.02, 0.0, 0.05), pupil);
+
+    // Catch light at upper-left of pupil.
+    float catchL = 1.0 - smoothstep(0.0, 0.03, length(c - vec2(-0.08, 0.08)));
+    col += vec3(1.0) * catchL;
+
+    // Subtle ambient pulse + amplified pulse during completion.
+    col *= 1.0 + sin(uTime * 1.5) * 0.08 + uCompletion * 1.5;
+
+    float alpha = 1.0 - smoothstep(0.42, 0.5, d);
+    gl_FragColor = vec4(col, alpha);
+  }
+`;
+
+export const auraFragment = /* glsl */ `
+  uniform float uTime;
+  uniform float uSync;
+  uniform float uCompletion;
+  varying vec2 vUv;
+  void main() {
+    // Mask to the right side using a soft step (seam moves with sync).
+    float seam = 0.5 - (uSync - 0.08) * 0.18;
+    float right = smoothstep(seam - 0.02, seam + 0.18, vUv.x);
+    // Radial falloff centered on (0.65, 0.55).
+    vec2  c   = vUv - vec2(0.65, 0.55);
+    float d   = length(c);
+    float fall = smoothstep(0.55, 0.0, d);
+    float breathe = 0.7 + 0.3 * sin(uTime * 1.3);
+    float intensity = right * fall * breathe;
+    intensity += uCompletion * fall * 0.9;
+    vec3 col = mix(vec3(0.45, 0.32, 0.92), vec3(0.32, 0.85, 0.85), fall * 0.6);
+    gl_FragColor = vec4(col * intensity, intensity);
+  }
+`;

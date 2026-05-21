@@ -1,0 +1,254 @@
+/* Shared styles for the two wardrobe panels.
+ * The left panel slides in from the left (past self / warm amber)
+ * and the right panel slides in from the right (future self / cool
+ * purple). All selectors are module-local — no :global rules. */
+
+/* ── vertical edge triggers ─────────────────────────────────── */
+
+.trigger {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(20, 15, 40, 0.6);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(184, 168, 245, 0.3);
+  padding: 14px 10px;
+  cursor: pointer;
+  z-index: 24;
+  font-family: "JetBrains Mono", "SF Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: #b8a8f5;
+  writing-mode: vertical-rl;
+  transition: background 220ms ease, box-shadow 220ms ease, color 220ms ease;
+}
+
+.triggerLeft {
+  left: 0;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  color: #e8d4a8;
+  border-color: rgba(232, 200, 168, 0.3);
+}
+.triggerLeft:hover {
+  background: rgba(40, 35, 50, 0.78);
+  box-shadow: 4px 0 24px rgba(232, 200, 168, 0.3);
+  color: #f5e3bf;
+}
+
+.triggerRight {
+  right: 0;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+}
+.triggerRight:hover {
+  background: rgba(40, 30, 70, 0.78);
+  box-shadow: -4px 0 24px rgba(184, 168, 245, 0.3);
+  color: #d2c4ff;
+}
+
+.triggerDot {
+  display: inline-block;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+/* ── panels ──────────────────────────────────────────────────── */
+
+.panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 320px;
+  max-width: 90vw;
+  background: rgba(10, 8, 24, 0.92);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 18px;
+}
+
+.panelLeft {
+  left: 0;
+  border-right: 1px solid rgba(232, 200, 168, 0.22);
+  transform: translateX(-100%);
+}
+.panelRight {
+  right: 0;
+  border-left: 1px solid rgba(184, 168, 245, 0.22);
+  transform: translateX(100%);
+}
+.panelLeft.panelOpen,
+.panelRight.panelOpen {
+  transform: translateX(0);
+}
+
+/* ── header ──────────────────────────────────────────────────── */
+
+.header {
+  position: relative;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 12px;
+}
+.headerTitle {
+  font: 700 13px / 1 "JetBrains Mono", monospace;
+  letter-spacing: 0.22em;
+  margin: 0 0 6px;
+}
+.panelLeft  .headerTitle { color: #e8d4a8; }
+.panelRight .headerTitle { color: #b8a8f5; }
+
+.headerSub {
+  font: 11px / 1.4 "JetBrains Mono", monospace;
+  color: #88889a;
+  margin: 0;
+}
+.close {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: transparent;
+  border: none;
+  color: #b8a8f5;
+  cursor: pointer;
+  font: 18px / 1 sans-serif;
+  padding: 4px 8px;
+}
+.close:hover { color: #fff; }
+
+/* ── outfit list ─────────────────────────────────────────────── */
+
+.list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 4px;
+}
+
+.card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 11px;
+  background: rgba(20, 18, 30, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 9px;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  font-family: inherit;
+  transition: border-color 200ms ease, transform 200ms ease, background 200ms ease;
+}
+.card:hover {
+  transform: translateY(-1px);
+}
+.panelLeft  .card:hover { border-color: rgba(232, 200, 168, 0.55); }
+.panelRight .card:hover { border-color: rgba(184, 168, 245, 0.55); }
+
+.cardEquipped {
+  background: rgba(20, 36, 26, 0.55);
+}
+.panelLeft  .cardEquipped { border-color: rgba(232, 200, 168, 0.7); }
+.panelRight .cardEquipped { border-color: rgba(184, 168, 245, 0.7); }
+
+.cardLocked {
+  cursor: not-allowed;
+  opacity: 0.55;
+  filter: grayscale(0.55);
+}
+.cardLocked:hover {
+  transform: none;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.cardShake { animation: shake 0.42s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
+@keyframes shake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-4px); }
+  40%, 60% { transform: translateX(4px); }
+}
+
+.swatch {
+  width: 56px;
+  height: 56px;
+  border-radius: 7px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+.swatchAccent {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 36%;
+}
+
+.cardBody  { min-width: 0; }
+.cardName  {
+  font: 700 12px / 1.2 "JetBrains Mono", monospace;
+  letter-spacing: 0.10em;
+  margin: 0 0 2px;
+  color: #f3f0ff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cardNameKo {
+  font: 11px / 1.2 sans-serif;
+  color: #aaa4c0;
+}
+.cardSub {
+  font: 11px / 1.4 "JetBrains Mono", monospace;
+  color: #88889a;
+  margin: 4px 0 6px;
+}
+.cardMeta {
+  font: 10px / 1 "JetBrains Mono", monospace;
+  letter-spacing: 0.15em;
+}
+.metaEquipped { color: #52e29c; }
+.panelLeft  .metaUnlocked { color: #e8d4a8; }
+.panelRight .metaUnlocked { color: #b8a8f5; }
+.metaLocked  { color: #88889a; }
+
+.lockIcon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 12px;
+  color: #88889a;
+}
+
+.sparkle {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 9px;
+  animation: sparkle 0.6s ease-out;
+}
+.panelLeft  .sparkle { animation-name: sparkleAmber;  }
+.panelRight .sparkle { animation-name: sparklePurple; }
+@keyframes sparkleAmber {
+  0%   { box-shadow: 0 0 0 2px rgba(232, 200, 168, 0.9), 0 0 24px 8px rgba(232, 200, 168, 0.5); }
+  100% { box-shadow: 0 0 0 2px rgba(232, 200, 168, 0),   0 0 0    0px rgba(232, 200, 168, 0); }
+}
+@keyframes sparklePurple {
+  0%   { box-shadow: 0 0 0 2px rgba(184, 168, 245, 0.9), 0 0 24px 8px rgba(184, 168, 245, 0.5); }
+  100% { box-shadow: 0 0 0 2px rgba(184, 168, 245, 0),   0 0 0    0px rgba(184, 168, 245, 0); }
+}
+
+@media (max-width: 640px) {
+  .panel   { width: 100%; }
+  .trigger { font-size: 9px; padding: 12px 8px; }
+}
