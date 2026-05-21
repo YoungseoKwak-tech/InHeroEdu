@@ -336,6 +336,7 @@ export default function LibraryPage() {
       );
       const finalizeJson = (await finalizeRes.json().catch(() => null)) as {
         ok?: boolean;
+        dedup?: boolean;
         error?: string;
         message?: { attachment?: { resourceId?: string | null } | null };
         resource?: FeedItem | null;
@@ -392,6 +393,9 @@ export default function LibraryPage() {
       if (uploadedResource) {
         revealUploadedResource(uploadedResource);
       }
+      if (finalizeJson.dedup) {
+        setError("이미 같은 파일이 업로드되어 있어서 기존 카드로 유지했어요.");
+      }
       // ALWAYS refetch from the feed so what the user sees matches DB
       // truth. If the server returned a resource that isn't actually in
       // lounge_resources (silent-mirror-failure regression), the refetch
@@ -419,9 +423,13 @@ export default function LibraryPage() {
       if (official === "official") qs.set("official", "true");
       if (official === "community") qs.set("official", "false");
       if (requestCursor) qs.set("cursor", requestCursor);
+      // Per-request cache buster — defeats any browser/edge layer that
+      // might be serving a stale Library response after a DB cleanup.
+      qs.set("_", Date.now().toString());
 
       const res = await authFetch(`/api/library/feed?${qs.toString()}`, {
         cache: "no-store",
+        headers: { "Cache-Control": "no-cache, no-store, must-revalidate" },
       });
       if (requestSeq !== requestSeqRef.current) return;
       if (!res.ok) {
@@ -1249,11 +1257,8 @@ function formatBytes(bytes: number): string {
 }
 
 function feedDedupeKey(item: FeedItem): string {
-  // Dedup by id only — the previous content-based key was collapsing
-  // legitimate fresh user uploads against seeded entries with the
-  // same title. Server-side feed dedup was dropped for the same
-  // reason; this mirror is now only protecting against literal
-  // duplicate-id renders (e.g. optimistic + refetch overlap).
+  // Keep client dedupe strictly id-based so legitimate uploads are never
+  // hidden by an over-broad title collapse rule.
   return item.id;
 }
 
