@@ -126,6 +126,14 @@ export async function GET(req: NextRequest) {
   }
 
   const resourceRows = (resourceRes.data ?? []) as ResourceRow[];
+  console.log("[feed] /api/library/feed", {
+    user_id: user.id,
+    loungeIdFilter,
+    folder,
+    officialFilter,
+    db_returned: resourceRows.length,
+    first_ids: resourceRows.slice(0, 5).map((r) => r.id),
+  });
   // Feed-level dedup REMOVED — it was collapsing legitimate fresh
   // user uploads against seeded entries with the same title (the
   // "vanish on refresh" symptom). The chat-side dedup in finalize
@@ -282,16 +290,18 @@ function isAfterCursor(item: { created_at: string; id: string }, cursor: { creat
 }
 
 function dedupeResourceKey(row: ResourceRow): string {
-  const normTitle = row.title.trim().toLowerCase();
+  const normTitle = normalizeTitleForDedupe(row.title);
   const loungeId = row.lounge_id ?? "";
   const folder = row.folder_type ?? "";
-  const mime = (row.mime_type ?? "").toLowerCase();
-  const author = row.author_id ?? "";
-  // Include author so a user's own duplicate uploads collapse but
-  // a user upload of "X.pdf" doesn't get collapsed against a seeded
-  // "X.pdf" from a different author (which was causing fresh
-  // uploads to vanish from the feed entirely).
-  // Intentionally ignore file_size so re-exports of the same name
-  // with tiny byte differences still collapse for the SAME author.
-  return `${loungeId}|${folder}|${normTitle}|${mime}|${author}`;
+  // Intentionally ignore author/mime/file_size so near-identical
+  // resources collapse to one card globally in the same lounge folder.
+  return `${loungeId}|${folder}|${normTitle}`;
+}
+
+function normalizeTitleForDedupe(title: string): string {
+  let normalized = title.trim().toLowerCase();
+  normalized = normalized.replace(/\.[a-z0-9]{2,5}$/i, "");
+  normalized = normalized.replace(/[^a-z0-9가-힣]+/g, " ");
+  normalized = normalized.replace(/\s+/g, " ").trim();
+  return normalized;
 }
