@@ -36,6 +36,10 @@ export interface Course {
   // When set, the course supports both HL and SL — lessons inside carry
   // ib_level: "HL" | "SL" | "BOTH" and the course page renders a toggle.
   ibLevels?: IbLevel[];
+  // When set, the course page renders a "Open textbook" CTA that links
+  // to /textbooks/<textbookSlug>. Today only AP Bio has a published
+  // textbook; AP Chem / AP Physics will get slugs once they ship.
+  textbookSlug?: string;
 }
 
 export const courses: Course[] = [
@@ -46,6 +50,7 @@ export const courses: Course[] = [
     description: "From cell structure to genetics, master the full AP Biology sequence with an AI layer that remembers how you learn.",
     topicCount: 47, difficulty: "Intermediate", color: "from-green-500 to-emerald-600", icon: "🧬",
     lessonIds: [],
+    textbookSlug: "ap-bio-ultimate",
     units: [
       {
         number: 1, title: "Chemistry of Life", slug: "chemistry-of-life", examWeight: "8–11%",
