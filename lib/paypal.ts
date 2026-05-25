@@ -6,6 +6,7 @@ import {
 
 const LIVE_BASE_URL = "https://api-m.paypal.com";
 const SANDBOX_BASE_URL = "https://api-m.sandbox.paypal.com";
+const PAYPAL_REQUEST_TIMEOUT_MS = 15000;
 
 type PayPalMode = "live" | "sandbox";
 
@@ -74,6 +75,7 @@ async function fetchAccessToken(baseUrl: string) {
 
   const response = await fetch(`${baseUrl}/v1/oauth2/token`, {
     method: "POST",
+    signal: AbortSignal.timeout(PAYPAL_REQUEST_TIMEOUT_MS),
     headers: {
       Authorization: `Basic ${Buffer.from(`${clientId}:${secret}`).toString("base64")}`,
       "Content-Type": "application/x-www-form-urlencoded",
@@ -139,6 +141,7 @@ async function paypalFetch<T>(
   const context = await getPayPalContext();
   const response = await fetch(`${context.baseUrl}${path}`, {
     ...init,
+    signal: init.signal ?? AbortSignal.timeout(PAYPAL_REQUEST_TIMEOUT_MS),
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",

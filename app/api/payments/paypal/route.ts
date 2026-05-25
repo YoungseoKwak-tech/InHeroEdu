@@ -20,6 +20,27 @@ import {
 } from "@/lib/paypal";
 import { attachStoredOrderProviderDetails } from "@/lib/orderStore";
 
+function getSafeReturnTo(value: unknown) {
+  if (typeof value !== "string") return null;
+
+  const trimmed = value.trim();
+  if (!trimmed || !trimmed.startsWith("/") || trimmed.startsWith("//")) {
+    return null;
+  }
+
+  // Backslashes can be normalized by browsers into URL separators, so reject
+  // them instead of trying to repair a suspicious redirect target.
+  if (trimmed.includes("\\")) return null;
+
+  try {
+    const parsed = new URL(trimmed, "https://inhero.local");
+    if (parsed.origin !== "https://inhero.local") return null;
+    return `${parsed.pathname}${parsed.search}${parsed.hash}`;
+  } catch {
+    return null;
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const authedUser = await requireAuthenticatedUser(req);
@@ -73,7 +94,8 @@ export async function POST(req: NextRequest) {
     );
 
     const localOrderId = randomUUID();
-    const origin = req.headers.get("origin")?.trim() || req.nextUrl.origin;
+    const origin = req.nextUrl.origin;
+    const safeReturnTo = getSafeReturnTo(returnTo);
     const successUrl = new URL("/payment/success", origin);
     successUrl.searchParams.set("provider", "paypal");
     successUrl.searchParams.set("localOrderId", localOrderId);
@@ -81,8 +103,8 @@ export async function POST(req: NextRequest) {
     if (subjectId) {
       successUrl.searchParams.set("subjectId", subjectId);
     }
-    if (typeof returnTo === "string" && returnTo.startsWith("/")) {
-      successUrl.searchParams.set("returnTo", returnTo);
+    if (safeReturnTo) {
+      successUrl.searchParams.set("returnTo", safeReturnTo);
     }
 
     const failUrl = new URL("/payment/fail", origin);
@@ -91,8 +113,8 @@ export async function POST(req: NextRequest) {
     if (subjectId) {
       failUrl.searchParams.set("subjectId", subjectId);
     }
-    if (typeof returnTo === "string" && returnTo.startsWith("/")) {
-      failUrl.searchParams.set("returnTo", returnTo);
+    if (safeReturnTo) {
+      failUrl.searchParams.set("returnTo", safeReturnTo);
     }
 
     await createPendingOrder(supabase, {

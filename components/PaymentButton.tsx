@@ -16,12 +16,20 @@ interface PaymentButtonProps {
 }
 
 function openAuthModal(returnTo?: string) {
+  const safeReturnTo =
+    typeof returnTo === "string" &&
+    returnTo.startsWith("/") &&
+    !returnTo.startsWith("//") &&
+    !returnTo.includes("\\")
+      ? returnTo
+      : "/dashboard";
+
   window.dispatchEvent(
     new CustomEvent("inhero:open-auth", {
       detail: {
         mode: "signup",
         source: "payment",
-        redirectTo: typeof returnTo === "string" && returnTo.startsWith("/") ? returnTo : "/dashboard",
+        redirectTo: safeReturnTo,
       },
     })
   );
@@ -67,7 +75,7 @@ export default function PaymentButton({
 
       window.location.href = data.approveUrl;
     } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : "오류가 발생했어요.";
+      const msg = e instanceof Error ? e.message : "Something went wrong.";
       setError(msg);
       setLoading(false);
     }
@@ -101,7 +109,7 @@ export default function PaymentButton({
         className={style ? undefined : className}
         style={style ? { ...style, opacity: loading ? 0.6 : 1, cursor: loading ? "default" : "pointer" } : undefined}
       >
-        {loading ? "처리 중…" : label}
+        {loading ? "Processing…" : label}
       </button>
       {error && (
         <div

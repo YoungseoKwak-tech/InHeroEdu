@@ -64,7 +64,7 @@ export const PRICING = {
     {
       id: "single",
       name: "한 과목 패스", nameEn: "Single Subject Pass",
-      priceKRW: 79000, priceUSD: 53,
+      priceKRW: 79000, priceUSD: 29,
       period: "월 / mo",
       features: ["선택 1과목 강의 무제한","AI 즉시 설명","사고력 분석","학습 대시보드"],
       badge: null as string | null,

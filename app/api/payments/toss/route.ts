@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
+import { requireAuthenticatedUser } from "@/lib/auth";
 import {
   buildUsdQuoteForService,
   buildUsdQuoteForTextbook,
@@ -10,7 +11,12 @@ import { randomUUID } from "crypto";
 
 export async function POST(req: NextRequest) {
   try {
-    const { serviceId, subjectId, userId } = await req.json();
+    const authedUser = await requireAuthenticatedUser(req);
+    if (authedUser instanceof NextResponse) {
+      return authedUser;
+    }
+
+    const { serviceId, subjectId } = await req.json();
 
     if (!serviceId) {
       return NextResponse.json({ error: "serviceId required" }, { status: 400 });
@@ -61,7 +67,7 @@ export async function POST(req: NextRequest) {
       .from("orders")
       .insert({
         id: orderId,
-        user_id: userId ?? null,
+        user_id: authedUser.id,
         service_id: resolvedServiceId,
         order_name: orderName,
         amount_krw: amount,

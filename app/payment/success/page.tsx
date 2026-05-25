@@ -31,7 +31,7 @@ function SuccessInner() {
 
       if (!localOrderId) {
         setStatus("error");
-        setErrorMsg("결제 정보가 없습니다.");
+        setErrorMsg("Payment info missing.");
         return;
       }
 
@@ -50,7 +50,7 @@ function SuccessInner() {
 
       if (!paymentKey || !orderId || !amount) {
         setStatus("error");
-        setErrorMsg("결제 정보가 없습니다.");
+        setErrorMsg("Payment info missing.");
         return;
       }
 
@@ -66,6 +66,22 @@ function SuccessInner() {
       .then((data) => {
         if (data.success) {
           setStatus("success");
+          // If the buyer came from a specific in-product page (e.g. the
+          // "Course Locked" CTA on a lesson), send them back there so
+          // they land on the thing they actually tried to unlock.
+          // Only accept same-origin paths to avoid open-redirect.
+          const returnToParam = params.get("returnTo");
+          const safeReturnTo =
+            returnToParam &&
+            returnToParam.startsWith("/") &&
+            !returnToParam.startsWith("//") &&
+            !returnToParam.includes("\\")
+              ? returnToParam
+              : null;
+          if (safeReturnTo) {
+            setTimeout(() => router.push(safeReturnTo), 1800);
+            return;
+          }
           const nextUrl = new URL("/billing", window.location.origin);
           nextUrl.searchParams.set("payment", "success");
           if ((data.order?.serviceId as string | undefined)?.startsWith("textbook:")) {
@@ -74,12 +90,12 @@ function SuccessInner() {
           setTimeout(() => router.push(`${nextUrl.pathname}${nextUrl.search}`), 1800);
         } else {
           setStatus("error");
-          setErrorMsg(data.error ?? "결제 확인 실패");
+          setErrorMsg(data.error ?? "Payment confirmation failed.");
         }
       })
       .catch(() => {
         setStatus("error");
-        setErrorMsg("네트워크 오류가 발생했어요.");
+        setErrorMsg("Network error.");
       });
   }, [params, router]);
 
@@ -95,7 +111,7 @@ function SuccessInner() {
             />
           ))}
         </div>
-        <p className="text-gray-500 text-sm">결제를 확인하는 중입니다…</p>
+        <p className="text-gray-500 text-sm">Confirming your payment…</p>
       </div>
     );
   }
@@ -105,10 +121,10 @@ function SuccessInner() {
       <div className="min-h-screen flex flex-col items-center justify-center gap-6 text-center px-4">
         <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center text-3xl">✗</div>
         <div>
-          <h1 className="text-xl font-extrabold text-gray-900 dark:text-white mb-2">결제 확인 실패</h1>
+          <h1 className="text-xl font-extrabold text-gray-900 dark:text-white mb-2">Payment confirmation failed</h1>
           <p className="text-gray-500 text-sm">{errorMsg}</p>
         </div>
-        <Link href="/pricing" className="btn-primary text-sm py-2.5 px-6">요금제로 돌아가기</Link>
+        <Link href="/pricing" className="btn-primary text-sm py-2.5 px-6">Back to pricing</Link>
       </div>
     );
   }
@@ -117,8 +133,8 @@ function SuccessInner() {
     <div className="min-h-screen flex flex-col items-center justify-center gap-6 text-center px-4">
       <div className="w-20 h-20 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-4xl">✓</div>
       <div>
-        <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">결제 완료!</h1>
-        <p className="text-gray-500">잠시 후 billing으로 이동해 결제 내역과 접근 권한을 보여드릴게요…</p>
+        <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">Payment complete!</h1>
+        <p className="text-gray-500">Redirecting to billing to show your purchase and access…</p>
       </div>
     </div>
   );

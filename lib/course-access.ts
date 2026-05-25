@@ -47,15 +47,27 @@ export function hasPaidEnglishCourseAccess(
   orders: StoredOrder[],
   courseId: string
 ) {
+  const normalizedCourseId = courseId.toLowerCase();
+
   return orders.some((order) => {
     if (order.status !== "paid") return false;
 
     const serviceId = order.serviceId.toLowerCase();
     if (!serviceId) return false;
-    if (serviceId.includes("novapass")) return true;
-    if (serviceId.includes("inhero-pass")) return true;
-    if (serviceId.includes(`:${courseId}`)) return true;
-    if (serviceId === courseId) return true;
+
+    // Textbook purchases are separate from video/course access.
+    if (serviceId.startsWith("textbook:")) return false;
+
+    const [baseServiceId, boundCourseId] = serviceId.split(":");
+    if (baseServiceId === "novapass" || baseServiceId === "inhero-pass") return true;
+    if (
+      ["single", "three"].includes(baseServiceId) &&
+      boundCourseId === normalizedCourseId
+    ) {
+      return true;
+    }
+    if (serviceId === normalizedCourseId) return true;
+
     return false;
   });
 }

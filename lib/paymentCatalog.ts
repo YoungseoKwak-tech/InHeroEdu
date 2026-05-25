@@ -184,6 +184,14 @@ export function inferStoredOrderCurrencyFromRow(row: Record<string, unknown>): P
     return explicitCurrency;
   }
 
+  const legacyRaw =
+    typeof row.raw_toss_response === "object" && row.raw_toss_response !== null
+      ? (row.raw_toss_response as Record<string, unknown>)
+      : null;
+  if (row.provider === "paypal" || legacyRaw?.provider === "paypal") {
+    return "USD";
+  }
+
   if (typeof row.amount_krw === "number" || typeof row.price_krw === "number") return "KRW";
   if (typeof row.amount_usd === "number" || typeof row.amountUSD === "number" || typeof row.price_usd === "number") {
     return "USD";
