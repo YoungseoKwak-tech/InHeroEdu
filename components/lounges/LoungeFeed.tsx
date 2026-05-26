@@ -31,7 +31,7 @@ export default function LoungeFeed({ slug, initialPosts }: Props) {
 
   const isAdmin = useMemo(() => {
     if (!currentUserEmail) return false;
-    const adminList = ["yk777@cornell.edu"];
+    const adminList = ["yk777@cornell.edu", "hyeonjei@gmail.com"];
     return adminList.includes(currentUserEmail.trim().toLowerCase());
   }, [currentUserEmail]);
 

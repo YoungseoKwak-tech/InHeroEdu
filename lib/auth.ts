@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 
-const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? "yk777@cornell.edu")
+const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? "yk777@cornell.edu,hyeonjei@gmail.com")
   .split(",")
   .map((email) => email.trim().toLowerCase())
   .filter(Boolean);
