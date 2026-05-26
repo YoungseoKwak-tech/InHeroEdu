@@ -305,13 +305,13 @@ export default function SpaceBackground() {
           inset: 0,
           width: "100vw",
           height: "100vh",
-          zIndex: -5,
+          zIndex: 0,
           pointerEvents: "none",
         }}
       />
 
       {/* Nebula clouds */}
-      <div style={{ position: "fixed", inset: 0, zIndex: -4, pointerEvents: "none", overflow: "hidden" }}>
+      <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
         <div className="nebula-blob nebula-1" style={{
           position: "absolute", top: "-15%", left: "-10%",
           width: "65vw", height: "65vw",
@@ -369,7 +369,7 @@ export default function SpaceBackground() {
       </div>
 
       {/* Ships — animated across screen */}
-      <div style={{ position: "fixed", inset: 0, zIndex: -2, pointerEvents: "none", overflow: "hidden" }}>
+      <div style={{ position: "fixed", inset: 0, zIndex: 2, pointerEvents: "none", overflow: "hidden" }}>
         {/* Hero ship — slow, left to right, mid-upper */}
         <div className="ship-hero-flight" style={{ position: "absolute", top: "22%", left: 0 }}>
           <ShipHero />
@@ -410,7 +410,7 @@ export default function SpaceBackground() {
           position: "fixed",
           right: "2%",
           bottom: "4%",
-          zIndex: -3,
+          zIndex: 1,
           transform: "scale(0.7)",
           transformOrigin: "bottom right",
           opacity: 0.85,
