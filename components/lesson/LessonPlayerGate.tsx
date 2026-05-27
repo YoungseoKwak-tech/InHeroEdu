@@ -6,7 +6,7 @@ import LessonPlayer from "@/components/lesson/LessonPlayer";
 import OverlayPlayer from "@/components/lesson/OverlayPlayer";
 import LessonWorkspaceShell from "@/components/lesson/LessonWorkspaceShell";
 import PaymentButton from "@/components/PaymentButton";
-import { createBrowserClient } from "@/lib/supabase";
+import { getCachedSession } from "@/lib/supabase";
 import { authFetch } from "@/lib/client-auth";
 import type { LessonPlayerData } from "@/lib/lesson-player-types";
 import type { OverlayRow } from "@/lib/overlays";
@@ -61,20 +61,19 @@ export default function LessonPlayerGate({
   };
 
   useEffect(() => {
-    const supabase = createBrowserClient();
     let cancelled = false;
-    // Watchdog: if getSession() neither resolves nor rejects within
-    // 5s (stale refresh token can wedge the supabase client), treat
-    // the user as a guest instead of leaving the spinner forever.
+    // Watchdog kept as a belt-and-suspenders against truly stuck
+    // sessions. Primary fix is getCachedSession dedup so we don't
+    // hit lock-stealing in the first place.
     const watchdog = setTimeout(() => {
       if (!cancelled) {
         // eslint-disable-next-line no-console
-        console.warn("[lesson-gate] getSession timeout — falling back to guest");
+        console.warn("[lesson-gate] getCachedSession timeout — guest fallback");
         setAuthState((prev) => (prev === "loading" ? "guest" : prev));
       }
     }, 5000);
-    supabase.auth.getSession()
-      .then(({ data: { session } }) => {
+    getCachedSession()
+      .then((session) => {
         if (cancelled) return;
         clearTimeout(watchdog);
         setAuthState(session ? "authenticated" : "guest");
@@ -83,7 +82,7 @@ export default function LessonPlayerGate({
         if (cancelled) return;
         clearTimeout(watchdog);
         // eslint-disable-next-line no-console
-        console.error("[lesson-gate] getSession rejected", err);
+        console.error("[lesson-gate] session check rejected", err);
         setAuthState("guest");
       });
     return () => {

@@ -19,7 +19,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { authFetch } from "@/lib/client-auth";
-import { createBrowserClient } from "@/lib/supabase";
+import { getCachedSession } from "@/lib/supabase";
 import { parseScript } from "@/lib/parseScript";
 import { overlaysWithTimestamps } from "@/lib/overlays";
 import VideoLessonPlayer from "@/components/lesson/VideoLessonPlayer";
@@ -82,17 +82,16 @@ export default function VideoLessonGate({
   };
 
   useEffect(() => {
-    const supabase = createBrowserClient();
     let cancelled = false;
     const watchdog = setTimeout(() => {
       if (!cancelled) {
         // eslint-disable-next-line no-console
-        console.warn("[video-gate] getSession timeout — falling back to guest");
+        console.warn("[video-gate] session timeout — guest fallback");
         setAuthState((prev) => (prev === "loading" ? "guest" : prev));
       }
     }, 5000);
-    supabase.auth.getSession()
-      .then(({ data: { session } }) => {
+    getCachedSession()
+      .then((session) => {
         if (cancelled) return;
         clearTimeout(watchdog);
         setAuthState(session ? "authenticated" : "guest");
@@ -101,7 +100,7 @@ export default function VideoLessonGate({
         if (cancelled) return;
         clearTimeout(watchdog);
         // eslint-disable-next-line no-console
-        console.error("[video-gate] getSession rejected", err);
+        console.error("[video-gate] session check rejected", err);
         setAuthState("guest");
       });
     return () => {

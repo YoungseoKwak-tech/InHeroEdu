@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { authFetch } from "@/lib/client-auth";
-import { createBrowserClient } from "@/lib/supabase";
+import { getCachedSession } from "@/lib/supabase";
 import type { PlaylistItem } from "@/lib/buildPlaylist";
 import LessonWorkspaceShell from "@/components/lesson/LessonWorkspaceShell";
 
@@ -65,17 +65,16 @@ export default function SectionLessonGate({
   };
 
   useEffect(() => {
-    const supabase = createBrowserClient();
     let cancelled = false;
     const watchdog = setTimeout(() => {
       if (!cancelled) {
         // eslint-disable-next-line no-console
-        console.warn("[section-gate] getSession timeout — falling back to guest");
+        console.warn("[section-gate] session timeout — guest fallback");
         setAuthState((prev) => (prev === "loading" ? "guest" : prev));
       }
     }, 5000);
-    supabase.auth.getSession()
-      .then(({ data: { session } }) => {
+    getCachedSession()
+      .then((session) => {
         if (cancelled) return;
         clearTimeout(watchdog);
         setAuthState(session ? "authenticated" : "guest");
@@ -84,7 +83,7 @@ export default function SectionLessonGate({
         if (cancelled) return;
         clearTimeout(watchdog);
         // eslint-disable-next-line no-console
-        console.error("[section-gate] getSession rejected", err);
+        console.error("[section-gate] session check rejected", err);
         setAuthState("guest");
       });
     return () => {
