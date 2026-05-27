@@ -73,12 +73,41 @@ export default function VideoLessonGate({
   const resolvedCourseHref = courseHref ?? `/courses/${courseId}`;
   const resolvedRedirectHref = redirectHref ?? `${resolvedCourseHref}/${lessonId}`;
   const resolvedNextLessonHref = nextLessonHref ?? (nextLessonId ? `${resolvedCourseHref}/${nextLessonId}` : null);
+  const openSignInModal = () => {
+    window.dispatchEvent(
+      new CustomEvent("inhero:open-auth", {
+        detail: { mode: "login", redirectTo: resolvedRedirectHref, source: "video-lesson-gate" },
+      })
+    );
+  };
 
   useEffect(() => {
     const supabase = createBrowserClient();
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setAuthState(session ? "authenticated" : "guest");
-    });
+    let cancelled = false;
+    const watchdog = setTimeout(() => {
+      if (!cancelled) {
+        // eslint-disable-next-line no-console
+        console.warn("[video-gate] getSession timeout — falling back to guest");
+        setAuthState((prev) => (prev === "loading" ? "guest" : prev));
+      }
+    }, 5000);
+    supabase.auth.getSession()
+      .then(({ data: { session } }) => {
+        if (cancelled) return;
+        clearTimeout(watchdog);
+        setAuthState(session ? "authenticated" : "guest");
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        clearTimeout(watchdog);
+        // eslint-disable-next-line no-console
+        console.error("[video-gate] getSession rejected", err);
+        setAuthState("guest");
+      });
+    return () => {
+      cancelled = true;
+      clearTimeout(watchdog);
+    };
   }, []);
 
   useEffect(() => {
@@ -149,9 +178,9 @@ export default function VideoLessonGate({
             Sign in to watch <strong>{title}</strong>.
           </p>
           <div className="vlg-locked-actions">
-            <Link href={`/auth/login?redirect=${encodeURIComponent(resolvedRedirectHref)}`} className="vlg-btn-primary">
+            <button type="button" onClick={openSignInModal} className="vlg-btn-primary">
               Sign In to Watch
-            </Link>
+            </button>
             <Link href={resolvedCourseHref} className="vlg-btn-ghost">← Back to {courseName}</Link>
           </div>
         </div>
@@ -282,7 +311,7 @@ const lockedCss = `
   .vlg-btn-primary {
     display: block; padding: 0.75rem 1rem; border-radius: 0.75rem;
     background: #00FFB2; color: #0a0a0a; font-size: 0.85rem; font-weight: 700;
-    text-align: center; text-decoration: none; transition: filter 0.15s;
+    text-align: center; text-decoration: none; transition: filter 0.15s; border: none;
   }
   .vlg-btn-primary:hover { filter: brightness(1.1); }
   .vlg-btn-ghost {

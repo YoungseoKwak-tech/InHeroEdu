@@ -52,12 +52,44 @@ export default function LessonPlayerGate({
   const resolvedCourseHref = courseHref ?? `/courses/${courseId}`;
   const resolvedRedirectHref = redirectHref ?? `${resolvedCourseHref}/${lessonId ?? playerData.id}`;
   const resolvedNextLessonHref = nextLessonHref ?? (nextLessonId ? `${resolvedCourseHref}/${nextLessonId}` : null);
+  const openSignInModal = () => {
+    window.dispatchEvent(
+      new CustomEvent("inhero:open-auth", {
+        detail: { mode: "login", redirectTo: resolvedRedirectHref, source: "lesson-player-gate" },
+      })
+    );
+  };
 
   useEffect(() => {
     const supabase = createBrowserClient();
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setAuthState(session ? "authenticated" : "guest");
-    });
+    let cancelled = false;
+    // Watchdog: if getSession() neither resolves nor rejects within
+    // 5s (stale refresh token can wedge the supabase client), treat
+    // the user as a guest instead of leaving the spinner forever.
+    const watchdog = setTimeout(() => {
+      if (!cancelled) {
+        // eslint-disable-next-line no-console
+        console.warn("[lesson-gate] getSession timeout — falling back to guest");
+        setAuthState((prev) => (prev === "loading" ? "guest" : prev));
+      }
+    }, 5000);
+    supabase.auth.getSession()
+      .then(({ data: { session } }) => {
+        if (cancelled) return;
+        clearTimeout(watchdog);
+        setAuthState(session ? "authenticated" : "guest");
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        clearTimeout(watchdog);
+        // eslint-disable-next-line no-console
+        console.error("[lesson-gate] getSession rejected", err);
+        setAuthState("guest");
+      });
+    return () => {
+      cancelled = true;
+      clearTimeout(watchdog);
+    };
   }, []);
 
   useEffect(() => {
@@ -139,9 +171,9 @@ export default function LessonPlayerGate({
             <strong>{playerData.title}</strong>.
           </p>
           <div className="lpg-locked-actions">
-            <Link href={`/auth/login?redirect=${encodeURIComponent(resolvedRedirectHref)}`} className="lpg-btn-primary">
+            <button type="button" onClick={openSignInModal} className="lpg-btn-primary">
               Sign In to Watch
-            </Link>
+            </button>
             <Link href={resolvedCourseHref} className="lpg-btn-ghost">
               ← Back to {courseName}
             </Link>
@@ -208,6 +240,7 @@ export default function LessonPlayerGate({
             text-align: center;
             text-decoration: none;
             transition: filter 0.15s;
+            border: none;
           }
           .lpg-btn-primary:hover { filter: brightness(1.1); }
           .lpg-btn-ghost {
