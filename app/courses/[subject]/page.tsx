@@ -76,6 +76,16 @@ export default async function CoursePage({ params }: Props) {
             <span>🤖 AI-guided support</span>
             <span>✅ Practice questions included</span>
           </div>
+          {course.textbookSlug && (
+            <Link
+              href={`/textbooks/${course.textbookSlug}`}
+              className="inline-flex items-center gap-2 mt-6 px-5 py-3 rounded-lg bg-white/15 hover:bg-white/25 border border-white/30 hover:border-white/50 text-white font-semibold text-sm transition-all backdrop-blur-sm"
+            >
+              <span className="text-lg">📖</span>
+              <span>Open Textbook</span>
+              <span className="text-base">→</span>
+            </Link>
+          )}
         </div>
       </div>
 

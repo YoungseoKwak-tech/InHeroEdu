@@ -219,7 +219,7 @@ export async function hydrateCommentsWithAuthors(
 }
 
 export function isAdminEmail(email: string | null | undefined): boolean {
-  const list = (process.env.ADMIN_EMAILS ?? "yk777@cornell.edu")
+  const list = (process.env.ADMIN_EMAILS ?? "yk777@cornell.edu,hyeonjei@gmail.com")
     .split(",")
     .map((e) => e.trim().toLowerCase())
     .filter(Boolean);

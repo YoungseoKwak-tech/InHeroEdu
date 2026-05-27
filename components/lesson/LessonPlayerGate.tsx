@@ -5,6 +5,7 @@ import Link from "next/link";
 import LessonPlayer from "@/components/lesson/LessonPlayer";
 import OverlayPlayer from "@/components/lesson/OverlayPlayer";
 import LessonWorkspaceShell from "@/components/lesson/LessonWorkspaceShell";
+import PaymentButton from "@/components/PaymentButton";
 import { createBrowserClient } from "@/lib/supabase";
 import { authFetch } from "@/lib/client-auth";
 import type { LessonPlayerData } from "@/lib/lesson-player-types";
@@ -245,9 +246,28 @@ export default function LessonPlayerGate({
             You are signed in, but <strong>{courseName}</strong> requires an active pass to continue.
           </p>
           <div className="lpg-locked-actions">
-            <Link href="/pricing" className="lpg-btn-primary">Unlock with InHero Pass</Link>
+            {/* Inline PayPal checkout — serviceId "single" + subjectId courseId
+                produces server-side service_id "single:<courseId>" via
+                bindCourseAccessServiceId(), which hasPaidEnglishCourseAccess()
+                matches on the ":<courseId>" pattern. After PayPal capture +
+                markStoredOrderPaid, the same gate's next /api/course-access
+                check returns hasAccess: true and this lesson unlocks. */}
+            <PaymentButton
+              serviceId="single"
+              subjectId={courseId}
+              amount={29}
+              orderName={`${courseName} — Single Subject Pass`}
+              returnTo={resolvedRedirectHref}
+              label={lessonLang === "ko"
+                ? "이 과목 전체 잠금 해제 — $29/월"
+                : `Unlock ${courseName} — $29/mo`}
+              className="lpg-btn-primary"
+            />
             <Link href={resolvedCourseHref} className="lpg-btn-ghost">
               ← Back to {courseName}
+            </Link>
+            <Link href="/pricing" className="lpg-btn-link">
+              {lessonLang === "ko" ? "다른 요금제 보기" : "See other plans"}
             </Link>
           </div>
         </div>
@@ -293,6 +313,14 @@ export default function LessonPlayerGate({
             text-align: center; text-decoration: none; transition: border-color 0.15s, color 0.15s;
           }
           .lpg-btn-ghost:hover { border-color: #333; color: #aaa; }
+          .lpg-btn-link {
+            display: block; padding: 0.4rem 1rem;
+            color: #555; font-size: 0.74rem; font-weight: 500;
+            text-align: center; text-decoration: underline;
+            text-underline-offset: 3px; text-decoration-color: #333;
+            transition: color 0.15s, text-decoration-color 0.15s;
+          }
+          .lpg-btn-link:hover { color: #888; text-decoration-color: #555; }
           @keyframes lpg-spin { to { transform: rotate(360deg); } }
           .lpg-spinner {
             width: 2rem; height: 2rem; border-radius: 50%;
@@ -377,6 +405,14 @@ export default function LessonPlayerGate({
             text-align: center; text-decoration: none; transition: border-color 0.15s, color 0.15s;
           }
           .lpg-btn-ghost:hover { border-color: #333; color: #aaa; }
+          .lpg-btn-link {
+            display: block; padding: 0.4rem 1rem;
+            color: #555; font-size: 0.74rem; font-weight: 500;
+            text-align: center; text-decoration: underline;
+            text-underline-offset: 3px; text-decoration-color: #333;
+            transition: color 0.15s, text-decoration-color 0.15s;
+          }
+          .lpg-btn-link:hover { color: #888; text-decoration-color: #555; }
           @keyframes lpg-spin { to { transform: rotate(360deg); } }
           .lpg-spinner {
             width: 2rem; height: 2rem; border-radius: 50%;

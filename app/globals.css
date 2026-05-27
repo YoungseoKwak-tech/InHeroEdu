@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Base canvas bg lives on the html element so SpaceBackground can sit
+ * at negative z-index without being painted under the body's own bg.
+ * (Body bg paints at body's layer; negative-z-index children of body
+ * would paint *below* that and become invisible.) */
+html { background: #00000A; }
+
 /* ── Design tokens ───────────────────────────────────────── */
 :root {
   --void:           #00000A;

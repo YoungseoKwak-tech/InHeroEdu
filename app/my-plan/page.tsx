@@ -306,8 +306,15 @@ export default function MyPlanPage() {
               const totalCh = exam.total_chapters ?? 0;
               const completedCh = 0; // TODO: real progress when student_chapter_progress is hot
               const pct = totalCh > 0 ? Math.round((completedCh / totalCh) * 100) : 0;
-              return (
-                <div key={exam.slug} className={`mp-count-card mp-state-${state}`}>
+              // Countdown card → course page. Uses catalog.textbook_course_slug
+              // (e.g. "ap-bio") which resolveCourseId aliases to the canonical
+              // courses entry. Only Common App / Supps / Interview style
+              // college-app exams have no course; those stay as plain divs.
+              const courseHref = catalog?.textbook_course_slug
+                ? `/courses/${catalog.textbook_course_slug}`
+                : null;
+              const cardInner = (
+                <>
                   <div className="mp-count-head">
                     <span className="mp-count-emoji">{catalog?.emoji ?? "📚"}</span>
                     <span className="mp-count-name">{catalog?.short_name ?? exam.name}</span>
@@ -334,6 +341,19 @@ export default function MyPlanPage() {
                   ) : (
                     <div className="mp-count-meta">{new Date(exam.exam_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</div>
                   )}
+                </>
+              );
+              return courseHref ? (
+                <Link
+                  key={exam.slug}
+                  href={courseHref}
+                  className={`mp-count-card mp-count-card-link mp-state-${state}`}
+                >
+                  {cardInner}
+                </Link>
+              ) : (
+                <div key={exam.slug} className={`mp-count-card mp-state-${state}`}>
+                  {cardInner}
                 </div>
               );
             })}
@@ -357,6 +377,37 @@ export default function MyPlanPage() {
                   ) : (
                     blocks.map((b, i) => {
                       const p = pal(b.subject_color);
+                      const catalog = findExam(b.subject_slug);
+                      const style = {
+                        background: p.chip,
+                        borderColor: p.glow.replace("0.28", "0.3"),
+                      } as React.CSSProperties;
+                      // Primary tap target → textbook chapter reader if the
+                      // subject is ap-bio AND a chapter number is on the
+                      // block; otherwise the lounge. Pre-existing behavior,
+                      // kept so students who clicked the card before still
+                      // land where they expected.
+                      const blockHref = (() => {
+                        if (b.chapter_number && b.subject_slug === "ap-bio") {
+                          return `/textbooks/ap-bio-ultimate/${b.chapter_number}`;
+                        }
+                        if (catalog?.lounge_slug) return `/lounges/${catalog.lounge_slug}`;
+                        return null;
+                      })();
+                      // Secondary pill → course page. Shows only when the
+                      // subject has a textbook_course_slug (e.g. ap-bio,
+                      // ap-chem). Stops propagation so tapping the pill
+                      // doesn't also fire the parent Link's textbook nav.
+                      const coursePill = catalog?.textbook_course_slug ? (
+                        <Link
+                          href={`/courses/${catalog.textbook_course_slug}`}
+                          className="mp-block-course"
+                          onClick={(e) => e.stopPropagation()}
+                          aria-label={`Open ${catalog.short_name ?? b.subject} course`}
+                        >
+                          Course →
+                        </Link>
+                      ) : null;
                       const inner = (
                         <>
                           <div className="mp-block-head">
@@ -365,25 +416,9 @@ export default function MyPlanPage() {
                             <span className="mp-block-time">{b.duration_min}m</span>
                           </div>
                           <div className="mp-block-act">{b.activity}</div>
+                          {coursePill}
                         </>
                       );
-                      const style = {
-                        background: p.chip,
-                        borderColor: p.glow.replace("0.28", "0.3"),
-                      } as React.CSSProperties;
-                      // Route AP Bio blocks to the chapter reader;
-                      // every other subject falls back to its lounge
-                      // (per the EXAM_CATALOG lounge_slug mapping) so
-                      // students still get somewhere useful even
-                      // before that subject has a textbook.
-                      const blockHref = (() => {
-                        if (b.chapter_number && b.subject_slug === "ap-bio") {
-                          return `/textbooks/ap-bio-ultimate/${b.chapter_number}`;
-                        }
-                        const catalog = findExam(b.subject_slug);
-                        if (catalog?.lounge_slug) return `/lounges/${catalog.lounge_slug}`;
-                        return null;
-                      })();
                       return blockHref ? (
                         <Link
                           key={i}
@@ -580,6 +615,8 @@ const pageCss = `
     transition: transform 0.15s, border-color 0.15s, box-shadow 0.2s;
   }
   .mp-count-card:hover { transform: translateY(-2px); border-color: rgba(94,234,212,0.35); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+  .mp-count-card-link { text-decoration: none; color: inherit; cursor: pointer; }
+  .mp-count-card-link:hover { border-color: rgba(94,234,212,0.55); box-shadow: 0 10px 36px rgba(0,0,0,0.5), 0 0 16px rgba(94,234,212,0.18); }
   .mp-count-head { display: flex; align-items: center; gap: 0.45rem; margin-bottom: 0.55rem; }
   .mp-count-emoji { font-size: 1.1rem; }
   .mp-count-name {
@@ -732,6 +769,27 @@ const pageCss = `
     transition: transform 0.1s, filter 0.15s, box-shadow 0.2s;
   }
   .mp-block-card-link:hover { transform: translateY(-1px); filter: brightness(1.1); box-shadow: 0 6px 18px rgba(0,0,0,0.3); }
+  .mp-block-course {
+    display: inline-flex;
+    align-self: flex-start;
+    margin-top: 0.25rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 0.3rem;
+    border: 1px solid rgba(94,234,212,0.35);
+    background: rgba(94,234,212,0.08);
+    color: #5eead4;
+    font-family: ui-monospace, monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s, transform 0.15s;
+  }
+  .mp-block-course:hover {
+    background: rgba(94,234,212,0.18);
+    border-color: rgba(94,234,212,0.6);
+    transform: translateY(-1px);
+  }
   .mp-block-head {
     display: flex; align-items: center; gap: 0.35rem;
     font-family: ui-monospace, monospace;

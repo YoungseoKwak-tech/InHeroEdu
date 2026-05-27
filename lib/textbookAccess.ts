@@ -20,7 +20,7 @@ function parseEmailList(raw: string | undefined): string[] {
 
 export function getStaticCompEmails(): string[] {
   const comp = parseEmailList(process.env.COMP_TEXTBOOK_EMAILS);
-  const admins = parseEmailList(process.env.ADMIN_EMAILS ?? "yk777@cornell.edu");
+  const admins = parseEmailList(process.env.ADMIN_EMAILS ?? "yk777@cornell.edu,hyeonjei@gmail.com");
   return Array.from(new Set([...comp, ...admins]));
 }
 

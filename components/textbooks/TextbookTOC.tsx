@@ -151,7 +151,6 @@ export default function TextbookTOC({ slug }: { slug: string }) {
         <section className="toc-hero">
           <div className="toc-hero-cover">
             <span className="toc-hero-emoji">{EMOJI_BY_SLUG[textbook.slug] ?? "📚"}</span>
-            <span className="toc-hero-tier">✨ AI · Cornell-curated</span>
           </div>
           <div className="toc-hero-meta">
             <div className="toc-stamp">

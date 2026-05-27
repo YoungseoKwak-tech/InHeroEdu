@@ -34,6 +34,18 @@ const MASCOT: Record<string, string> = {
   osmosis: "🧬", julian: "🕯", evidence: "📑",
 };
 
+// Where each instructor's "Enter [Subject]" CTA leads, plus the
+// label rendered on the button. Slug must match a /courses/<id>
+// route (or a known alias from lib/courseAliases.ts).
+const CLASSROOM: Record<string, { slug: string; label: string }> = {
+  coulomb:  { slug: "ap-chemistry",   label: "AP Chemistry" },
+  lhopital: { slug: "ap-calculus-ab", label: "AP Calculus" },
+  vacuum:   { slug: "ap-physics-1",   label: "AP Physics" },
+  osmosis:  { slug: "ap-biology",     label: "AP Biology" },
+  julian:   { slug: "ap-us-history",  label: "AP History" },
+  evidence: { slug: "sat-reading",    label: "SAT R&W" },
+};
+
 export default function FacultyLineup() {
   const [rows, setRows] = useState<FacultyRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -89,6 +101,7 @@ export default function FacultyLineup() {
                   order={idx + 1}
                   accent={ACCENT[f.id] ?? "#5eead4"}
                   mascot={MASCOT[f.id] ?? "✦"}
+                  classroom={CLASSROOM[f.id] ?? null}
                   onPlay={() => setPlaying(f)}
                 />
               ))}
@@ -212,54 +225,68 @@ function FacultyCard({
   order,
   accent,
   mascot,
+  classroom,
   onPlay,
 }: {
   faculty: FacultyRow;
   order: number;
   accent: string;
   mascot: string;
+  classroom: { slug: string; label: string } | null;
   onPlay: () => void;
 }) {
   const canPlay = !!faculty.introVideoUrl;
   return (
-    <button
-      type="button"
-      onClick={() => { if (canPlay) onPlay(); }}
-      className="fc-card"
-      style={{ ["--accent" as string]: accent }}
-      disabled={!canPlay}
-      aria-label={`Play ${faculty.name} intro video`}
-    >
-      <div className="fc-cover">
-        {faculty.imageUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={faculty.imageUrl} alt={faculty.name} className="fc-poster" />
-        ) : (
-          <div className="fc-poster-fallback">
-            <span className="fc-mascot">{mascot}</span>
+    <div className="fc-wrap" style={{ ["--accent" as string]: accent }}>
+      <button
+        type="button"
+        onClick={() => { if (canPlay) onPlay(); }}
+        className="fc-card"
+        disabled={!canPlay}
+        aria-label={`Play ${faculty.name} intro video`}
+      >
+        <div className="fc-cover">
+          {faculty.imageUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={faculty.imageUrl} alt={faculty.name} className="fc-poster" />
+          ) : (
+            <div className="fc-poster-fallback">
+              <span className="fc-mascot">{mascot}</span>
+            </div>
+          )}
+
+          <div className="fc-chip">
+            <span className="fc-chip-num">0{order}</span>
+            <span className="fc-chip-tag">{faculty.subjectShort}</span>
           </div>
-        )}
 
-        <div className="fc-chip">
-          <span className="fc-chip-num">0{order}</span>
-          <span className="fc-chip-tag">{faculty.subjectShort}</span>
-        </div>
+          {/* Play icon — only if video exists */}
+          {canPlay && (
+            <div className="fc-play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          )}
 
-        {/* Play icon — only if video exists */}
-        {canPlay && (
-          <div className="fc-play" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-              <path d="M8 5v14l11-7z" />
-            </svg>
+          <div className="fc-overlay">
+            <h3 className="fc-name">{faculty.name}</h3>
+            <p className="fc-tagline">"{faculty.tagline}"</p>
           </div>
-        )}
-
-        <div className="fc-overlay">
-          <h3 className="fc-name">{faculty.name}</h3>
-          <p className="fc-tagline">"{faculty.tagline}"</p>
         </div>
-      </div>
-    </button>
+      </button>
+
+      {classroom && (
+        <Link
+          href={`/courses/${classroom.slug}`}
+          className="fc-enter"
+          aria-label={`Enter ${classroom.label} classroom`}
+        >
+          <span>ENTER {classroom.label.toUpperCase()}</span>
+          <span aria-hidden="true">→</span>
+        </Link>
+      )}
+    </div>
   );
 }
 
@@ -371,6 +398,42 @@ const FL_STYLES = `
   @media (min-width: 1100px) {
     .fl-grid { grid-template-columns: repeat(6, 1fr); }
   }
+
+  /* Card wrapper holds the video-launch button + the classroom CTA */
+  .fc-wrap {
+    --accent: #5eead4;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Classroom CTA — sits under each instructor card */
+  .fc-enter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+    background: color-mix(in srgb, var(--accent) 8%, rgba(8, 10, 16, 0.7));
+    color: color-mix(in srgb, var(--accent) 90%, white 10%);
+    font-family: ui-monospace, 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.25s, transform 0.2s;
+  }
+  .fc-enter:hover {
+    background: color-mix(in srgb, var(--accent) 22%, rgba(8, 10, 16, 0.85));
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent), 0 0 16px color-mix(in srgb, var(--accent) 30%, transparent);
+    transform: translateY(-1px);
+  }
+  .fc-enter:hover > span:last-child { transform: translateX(2px); }
+  .fc-enter > span:last-child { transition: transform 0.2s; }
 
   /* Card */
   .fc-card {

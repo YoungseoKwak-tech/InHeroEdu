@@ -339,7 +339,7 @@ export default function SpaceBackground() {
       </div>
 
       {/* Planets — fixed to viewport but with scroll hint */}
-      <div style={{ position: "fixed", inset: 0, zIndex: 1, pointerEvents: "none", overflow: "hidden" }}>
+      <div style={{ position: "fixed", inset: 0, zIndex: -3, pointerEvents: "none", overflow: "hidden" }}>
         {/* Gas Giant — right side, hero area */}
         <div className="planet-float-1" style={{
           position: "absolute",

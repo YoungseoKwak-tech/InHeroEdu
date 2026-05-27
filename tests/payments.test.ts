@@ -34,6 +34,19 @@ vi.mock("@/lib/supabase", () => ({
   }),
 }));
 
+vi.mock("@/lib/auth", () => ({
+  requireAuthenticatedUser: vi.fn(async () => ({
+    id: "user-1",
+    email: "student@example.com",
+    user_metadata: {},
+  })),
+  getAuthenticatedUser: vi.fn(async () => ({
+    id: "user-1",
+    email: "student@example.com",
+    user_metadata: {},
+  })),
+}));
+
 describe("payment routes", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -48,7 +61,7 @@ describe("payment routes", () => {
     singleMock.mockResolvedValue({ data: { id: "order-1" }, error: null });
     eqMock.mockImplementation(() => ({
       single: vi.fn().mockResolvedValue({
-        data: { id: "order-1", amount_krw: 53, status: "pending", service_id: "single", order_name: "한 과목 패스", user_id: null },
+        data: { id: "order-1", amount_krw: 29, status: "pending", service_id: "single", order_name: "한 과목 패스", user_id: null },
         error: null,
       }),
     }));
@@ -80,14 +93,14 @@ describe("payment routes", () => {
 
     expect(insertMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        user_id: null,
+        user_id: "user-1",
         service_id: "single",
         order_name: "한 과목 패스",
-        amount_krw: 53,
+        amount_krw: 29,
         status: "pending",
       })
     );
-    expect(body.amount).toBe(53);
+    expect(body.amount).toBe(29);
     expect(body.orderName).toBe("한 과목 패스");
     expect(body.currency).toBe("USD");
     expect(body.method).toBe("FOREIGN_EASY_PAY");
@@ -102,7 +115,6 @@ describe("payment routes", () => {
       body: JSON.stringify({
         serviceId: "textbook",
         subjectId: "ap-biology",
-        userId: "user-1",
       }),
       headers: { "Content-Type": "application/json" },
     });
@@ -143,7 +155,7 @@ describe("payment routes", () => {
   it("confirms payments using the stored order amount", async () => {
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
-      json: async () => ({ paymentKey: "pay_123" }),
+      json: async () => ({ paymentKey: "pay_123", orderId: "order-1", status: "DONE", totalAmount: 29 }),
     });
     vi.stubGlobal("fetch", fetchMock);
 
@@ -170,7 +182,7 @@ describe("payment routes", () => {
         body: JSON.stringify({
           paymentKey: "pay_123",
           orderId: "order-1",
-          amount: 53,
+          amount: 29,
         }),
       })
     );

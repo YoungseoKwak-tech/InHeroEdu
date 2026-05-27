@@ -4,7 +4,7 @@ import { buildUsdQuoteForService, buildUsdQuoteForTextbook, inferStoredOrderCurr
 describe("payment catalog", () => {
   it("builds usd checkout quotes for priced services", () => {
     expect(buildUsdQuoteForService("single")).toEqual({
-      amount: 53,
+      amount: 29,
       currency: "USD",
       orderName: "한 과목 패스",
     });
@@ -20,7 +20,7 @@ describe("payment catalog", () => {
 
   it("infers legacy krw orders separately from usd orders", () => {
     expect(inferStoredOrderCurrency("single", 79000)).toBe("KRW");
-    expect(inferStoredOrderCurrency("single", 53)).toBe("USD");
+    expect(inferStoredOrderCurrency("single", 29)).toBe("USD");
     expect(inferStoredOrderCurrency("textbook:ap-biology", 39000)).toBe("KRW");
     expect(inferStoredOrderCurrency("textbook:ap-biology", 29)).toBe("USD");
   });

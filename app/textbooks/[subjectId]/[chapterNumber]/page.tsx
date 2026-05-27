@@ -141,7 +141,6 @@ export default async function ChapterReaderPage({
         </div>
         <h1 className="rd-title">{chapter.title}</h1>
         {chapter.subtitle && <p className="rd-subtitle">{chapter.subtitle}</p>}
-        <div className="rd-tier">✨ AI · Cornell-curated</div>
         <div className="rd-stats">
           <span>{chapter.estimated_read_time ?? "—"} min read</span>
           <span className="rd-stats-dot">·</span>
