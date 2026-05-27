@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { authFetch } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import { createBrowserClient } from "@/lib/supabase";
 import PdfThumbnailBackfill from "@/components/library/PdfThumbnailBackfill";
 import OriginalsSidebar from "@/components/library/OriginalsSidebar";
@@ -81,6 +81,22 @@ const OFFICIAL_OPTIONS: { key: OfficialFilter; label: string }[] = [
 
 const MAX_LIBRARY_UPLOAD = 5 * 1024 * 1024 * 1024;
 const MAX_LIBRARY_UPLOAD_LABEL = "5 GB";
+const EAGER_PDF_PREVIEW_MAX_BYTES = 20 * 1024 * 1024;
+const PDF_PREVIEW_TIMEOUT_MS = 20_000;
+
+async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T | null> {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  try {
+    return await Promise.race([
+      promise,
+      new Promise<null>((resolve) => {
+        timeoutId = setTimeout(() => resolve(null), ms);
+      }),
+    ]);
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
+  }
+}
 
 export default function LibraryPage() {
   const [sort, setSort] = useState<Sort>("new");
@@ -171,7 +187,7 @@ export default function LibraryPage() {
     let mounted = true;
     async function probeProfile() {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const session = await getClientSession();
         if (!mounted) return;
         if (!session?.access_token) {
           setProfileStatus("out");
@@ -268,6 +284,47 @@ export default function LibraryPage() {
     setUploadTitle((current) => current || file.name);
   }
 
+  function startPdfPreviewBackfill(resourceId: string, pdfFile: File) {
+    // Upload must never wait on PDF rendering. Large PDFs can take a long
+    // time in pdf.js, so they should publish immediately and let preview
+    // generation happen later instead of trapping the modal on "Publishing...".
+    if (pdfFile.size > EAGER_PDF_PREVIEW_MAX_BYTES) {
+      console.info("[lib-upload] skipping eager preview for large PDF", {
+        resourceId,
+        size: pdfFile.size,
+      });
+      return;
+    }
+
+    void (async () => {
+      try {
+        const [{ renderPdfPage1ToJpegBlob }, { uploadThumbnailForResource }] = await Promise.all([
+          import("@/lib/pdfThumbnailRender"),
+          import("@/lib/clientThumbnailUpload"),
+        ]);
+        const arrayBuffer = await withTimeout(pdfFile.arrayBuffer(), PDF_PREVIEW_TIMEOUT_MS);
+        if (!arrayBuffer) return;
+        const blob = await withTimeout(
+          renderPdfPage1ToJpegBlob(new Uint8Array(arrayBuffer)),
+          PDF_PREVIEW_TIMEOUT_MS,
+        );
+        if (!blob) return;
+        const previewUrl = await withTimeout(
+          uploadThumbnailForResource(resourceId, blob),
+          PDF_PREVIEW_TIMEOUT_MS,
+        );
+        if (!previewUrl) return;
+        setItems((prev) =>
+          prev.map((item) =>
+            item.id === resourceId ? { ...item, previewPage1Url: previewUrl } : item,
+          ),
+        );
+      } catch (err) {
+        console.warn("[lib-upload] eager preview failed", err);
+      }
+    })();
+  }
+
   async function uploadToLibrary() {
     if (uploading) return;
     if (!uploadFile) {
@@ -346,22 +403,7 @@ export default function LibraryPage() {
       }
 
       const resourceId = finalizeJson.message?.attachment?.resourceId;
-      let uploadedResource = finalizeJson.resource ?? null;
-      if (mimeType.toLowerCase() === "application/pdf" && resourceId) {
-        try {
-          const [{ renderPdfPage1ToJpegBlob }, { uploadThumbnailForResource }] = await Promise.all([
-            import("@/lib/pdfThumbnailRender"),
-            import("@/lib/clientThumbnailUpload"),
-          ]);
-          const blob = await renderPdfPage1ToJpegBlob(new Uint8Array(await file.arrayBuffer()));
-          const previewUrl = await uploadThumbnailForResource(resourceId, blob);
-          if (uploadedResource && previewUrl) {
-            uploadedResource = { ...uploadedResource, previewPage1Url: previewUrl };
-          }
-        } catch {
-          // Library card backfill will retry if thumbnail generation fails here.
-        }
-      }
+      const uploadedResource = finalizeJson.resource ?? null;
 
       setUploadOpen(false);
       setUploadFile(null);
@@ -396,11 +438,15 @@ export default function LibraryPage() {
       if (finalizeJson.dedup) {
         setError("이미 같은 파일이 업로드되어 있어서 기존 카드로 유지했어요.");
       }
-      // ALWAYS refetch from the feed so what the user sees matches DB
-      // truth. If the server returned a resource that isn't actually in
-      // lounge_resources (silent-mirror-failure regression), the refetch
-      // will overwrite the optimistic state with real rows.
-      setFeedVersion((version) => version + 1);
+      // Revalidate shortly after the optimistic card appears. Waiting a
+      // beat avoids a read-after-write race where the immediate feed refetch
+      // can momentarily miss a just-inserted resource and make it vanish.
+      window.setTimeout(() => {
+        setFeedVersion((version) => version + 1);
+      }, 1200);
+      if (mimeType.toLowerCase() === "application/pdf" && resourceId) {
+        startPdfPreviewBackfill(resourceId, file);
+      }
     } catch (err) {
       setUploadError(err instanceof Error ? err.message : String(err));
     } finally {
@@ -1309,6 +1355,13 @@ function FeedCard({
   // "Generating preview…" label for the emoji + filetype fallback
   // instead of looping forever.
   const [backfillFailed, setBackfillFailed] = useState(false);
+  useEffect(() => {
+    if (item.previewPage1Url) {
+      setLocalPreview1Url(item.previewPage1Url);
+      setBackfillFailed(false);
+    }
+  }, [item.id, item.previewPage1Url]);
+
   const previewPages: { url: string; blurred: boolean }[] = [];
   if (localPreview1Url) previewPages.push({ url: localPreview1Url, blurred: false });
   if (item.previewPage2Url) previewPages.push({ url: item.previewPage2Url, blurred: true });

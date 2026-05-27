@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { createBrowserClient } from "@/lib/supabase";
-import { authFetch } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 
 interface Props {
   slug: string;
@@ -21,8 +20,7 @@ export default function ClubJoinButton({ slug, initialIsMember, accent }: Props)
     let mounted = true;
     async function probe() {
       try {
-        const supabase = createBrowserClient();
-        const { data: { session } } = await supabase.auth.getSession();
+        const session = await getClientSession();
         if (!mounted) return;
         if (!session) { setAuthStatus("out"); return; }
         const [profileRes, clubRes] = await Promise.all([

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import AuthEntryClient from "@/components/auth/AuthEntryClient";
+import { getSafeRedirectPath } from "@/lib/auth-redirect";
 
 export const metadata: Metadata = {
   title: "Sign In | InHero",
@@ -15,10 +16,7 @@ interface Props {
 
 export default function AuthLoginPage({ searchParams }: Props) {
   const defaultMode = searchParams?.mode === "signup" ? "signup" : "login";
-  const redirectTo =
-    typeof searchParams?.redirect === "string" && searchParams.redirect.startsWith("/")
-      ? searchParams.redirect
-      : "/dashboard";
+  const redirectTo = getSafeRedirectPath(searchParams?.redirect);
 
   return <AuthEntryClient defaultMode={defaultMode} redirectTo={redirectTo} />;
 }

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useLang } from '@/app/contexts/LanguageContext'
 import { authFetch } from '@/lib/client-auth'
 import { normalizeProfileFields } from '@/lib/profile'
+import { buildAuthCallbackUrl, getSafeRedirectPath } from '@/lib/auth-redirect'
 import { createBrowserClient } from '@/lib/supabase'
 
 interface Props {
@@ -36,12 +37,15 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
+      document.body.classList.add('auth-modal-open')
     } else {
       document.body.style.overflow = ''
+      document.body.classList.remove('auth-modal-open')
     }
 
     return () => {
       document.body.style.overflow = ''
+      document.body.classList.remove('auth-modal-open')
     }
   }, [isOpen])
 
@@ -148,12 +152,24 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
   }
 
   const handleGoogle = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}${redirectTo.startsWith('/') ? redirectTo : '/dashboard'}`,
-      },
-    })
+    setLoading(true)
+    setError('')
+    setSuccess('')
+
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: buildAuthCallbackUrl(window.location.origin, getSafeRedirectPath(redirectTo)),
+          queryParams: { prompt: 'select_account' },
+        },
+      })
+
+      if (error) throw error
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : String(e))
+      setLoading(false)
+    }
   }
 
   return (
@@ -274,6 +290,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
 
           <button
             onClick={handleGoogle}
+            disabled={loading}
             style={{
               width: '100%',
               padding: '12px',
@@ -283,7 +300,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
               color: 'rgba(255,255,255,0.84)',
               fontSize: '13px',
               fontWeight: 600,
-              cursor: 'pointer',
+              cursor: loading ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -297,7 +314,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
               <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
               <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
             </svg>
-            {ko ? 'Google로 계속하기' : 'Continue with Google'}
+            {loading ? (ko ? 'Google로 이동 중...' : 'Opening Google...') : (ko ? 'Google로 계속하기' : 'Continue with Google')}
           </button>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>

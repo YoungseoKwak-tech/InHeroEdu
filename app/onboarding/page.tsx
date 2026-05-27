@@ -11,8 +11,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { authFetch } from "@/lib/client-auth";
-import { createBrowserClient } from "@/lib/supabase";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import {
   AMBITION_TAGS,
   GRAD_YEARS,
@@ -30,7 +29,6 @@ type CheckState =
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const supabase = createBrowserClient();
   const [continueHref, setContinueHref] = useState<string | null>(null);
   const [searchReady, setSearchReady] = useState(false);
 
@@ -71,7 +69,7 @@ export default function OnboardingPage() {
     let mounted = true;
     async function bootstrap() {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const session = await getClientSession();
         if (!mounted) return;
         if (!session?.user) {
           setAuthStatus("out");
@@ -100,7 +98,7 @@ export default function OnboardingPage() {
     })();
 
     return () => { mounted = false; };
-  }, [continueHref, router, searchReady, supabase]);
+  }, [continueHref, router, searchReady]);
 
   // Debounced handle check.
   useEffect(() => {

@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { createBrowserClient } from "@/lib/supabase";
-import { authFetch } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import {
   VERIFICATION_KINDS,
   VERIFICATION_KIND_META,
@@ -12,8 +11,6 @@ import {
 } from "@/lib/verifications";
 
 export default function VerifyPage() {
-  const supabase = createBrowserClient();
-
   const [authStatus, setAuthStatus] = useState<"loading" | "out" | "no_profile" | "ok">("loading");
   const [mine, setMine] = useState<VerificationPublic[]>([]);
 
@@ -36,7 +33,7 @@ export default function VerifyPage() {
     let mounted = true;
     async function bootstrap() {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const session = await getClientSession();
         if (!mounted) return;
         if (!session) { setAuthStatus("out"); return; }
         const res = await fetch("/api/profile/me", {

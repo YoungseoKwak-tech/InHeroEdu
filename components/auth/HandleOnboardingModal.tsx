@@ -10,7 +10,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { authFetch } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import { createBrowserClient } from "@/lib/supabase";
 import {
   AMBITION_TAGS,
@@ -92,7 +92,7 @@ export default function HandleOnboardingModal() {
     let mounted = true;
     async function probe() {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const session = await getClientSession();
         if (!session?.user) {
           if (mounted) { setNeedsProfile(false); setProbeError(null); }
           return;

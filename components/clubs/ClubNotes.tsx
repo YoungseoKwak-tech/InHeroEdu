@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createBrowserClient } from "@/lib/supabase";
-import { authFetch } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import AuthorChip from "@/components/trajectory/AuthorChip";
+import ConfirmDialog from "@/components/shared/ConfirmDialog";
 import type { ClubRole, MeetingNotePublic } from "@/lib/clubs";
 
 interface Props {
@@ -24,13 +24,14 @@ export default function ClubNotes({ slug, accent, initialNotes }: Props) {
   const [meetingAt, setMeetingAt] = useState("");
   const [posting, setPosting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     let mounted = true;
     async function probe() {
       try {
-        const supabase = createBrowserClient();
-        const { data: { session } } = await supabase.auth.getSession();
+        const session = await getClientSession();
         if (!mounted || !session) return;
 
         const [meRes, clubRes] = await Promise.all([
@@ -87,15 +88,24 @@ export default function ClubNotes({ slug, accent, initialNotes }: Props) {
   }
 
   async function deleteNote(id: string) {
-    if (!window.confirm("Delete this note?")) return;
+    if (deleting) return;
+    setDeleting(true);
+    setError(null);
     try {
       const res = await authFetch(`/api/clubs/${slug}/notes/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setNotes((prev) => prev.filter((n) => n.id !== id));
+      setPendingDeleteId(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setDeleting(false);
     }
   }
+
+  const pendingDeleteNote = pendingDeleteId
+    ? notes.find((note) => note.id === pendingDeleteId)
+    : null;
 
   return (
     <section className="cn-root" style={{ ["--accent" as string]: accent }}>
@@ -169,7 +179,7 @@ export default function ClubNotes({ slug, accent, initialNotes }: Props) {
                     <button
                       type="button"
                       className="cn-delete"
-                      onClick={() => void deleteNote(n.id)}
+                      onClick={() => setPendingDeleteId(n.id)}
                       title="Delete note"
                     >
                       ✕
@@ -201,6 +211,25 @@ export default function ClubNotes({ slug, accent, initialNotes }: Props) {
           })}
         </ul>
       )}
+
+      <ConfirmDialog
+        open={pendingDeleteId !== null}
+        title="Delete this note?"
+        message={
+          pendingDeleteNote
+            ? `"${pendingDeleteNote.title}" will be removed from the club.`
+            : "This note will be removed from the club."
+        }
+        confirmLabel="Delete"
+        loading={deleting}
+        destructive
+        onConfirm={() => {
+          if (pendingDeleteId) void deleteNote(pendingDeleteId);
+        }}
+        onCancel={() => {
+          if (!deleting) setPendingDeleteId(null);
+        }}
+      />
 
       <style>{`
         .cn-root {

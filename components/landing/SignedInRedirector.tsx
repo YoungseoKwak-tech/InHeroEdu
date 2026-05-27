@@ -14,33 +14,55 @@
 
 import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { createBrowserClient } from "@/lib/supabase";
-import { authFetch } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
+
+async function readJsonSafely(res: Response): Promise<Record<string, unknown> | null> {
+  const text = await res.text().catch(() => "");
+  if (!text) return null;
+  try {
+    return JSON.parse(text) as Record<string, unknown>;
+  } catch {
+    return null;
+  }
+}
+
+async function checkPlan(): Promise<Record<string, unknown> | null> {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 8_000);
+
+  try {
+    const res = await authFetch("/api/generate-plan", {
+      signal: controller.signal,
+    });
+    if (!res.ok) return null;
+    return readJsonSafely(res);
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
 
 export default function SignedInRedirector() {
   const router = useRouter();
   const pathname = usePathname();
-  const supabase = createBrowserClient();
 
   useEffect(() => {
     if (pathname !== "/") return;
     let cancelled = false;
     (async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const session = await getClientSession();
       if (cancelled || !session?.user) return;
       try {
-        const res = await authFetch("/api/generate-plan");
+        const json = await checkPlan();
         if (cancelled) return;
-        if (res.ok) {
-          const json = await res.json();
-          router.replace(json?.plan ? "/my-plan" : "/onboarding/study-plan");
+        if (json) {
+          router.replace(json.plan ? "/my-plan" : "/onboarding/study-plan");
         }
       } catch {
         // Silent — leave the landing page visible if the check fails.
       }
     })();
     return () => { cancelled = true; };
-  }, [pathname, router, supabase]);
+  }, [pathname, router]);
 
   return null;
 }

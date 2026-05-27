@@ -13,8 +13,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { authFetch } from "@/lib/client-auth";
-import { createBrowserClient } from "@/lib/supabase";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 
 interface BrainStats {
   mastery: { mastered: number; total: number; delta_this_week: number };
@@ -123,7 +122,6 @@ function heatColor(seconds: number): string {
 }
 
 export default function BrainPage() {
-  const supabase = createBrowserClient();
   const [authStatus, setAuthStatus] = useState<"loading" | "out" | "in">("loading");
   const [data, setData] = useState<ApiResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -131,7 +129,7 @@ export default function BrainPage() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const session = await getClientSession();
       if (cancelled) return;
       if (!session?.user) { setAuthStatus("out"); return; }
       setAuthStatus("in");
@@ -145,7 +143,7 @@ export default function BrainPage() {
       }
     })();
     return () => { cancelled = true; };
-  }, [supabase]);
+  }, []);
 
   const cards = useMemo(() => (data ? buildCards(data.stats) : []), [data]);
 

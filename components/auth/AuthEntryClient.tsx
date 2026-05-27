@@ -3,7 +3,8 @@
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import AuthModal from "@/components/auth/AuthModal";
-import { createBrowserClient } from "@/lib/supabase";
+import { getSafeRedirectPath } from "@/lib/auth-redirect";
+import { getClientSession } from "@/lib/client-auth";
 
 interface Props {
   defaultMode: "login" | "signup";
@@ -13,13 +14,11 @@ interface Props {
 export default function AuthEntryClient({ defaultMode, redirectTo }: Props) {
   const router = useRouter();
   const safeRedirect = useMemo(() => {
-    if (!redirectTo.startsWith("/")) return "/";
-    return redirectTo;
+    return getSafeRedirectPath(redirectTo, "/dashboard");
   }, [redirectTo]);
 
   useEffect(() => {
-    const supabase = createBrowserClient();
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    getClientSession().then((session) => {
       if (session) {
         router.replace(safeRedirect);
       }
