@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import AuthModal from "@/components/auth/AuthModal";
 import AdminNotificationBell from "@/components/admin/AdminNotificationBell";
+import { getSafeRedirectPath } from "@/lib/auth-redirect";
 import { createBrowserClient } from "@/lib/supabase";
 import { authFetch } from "@/lib/client-auth";
 import { normalizeProfileFields } from "@/lib/profile";
@@ -81,11 +82,7 @@ export default function Navbar() {
     const handleOpenAuth = (event: Event) => {
       const detail = (event as CustomEvent<{ mode?: "login" | "signup"; redirectTo?: string }>).detail;
       setAuthMode(detail?.mode === "login" ? "login" : "signup");
-      setAuthRedirectTo(
-        typeof detail?.redirectTo === "string" && detail.redirectTo.startsWith("/")
-          ? detail.redirectTo
-          : "/dashboard"
-      );
+      setAuthRedirectTo(getSafeRedirectPath(detail?.redirectTo));
       setAuthOpen(true);
       setMenuOpen(false);
     };
@@ -94,9 +91,38 @@ export default function Navbar() {
     return () => window.removeEventListener("inhero:open-auth", handleOpenAuth);
   }, []);
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    window.location.href = "/";
+  const handleSignOut = () => {
+    // eslint-disable-next-line no-console
+    console.log("[navbar] EJECT clicked");
+    // Fire-and-forget signOut: previous version awaited the call,
+    // which could hang forever if the supabase client refused to
+    // resolve (expired refresh token, network blip on Google OAuth
+    // session). That left EJECT looking unresponsive. Now we kick
+    // off signOut + clear local storage + navigate without
+    // serializing on the network call.
+    try {
+      void supabase.auth.signOut({ scope: "global" }).catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error("[navbar] signOut rejected", err);
+      });
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error("[navbar] signOut threw", err);
+    }
+    try {
+      if (typeof window !== "undefined") {
+        Object.keys(window.localStorage)
+          .filter((k) => k.startsWith("sb-") || k.toLowerCase().includes("supabase"))
+          .forEach((k) => window.localStorage.removeItem(k));
+        Object.keys(window.sessionStorage)
+          .filter((k) => k.startsWith("sb-") || k.toLowerCase().includes("supabase"))
+          .forEach((k) => window.sessionStorage.removeItem(k));
+      }
+    } catch {
+      // Storage access blocked (e.g. private mode) — fall through.
+    }
+    // location.replace avoids leaving the signed-in page in history.
+    window.location.replace("/");
   };
 
   return (
