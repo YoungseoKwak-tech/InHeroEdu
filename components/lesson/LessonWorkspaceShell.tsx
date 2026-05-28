@@ -3,7 +3,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import LessonSupportPanel from "@/components/lesson/LessonSupportPanel";
-import LessonTranscriptStudy from "@/components/lesson/LessonTranscriptStudy";
 
 interface LessonWorkspaceShellProps {
   courseId: string;
@@ -42,7 +41,6 @@ export default function LessonWorkspaceShell({
         <div className="lws-inner">
           <div className="lws-main">
             <div className="lws-stage">{children}</div>
-            <LessonTranscriptStudy script={lessonScript} lang={lessonLang} />
           </div>
           <aside className="lws-side">
             <div className="lws-side-sticky">

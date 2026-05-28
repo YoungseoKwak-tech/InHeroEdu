@@ -774,11 +774,11 @@ function TapQuickCard(props: Props) {
           <div className="oc-tap-footer">
             {hint && !showHint && (
               <button className="oc-tap-link" onClick={() => setShowHint(true)}>
-                힌트
+                Hint
               </button>
             )}
             <button className="oc-tap-link oc-tap-skip" onClick={skip}>
-              잘 모르겠어 →
+              Not sure →
             </button>
           </div>
         </>
