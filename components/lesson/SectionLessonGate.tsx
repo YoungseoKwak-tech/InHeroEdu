@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { authFetch } from "@/lib/client-auth";
-import { createBrowserClient } from "@/lib/supabase";
+import { getCachedSession } from "@/lib/supabase";
 import type { PlaylistItem } from "@/lib/buildPlaylist";
 import LessonWorkspaceShell from "@/components/lesson/LessonWorkspaceShell";
 
@@ -56,12 +56,40 @@ export default function SectionLessonGate({
   const resolvedCourseHref = courseHref ?? `/courses/${courseId}`;
   const resolvedRedirectHref = redirectHref ?? `${resolvedCourseHref}/${lessonId}`;
   const resolvedNextLessonHref = nextLessonHref ?? (nextLessonId ? `${resolvedCourseHref}/${nextLessonId}` : null);
+  const openSignInModal = () => {
+    window.dispatchEvent(
+      new CustomEvent("inhero:open-auth", {
+        detail: { mode: "login", redirectTo: resolvedRedirectHref, source: "lesson-gate" },
+      })
+    );
+  };
 
   useEffect(() => {
-    const supabase = createBrowserClient();
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setAuthState(session ? "authenticated" : "guest");
-    });
+    let cancelled = false;
+    const watchdog = setTimeout(() => {
+      if (!cancelled) {
+        // eslint-disable-next-line no-console
+        console.warn("[section-gate] session timeout — guest fallback");
+        setAuthState((prev) => (prev === "loading" ? "guest" : prev));
+      }
+    }, 5000);
+    getCachedSession()
+      .then((session) => {
+        if (cancelled) return;
+        clearTimeout(watchdog);
+        setAuthState(session ? "authenticated" : "guest");
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        clearTimeout(watchdog);
+        // eslint-disable-next-line no-console
+        console.error("[section-gate] session check rejected", err);
+        setAuthState("guest");
+      });
+    return () => {
+      cancelled = true;
+      clearTimeout(watchdog);
+    };
   }, []);
 
   useEffect(() => {
@@ -110,9 +138,9 @@ export default function SectionLessonGate({
           <h2 className="slg-title">Preview Locked</h2>
           <p className="slg-body">Sign in to watch <strong>{title}</strong>.</p>
           <div className="slg-actions">
-            <Link href={`/auth/login?redirect=${encodeURIComponent(resolvedRedirectHref)}`} className="slg-btn-primary">
+            <button type="button" onClick={openSignInModal} className="slg-btn-primary">
               Sign In to Watch
-            </Link>
+            </button>
             <Link href={resolvedCourseHref} className="slg-btn-ghost">← Back to {courseName}</Link>
           </div>
         </div>

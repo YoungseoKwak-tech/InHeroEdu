@@ -111,17 +111,21 @@ export default function VideoLessonPlayer({ lessonId, videoUrl, overlays, onComp
       </div>
 
       {/* Overlay layer */}
-      {activeOverlay && (
-        <div className={`vlp-overlay-layer ${overlayVisible ? "vlp-overlay-visible" : ""}`}>
-          <div className="vlp-overlay-inner">
-            <OverlayCard
-              overlay={activeOverlay}
-              lessonId={lessonId}
-              onComplete={handleOverlayComplete}
-            />
+      {activeOverlay && (() => {
+        const isTapQuick = (activeOverlay.type ?? "").toUpperCase() === "TAP_QUICK";
+        return (
+          <div className={`${isTapQuick ? "vlp-overlay-popup" : "vlp-overlay-layer"} ${overlayVisible ? "vlp-overlay-visible" : ""}`}>
+            <div className={isTapQuick ? "vlp-popup-inner" : "vlp-overlay-inner"}>
+              <OverlayCard
+                overlay={activeOverlay}
+                lessonId={lessonId}
+                onComplete={handleOverlayComplete}
+                popupMode={isTapQuick}
+              />
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       <style>{`
         .vlp-root {
@@ -156,6 +160,19 @@ export default function VideoLessonPlayer({ lessonId, videoUrl, overlays, onComp
           transform: translateY(1.5rem);
           transition: opacity 0.2s ease, transform 0.2s ease;
         }
+        .vlp-overlay-popup {
+          position: fixed;
+          inset: 0;
+          z-index: 1000;
+          background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.78) 100%);
+          backdrop-filter: blur(3px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1.25rem;
+          opacity: 0;
+          transition: opacity 0.18s ease;
+        }
         .vlp-overlay-visible {
           opacity: 1;
           transform: translateY(0);
@@ -163,6 +180,10 @@ export default function VideoLessonPlayer({ lessonId, videoUrl, overlays, onComp
         .vlp-overlay-inner {
           width: 100%;
           max-width: 34rem;
+        }
+        .vlp-popup-inner {
+          width: 100%;
+          max-width: 26rem;
         }
       `}</style>
     </div>

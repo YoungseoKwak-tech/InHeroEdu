@@ -2,8 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { createBrowserClient } from "@/lib/supabase";
-import { authFetch } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import type { ChatMessagePublic } from "@/lib/chat";
 
 const POLL_MS = 6000;
@@ -12,7 +11,6 @@ interface PageProps { params: { handle: string }; }
 
 export default function DMPage({ params }: PageProps) {
   const handle = decodeURIComponent(params.handle);
-  const supabase = createBrowserClient();
   const [authStatus, setAuthStatus] = useState<"loading" | "out" | "no_profile" | "ok">("loading");
   const [threadId, setThreadId] = useState<string | null>(null);
   const [other, setOther] = useState<{ handle: string; graduationYear: number | null } | null>(null);
@@ -28,7 +26,7 @@ export default function DMPage({ params }: PageProps) {
     let mounted = true;
     async function bootstrap() {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const session = await getClientSession();
         if (!mounted) return;
         if (!session) { setAuthStatus("out"); return; }
         // Profile check

@@ -34,6 +34,7 @@ interface Props {
 
 export const dynamic = "force-dynamic";
 export const dynamicParams = true;
+export const revalidate = 0;
 
 interface LessonInfo {
   titleEn: string;
@@ -282,7 +283,13 @@ export default async function KoreanLessonPage({ params }: Props) {
           : savedOverlayRows.length > 0
             ? savedOverlayRows
             : knownOverlayRows;
-        effectiveOverlays = chooseBestOverlayRows(overlayRows, derivedOverlayRows);
+        // Preserve tap_quick (ADHD layer) on top — see app/courses route note.
+        const legacyDbRows = overlayRows.filter((r) => r.type !== "tap_quick");
+        const tapQuickRows = overlayRows.filter((r) => r.type === "tap_quick");
+        effectiveOverlays = [
+          ...chooseBestOverlayRows(legacyDbRows, derivedOverlayRows),
+          ...tapQuickRows,
+        ];
       } catch (error) {
         console.error("[kr lesson] clip player metadata fallback", baseLessonId, error);
       }
@@ -328,7 +335,13 @@ export default async function KoreanLessonPage({ params }: Props) {
         : savedOverlayRows.length > 0
           ? savedOverlayRows
           : knownOverlayRows;
-      const effectiveOverlays = chooseBestOverlayRows(overlayRows, derivedOverlayRows);
+      // Preserve tap_quick (ADHD layer) on top — see app/courses route note.
+      const legacyDbRows = overlayRows.filter((r) => r.type !== "tap_quick");
+      const tapQuickRows = overlayRows.filter((r) => r.type === "tap_quick");
+      const effectiveOverlays = [
+        ...chooseBestOverlayRows(legacyDbRows, derivedOverlayRows),
+        ...tapQuickRows,
+      ];
       return (
         <VideoLessonGate
           lessonId={scriptRow.lesson_id}

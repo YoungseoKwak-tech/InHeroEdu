@@ -4,12 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@/lib/supabase";
-import { authFetch } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import { REACTION_EMOJI, type ChatMessagePublic, type ChatReactionPublic } from "@/lib/chat";
 import SeedDiscussions from "@/components/lounges/SeedDiscussions";
 import LiveActivityHeader from "@/components/lounges/LiveActivityHeader";
+import ConfirmDialog from "@/components/shared/ConfirmDialog";
 import { getSeedTopics } from "@/lib/seedDiscussions";
-import { buildSeededMessages } from "@/lib/seed/loungeSeedMessages";
+import { buildSeededMessages, isSeededMessageId } from "@/lib/seed/loungeSeedMessages";
 import {
   DOC_GROUPS,
   DOC_GROUP_EMOJI,
@@ -41,6 +42,7 @@ export default function LoungePage({ params }: PageProps) {
   const [messages, setMessages] = useState<ChatMessagePublic[]>([]);
 
   const [authStatus, setAuthStatus] = useState<"loading" | "out" | "no_profile" | "ok">("loading");
+  const [viewerIsAdmin, setViewerIsAdmin] = useState(false);
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -89,10 +91,11 @@ export default function LoungePage({ params }: PageProps) {
     let mounted = true;
     async function bootstrap() {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const session = await getClientSession();
         if (!mounted) return;
         if (!session) {
           setAuthStatus("out");
+          setViewerIsAdmin(false);
         } else {
           const probe = await fetch("/api/profile/me", {
             headers: { Authorization: `Bearer ${session.access_token}` },
@@ -110,6 +113,7 @@ export default function LoungePage({ params }: PageProps) {
         const json = await res.json();
         if (!mounted) return;
         if (json.ok) {
+          setViewerIsAdmin(json.viewerIsAdmin === true);
           setLoungeName(json.lounge?.name ?? "");
           // Merge seeded history (display-only, never POSTed) with real DB
           // messages from the API, sorted chronologically. Seeded messages
@@ -198,6 +202,17 @@ export default function LoungePage({ params }: PageProps) {
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally { setSending(false); }
+  }
+
+  async function deleteMessage(messageId: string) {
+    const res = await authFetch(`/api/chat/messages/${encodeURIComponent(messageId)}`, {
+      method: "DELETE",
+    });
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok || json.ok !== true) {
+      throw new Error(json.error ?? `HTTP ${res.status}`);
+    }
+    setMessages((prev) => prev.filter((message) => message.id !== messageId));
   }
 
   async function uploadFile(file: File, group: DocGroup | null) {
@@ -564,8 +579,10 @@ export default function LoungePage({ params }: PageProps) {
                     grouped={sameAuthor}
                     nowTs={nowTs}
                     canReact={authStatus === "ok"}
+                    canDelete={(m.isMine || viewerIsAdmin) && !isSeededMessageId(m.id)}
                     onReply={() => setReplyTo(m)}
                     onReact={(emoji) => void toggleReaction(m.id, emoji)}
+                    onDelete={() => deleteMessage(m.id)}
                   />
                 );
               })
@@ -719,7 +736,19 @@ export default function LoungePage({ params }: PageProps) {
           {pinnedMessages.length === 0 ? (
             <div className="lc-empty">No pinned messages yet. Admins can pin from chat.</div>
           ) : (
-            pinnedMessages.map((m) => <MessageRow key={m.id} m={m} grouped={false} nowTs={nowTs} pinned />)
+            pinnedMessages.map((m) => (
+              <MessageRow
+                key={m.id}
+                m={m}
+                grouped={false}
+                nowTs={nowTs}
+                pinned
+                canReact={authStatus === "ok"}
+                canDelete={(m.isMine || viewerIsAdmin) && !isSeededMessageId(m.id)}
+                onReact={(emoji) => void toggleReaction(m.id, emoji)}
+                onDelete={() => deleteMessage(m.id)}
+              />
+            ))
           )}
         </section>
       )}
@@ -1091,17 +1120,22 @@ function formatRelativeTime(isoTs: string, nowMs: number): string {
 }
 
 function MessageRow({
-  m, grouped, pinned, canReact, onReply, onReact, nowTs,
+  m, grouped, pinned, canReact, canDelete, onReply, onReact, onDelete, nowTs,
 }: {
   m: ChatMessagePublic;
   grouped: boolean;
   nowTs: number;
   pinned?: boolean;
   canReact?: boolean;
+  canDelete?: boolean;
   onReply?: () => void;
   onReact?: (emoji: string) => void;
+  onDelete?: () => void | Promise<void>;
 }) {
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const isMe = m.isMine;
   const author = m.author;
   const time = formatRelativeTime(m.createdAt, nowTs);
@@ -1109,6 +1143,19 @@ function MessageRow({
   const fileSize = (m.attachment?.meta?.size as number | undefined) ?? null;
   const rawGroup = m.attachment?.meta?.group as string | undefined;
   const groupKey: DocGroup | null = rawGroup && (DOC_GROUPS as readonly string[]).includes(rawGroup) ? (rawGroup as DocGroup) : null;
+
+  async function confirmDelete() {
+    if (!onDelete || deleting) return;
+    setDeleting(true);
+    setDeleteError(null);
+    try {
+      await onDelete();
+    } catch (err) {
+      setDeleteError(err instanceof Error ? err.message : String(err));
+      setDeleting(false);
+      setConfirmDeleteOpen(false);
+    }
+  }
 
   return (
     <div className={`mr ${isMe ? "is-me" : ""} ${grouped ? "is-grouped" : ""} ${pinned ? "is-pinned" : ""}`}>
@@ -1216,30 +1263,45 @@ function MessageRow({
             </div>
           )}
 
-          {canReact && onReact && (
+          {((canReact && onReact) || canDelete) && (
             <div className={`mr-react-wrap ${isMe ? "is-me" : ""}`}>
-              <button
-                type="button"
-                className="mr-react-trigger"
-                onClick={() => setPickerOpen((v) => !v)}
-                title="Add reaction"
-                aria-label="Add reaction"
-              >
-                ☺
-              </button>
-              {pickerOpen && (
-                <div className={`mr-react-picker ${isMe ? "is-me" : ""}`} role="menu">
-                  {REACTION_EMOJI.map((e) => (
-                    <button
-                      key={e}
-                      type="button"
-                      onClick={() => { onReact(e); setPickerOpen(false); }}
-                      className="mr-react-option"
-                    >
-                      {e}
-                    </button>
-                  ))}
-                </div>
+              {canDelete && (
+                <button
+                  type="button"
+                  className="mr-delete-trigger"
+                  onClick={() => setConfirmDeleteOpen(true)}
+                  title="Delete message"
+                  aria-label="Delete message"
+                >
+                  x
+                </button>
+              )}
+              {canReact && onReact && (
+                <>
+                  <button
+                    type="button"
+                    className="mr-react-trigger"
+                    onClick={() => setPickerOpen((v) => !v)}
+                    title="Add reaction"
+                    aria-label="Add reaction"
+                  >
+                    ☺
+                  </button>
+                  {pickerOpen && (
+                    <div className={`mr-react-picker ${isMe ? "is-me" : ""}`} role="menu">
+                      {REACTION_EMOJI.map((e) => (
+                        <button
+                          key={e}
+                          type="button"
+                          onClick={() => { onReact(e); setPickerOpen(false); }}
+                          className="mr-react-option"
+                        >
+                          {e}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </>
               )}
             </div>
           )}
@@ -1262,7 +1324,25 @@ function MessageRow({
             ))}
           </div>
         )}
+        {deleteError && <div className={`mr-error ${isMe ? "is-me" : ""}`}>{deleteError}</div>}
       </div>
+
+      <ConfirmDialog
+        open={confirmDeleteOpen}
+        title={m.attachment ? "Delete this attachment?" : "Delete this message?"}
+        message={
+          m.attachment
+            ? "This removes the chat message and hides the linked library resource."
+            : "This removes the chat message for everyone in the lounge."
+        }
+        confirmLabel="Delete"
+        loading={deleting}
+        destructive
+        onConfirm={confirmDelete}
+        onCancel={() => {
+          if (!deleting) setConfirmDeleteOpen(false);
+        }}
+      />
 
       <style>{`
         .mr { display: flex; gap: 0.55rem; align-items: flex-start; margin-top: 0.6rem; }
@@ -1388,12 +1468,16 @@ function MessageRow({
           position: absolute;
           top: -10px;
           right: -32px;
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
           opacity: 0;
           transition: opacity 0.15s;
         }
         .mr.is-me .mr-react-wrap, .mr-react-wrap.is-me { right: auto; left: -32px; }
         .mr:hover .mr-react-wrap { opacity: 1; }
-        .mr-react-trigger {
+        .mr-react-trigger,
+        .mr-delete-trigger {
           width: 26px; height: 26px;
           border-radius: 50%;
           background: rgba(8,10,18,0.92);
@@ -1405,6 +1489,11 @@ function MessageRow({
           padding: 0;
         }
         .mr-react-trigger:hover { color: #5eead4; border-color: rgba(94,234,212,0.5); }
+        .mr-delete-trigger:hover {
+          color: #ff6b5b;
+          border-color: rgba(239,68,68,0.45);
+          background: rgba(239,68,68,0.12);
+        }
         .mr-react-picker {
           position: absolute;
           top: 28px;
@@ -1454,6 +1543,20 @@ function MessageRow({
         .mr-reaction.is-mine { background: rgba(94,234,212,0.14); border-color: rgba(94,234,212,0.55); color: #5eead4; }
         .mr-reaction-emoji { font-size: 0.95em; }
         .mr-reaction-count { font-weight: 700; }
+        .mr-error {
+          align-self: flex-start;
+          margin-top: 0.3rem;
+          padding: 0.35rem 0.55rem;
+          border-radius: 0.35rem;
+          background: rgba(255,107,91,0.08);
+          border: 1px solid rgba(255,107,91,0.25);
+          color: #b9352b;
+          font-family: ui-monospace, monospace;
+          font-size: 0.7rem;
+        }
+        .mr-error.is-me {
+          align-self: flex-end;
+        }
 
         /* Light-grey chat pane: flip text/bubble/input colors to dark so
            they read against #d1d5db. Scoped to .lc-chat-pane only — the
@@ -1509,6 +1612,16 @@ function MessageRow({
           color: rgba(30,30,40,0.7);
         }
         .lc-chat-pane .mr-react-trigger:hover { color: #0a7d6f; border-color: rgba(20,160,140,0.5); }
+        .lc-chat-pane .mr-delete-trigger {
+          background: rgba(255,255,255,0.85);
+          border-color: rgba(0,0,0,0.1);
+          color: rgba(30,30,40,0.55);
+        }
+        .lc-chat-pane .mr-delete-trigger:hover {
+          color: #b9352b;
+          border-color: rgba(185,53,43,0.45);
+          background: rgba(255,255,255,0.95);
+        }
         .lc-chat-pane .mr-react-picker {
           background: #ffffff;
           border-color: rgba(0,0,0,0.1);

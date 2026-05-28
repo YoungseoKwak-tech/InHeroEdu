@@ -17,7 +17,8 @@ type OverlayType =
   | "question_sprint"
   | "analyzer"
   | "confidence_check"
-  | "next_move";
+  | "next_move"
+  | "tap_quick";
 
 interface OverlayContext {
   lessonTitle: string;
@@ -95,6 +96,33 @@ Return JSON only:
   "preventionDrill": "One concrete 60-second action they can do RIGHT NOW to preempt this failure. Specific — not 'review the concept.'",
   "memoryTag": "Exactly 3-5 words (no more). A terse hook they can recall in an exam. e.g. 'gradient drives the spin' or 'mechanism not just outcome'"
 }`;
+
+    case "tap_quick":
+      return `You are InHero's ADHD-Friendly Pulse Generator. You make 5-second overlays that punctuate animation-heavy lessons WITHOUT interrupting flow.
+
+LESSON: ${lessonTitle} | SUBJECT: ${subject}
+SCRIPT SECTION: ${scriptSection}${patternContext}
+
+A TAP QUICK overlay fires at an animation pause point (right before a reveal, or right after a key claim). Student taps ONCE and continues. No typing. No multi-step. Whole interaction must be doable in under 5 seconds.
+
+Use this for: (a) prediction before a reveal — "what happens next?", (b) trap detection — "which is wrong?", (c) connection check — "which earlier idea does this match?".
+
+Return JSON only:
+{
+  "question": "1-sentence prompt, MAX 14 words. Plain English. No jargon unless the lesson just taught it.",
+  "options": [
+    { "label": "≤6 words", "correct": true,  "feedback": "1-sentence why correct, max 18 words" },
+    { "label": "≤6 words", "correct": false, "feedback": "1-sentence why wrong + what tripped most students, max 22 words" }
+  ],
+  "rule": "Optional 1-sentence general rule to lock in after correct. Max 20 words. Omit if not needed.",
+  "hint": "Optional 1-sentence hint (no answer). Max 14 words. Omit if not needed.",
+  "kind": "predict" | "trap" | "connect"
+}
+
+CONSTRAINTS:
+- Exactly 2-4 options. Always exactly ONE correct.
+- No options that read like a college textbook. Punchy, almost slang-friendly.
+- The wrong option must reflect the actual misconception students hold — not a strawman.`;
   }
 }
 
@@ -155,6 +183,15 @@ const FALLBACKS: Record<OverlayType, Record<string, unknown>> = {
     preventionDrill: "Right now, take the last concept you learned and explain it backwards: start from the result and work to the cause.",
     memoryTag: "Always reverse the scenario",
   },
+  tap_quick: {
+    question: "Quick — what just happened?",
+    options: [
+      { label: "The mechanism we just saw", correct: true,  feedback: "Right — that's the one the animation just showed." },
+      { label: "A different mechanism",     correct: false, feedback: "Re-watch the last 10s — the animation showed something specific." },
+    ],
+    rule: "When in doubt, retrace the last animation step.",
+    kind: "predict",
+  },
 };
 
 export async function POST(req: NextRequest) {
@@ -180,7 +217,7 @@ export async function POST(req: NextRequest) {
 
   const validTypes: OverlayType[] = [
     "spark", "gap_crunch", "teach_back", "question_sprint", "analyzer",
-    "confidence_check", "next_move",
+    "confidence_check", "next_move", "tap_quick",
   ];
   if (!validTypes.includes(type)) {
     return NextResponse.json({ error: `invalid type: ${type}` }, { status: 400 });

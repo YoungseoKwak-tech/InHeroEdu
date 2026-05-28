@@ -13,8 +13,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { authFetch } from "@/lib/client-auth";
-import { createBrowserClient } from "@/lib/supabase";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import { findExam } from "@/lib/planning/exams";
 
 interface ExamSelection {
@@ -110,6 +109,29 @@ function todayKey(): string {
   return ["sun", "mon", "tue", "wed", "thu", "fri", "sat"][dow];
 }
 
+async function readJsonSafely(res: Response): Promise<Record<string, unknown> | null> {
+  const text = await res.text().catch(() => "");
+  if (!text) return null;
+  try {
+    return JSON.parse(text) as Record<string, unknown>;
+  } catch {
+    return null;
+  }
+}
+
+async function loadPlanResponse(): Promise<Response> {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 12_000);
+
+  try {
+    return await authFetch("/api/generate-plan", {
+      signal: controller.signal,
+    });
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
 // Subject color palette — desaturated ~40% vs. the original
 // tailwind-bright values so the countdown strip and weekly
 // calendar feel cosmic-watercolor instead of rainbow-neon. Each
@@ -132,7 +154,6 @@ function pal(color: string) {
 
 export default function MyPlanPage() {
   const router = useRouter();
-  const supabase = createBrowserClient();
   const [authStatus, setAuthStatus] = useState<"loading" | "out" | "in">("loading");
   const [userName, setUserName] = useState<string | null>(null);
   const [plan, setPlan] = useState<StudyPlan | null>(null);
@@ -169,7 +190,7 @@ export default function MyPlanPage() {
   useEffect(() => {
     let mounted = true;
     (async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const session = await getClientSession();
       if (!mounted) return;
       if (!session?.user) {
         setAuthStatus("out");
@@ -186,22 +207,51 @@ export default function MyPlanPage() {
       );
 
       try {
-        const res = await authFetch("/api/generate-plan");
-        const json = await res.json();
-        if (!res.ok) throw new Error(json?.error ?? `HTTP ${res.status}`);
+        const res = await loadPlanResponse();
+        const json = await readJsonSafely(res);
+
+        if (res.status === 401 || res.status === 403) {
+          if (mounted) {
+            setAuthStatus("out");
+            setError(null);
+          }
+          return;
+        }
+
+        if (!res.ok) {
+          const message =
+            typeof json?.error === "string"
+              ? json.error
+              : `Could not load your plan yet (${res.status}).`;
+          throw new Error(message);
+        }
+
         if (!json?.plan) {
+          if (mounted) {
+            setLoading(false);
+            setError(null);
+          }
           router.replace("/onboarding/study-plan");
           return;
         }
+
         if (mounted) setPlan(json.plan as StudyPlan);
       } catch (e) {
-        if (mounted) setError(e instanceof Error ? e.message : "Failed to load plan");
+        if (mounted) {
+          const message =
+            e instanceof DOMException && e.name === "AbortError"
+              ? "Your plan took too long to load. Please try again."
+              : e instanceof Error
+                ? e.message
+                : "Failed to load plan";
+          setError(message);
+        }
       } finally {
         if (mounted) setLoading(false);
       }
     })();
     return () => { mounted = false; };
-  }, [router, supabase]);
+  }, [router]);
 
   const today = useMemo(todayKey, []);
 

@@ -14,8 +14,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { authFetch } from "@/lib/client-auth";
-import { createBrowserClient } from "@/lib/supabase";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import {
   EXAMS_BY_CATEGORY,
   CATEGORY_LABELS,
@@ -43,7 +42,6 @@ const LOADING_MESSAGES = [
 
 export default function StudyPlanOnboardingPage() {
   const router = useRouter();
-  const supabase = createBrowserClient();
 
   const [authStatus, setAuthStatus] = useState<"loading" | "out" | "in">("loading");
   const [step, setStep] = useState<Step>(0);
@@ -58,12 +56,12 @@ export default function StudyPlanOnboardingPage() {
   useEffect(() => {
     let mounted = true;
     (async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const session = await getClientSession();
       if (!mounted) return;
       setAuthStatus(session?.user ? "in" : "out");
     })();
     return () => { mounted = false; };
-  }, [supabase]);
+  }, []);
 
   // Cycle the loading messages while submitting.
   useEffect(() => {

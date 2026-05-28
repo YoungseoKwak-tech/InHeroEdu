@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { createBrowserClient } from "@/lib/supabase";
-import { authFetch } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import { CLUB_ROLE_LABEL, type ClubRole } from "@/lib/clubs";
 import { type VerificationKind, VERIFICATION_KIND_META } from "@/lib/verifications";
 import { getBadgeMeta } from "@/lib/trajectory";
@@ -67,7 +66,6 @@ const TIER_META = {
 };
 
 export default function MePage() {
-  const supabase = createBrowserClient();
   const [authStatus, setAuthStatus] = useState<"loading" | "out" | "ok">("loading");
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -76,7 +74,7 @@ export default function MePage() {
     let mounted = true;
     async function load() {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const session = await getClientSession();
         if (!mounted) return;
         if (!session) { setAuthStatus("out"); return; }
         setAuthStatus("ok");
@@ -91,7 +89,7 @@ export default function MePage() {
     }
     void load();
     return () => { mounted = false; };
-  }, [supabase]);
+  }, []);
 
   const tier = data?.tier ?? "member";
   const tierMeta = TIER_META[tier];

@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { createBrowserClient } from '@/lib/supabase'
+import { getClientSession } from '@/lib/client-auth'
 
 interface Student {
   id: string
@@ -26,7 +26,6 @@ function formatDate(value: string) {
 }
 
 export default function AdminStudentsPage() {
-  const supabase = createBrowserClient()
   const [students, setStudents] = useState<Student[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -35,7 +34,7 @@ export default function AdminStudentsPage() {
 
   useEffect(() => {
     const load = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
+      const session = await getClientSession()
       if (!session) { setError('Please sign in to continue.'); setLoading(false); return }
 
       const res = await fetch('/api/admin/students', {

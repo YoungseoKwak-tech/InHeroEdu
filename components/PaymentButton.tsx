@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { authFetch } from "@/lib/client-auth";
-import { createBrowserClient } from "@/lib/supabase";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 
 interface PaymentButtonProps {
   serviceId: string;
@@ -82,10 +81,7 @@ export default function PaymentButton({
   }
 
   async function handleClick() {
-    const supabase = createBrowserClient();
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
+    const session = await getClientSession();
 
     if (!session?.user) {
       openAuthModal(returnTo);

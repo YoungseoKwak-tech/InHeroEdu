@@ -7,7 +7,7 @@ import AuthModal from "@/components/auth/AuthModal";
 import AdminNotificationBell from "@/components/admin/AdminNotificationBell";
 import { getSafeRedirectPath } from "@/lib/auth-redirect";
 import { createBrowserClient } from "@/lib/supabase";
-import { authFetch } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import { normalizeProfileFields } from "@/lib/profile";
 
 const NAV_LINKS = [
@@ -64,7 +64,7 @@ export default function Navbar() {
       });
     };
 
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
+    getClientSession().then(async (session) => {
       setUser(session?.user ? { email: session.user.email } : null);
       if (session?.user) await syncProfile(session.user);
     });

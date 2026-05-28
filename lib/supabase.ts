@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Session, SupabaseClient } from "@supabase/supabase-js";
 
 declare global {
   // eslint-disable-next-line no-var
@@ -50,6 +50,48 @@ export function createAdminClient(): SupabaseClient {
     serviceRoleKey,
     { auth: { autoRefreshToken: false, persistSession: false } }
   );
+}
+
+// ── Shared session promise — kills lock-contention infinite loads ───
+//
+// Supabase JS v2 serializes auth-token reads through navigator.locks.
+// When multiple components mount simultaneously and each calls
+// supabase.auth.getSession(), the second call "steals" the lock from
+// the first — and the first promise NEVER RESOLVES. Symptom: lesson
+// gates spin forever, MySpace shows the "Lock ... was released
+// because another request stole it" red banner.
+//
+// Fix: deduplicate. First caller fires the real getSession(); every
+// subsequent caller returns the same promise. Onauth state change
+// invalidates the cache so post-login/logout state propagates.
+let cachedSessionPromise: Promise<Session | null> | null = null;
+let authChangeSubscribed = false;
+
+function ensureAuthChangeSubscription(client: SupabaseClient) {
+  if (authChangeSubscribed || typeof window === "undefined") return;
+  authChangeSubscribed = true;
+  client.auth.onAuthStateChange(() => {
+    cachedSessionPromise = null;
+  });
+}
+
+export function getCachedSession(): Promise<Session | null> {
+  if (typeof window === "undefined") return Promise.resolve(null);
+  const client = createBrowserClient();
+  ensureAuthChangeSubscription(client);
+  if (cachedSessionPromise) return cachedSessionPromise;
+  cachedSessionPromise = client.auth
+    .getSession()
+    .then(({ data }) => data.session ?? null)
+    .catch((err) => {
+      // eslint-disable-next-line no-console
+      console.error("[supabase] getCachedSession failed", err);
+      // Clear cache so a future caller can retry instead of being
+      // stuck with a permanently-failed promise.
+      cachedSessionPromise = null;
+      return null;
+    });
+  return cachedSessionPromise;
 }
 
 export function normalizeSupabaseEnvValue(

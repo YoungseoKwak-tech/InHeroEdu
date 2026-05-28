@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { createBrowserClient } from "@/lib/supabase";
-import { authFetch } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import { VERIFICATION_KIND_META, type VerificationKind, type VerificationPublic } from "@/lib/verifications";
 
 interface AdminVerification extends VerificationPublic {
@@ -11,7 +10,6 @@ interface AdminVerification extends VerificationPublic {
 }
 
 export default function AdminVerificationsPage() {
-  const supabase = createBrowserClient();
   const [authStatus, setAuthStatus] = useState<"loading" | "out" | "denied" | "ok">("loading");
   const [statusFilter, setStatusFilter] = useState<"pending" | "approved" | "rejected">("pending");
   const [items, setItems] = useState<AdminVerification[]>([]);
@@ -41,7 +39,7 @@ export default function AdminVerificationsPage() {
   useEffect(() => {
     let mounted = true;
     async function bootstrap() {
-      const { data: { session } } = await supabase.auth.getSession();
+      const session = await getClientSession();
       if (!mounted) return;
       if (!session) { setAuthStatus("out"); return; }
       setAuthStatus("ok");

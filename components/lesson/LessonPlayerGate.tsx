@@ -6,7 +6,7 @@ import LessonPlayer from "@/components/lesson/LessonPlayer";
 import OverlayPlayer from "@/components/lesson/OverlayPlayer";
 import LessonWorkspaceShell from "@/components/lesson/LessonWorkspaceShell";
 import PaymentButton from "@/components/PaymentButton";
-import { createBrowserClient } from "@/lib/supabase";
+import { getCachedSession } from "@/lib/supabase";
 import { authFetch } from "@/lib/client-auth";
 import type { LessonPlayerData } from "@/lib/lesson-player-types";
 import type { OverlayRow } from "@/lib/overlays";
@@ -52,12 +52,43 @@ export default function LessonPlayerGate({
   const resolvedCourseHref = courseHref ?? `/courses/${courseId}`;
   const resolvedRedirectHref = redirectHref ?? `${resolvedCourseHref}/${lessonId ?? playerData.id}`;
   const resolvedNextLessonHref = nextLessonHref ?? (nextLessonId ? `${resolvedCourseHref}/${nextLessonId}` : null);
+  const openSignInModal = () => {
+    window.dispatchEvent(
+      new CustomEvent("inhero:open-auth", {
+        detail: { mode: "login", redirectTo: resolvedRedirectHref, source: "lesson-player-gate" },
+      })
+    );
+  };
 
   useEffect(() => {
-    const supabase = createBrowserClient();
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setAuthState(session ? "authenticated" : "guest");
-    });
+    let cancelled = false;
+    // Watchdog kept as a belt-and-suspenders against truly stuck
+    // sessions. Primary fix is getCachedSession dedup so we don't
+    // hit lock-stealing in the first place.
+    const watchdog = setTimeout(() => {
+      if (!cancelled) {
+        // eslint-disable-next-line no-console
+        console.warn("[lesson-gate] getCachedSession timeout — guest fallback");
+        setAuthState((prev) => (prev === "loading" ? "guest" : prev));
+      }
+    }, 5000);
+    getCachedSession()
+      .then((session) => {
+        if (cancelled) return;
+        clearTimeout(watchdog);
+        setAuthState(session ? "authenticated" : "guest");
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        clearTimeout(watchdog);
+        // eslint-disable-next-line no-console
+        console.error("[lesson-gate] session check rejected", err);
+        setAuthState("guest");
+      });
+    return () => {
+      cancelled = true;
+      clearTimeout(watchdog);
+    };
   }, []);
 
   useEffect(() => {
@@ -139,9 +170,9 @@ export default function LessonPlayerGate({
             <strong>{playerData.title}</strong>.
           </p>
           <div className="lpg-locked-actions">
-            <Link href={`/auth/login?redirect=${encodeURIComponent(resolvedRedirectHref)}`} className="lpg-btn-primary">
+            <button type="button" onClick={openSignInModal} className="lpg-btn-primary">
               Sign In to Watch
-            </Link>
+            </button>
             <Link href={resolvedCourseHref} className="lpg-btn-ghost">
               ← Back to {courseName}
             </Link>
@@ -208,6 +239,7 @@ export default function LessonPlayerGate({
             text-align: center;
             text-decoration: none;
             transition: filter 0.15s;
+            border: none;
           }
           .lpg-btn-primary:hover { filter: brightness(1.1); }
           .lpg-btn-ghost {

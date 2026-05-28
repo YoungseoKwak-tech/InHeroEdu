@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { createBrowserClient } from "@/lib/supabase";
-import { authFetch } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import { deriveSlugFromName, validateClubSlug } from "@/lib/clubs";
 
 const GLYPH_OPTIONS = ["✦", "◆", "◊", "⬢", "⌬", "✧", "⌖", "❖", "⬣", "⬡"];
@@ -15,7 +14,6 @@ const ACCENT_OPTIONS = [
 
 export default function NewClubPage() {
   const router = useRouter();
-  const supabase = createBrowserClient();
   const [auth, setAuth] = useState<"loading" | "out" | "no_profile" | "ok">("loading");
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
@@ -31,7 +29,7 @@ export default function NewClubPage() {
     let mounted = true;
     async function probe() {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const session = await getClientSession();
         if (!mounted) return;
         if (!session) { setAuth("out"); return; }
         const res = await fetch("/api/profile/me", {
@@ -48,7 +46,7 @@ export default function NewClubPage() {
     }
     void probe();
     return () => { mounted = false; };
-  }, [supabase]);
+  }, []);
 
   // Auto-derive slug from name until user touches the slug field manually.
   useEffect(() => {

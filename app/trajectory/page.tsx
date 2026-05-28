@@ -11,19 +11,17 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { authFetch } from "@/lib/client-auth";
-import { createBrowserClient } from "@/lib/supabase";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import ComingSoonRoom from "@/components/landing/ComingSoonRoom";
 
 export default function TrajectoryIndexPage() {
-  const supabase = createBrowserClient();
   const router = useRouter();
   const [authed, setAuthed] = useState<boolean | null>(null);
 
   useEffect(() => {
     let mounted = true;
     (async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const session = await getClientSession();
       if (!mounted) return;
       const isAuthed = !!session?.user;
       setAuthed(isAuthed);
@@ -40,7 +38,7 @@ export default function TrajectoryIndexPage() {
       }
     })();
     return () => { mounted = false; };
-  }, [supabase, router]);
+  }, [router]);
 
   // While probing, render the same placeholder so there's no FOUC.
   if (authed === false) {

@@ -6,6 +6,7 @@ import type { LessonPart } from "@/lib/lesson-player-types";
 import type { OverlayRow } from "@/lib/overlays";
 import { parseScript } from "@/lib/parseScript";
 import ClipManager from "@/components/admin/ClipManager";
+import ConfirmDialog from "@/components/shared/ConfirmDialog";
 
 type OverlayPart = Exclude<LessonPart, { type: "video" }>;
 
@@ -16,7 +17,8 @@ type OverlayType =
   | "question_sprint"
   | "analyzer"
   | "confidence_check"
-  | "next_move";
+  | "next_move"
+  | "tap_quick";
 
 const OVERLAY_TYPES: OverlayType[] = [
   "spark",
@@ -26,6 +28,7 @@ const OVERLAY_TYPES: OverlayType[] = [
   "analyzer",
   "confidence_check",
   "next_move",
+  "tap_quick",
 ];
 
 const TYPE_CONFIG: Record<
@@ -74,11 +77,18 @@ const TYPE_CONFIG: Record<
     border: "#7F77DD",
     bg: "#0c0b18",
   },
+  tap_quick: {
+    label: "Pulse · Tap",
+    icon: "◎",
+    border: "#00FFB2",
+    bg: "#06140f",
+  },
 };
 
 // ── Suggest overlay type from section title ───────────────────────────────
 function suggestType(title: string): OverlayType | null {
   const t = title.toUpperCase();
+  if (t.includes("PULSE") || t.includes("TAP") || t.includes("HERO EXPLAIN")) return "tap_quick";
   if (t.includes("GAP") || t.includes("CRUNCH"))                             return "gap_crunch";
   if (t.includes("SPARK"))                                                    return "spark";
   if (t.includes("TEACH") || t.includes("BACK"))                             return "teach_back";
@@ -111,6 +121,7 @@ function rowsToOverlayParts(rows: OverlayRow[]): OverlayPart[] {
       case "analyzer":          return { id: r.id, type: "ANALYZER", gapType: "CONCEPT GAP", message: "" } as OverlayPart;
       case "confidence_check":  return { id: r.id, type: "SPARK", prompt: "" } as OverlayPart;
       case "next_move":         return { id: r.id, type: "SPARK", prompt: "" } as OverlayPart;
+      case "tap_quick":         return { id: r.id, type: "SPARK", prompt: "" } as OverlayPart;
       default:                  return { id: r.id, type: "SPARK", prompt: "" } as OverlayPart;
     }
   });
@@ -311,6 +322,66 @@ function AnalyzerCard({ data }: { data: Record<string, unknown> }) {
   );
 }
 
+function TapQuickPreviewCard({ data }: { data: Record<string, unknown> }) {
+  const options = (data.options as Array<{ label: string; correct: boolean; feedback: string }> | undefined) ?? [];
+  const kind = String(data.kind ?? "");
+  const kindColor: Record<string, string> = {
+    predict: "#00FFB2",
+    trap: "#FF6B5B",
+    connect: "#A99CFF",
+  };
+  return (
+    <div className="oe-card-data">
+      {kind && (
+        <div className="oe-data-row">
+          <span className="oe-data-label">Kind</span>
+          <span
+            className="oe-tag"
+            style={{ borderColor: (kindColor[kind] ?? "#00FFB2") + "55", color: kindColor[kind] ?? "#00FFB2" }}
+          >
+            {kind.toUpperCase()}
+          </span>
+        </div>
+      )}
+      <div className="oe-data-row">
+        <span className="oe-data-label">Question</span>
+        <span className="oe-data-value" style={{ color: "#00FFB2", fontWeight: 600 }}>
+          {String(data.question ?? "")}
+        </span>
+      </div>
+      {options.length > 0 && (
+        <div className="oe-data-row">
+          <span className="oe-data-label">Options</span>
+          <div className="oe-choices">
+            {options.map((opt, i) => (
+              <div key={i} className={`oe-choice ${opt.correct ? "oe-choice-correct" : ""}`}>
+                {opt.correct ? "✓ " : "✕ "}{opt.label}
+                {opt.feedback && (
+                  <div style={{ fontSize: "0.65rem", color: "#555", marginTop: "0.15rem", fontStyle: "italic" }}>
+                    → {opt.feedback}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      {!!data.rule && (
+        <div className="oe-data-row">
+          <span className="oe-data-label">Rule</span>
+          <span className="oe-data-value oe-italic">🔑 {String(data.rule)}</span>
+        </div>
+      )}
+      {!!data.hint && (
+        <div className="oe-data-row">
+          <span className="oe-data-label">Hint</span>
+          <span className="oe-data-value oe-italic">💡 {String(data.hint)}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function OverlayCardContent({ row }: { row: OverlayRow }) {
   const type = row.type as OverlayType;
   switch (type) {
@@ -319,6 +390,7 @@ function OverlayCardContent({ row }: { row: OverlayRow }) {
     case "teach_back":      return <TeachBackCard data={row.data} />;
     case "question_sprint": return <QuestionSprintCard data={row.data} />;
     case "analyzer":        return <AnalyzerCard data={row.data} />;
+    case "tap_quick":       return <TapQuickPreviewCard data={row.data} />;
     default:                return null;
   }
 }
@@ -340,11 +412,39 @@ export default function OverlaysEditor({
   const [loadingType, setLoadingType] = useState<OverlayType | null>(null);
   const [importing, setImporting] = useState(false);
   const [importMsg, setImportMsg] = useState<string | null>(null);
+  const [generatingAdhd, setGeneratingAdhd] = useState(false);
+  const [adhdMsg, setAdhdMsg] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [selectedSectionIdx, setSelectedSectionIdx] = useState<number>(0);
+  const [confirmImportOpen, setConfirmImportOpen] = useState(false);
+  const [pendingDeleteOverlayId, setPendingDeleteOverlayId] = useState<string | null>(null);
+  const [removingOverlayId, setRemovingOverlayId] = useState<string | null>(null);
   const dragIdx = useRef<number | null>(null);
 
   const sections = useMemo(() => parseScript(fullScript), [fullScript]);
+
+  // Map section title (uppercased) → its timestamp, so each overlay card can
+  // show a ✂ cut-point. Lets the admin know exactly where to slice their
+  // HeyGen export when uploading clips for this lesson.
+  const refToTimestamp = useMemo(() => {
+    const m = new Map<string, string>();
+    for (const s of sections) {
+      if (s.timestamp) m.set(s.title.toUpperCase(), s.timestamp);
+    }
+    return m;
+  }, [sections]);
+  function timestampFor(ref: string | null): string | null {
+    if (!ref) return null;
+    const exact = refToTimestamp.get(ref.toUpperCase());
+    if (exact) return exact;
+    // Fuzzy: any stored title that includes the ref or vice-versa
+    const upperRef = ref.toUpperCase();
+    const entries = Array.from(refToTimestamp.entries());
+    for (const [title, ts] of entries) {
+      if (title.includes(upperRef) || upperRef.includes(title)) return ts;
+    }
+    return null;
+  }
 
   const suggestedType = useMemo<OverlayType | null>(() => {
     if (selectedSectionIdx === 0) return null;
@@ -435,17 +535,63 @@ export default function OverlaysEditor({
     }
   }
 
+  // ── Batch-generate ADHD-friendly TAP_QUICK overlays for this lesson ────
+  async function generateAdhdLayer() {
+    if (generatingAdhd || loadingType) return;
+    setGeneratingAdhd(true);
+    setAdhdMsg(null);
+    try {
+      const res = await authFetch("/api/overlay/adhd-layer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lessonId,
+          lessonTitle,
+          subject,
+          fullScript,
+        }),
+      });
+      const json = await res.json();
+      if (!json.ok) throw new Error(json.error ?? "ADHD layer generation failed");
+
+      // Re-fetch the full overlay list so the new tap_quick rows show up.
+      const listRes = await authFetch(`/api/overlays?lessonId=${lessonId}`);
+      const listJson = await listRes.json();
+      if (listJson.ok) {
+        setRows(listJson.data ?? []);
+        onSave(rowsToOverlayParts(listJson.data ?? []));
+      }
+      const errSuffix = Array.isArray(json.errors) && json.errors.length > 0
+        ? ` (${json.errors.length} skipped)` : "";
+      // Collect the timestamps the user needs to cut their video at — derived
+      // from the section each overlay attached to.
+      const cuts = (json.created as Array<{ section_ref: string }> | undefined ?? [])
+        .map((c) => {
+          const ts = timestampFor(c.section_ref);
+          return ts ? `${c.section_ref.split(" ").slice(0, 3).join(" ")} (${ts})` : null;
+        })
+        .filter((x): x is string => x !== null);
+      const cutSuffix = cuts.length > 0 ? ` · ✂ ${cuts.join(", ")}` : "";
+      setAdhdMsg(`Generated ${json.generated ?? 0} pulse overlay${json.generated === 1 ? "" : "s"}${errSuffix}${cutSuffix}`);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error("[OverlaysEditor] generateAdhdLayer", msg);
+      setAdhdMsg(`Error: ${msg}`);
+    } finally {
+      setGeneratingAdhd(false);
+    }
+  }
+
   // ── Import overlays from script's `## OVERLAYS JSON:` block ────────────
-  async function importFromScript() {
+  async function importFromScript(forceReplace = false) {
     if (importing) return;
-    const ok = rows.length === 0
-      ? true
-      : window.confirm(
-          `This replaces all ${rows.length} existing overlay${rows.length === 1 ? "" : "s"} with a fresh import from the script. Continue?`
-        );
-    if (!ok) return;
+    if (!forceReplace && rows.length > 0) {
+      setConfirmImportOpen(true);
+      return;
+    }
 
     setImporting(true);
+    setConfirmImportOpen(false);
     setImportMsg(null);
     try {
       const res = await authFetch("/api/admin/import-overlays-from-script", {
@@ -471,6 +617,8 @@ export default function OverlaysEditor({
 
   // ── Delete overlay ──────────────────────────────────────────────────────
   async function remove(id: string) {
+    if (removingOverlayId) return;
+    setRemovingOverlayId(id);
     try {
       await authFetch("/api/overlays", {
         method: "DELETE",
@@ -483,6 +631,9 @@ export default function OverlaysEditor({
       onSave(rowsToOverlayParts(next));
     } catch (err) {
       console.error("[OverlaysEditor] remove", err);
+    } finally {
+      setRemovingOverlayId(null);
+      setPendingDeleteOverlayId(null);
     }
   }
 
@@ -529,9 +680,25 @@ export default function OverlaysEditor({
           <div style={{ flex: 1 }} />
           <button
             type="button"
+            className="oe-adhd-btn"
+            onClick={() => void generateAdhdLayer()}
+            disabled={generatingAdhd || importing || !!loadingType}
+            title="Generate 3-5 ADHD-friendly TAP pulse overlays distributed across the lesson"
+          >
+            {generatingAdhd ? (
+              <>
+                <span className="oe-spinner" style={{ borderTopColor: "#00FFB2" }} />
+                Pulsing…
+              </>
+            ) : (
+              <>◎ Generate ADHD Layer</>
+            )}
+          </button>
+          <button
+            type="button"
             className="oe-import-btn"
-            onClick={importFromScript}
-            disabled={importing || !!loadingType}
+            onClick={() => void importFromScript()}
+            disabled={importing || generatingAdhd || !!loadingType}
             title="Parse `## OVERLAYS JSON:` block in the script and replace the overlays for this lesson"
           >
             {importing ? (
@@ -544,6 +711,14 @@ export default function OverlaysEditor({
             )}
           </button>
         </div>
+        {adhdMsg && (
+          <div
+            className="oe-import-msg"
+            style={{ color: adhdMsg.startsWith("Error") ? "#E85A4A" : "#00FFB2" }}
+          >
+            {adhdMsg}
+          </div>
+        )}
         {importMsg && (
           <div
             className="oe-import-msg"
@@ -677,10 +852,18 @@ export default function OverlaysEditor({
                       {row.script_section_ref.slice(0, 32)}…
                     </span>
                   )}
+                  {(() => {
+                    const ts = timestampFor(row.script_section_ref);
+                    return ts ? (
+                      <span className="oe-cut-tag" title={`Cut your video at ${ts}`}>
+                        ✂ {ts}
+                      </span>
+                    ) : null;
+                  })()}
                   <div style={{ flex: 1 }} />
                   <span className="oe-pos-badge">#{idx + 1}</span>
                   <button
-                    onClick={(e) => { e.stopPropagation(); void remove(row.id); }}
+                    onClick={(e) => { e.stopPropagation(); setPendingDeleteOverlayId(row.id); }}
                     className="oe-del-btn"
                     title="Delete overlay"
                   >
@@ -700,6 +883,33 @@ export default function OverlaysEditor({
           })}
         </div>
       </div>
+
+      <ConfirmDialog
+        open={confirmImportOpen}
+        title="Replace existing overlays?"
+        message={`This replaces all ${rows.length} existing overlay${rows.length === 1 ? "" : "s"} with a fresh import from the script.`}
+        confirmLabel="Replace"
+        loading={importing}
+        destructive
+        onConfirm={() => importFromScript(true)}
+        onCancel={() => {
+          if (!importing) setConfirmImportOpen(false);
+        }}
+      />
+      <ConfirmDialog
+        open={pendingDeleteOverlayId !== null}
+        title="Delete this overlay?"
+        message="This overlay will be removed from the lesson timeline."
+        confirmLabel="Delete"
+        loading={removingOverlayId !== null}
+        destructive
+        onConfirm={() => {
+          if (pendingDeleteOverlayId) void remove(pendingDeleteOverlayId);
+        }}
+        onCancel={() => {
+          if (removingOverlayId === null) setPendingDeleteOverlayId(null);
+        }}
+      />
 
       <style>{`
         .oe-root {
@@ -730,6 +940,28 @@ export default function OverlaysEditor({
           letter-spacing: 0.1em;
           color: #555;
         }
+
+        /* Generate-ADHD-layer button */
+        .oe-adhd-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          font-size: 0.7rem;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          padding: 0.4rem 0.8rem;
+          border: 1px solid #00FFB266;
+          color: #00FFB2;
+          background: rgba(0,255,178,0.08);
+          border-radius: 0.45rem;
+          cursor: pointer;
+          transition: filter 0.15s, opacity 0.15s, box-shadow 0.2s;
+        }
+        .oe-adhd-btn:hover:not(:disabled) {
+          filter: brightness(1.3);
+          box-shadow: 0 0 0 1px #00FFB2, 0 0 14px rgba(0,255,178,0.45);
+        }
+        .oe-adhd-btn:disabled { opacity: 0.4; cursor: default; }
 
         /* Import-from-script button */
         .oe-import-btn {
@@ -929,6 +1161,18 @@ export default function OverlaysEditor({
           text-overflow: ellipsis;
           white-space: nowrap;
           max-width: 10rem;
+        }
+        .oe-cut-tag {
+          font-family: ui-monospace, monospace;
+          font-size: 0.58rem;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          color: #00FFB2;
+          background: rgba(0, 255, 178, 0.08);
+          border: 1px solid rgba(0, 255, 178, 0.25);
+          border-radius: 3px;
+          padding: 0.1rem 0.35rem;
+          flex-shrink: 0;
         }
         .oe-pos-badge {
           font-size: 0.6rem;
