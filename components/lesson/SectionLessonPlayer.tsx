@@ -50,6 +50,19 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
   // here for ~900ms so the floating "section locked" toast and the progress
   // bar's mint pulse animation can read it. Pure visual reward — no metric.
   const [clipPulse, setClipPulse] = useState<string | null>(null);
+  // Bumps the always-visible streak pill in the progress strip whenever the
+  // streak ticks up — so the count "lives" instead of just sitting there.
+  const [streakBumped, setStreakBumped] = useState(false);
+  const prevStreakRef = useRef(tapStreak);
+  useEffect(() => {
+    if (tapStreak > prevStreakRef.current) {
+      setStreakBumped(true);
+      const t = setTimeout(() => setStreakBumped(false), 700);
+      prevStreakRef.current = tapStreak;
+      return () => clearTimeout(t);
+    }
+    prevStreakRef.current = tapStreak;
+  }, [tapStreak]);
   const sprintCount = useRef(0);
 
   // ADHD-friendly tab-switch grace: when the student drifts away (tab switch
@@ -197,6 +210,7 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
   const overlayCount = playlist.filter((p) => p.kind === "overlay").length;
   const overlaysDone = Array.from(completedIdxs).filter((i) => playlist[i]?.kind === "overlay").length;
 
+  const currentStreakTier = getTier(tapStreak);
   const progressBar = (
     <div className="slp-progress-strip">
       <div className="slp-progress-bar-wrap">
@@ -209,6 +223,15 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
         <span className="slp-progress-count">
           {Math.min(currentIdx + 1, totalItems)} / {totalItems}
         </span>
+        {tapStreak > 0 && (
+          <span
+            className={`slp-progress-streak ${streakBumped ? "slp-progress-streak-bumped" : ""}`}
+            title={`${tapStreak} correct in a row · ${currentStreakTier.label}`}
+          >
+            <span className="slp-progress-streak-num">🔥 {tapStreak}</span>
+            <span className="slp-progress-streak-tier">{currentStreakTier.label}</span>
+          </span>
+        )}
         {overlayCount > 0 && (
           <span className="slp-progress-unlock">
             ◎ {overlaysDone} / {overlayCount} unlocked
@@ -392,6 +415,51 @@ const playerCss = `
   }
   .slp-progress-count { font-weight: 700; color: rgba(255,255,255,0.65); }
   .slp-progress-unlock { color: #00FFB2; }
+
+  /* Always-visible streak indicator in the progress strip — student sees
+     the count live between TAP popups, not just inside them. Soft breathing
+     loop when idle; bumps with a spring scale when tapStreak increments. */
+  .slp-progress-streak {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.18rem 0.65rem;
+    border-radius: 9999px;
+    background: rgba(255, 179, 71, 0.10);
+    border: 1px solid rgba(255, 179, 71, 0.32);
+    color: #FFD073;
+    font-family: ui-monospace, 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    animation: slp-streak-breathe 3.2s ease-in-out infinite;
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .slp-progress-streak-num { font-weight: 800; }
+  .slp-progress-streak-tier {
+    font-style: italic;
+    font-weight: 500;
+    opacity: 0.7;
+    font-size: 0.6rem;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  @keyframes slp-streak-breathe {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 179, 71, 0); }
+    50%      { box-shadow: 0 0 14px rgba(255, 179, 71, 0.3); }
+  }
+  .slp-progress-streak-bumped {
+    background: rgba(255, 179, 71, 0.22);
+    border-color: rgba(255, 179, 71, 0.7);
+    color: #FFE4A8;
+    box-shadow: 0 0 24px rgba(255, 179, 71, 0.7);
+    animation: slp-streak-bump 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes slp-streak-bump {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.28); }
+    100% { transform: scale(1); }
+  }
 
   /* "Welcome back" pill — soft re-entry after tab switch / blur. */
   .slp-welcome-back {

@@ -38,7 +38,7 @@ export const TIERS: readonly TierMeta[] = [
     id: "passive_learner",
     minStreak: 0,
     maxStreak: 2,
-    label: "Warming up",
+    label: "Locking on",
     unlockHeadline: "You're watching.",
     unlockBody: "Tap one prediction correctly and you shift modes.",
   },

@@ -771,7 +771,7 @@ function TapQuickCard(props: Props) {
           <div className="oc-streak-stack">
             <div className="oc-streak-pill" title={`${incomingStreak} correct in a row · ${currentTier.label}`}>
               🔥 {incomingStreak}
-              {incomingStreak >= 3 && (
+              {incomingStreak >= 1 && (
                 <span className="oc-streak-pill-tier"> · {currentTier.label}</span>
               )}
             </div>
@@ -786,7 +786,7 @@ function TapQuickCard(props: Props) {
           <div className="oc-streak-stack">
             <div className="oc-streak-pill oc-streak-pill-live">
               🔥 {newStreak}
-              {newStreak >= 3 && (
+              {newStreak >= 1 && (
                 <span className="oc-streak-pill-tier"> · {newTierAfterTap.label}</span>
               )}
             </div>
