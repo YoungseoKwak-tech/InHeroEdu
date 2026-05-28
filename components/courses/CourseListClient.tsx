@@ -5,7 +5,8 @@ import CourseCard from "./CourseCard";
 import CourseFilter from "./CourseFilter";
 import type { Course, Category } from "@/lib/data/courses";
 
-type FilterCategory = "All" | Category;
+type StudentCategory = Exclude<Category, "IB" | "Core">;
+type FilterCategory = "All" | StudentCategory;
 
 interface CourseListClientProps {
   courses: Course[];
@@ -17,14 +18,17 @@ export default function CourseListClient({
   courseHrefBase = "/courses",
 }: CourseListClientProps) {
   const [activeFilter, setActiveFilter] = useState<FilterCategory>("All");
+  const visibleCourses = courses.filter(
+    (course) => course.category !== "IB" && course.category !== "Core"
+  );
 
-  const filtered = courses.filter((c) =>
+  const filtered = visibleCourses.filter((c) =>
     activeFilter === "All" ? true : c.category === activeFilter
   );
 
-  const counts = (["All", "AP", "IB", "Honors", "Core", "Competition", "Test Prep"] as FilterCategory[]).reduce(
+  const counts = (["All", "AP", "Honors", "Competition", "Test Prep"] as FilterCategory[]).reduce(
     (acc, f) => {
-      acc[f] = f === "All" ? courses.length : courses.filter((c) => c.category === f).length;
+      acc[f] = f === "All" ? visibleCourses.length : visibleCourses.filter((c) => c.category === f).length;
       return acc;
     },
     {} as Record<FilterCategory, number>
