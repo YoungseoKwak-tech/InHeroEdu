@@ -92,9 +92,19 @@ export default function SubjectQuestionBankPage({
               <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">{subject.name}</h1>
               <p className="text-sm text-gray-500 dark:text-gray-400">{subject.folder}</p>
             </div>
-            <div className="ml-auto">
-              <span className="text-2xl font-black text-primary-500">{total}</span>
-              <span className="text-sm text-gray-400 ml-1">문제</span>
+            <div className="ml-auto flex flex-col items-end gap-1">
+              <div>
+                <span className="text-2xl font-black text-primary-500">{total}</span>
+                <span className="text-sm text-gray-400 ml-1">문제</span>
+              </div>
+              {total > 0 && (
+                <span
+                  className="qb-time-chip"
+                  title={`~1 min per AP-style question · ~${total} min for the full set`}
+                >
+                  ⏱ ~{total} min total
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -219,6 +229,24 @@ export default function SubjectQuestionBankPage({
           </div>
         </div>
       </div>
+
+      <style>{`
+        .qb-time-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.3rem;
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-size: 0.66rem;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          color: rgba(0, 255, 178, 0.85);
+          background: rgba(0, 255, 178, 0.08);
+          border: 1px solid rgba(0, 255, 178, 0.24);
+          padding: 0.22rem 0.6rem;
+          border-radius: 9999px;
+          flex-shrink: 0;
+        }
+      `}</style>
     </div>
   );
 }

@@ -34,9 +34,19 @@ export default function QuestionBankPage() {
             </div>
           </div>
           {!loading && (
-            <p className="text-sm text-gray-400 mt-4">
-              총 <span className="font-bold text-primary-500">{totalQuestions.toLocaleString()}</span>개 문제
-            </p>
+            <div className="flex flex-wrap items-center gap-3 mt-4">
+              <p className="text-sm text-gray-400">
+                총 <span className="font-bold text-primary-500">{totalQuestions.toLocaleString()}</span>개 문제
+              </p>
+              {totalQuestions > 0 && (
+                <span
+                  className="qb-time-chip"
+                  title="Estimate based on ~1 minute per AP-style multiple-choice question"
+                >
+                  ⏱ ~{totalQuestions.toLocaleString()} min total
+                </span>
+              )}
+            </div>
           )}
         </div>
       </div>
@@ -95,11 +105,19 @@ export default function QuestionBankPage() {
                             {subject.name}
                           </p>
                         </div>
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between gap-2 flex-wrap">
                           {count > 0 ? (
-                            <span className="text-xs font-semibold text-primary-500">
-                              {count}문제
-                            </span>
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-xs font-semibold text-primary-500">
+                                {count}문제
+                              </span>
+                              <span
+                                className="qb-time-chip qb-time-chip-sm"
+                                title={`~1 min per question · ~${count} min total`}
+                              >
+                                ~{count} min
+                              </span>
+                            </div>
                           ) : (
                             <span className="text-xs text-gray-300 dark:text-gray-600">준비 중</span>
                           )}
@@ -119,6 +137,29 @@ export default function QuestionBankPage() {
           })
         )}
       </div>
+
+      <style>{`
+        .qb-time-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.3rem;
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-size: 0.66rem;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          color: rgba(0, 255, 178, 0.85);
+          background: rgba(0, 255, 178, 0.08);
+          border: 1px solid rgba(0, 255, 178, 0.24);
+          padding: 0.22rem 0.6rem;
+          border-radius: 9999px;
+          flex-shrink: 0;
+        }
+        .qb-time-chip-sm {
+          font-size: 0.58rem;
+          padding: 0.12rem 0.42rem;
+          letter-spacing: 0.04em;
+        }
+      `}</style>
     </div>
   );
 }
