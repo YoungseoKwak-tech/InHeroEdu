@@ -2,7 +2,8 @@
 
 import type { Category } from "@/lib/data/courses";
 
-type FilterCategory = "All" | Category;
+type StudentCategory = Exclude<Category, "IB" | "Core">;
+type FilterCategory = "All" | StudentCategory;
 
 interface CourseFilterProps {
   onFilterChange: (filter: FilterCategory) => void;
@@ -10,7 +11,7 @@ interface CourseFilterProps {
   counts: Record<FilterCategory, number>;
 }
 
-const filters: FilterCategory[] = ["All", "AP", "IB", "Honors", "Core", "Competition", "Test Prep"];
+const filters: FilterCategory[] = ["All", "AP", "Honors", "Competition", "Test Prep"];
 
 export default function CourseFilter({ onFilterChange, activeFilter, counts }: CourseFilterProps) {
   return (

@@ -14,6 +14,9 @@ export const dynamic = "force-dynamic";
 
 export default async function CoursesPage() {
   const faculty = await getAllFacultyWithAssets();
+  const studentCourses = courses.filter(
+    (course) => course.category !== "IB" && course.category !== "Core"
+  );
 
   return (
     <div className="cls-root">
@@ -49,7 +52,7 @@ export default async function CoursesPage() {
         <ClassroomGrid faculty={faculty} />
         <div className="cls-roster-hint">
           <span className="cls-roster-dot" />
-          <span>Instructor lineup expanding. AP Stats · AP Lit · AP Econ · IB Sciences · and more in onboarding.</span>
+          <span>Instructor lineup expanding. AP Stats · AP Lit · AP Econ · SAT prep · and more in onboarding.</span>
         </div>
       </section>
 
@@ -57,10 +60,10 @@ export default async function CoursesPage() {
       <section className="cls-library">
         <div className="cls-section-head">
           <span className="cls-section-tag">ALL COURSES</span>
-          <span className="cls-section-count">{courses.length} paths</span>
+          <span className="cls-section-count">{studentCourses.length} paths</span>
         </div>
         <div className="cls-library-inner">
-          <CourseListClient courses={courses} />
+          <CourseListClient courses={studentCourses} />
         </div>
       </section>
 
