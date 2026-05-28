@@ -43,6 +43,7 @@ const TOKENS: Record<string, { color: string; label: string }> = {
   ANALYZER:         { color: "#5DAAF0", label: "◉ ANALYZER" },
   CONFIDENCE_CHECK: { color: "#E97099", label: "◈ CONFIDENCE CHECK" },
   NEXT_MOVE:        { color: "#9B8DFF", label: "→ NEXT MOVE" },
+  TAP_QUICK:        { color: "#00FFB2", label: "◎ PULSE" },
 };
 
 const cardStyle = (tok: string): React.CSSProperties =>
@@ -582,6 +583,278 @@ function NextMoveCard(props: Props) {
   );
 }
 
+// ── TAP QUICK ──────────────────────────────────────────────────────────────
+// ADHD-friendly 5-second pulse. Single tap. No typing. Always-on skip + hint.
+interface TapQuickOption {
+  label: string;
+  correct: boolean;
+  feedback: string;
+}
+interface TapQuickData {
+  question?: string;
+  options?: TapQuickOption[];
+  rule?: string;
+  hint?: string;
+  kind?: "predict" | "trap" | "connect";
+}
+
+// Variable reward: 60% small / 30% medium / 10% identity.
+type RewardTier = "small" | "medium" | "identity";
+function pickReward(): RewardTier {
+  const r = Math.random();
+  if (r < 0.10) return "identity";
+  if (r < 0.40) return "medium";
+  return "small";
+}
+const REWARD_MICRO_LINES = [
+  "⚡ That's the AP 5-scorer move.",
+  "⚡ You reasoned forward — not just recognized.",
+  "⚡ Lock that pattern in.",
+  "⚡ Same instinct will help on the FRQ.",
+];
+const REWARD_IDENTITY_LINES = [
+  "🔓 You unlocked a thinking pattern most students never build.",
+  "🔓 This is what AP 5-scorers do without thinking.",
+  "🔓 You just used real biochemist reasoning.",
+];
+
+function TapQuickCard(props: Props) {
+  const { overlay, lessonId, onComplete } = props;
+  const ctx = pickCtx(props);
+  const data = overlay.data as TapQuickData;
+  const options = data.options ?? [];
+  const hint = data.hint?.trim();
+
+  const [pickedIdx, setPickedIdx] = useState<number | null>(null);
+  const [showHint, setShowHint] = useState(false);
+  const [reward] = useState<RewardTier>(() => pickReward());
+  const [microLine] = useState(() => REWARD_MICRO_LINES[Math.floor(Math.random() * REWARD_MICRO_LINES.length)]);
+  const [identityLine] = useState(() => REWARD_IDENTITY_LINES[Math.floor(Math.random() * REWARD_IDENTITY_LINES.length)]);
+
+  const tok = TOKENS.TAP_QUICK;
+  const picked = pickedIdx === null ? null : options[pickedIdx];
+  const isCorrect = picked?.correct === true;
+
+  function tap(i: number) {
+    if (pickedIdx !== null) return;
+    setPickedIdx(i);
+    const chosen = options[i];
+    logResponse({
+      lessonId,
+      overlayId: overlay.id,
+      overlayType: "TAP_QUICK",
+      response: chosen?.label ?? String(i),
+      correct: chosen?.correct === true,
+      gapType: data.kind ?? null,
+    }, ctx);
+  }
+
+  function skip() {
+    logResponse({
+      lessonId,
+      overlayId: overlay.id,
+      overlayType: "TAP_QUICK",
+      response: "(skipped)",
+      correct: false,
+    }, ctx);
+    onComplete();
+  }
+
+  return (
+    <div className="oc-card oc-tap-card" style={cardStyle(tok.color)}>
+      <div className="oc-label">{tok.label}</div>
+      <p className="oc-tap-question">{data.question ?? "Quick — what just happened?"}</p>
+
+      {pickedIdx === null && (
+        <>
+          <div className="oc-tap-options">
+            {options.map((opt, i) => (
+              <button
+                key={i}
+                className="oc-tap-option"
+                onClick={() => tap(i)}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+          {showHint && hint && (
+            <p className="oc-tap-hint">💡 {hint}</p>
+          )}
+          <div className="oc-tap-footer">
+            {hint && !showHint && (
+              <button className="oc-tap-link" onClick={() => setShowHint(true)}>
+                힌트
+              </button>
+            )}
+            <button className="oc-tap-link oc-tap-skip" onClick={skip}>
+              잘 모르겠어 →
+            </button>
+          </div>
+        </>
+      )}
+
+      {pickedIdx !== null && picked && (
+        <>
+          <div className={`oc-result-badge ${isCorrect ? "oc-result-good" : "oc-result-miss"}`}>
+            {isCorrect ? "✓ Right" : "✕ Not quite"}
+          </div>
+          <p className="oc-feedback">{picked.feedback}</p>
+
+          {/* Variable reward — correct answers only */}
+          {isCorrect && reward === "medium" && (
+            <p className="oc-reward-micro">{microLine}</p>
+          )}
+          {isCorrect && reward === "identity" && (
+            <div className="oc-reward-identity">
+              <p className="oc-reward-identity-text">{identityLine}</p>
+            </div>
+          )}
+
+          {/* Rule lock-in — every correct answer if rule exists */}
+          {isCorrect && data.rule && (
+            <div className="oc-tap-rule">
+              <span className="oc-tap-rule-tag">🔑 Rule</span>
+              <p className="oc-tap-rule-text">{data.rule}</p>
+            </div>
+          )}
+
+          <button className="oc-btn" onClick={onComplete}>Continue →</button>
+        </>
+      )}
+
+      <style>{`
+        .oc-tap-card { gap: 0.75rem; }
+        .oc-tap-question {
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: 1.15rem;
+          font-weight: 600;
+          color: #f3f3fb;
+          line-height: 1.4;
+          margin: 0;
+          letter-spacing: 0.005em;
+        }
+        .oc-tap-options { display: flex; flex-direction: column; gap: 0.5rem; }
+        .oc-tap-option {
+          padding: 1rem 1.1rem;
+          background: rgba(0, 255, 178, 0.04);
+          border: 1px solid color-mix(in srgb, var(--tok) 28%, transparent);
+          border-radius: 0.75rem;
+          color: #d8d9e6;
+          font-size: 0.95rem;
+          font-family: inherit;
+          font-weight: 500;
+          cursor: pointer;
+          text-align: left;
+          line-height: 1.4;
+          transition: background 0.12s, border-color 0.12s, color 0.12s, transform 0.08s, box-shadow 0.2s;
+        }
+        .oc-tap-option:hover {
+          background: color-mix(in srgb, var(--tok) 12%, transparent);
+          border-color: color-mix(in srgb, var(--tok) 65%, transparent);
+          color: #fff;
+          box-shadow: 0 0 18px color-mix(in srgb, var(--tok) 30%, transparent);
+          transform: translateY(-1px);
+        }
+        .oc-tap-option:active { transform: translateY(0); }
+
+        .oc-tap-hint {
+          font-size: 0.82rem;
+          color: color-mix(in srgb, var(--tok) 75%, white);
+          line-height: 1.5;
+          margin: 0.25rem 0 0;
+          padding: 0.5rem 0.8rem;
+          background: color-mix(in srgb, var(--tok) 8%, transparent);
+          border-radius: 0.5rem;
+          border-left: 2px solid var(--tok);
+        }
+        .oc-tap-footer {
+          display: flex;
+          gap: 0.85rem;
+          justify-content: flex-end;
+          margin-top: 0.2rem;
+        }
+        .oc-tap-link {
+          background: none;
+          border: none;
+          color: rgba(255, 255, 255, 0.4);
+          font-family: ui-monospace, 'JetBrains Mono', monospace;
+          font-size: 0.72rem;
+          letter-spacing: 0.06em;
+          cursor: pointer;
+          padding: 0.3rem 0.55rem;
+          border-radius: 0.4rem;
+          transition: color 0.12s, background 0.12s;
+        }
+        .oc-tap-link:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
+        .oc-tap-skip { font-weight: 600; }
+
+        .oc-reward-micro {
+          font-family: ui-monospace, monospace;
+          font-size: 0.78rem;
+          font-weight: 600;
+          letter-spacing: 0.04em;
+          color: color-mix(in srgb, var(--tok) 78%, white);
+          margin: 0;
+          padding: 0.45rem 0.75rem;
+          background: color-mix(in srgb, var(--tok) 10%, transparent);
+          border-radius: 0.5rem;
+          border-left: 2px solid var(--tok);
+          animation: oc-reward-in 0.4s ease both;
+        }
+        .oc-reward-identity {
+          padding: 0.8rem 1rem;
+          background:
+            radial-gradient(ellipse 100% 60% at 50% 0%, color-mix(in srgb, var(--tok) 22%, transparent) 0%, transparent 70%),
+            color-mix(in srgb, var(--tok) 8%, transparent);
+          border: 1px solid color-mix(in srgb, var(--tok) 40%, transparent);
+          border-radius: 0.8rem;
+          box-shadow: 0 0 26px color-mix(in srgb, var(--tok) 32%, transparent);
+          animation: oc-reward-in 0.5s ease both;
+        }
+        .oc-reward-identity-text {
+          font-family: 'Cormorant Garamond', 'Georgia', serif;
+          font-size: 1.05rem;
+          font-style: italic;
+          font-weight: 600;
+          color: #fff;
+          line-height: 1.45;
+          margin: 0;
+          text-shadow: 0 0 14px color-mix(in srgb, var(--tok) 50%, transparent);
+        }
+        @keyframes oc-reward-in {
+          from { opacity: 0; transform: translateY(6px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .oc-tap-rule {
+          background: rgba(255, 255, 255, 0.025);
+          border: 1px solid color-mix(in srgb, var(--tok) 22%, transparent);
+          border-radius: 0.6rem;
+          padding: 0.6rem 0.85rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+        .oc-tap-rule-tag {
+          font-family: ui-monospace, monospace;
+          font-size: 0.6rem;
+          font-weight: 700;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: color-mix(in srgb, var(--tok) 70%, white);
+        }
+        .oc-tap-rule-text {
+          font-size: 0.84rem;
+          color: #d8d9e6;
+          line-height: 1.5;
+          margin: 0;
+        }
+      `}</style>
+    </div>
+  );
+}
+
 // ── Shell ──────────────────────────────────────────────────────────────────
 export default function OverlayCard(props: Props) {
   const { overlay, onComplete } = props;
@@ -595,6 +868,7 @@ export default function OverlayCard(props: Props) {
   else if (type === "ANALYZER")         card = <AnalyzerCard overlay={overlay} onComplete={onComplete} />;
   else if (type === "CONFIDENCE_CHECK") card = <ConfidenceCheckCard {...props} />;
   else if (type === "NEXT_MOVE")        card = <NextMoveCard {...props} />;
+  else if (type === "TAP_QUICK")        card = <TapQuickCard {...props} />;
   else card = (
     <div className="oc-card" style={cardStyle("#9F97ED")}>
       <p className="oc-prompt">Unknown overlay type: {type}</p>

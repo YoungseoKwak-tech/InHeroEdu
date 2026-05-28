@@ -135,8 +135,37 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
   const clipItems   = playlist.filter((p) => p.kind === "clip");
   const clipsDone   = Array.from(completedIdxs).filter((i) => playlist[i]?.kind === "clip").length;
 
+  // ── ADHD-friendly progress: always-on bar (rendered twice — in player and
+  // inside the overlay layer — so the student sees progress in both states) ──
+  const totalItems = playlist.length;
+  const progressPct = totalItems > 0
+    ? Math.min(100, Math.round(((completedIdxs.size + 0.5) / totalItems) * 100))
+    : 0;
+  const overlayCount = playlist.filter((p) => p.kind === "overlay").length;
+  const overlaysDone = Array.from(completedIdxs).filter((i) => playlist[i]?.kind === "overlay").length;
+
+  const progressBar = (
+    <div className="slp-progress-strip">
+      <div className="slp-progress-bar-wrap">
+        <div className="slp-progress-bar" style={{ width: `${progressPct}%` }} />
+      </div>
+      <div className="slp-progress-meta">
+        <span className="slp-progress-count">
+          {Math.min(currentIdx + 1, totalItems)} / {totalItems}
+        </span>
+        {overlayCount > 0 && (
+          <span className="slp-progress-unlock">
+            ◎ {overlaysDone} / {overlayCount} unlocked
+          </span>
+        )}
+      </div>
+    </div>
+  );
+
   return (
     <div className="slp-root">
+      {/* In-player progress bar (always present at top of player) */}
+      {progressBar}
 
       {/* ── Video layer ── */}
       <div className="slp-video-wrap">
@@ -167,6 +196,8 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
       {/* ── Overlay layer ── */}
       {currentItem?.kind === "overlay" && (
         <div className={`slp-overlay-layer ${overlayVisible ? "slp-overlay-visible" : ""}`}>
+          {/* Mirrored progress bar — keeps the student oriented during overlay */}
+          <div className="slp-progress-on-overlay">{progressBar}</div>
           <div className="slp-overlay-inner">
             <OverlayCard
               overlay={currentItem.overlay}
@@ -218,6 +249,57 @@ const playerCss = `
     display: flex;
     flex-direction: column;
   }
+
+  /* Progress strip — rendered both inside the player and at the top of the
+     overlay layer (via .slp-progress-on-overlay) so it remains visible in
+     both states. ADHD UX rule: progress is always visible. */
+  .slp-progress-strip {
+    background: linear-gradient(180deg, #060606 0%, #050505 100%);
+    padding: 0.45rem 1rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.28rem;
+    font-family: 'Inter', system-ui, sans-serif;
+    border-bottom: 1px solid #0e0e0e;
+  }
+  .slp-progress-on-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .slp-progress-on-overlay .slp-progress-strip {
+    background: linear-gradient(180deg, rgba(8,12,18,0.85) 0%, transparent 100%);
+    border-bottom: none;
+  }
+  .slp-progress-bar-wrap {
+    height: 3px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .slp-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #00FFB2 0%, #5DCAA5 100%);
+    box-shadow: 0 0 8px rgba(0,255,178,0.55);
+    border-radius: 2px;
+    transition: width 0.45s cubic-bezier(0.2, 0.8, 0.25, 1);
+  }
+  .slp-progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: ui-monospace, 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+  }
+  .slp-progress-count { font-weight: 700; color: rgba(255,255,255,0.65); }
+  .slp-progress-unlock { color: #00FFB2; }
+
   .slp-video-wrap {
     position: relative;
     width: 100%;
