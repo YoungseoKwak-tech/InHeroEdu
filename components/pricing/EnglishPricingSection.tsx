@@ -63,7 +63,7 @@ export default function EnglishPricingSection() {
             margin: '0 auto',
             lineHeight: 1.7,
           }}>
-            Try it free through AP season, then unlock the full library and every layer of AI for a single monthly price.
+            Free through May 31, 2026 — full access, every layer of AI, every lesson. Switch to Elite afterward if it&apos;s working.
           </p>
         </div>
 
@@ -80,7 +80,7 @@ export default function EnglishPricingSection() {
             onClick={() => setTab('free')}
             style={tabBtn(tab === 'free')}
           >
-            Free until May
+            Free until May 31, 2026
           </button>
           <button
             type="button"
@@ -131,18 +131,18 @@ export default function EnglishPricingSection() {
               color: 'rgba(0,255,178,0.78)',
               marginBottom: '10px',
             }}>
-              Free until May
+              Free until May 31, 2026
             </p>
 
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '6px' }}>
               <span style={{ fontSize: 'clamp(2.6rem, 5vw, 3.6rem)', fontWeight: 700, color: '#fff' }}>$0</span>
-              <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.44)' }}>through the AP exam</span>
+              <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.44)' }}>until May 31, 2026</span>
             </div>
             <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.42)', marginBottom: '18px' }}>
               No credit card required · cancel anytime
             </p>
             <p style={{ fontSize: '14px', lineHeight: 1.7, color: 'rgba(255,255,255,0.62)', marginBottom: '24px' }}>
-              Get the full InHero stack — every lesson, every AI layer, every TAP_QUICK checkpoint — free while you push through AP season. After May, switch to Elite if it&apos;s working.
+              Get the full InHero stack — every lesson, every AI layer, every TAP_QUICK checkpoint — free through May 31, 2026. Switch to Elite after that if it&apos;s working.
             </p>
 
             <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px 0', flex: 1 }}>
@@ -188,7 +188,7 @@ export default function EnglishPricingSection() {
                 boxShadow: '0 0 32px rgba(0,255,178,0.34)',
               }}
             >
-              Start free — through May
+              Start free — through May 31, 2026
             </button>
             <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)', marginTop: '12px', textAlign: 'center' }}>
               After May 31, your account converts to Free Plan unless you upgrade.
