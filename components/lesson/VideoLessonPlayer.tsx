@@ -164,12 +164,12 @@ export default function VideoLessonPlayer({ lessonId, videoUrl, overlays, onComp
           position: fixed;
           inset: 0;
           z-index: 1000;
-          background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.78) 100%);
-          backdrop-filter: blur(2px);
+          background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.78) 100%);
+          backdrop-filter: blur(3px);
           display: flex;
-          align-items: flex-end;
+          align-items: center;
           justify-content: center;
-          padding: 0 1.25rem 3rem;
+          padding: 1.25rem;
           opacity: 0;
           transition: opacity 0.18s ease;
         }

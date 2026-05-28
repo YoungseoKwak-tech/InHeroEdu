@@ -44,7 +44,30 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
   const [overlayVisible, setOverlayVisible] = useState(false);
   const [completedIdxs, setCompletedIdxs] = useState<Set<number>>(new Set());
   const [tapStreak, setTapStreak] = useState(0);
+  const [showWelcomeBack, setShowWelcomeBack] = useState(false);
   const sprintCount = useRef(0);
+
+  // ADHD-friendly tab-switch grace: when the student drifts away (tab switch
+  // / window blur), pause the video silently. When they return, show a soft
+  // "Welcome back" pill for 2.5s and leave the video paused so they re-enter
+  // on their own terms — no auto-resume, no punishment, streak preserved.
+  useEffect(() => {
+    let leftAt = 0;
+    function onVisChange() {
+      if (typeof document === "undefined") return;
+      if (document.hidden) {
+        videoRef.current?.pause();
+        leftAt = Date.now();
+      } else if (leftAt > 0 && Date.now() - leftAt > 1500) {
+        setShowWelcomeBack(true);
+        const t = setTimeout(() => setShowWelcomeBack(false), 2500);
+        leftAt = 0;
+        return () => clearTimeout(t);
+      }
+    }
+    document.addEventListener("visibilitychange", onVisChange);
+    return () => document.removeEventListener("visibilitychange", onVisChange);
+  }, []);
 
   const currentItem = playlist[currentIdx];
 
@@ -167,6 +190,13 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
     <div className="slp-root">
       {/* In-player progress bar (always present at top of player) */}
       {progressBar}
+
+      {/* Gentle re-entry pill — fades in when student returns after drifting */}
+      {showWelcomeBack && (
+        <div className="slp-welcome-back" role="status" aria-live="polite">
+          ◎ Welcome back — pick up when you&apos;re ready
+        </div>
+      )}
 
       {/* ── Video layer ── */}
       <div className="slp-video-wrap">
@@ -313,6 +343,35 @@ const playerCss = `
   .slp-progress-count { font-weight: 700; color: rgba(255,255,255,0.65); }
   .slp-progress-unlock { color: #00FFB2; }
 
+  /* "Welcome back" pill — soft re-entry after tab switch / blur. */
+  .slp-welcome-back {
+    position: fixed;
+    top: 1.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1002;
+    padding: 0.55rem 1rem;
+    background: rgba(0, 255, 178, 0.10);
+    border: 1px solid rgba(0, 255, 178, 0.4);
+    border-radius: 9999px;
+    color: #00FFB2;
+    font-family: ui-monospace, 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    box-shadow: 0 6px 30px rgba(0, 255, 178, 0.18);
+    animation: slp-welcome-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+               slp-welcome-out 0.4s ease 2.1s forwards;
+    pointer-events: none;
+  }
+  @keyframes slp-welcome-in {
+    from { opacity: 0; transform: translate(-50%, -10px); }
+    to   { opacity: 1; transform: translate(-50%, 0); }
+  }
+  @keyframes slp-welcome-out {
+    to { opacity: 0; transform: translate(-50%, -10px); }
+  }
+
   .slp-video-wrap {
     position: relative;
     width: 100%;
@@ -368,17 +427,17 @@ const playerCss = `
     transform: translateY(1.5rem);
     transition: opacity 0.2s ease, transform 0.2s ease;
   }
-  /* TAP_QUICK popup — bottom-anchored, video stays visible (dimmed) behind it. */
+  /* TAP_QUICK popup — center-anchored, video stays visible (dimmed) behind it. */
   .slp-overlay-popup {
     position: fixed;
     inset: 0;
     z-index: 1000;
-    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.78) 100%);
-    backdrop-filter: blur(2px);
+    background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.78) 100%);
+    backdrop-filter: blur(3px);
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
-    padding: 0 1.25rem 3rem;
+    padding: 1.25rem;
     opacity: 0;
     transition: opacity 0.18s ease;
     pointer-events: auto;

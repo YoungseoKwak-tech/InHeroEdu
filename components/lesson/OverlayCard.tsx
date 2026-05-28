@@ -663,6 +663,7 @@ function TapQuickCard(props: Props) {
 
   const [pickedIdx, setPickedIdx] = useState<number | null>(null);
   const [showHint, setShowHint] = useState(false);
+  const [showSlowAck, setShowSlowAck] = useState(false);
   // Variable reward baseline (60/30/10) + streak-boosted ceiling. Streak ≥ 3
   // boosts the tier by one (small→medium, medium→identity). Combines momentum
   // (Duolingo) with surprise (Skinner variable schedule).
@@ -703,6 +704,15 @@ function TapQuickCard(props: Props) {
     const t = setTimeout(onComplete, dwell);
     return () => clearTimeout(t);
   }, [popupMode, pickedIdx, isCorrect, boostedReward, onComplete]);
+
+  // ADHD-friendly slow-think ack: 10s with no tap → show a soft "Take your
+  // time" microcopy. Defuses the "I should answer fast" spiral that makes
+  // ADHD students disengage rather than think.
+  useEffect(() => {
+    if (pickedIdx !== null) return;
+    const t = setTimeout(() => setShowSlowAck(true), 10000);
+    return () => clearTimeout(t);
+  }, [pickedIdx]);
 
   function tap(i: number) {
     if (pickedIdx !== null) return;
@@ -770,6 +780,9 @@ function TapQuickCard(props: Props) {
           </div>
           {showHint && hint && (
             <p className="oc-tap-hint">💡 {hint}</p>
+          )}
+          {showSlowAck && !showHint && (
+            <p className="oc-tap-slow-ack">🌱 No rush — take your time.</p>
           )}
           <div className="oc-tap-footer">
             {hint && !showHint && (
@@ -963,6 +976,20 @@ function TapQuickCard(props: Props) {
           background: color-mix(in srgb, var(--tok) 8%, transparent);
           border-radius: 0.5rem;
           border-left: 2px solid var(--tok);
+        }
+        .oc-tap-slow-ack {
+          font-size: 0.78rem;
+          color: rgba(255, 255, 255, 0.6);
+          line-height: 1.45;
+          margin: 0.1rem 0 0;
+          padding: 0.4rem 0.7rem;
+          background: rgba(255, 255, 255, 0.025);
+          border-radius: 0.5rem;
+          animation: oc-slow-ack-in 0.5s ease both;
+        }
+        @keyframes oc-slow-ack-in {
+          from { opacity: 0; transform: translateY(4px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
         .oc-tap-footer {
           display: flex;
