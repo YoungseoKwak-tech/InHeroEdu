@@ -423,6 +423,29 @@ export default function OverlaysEditor({
 
   const sections = useMemo(() => parseScript(fullScript), [fullScript]);
 
+  // Map section title (uppercased) → its timestamp, so each overlay card can
+  // show a ✂ cut-point. Lets the admin know exactly where to slice their
+  // HeyGen export when uploading clips for this lesson.
+  const refToTimestamp = useMemo(() => {
+    const m = new Map<string, string>();
+    for (const s of sections) {
+      if (s.timestamp) m.set(s.title.toUpperCase(), s.timestamp);
+    }
+    return m;
+  }, [sections]);
+  function timestampFor(ref: string | null): string | null {
+    if (!ref) return null;
+    const exact = refToTimestamp.get(ref.toUpperCase());
+    if (exact) return exact;
+    // Fuzzy: any stored title that includes the ref or vice-versa
+    const upperRef = ref.toUpperCase();
+    const entries = Array.from(refToTimestamp.entries());
+    for (const [title, ts] of entries) {
+      if (title.includes(upperRef) || upperRef.includes(title)) return ts;
+    }
+    return null;
+  }
+
   const suggestedType = useMemo<OverlayType | null>(() => {
     if (selectedSectionIdx === 0) return null;
     const section = sections[selectedSectionIdx - 1];
@@ -540,7 +563,16 @@ export default function OverlaysEditor({
       }
       const errSuffix = Array.isArray(json.errors) && json.errors.length > 0
         ? ` (${json.errors.length} skipped)` : "";
-      setAdhdMsg(`Generated ${json.generated ?? 0} pulse overlay${json.generated === 1 ? "" : "s"}${errSuffix}`);
+      // Collect the timestamps the user needs to cut their video at — derived
+      // from the section each overlay attached to.
+      const cuts = (json.created as Array<{ section_ref: string }> | undefined ?? [])
+        .map((c) => {
+          const ts = timestampFor(c.section_ref);
+          return ts ? `${c.section_ref.split(" ").slice(0, 3).join(" ")} (${ts})` : null;
+        })
+        .filter((x): x is string => x !== null);
+      const cutSuffix = cuts.length > 0 ? ` · ✂ ${cuts.join(", ")}` : "";
+      setAdhdMsg(`Generated ${json.generated ?? 0} pulse overlay${json.generated === 1 ? "" : "s"}${errSuffix}${cutSuffix}`);
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
       console.error("[OverlaysEditor] generateAdhdLayer", msg);
@@ -820,6 +852,14 @@ export default function OverlaysEditor({
                       {row.script_section_ref.slice(0, 32)}…
                     </span>
                   )}
+                  {(() => {
+                    const ts = timestampFor(row.script_section_ref);
+                    return ts ? (
+                      <span className="oe-cut-tag" title={`Cut your video at ${ts}`}>
+                        ✂ {ts}
+                      </span>
+                    ) : null;
+                  })()}
                   <div style={{ flex: 1 }} />
                   <span className="oe-pos-badge">#{idx + 1}</span>
                   <button
@@ -1121,6 +1161,18 @@ export default function OverlaysEditor({
           text-overflow: ellipsis;
           white-space: nowrap;
           max-width: 10rem;
+        }
+        .oe-cut-tag {
+          font-family: ui-monospace, monospace;
+          font-size: 0.58rem;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          color: #00FFB2;
+          background: rgba(0, 255, 178, 0.08);
+          border: 1px solid rgba(0, 255, 178, 0.25);
+          border-radius: 3px;
+          padding: 0.1rem 0.35rem;
+          flex-shrink: 0;
         }
         .oe-pos-badge {
           font-size: 0.6rem;
