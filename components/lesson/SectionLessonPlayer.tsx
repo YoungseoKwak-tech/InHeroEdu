@@ -45,6 +45,10 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
   const [completedIdxs, setCompletedIdxs] = useState<Set<number>>(new Set());
   const [tapStreak, setTapStreak] = useState(0);
   const [showWelcomeBack, setShowWelcomeBack] = useState(false);
+  // Section-locked pulse: when a CLIP item finishes, hold the section title
+  // here for ~900ms so the floating "section locked" toast and the progress
+  // bar's mint pulse animation can read it. Pure visual reward — no metric.
+  const [clipPulse, setClipPulse] = useState<string | null>(null);
   const sprintCount = useRef(0);
 
   // ADHD-friendly tab-switch grace: when the student drifts away (tab switch
@@ -104,6 +108,14 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
   );
 
   function handleVideoEnded() {
+    // Action-based reward: clip completion fires a 900ms mint pulse on the
+    // progress bar + a "✓ SECTION locked" floating toast. Reuses the existing
+    // progress bar — no new always-on UI element to distract.
+    if (playlist[currentIdx]?.kind === "clip") {
+      const sectionTitle = playlist[currentIdx].sectionTitle;
+      setClipPulse(sectionTitle);
+      window.setTimeout(() => setClipPulse((p) => (p === sectionTitle ? null : p)), 900);
+    }
     advance(currentIdx + 1);
   }
 
@@ -171,7 +183,10 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
   const progressBar = (
     <div className="slp-progress-strip">
       <div className="slp-progress-bar-wrap">
-        <div className="slp-progress-bar" style={{ width: `${progressPct}%` }} />
+        <div
+          className={`slp-progress-bar ${clipPulse ? "slp-progress-bar-pulse" : ""}`}
+          style={{ width: `${progressPct}%` }}
+        />
       </div>
       <div className="slp-progress-meta">
         <span className="slp-progress-count">
@@ -195,6 +210,13 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
       {showWelcomeBack && (
         <div className="slp-welcome-back" role="status" aria-live="polite">
           ◎ Welcome back — pick up when you&apos;re ready
+        </div>
+      )}
+
+      {/* Clip-completion celebration — 900ms toast as a section finishes */}
+      {clipPulse && (
+        <div className="slp-clip-locked" role="status" aria-live="polite">
+          ✓ {clipPulse} locked
         </div>
       )}
 
@@ -330,6 +352,17 @@ const playerCss = `
     border-radius: 2px;
     transition: width 0.45s cubic-bezier(0.2, 0.8, 0.25, 1);
   }
+  /* 900ms mint pulse when a clip finishes — pure visual reward. */
+  .slp-progress-bar-pulse {
+    animation: slp-bar-pulse 0.9s ease-out;
+  }
+  @keyframes slp-bar-pulse {
+    0%   { box-shadow: 0 0 8px rgba(0,255,178,0.55); filter: brightness(1); }
+    30%  { box-shadow: 0 0 24px rgba(0,255,178,0.95),
+                       0 0 38px rgba(0,255,178,0.55);
+           filter: brightness(1.35); }
+    100% { box-shadow: 0 0 8px rgba(0,255,178,0.55); filter: brightness(1); }
+  }
   .slp-progress-meta {
     display: flex;
     justify-content: space-between;
@@ -370,6 +403,37 @@ const playerCss = `
   }
   @keyframes slp-welcome-out {
     to { opacity: 0; transform: translate(-50%, -10px); }
+  }
+
+  /* "✓ SECTION locked" floating toast — short reward as a clip finishes. */
+  .slp-clip-locked {
+    position: fixed;
+    top: 1.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1002;
+    padding: 0.5rem 0.95rem;
+    background: rgba(0, 255, 178, 0.14);
+    border: 1px solid rgba(0, 255, 178, 0.5);
+    border-radius: 9999px;
+    color: #00FFB2;
+    font-family: ui-monospace, 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: 0 8px 28px rgba(0, 255, 178, 0.28),
+                0 0 22px rgba(0, 255, 178, 0.2);
+    animation: slp-locked-in 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+               slp-locked-out 0.35s ease 0.55s forwards;
+    pointer-events: none;
+  }
+  @keyframes slp-locked-in {
+    from { opacity: 0; transform: translate(-50%, -8px) scale(0.85); }
+    to   { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  }
+  @keyframes slp-locked-out {
+    to { opacity: 0; transform: translate(-50%, -6px) scale(0.95); }
   }
 
   .slp-video-wrap {
