@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import AuthModal from "@/components/auth/AuthModal";
 import AdminNotificationBell from "@/components/admin/AdminNotificationBell";
+import NavbarStreakPill from "@/components/layout/NavbarStreakPill";
 import { getSafeRedirectPath } from "@/lib/auth-redirect";
 import { createBrowserClient } from "@/lib/supabase";
 import { authFetch, getClientSession } from "@/lib/client-auth";
@@ -12,7 +13,6 @@ import { normalizeProfileFields } from "@/lib/profile";
 
 const NAV_LINKS = [
   // { href: "/future",          label: "🌌 FUTURE" }, // hidden — restore when /future is demo-ready
-  { href: "/brain",           label: "🧠 BRAIN" },
   { href: "/my-plan",         label: "MY PLAN" },
   // { href: "/textbooks",       label: "TEXTBOOKS" }, // merged into LIBRARY (sidebar) — /textbooks redirects to /library
   { href: "/academy",         label: "ACADEMY" },
@@ -225,6 +225,7 @@ export default function Navbar() {
           ) : user ? (
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <AdminNotificationBell />
+              <NavbarStreakPill />
               <Link
                 href="/billing"
                 style={{

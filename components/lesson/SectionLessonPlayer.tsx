@@ -17,6 +17,9 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import OverlayCard from "@/components/lesson/OverlayCard";
 import type { PlaylistItem } from "@/lib/buildPlaylist";
 import { getTier } from "@/lib/streakTiers";
+import { authFetch } from "@/lib/client-auth";
+
+const STREAK_CHANGED_EVENT = "inhero:streak-changed";
 
 interface Props {
   playlist: PlaylistItem[];
@@ -64,6 +67,41 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
     prevStreakRef.current = tapStreak;
   }, [tapStreak]);
   const sprintCount = useRef(0);
+
+  // ── Hydrate streak from server on mount ─────────────────────────────────
+  // Source of truth lives in student_streak_state (server). Local useState
+  // mirror gives instant UI; failures (offline, signed out) silently fall
+  // back to 0 so the lesson still works.
+  useEffect(() => {
+    let cancelled = false;
+    authFetch("/api/streak")
+      .then((r) => r.json())
+      .then((j) => {
+        if (cancelled) return;
+        const n = Number(j?.data?.current_streak);
+        if (Number.isFinite(n) && n >= 0) setTapStreak(n);
+      })
+      .catch(() => { /* offline or signed-out — local 0 is fine */ });
+    return () => { cancelled = true; };
+  }, []);
+
+  // Push every tap to the server + broadcast so the navbar pill updates
+  // immediately without polling. Returns the locally-computed next value
+  // so the caller can update useState synchronously for instant feedback.
+  const persistTap = useCallback((correct: boolean) => {
+    authFetch("/api/streak", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ correct }),
+    })
+      .then((r) => r.json())
+      .then((j) => {
+        if (j?.ok && j?.data && typeof window !== "undefined") {
+          window.dispatchEvent(new CustomEvent(STREAK_CHANGED_EVENT, { detail: j.data }));
+        }
+      })
+      .catch(() => { /* network blip — local mirror still correct */ });
+  }, []);
 
   // ADHD-friendly tab-switch grace: when the student drifts away (tab switch
   // / window blur), pause the video silently. When they return, show a soft
@@ -304,9 +342,10 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
                 onComplete={handleOverlayComplete}
                 popupMode={isTapQuick}
                 tapStreak={isTapQuick ? tapStreak : 0}
-                onTapResult={(correct) =>
-                  setTapStreak((s) => (correct ? s + 1 : 0))
-                }
+                onTapResult={(correct) => {
+                  setTapStreak((s) => (correct ? s + 1 : 0));
+                  persistTap(correct);
+                }}
               />
             </div>
           </div>
