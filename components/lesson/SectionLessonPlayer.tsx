@@ -16,6 +16,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import OverlayCard from "@/components/lesson/OverlayCard";
 import type { PlaylistItem } from "@/lib/buildPlaylist";
+import { getTier } from "@/lib/streakTiers";
 
 interface Props {
   playlist: PlaylistItem[];
@@ -134,12 +135,28 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
       (p) => p.kind === "overlay" &&
         (p.overlay.type === "QUESTION_SPRINT" || p.overlay.type === "question_sprint")
     ).length;
+    // Surface the streak + tier on the done card so the student leaves with
+    // an explicit identity claim instead of a generic "completed" screen.
+    const finalTier = getTier(tapStreak);
     return (
       <div className="slp-done-root">
         <div className="slp-done-card">
           <div className="slp-done-icon">🎓</div>
           <h2 className="slp-done-title">Lesson Complete</h2>
           <p className="slp-done-body">Your responses have been saved to your learning profile.</p>
+
+          {tapStreak > 0 && (
+            <div className="slp-done-handoff">
+              <div className="slp-done-handoff-row">
+                <span className="slp-done-handoff-streak">🔥 {tapStreak}</span>
+                <span className="slp-done-handoff-tier">{finalTier.label}</span>
+              </div>
+              <p className="slp-done-handoff-body">
+                Carry this into the next lesson.
+              </p>
+            </div>
+          )}
+
           {sprintOverlays > 0 && (
             <div className="slp-done-stats">
               <span className="slp-done-stat">
@@ -604,4 +621,45 @@ const doneCss = `
   }
   .slp-done-stat-num  { font-size: 1.6rem; font-weight: 800; color: #C9A84C; }
   .slp-done-stat-label { font-size: 0.65rem; color: #444; text-transform: uppercase; letter-spacing: 0.07em; }
+
+  /* End-of-lesson streak + tier handoff */
+  .slp-done-handoff {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.25rem;
+    background:
+      radial-gradient(ellipse 100% 80% at 50% 0%, rgba(255, 179, 71, 0.18) 0%, transparent 70%),
+      rgba(255, 179, 71, 0.05);
+    border: 1px solid rgba(255, 179, 71, 0.32);
+    border-radius: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    align-items: center;
+  }
+  .slp-done-handoff-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+  }
+  .slp-done-handoff-streak {
+    font-family: ui-monospace, 'JetBrains Mono', monospace;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #FFD073;
+    text-shadow: 0 0 16px rgba(255, 179, 71, 0.6);
+  }
+  .slp-done-handoff-tier {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    font-style: italic;
+    color: rgba(255, 179, 71, 0.85);
+    letter-spacing: 0.02em;
+  }
+  .slp-done-handoff-body {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.45);
+    margin: 0;
+  }
 `;

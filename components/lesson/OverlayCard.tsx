@@ -11,6 +11,7 @@
 import { useState, useEffect } from "react";
 import { authFetch } from "@/lib/client-auth";
 import type { OverlayRow } from "@/lib/overlays";
+import { getTier, getNextTier, didCrossTier } from "@/lib/streakTiers";
 
 interface Props {
   overlay: OverlayRow;
@@ -685,6 +686,13 @@ function TapQuickCard(props: Props) {
   const picked = pickedIdx === null ? null : options[pickedIdx];
   const isCorrect = picked?.correct === true;
 
+  // Tier state — pure derivations from streak. NO new UI components, only
+  // text changes on existing pill / identity card.
+  const currentTier = getTier(incomingStreak);
+  const nextTier = getNextTier(incomingStreak);
+  const newTierAfterTap = isCorrect ? getTier(newStreak) : currentTier;
+  const crossedTier = isCorrect ? didCrossTier(incomingStreak, newStreak) : null;
+
   // Mastery framing — derive a 3-5 word concept name from the rule if it
   // exists, else fall back to "Locked in". Frames correctness as progression,
   // not testing — Khan Academy mastery-system pattern.
@@ -697,13 +705,20 @@ function TapQuickCard(props: Props) {
 
   // Auto-advance on correct in popup mode — dopamine pulse is meant to be
   // fast. Wrong answers still wait for the explicit "Continue →" so the
-  // student processes the misconception.
+  // student processes the misconception. Tier-cross gets the longest dwell
+  // because it carries the most narrative the student needs to absorb.
   useEffect(() => {
     if (!popupMode || pickedIdx === null || !isCorrect) return;
-    const dwell = boostedReward === "identity" ? 2400 : boostedReward === "medium" ? 1900 : 1500;
+    const dwell = crossedTier
+      ? 3200
+      : boostedReward === "identity"
+        ? 2400
+        : boostedReward === "medium"
+          ? 1900
+          : 1500;
     const t = setTimeout(onComplete, dwell);
     return () => clearTimeout(t);
-  }, [popupMode, pickedIdx, isCorrect, boostedReward, onComplete]);
+  }, [popupMode, pickedIdx, isCorrect, boostedReward, crossedTier, onComplete]);
 
   // ADHD-friendly slow-think ack: 10s with no tap → show a soft "Take your
   // time" microcopy. Defuses the "I should answer fast" spiral that makes
@@ -753,13 +768,28 @@ function TapQuickCard(props: Props) {
       <div className="oc-tap-header">
         <div className="oc-label">{tok.label}</div>
         {incomingStreak > 0 && pickedIdx === null && (
-          <div className="oc-streak-pill" title={`${incomingStreak} correct in a row`}>
-            🔥 {incomingStreak}
+          <div className="oc-streak-stack">
+            <div className="oc-streak-pill" title={`${incomingStreak} correct in a row · ${currentTier.label}`}>
+              🔥 {incomingStreak}
+              {incomingStreak >= 3 && (
+                <span className="oc-streak-pill-tier"> · {currentTier.label}</span>
+              )}
+            </div>
+            {nextTier && incomingStreak >= nextTier.minStreak - 2 && (
+              <div className="oc-streak-next">
+                ↓ {nextTier.label} at {nextTier.minStreak}
+              </div>
+            )}
           </div>
         )}
         {isCorrect && (
-          <div className="oc-streak-pill oc-streak-pill-live">
-            🔥 {newStreak}
+          <div className="oc-streak-stack">
+            <div className="oc-streak-pill oc-streak-pill-live">
+              🔥 {newStreak}
+              {newStreak >= 3 && (
+                <span className="oc-streak-pill-tier"> · {newTierAfterTap.label}</span>
+              )}
+            </div>
           </div>
         )}
       </div>
@@ -804,11 +834,21 @@ function TapQuickCard(props: Props) {
           </div>
           <p className="oc-feedback">{picked.feedback}</p>
 
-          {/* Streak-boosted variable reward — correct answers only */}
-          {isCorrect && boostedReward === "medium" && (
+          {/* Tier-cross supersedes the variable reward — bigger moment. */}
+          {isCorrect && crossedTier && (
+            <div className="oc-reward-identity oc-reward-tier">
+              <p className="oc-tier-headline">🔓 {crossedTier.unlockHeadline}</p>
+              <p className="oc-reward-identity-text">{crossedTier.unlockBody}</p>
+              {crossedTier.apFraming && (
+                <p className="oc-tier-ap">{crossedTier.apFraming}</p>
+              )}
+            </div>
+          )}
+          {/* Streak-boosted variable reward — only when no tier crossed. */}
+          {isCorrect && !crossedTier && boostedReward === "medium" && (
             <p className="oc-reward-micro">{microLine}</p>
           )}
-          {isCorrect && boostedReward === "identity" && (
+          {isCorrect && !crossedTier && boostedReward === "identity" && (
             <div className="oc-reward-identity">
               <p className="oc-reward-identity-text">{identityLine}</p>
             </div>
@@ -838,6 +878,13 @@ function TapQuickCard(props: Props) {
           justify-content: space-between;
           gap: 0.6rem;
         }
+        .oc-streak-stack {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 0.2rem;
+          flex-shrink: 0;
+        }
         .oc-streak-pill {
           font-family: ui-monospace, 'JetBrains Mono', monospace;
           font-size: 0.7rem;
@@ -847,9 +894,14 @@ function TapQuickCard(props: Props) {
           background: rgba(255, 179, 71, 0.10);
           border: 1px solid rgba(255, 179, 71, 0.32);
           border-radius: 9999px;
-          padding: 0.15rem 0.55rem;
+          padding: 0.15rem 0.6rem;
           flex-shrink: 0;
           animation: oc-streak-pop 0.36s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .oc-streak-pill-tier {
+          font-weight: 600;
+          opacity: 0.85;
+          font-style: italic;
         }
         .oc-streak-pill-live {
           color: #FFD073;
@@ -857,10 +909,44 @@ function TapQuickCard(props: Props) {
           border-color: rgba(255, 179, 71, 0.55);
           box-shadow: 0 0 14px rgba(255, 179, 71, 0.4);
         }
+        .oc-streak-next {
+          font-family: ui-monospace, 'JetBrains Mono', monospace;
+          font-size: 0.58rem;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          color: rgba(255, 179, 71, 0.55);
+          text-transform: uppercase;
+        }
         @keyframes oc-streak-pop {
           0%   { opacity: 0; transform: scale(0.6); }
           70%  { opacity: 1; transform: scale(1.18); }
           100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Tier-cross identity card — re-uses .oc-reward-identity base */
+        .oc-reward-tier {
+          background:
+            radial-gradient(ellipse 100% 60% at 50% 0%, color-mix(in srgb, var(--tok) 32%, transparent) 0%, transparent 70%),
+            color-mix(in srgb, var(--tok) 12%, transparent);
+          border-color: color-mix(in srgb, var(--tok) 55%, transparent);
+          box-shadow: 0 0 36px color-mix(in srgb, var(--tok) 45%, transparent);
+        }
+        .oc-tier-headline {
+          font-family: ui-monospace, 'JetBrains Mono', monospace;
+          font-size: 0.78rem;
+          font-weight: 800;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: color-mix(in srgb, var(--tok) 80%, white);
+          margin: 0 0 0.3rem;
+          text-shadow: 0 0 16px color-mix(in srgb, var(--tok) 60%, transparent);
+        }
+        .oc-tier-ap {
+          font-size: 0.74rem;
+          color: rgba(255, 255, 255, 0.55);
+          line-height: 1.45;
+          margin: 0.35rem 0 0;
+          font-style: italic;
         }
 
         /* ─────────── Popup mode (TAP_QUICK as dopamine pulse) ─────────── */
