@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authFetch, getClientSession } from "@/lib/client-auth";
 import { findExam } from "@/lib/planning/exams";
+import ResumeCard from "@/components/my-plan/ResumeCard";
 
 interface ExamSelection {
   slug: string;
@@ -316,6 +317,10 @@ export default function MyPlanPage() {
             {" · "}<Link href="/onboarding/study-plan" className="mp-edit">edit plan</Link>
           </p>
         </section>
+
+        {/* ── Resume CTA ──────────────────────────────────────────
+            Single primary action: continue the last lesson + streak handoff. */}
+        <ResumeCard />
 
         {/* Past-cycle banner: any exam date in the past gets a one-tap
             "rebuild on this year's catalog dates" affordance. */}

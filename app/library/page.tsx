@@ -1601,6 +1601,14 @@ function FeedCard({
         </div>
 
         <div className="fc-foot">
+          {item.mimeType === "application/pdf" && typeof item.totalPages === "number" && item.totalPages > 0 && (
+            <span
+              className="fc-time"
+              title={`${item.totalPages} page${item.totalPages === 1 ? "" : "s"} · ~1.5 min per page`}
+            >
+              ⏱ ~{Math.max(1, Math.ceil(item.totalPages * 1.5))} min read
+            </span>
+          )}
           {item.author && <span className="fc-author">by <em>{item.author.handle}</em></span>}
           <span className="fc-card-actions">
             {canDelete && (
@@ -1893,6 +1901,21 @@ function FeedCard({
         .fc-author {
           font-size: 0.72rem;
           color: rgba(216,217,230,0.7);
+        }
+        .fc-time {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.3rem;
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-size: 0.62rem;
+          font-weight: 700;
+          letter-spacing: 0.06em;
+          color: rgba(0, 255, 178, 0.78);
+          background: rgba(0, 255, 178, 0.06);
+          border: 1px solid rgba(0, 255, 178, 0.20);
+          padding: 0.18rem 0.5rem;
+          border-radius: 9999px;
+          flex-shrink: 0;
         }
         .fc-author em {
           font-family: 'Cormorant Garamond', serif;
