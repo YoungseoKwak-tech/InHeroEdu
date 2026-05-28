@@ -74,6 +74,10 @@ interface AdhdOverlay {
   options: TapQuickOption[];
   rule?: string;
   hint?: string;
+  followup?: {
+    question: string;
+    options: TapQuickOption[];
+  };
 }
 
 const FALLBACK_OVERLAYS: AdhdOverlay[] = [];
@@ -121,6 +125,15 @@ KIND vs PLACEMENT (epistemic prerequisite rule — DO NOT VIOLATE):
     →  SPARK  →  predict about HE2  →  HERO EXPLAIN 2  →  trap about HE2
     →  GAP CRUNCH  →  …
 
+FOLLOWUP (REQUIRED — pedagogy depends on this):
+Each overlay needs a "followup" — a SIMILAR question testing the SAME concept
+with different wording / a different scenario. Shown ONLY when the student
+gets the original wrong. So it must:
+- Test the same underlying insight (same rule)
+- Use a different molecule / number / context
+- Be answerable from the same reasoning, not from memorizing the first answer
+- 2-3 options, exactly 1 correct
+
 Return JSON ONLY in this exact shape — an array, no other keys:
 [
   {
@@ -132,7 +145,14 @@ Return JSON ONLY in this exact shape — an array, no other keys:
       { "label": "≤6 words", "correct": false, "feedback": "≤22 word why-wrong + what tripped most students" }
     ],
     "rule": "optional ≤20 word general rule (omit if not useful)",
-    "hint": "optional ≤14 word hint without giving away answer (omit if not useful)"
+    "hint": "optional ≤14 word hint without giving away answer (omit if not useful)",
+    "followup": {
+      "question": "≤14 word same-concept retry, NEW scenario",
+      "options": [
+        { "label": "≤6 words", "correct": true,  "feedback": "≤18 word why-correct" },
+        { "label": "≤6 words", "correct": false, "feedback": "≤22 word why-wrong" }
+      ]
+    }
   }
 ]`;
 }
@@ -230,6 +250,16 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Validate followup shape if present — drop a bad one rather than reject the row.
+    let followup = item.followup;
+    if (followup) {
+      const fOpts = Array.isArray(followup.options) ? followup.options : [];
+      const fCorrect = fOpts.filter((o) => o.correct === true).length;
+      if (!followup.question || fOpts.length < 2 || fCorrect !== 1) {
+        followup = undefined;
+      }
+    }
+
     try {
       const row = await createOverlay(
         lessonId,
@@ -240,6 +270,7 @@ export async function POST(req: NextRequest) {
           rule: item.rule,
           hint: item.hint,
           kind: item.kind ?? "predict",
+          followup,
         },
         finalRef
       );

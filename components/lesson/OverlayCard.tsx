@@ -598,12 +598,18 @@ interface TapQuickOption {
   correct: boolean;
   feedback: string;
 }
+interface TapQuickFollowup {
+  question: string;
+  options: TapQuickOption[];
+}
 interface TapQuickData {
   question?: string;
   options?: TapQuickOption[];
   rule?: string;
   hint?: string;
   kind?: "predict" | "trap" | "connect";
+  /** Same-concept retry shown only when the student gets the original wrong. */
+  followup?: TapQuickFollowup;
 }
 
 // Variable reward: 60% small / 30% medium / 10% identity.
@@ -662,6 +668,7 @@ function TapQuickCard(props: Props) {
   const options = data.options ?? [];
   const hint = data.hint?.trim();
 
+  const [mode, setMode] = useState<"original" | "followup">("original");
   const [pickedIdx, setPickedIdx] = useState<number | null>(null);
   const [showHint, setShowHint] = useState(false);
   const [showSlowAck, setShowSlowAck] = useState(false);
@@ -683,7 +690,17 @@ function TapQuickCard(props: Props) {
   const [identityLine] = useState(() => REWARD_IDENTITY_LINES[Math.floor(Math.random() * REWARD_IDENTITY_LINES.length)]);
 
   const tok = TOKENS.TAP_QUICK;
-  const picked = pickedIdx === null ? null : options[pickedIdx];
+  // Active question / options depend on mode. Followup is a same-concept retry
+  // shown only after the student got the original wrong. Streak (and reward
+  // tier) is decided by the ORIGINAL tap only — followup is pure practice.
+  const followupAvailable = !!data.followup?.question && (data.followup.options?.length ?? 0) >= 2;
+  const activeQuestion = mode === "followup"
+    ? data.followup?.question ?? data.question
+    : data.question;
+  const activeOptions: TapQuickOption[] = mode === "followup"
+    ? data.followup?.options ?? []
+    : options;
+  const picked = pickedIdx === null ? null : activeOptions[pickedIdx];
   const isCorrect = picked?.correct === true;
 
   // Tier state — pure derivations from streak. NO new UI components, only
@@ -707,18 +724,21 @@ function TapQuickCard(props: Props) {
   // fast. Wrong answers still wait for the explicit "Continue →" so the
   // student processes the misconception. Tier-cross gets the longest dwell
   // because it carries the most narrative the student needs to absorb.
+  // Followup correct is recovery — short dwell, no celebration.
   useEffect(() => {
     if (!popupMode || pickedIdx === null || !isCorrect) return;
-    const dwell = crossedTier
-      ? 3200
-      : boostedReward === "identity"
-        ? 2400
-        : boostedReward === "medium"
-          ? 1900
-          : 1500;
+    const dwell = mode === "followup"
+      ? 1300
+      : crossedTier
+        ? 3200
+        : boostedReward === "identity"
+          ? 2400
+          : boostedReward === "medium"
+            ? 1900
+            : 1500;
     const t = setTimeout(onComplete, dwell);
     return () => clearTimeout(t);
-  }, [popupMode, pickedIdx, isCorrect, boostedReward, crossedTier, onComplete]);
+  }, [popupMode, pickedIdx, isCorrect, mode, boostedReward, crossedTier, onComplete]);
 
   // ADHD-friendly slow-think ack: 10s with no tap → show a soft "Take your
   // time" microcopy. Defuses the "I should answer fast" spiral that makes
@@ -732,7 +752,7 @@ function TapQuickCard(props: Props) {
   function tap(i: number) {
     if (pickedIdx !== null) return;
     setPickedIdx(i);
-    const chosen = options[i];
+    const chosen = activeOptions[i];
     const correct = chosen?.correct === true;
     logResponse({
       lessonId,
@@ -741,12 +761,23 @@ function TapQuickCard(props: Props) {
       response: chosen?.label ?? String(i),
       correct,
       gapType: data.kind ?? null,
+      questionIdx: mode === "followup" ? 1 : 0,
     }, ctx);
-    onTapResult?.(correct);
-    // Subtle haptic on mobile — ADHD students respond well to physical feedback.
+    // Only the ORIGINAL tap moves the streak. Followup is pure practice — the
+    // student is recovering from the miss; the assessment signal already fired.
+    if (mode === "original") {
+      onTapResult?.(correct);
+    }
     if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
       try { navigator.vibrate(correct ? [12, 40, 18] : 22); } catch { /* ignore */ }
     }
+  }
+
+  function startFollowup() {
+    setMode("followup");
+    setPickedIdx(null);
+    setShowSlowAck(false);
+    setShowHint(false);
   }
 
   function skip() {
@@ -793,12 +824,15 @@ function TapQuickCard(props: Props) {
           </div>
         )}
       </div>
-      <p className="oc-tap-question">{data.question ?? "Quick — what just happened?"}</p>
+      {mode === "followup" && (
+        <div className="oc-tap-retry-badge" aria-live="polite">↻ RETRY · same idea, new angle</div>
+      )}
+      <p className="oc-tap-question">{activeQuestion ?? "Quick — what just happened?"}</p>
 
       {pickedIdx === null && (
         <>
           <div className="oc-tap-options">
-            {options.map((opt, i) => (
+            {activeOptions.map((opt, i) => (
               <button
                 key={i}
                 className="oc-tap-option"
@@ -834,8 +868,9 @@ function TapQuickCard(props: Props) {
           </div>
           <p className="oc-feedback">{picked.feedback}</p>
 
-          {/* Tier-cross supersedes the variable reward — bigger moment. */}
-          {isCorrect && crossedTier && (
+          {/* Tier-cross supersedes the variable reward — bigger moment.
+              Only fires on the ORIGINAL tap; followup is recovery, not celebration. */}
+          {isCorrect && mode === "original" && crossedTier && (
             <div className="oc-reward-identity oc-reward-tier">
               <p className="oc-tier-headline">🔓 {crossedTier.unlockHeadline}</p>
               <p className="oc-reward-identity-text">{crossedTier.unlockBody}</p>
@@ -844,11 +879,11 @@ function TapQuickCard(props: Props) {
               )}
             </div>
           )}
-          {/* Streak-boosted variable reward — only when no tier crossed. */}
-          {isCorrect && !crossedTier && boostedReward === "medium" && (
+          {/* Streak-boosted variable reward — only on original, no tier crossed. */}
+          {isCorrect && mode === "original" && !crossedTier && boostedReward === "medium" && (
             <p className="oc-reward-micro">{microLine}</p>
           )}
-          {isCorrect && !crossedTier && boostedReward === "identity" && (
+          {isCorrect && mode === "original" && !crossedTier && boostedReward === "identity" && (
             <div className="oc-reward-identity">
               <p className="oc-reward-identity-text">{identityLine}</p>
             </div>
@@ -862,9 +897,22 @@ function TapQuickCard(props: Props) {
             </div>
           )}
 
-          {/* In popup mode + correct → auto-advance handles it, no button.
-              Wrong answer (any mode) and correct in fullscreen mode → button. */}
-          {!(popupMode && isCorrect) && (
+          {/* Wrong on ORIGINAL + a followup exists → offer a same-concept retry
+              as the primary action. Continue stays available as a secondary
+              link. After followup (any outcome) we only show Continue. */}
+          {mode === "original" && !isCorrect && followupAvailable && (
+            <div className="oc-tap-retry-actions">
+              <button className="oc-btn oc-btn-retry" onClick={startFollowup}>
+                ⚡ Try a similar one →
+              </button>
+              <button className="oc-tap-link oc-tap-skip" onClick={onComplete}>
+                Continue without retry
+              </button>
+            </div>
+          )}
+          {/* Continue button — shown when we don't already have the retry CTA
+              and we're not auto-advancing on a correct popup. */}
+          {!(popupMode && isCorrect) && !(mode === "original" && !isCorrect && followupAvailable) && (
             <button className="oc-btn" onClick={onComplete}>Continue →</button>
           )}
         </>
@@ -1072,6 +1120,39 @@ function TapQuickCard(props: Props) {
           background: rgba(255, 255, 255, 0.025);
           border-radius: 0.5rem;
           animation: oc-slow-ack-in 0.5s ease both;
+        }
+        /* Retry mode — purple/violet accent to signal "different lane". */
+        .oc-tap-retry-badge {
+          font-family: ui-monospace, 'JetBrains Mono', monospace;
+          font-size: 0.58rem;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: #B4A3FF;
+          background: rgba(159, 151, 237, 0.12);
+          border: 1px solid rgba(159, 151, 237, 0.32);
+          border-radius: 9999px;
+          padding: 0.15rem 0.55rem;
+          align-self: flex-start;
+          animation: oc-slow-ack-in 0.35s ease both;
+        }
+        .oc-tap-retry-actions {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.4rem;
+        }
+        .oc-btn-retry {
+          color: #B4A3FF;
+          border-color: rgba(159, 151, 237, 0.55);
+          background: rgba(159, 151, 237, 0.10);
+        }
+        .oc-btn-retry:hover:not(:disabled) {
+          color: #fff;
+          background: rgba(159, 151, 237, 0.25);
+          box-shadow:
+            0 0 0 1px #B4A3FF,
+            0 0 20px rgba(159, 151, 237, 0.55);
         }
         @keyframes oc-slow-ack-in {
           from { opacity: 0; transform: translateY(4px); }
