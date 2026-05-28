@@ -43,6 +43,7 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
   const [done, setDone] = useState(false);
   const [overlayVisible, setOverlayVisible] = useState(false);
   const [completedIdxs, setCompletedIdxs] = useState<Set<number>>(new Set());
+  const [tapStreak, setTapStreak] = useState(0);
   const sprintCount = useRef(0);
 
   const currentItem = playlist[currentIdx];
@@ -194,19 +195,31 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
       </div>
 
       {/* ── Overlay layer ── */}
-      {currentItem?.kind === "overlay" && (
-        <div className={`slp-overlay-layer ${overlayVisible ? "slp-overlay-visible" : ""}`}>
-          {/* Mirrored progress bar — keeps the student oriented during overlay */}
-          <div className="slp-progress-on-overlay">{progressBar}</div>
-          <div className="slp-overlay-inner">
-            <OverlayCard
-              overlay={currentItem.overlay}
-              lessonId={lessonId}
-              onComplete={handleOverlayComplete}
-            />
+      {currentItem?.kind === "overlay" && (() => {
+        const isTapQuick = (currentItem.overlay.type ?? "").toUpperCase() === "TAP_QUICK";
+        // TAP_QUICK = ADHD pulse → render as a bottom-anchored popup over the
+        // (dimmed) video frame. Every other overlay type still takes over
+        // the full viewport because they require deeper focus.
+        const layerClass = isTapQuick ? "slp-overlay-popup" : "slp-overlay-layer";
+        const innerClass = isTapQuick ? "slp-popup-inner" : "slp-overlay-inner";
+        return (
+          <div className={`${layerClass} ${overlayVisible ? "slp-overlay-visible" : ""}`}>
+            <div className="slp-progress-on-overlay">{progressBar}</div>
+            <div className={innerClass}>
+              <OverlayCard
+                overlay={currentItem.overlay}
+                lessonId={lessonId}
+                onComplete={handleOverlayComplete}
+                popupMode={isTapQuick}
+                tapStreak={isTapQuick ? tapStreak : 0}
+                onTapResult={(correct) =>
+                  setTapStreak((s) => (correct ? s + 1 : 0))
+                }
+              />
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* ── Progress dots ── */}
       <div className="slp-dots">
@@ -355,6 +368,21 @@ const playerCss = `
     transform: translateY(1.5rem);
     transition: opacity 0.2s ease, transform 0.2s ease;
   }
+  /* TAP_QUICK popup — bottom-anchored, video stays visible (dimmed) behind it. */
+  .slp-overlay-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.78) 100%);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0 1.25rem 3rem;
+    opacity: 0;
+    transition: opacity 0.18s ease;
+    pointer-events: auto;
+  }
   .slp-overlay-visible {
     opacity: 1;
     transform: translateY(0);
@@ -362,6 +390,10 @@ const playerCss = `
   .slp-overlay-inner {
     width: 100%;
     max-width: 40rem;
+  }
+  .slp-popup-inner {
+    width: 100%;
+    max-width: 26rem;
   }
   .slp-dots {
     display: flex;

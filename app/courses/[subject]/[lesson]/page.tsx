@@ -32,6 +32,7 @@ interface Props {
 // Allow DB lesson IDs (e.g. ap-biology-u1-l1) that aren't in the static dict
 export const dynamicParams = true;
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 interface LessonInfo {
   titleEn: string;
@@ -186,13 +187,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export async function generateStaticParams() {
-  return Object.values(lessons).map((l) => ({
-    subject: l.courseId,
-    lesson: l.id,
-  }));
-}
-
 export default async function LessonPage({ params }: Props) {
   const resolvedSubject = resolveCourseId(params.subject);
   const dbLessonId = resolveLessonDbId(params.lesson);
@@ -271,7 +265,15 @@ export default async function LessonPage({ params }: Props) {
           : savedOverlayRows.length > 0
             ? savedOverlayRows
             : knownOverlayRows;
-        overlayRows = chooseBestOverlayRows(dbOverlayRows, derivedOverlayRows);
+        // tap_quick is the ADHD layer — a SUPPLEMENT to whatever the legacy
+        // overlay set is, not a replacement. chooseBestOverlayRows picks
+        // between DB-saved and script-derived sets for the *legacy* types;
+        // we then concat the DB-only tap_quick rows on top so they always
+        // render even when scriptRows wins the legacy contest.
+        const legacyDbRows = dbOverlayRows.filter((r) => r.type !== "tap_quick");
+        const tapQuickRows = dbOverlayRows.filter((r) => r.type === "tap_quick");
+        const legacyEffective = chooseBestOverlayRows(legacyDbRows, derivedOverlayRows);
+        overlayRows = [...legacyEffective, ...tapQuickRows];
       } catch (err) {
         console.warn("[LessonPage] optional clip metadata load failed", {
           lessonId: activeLessonId,
@@ -320,7 +322,11 @@ export default async function LessonPage({ params }: Props) {
         : savedOverlayRows.length > 0
           ? savedOverlayRows
           : knownOverlayRows;
-      const effectiveOverlays = chooseBestOverlayRows(overlayRows, derivedOverlayRows);
+      // Preserve tap_quick (ADHD layer) on top of whichever legacy set wins.
+      const legacyDbRows = overlayRows.filter((r) => r.type !== "tap_quick");
+      const tapQuickRows = overlayRows.filter((r) => r.type === "tap_quick");
+      const legacyEffective = chooseBestOverlayRows(legacyDbRows, derivedOverlayRows);
+      const effectiveOverlays = [...legacyEffective, ...tapQuickRows];
 
       return (
         <VideoLessonGate

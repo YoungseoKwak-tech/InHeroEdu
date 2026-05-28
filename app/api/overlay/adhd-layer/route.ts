@@ -93,11 +93,33 @@ ${fullScript.slice(0, 6000)}
 RULES:
 1. Generate EXACTLY 3-5 overlays. Distribute across different sections — don't cluster.
 2. Each overlay = ONE tap from the student, under 5 seconds.
-3. Skip HOOK / WRAP sections. Concentrate on HERO EXPLAIN sections.
+3. Skip HOOK / WRAP sections. Concentrate on HERO EXPLAIN sections + the sections that follow them (SPARK / GAP CRUNCH).
 4. Skip sections that are obviously already overlay-heavy (questions, sprints, teach-back).
 5. Question must be ≤14 words. Options must be ≤6 words each. No college-textbook tone.
 6. EXACTLY ONE correct option per overlay. Wrong options must reflect REAL student misconceptions, not strawmen.
 7. section_ref MUST match one of the section titles above EXACTLY (case-sensitive copy).
+
+KIND vs PLACEMENT (epistemic prerequisite rule — DO NOT VIOLATE):
+
+  The overlay fires immediately BEFORE the clip for its section_ref. So timing
+  is implied by where you attach.
+
+  - "predict" → attach to the section where the concept is ABOUT to be taught
+    (e.g., HERO EXPLAIN 1). Fires before content → primes the student's
+    intuition → the video then reveals if their guess was right. The student
+    needs NO prior knowledge to answer — only intuition.
+
+  - "trap" or "connect" → attach to the section AFTER the one where the
+    concept was taught (e.g., a trap about HERO EXPLAIN 1 content goes on
+    SPARK; a trap about HERO EXPLAIN 2 content goes on GAP CRUNCH). The
+    student needs to ALREADY know the concept to answer — otherwise it's
+    a guessing game, not validation. NEVER attach a trap or connect to the
+    same section where its concept is taught.
+
+  Pattern in this canonical lesson structure:
+    HOOK  →  predict about HE1  →  HERO EXPLAIN 1  →  trap about HE1
+    →  SPARK  →  predict about HE2  →  HERO EXPLAIN 2  →  trap about HE2
+    →  GAP CRUNCH  →  …
 
 Return JSON ONLY in this exact shape — an array, no other keys:
 [
@@ -190,7 +212,23 @@ export async function POST(req: NextRequest) {
              s.title.toUpperCase().includes(ref.toUpperCase()) ||
              ref.toUpperCase().includes(s.title.toUpperCase())
     );
-    const finalRef = matchedSection?.title ?? ref;
+    let finalRef = matchedSection?.title ?? ref;
+
+    // Epistemic prerequisite guard: a trap or connect placed on the section
+    // where its concept is taught would fire BEFORE the content — turning the
+    // overlay into a guessing game. Shift forward to the next section so it
+    // fires AFTER. Predicts are exempt (they SHOULD fire before content).
+    if (matchedSection && (item.kind === "trap" || item.kind === "connect")) {
+      const upper = matchedSection.title.toUpperCase();
+      if (upper.startsWith("HERO EXPLAIN") || upper.includes("HERO EXPLAIN")) {
+        const matchedIdx = sections.findIndex((s) => s.title === matchedSection.title);
+        const next = sections[matchedIdx + 1];
+        if (next) {
+          console.log(`[adhd-layer] guard: shifted ${item.kind} from "${matchedSection.title}" → "${next.title}"`);
+          finalRef = next.title;
+        }
+      }
+    }
 
     try {
       const row = await createOverlay(

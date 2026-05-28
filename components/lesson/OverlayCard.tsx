@@ -8,7 +8,7 @@
  * pulsing dot + glow, italic serif prompts, accent rings/glow per type.
  */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { authFetch } from "@/lib/client-auth";
 import type { OverlayRow } from "@/lib/overlays";
 
@@ -16,6 +16,13 @@ interface Props {
   overlay: OverlayRow;
   lessonId: string;
   onComplete: () => void;
+  // popupMode: TAP_QUICK rendered as a compact dopamine pulse over the
+  // (dimmed) video — auto-advances on correct, confetti burst, spring entry.
+  popupMode?: boolean;
+  // TAP_QUICK-only — current in-lesson streak passed in, and a callback the
+  // player uses to update the streak after each tap.
+  tapStreak?: number;
+  onTapResult?: (correct: boolean) => void;
   // ── Session context (threads learning_events.session_id end-to-end) ──
   sessionId?: string;
   subjectId?: string;
@@ -618,8 +625,37 @@ const REWARD_IDENTITY_LINES = [
   "🔓 You just used real biochemist reasoning.",
 ];
 
+// Confetti particle burst (CSS-only) — fires on correct answer in popup mode.
+function ConfettiBurst({ color }: { color: string }) {
+  const particles = Array.from({ length: 14 });
+  return (
+    <div className="oc-confetti" aria-hidden>
+      {particles.map((_, i) => {
+        const angle = (i / particles.length) * Math.PI * 2;
+        const dist = 60 + Math.random() * 50;
+        const dx = Math.cos(angle) * dist;
+        const dy = Math.sin(angle) * dist - 20;
+        const delay = Math.random() * 0.05;
+        const hue = i % 3 === 0 ? color : i % 3 === 1 ? "#F4C95D" : "#A99CFF";
+        return (
+          <span
+            key={i}
+            className="oc-confetti-bit"
+            style={{
+              ["--dx" as string]: `${dx}px`,
+              ["--dy" as string]: `${dy}px`,
+              ["--delay" as string]: `${delay}s`,
+              background: hue,
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
 function TapQuickCard(props: Props) {
-  const { overlay, lessonId, onComplete } = props;
+  const { overlay, lessonId, onComplete, popupMode, tapStreak = 0, onTapResult } = props;
   const ctx = pickCtx(props);
   const data = overlay.data as TapQuickData;
   const options = data.options ?? [];
@@ -627,7 +663,20 @@ function TapQuickCard(props: Props) {
 
   const [pickedIdx, setPickedIdx] = useState<number | null>(null);
   const [showHint, setShowHint] = useState(false);
-  const [reward] = useState<RewardTier>(() => pickReward());
+  // Variable reward baseline (60/30/10) + streak-boosted ceiling. Streak ≥ 3
+  // boosts the tier by one (small→medium, medium→identity). Combines momentum
+  // (Duolingo) with surprise (Skinner variable schedule).
+  const [baseReward] = useState<RewardTier>(() => pickReward());
+  const incomingStreak = tapStreak; // streak as of THIS tap (before increment)
+  const newStreak = incomingStreak + 1; // resulting streak if this tap is correct
+  const boostedReward: RewardTier =
+    newStreak >= 5
+      ? "identity"
+      : newStreak >= 3 && baseReward === "small"
+        ? "medium"
+        : newStreak >= 3 && baseReward === "medium"
+          ? "identity"
+          : baseReward;
   const [microLine] = useState(() => REWARD_MICRO_LINES[Math.floor(Math.random() * REWARD_MICRO_LINES.length)]);
   const [identityLine] = useState(() => REWARD_IDENTITY_LINES[Math.floor(Math.random() * REWARD_IDENTITY_LINES.length)]);
 
@@ -635,18 +684,44 @@ function TapQuickCard(props: Props) {
   const picked = pickedIdx === null ? null : options[pickedIdx];
   const isCorrect = picked?.correct === true;
 
+  // Mastery framing — derive a 3-5 word concept name from the rule if it
+  // exists, else fall back to "Locked in". Frames correctness as progression,
+  // not testing — Khan Academy mastery-system pattern.
+  const conceptName = (() => {
+    if (!data.rule) return "Locked in";
+    // Take everything up to the first period, em-dash, or colon
+    const first = data.rule.split(/[.—–:]/)[0].trim();
+    return first.length > 0 && first.length < 60 ? first : "Locked in";
+  })();
+
+  // Auto-advance on correct in popup mode — dopamine pulse is meant to be
+  // fast. Wrong answers still wait for the explicit "Continue →" so the
+  // student processes the misconception.
+  useEffect(() => {
+    if (!popupMode || pickedIdx === null || !isCorrect) return;
+    const dwell = boostedReward === "identity" ? 2400 : boostedReward === "medium" ? 1900 : 1500;
+    const t = setTimeout(onComplete, dwell);
+    return () => clearTimeout(t);
+  }, [popupMode, pickedIdx, isCorrect, boostedReward, onComplete]);
+
   function tap(i: number) {
     if (pickedIdx !== null) return;
     setPickedIdx(i);
     const chosen = options[i];
+    const correct = chosen?.correct === true;
     logResponse({
       lessonId,
       overlayId: overlay.id,
       overlayType: "TAP_QUICK",
       response: chosen?.label ?? String(i),
-      correct: chosen?.correct === true,
+      correct,
       gapType: data.kind ?? null,
     }, ctx);
+    onTapResult?.(correct);
+    // Subtle haptic on mobile — ADHD students respond well to physical feedback.
+    if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
+      try { navigator.vibrate(correct ? [12, 40, 18] : 22); } catch { /* ignore */ }
+    }
   }
 
   function skip() {
@@ -660,9 +735,24 @@ function TapQuickCard(props: Props) {
     onComplete();
   }
 
+  const cardClasses = ["oc-card", "oc-tap-card", popupMode ? "oc-tap-popup" : ""].filter(Boolean).join(" ");
+
   return (
-    <div className="oc-card oc-tap-card" style={cardStyle(tok.color)}>
-      <div className="oc-label">{tok.label}</div>
+    <div className={cardClasses} style={cardStyle(tok.color)}>
+      {isCorrect && popupMode && <ConfettiBurst color={tok.color} />}
+      <div className="oc-tap-header">
+        <div className="oc-label">{tok.label}</div>
+        {incomingStreak > 0 && pickedIdx === null && (
+          <div className="oc-streak-pill" title={`${incomingStreak} correct in a row`}>
+            🔥 {incomingStreak}
+          </div>
+        )}
+        {isCorrect && (
+          <div className="oc-streak-pill oc-streak-pill-live">
+            🔥 {newStreak}
+          </div>
+        )}
+      </div>
       <p className="oc-tap-question">{data.question ?? "Quick — what just happened?"}</p>
 
       {pickedIdx === null && (
@@ -697,15 +787,15 @@ function TapQuickCard(props: Props) {
       {pickedIdx !== null && picked && (
         <>
           <div className={`oc-result-badge ${isCorrect ? "oc-result-good" : "oc-result-miss"}`}>
-            {isCorrect ? "✓ Right" : "✕ Not quite"}
+            {isCorrect ? `🔓 ${conceptName}` : "✕ Not quite"}
           </div>
           <p className="oc-feedback">{picked.feedback}</p>
 
-          {/* Variable reward — correct answers only */}
-          {isCorrect && reward === "medium" && (
+          {/* Streak-boosted variable reward — correct answers only */}
+          {isCorrect && boostedReward === "medium" && (
             <p className="oc-reward-micro">{microLine}</p>
           )}
-          {isCorrect && reward === "identity" && (
+          {isCorrect && boostedReward === "identity" && (
             <div className="oc-reward-identity">
               <p className="oc-reward-identity-text">{identityLine}</p>
             </div>
@@ -719,12 +809,114 @@ function TapQuickCard(props: Props) {
             </div>
           )}
 
-          <button className="oc-btn" onClick={onComplete}>Continue →</button>
+          {/* In popup mode + correct → auto-advance handles it, no button.
+              Wrong answer (any mode) and correct in fullscreen mode → button. */}
+          {!(popupMode && isCorrect) && (
+            <button className="oc-btn" onClick={onComplete}>Continue →</button>
+          )}
         </>
       )}
 
       <style>{`
         .oc-tap-card { gap: 0.75rem; }
+        .oc-tap-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 0.6rem;
+        }
+        .oc-streak-pill {
+          font-family: ui-monospace, 'JetBrains Mono', monospace;
+          font-size: 0.7rem;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          color: #FFB347;
+          background: rgba(255, 179, 71, 0.10);
+          border: 1px solid rgba(255, 179, 71, 0.32);
+          border-radius: 9999px;
+          padding: 0.15rem 0.55rem;
+          flex-shrink: 0;
+          animation: oc-streak-pop 0.36s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .oc-streak-pill-live {
+          color: #FFD073;
+          background: rgba(255, 179, 71, 0.18);
+          border-color: rgba(255, 179, 71, 0.55);
+          box-shadow: 0 0 14px rgba(255, 179, 71, 0.4);
+        }
+        @keyframes oc-streak-pop {
+          0%   { opacity: 0; transform: scale(0.6); }
+          70%  { opacity: 1; transform: scale(1.18); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* ─────────── Popup mode (TAP_QUICK as dopamine pulse) ─────────── */
+        .oc-tap-popup {
+          position: relative;
+          padding: 1.5rem 1.4rem 1.3rem;
+          border-radius: 1.25rem;
+          border-width: 1.5px;
+          background:
+            radial-gradient(ellipse 100% 80% at 50% -20%,
+              color-mix(in srgb, var(--tok) 28%, transparent) 0%,
+              transparent 60%),
+            linear-gradient(180deg, #0d1a17 0%, #06120e 100%);
+          box-shadow:
+            0 0 0 1px color-mix(in srgb, var(--tok) 30%, transparent),
+            0 0 36px color-mix(in srgb, var(--tok) 36%, transparent),
+            0 18px 50px rgba(0, 0, 0, 0.6);
+          animation: oc-spring-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+                     oc-pop-glow 2.2s ease-in-out 0.5s infinite;
+        }
+        @keyframes oc-spring-in {
+          0%   { opacity: 0; transform: translateY(60px) scale(0.7); }
+          60%  { opacity: 1; transform: translateY(-8px) scale(1.04); }
+          100% { opacity: 1; transform: translateY(0)    scale(1); }
+        }
+        @keyframes oc-pop-glow {
+          0%, 100% { box-shadow:
+            0 0 0 1px color-mix(in srgb, var(--tok) 30%, transparent),
+            0 0 36px color-mix(in srgb, var(--tok) 36%, transparent),
+            0 18px 50px rgba(0, 0, 0, 0.6); }
+          50%      { box-shadow:
+            0 0 0 1px color-mix(in srgb, var(--tok) 55%, transparent),
+            0 0 56px color-mix(in srgb, var(--tok) 60%, transparent),
+            0 18px 60px rgba(0, 0, 0, 0.65); }
+        }
+        .oc-tap-popup .oc-tap-question { font-size: 1.05rem; }
+        .oc-tap-popup .oc-tap-option { padding: 0.85rem 1rem; font-size: 0.92rem; }
+        .oc-tap-popup .oc-tap-option:active {
+          transform: scale(0.97);
+          background: color-mix(in srgb, var(--tok) 18%, transparent);
+        }
+
+        /* ─────────── Confetti burst on correct ─────────── */
+        .oc-confetti {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          overflow: visible;
+          z-index: 10;
+        }
+        .oc-confetti-bit {
+          position: absolute;
+          top: 38%;
+          left: 50%;
+          width: 8px;
+          height: 8px;
+          border-radius: 2px;
+          opacity: 0;
+          animation: oc-confetti-fly 0.95s cubic-bezier(0.18, 0.8, 0.34, 1) forwards;
+          animation-delay: var(--delay, 0s);
+        }
+        @keyframes oc-confetti-fly {
+          0%   { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); }
+          80%  { opacity: 1; }
+          100% { opacity: 0;
+                 transform: translate(var(--dx, 50px), var(--dy, -40px))
+                            rotate(540deg) scale(0.4); }
+        }
+
         .oc-tap-question {
           font-family: 'Inter', system-ui, sans-serif;
           font-size: 1.15rem;
@@ -736,7 +928,8 @@ function TapQuickCard(props: Props) {
         }
         .oc-tap-options { display: flex; flex-direction: column; gap: 0.5rem; }
         .oc-tap-option {
-          padding: 1rem 1.1rem;
+          padding: 0.95rem 1.1rem;
+          min-height: 2.85rem;  /* Apple HIG 44px+ tap target — ADHD/mobile friendly */
           background: rgba(0, 255, 178, 0.04);
           border: 1px solid color-mix(in srgb, var(--tok) 28%, transparent);
           border-radius: 0.75rem;
@@ -756,7 +949,10 @@ function TapQuickCard(props: Props) {
           box-shadow: 0 0 18px color-mix(in srgb, var(--tok) 30%, transparent);
           transform: translateY(-1px);
         }
-        .oc-tap-option:active { transform: translateY(0); }
+        .oc-tap-option:active { transform: scale(0.97); }
+        @media (max-width: 640px) {
+          .oc-tap-option { padding: 1.1rem 1.15rem; min-height: 3.1rem; font-size: 1rem; }
+        }
 
         .oc-tap-hint {
           font-size: 0.82rem;

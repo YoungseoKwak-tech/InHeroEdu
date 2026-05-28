@@ -50,7 +50,7 @@ const supabase = createClient(SUPABASE_URL, SERVICE_KEY, {
 interface LessonRow {
   id: string;
   title: string | null;
-  subject: string | null;
+  course_id: string | null;
   unit_number: number | null;
   lesson_number: number | null;
 }
@@ -61,10 +61,26 @@ interface ScriptRow {
 interface ExportEntry {
   lesson_id: string;
   title: string;
-  subject: string;
+  course_id: string;
   unit_number: number;
   lesson_number: number;
   script: string;
+}
+
+// Small inline variant of getCourseIdVariants (this script doesn't import from
+// the app so it can run as a standalone Node process without the Next runtime).
+const COURSE_ID_VARIANT_GROUPS: string[][] = [
+  ["ap-biology", "ap-bio"],
+  ["ap-chemistry", "ap-chem"],
+  ["ap-calculus-ab", "ap-calc-ab", "ap-calculus"],
+  ["ap-physics-1", "ap-physics"],
+  ["ap-physics-2", "ap-phys2"],
+  ["ap-physics-c-mech", "ap-physics-c-mechanics"],
+  ["ap-us-history", "ap-history", "apush"],
+];
+function getCourseIdVariants(courseId: string): string[] {
+  const group = COURSE_ID_VARIANT_GROUPS.find((variants) => variants.includes(courseId));
+  return group ? Array.from(new Set(group)) : [courseId];
 }
 
 function parseArg(name: string, fallback?: string): string | undefined {
@@ -74,21 +90,23 @@ function parseArg(name: string, fallback?: string): string | undefined {
 }
 
 async function main() {
-  const filterSubject = parseArg("subject");
+  // Accept either --course or --subject; --subject is a legacy alias.
+  const filterCourse = parseArg("course") ?? parseArg("subject");
   const limitArg = parseArg("limit");
   const limit = limitArg ? Number(limitArg) : undefined;
 
-  console.log("[export] querying lessons…", { filterSubject, limit });
+  console.log("[export] querying lessons…", { filterCourse, limit });
 
   let lessonsQuery = supabase
     .from("lessons")
-    .select("id, title, subject_id, subject, unit_number, lesson_number")
-    .order("subject_id", { ascending: true })
+    .select("id, title, course_id, unit_number, lesson_number")
+    .order("course_id", { ascending: true })
     .order("unit_number", { ascending: true })
     .order("lesson_number", { ascending: true });
 
-  if (filterSubject) {
-    lessonsQuery = lessonsQuery.or(`subject_id.eq.${filterSubject},subject.eq.${filterSubject}`);
+  if (filterCourse) {
+    const variants = getCourseIdVariants(filterCourse);
+    lessonsQuery = lessonsQuery.in("course_id", variants);
   }
   if (limit) lessonsQuery = lessonsQuery.limit(limit);
 
@@ -97,7 +115,7 @@ async function main() {
     console.error("[export] lessons query failed:", lessonErr.message);
     process.exit(1);
   }
-  const lessons = (lessonRows ?? []) as Array<LessonRow & { subject_id?: string | null }>;
+  const lessons = (lessonRows ?? []) as LessonRow[];
   console.log(`[export] ${lessons.length} lessons matched.`);
 
   if (lessons.length === 0) {
@@ -133,7 +151,7 @@ async function main() {
     entries.push({
       lesson_id: l.id,
       title: l.title ?? "(untitled)",
-      subject: l.subject_id ?? l.subject ?? "unknown",
+      course_id: l.course_id ?? "unknown",
       unit_number: l.unit_number ?? 0,
       lesson_number: l.lesson_number ?? 0,
       script,

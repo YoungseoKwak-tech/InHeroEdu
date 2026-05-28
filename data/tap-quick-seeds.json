@@ -1,0 +1,427 @@
+[
+  {
+    "lesson_id": "ap-biology-u1-l1",
+    "title": "Why Water Makes Life Possible",
+    "overlays": [
+      {
+        "section_ref": "HERO EXPLAIN 1",
+        "kind": "predict",
+        "question": "Oxygen pulls shared electrons closer. Which atom becomes δ−?",
+        "options": [
+          {
+            "label": "Oxygen",
+            "correct": true,
+            "feedback": "Right — oxygen pulls electrons toward itself, so it carries the partial negative charge."
+          },
+          {
+            "label": "Hydrogen",
+            "correct": false,
+            "feedback": "H loses electron density to oxygen, so H goes δ+. The stronger puller gets δ−."
+          }
+        ],
+        "rule": "Higher electronegativity wins the electrons — and gets the δ−.",
+        "hint": "Which atom is more electronegative — 3.5 or 2.1?"
+      },
+      {
+        "section_ref": "SPARK",
+        "kind": "trap",
+        "question": "What kind of bond holds two water molecules side-by-side?",
+        "options": [
+          {
+            "label": "Hydrogen bond",
+            "correct": true,
+            "feedback": "Yes — δ+ H of one water attracts δ− O of another. Weak but everywhere."
+          },
+          {
+            "label": "Covalent bond",
+            "correct": false,
+            "feedback": "Covalent is INSIDE one water molecule (O–H). Between molecules is hydrogen bonding."
+          },
+          {
+            "label": "Ionic bond",
+            "correct": false,
+            "feedback": "No ions in pure water. Just partial charges attracting each other."
+          }
+        ],
+        "rule": "Covalent = INSIDE one molecule. H-bond = BETWEEN molecules.",
+        "hint": "Are full charges involved here, or just partial ones?"
+      },
+      {
+        "section_ref": "GAP CRUNCH",
+        "kind": "trap",
+        "question": "pH drops from 6 to 5. H⁺ concentration changed by how much?",
+        "options": [
+          {
+            "label": "1× — small step",
+            "correct": false,
+            "feedback": "pH is logarithmic, not linear. 1 unit = 10× change. AP loves this trap."
+          },
+          {
+            "label": "10× more H⁺",
+            "correct": true,
+            "feedback": "Right — each pH unit is a factor of 10. Small number, huge effect."
+          },
+          {
+            "label": "100× more H⁺",
+            "correct": false,
+            "feedback": "Each unit is 10×. Two units would be 100×. You only went 1 unit."
+          }
+        ],
+        "rule": "pH is logarithmic — each 1-unit change = 10× change in H⁺.",
+        "hint": "pH stands for the negative LOG of [H⁺]."
+      },
+      {
+        "section_ref": "HERO EXPLAIN 2",
+        "kind": "predict",
+        "question": "Heat hits an enzyme. Which bonds break first and disable it?",
+        "options": [
+          {
+            "label": "Hydrogen bonds in tertiary structure",
+            "correct": true,
+            "feedback": "Right — weak H-bonds holding the 3D shape break first. The enzyme unfolds."
+          },
+          {
+            "label": "Peptide covalent bonds",
+            "correct": false,
+            "feedback": "Covalent peptide bonds are far too strong for just heat. That's denaturation vs digestion."
+          }
+        ],
+        "rule": "Phase transitions break intermolecular networks first — covalent bonds stay intact.",
+        "hint": "Weak bonds go first. Which interactions hold the FOLD, not the chain itself?"
+      }
+    ]
+  },
+  {
+    "lesson_id": "ap-biology-u1-l2",
+    "title": "Carbon: The Backbone of Life",
+    "overlays": [
+      {
+        "section_ref": "HERO EXPLAIN 1",
+        "kind": "predict",
+        "question": "How many covalent bonds can a single carbon make?",
+        "options": [
+          {
+            "label": "2",
+            "correct": false,
+            "feedback": "That's water's hydrogen count. Carbon has 4 valence slots — it makes 4 bonds."
+          },
+          {
+            "label": "4",
+            "correct": true,
+            "feedback": "Right — 4 bonds. That's why carbon makes long branched chains, the backbone of every organic molecule."
+          },
+          {
+            "label": "8",
+            "correct": false,
+            "feedback": "Carbon has 4 valence electrons, not 8 bonds. 4 is the magic number."
+          }
+        ],
+        "rule": "Carbon = 4 bonds. Every organic molecule is built on that fact.",
+        "hint": "Think valence electrons in the outer shell."
+      },
+      {
+        "section_ref": "SPARK",
+        "kind": "trap",
+        "question": "C₄H₁₀ describes exactly ONE specific molecule. True?",
+        "options": [
+          {
+            "label": "True — formula = identity",
+            "correct": false,
+            "feedback": "Trap. Butane AND isobutane are both C₄H₁₀. Same formula, different shape, different behavior."
+          },
+          {
+            "label": "False — could be isomers",
+            "correct": true,
+            "feedback": "Right — same molecular formula can have multiple structural arrangements. Shape ≠ formula."
+          }
+        ],
+        "rule": "Molecular formula = count. Structural formula = arrangement. AP tests arrangement.",
+        "hint": "What if you branch the chain in the middle?"
+      },
+      {
+        "section_ref": "HERO EXPLAIN 2",
+        "kind": "predict",
+        "question": "An amino acid's carboxyl (–COOH) group — what does it do with H⁺?",
+        "options": [
+          {
+            "label": "Donates H⁺ (acid)",
+            "correct": true,
+            "feedback": "Right — carboxyl gives up its H⁺ easily. That's why it's classified as an acidic group."
+          },
+          {
+            "label": "Accepts H⁺ (base)",
+            "correct": false,
+            "feedback": "That's amino (–NH₂). Carboxyl donates. The –OH end loses its H⁺."
+          }
+        ],
+        "rule": "Carboxyl = donates H⁺ (acid). Amino = accepts H⁺ (base).",
+        "hint": "The word 'carboxylic ACID' is a hint."
+      },
+      {
+        "section_ref": "GAP CRUNCH",
+        "kind": "trap",
+        "question": "Hydroxyl (–OH) groups make a molecule fully charged. True?",
+        "options": [
+          {
+            "label": "Yes — –OH = charge",
+            "correct": false,
+            "feedback": "Trap. –OH makes the molecule POLAR but not charged. δ+/δ− are partial, not full."
+          },
+          {
+            "label": "No — polar, not charged",
+            "correct": true,
+            "feedback": "Right — hydroxyl creates partial charges via electronegativity. Polar ≠ ionic."
+          }
+        ],
+        "rule": "Polar (partial charge δ) ≠ charged (full + or −). AP grades this distinction.",
+        "hint": "Has any electron been fully transferred, or just shared unequally?"
+      }
+    ]
+  },
+  {
+    "lesson_id": "ap-biology-u1-l3",
+    "title": "Carbohydrates — Energy and Structure",
+    "overlays": [
+      {
+        "section_ref": "HERO EXPLAIN 1",
+        "kind": "predict",
+        "question": "Chain alpha-glucose together. The polymer's shape is:",
+        "options": [
+          {
+            "label": "Coiled / helical",
+            "correct": true,
+            "feedback": "Right — alpha linkage bends each junction. Many bends = coil. That's why starch packs into granules."
+          },
+          {
+            "label": "Straight and rigid",
+            "correct": false,
+            "feedback": "That's beta-glucose → cellulose. Alpha bends, beta stays straight."
+          }
+        ],
+        "rule": "Alpha → coiled (storage). Beta → straight (structure).",
+        "hint": "Which version was the one with a slight bend at each link?"
+      },
+      {
+        "section_ref": "SPARK",
+        "kind": "trap",
+        "question": "Same monomer (glucose), different linkage. Same function?",
+        "options": [
+          {
+            "label": "Yes — same monomer = same role",
+            "correct": false,
+            "feedback": "Trap. Starch (alpha) is energy storage. Cellulose (beta) is structural. Linkage decides everything."
+          },
+          {
+            "label": "No — linkage changes function",
+            "correct": true,
+            "feedback": "Right — one bond flip is the entire reason starch is digestible and cellulose isn't."
+          }
+        ],
+        "rule": "Monomer identity ≠ polymer function. Linkage geometry decides the role.",
+        "hint": "Same Lego brick, different snap orientation. Same final tower?"
+      },
+      {
+        "section_ref": "HERO EXPLAIN 2",
+        "kind": "predict",
+        "question": "A human eats raw cellulose. What happens to it?",
+        "options": [
+          {
+            "label": "Digested like starch",
+            "correct": false,
+            "feedback": "We have amylase (alpha-only). No cellulase = no breakdown. It passes through as fiber."
+          },
+          {
+            "label": "Passes through as fiber",
+            "correct": true,
+            "feedback": "Right — wrong enzyme shape. Amylase can't bind beta-linkages. Cellulose exits intact."
+          }
+        ],
+        "rule": "Enzyme specificity = shape match. Wrong shape = no reaction, no matter how 'similar' the substrate.",
+        "hint": "Which enzyme do you actually make — amylase or cellulase?"
+      },
+      {
+        "section_ref": "GAP CRUNCH",
+        "kind": "connect",
+        "question": "Cows digest grass. Why can they when we can't?",
+        "options": [
+          {
+            "label": "Cows produce cellulase themselves",
+            "correct": false,
+            "feedback": "Cows don't make cellulase either. Their gut BACTERIA do. Symbiosis, not new cow biology."
+          },
+          {
+            "label": "Gut bacteria do it for them",
+            "correct": true,
+            "feedback": "Right — cows host cellulase-producing bacteria. Same enzyme-shape logic, just outsourced."
+          }
+        ],
+        "rule": "Same chemistry, outsourced biology. Symbiotic enzyme strategies appear all over AP Bio.",
+        "hint": "Cows are not chemically different from humans — but they host different…?"
+      }
+    ]
+  },
+  {
+    "lesson_id": "ap-biology-u1-l4",
+    "title": "Lipids — Membranes, Energy, Signals",
+    "overlays": [
+      {
+        "section_ref": "HERO EXPLAIN 1",
+        "kind": "predict",
+        "question": "Unsaturated fatty acid has a kink. Membrane fluidity is:",
+        "options": [
+          {
+            "label": "More fluid",
+            "correct": true,
+            "feedback": "Right — kinks prevent tight packing. Gaps between chains keep the membrane flexible."
+          },
+          {
+            "label": "Less fluid",
+            "correct": false,
+            "feedback": "That's saturated (straight, packs tight). Kinks = looser packing = more fluid."
+          }
+        ],
+        "rule": "Kink → can't pack → more fluid. Straight → packs → more rigid.",
+        "hint": "Can bent straws pack together as tightly as straight ones?"
+      },
+      {
+        "section_ref": "SPARK",
+        "kind": "trap",
+        "question": "Cold-water fish — which fatty acid type dominates in their membranes?",
+        "options": [
+          {
+            "label": "Saturated (straight)",
+            "correct": false,
+            "feedback": "Cold would make saturated membranes too rigid. Fish need MORE fluidity in cold, not less."
+          },
+          {
+            "label": "Unsaturated (kinked)",
+            "correct": true,
+            "feedback": "Right — cold stiffens membranes, so fish pre-compensate with kinked tails. Structural logic, not random."
+          }
+        ],
+        "rule": "Membranes adapt: cold → more unsaturated. Warm → more saturated. Compensation principle.",
+        "hint": "What would cold do to the membrane WITHOUT this adaptation?"
+      },
+      {
+        "section_ref": "GAP CRUNCH",
+        "kind": "trap",
+        "question": "Cholesterol always makes membranes more fluid. True?",
+        "options": [
+          {
+            "label": "True",
+            "correct": false,
+            "feedback": "Trap. Cholesterol is a BUFFER — increases fluidity in cold, DECREASES it in heat. Context-dependent."
+          },
+          {
+            "label": "False — depends on temperature",
+            "correct": true,
+            "feedback": "Right — same molecule, opposite effects depending on temp. That's the buffer mechanism AP tests."
+          }
+        ],
+        "rule": "Cholesterol = fluidity buffer. Effect depends on context — high temp or low temp.",
+        "hint": "What word does the script use — 'fluidity ___'?"
+      },
+      {
+        "section_ref": "HERO EXPLAIN 2",
+        "kind": "predict",
+        "question": "Membrane is at HIGH temperature. Cholesterol's effect on fluidity?",
+        "options": [
+          {
+            "label": "Increases fluidity further",
+            "correct": false,
+            "feedback": "Counterintuitive but no. At high temp the membrane is already too loose — cholesterol restricts movement."
+          },
+          {
+            "label": "Decreases fluidity",
+            "correct": true,
+            "feedback": "Right — cholesterol's rigid rings restrict over-active tails. Buffer kicks in opposite to need."
+          }
+        ],
+        "rule": "High temp → cholesterol decreases fluidity. Low temp → cholesterol increases fluidity.",
+        "hint": "If the membrane is already too loose, what would a stiffener do?"
+      }
+    ]
+  },
+  {
+    "lesson_id": "ap-biology-u1-l5",
+    "title": "Proteins — Structure Dictates Function",
+    "overlays": [
+      {
+        "section_ref": "HERO EXPLAIN 1",
+        "kind": "predict",
+        "question": "Peptide bonds in primary structure are:",
+        "options": [
+          {
+            "label": "Hydrogen bonds (weak)",
+            "correct": false,
+            "feedback": "H-bonds hold SECONDARY structure. Peptide bonds are stronger — they survive denaturation."
+          },
+          {
+            "label": "Covalent (strong)",
+            "correct": true,
+            "feedback": "Right — peptide = covalent. That's why primary structure survives heat and pH changes."
+          }
+        ],
+        "rule": "Primary = covalent peptide bonds. The only level that survives denaturation.",
+        "hint": "Which bonds get broken when something just unfolds, not falls apart?"
+      },
+      {
+        "section_ref": "SPARK",
+        "kind": "trap",
+        "question": "Secondary structure (alpha helix, beta sheet) is held by — what?",
+        "options": [
+          {
+            "label": "H-bonds between R-groups",
+            "correct": false,
+            "feedback": "Trap. R-group interactions hold TERTIARY structure. Secondary = backbone H-bonds, not R-groups."
+          },
+          {
+            "label": "H-bonds in the backbone",
+            "correct": true,
+            "feedback": "Right — secondary uses backbone carbonyl + amino H-bonds. R-groups don't enter until tertiary."
+          }
+        ],
+        "rule": "Secondary = BACKBONE H-bonds. Tertiary = R-GROUP interactions. Distinguishing these is AP gold.",
+        "hint": "Where are the H-bonds in an alpha helix — on side chains or on the chain itself?"
+      },
+      {
+        "section_ref": "GAP CRUNCH",
+        "kind": "trap",
+        "question": "An enzyme denatures from heat. Has it been digested?",
+        "options": [
+          {
+            "label": "Yes — bonds are broken",
+            "correct": false,
+            "feedback": "Denaturation = unfolding. Hydrolysis = chopping into amino acids. Denatured ≠ digested."
+          },
+          {
+            "label": "No — just unfolded",
+            "correct": true,
+            "feedback": "Right — denatured proteins are still one polypeptide. Peptide bonds intact. Just lost the shape."
+          }
+        ],
+        "rule": "Denaturation = unfold. Hydrolysis = break peptide bonds. AP penalizes confusing these.",
+        "hint": "Are the amino acids still connected, or in pieces?"
+      },
+      {
+        "section_ref": "HERO EXPLAIN 2",
+        "kind": "predict",
+        "question": "Heat denatures a protein. Which bonds SURVIVE the unfolding?",
+        "options": [
+          {
+            "label": "Peptide bonds (covalent)",
+            "correct": true,
+            "feedback": "Right — covalent peptide bonds are too strong for heat. Only H-bonds + ionic + hydrophobic break."
+          },
+          {
+            "label": "Hydrogen bonds in helices",
+            "correct": false,
+            "feedback": "Those go first — they hold secondary together. Heat breaks weak interactions, not covalent ones."
+          }
+        ],
+        "rule": "Heat denatures weak bonds (H-bond, ionic, hydrophobic). Strong covalent bonds survive.",
+        "hint": "Strong vs weak — which kind does mild heat actually disrupt?"
+      }
+    ]
+  }
+]
