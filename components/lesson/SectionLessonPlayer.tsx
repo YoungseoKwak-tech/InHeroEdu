@@ -18,6 +18,7 @@ import OverlayCard from "@/components/lesson/OverlayCard";
 import type { PlaylistItem } from "@/lib/buildPlaylist";
 import { getTier } from "@/lib/streakTiers";
 import { authFetch } from "@/lib/client-auth";
+import { startTelemetrySession, emit as emitTelemetry, endTelemetrySession } from "@/lib/attentionTelemetry";
 
 const STREAK_CHANGED_EVENT = "inhero:streak-changed";
 
@@ -67,6 +68,18 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
     prevStreakRef.current = tapStreak;
   }, [tapStreak]);
   const sprintCount = useRef(0);
+
+  // ── Stage-1 attention telemetry: start a session per lesson visit ───────
+  useEffect(() => {
+    startTelemetrySession({ lessonId });
+    emitTelemetry("lesson_start", { playlist_length: playlist.length });
+    return () => {
+      // lesson_complete is emitted from advance() at the natural end; this
+      // path also fires for browser-back / route change so the session is
+      // closed cleanly either way.
+      endTelemetrySession();
+    };
+  }, [lessonId, playlist.length]);
 
   // ── Hydrate streak from server on mount ─────────────────────────────────
   // Source of truth lives in student_streak_state (server). Local useState
@@ -151,12 +164,13 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
       setCompletedIdxs((prev) => new Set(prev).add(currentIdx));
       if (nextIdx >= playlist.length) {
         setDone(true);
+        emitTelemetry("lesson_complete", { items_completed: completedIdxs.size + 1 });
         onComplete?.();
       } else {
         setCurrentIdx(nextIdx);
       }
     },
-    [currentIdx, playlist.length, onComplete]
+    [currentIdx, playlist.length, onComplete, completedIdxs.size]
   );
 
   function handleVideoEnded() {
@@ -167,9 +181,47 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
       const sectionTitle = playlist[currentIdx].sectionTitle;
       setClipPulse(sectionTitle);
       window.setTimeout(() => setClipPulse((p) => (p === sectionTitle ? null : p)), 900);
+      emitTelemetry("clip_locked", { section_title: sectionTitle, clip_idx: currentIdx });
+      emitTelemetry("video_ended", { section_title: sectionTitle });
     }
     advance(currentIdx + 1);
   }
+
+  // Video element lifecycle: pause / play / seek. Attach listeners to the
+  // active <video> ref whenever the current item is a clip. We re-attach on
+  // each clip change because <video> remounts.
+  useEffect(() => {
+    if (currentItem?.kind !== "clip") return;
+    const v = videoRef.current;
+    if (!v) return;
+    const onPlay = () => emitTelemetry("video_play", { current_time: v.currentTime });
+    const onPause = () => {
+      // Filter out the pause that fires right before "ended" — that's not
+      // a meaningful behavioral signal, just video element bookkeeping.
+      if (v.ended) return;
+      emitTelemetry("video_pause", { current_time: v.currentTime });
+    };
+    let lastTime = v.currentTime;
+    const onSeeking = () => { lastTime = v.currentTime; };
+    const onSeeked = () => {
+      const direction = v.currentTime < lastTime ? "back" : "forward";
+      emitTelemetry("video_seek", {
+        from_sec: Math.round(lastTime * 100) / 100,
+        to_sec: Math.round(v.currentTime * 100) / 100,
+        direction,
+      });
+    };
+    v.addEventListener("play", onPlay);
+    v.addEventListener("pause", onPause);
+    v.addEventListener("seeking", onSeeking);
+    v.addEventListener("seeked", onSeeked);
+    return () => {
+      v.removeEventListener("play", onPlay);
+      v.removeEventListener("pause", onPause);
+      v.removeEventListener("seeking", onSeeking);
+      v.removeEventListener("seeked", onSeeked);
+    };
+  }, [currentIdx, currentItem]);
 
   function handleOverlayComplete() {
     if (currentItem?.kind === "overlay") {
