@@ -134,7 +134,7 @@ export default function Wardrobe({
 
                 <div className={styles.cardBody}>
                   <p className={styles.cardName}>
-                    {o.name} <span className={styles.cardNameKo}>· {o.nameKo}</span>
+                    {o.name}
                   </p>
                   <p className={styles.cardSub}>{o.description}</p>
                   <span
