@@ -10,12 +10,12 @@ type Tab = "companion" | "socratic" | "reverse";
 
 const COPY = {
   ko: {
-    title: "AI 컴패니언",
-    subtitle: "감정 소통 · 소크라테스 튜터 · 역할 반전 학습",
+    title: "AI Companion",
+    subtitle: "Emotional support · Socratic tutoring · Reverse teaching",
     tabs: [
-      { id: "companion" as const, emoji: "💙", label: "마음 나누기", sub: "감정 소통 · 로드맵" },
-      { id: "socratic" as const, emoji: "🏛", label: "소크라테스 AI", sub: "질문으로만 유도" },
-      { id: "reverse" as const, emoji: "🔄", label: "역할 반전", sub: "내가 선생님" },
+      { id: "companion" as const, emoji: "💙", label: "Open Chat", sub: "Support · Roadmap" },
+      { id: "socratic" as const, emoji: "🏛", label: "Socratic AI", sub: "Guided by questions" },
+      { id: "reverse" as const, emoji: "🔄", label: "Reverse Tutor", sub: "You teach the AI" },
     ],
   },
   en: {

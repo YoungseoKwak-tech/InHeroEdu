@@ -436,7 +436,7 @@ export default function LibraryPage() {
         revealUploadedResource(uploadedResource);
       }
       if (finalizeJson.dedup) {
-        setError("이미 같은 파일이 업로드되어 있어서 기존 카드로 유지했어요.");
+        setError("This file is already in the library — kept the existing card.");
       }
       // Revalidate shortly after the optimistic card appears. Waiting a
       // beat avoids a read-after-write race where the immediate feed refetch

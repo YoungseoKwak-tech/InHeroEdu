@@ -13,7 +13,7 @@ interface Question {
   question_text: string;
 }
 
-const DIFF_LABEL: Record<string, string> = { easy: "쉬움", medium: "중간", hard: "어려움" };
+const DIFF_LABEL: Record<string, string> = { easy: "Easy", medium: "Medium", hard: "Hard" };
 const DIFF_COLOR: Record<string, string> = {
   easy:   "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400",
   medium: "bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400",
@@ -56,9 +56,9 @@ export default function SubjectQuestionBankPage({
       <div className="min-h-screen flex items-center justify-center text-gray-400">
         <div className="text-center">
           <div className="text-4xl mb-3">🔍</div>
-          <p>과목을 찾을 수 없습니다.</p>
+          <p>Subject not found.</p>
           <Link href="/question-bank" className="btn-primary text-sm mt-4 inline-block">
-            문제은행으로
+            Back to Question Bank
           </Link>
         </div>
       </div>
@@ -81,7 +81,7 @@ export default function SubjectQuestionBankPage({
       <div className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Link href="/question-bank" className="text-sm text-gray-400 hover:text-primary-500 flex items-center gap-1 mb-4 transition-colors">
-            ← 문제은행
+            ← Question Bank
           </Link>
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-sm"
@@ -95,7 +95,7 @@ export default function SubjectQuestionBankPage({
             <div className="ml-auto flex flex-col items-end gap-1">
               <div>
                 <span className="text-2xl font-black text-primary-500">{total}</span>
-                <span className="text-sm text-gray-400 ml-1">문제</span>
+                <span className="text-sm text-gray-400 ml-1">questions</span>
               </div>
               {total > 0 && (
                 <span
@@ -116,9 +116,9 @@ export default function SubjectQuestionBankPage({
           <aside className="lg:w-52 flex-shrink-0">
             <div className="card p-5 space-y-5">
               <div>
-                <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">난이도</p>
+                <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Difficulty</p>
                 <div className="space-y-1">
-                  {[{ v: "", l: "전체" }, { v: "easy", l: "쉬움" }, { v: "medium", l: "중간" }, { v: "hard", l: "어려움" }].map(({ v, l }) => (
+                  {[{ v: "", l: "All" }, { v: "easy", l: "Easy" }, { v: "medium", l: "Medium" }, { v: "hard", l: "Hard" }].map(({ v, l }) => (
                     <button key={v} onClick={() => setFilterDiff(v)}
                       className={`w-full text-left text-sm px-3 py-2 rounded-lg transition-colors ${
                         filterDiff === v
@@ -132,9 +132,9 @@ export default function SubjectQuestionBankPage({
               </div>
 
               <div>
-                <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">유형</p>
+                <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Type</p>
                 <div className="space-y-1">
-                  {[{ v: "", l: "전체" }, { v: "multiple_choice", l: "객관식" }, { v: "free_response", l: "주관식" }].map(({ v, l }) => (
+                  {[{ v: "", l: "All" }, { v: "multiple_choice", l: "Multiple choice" }, { v: "free_response", l: "Free response" }].map(({ v, l }) => (
                     <button key={v} onClick={() => setFilterType(v)}
                       className={`w-full text-left text-sm px-3 py-2 rounded-lg transition-colors ${
                         filterType === v
@@ -149,7 +149,7 @@ export default function SubjectQuestionBankPage({
 
               {topics.length > 0 && (
                 <div>
-                  <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">토픽</p>
+                  <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Topic</p>
                   <div className="flex flex-wrap gap-1">
                     {topics.slice(0, 8).map((t) => (
                       <span key={t} className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-500 px-2 py-0.5 rounded-full">
@@ -171,10 +171,10 @@ export default function SubjectQuestionBankPage({
             {total > 0 && (
               <div className="mb-4 flex items-center justify-between">
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-bold text-gray-900 dark:text-white">{total}</span>개 문제
+                  <span className="font-bold text-gray-900 dark:text-white">{total}</span> questions
                 </p>
                 <button onClick={startPractice} className="btn-primary text-sm py-2.5 px-6">
-                  🚀 풀기 시작
+                  🚀 Start practicing
                 </button>
               </div>
             )}
@@ -191,8 +191,8 @@ export default function SubjectQuestionBankPage({
             ) : questions.length === 0 ? (
               <div className="card p-12 text-center text-gray-400">
                 <div className="text-4xl mb-3">📭</div>
-                <p className="font-semibold text-gray-600 dark:text-gray-400">해당 조건의 문제가 없습니다</p>
-                <p className="text-sm mt-2">필터를 변경해보세요</p>
+                <p className="font-semibold text-gray-600 dark:text-gray-400">No questions match these filters</p>
+                <p className="text-sm mt-2">Try changing the filter</p>
               </div>
             ) : (
               <div className="space-y-3">
@@ -207,7 +207,7 @@ export default function SubjectQuestionBankPage({
                           {DIFF_LABEL[q.difficulty] ?? q.difficulty}
                         </span>
                         <span className="text-xs text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">
-                          {q.type === "multiple_choice" ? "객관식" : "주관식"}
+                          {q.type === "multiple_choice" ? "Multiple choice" : "Free response"}
                         </span>
                         {q.topic && (
                           <span className="text-xs text-gray-400">{q.topic}</span>
@@ -221,7 +221,7 @@ export default function SubjectQuestionBankPage({
                 ))}
                 <div className="text-center pt-4">
                   <button onClick={startPractice} className="btn-primary text-sm py-3 px-10">
-                    🚀 {total}개 문제 풀기 시작
+                    🚀 Start {total}-question set
                   </button>
                 </div>
               </div>
