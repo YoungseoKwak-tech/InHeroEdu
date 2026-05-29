@@ -45,24 +45,24 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
   const { lang } = useLang();
   const copy = {
     ko: {
-      notFound: "질문을 찾을 수 없어요",
-      back: "돌아가기",
-      list: "질의응답 목록",
-      views: "조회",
-      answers: "답변",
-      aiTutor: "AI 튜터",
-      aiAnswer: "AI 답변 (즉시) ✨",
-      aiLoading: "AI가 답변을 생성하고 있어요...",
-      noAnswers: "아직 답변이 없어요.",
-      expert: "Expert 답변 ✓",
-      accepted: "채택된 답변 🏆",
-      helpful: "👍 도움돼요",
-      write: "답변 작성",
-      answerPlaceholder: "친절하고 자세한 답변을 작성해주세요",
-      anonymousAnswer: "익명으로 답변",
-      anonymous: "익명",
-      submit: "답변 등록",
-      submitting: "등록 중...",
+      notFound: "Question not found",
+      back: "Back",
+      list: "Q&A list",
+      views: "views",
+      answers: "answers",
+      aiTutor: "AI tutor",
+      aiAnswer: "AI answer (instant) ✨",
+      aiLoading: "AI is drafting an answer…",
+      noAnswers: "No answers yet.",
+      expert: "Expert answer ✓",
+      accepted: "Accepted answer 🏆",
+      helpful: "👍 Helpful",
+      write: "Write an answer",
+      answerPlaceholder: "Write a kind, detailed answer",
+      anonymousAnswer: "Post anonymously",
+      anonymous: "Anonymous",
+      submit: "Post answer",
+      submitting: "Posting…",
     },
     en: {
       notFound: "Question not found",
@@ -205,14 +205,14 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
       {showPrompt && (
         <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center px-4">
           <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 w-full max-w-sm shadow-2xl">
-            <h2 className="font-extrabold text-gray-900 dark:text-white mb-1">닉네임을 입력해주세요</h2>
-            <p className="text-xs text-gray-400 mb-4">답변에 표시될 이름이에요</p>
+            <h2 className="font-extrabold text-gray-900 dark:text-white mb-1">Pick a display name</h2>
+            <p className="text-xs text-gray-400 mb-4">This is the name shown on your answer.</p>
             <input autoFocus value={nameInput} onChange={(e) => setNameInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSetName()}
-              placeholder="예: 서울학생123"
+              placeholder="e.g. yk_apbio"
               className="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-400 mb-4"
             />
-            <button onClick={handleSetName} disabled={!nameInput.trim()} className="w-full btn-primary disabled:opacity-40">확인</button>
+            <button onClick={handleSetName} disabled={!nameInput.trim()} className="w-full btn-primary disabled:opacity-40">Confirm</button>
           </div>
         </div>
       )}

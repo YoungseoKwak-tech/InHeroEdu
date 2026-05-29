@@ -34,7 +34,7 @@ const DIFF_COLOR: Record<string, string> = {
   medium: "bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400",
   hard:   "bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400",
 };
-const DIFF_LABEL: Record<string, string> = { easy: "쉬움", medium: "중간", hard: "어려움" };
+const DIFF_LABEL: Record<string, string> = { easy: "Easy", medium: "Medium", hard: "Hard" };
 
 function PracticeInner({ subjectId }: { subjectId: string }) {
   const searchParams = useSearchParams();
@@ -64,10 +64,10 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
     fetch(`/api/question-bank?${params}`)
       .then((r) => r.json())
       .then((data) => {
-        if (!data.questions?.length) setError("풀 수 있는 문제가 없습니다.");
+        if (!data.questions?.length) setError("No questions available.");
         setQuestions(data.questions ?? []);
       })
-      .catch(() => setError("문제를 불러오지 못했습니다."))
+      .catch(() => setError("Could not load questions."))
       .finally(() => setLoading(false));
   }, [subjectId, searchParams]);
 
@@ -164,9 +164,9 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 text-gray-400">
         <div className="text-4xl">📭</div>
-        <p className="font-semibold">{error || "문제가 없습니다"}</p>
+        <p className="font-semibold">{error || "No questions available"}</p>
         <Link href={`/question-bank/${subjectId}`} className="btn-primary text-sm py-2.5 px-6">
-          뒤로 가기
+          Back
         </Link>
       </div>
     );
@@ -183,27 +183,27 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
               {accuracy >= 80 ? "🎉" : accuracy >= 60 ? "👍" : "📚"}
             </div>
             <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">
-              세션 완료!
+              Session complete!
             </h1>
             <div className="flex justify-center gap-6 mt-6">
               <div className="text-center">
                 <p className="text-3xl font-black text-gray-900 dark:text-white">{correctCount}</p>
-                <p className="text-xs text-gray-400 mt-1">정답</p>
+                <p className="text-xs text-gray-400 mt-1">Correct</p>
               </div>
               <div className="text-center">
                 <p className="text-3xl font-black text-red-500">{attempts.length - correctCount}</p>
-                <p className="text-xs text-gray-400 mt-1">오답</p>
+                <p className="text-xs text-gray-400 mt-1">Wrong</p>
               </div>
               <div className="text-center">
                 <p className="text-3xl font-black text-primary-500">{accuracy}%</p>
-                <p className="text-xs text-gray-400 mt-1">정답률</p>
+                <p className="text-xs text-gray-400 mt-1">Accuracy</p>
               </div>
             </div>
           </div>
 
           {wrongTopics.length > 0 && (
             <div className="card p-5">
-              <h2 className="font-bold text-gray-900 dark:text-white mb-3 text-sm">취약 토픽</h2>
+              <h2 className="font-bold text-gray-900 dark:text-white mb-3 text-sm">Weak topics</h2>
               <div className="flex flex-wrap gap-2">
                 {wrongTopics.map((t) => (
                   <span key={t} className="text-xs bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-3 py-1 rounded-full border border-red-100 dark:border-red-800">
@@ -217,7 +217,7 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
           {wrongAttempts.length > 0 && (
             <div className="card p-5">
               <h2 className="font-bold text-gray-900 dark:text-white mb-3 text-sm">
-                틀린 문제 ({wrongAttempts.length}개)
+                Wrong ({wrongAttempts.length})
               </h2>
               <div className="space-y-2">
                 {wrongAttempts.map((a) => {
@@ -227,8 +227,8 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
                     <div key={a.questionId} className="p-3 bg-red-50 dark:bg-red-900/10 rounded-xl border border-red-100 dark:border-red-800">
                       <p className="text-xs text-gray-700 dark:text-gray-300 line-clamp-2">{q.question_text}</p>
                       <div className="flex items-center gap-3 mt-1.5 text-xs">
-                        <span className="text-red-500">내 답: {a.selectedAnswer}</span>
-                        <span className="text-emerald-500">정답: {q.correct_answer}</span>
+                        <span className="text-red-500">Your answer: {a.selectedAnswer}</span>
+                        <span className="text-emerald-500">Correct: {q.correct_answer}</span>
                       </div>
                     </div>
                   );
@@ -239,7 +239,7 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
 
           <div className="flex flex-col sm:flex-row gap-3">
             <Link href={`/question-bank/${subjectId}`} className="btn-secondary text-sm py-3 flex-1 text-center">
-              문제 목록으로
+              Back to question list
             </Link>
             <button
               onClick={() => {
@@ -249,11 +249,11 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
               }}
               className="btn-secondary text-sm py-3 flex-1"
             >
-              🔄 다시 풀기
+              🔄 Try again
             </button>
             {wrongAttempts.length > 0 && (
               <button onClick={handleThinkingAnalyzer} className="btn-primary text-sm py-3 flex-1">
-                🔍 사고력 심층 분석
+                🔍 Deep thinking analysis
               </button>
             )}
           </div>
@@ -305,7 +305,7 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
           {sessionRate !== null && (
             <div className="text-xs text-right">
               <span className="font-bold text-primary-500">{sessionRate}%</span>
-              <span className="text-gray-400 ml-1">정답률</span>
+              <span className="text-gray-400 ml-1">Accuracy</span>
             </div>
           )}
         </div>
@@ -320,7 +320,7 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
               {DIFF_LABEL[currentQuestion.difficulty] ?? currentQuestion.difficulty}
             </span>
             <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-500 px-2.5 py-1 rounded-full">
-              {currentQuestion.type === "multiple_choice" ? "객관식" : "주관식"}
+              {currentQuestion.type === "multiple_choice" ? "Multiple choice" : "Free response"}
             </span>
             {currentQuestion.topic && (
               <span className="text-xs text-gray-400">{currentQuestion.topic}</span>
@@ -379,7 +379,7 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
               value={selectedAnswer}
               onChange={(e) => setSelectedAnswer(e.target.value)}
               disabled={submitted}
-              placeholder="답을 입력하세요..."
+              placeholder="Type your answer…"
               className="w-full resize-none border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm bg-white dark:bg-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-400 disabled:opacity-70"
             />
           )}
@@ -391,7 +391,7 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
               disabled={!selectedAnswer.trim()}
               className="mt-5 w-full btn-primary py-3 disabled:opacity-40"
             >
-              제출하기
+              Submit
             </button>
           )}
         </div>
@@ -401,11 +401,11 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
           <div className={`card p-6 border-l-4 ${isCorrect ? "border-emerald-400" : "border-red-400"}`}>
             <div className="flex items-center gap-2 mb-3">
               <span className={`text-lg ${isCorrect ? "text-emerald-500" : "text-red-500"}`}>
-                {isCorrect ? "✓ 정답!" : "✗ 오답"}
+                {isCorrect ? "✓ Correct!" : "✗ Wrong"}
               </span>
               {!isCorrect && (
                 <span className="text-sm text-gray-500 dark:text-gray-400">
-                  정답: <strong className="text-emerald-600 dark:text-emerald-400">{currentQuestion.correct_answer}</strong>
+                  Correct: <strong className="text-emerald-600 dark:text-emerald-400">{currentQuestion.correct_answer}</strong>
                 </span>
               )}
             </div>
@@ -427,7 +427,7 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
                     showKorean ? "bg-primary-500 text-white" : "bg-gray-100 dark:bg-gray-800 text-gray-500"
                   }`}
                 >
-                  🇰🇷 한국어
+                  🇰🇷 Korean
                 </button>
               )}
             </div>
@@ -442,14 +442,14 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
                   onClick={handleThinkingAnalyzer}
                   className="btn-secondary text-sm py-2.5 flex items-center justify-center gap-2"
                 >
-                  🔍 사고력 분석으로 오답 분석
+                  🔍 Deep analysis of this miss
                 </button>
               )}
               <button
                 onClick={handleNext}
                 className="btn-primary text-sm py-2.5 flex-1"
               >
-                {currentIdx + 1 >= questions.length ? "결과 보기 →" : "다음 문제 →"}
+                {currentIdx + 1 >= questions.length ? "See results →" : "Next question →"}
               </button>
             </div>
           </div>

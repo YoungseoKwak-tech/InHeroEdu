@@ -26,10 +26,10 @@ type Status   = "unseen" | "hard" | "maybe" | "know";
 type TestPhase = "question" | "result";
 
 const STATUS_CONFIG = {
-  unseen: { label: "미학습",  color: "bg-gray-100 dark:bg-gray-700",   text: "text-gray-500" },
-  hard:   { label: "어려워요", color: "bg-red-100 dark:bg-red-900/30",   text: "text-red-500"  },
-  maybe:  { label: "애매해요", color: "bg-amber-100 dark:bg-amber-900/30", text: "text-amber-500" },
-  know:   { label: "알아요",  color: "bg-emerald-100 dark:bg-emerald-900/30", text: "text-emerald-500" },
+  unseen: { label: "Unseen", color: "bg-gray-100 dark:bg-gray-700",          text: "text-gray-500"    },
+  hard:   { label: "Hard",   color: "bg-red-100 dark:bg-red-900/30",         text: "text-red-500"     },
+  maybe:  { label: "Maybe",  color: "bg-amber-100 dark:bg-amber-900/30",     text: "text-amber-500"   },
+  know:   { label: "Got it", color: "bg-emerald-100 dark:bg-emerald-900/30", text: "text-emerald-500" },
 };
 
 function shuffle<T>(arr: T[]): T[] {
@@ -39,12 +39,12 @@ function shuffle<T>(arr: T[]): T[] {
 // ── Sample data (shown when Supabase tables don't exist yet) ─────────────
 
 const SAMPLE_SET_INFO: Record<string, FlashcardSet> = {
-  s1: { id: "s1", subject: "AP Biology",   title: "미토콘드리아 핵심 용어", card_count: 5 },
-  s2: { id: "s2", subject: "AP Biology",   title: "DNA 복제 핵심 용어",    card_count: 5 },
-  s3: { id: "s3", subject: "AP Chemistry", title: "원소 주기율",            card_count: 6 },
-  s4: { id: "s4", subject: "AP Calculus",  title: "미분 공식",              card_count: 6 },
-  s5: { id: "s5", subject: "AMC",          title: "핵심 공식 모음",         card_count: 5 },
-  s6: { id: "s6", subject: "SAT",          title: "고빈도 어휘",            card_count: 6 },
+  s1: { id: "s1", subject: "AP Biology",   title: "Mitochondria — core terms", card_count: 5 },
+  s2: { id: "s2", subject: "AP Biology",   title: "DNA replication — core terms", card_count: 5 },
+  s3: { id: "s3", subject: "AP Chemistry", title: "Periodic trends",          card_count: 6 },
+  s4: { id: "s4", subject: "AP Calculus",  title: "Differentiation rules",    card_count: 6 },
+  s5: { id: "s5", subject: "AMC",          title: "Key formulas",             card_count: 5 },
+  s6: { id: "s6", subject: "SAT",          title: "High-frequency vocab",     card_count: 6 },
 };
 
 const SAMPLE_CARDS: Record<string, Card[]> = {

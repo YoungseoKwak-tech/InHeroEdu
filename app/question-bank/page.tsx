@@ -27,16 +27,16 @@ export default function QuestionBankPage() {
               🏦
             </div>
             <div>
-              <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">문제은행</h1>
+              <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Question Bank</h1>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                과목별 문제 풀기 · 채점 · 오답 분석
+                Practice by subject · auto-grade · review what you missed
               </p>
             </div>
           </div>
           {!loading && (
             <div className="flex flex-wrap items-center gap-3 mt-4">
               <p className="text-sm text-gray-400">
-                총 <span className="font-bold text-primary-500">{totalQuestions.toLocaleString()}</span>개 문제
+                <span className="font-bold text-primary-500">{totalQuestions.toLocaleString()}</span> questions total
               </p>
               {totalQuestions > 0 && (
                 <span
@@ -75,7 +75,7 @@ export default function QuestionBankPage() {
                   <div className="h-px flex-1 bg-gray-100 dark:bg-gray-800" />
                   {!hasAny && (
                     <span className="text-xs text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full">
-                      준비 중
+                      Coming soon
                     </span>
                   )}
                 </div>
@@ -109,7 +109,7 @@ export default function QuestionBankPage() {
                           {count > 0 ? (
                             <div className="flex items-center gap-1.5">
                               <span className="text-xs font-semibold text-primary-500">
-                                {count}문제
+                                {count} questions
                               </span>
                               <span
                                 className="qb-time-chip qb-time-chip-sm"
@@ -119,7 +119,7 @@ export default function QuestionBankPage() {
                               </span>
                             </div>
                           ) : (
-                            <span className="text-xs text-gray-300 dark:text-gray-600">준비 중</span>
+                            <span className="text-xs text-gray-300 dark:text-gray-600">Coming soon</span>
                           )}
                           {count > 0 && (
                             <svg className="w-3.5 h-3.5 text-gray-300 group-hover:text-primary-400 transition-colors"
