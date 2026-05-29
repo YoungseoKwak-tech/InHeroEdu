@@ -8,10 +8,11 @@
  * pulsing dot + glow, italic serif prompts, accent rings/glow per type.
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { authFetch } from "@/lib/client-auth";
 import type { OverlayRow } from "@/lib/overlays";
 import { getTier, getNextTier, didCrossTier } from "@/lib/streakTiers";
+import { emit as emitTelemetry } from "@/lib/attentionTelemetry";
 
 interface Props {
   overlay: OverlayRow;
@@ -672,6 +673,11 @@ function TapQuickCard(props: Props) {
   const [pickedIdx, setPickedIdx] = useState<number | null>(null);
   const [showHint, setShowHint] = useState(false);
   const [showSlowAck, setShowSlowAck] = useState(false);
+  // Stage-1 telemetry: capture the moment the overlay appeared so we can
+  // attach an answer-latency to every tap. shownAtRef resets when the card
+  // remounts (each overlay item creates a new instance) and on mode flip
+  // into the followup retry.
+  const shownAtRef = useRef<number>(Date.now());
   // Variable reward baseline (60/30/10) + streak-boosted ceiling. Streak ≥ 3
   // boosts the tier by one (small→medium, medium→identity). Combines momentum
   // (Duolingo) with surprise (Skinner variable schedule).
@@ -749,6 +755,19 @@ function TapQuickCard(props: Props) {
     return () => clearTimeout(t);
   }, [pickedIdx]);
 
+  // Stage-1 telemetry: emit overlay_shown once per render of original or
+  // followup view. Latency is measured from this moment until the tap.
+  useEffect(() => {
+    shownAtRef.current = Date.now();
+    emitTelemetry("overlay_shown", {
+      overlay_id: overlay.id,
+      overlay_type: "TAP_QUICK",
+      kind: data.kind ?? null,
+      mode,
+      popup_mode: popupMode === true,
+    });
+  }, [overlay.id, mode, popupMode, data.kind]);
+
   function tap(i: number) {
     if (pickedIdx !== null) return;
     setPickedIdx(i);
@@ -768,6 +787,17 @@ function TapQuickCard(props: Props) {
     if (mode === "original") {
       onTapResult?.(correct);
     }
+    // Stage-1 telemetry: per-tap behavioral row carrying latency.
+    emitTelemetry("overlay_answered", {
+      overlay_id: overlay.id,
+      overlay_type: "TAP_QUICK",
+      kind: data.kind ?? null,
+      mode,
+      correct,
+      latency_ms: Date.now() - shownAtRef.current,
+      hint_used: showHint,
+      slow_ack_shown: showSlowAck,
+    });
     if (typeof navigator !== "undefined" && typeof navigator.vibrate === "function") {
       try { navigator.vibrate(correct ? [12, 40, 18] : 22); } catch { /* ignore */ }
     }
@@ -788,6 +818,13 @@ function TapQuickCard(props: Props) {
       response: "(skipped)",
       correct: false,
     }, ctx);
+    emitTelemetry("overlay_skipped", {
+      overlay_id: overlay.id,
+      overlay_type: "TAP_QUICK",
+      kind: data.kind ?? null,
+      mode,
+      latency_ms: Date.now() - shownAtRef.current,
+    });
     onComplete();
   }
 
@@ -850,7 +887,19 @@ function TapQuickCard(props: Props) {
           )}
           <div className="oc-tap-footer">
             {hint && !showHint && (
-              <button className="oc-tap-link" onClick={() => setShowHint(true)}>
+              <button
+                className="oc-tap-link"
+                onClick={() => {
+                  setShowHint(true);
+                  emitTelemetry("overlay_hint_used", {
+                    overlay_id: overlay.id,
+                    overlay_type: "TAP_QUICK",
+                    kind: data.kind ?? null,
+                    mode,
+                    latency_ms: Date.now() - shownAtRef.current,
+                  });
+                }}
+              >
                 Hint
               </button>
             )}
