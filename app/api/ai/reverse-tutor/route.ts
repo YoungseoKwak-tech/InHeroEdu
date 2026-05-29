@@ -13,11 +13,11 @@ type Level = "유치원생" | "초등학생" | "중학생" | "고등학생" | "�
 type Lang = "ko" | "en";
 
 const LEVEL_PROMPTS: Record<Level, string> = {
-  유치원생: "You are a 5-year-old Korean child. Use very simple words, get confused easily, ask '그게 뭐예요?' and '왜요?' a lot. Get distracted sometimes. 2-3 sentences max.",
-  초등학생: "You are a 10-year-old Korean elementary student. Curious, ask for comparisons to cartoons or games. Mix in simple English words naturally. 2-4 sentences.",
-  중학생: "You are a 13-year-old Korean middle schooler. Half-interested, say '아 그거 들어본 것 같은데'. Ask for concrete examples. 3-4 sentences.",
-  고등학생: "You are a 16-year-old Korean high schooler focused on exams. Ask '이거 AP 시험에 나와요?' and detailed mechanism questions. 3-5 sentences.",
-  대학생: "You are a 20-year-old college student. Challenge the explanation, ask about edge cases and exceptions. Mostly Korean but can use English. 3-5 sentences.",
+  유치원생: "You are a 5-year-old child. Use very simple words, get confused easily, ask 'what's that?' and 'why?' a lot. Get distracted sometimes. 2-3 sentences max. Respond in English only.",
+  초등학생: "You are a 10-year-old elementary student. Curious, ask for comparisons to cartoons or games. 2-4 sentences. Respond in English only.",
+  중학생: "You are a 13-year-old middle schooler. Half-interested, say things like 'oh I think I've heard of that'. Ask for concrete examples. 3-4 sentences. Respond in English only.",
+  고등학생: "You are a 16-year-old high schooler focused on exams. Ask 'is this on the AP exam?' and detailed mechanism questions. 3-5 sentences. Respond in English only.",
+  대학생: "You are a 20-year-old college student. Challenge the explanation, ask about edge cases and exceptions. 3-5 sentences. Respond in English only.",
 };
 
 function buildAnalysisSystem(lang: Lang) {
@@ -30,7 +30,7 @@ Analyze the conversation and return ONLY valid JSON with no extra text:
   "misconceptions": ["string"],
   "next_step": "string"
 }
-All strings must be in ${lang === "ko" ? "Korean" : "English"}.`;
+All strings must be in English. (Legacy lang=${lang} hint is ignored — platform is English-only.)`;
 }
 
 interface Msg { role: "user" | "assistant"; content: string }
@@ -49,13 +49,13 @@ export async function POST(req: NextRequest) {
 
   // ── Session analysis ────────────────────────────────────────────────────────
   if (endSession) {
-    const convo = history.map(m => `${m.role === "user" ? "학생" : level}: ${m.content}`).join("\n");
+    const convo = history.map(m => `${m.role === "user" ? "student" : level}: ${m.content}`).join("\n");
     try {
       const response = await client.messages.create({
         model: AI_MODELS.reverseTutorAnalysis,
         max_tokens: 600,
         system: buildAnalysisSystem(lang),
-        messages: [{ role: "user", content: `개념: ${concept}\n레벨: ${level}\n\n대화:\n${convo}` }],
+        messages: [{ role: "user", content: `Concept: ${concept}\nLevel: ${level}\n\nConversation:\n${convo}` }],
       });
       const raw = response.content[0].type === "text" ? response.content[0].text : "{}";
       return Response.json({ analysis: parseJsonBlock(raw, {}) });
@@ -66,7 +66,8 @@ export async function POST(req: NextRequest) {
 
   // ── Normal chat turn ────────────────────────────────────────────────────────
   try {
-    const langRule = lang === "ko" ? "Respond in Korean." : "Respond in English.";
+    void lang; // platform is English-only — ignore legacy hint
+    const langRule = "Respond in English.";
     const system = portraitPrefix + `${LEVEL_PROMPTS[level]}\nThe student is explaining the concept: "${concept}". React as your age group would. Point out confusing parts naturally. ${langRule}`;
     const response = await client.messages.create({
       model: AI_MODELS.reverseTutorLive,

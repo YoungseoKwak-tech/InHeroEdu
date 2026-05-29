@@ -28,8 +28,8 @@ They clicked a term because they want to understand it.
 Do NOT directly define the term. Instead:
 1. Connect it to something they already know from the lesson
 2. Ask one guiding question that leads them toward the definition
-Keep it warm, short (3-4 sentences + question), and in ${lang === "ko" ? "Korean" : "English"}.
-Example style: "방금 강의에서 [관련 개념]이 나왔죠? [term]은 그것과 연결돼요. 그렇다면 [term]이 없으면 세포에서 어떤 일이 일어날까요?"`;
+Keep it warm, short (3-4 sentences + question), and in English. Ignore the legacy ${lang} hint — platform is English-only.
+Example style: "We just saw [related concept] in the lecture. [term] connects to that. So what would happen in the cell if [term] were missing?"`;
 }
 
 export async function POST(req: NextRequest) {
@@ -43,9 +43,7 @@ export async function POST(req: NextRequest) {
 
   const { term, termEn, lessonTopic, mode = "default", lang = "ko" } = await req.json();
 
-  const userMsg = mode === "english"
-    ? `Explain the term "${term}" (${termEn ?? term}).`
-    : `학생이 "${term}"${termEn ? ` (${termEn})` : ""} 용어를 클릭했어요. 지금 배우는 주제는 "${lessonTopic}"이에요.`;
+  const userMsg = `The student clicked the term "${term}"${termEn ? ` (${termEn})` : ""}. The current lesson topic is "${lessonTopic}". Respond in English.`;
 
   try {
     const apiStream = await client.messages.stream({

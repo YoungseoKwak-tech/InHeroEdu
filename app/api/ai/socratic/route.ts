@@ -11,10 +11,10 @@ const client = new Anthropic({ apiKey: getAnthropicApiKey() });
 
 type Lang = "ko" | "en";
 
-function buildSystem(lang: Lang) {
-  const responseRule = lang === "ko"
-    ? 'Respond in Korean. If the student says "그냥 알려줘" or "답이 뭐야", warmly decline and ask an easier guiding question.'
-    : 'Respond in English. If the student says "just tell me" or asks for the answer directly, warmly decline and ask an easier guiding question.';
+function buildSystem(_lang: Lang) {
+  // Platform is English-only — ignore the legacy `lang` parameter.
+  void _lang;
+  const responseRule = 'Respond in English. If the student says "just tell me" or asks for the answer directly, warmly decline and ask an easier guiding question.';
 
   return `You are a Socratic tutor for AP subjects. NEVER give direct answers.
 Always respond with a guiding question that leads the student toward the answer.
