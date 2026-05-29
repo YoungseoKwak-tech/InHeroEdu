@@ -5,7 +5,7 @@ import HomeHeroDualPath from "@/components/landing/HomeHeroDualPath";
 export const metadata: Metadata = {
   title: "인히어로(InHero) | AI 기반 AP·SAT·미국 입시 학습 플랫폼",
   description:
-    "인히어로(InHero)는 Ivy League 학생 강의와 AI 학습 패턴 분석을 결합해 AP, SAT, IB, 미국 입시 준비를 돕는 영어 기반 교육 플랫폼입니다.",
+    "인히어로(InHero)는 Ivy League 학생 강의와 AI 학습 패턴 분석을 결합해 AP, SAT, 미국 입시 준비를 돕는 영어 기반 교육 플랫폼입니다.",
   keywords: [
     "인히어로",
     "인히어로 에듀",
@@ -13,7 +13,6 @@ export const metadata: Metadata = {
     "미국 입시",
     "AP 강의",
     "SAT 학습",
-    "IB 준비",
     "아이비리그 튜터",
     "AI 교육 플랫폼",
   ],
@@ -27,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "인히어로(InHero) | AI 기반 AP·SAT·미국 입시 학습 플랫폼",
     description:
-      "인히어로(InHero)는 Ivy League 학생 강의와 AI 학습 패턴 분석을 결합해 AP, SAT, IB, 미국 입시 준비를 돕는 영어 기반 교육 플랫폼입니다.",
+      "인히어로(InHero)는 Ivy League 학생 강의와 AI 학습 패턴 분석을 결합해 AP, SAT, 미국 입시 준비를 돕는 영어 기반 교육 플랫폼입니다.",
     type: "website",
     url: "https://inheroedu.com/kr",
     locale: "ko_KR",
@@ -37,12 +36,12 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "인히어로(InHero) | AI 기반 AP·SAT·미국 입시 학습 플랫폼",
     description:
-      "인히어로(InHero)는 Ivy League 학생 강의와 AI 학습 패턴 분석을 결합해 AP, SAT, IB, 미국 입시 준비를 돕는 영어 기반 교육 플랫폼입니다.",
+      "인히어로(InHero)는 Ivy League 학생 강의와 AI 학습 패턴 분석을 결합해 AP, SAT, 미국 입시 준비를 돕는 영어 기반 교육 플랫폼입니다.",
   },
 };
 
 const sections = [
-  "인히어로(InHero)는 AP, SAT, IB, 미국 입시를 준비하는 학생들을 위한 영어 기반 AI 학습 플랫폼입니다.",
+  "인히어로(InHero)는 AP, SAT, 미국 입시를 준비하는 학생들을 위한 영어 기반 AI 학습 플랫폼입니다.",
   "InHero는 Ivy League 학생들이 제작한 강의와 AI 학습 메모리를 결합해 학생이 어디에서 막히고, 어떤 방식으로 문제를 풀며, 어떤 개념에서 반복적으로 흔들리는지 기록합니다.",
   "단순한 온라인 강의가 아니라, 학생의 학습 패턴과 사고 흐름을 장기적으로 읽어 미국식 학업과 입시 방향성을 함께 설계하는 시스템입니다.",
   "현재 플랫폼의 수업, 문제풀이, AI 기능은 영어 기반으로 제공됩니다. 한국 학생과 학부모를 위한 안내는 이 페이지와 공식 블로그를 통해 제공됩니다.",
@@ -147,7 +146,7 @@ export default function KoreanLandingPage() {
             }}
           >
             InHero의 실제 수업 화면, AI 기능, 문제풀이 경험, 강의 구조는 영어권 학업 환경에 맞춰
-            설계되어 있습니다. AP, SAT, IB, 미국 대학 진학을 준비하는 학생에게 가장 자연스럽게
+            설계되어 있습니다. AP, SAT, 미국 대학 진학을 준비하는 학생에게 가장 자연스럽게
             맞도록 만든 영어 우선 플랫폼입니다.
           </p>
         </section>

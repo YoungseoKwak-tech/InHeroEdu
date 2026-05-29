@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import type { Subject } from "@/lib/subjects";
 import QuestionEditModal from "./QuestionEditModal";
 import { authFetch } from "@/lib/client-auth";
+import ConfirmDialog from "@/components/shared/ConfirmDialog";
 
 interface Question {
   id: string;
@@ -49,6 +50,8 @@ export default function QuestionList({ subject, refreshKey, onCountChange }: Que
   const [filterDiff, setFilterDiff] = useState("");
   const [filterType, setFilterType] = useState("");
   const [editingQuestion, setEditingQuestion] = useState<Question | null | "new">(null);
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
   const limit = 20;
 
   const fetchQuestions = useCallback(async () => {
@@ -81,9 +84,15 @@ export default function QuestionList({ subject, refreshKey, onCountChange }: Que
   }, [fetchQuestions, refreshKey]);
 
   async function handleDelete(id: string) {
-    if (!confirm("이 문제를 삭제할까요?")) return;
-    await authFetch(`/api/admin/questions?id=${id}`, { method: "DELETE" });
-    fetchQuestions();
+    if (deleting) return;
+    setDeleting(true);
+    try {
+      await authFetch(`/api/admin/questions?id=${id}`, { method: "DELETE" });
+      setPendingDeleteId(null);
+      fetchQuestions();
+    } finally {
+      setDeleting(false);
+    }
   }
 
   const totalPages = Math.ceil(total / limit);
@@ -171,7 +180,7 @@ export default function QuestionList({ subject, refreshKey, onCountChange }: Que
                           className="text-xs text-primary-500 hover:text-primary-700 font-semibold transition-colors">
                           수정
                         </button>
-                        <button onClick={() => handleDelete(q.id)}
+                        <button onClick={() => setPendingDeleteId(q.id)}
                           className="text-xs text-red-400 hover:text-red-600 font-semibold transition-colors">
                           삭제
                         </button>
@@ -209,6 +218,20 @@ export default function QuestionList({ subject, refreshKey, onCountChange }: Que
           onSaved={fetchQuestions}
         />
       )}
+      <ConfirmDialog
+        open={pendingDeleteId !== null}
+        title="Delete this question?"
+        message="This question will be removed from the admin question bank."
+        confirmLabel="Delete"
+        loading={deleting}
+        destructive
+        onConfirm={() => {
+          if (pendingDeleteId) void handleDelete(pendingDeleteId);
+        }}
+        onCancel={() => {
+          if (!deleting) setPendingDeleteId(null);
+        }}
+      />
     </div>
   );
 }

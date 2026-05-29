@@ -149,7 +149,7 @@ export default function EnglishPricingSection() {
               {[
                 'Unlimited access to every published course',
                 'AI Companion · Socratic Mode · Reverse Tutor',
-                'TAP_QUICK ADHD-tuned checkpoints in every lesson',
+                'TAP_QUICK attention-friendly checkpoints in every lesson',
                 'Streak + tier system, progress dashboard',
                 'Mission Control AI side panel',
               ].map((feature) => (

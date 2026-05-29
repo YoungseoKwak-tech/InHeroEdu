@@ -25,7 +25,9 @@ interface EvolutionEntry {
 }
 
 export default function HeroCodeSection() {
-  const { lang } = useLang();
+  const { lang: _lang } = useLang();
+  void _lang;
+  const lang = "en" as "en" | "ko";
   const tx = t[lang].heroCode;
   const [portrait, setPortrait] = useState<Portrait | null>(null);
   const [evolution, setEvolution] = useState<EvolutionEntry[]>([]);

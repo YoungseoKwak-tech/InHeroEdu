@@ -72,7 +72,10 @@ const COPY = {
 
 export default function SocraticTab() {
   const router = useRouter();
-  const { lang } = useLang();
+  const { lang: _lang } = useLang();
+  // Platform is English-only — see auth/ai-companion notes. Force English.
+  void _lang;
+  const lang = "en" as "en" | "ko";
   const tx = t[lang].aiCompanion.socratic;
   const copy = COPY[lang];
   const [topic, setTopic] = useState("");

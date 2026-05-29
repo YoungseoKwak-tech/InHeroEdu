@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { authFetch, getClientSession } from "@/lib/client-auth";
 import {
   POST_TYPES,
@@ -18,7 +18,7 @@ interface Props {
 export default function LoungeFeed({ slug, initialPosts }: Props) {
   const [posts, setPosts] = useState<PostPublic[]>(initialPosts);
   const [currentUserHandle, setCurrentUserHandle] = useState<string | null>(null);
-  const [currentUserEmail, setCurrentUserEmail] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState<boolean | null>(null);
   const [hasProfile, setHasProfile] = useState<boolean | null>(null);
 
@@ -27,12 +27,6 @@ export default function LoungeFeed({ slug, initialPosts }: Props) {
   const [postType, setPostType] = useState<PostType>("discussion");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const isAdmin = useMemo(() => {
-    if (!currentUserEmail) return false;
-    const adminList = ["yk777@cornell.edu", "hyeonjei@gmail.com"];
-    return adminList.includes(currentUserEmail.trim().toLowerCase());
-  }, [currentUserEmail]);
 
   useEffect(() => {
     let cancelled = false;
@@ -43,12 +37,11 @@ export default function LoungeFeed({ slug, initialPosts }: Props) {
         if (!session) {
           setIsSignedIn(false);
           setCurrentUserHandle(null);
-          setCurrentUserEmail(null);
+          setIsAdmin(false);
           setHasProfile(false);
           return;
         }
         setIsSignedIn(true);
-        setCurrentUserEmail(session.user.email ?? null);
         const res = await fetch("/api/profile/me", {
           headers: { Authorization: `Bearer ${session.access_token}` },
           cache: "no-store",
@@ -59,11 +52,14 @@ export default function LoungeFeed({ slug, initialPosts }: Props) {
           setCurrentUserHandle(json.profile.handle);
           setHasProfile(true);
         } else {
+          setIsAdmin(json.isAdmin === true);
           setHasProfile(false);
         }
+        setIsAdmin(json.isAdmin === true);
       } catch {
         if (!cancelled) {
           setIsSignedIn(false);
+          setIsAdmin(false);
           setHasProfile(false);
         }
       }

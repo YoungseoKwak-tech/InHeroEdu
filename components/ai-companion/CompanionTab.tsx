@@ -126,7 +126,10 @@ const COPY = {
 
 export default function CompanionTab() {
   const router = useRouter();
-  const { lang } = useLang();
+  const { lang: _lang } = useLang();
+  // Platform is English-only — force English.
+  void _lang;
+  const lang = "en" as "en" | "ko";
   const tx = t[lang].aiCompanion.companion;
   const copy = COPY[lang];
   const [mode, setMode] = useState<CompanionMode>("education");

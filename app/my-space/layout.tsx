@@ -27,7 +27,7 @@ export default function MySpaceLayout({ children }: { children: React.ReactNode 
           min-height: calc(100vh - 4rem);
           padding: 2rem 1.5rem 4rem;
           color: #d8d9e6;
-          font-family: 'Inter', 'Space Grotesk', system-ui, sans-serif;
+          font-family: Inter, Space Grotesk, system-ui, sans-serif;
           max-width: 100%;
           margin: 0;
         }
@@ -44,7 +44,7 @@ export default function MySpaceLayout({ children }: { children: React.ReactNode 
           margin-bottom: 0.4rem;
         }
         .ms-title {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: 2.1rem;
           font-weight: 600;
           letter-spacing: -0.01em;

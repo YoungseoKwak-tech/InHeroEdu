@@ -157,7 +157,7 @@ export default function FeaturedTextbooks() {
         }
         .ft-card-body { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
         .ft-card-title {
-          font-family: 'Cormorant Garamond', 'Georgia', serif;
+          font-family: Cormorant Garamond, Georgia, serif;
           font-size: 1.65rem; font-weight: 600;
           color: #f3f3fb;
           line-height: 1.15;

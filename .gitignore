@@ -8,3 +8,9 @@ node_modules/
 tsconfig.tsbuildinfo
 .DS_Store
 .claude/settings.local.json
+
+# Large textbook source PDFs (uploaded to Supabase Storage instead)
+AP_Biology_ultimate_Final.pdf
+AP_Chemistry_ultimate*.pdf
+AP_Physics_ultimate*.pdf
+*.pdf

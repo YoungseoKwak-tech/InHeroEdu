@@ -39,7 +39,7 @@ export default function BriefSection({ title, description, resources }: Props) {
           margin-bottom: 0.7rem;
         }
         .bs-title {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: 1.35rem;
           font-weight: 600;
           color: #f3f3fb;

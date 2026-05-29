@@ -42,7 +42,9 @@ const SUBJECT_COLORS: Record<string, string> = {
 
 export default function QuestionDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const { lang } = useLang();
+  const { lang: _lang } = useLang();
+  void _lang;
+  const lang = "en" as "en" | "ko";
   const copy = {
     ko: {
       notFound: "Question not found",

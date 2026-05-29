@@ -20,6 +20,7 @@ function chainFor(result: unknown) {
   Object.assign(chain, {
     select: vi.fn(passthrough),
     eq: vi.fn(passthrough),
+    is: vi.fn(passthrough),
     in: vi.fn(passthrough),
     order: vi.fn(passthrough),
     limit: vi.fn(passthrough),

@@ -31,14 +31,14 @@ export default function PracticeQuestions({ questions }: PracticeQuestionsProps)
     <div>
       <div className="flex items-center justify-between mb-6">
         <h3 className="font-bold text-gray-900 dark:text-white text-lg">
-          연습 문제
+          Practice questions
         </h3>
         {answered > 0 && (
           <div className="text-sm font-semibold text-gray-600 dark:text-gray-400">
-            {correct}/{answered} 정답
+            {correct}/{answered} correct
             {answered === questions.length && (
               <span className="ml-2 text-primary-500">
-                {correct === questions.length ? "🎉 완벽!" : "💪 계속 노력하세요!"}
+                {correct === questions.length ? "🎉 Perfect!" : "💪 Keep going!"}
               </span>
             )}
           </div>
@@ -114,7 +114,7 @@ export default function PracticeQuestions({ questions }: PracticeQuestionsProps)
                   }`}
                 >
                   <div className="font-semibold mb-2">
-                    {isCorrect ? "✅ 정답입니다!" : "❌ 오답입니다"}
+                    {isCorrect ? "✅ Correct!" : "❌ Not quite"}
                   </div>
                   <p>{q.explanation}</p>
                 </div>
@@ -124,11 +124,11 @@ export default function PracticeQuestions({ questions }: PracticeQuestionsProps)
                     onClick={() => handleReveal(q.id)}
                     className="text-xs text-gray-400 hover:text-primary-500 transition-colors underline"
                   >
-                    정답 확인하기
+                    Show correct answer
                   </button>
                   {showExplanation && (
                     <div className="mt-3 p-4 rounded-xl text-sm bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-                      <div className="font-semibold mb-2">💡 정답: {String.fromCharCode(65 + q.correctIndex)}</div>
+                      <div className="font-semibold mb-2">💡 Correct: {String.fromCharCode(65 + q.correctIndex)}</div>
                       <p>{q.explanation}</p>
                     </div>
                   )}

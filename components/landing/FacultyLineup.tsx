@@ -152,7 +152,7 @@ export default function FacultyLineup() {
               <div className="fc-more-overlay">
                 <div className="fc-more-tag">NEW · EVERY WEEK</div>
                 <div className="fc-more-text">
-                  AP Stats · AP Lit · AP Econ · IB Sciences · and more
+                  AP Stats · AP Lit · AP Econ · SAT prep · and more
                 </div>
               </div>
             </div>
@@ -213,7 +213,7 @@ function PrincipalModal({ onClose }: { onClose: () => void }) {
           <div className="pm-meta-row"><span className="pm-k">ROLE</span><span className="pm-v">THE ARCHITECT — original Korean logic source</span></div>
           <div className="pm-meta-row"><span className="pm-k">STATUS</span><span className="pm-v"><span className="pm-pulse" /> Reconstructing axioms</span></div>
         </div>
-        <p className="pm-footer">교장 선생님은 지금 코넬 엔지니어링 도서관에서 로직 구조를 재건축 중입니다. 방해 금지.</p>
+        <p className="pm-footer">The Principal is rebuilding logic structures in Cornell&apos;s engineering library. Do not disturb.</p>
       </div>
       <style>{PM_STYLES}</style>
     </div>

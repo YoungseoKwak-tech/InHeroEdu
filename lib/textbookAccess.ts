@@ -20,7 +20,9 @@ function parseEmailList(raw: string | undefined): string[] {
 
 export function getStaticCompEmails(): string[] {
   const comp = parseEmailList(process.env.COMP_TEXTBOOK_EMAILS);
-  const admins = parseEmailList(process.env.ADMIN_EMAILS ?? "yk777@cornell.edu,hyeonjei@gmail.com");
+  const localAdminFallback =
+    process.env.NODE_ENV === "development" ? "yk777@cornell.edu,hyeonjei@gmail.com" : "";
+  const admins = parseEmailList(process.env.ADMIN_EMAILS ?? localAdminFallback);
   return Array.from(new Set([...comp, ...admins]));
 }
 

@@ -784,7 +784,7 @@ export default function LibraryPage() {
           --gold: #F4C95D;
           min-height: calc(100vh - 4rem);
           color: #d8d9e6;
-          font-family: 'Inter', 'Space Grotesk', system-ui, sans-serif;
+          font-family: Inter, Space Grotesk, system-ui, sans-serif;
           position: relative;
         }
 
@@ -836,7 +836,7 @@ export default function LibraryPage() {
           margin-bottom: 0.4rem;
         }
         .lib-title {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: 2.1rem; font-weight: 600;
           letter-spacing: -0.01em;
           color: #f3f3fb;
@@ -954,7 +954,7 @@ export default function LibraryPage() {
         }
         .lib-upload-title {
           margin: 0.15rem 0 0;
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: 1.55rem;
           line-height: 1.05;
           color: #f3f3fb;
@@ -1906,7 +1906,7 @@ function FeedCard({
           display: inline-flex;
           align-items: center;
           gap: 0.3rem;
-          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-family: JetBrains Mono, ui-monospace, monospace;
           font-size: 0.62rem;
           font-weight: 700;
           letter-spacing: 0.06em;
@@ -1918,7 +1918,7 @@ function FeedCard({
           flex-shrink: 0;
         }
         .fc-author em {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-style: italic;
           font-size: 1.05em;
           font-weight: 600;

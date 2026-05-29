@@ -93,7 +93,6 @@ const COPY = {
     roleMode: (level: string) => `${level} 역할 중`,
     endAndAnalyze: "세션 종료 & 분석",
     analyzing: "분석 중...",
-    coaching: (level: string, concept: string) => `💡 <strong>${level}</strong>에게 <strong>${concept}</strong>을 쉽게 설명해보세요. 4회 이상 교환 후 세션 종료 가능.`,
   },
   en: {
     title: "Reverse Tutor",
@@ -111,13 +110,17 @@ const COPY = {
     roleMode: (level: string) => `Playing as ${level}`,
     endAndAnalyze: "End Session & Analyze",
     analyzing: "Analyzing...",
-    coaching: (level: string, concept: string) => `💡 Try explaining <strong>${concept}</strong> clearly to the <strong>${level}</strong>. You can end the session after 4 or more exchanges.`,
   },
 };
 
 export default function ReverseTutorTab() {
   const router = useRouter();
-  const { lang } = useLang();
+  const { lang: _lang } = useLang();
+  // Platform is English-only — override locale so every t[lang] / COPY[lang]
+  // / lang === 'ko' below resolves to the English branch without ripping out
+  // the i18n scaffolding.
+  void _lang;
+  const lang = "en" as "en" | "ko";
   const tx = t[lang].aiCompanion.reverse;
   const copy = COPY[lang];
   const levels = LEVELS[lang];
@@ -379,10 +382,17 @@ export default function ReverseTutorTab() {
         </button>
       </div>
 
-      <div
-        className="text-xs text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 px-4 py-2.5 rounded-xl border border-primary-200 dark:border-primary-800"
-        dangerouslySetInnerHTML={{ __html: copy.coaching(levelInfo.label, finalConcept) }}
-      />
+      <div className="text-xs text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 px-4 py-2.5 rounded-xl border border-primary-200 dark:border-primary-800">
+        {lang === "ko" ? (
+          <>
+            💡 <strong>{levelInfo.label}</strong>에게 <strong>{finalConcept}</strong>을 쉽게 설명해보세요. 4회 이상 교환 후 세션 종료 가능.
+          </>
+        ) : (
+          <>
+            💡 Try explaining <strong>{finalConcept}</strong> clearly to the <strong>{levelInfo.label}</strong>. You can end the session after 4 or more exchanges.
+          </>
+        )}
+      </div>
 
       <div className="card overflow-hidden">
         <div className="h-[360px] overflow-y-auto p-5 space-y-4">

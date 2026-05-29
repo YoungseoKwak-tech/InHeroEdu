@@ -122,7 +122,7 @@ async function readJsonSafely(res: Response): Promise<Record<string, unknown> | 
 
 async function loadPlanResponse(): Promise<Response> {
   const controller = new AbortController();
-  const timeout = window.setTimeout(() => controller.abort(), 12_000);
+  const timeout = window.setTimeout(() => controller.abort(), 7_000);
 
   try {
     return await authFetch("/api/generate-plan", {
@@ -241,7 +241,7 @@ export default function MyPlanPage() {
         if (mounted) {
           const message =
             e instanceof DOMException && e.name === "AbortError"
-              ? "Your plan took too long to load. Please try again."
+              ? "Your plan took too long to load. Try again, or sign in again if your session is stale."
               : e instanceof Error
                 ? e.message
                 : "Failed to load plan";

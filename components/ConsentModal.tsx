@@ -17,28 +17,28 @@ export default function ConsentModal({ onConsent }: { onConsent: (agreed: boolea
         width: '100%',
       }}>
         <h2 style={{ color: 'white', fontSize: '20px', marginBottom: '16px' }}>
-          학습 패턴 분석 동의
+          Learning pattern analysis — consent
         </h2>
         <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px', lineHeight: 1.7, marginBottom: '24px' }}>
           <p>
-            InHero는 더 나은 학습 경험을 위해{' '}
-            <strong style={{ color: '#C9A84C' }}>행동 패턴 데이터</strong>를 수집합니다.
+            To improve your learning experience, InHero collects{' '}
+            <strong style={{ color: '#C9A84C' }}>behavioral pattern data</strong>.
           </p>
           <br />
-          <p><strong style={{ color: 'white' }}>수집하는 것:</strong></p>
-          <p>• 어떤 유형의 문제에서 막히는지</p>
-          <p>• 학습 시간 및 빈도</p>
-          <p>• 사고 방식 패턴 (직접적/분석적/창의적)</p>
-          <p>• 에세이 소재 가능성 지표</p>
+          <p><strong style={{ color: 'white' }}>What we collect:</strong></p>
+          <p>• Which question types you get stuck on</p>
+          <p>• Study time and frequency</p>
+          <p>• Thinking-style patterns (direct / analytical / creative)</p>
+          <p>• Essay-topic potential signals</p>
           <br />
-          <p><strong style={{ color: 'white' }}>수집하지 않는 것:</strong></p>
-          <p>• AI와 나눈 대화 내용 원본</p>
-          <p>• 실명, 학교명, 주소</p>
-          <p>• 재정 정보, 가정환경 정보</p>
+          <p><strong style={{ color: 'white' }}>What we do NOT collect:</strong></p>
+          <p>• Verbatim AI chat transcripts</p>
+          <p>• Real name, school name, address</p>
+          <p>• Financial info, household info</p>
           <br />
           <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px' }}>
-            언제든지 설정에서 데이터를 삭제하거나 내보낼 수 있습니다.
-            (개인정보보호법 제36조, GDPR Article 17 준수)
+            You can delete or export your data anytime from Settings.
+            (Compliant with Korean PIPA Art. 36 and GDPR Article 17.)
           </p>
         </div>
         <div style={{ display: 'flex', gap: '12px' }}>
@@ -53,7 +53,7 @@ export default function ConsentModal({ onConsent }: { onConsent: (agreed: boolea
               cursor: 'pointer', fontSize: '14px',
             }}
           >
-            동의 안함
+            Decline
           </button>
           <button
             onClick={() => onConsent(true)}
@@ -65,7 +65,7 @@ export default function ConsentModal({ onConsent }: { onConsent: (agreed: boolea
               cursor: 'pointer', fontSize: '14px',
             }}
           >
-            동의하고 시작하기 ✦
+            Agree and continue ✦
           </button>
         </div>
       </div>

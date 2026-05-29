@@ -48,6 +48,7 @@ function makeThenableResult<T>(result: T) {
     gte: vi.fn(passthrough),
     in: vi.fn(passthrough),
     order: vi.fn(passthrough),
+    limit: vi.fn(passthrough),
     maybeSingle: vi.fn(passthrough),
     single: vi.fn(passthrough),
     then: (onFulfilled: (value: T) => unknown, onRejected?: (reason: unknown) => unknown) =>

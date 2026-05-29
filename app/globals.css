@@ -284,10 +284,6 @@ body.auth-modal-open button:disabled,
 body.auth-modal-open [aria-disabled="true"] {
   cursor: not-allowed !important;
 }
-body.auth-modal-open .space-cursor,
-body.auth-modal-open .cursor-trail {
-  display: none !important;
-}
 .space-cursor {
   position: fixed;
   pointer-events: none;

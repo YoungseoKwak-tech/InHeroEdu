@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuthenticatedUser, isAdminEmail } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
-import { isDocGroup, type DocGroup } from "@/lib/docGroups";
+import { isDocGroup, USER_UPLOADABLE_GROUPS, type DocGroup } from "@/lib/docGroups";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -10,6 +10,8 @@ const DEFAULT_LIMIT = 24;
 const MAX_LIMIT = 60;
 const TRENDING_WINDOW_DAYS = 14;
 const HYDRATION_LIMIT = 500;
+const RESOURCE_SELECT =
+  "id, chat_message_id, lounge_id, author_id, folder_type, title, description, attachment_url, attachment_meta, file_name, file_size, mime_type, is_inhero_official, is_seeded, download_count, upvote_count, comment_count, created_at, preview_page_1_url";
 
 type Sort = "new" | "trending";
 
@@ -106,9 +108,7 @@ export async function GET(req: NextRequest) {
 
   const resourceQuery = supabase
     .from("lounge_resources")
-    .select(
-      "id, chat_message_id, lounge_id, author_id, folder_type, title, description, attachment_url, attachment_meta, file_name, file_size, mime_type, is_inhero_official, is_seeded, download_count, upvote_count, comment_count, created_at, preview_page_1_url"
-    )
+    .select(RESOURCE_SELECT)
     .eq("review_status", "approved")
     .is("deleted_at", null)
     .order("created_at", { ascending: false })
@@ -117,7 +117,6 @@ export async function GET(req: NextRequest) {
 
   let resourceQueryFiltered = resourceQuery;
   if (loungeIdFilter) resourceQueryFiltered = resourceQueryFiltered.eq("lounge_id", loungeIdFilter);
-  if (folder) resourceQueryFiltered = resourceQueryFiltered.eq("folder_type", folder);
   if (officialFilter !== null) resourceQueryFiltered = resourceQueryFiltered.eq("is_inhero_official", officialFilter);
 
   const resourceRes = await resourceQueryFiltered;
@@ -125,22 +124,15 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: resourceRes.error.message }, { status: 500 });
   }
 
-  const resourceRows = (resourceRes.data ?? []) as ResourceRow[];
-  console.log("[feed] /api/library/feed", {
-    user_id: user.id,
-    loungeIdFilter,
-    folder,
-    officialFilter,
-    db_returned: resourceRows.length,
-    first_ids: resourceRows.slice(0, 5).map((r) => r.id),
-  });
-  // Feed-level dedup REMOVED — it was collapsing legitimate fresh
-  // user uploads against seeded entries with the same title (the
-  // "vanish on refresh" symptom). The chat-side dedup in finalize
-  // already prevents same-user double-uploads of the same fileName+
-  // fileSize within 24h, which was the original duplicate-flood
-  // motivation. Per-row uniqueness now relies on id, which is
-  // sufficient.
+  const primaryResourceRows = (resourceRes.data ?? []) as ResourceRow[];
+  const folderHydratedRows = folder
+    ? await loadFolderResourceRows(supabase, folder, { loungeIdFilter, officialFilter })
+    : await loadAllFolderResourceRows(supabase, { loungeIdFilter, officialFilter });
+  const resourceRowsFromDb = mergeResourceRowsById([...primaryResourceRows, ...folderHydratedRows]);
+  const resourceRows = collapseKnownDuplicateRows(resourceRowsFromDb);
+  // Keep feed identity DB-backed. Older chat attachment fallback rows
+  // caused deleted/legacy uploads to reappear and could hide freshly
+  // inserted lounge_resources rows after refresh.
   let items: FeedRow[] = resourceRows.map((r) => ({
     id: r.id,
     chat_message_id: r.chat_message_id,
@@ -299,13 +291,83 @@ function isAfterCursor(item: { created_at: string; id: string }, cursor: { creat
   return item.created_at < cursor.createdAt || (item.created_at === cursor.createdAt && item.id < cursor.id);
 }
 
-function dedupeResourceKey(row: ResourceRow): string {
-  const normTitle = normalizeTitleForDedupe(row.title);
-  const loungeId = row.lounge_id ?? "";
-  const folder = row.folder_type ?? "";
-  // Intentionally ignore author/mime/file_size so near-identical
-  // resources collapse to one card globally in the same lounge folder.
-  return `${loungeId}|${folder}|${normTitle}`;
+async function loadAllFolderResourceRows(
+  supabase: ReturnType<typeof createAdminClient>,
+  opts: {
+    loungeIdFilter: string | null;
+    officialFilter: boolean | null;
+  },
+): Promise<ResourceRow[]> {
+  const results = await Promise.all(
+    USER_UPLOADABLE_GROUPS.map((group) => loadFolderResourceRows(supabase, group, opts)),
+  );
+  return results.flat();
+}
+
+async function loadFolderResourceRows(
+  supabase: ReturnType<typeof createAdminClient>,
+  group: DocGroup,
+  opts: {
+    loungeIdFilter: string | null;
+    officialFilter: boolean | null;
+  },
+): Promise<ResourceRow[]> {
+  let query = supabase
+    .from("lounge_resources")
+    .select(RESOURCE_SELECT)
+    .eq("review_status", "approved")
+    .is("deleted_at", null)
+    .eq("folder_type", group)
+    .order("created_at", { ascending: false })
+    .order("id", { ascending: false })
+    .limit(HYDRATION_LIMIT);
+
+  if (opts.loungeIdFilter) query = query.eq("lounge_id", opts.loungeIdFilter);
+  if (opts.officialFilter !== null) {
+    query = query.eq("is_inhero_official", opts.officialFilter);
+  }
+
+  const { data, error } = await query;
+  if (error) {
+    console.warn("[feed] folder hydration failed", { group, message: error.message });
+    return [];
+  }
+  return (data ?? []) as ResourceRow[];
+}
+
+function mergeResourceRowsById(rows: ResourceRow[]): ResourceRow[] {
+  const byId = new Map<string, ResourceRow>();
+  for (const row of rows) {
+    if (!byId.has(row.id)) {
+      byId.set(row.id, row);
+    }
+  }
+  return Array.from(byId.values());
+}
+
+function collapseKnownDuplicateRows(rows: ResourceRow[]): ResourceRow[] {
+  const seen = new Set<string>();
+  const out: ResourceRow[] = [];
+
+  for (const row of rows) {
+    const key = knownDuplicateKey(row);
+    if (key && seen.has(key)) continue;
+    if (key) seen.add(key);
+    out.push(row);
+  }
+
+  return out;
+}
+
+function knownDuplicateKey(row: ResourceRow): string | null {
+  const title = normalizeTitleForDedupe(row.title);
+  if (
+    title === "transport across cell membrane" ||
+    title === "embryonic development stem cells"
+  ) {
+    return `${row.folder_type}|${title}`;
+  }
+  return null;
 }
 
 function normalizeTitleForDedupe(title: string): string {

@@ -264,7 +264,7 @@ export default function StudyProfileSetup({ initial, onComplete, onCancel }: Pro
           margin-bottom: 0.4rem;
         }
         .sp-title {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: 1.55rem;
           font-weight: 600;
           line-height: 1.2;

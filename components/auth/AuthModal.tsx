@@ -51,7 +51,11 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
 
   if (!isOpen) return null
 
-  const ko = lang === 'ko'
+  // Platform is English-only — force every `ko ? ko : en` site to render the
+  // English branch. The Korean strings stay in the file as dead code rather
+  // than ripping them out wholesale; safer to revert one line than 30+.
+  void lang;
+  const ko = false
 
   const inputStyle = {
     width: '100%',

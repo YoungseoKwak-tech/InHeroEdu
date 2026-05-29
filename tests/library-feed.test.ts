@@ -5,6 +5,7 @@ const fromMock = vi.fn();
 
 vi.mock("@/lib/auth", () => ({
   requireAuthenticatedUser: (...args: unknown[]) => requireAuthenticatedUserMock(...args),
+  isAdminEmail: () => false,
 }));
 
 vi.mock("@/lib/supabase", () => ({
@@ -19,6 +20,7 @@ function chainFor(result: unknown) {
   Object.assign(chain, {
     select: vi.fn(passthrough),
     eq: vi.fn(passthrough),
+    is: vi.fn(passthrough),
     in: vi.fn(passthrough),
     order: vi.fn(passthrough),
     limit: vi.fn(passthrough),
@@ -131,7 +133,7 @@ beforeEach(() => {
 });
 
 describe("library feed", () => {
-  it("includes attachment posts that only exist in chat_messages", async () => {
+  it("uses the DB-backed resource feed so legacy chat attachments do not reappear", async () => {
     const { GET } = await import("@/app/api/library/feed/route");
     const req = new Request("http://localhost/api/library/feed?sort=new&limit=24");
 
@@ -139,16 +141,11 @@ describe("library feed", () => {
     const body = await res.json() as { items: Array<{ id: string; title: string; author?: { handle: string } | null }>; nextCursor: string | null };
 
     expect(res.status).toBe(200);
-    expect(body.items.map((item) => item.id)).toEqual(["resource-1", "chat-2"]);
+    expect(body.items.map((item) => item.id)).toEqual(["resource-1"]);
     expect(body.items[0]).toMatchObject({
       id: "resource-1",
       title: "Transport Across Cell Membrane.pdf",
       author: { handle: "cornellian" },
-    });
-    expect(body.items[1]).toMatchObject({
-      id: "chat-2",
-      title: "fallback upload",
-      author: { handle: "yeongseo0802" },
     });
     expect(body.nextCursor).toBeNull();
   });

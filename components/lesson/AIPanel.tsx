@@ -31,7 +31,9 @@ export default function AIPanel({
   onClear,
 }: AIPanelProps) {
   const router = useRouter();
-  const { lang } = useLang();
+  const { lang: _lang } = useLang();
+  void _lang;
+  const lang = "en" as "en" | "ko";
   const [explanation, setExplanation] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [currentTerm, setCurrentTerm] = useState<string | null>(null);
