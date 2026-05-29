@@ -8,8 +8,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { authFetch } from "@/lib/client-auth";
-import { getCachedSession } from "@/lib/supabase";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import type { PlaylistItem } from "@/lib/buildPlaylist";
 import LessonWorkspaceShell from "@/components/lesson/LessonWorkspaceShell";
 
@@ -73,7 +72,7 @@ export default function SectionLessonGate({
         setAuthState((prev) => (prev === "loading" ? "guest" : prev));
       }
     }, 5000);
-    getCachedSession()
+    getClientSession()
       .then((session) => {
         if (cancelled) return;
         clearTimeout(watchdog);

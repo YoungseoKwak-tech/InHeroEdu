@@ -207,7 +207,7 @@ export default function SavedPage() {
           margin-bottom: 0.3rem;
         }
         .ms-empty-title {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: 1.45rem;
           font-weight: 600;
           color: #f3f3fb;

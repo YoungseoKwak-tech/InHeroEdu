@@ -6,8 +6,18 @@ const upsertMock = vi.fn();
 const eqMock = vi.fn();
 const singleMock = vi.fn();
 const orderMock = vi.fn();
+const inMock = vi.fn();
 const listUsersMock = vi.fn();
 const fromMock = vi.fn();
+
+function emptyListQuery() {
+  const result = { data: [], error: null };
+  return {
+    order: vi.fn(async () => result),
+    then: (onFulfilled: (value: typeof result) => unknown, onRejected?: (reason: unknown) => unknown) =>
+      Promise.resolve(result).then(onFulfilled, onRejected),
+  };
+}
 
 vi.mock("@/lib/auth", () => ({
   requireAuthenticatedUser: (...args: unknown[]) => requireAuthenticatedUserMock(...args),
@@ -31,6 +41,7 @@ describe("profile routes", () => {
     upsertMock.mockResolvedValue({ error: null });
     singleMock.mockResolvedValue({ data: null, error: null });
     orderMock.mockResolvedValue({ data: [], error: null });
+    inMock.mockImplementation(() => emptyListQuery());
     eqMock.mockReturnValue({
       single: singleMock,
       order: vi.fn().mockReturnValue({
@@ -41,12 +52,12 @@ describe("profile routes", () => {
       if (table === "profiles") {
         return {
           upsert: upsertMock,
-          select: vi.fn().mockReturnValue({ eq: eqMock }),
+          select: vi.fn().mockReturnValue({ eq: eqMock, in: inMock }),
         };
       }
 
       return {
-        select: vi.fn().mockReturnValue({ eq: eqMock }),
+        select: vi.fn().mockReturnValue({ eq: eqMock, in: inMock }),
       };
     });
   });
@@ -79,6 +90,7 @@ describe("profile routes", () => {
         name: "Nova Kim",
         grade: "11학년",
         school: "Seoul Science High School",
+        referral_student_email: null,
       },
       { onConflict: "id" }
     );
@@ -86,6 +98,7 @@ describe("profile routes", () => {
       name: "Nova Kim",
       grade: "11학년",
       school: "Seoul Science High School",
+      referral_student_email: null,
     });
   });
 
@@ -119,6 +132,7 @@ describe("profile routes", () => {
       name: "Student Kim",
       grade: "12학년",
       school: "Cornell Prep",
+      referral_student_email: null,
     });
   });
 });

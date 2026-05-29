@@ -160,7 +160,7 @@ export default function TextbookTOC({ slug }: { slug: string }) {
             <h1 className="toc-title">{textbook.title}</h1>
             {textbook.subtitle && <p className="toc-subtitle">{textbook.subtitle}</p>}
             <p className="toc-byline">
-              By <em>{textbook.author_name}</em> · Cornell '27
+              By <em>{textbook.author_name}</em>
             </p>
             <div className="toc-stats">
               <span>{textbook.total_chapters} chapters</span>

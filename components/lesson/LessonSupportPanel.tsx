@@ -163,8 +163,13 @@ export default function LessonSupportPanel({
   courseName,
   lessonTitle,
   lessonScript,
-  lessonLang = "en",
+  lessonLang: _lessonLang = "en",
 }: LessonSupportPanelProps) {
+  // Platform is English-only — pin the copy lookup to "en" even if the caller
+  // forwards "ko". Network/AI hand-offs further down still use lessonLang
+  // (held below) when calling the API.
+  void _lessonLang;
+  const lessonLang = "en" as const;
   const copy = COPY[lessonLang];
   const [msgs, setMsgs] = useState<Msg[]>([
     { role: "assistant", content: copy.opener(lessonTitle) },

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { authFetch } from "@/lib/client-auth";
 import AuthorChip from "@/components/trajectory/AuthorChip";
+import ConfirmDialog from "@/components/shared/ConfirmDialog";
 import {
   POST_TYPE_LABEL,
   REACTION_KINDS,
@@ -37,6 +38,8 @@ export default function PostCard({ post, currentUserHandle, isAdmin, onDelete }:
   const [reply, setReply] = useState("");
   const [posting, setPosting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const isOwner =
     !!currentUserHandle && !!post.author && post.author.handle === currentUserHandle;
@@ -105,13 +108,17 @@ export default function PostCard({ post, currentUserHandle, isAdmin, onDelete }:
   }
 
   async function doDelete() {
-    if (!window.confirm("Delete this post?")) return;
+    if (deleting) return;
+    setDeleting(true);
+    setError(null);
     try {
       const res = await authFetch(`/api/lounges/posts/${post.id}`, { method: "DELETE" });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       onDelete?.(post.id);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
+      setDeleting(false);
+      setConfirmDeleteOpen(false);
     }
   }
 
@@ -134,7 +141,12 @@ export default function PostCard({ post, currentUserHandle, isAdmin, onDelete }:
         )}
         <span className="pc-time">· {relativeTime(post.createdAt)}</span>
         {canDelete && (
-          <button type="button" onClick={() => void doDelete()} className="pc-delete" title="Delete">
+          <button
+            type="button"
+            onClick={() => setConfirmDeleteOpen(true)}
+            className="pc-delete"
+            title="Delete"
+          >
             ✕
           </button>
         )}
@@ -142,6 +154,7 @@ export default function PostCard({ post, currentUserHandle, isAdmin, onDelete }:
 
       <h3 className="pc-title">{post.title}</h3>
       {post.body && <p className="pc-body">{post.body}</p>}
+      {error && !expanded && <div className="pc-error">{error}</div>}
 
       <footer className="pc-foot">
         <div className="pc-reactions">
@@ -220,6 +233,19 @@ export default function PostCard({ post, currentUserHandle, isAdmin, onDelete }:
           {error && <div className="pc-error">{error}</div>}
         </section>
       )}
+
+      <ConfirmDialog
+        open={confirmDeleteOpen}
+        title="Delete this post?"
+        message="This removes the post from the lounge forum for everyone."
+        confirmLabel="Delete"
+        loading={deleting}
+        destructive
+        onConfirm={doDelete}
+        onCancel={() => {
+          if (!deleting) setConfirmDeleteOpen(false);
+        }}
+      />
 
       <style>{`
         .pc-card {

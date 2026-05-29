@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { authFetch } from "@/lib/client-auth";
 import { createBrowserClient } from "@/lib/supabase";
+import ConfirmDialog from "@/components/shared/ConfirmDialog";
 import type { FacultyMeta } from "@/lib/faculty";
 
 type AssetKind = "image" | "intro_video";
@@ -24,6 +25,8 @@ export default function AdminFacultyPage() {
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
   const [uploading, setUploading] = useState<UploadState | null>(null);
+  const [pendingClear, setPendingClear] = useState<UploadState | null>(null);
+  const [clearing, setClearing] = useState(false);
   const imageInputs = useRef<Record<string, HTMLInputElement | null>>({});
   const videoInputs = useRef<Record<string, HTMLInputElement | null>>({});
 
@@ -100,7 +103,8 @@ export default function AdminFacultyPage() {
 
   async function clearAsset(facultyId: string, kind: AssetKind) {
     const label = kind === "intro_video" ? "intro video" : "illustration";
-    if (!window.confirm(`Remove ${label} for ${facultyId}?`)) return;
+    if (clearing) return;
+    setClearing(true);
     setMsg(null);
     try {
       const res = await authFetch("/api/admin/faculty", {
@@ -111,9 +115,12 @@ export default function AdminFacultyPage() {
       const json = await res.json();
       if (!res.ok || !json.ok) throw new Error(json.error ?? "remove failed");
       setMsg({ kind: "ok", text: `${facultyId} · ${label} cleared` });
+      setPendingClear(null);
       await load();
     } catch (err) {
       setMsg({ kind: "error", text: err instanceof Error ? err.message : String(err) });
+    } finally {
+      setClearing(false);
     }
   }
 
@@ -204,7 +211,7 @@ export default function AdminFacultyPage() {
                         <button
                           type="button"
                           className="afp-btn-ghost"
-                          onClick={() => void clearAsset(f.id, "intro_video")}
+                          onClick={() => setPendingClear({ facultyId: f.id, kind: "intro_video" })}
                           disabled={anyBusy}
                         >
                           Clear
@@ -258,7 +265,7 @@ export default function AdminFacultyPage() {
                         <button
                           type="button"
                           className="afp-btn-ghost"
-                          onClick={() => void clearAsset(f.id, "image")}
+                          onClick={() => setPendingClear({ facultyId: f.id, kind: "image" })}
                           disabled={anyBusy}
                         >
                           Clear
@@ -285,6 +292,25 @@ export default function AdminFacultyPage() {
           </div>
         )}
       </div>
+
+      <ConfirmDialog
+        open={pendingClear !== null}
+        title="Remove this faculty asset?"
+        message={
+          pendingClear
+            ? `${pendingClear.kind === "intro_video" ? "Intro video" : "Illustration"} for ${pendingClear.facultyId} will be cleared.`
+            : "This asset will be cleared."
+        }
+        confirmLabel="Remove"
+        loading={clearing}
+        destructive
+        onConfirm={() => {
+          if (pendingClear) void clearAsset(pendingClear.facultyId, pendingClear.kind);
+        }}
+        onCancel={() => {
+          if (!clearing) setPendingClear(null);
+        }}
+      />
 
       <style>{`
         .afp-root {

@@ -30,7 +30,9 @@ const COPY = {
 };
 
 export default function AICompanionPage() {
-  const { lang } = useLang();
+  const { lang: _lang } = useLang();
+  void _lang;
+  const lang = "en" as "en" | "ko";
   const [tab, setTab] = useState<Tab>("companion");
   const copy = COPY[lang];
 

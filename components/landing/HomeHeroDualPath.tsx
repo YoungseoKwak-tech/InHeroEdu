@@ -140,8 +140,8 @@ function useDriftingTyping(): number {
 const COPY = {
   en: {
     badge: "MISSION CONTROL — ACTIVE",
-    headline: "The Smartest Classroom",
-    headlineEm: "Ever.",
+    headline: "Learn Fast. Think",
+    headlineEm: "Deep.",
     tagline: <>Where ambitious students learn from Ivy<br />— and find each other.</>,
     leftIcon: "🛸",
     leftTitle: "Enter the Classroom",
@@ -169,35 +169,37 @@ const COPY = {
     rightHref: "/lounges",
     statsLine: "▸ 1,800+ MISSIONS LOGGED · 631 LESSONS DEPLOYED · HERO FACULTY: ACTIVE",
   },
+  // Platform is English-only — `ko` mirror kept identical to `en` so any
+  // upstream caller passing locale="ko" still renders the English copy.
   ko: {
     badge: "MISSION CONTROL — ACTIVE",
-    headline: "역대 가장 똑똑한",
-    headlineEm: "교실.",
-    tagline: <>Ivy 강사에게 배우고,<br />너 같은 친구들을 찾아.</>,
+    headline: "The smartest",
+    headlineEm: "classroom ever built.",
+    tagline: <>Learn from Ivy instructors.<br />Find friends just like you.</>,
     leftIcon: "🛸",
-    leftTitle: "수업 시작하기",
+    leftTitle: "Start a class",
     leftBody: (
       <>
-        Ivy 리그 강사들.<br />
-        너의 학습 패턴을 기억하는 AI.
+        Ivy League instructors.<br />
+        AI that remembers how you learn.
       </>
     ),
-    leftStat1: "강의 42개 준비됨",
-    leftStat2: "레슨 631개 배포됨",
-    leftHref: "/kr/courses",
+    leftStat1: "42 courses ready",
+    leftStat2: "631 lessons deployed",
+    leftHref: "/courses",
     rightIcon: "◉◉◉",
-    rightTitle: "친구들 만나기",
+    rightTitle: "Meet your peers",
     rightBody: (
       <>
-        같은 꿈을 준비하는<br />
-        ambitious한 학생들과 연결.<br />
-        연구, 스터디, 대회를 함께.
+        Connect with ambitious students<br />
+        chasing the same dreams.<br />
+        Research, study, compete — together.
       </>
     ),
-    rightStat1Suffix: "명 접속 중",
-    rightStat2Suffix: "명 입력 중",
+    rightStat1Suffix: "online now",
+    rightStat2Suffix: "typing right now",
     rightHref: "/lounges",
-    statsLine: "▸ 미션 1,800+ 기록 · 레슨 631개 배포 · 히어로 강사진 활동 중",
+    statsLine: "▸ 1,800+ MISSIONS LOGGED · 631 LESSONS DEPLOYED · HERO FACULTY: ACTIVE",
   },
 } as const;
 

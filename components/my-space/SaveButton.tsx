@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { authFetch } from "@/lib/client-auth";
 import CollectionPicker from "@/components/my-space/CollectionPicker";
+import ConfirmDialog from "@/components/shared/ConfirmDialog";
 
 interface Props {
   resourceId: string;
@@ -11,6 +12,10 @@ interface Props {
   onChange?: (saved: boolean) => void;
   /** Hover-only on desktop; always-visible on touch. */
   className?: string;
+  /** Used in My Space where unsaving removes the card from the current view. */
+  confirmOnRemove?: boolean;
+  confirmRemoveTitle?: string;
+  confirmRemoveMessage?: string;
 }
 
 const LONG_PRESS_MS = 350;
@@ -27,10 +32,14 @@ export default function SaveButton({
   initialSaved = false,
   onChange,
   className,
+  confirmOnRemove = false,
+  confirmRemoveTitle = "Remove from My Space?",
+  confirmRemoveMessage = "This resource will leave your saved archive.",
 }: Props) {
   const [saved, setSaved] = useState(initialSaved);
   const [busy, setBusy] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const longPressFired = useRef(false);
 
@@ -53,6 +62,7 @@ export default function SaveButton({
       setSaved((prev) => !prev);
     } finally {
       setBusy(false);
+      setConfirmOpen(false);
     }
   }
 
@@ -76,6 +86,10 @@ export default function SaveButton({
     if (longPressFired.current) {
       // Long-press already opened the picker — swallow this click.
       longPressFired.current = false;
+      return;
+    }
+    if (saved && confirmOnRemove) {
+      setConfirmOpen(true);
       return;
     }
     void toggle();
@@ -172,6 +186,18 @@ export default function SaveButton({
           }}
         />
       )}
+      <ConfirmDialog
+        open={confirmOpen}
+        title={confirmRemoveTitle}
+        message={confirmRemoveMessage}
+        confirmLabel="Remove"
+        loading={busy}
+        destructive
+        onConfirm={toggle}
+        onCancel={() => {
+          if (!busy) setConfirmOpen(false);
+        }}
+      />
     </>
   );
 }

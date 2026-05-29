@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { authFetch } from "@/lib/client-auth";
 import { createBrowserClient } from "@/lib/supabase";
 import { TEXTBOOK_PRICE_KRW, textbookPriceLabelUSD } from "@/lib/textbookPricing";
+import ConfirmDialog from "@/components/shared/ConfirmDialog";
 import dynamic from "next/dynamic";
 
 const PdfCover = dynamic(() => import("@/components/textbooks/PdfCover"), { ssr: false });
@@ -40,6 +41,8 @@ interface PreparedUpload {
 export default function AdminTextbooksPageClient() {
   const [products, setProducts] = useState<Product[]>([]);
   const [uploading, setUploading] = useState<string | null>(null);
+  const [deletingSubjectId, setDeletingSubjectId] = useState<string | null>(null);
+  const [pendingDeleteSubjectId, setPendingDeleteSubjectId] = useState<string | null>(null);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
 
   useEffect(() => { load(); }, []);
@@ -115,15 +118,19 @@ export default function AdminTextbooksPageClient() {
   }
 
   async function handleDelete(subjectId: string) {
-    if (!confirm("Remove this textbook product?")) return;
+    setDeletingSubjectId(subjectId);
     const res = await authFetch(`/api/admin/textbook-products?subject_id=${subjectId}`, { method: "DELETE" });
     if (!res.ok) {
       const j = await res.json().catch(() => ({})) as { error?: string };
       flash(j.error ?? `Remove failed (${res.status})`, false);
+      setDeletingSubjectId(null);
+      setPendingDeleteSubjectId(null);
       return;
     }
     flash("Removed", true);
-    load();
+    setDeletingSubjectId(null);
+    setPendingDeleteSubjectId(null);
+    void load();
   }
 
   async function toggleStatus(p: Product) {
@@ -173,13 +180,27 @@ export default function AdminTextbooksPageClient() {
                 existing={existing ?? null}
                 isUploading={isUploading}
                 onUpload={(file) => handleUpload(sub.id, sub.label, file)}
-                onDelete={() => handleDelete(sub.id)}
+                onDelete={() => setPendingDeleteSubjectId(sub.id)}
                 onToggle={() => existing && toggleStatus(existing)}
               />
             );
           })}
         </div>
       </div>
+      <ConfirmDialog
+        open={pendingDeleteSubjectId !== null}
+        title="Remove this textbook product?"
+        message="The textbook product will be removed from the catalog."
+        confirmLabel="Remove"
+        loading={deletingSubjectId !== null}
+        destructive
+        onConfirm={() => {
+          if (pendingDeleteSubjectId) void handleDelete(pendingDeleteSubjectId);
+        }}
+        onCancel={() => {
+          if (deletingSubjectId === null) setPendingDeleteSubjectId(null);
+        }}
+      />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAuthenticatedUser, requireAuthenticatedUser } from "@/lib/auth";
+import { getAuthenticatedUser, isAdminEmail, requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
 import {
   CHAT_RATE_LIMIT,
@@ -71,6 +71,7 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
   return NextResponse.json({
     ok: true,
     lounge: { slug: (lounge as { slug: string }).slug, name: (lounge as { name: string }).name },
+    viewerIsAdmin: isAdminEmail(user?.email),
     messages,
   });
 }

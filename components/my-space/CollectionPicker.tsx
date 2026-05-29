@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { authFetch } from "@/lib/client-auth";
+import ConfirmDialog from "@/components/shared/ConfirmDialog";
 
 interface CollectionRow {
   id: string;
@@ -35,6 +36,7 @@ export default function CollectionPicker({
   const [newName, setNewName] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [confirmRemoveOpen, setConfirmRemoveOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -65,8 +67,8 @@ export default function CollectionPicker({
     return () => document.removeEventListener("keydown", onKey);
   }, [onClose]);
 
-  async function move(collectionId: string | null) {
-    if (busy) return;
+  async function move(collectionId: string | null, force = false) {
+    if (busy && !force) return;
     setBusy(true);
     setErr(null);
     try {
@@ -82,7 +84,16 @@ export default function CollectionPicker({
       setErr(e instanceof Error ? e.message : String(e));
     } finally {
       setBusy(false);
+      setConfirmRemoveOpen(false);
     }
+  }
+
+  function requestMove(collectionId: string | null) {
+    if (collectionId === null && currentCollectionId !== null) {
+      setConfirmRemoveOpen(true);
+      return;
+    }
+    void move(collectionId);
   }
 
   async function createAndMove() {
@@ -98,7 +109,7 @@ export default function CollectionPicker({
       });
       if (!res.ok) throw new Error(await res.text());
       const json = (await res.json()) as { collection: { id: string } };
-      await move(json.collection.id);
+      await move(json.collection.id, true);
     } catch (e) {
       setErr(e instanceof Error ? e.message : String(e));
       setBusy(false);
@@ -133,7 +144,7 @@ export default function CollectionPicker({
           <button
             type="button"
             className={`cp-row ${currentCollectionId === null ? "is-current" : ""}`}
-            onClick={() => void move(null)}
+            onClick={() => requestMove(null)}
             disabled={busy}
           >
             <span className="cp-row-name">All Saved</span>
@@ -150,7 +161,7 @@ export default function CollectionPicker({
                 key={c.id}
                 type="button"
                 className={`cp-row ${currentCollectionId === c.id ? "is-current" : ""}`}
-                onClick={() => void move(c.id)}
+                onClick={() => requestMove(c.id)}
                 disabled={busy}
               >
                 <span className="cp-row-name">{c.name}</span>
@@ -211,6 +222,19 @@ export default function CollectionPicker({
         </div>
       </div>
 
+      <ConfirmDialog
+        open={confirmRemoveOpen}
+        title="Remove from this collection?"
+        message="The resource will stay saved in All Saved, but it will leave this collection."
+        confirmLabel="Remove"
+        loading={busy}
+        destructive
+        onConfirm={() => move(null)}
+        onCancel={() => {
+          if (!busy) setConfirmRemoveOpen(false);
+        }}
+      />
+
       <style jsx>{`
         .cp-backdrop {
           position: fixed;
@@ -247,7 +271,7 @@ export default function CollectionPicker({
           border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
         .cp-title {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: 1.05rem;
           font-weight: 600;
           color: #f3f3fb;

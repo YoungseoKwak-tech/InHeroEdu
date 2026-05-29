@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 
-const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? "yk777@cornell.edu,hyeonjei@gmail.com")
+const AUTH_USER_TIMEOUT_MS = 5_000;
+const LOCAL_ADMIN_EMAIL_FALLBACK =
+  process.env.NODE_ENV === "development" ? "yk777@cornell.edu,hyeonjei@gmail.com" : "";
+
+const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? LOCAL_ADMIN_EMAIL_FALLBACK)
   .split(",")
   .map((email) => email.trim().toLowerCase())
   .filter(Boolean);
@@ -28,6 +32,25 @@ function getBearerToken(req: Request | NextRequest): string | null {
   return authHeader.slice("Bearer ".length).trim();
 }
 
+async function getUserWithTimeout(token: string) {
+  const supabase = createAdminClient();
+  let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+  try {
+    return await Promise.race([
+      supabase.auth.getUser(token),
+      new Promise<null>((resolve) => {
+        timeoutId = setTimeout(() => resolve(null), AUTH_USER_TIMEOUT_MS);
+      }),
+    ]);
+  } catch (err) {
+    console.warn("[auth] Supabase getUser failed", err);
+    return null;
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
+  }
+}
+
 export function isAdminEmail(email: string | null | undefined): boolean {
   if (!email) return false;
   return ADMIN_EMAILS.includes(email.toLowerCase());
@@ -39,10 +62,8 @@ export async function getAuthenticatedUser(
   const token = getBearerToken(req);
   if (!token) return null;
 
-  const supabase = createAdminClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser(token);
+  const authResult = await getUserWithTimeout(token);
+  const user = authResult?.data.user ?? null;
 
   if (!user) return null;
   return { id: user.id, email: user.email ?? null };
@@ -66,10 +87,8 @@ export async function requireAdminUser(
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
 
-  const supabase = createAdminClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser(token);
+  const authResult = await getUserWithTimeout(token);
+  const user = authResult?.data.user ?? null;
 
   if (!user) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });

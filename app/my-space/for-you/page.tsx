@@ -236,7 +236,7 @@ function NoProfileEmptyState({ onSetup }: { onSetup: () => void }) {
           50% { transform: scale(1.08); }
         }
         .np-title {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: 1.65rem; font-weight: 600;
           color: #f3f3fb;
         }
@@ -358,7 +358,7 @@ function BriefError({
           border-radius: 0.9rem;
         }
         .be-title {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: 1.35rem;
           font-weight: 600;
           color: #f3f3fb;

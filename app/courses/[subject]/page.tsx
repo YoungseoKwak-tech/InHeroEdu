@@ -12,25 +12,22 @@ interface Props {
 }
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolvedSubject = resolveCourseId(params.subject);
   const course = courses.find((c) => c.id === resolvedSubject);
-  if (!course) return { title: "Course | InHero" };
+  if (!course || course.category === "IB") return { title: "Course | InHero" };
   return {
     title: `${course.subject} | InHero`,
     description: course.description,
   };
 }
 
-export async function generateStaticParams() {
-  return courses.map((c) => ({ subject: c.id }));
-}
-
 export default async function CoursePage({ params }: Props) {
   const resolvedSubject = resolveCourseId(params.subject);
   const course = courses.find((c) => c.id === resolvedSubject);
-  if (!course) notFound();
+  if (!course || course.category === "IB") notFound();
 
   const staticLessons = getLessonsByCourse(course.id);
   const hasUnits = course.units && course.units.length > 0;

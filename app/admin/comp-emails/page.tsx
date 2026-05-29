@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { authFetch } from "@/lib/client-auth";
+import ConfirmDialog from "@/components/shared/ConfirmDialog";
 
 interface CompEmailRow {
   email: string;
@@ -17,6 +18,8 @@ export default function AdminCompEmailsPage() {
   const [note, setNote] = useState("");
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [pendingRemoveEmail, setPendingRemoveEmail] = useState<string | null>(null);
+  const [removing, setRemoving] = useState(false);
   const [msg, setMsg] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
 
   async function load() {
@@ -63,7 +66,8 @@ export default function AdminCompEmailsPage() {
   }
 
   async function remove(target: string) {
-    if (!window.confirm(`Remove complimentary access for ${target}?`)) return;
+    if (removing) return;
+    setRemoving(true);
     setMsg(null);
     try {
       const res = await authFetch("/api/admin/comp-emails", {
@@ -74,10 +78,13 @@ export default function AdminCompEmailsPage() {
       const json = await res.json();
       if (!res.ok || !json.ok) throw new Error(json.error ?? "remove failed");
       setMsg({ kind: "ok", text: `Removed ${target}` });
+      setPendingRemoveEmail(null);
       await load();
     } catch (err) {
       const m = err instanceof Error ? err.message : String(err);
       setMsg({ kind: "error", text: m });
+    } finally {
+      setRemoving(false);
     }
   }
 
@@ -158,7 +165,7 @@ export default function AdminCompEmailsPage() {
                     <td>
                       <button
                         type="button"
-                        onClick={() => void remove(row.email)}
+                        onClick={() => setPendingRemoveEmail(row.email)}
                         className="cea-remove"
                         title="Remove"
                       >
@@ -195,6 +202,25 @@ export default function AdminCompEmailsPage() {
           )}
         </section>
       </div>
+
+      <ConfirmDialog
+        open={pendingRemoveEmail !== null}
+        title="Remove complimentary access?"
+        message={
+          pendingRemoveEmail
+            ? `${pendingRemoveEmail} will lose complimentary access.`
+            : "This email will lose complimentary access."
+        }
+        confirmLabel="Remove"
+        loading={removing}
+        destructive
+        onConfirm={() => {
+          if (pendingRemoveEmail) void remove(pendingRemoveEmail);
+        }}
+        onCancel={() => {
+          if (!removing) setPendingRemoveEmail(null);
+        }}
+      />
 
       <style>{`
         .cea-root {

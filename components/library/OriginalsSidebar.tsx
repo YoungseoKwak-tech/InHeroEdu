@@ -38,14 +38,14 @@ const COMING_SOON = [
     slug: "ap-chem-ultimate",
     title: "AP Chemistry",
     subtitle: "The Ultimate Guide",
-    hint: "In the queue — same Cornell-curated pipeline as AP Bio.",
+    hint: "In the queue — same pipeline as AP Bio.",
     emoji: "⚗️",
   },
   {
     slug: "ap-physics-ultimate",
     title: "AP Physics",
     subtitle: "The Ultimate Guide",
-    hint: "In the queue — same Cornell-curated pipeline as AP Bio.",
+    hint: "In the queue — same pipeline as AP Bio.",
     emoji: "⚛️",
   },
 ];
@@ -80,7 +80,6 @@ export default function OriginalsSidebar() {
         <span className="orig-eyebrow-dot" aria-hidden="true" />
         📘 INHERO ORIGINALS
       </div>
-      <div className="orig-sub">Cornell-curated</div>
 
       <div className="orig-list">
         {!loaded && (
@@ -111,7 +110,7 @@ export default function OriginalsSidebar() {
               <div className="orig-card">
                 <div className="orig-card-glyph">{emoji}</div>
                 <div className="orig-card-tier orig-card-tier-live">
-                  ✨ AI · CORNELL-CURATED
+                  ✨ AI · ORIGINAL
                 </div>
                 <div className="orig-card-title">{t.title}</div>
                 <div className="orig-card-sub">{t.subtitle ?? "The Ultimate Guide"}</div>
@@ -267,7 +266,7 @@ export default function OriginalsSidebar() {
         }
 
         .orig-card-title {
-          font-family: 'Inter', 'Space Grotesk', system-ui, sans-serif;
+          font-family: Inter, Space Grotesk, system-ui, sans-serif;
           font-size: 18px;
           font-weight: 700;
           color: #F2F4F8;

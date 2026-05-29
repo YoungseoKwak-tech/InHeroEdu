@@ -73,12 +73,23 @@ async function loadFallbackResource(
   id: string,
   userId: string
 ) {
-  const { data: message, error } = await supabase
+  let { data: message, error } = await supabase
     .from("chat_messages")
     .select("id, context_id, author_id, content, attachment_url, attachment_meta, created_at")
     .eq("id", id)
     .eq("is_deleted", false)
     .maybeSingle();
+
+  if (!message && !error) {
+    const byResourceId = await supabase
+      .from("chat_messages")
+      .select("id, context_id, author_id, content, attachment_url, attachment_meta, created_at")
+      .eq("attachment_meta->>resourceId", id)
+      .eq("is_deleted", false)
+      .maybeSingle();
+    message = byResourceId.data;
+    error = byResourceId.error;
+  }
 
   if (error) {
     return { error };
@@ -254,7 +265,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
 
   const { data: row, error: lookupErr } = await supabase
     .from("lounge_resources")
-    .select("id, author_id, deleted_at")
+    .select("id, author_id, deleted_at, chat_message_id")
     .eq("id", id)
     .maybeSingle();
   if (lookupErr) {
@@ -263,13 +274,70 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     }
     return NextResponse.json({ error: lookupErr.message }, { status: 500 });
   }
-  if (!row) return NextResponse.json({ error: "not found" }, { status: 404 });
+  if (!row) {
+    // Some older cards used the chat_message id as the card id before
+    // lounge_resources became the single source of truth. Let owners
+    // delete those stale/fallback cards too, so a visible ⋯ menu never
+    // turns into a confusing "not found".
+    let { data: message, error: messageErr } = await supabase
+      .from("chat_messages")
+      .select("id, author_id, is_deleted")
+      .eq("id", id)
+      .maybeSingle();
 
-  const r = row as { id: string; author_id: string | null; deleted_at: string | null };
-  if (r.deleted_at) {
-    // Already gone — idempotent success.
+    if (!message && !messageErr) {
+      const byResourceId = await supabase
+        .from("chat_messages")
+        .select("id, author_id, is_deleted")
+        .eq("attachment_meta->>resourceId", id)
+        .maybeSingle();
+      message = byResourceId.data;
+      messageErr = byResourceId.error;
+    }
+
+    if (messageErr) return NextResponse.json({ error: messageErr.message }, { status: 500 });
+    if (!message) {
+      // Idempotent delete: a stale card can survive briefly in the browser
+      // after its DB row was already removed/soft-deleted. Treat that as
+      // success so the client can remove the card instead of crashing into
+      // a confusing "not found" alert.
+      return new Response(null, { status: 204 });
+    }
+
+    const msg = message as { id: string; author_id: string | null; is_deleted: boolean };
+    if (msg.is_deleted) return new Response(null, { status: 204 });
+    const canDeleteMessage = msg.author_id === user.id || isAdminEmail(user.email);
+    if (!canDeleteMessage) {
+      return NextResponse.json({ error: "forbidden" }, { status: 403 });
+    }
+
+    const now = new Date().toISOString();
+    const { error: messageUpdateErr } = await supabase
+      .from("chat_messages")
+      .update({ is_deleted: true, edited_at: now })
+      .eq("id", msg.id);
+    if (messageUpdateErr) {
+      return NextResponse.json({ error: messageUpdateErr.message }, { status: 500 });
+    }
+
+    const { error: resourceUpdateErr } = await supabase
+      .from("lounge_resources")
+      .update({ deleted_at: now, deleted_by: user.id })
+      .eq("chat_message_id", msg.id)
+      .is("deleted_at", null);
+    if (resourceUpdateErr && !/relation .* does not exist/i.test(resourceUpdateErr.message)) {
+      return NextResponse.json({ error: resourceUpdateErr.message }, { status: 500 });
+    }
+
     return new Response(null, { status: 204 });
   }
+
+  const r = row as {
+    id: string;
+    author_id: string | null;
+    deleted_at: string | null;
+    chat_message_id: string | null;
+  };
 
   const isOwner = r.author_id === user.id;
   const isAdmin = isAdminEmail(user.email);
@@ -277,12 +345,37 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
-  const { error: updErr } = await supabase
-    .from("lounge_resources")
-    .update({ deleted_at: new Date().toISOString(), deleted_by: user.id })
-    .eq("id", id);
-  if (updErr) {
-    return NextResponse.json({ error: updErr.message }, { status: 500 });
+  const now = new Date().toISOString();
+  if (!r.deleted_at) {
+    const { error: updErr } = await supabase
+      .from("lounge_resources")
+      .update({ deleted_at: now, deleted_by: user.id })
+      .eq("id", id);
+    if (updErr) {
+      return NextResponse.json({ error: updErr.message }, { status: 500 });
+    }
+  }
+
+  if (r.chat_message_id) {
+    const { error: messageUpdateErr } = await supabase
+      .from("chat_messages")
+      .update({ is_deleted: true, edited_at: now })
+      .eq("id", r.chat_message_id)
+      .eq("is_deleted", false);
+    if (messageUpdateErr && !/relation .* does not exist/i.test(messageUpdateErr.message)) {
+      return NextResponse.json({ error: messageUpdateErr.message }, { status: 500 });
+    }
+  }
+  const { error: fallbackMessageUpdateErr } = await supabase
+    .from("chat_messages")
+    .update({ is_deleted: true, edited_at: now })
+    .eq("attachment_meta->>resourceId", id)
+    .eq("is_deleted", false);
+  if (
+    fallbackMessageUpdateErr &&
+    !/relation .* does not exist/i.test(fallbackMessageUpdateErr.message)
+  ) {
+    return NextResponse.json({ error: fallbackMessageUpdateErr.message }, { status: 500 });
   }
 
   return new Response(null, { status: 204 });

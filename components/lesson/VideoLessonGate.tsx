@@ -18,8 +18,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { authFetch } from "@/lib/client-auth";
-import { getCachedSession } from "@/lib/supabase";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import { parseScript } from "@/lib/parseScript";
 import { overlaysWithTimestamps } from "@/lib/overlays";
 import VideoLessonPlayer from "@/components/lesson/VideoLessonPlayer";
@@ -90,7 +89,7 @@ export default function VideoLessonGate({
         setAuthState((prev) => (prev === "loading" ? "guest" : prev));
       }
     }, 5000);
-    getCachedSession()
+    getClientSession()
       .then((session) => {
         if (cancelled) return;
         clearTimeout(watchdog);

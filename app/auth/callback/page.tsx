@@ -7,6 +7,19 @@ import { getSafeRedirectPath } from "@/lib/auth-redirect";
 import { getClientSession } from "@/lib/client-auth";
 import { createBrowserClient } from "@/lib/supabase";
 
+function withTimeout<T>(promise: Promise<T>, ms: number, message: string): Promise<T> {
+  let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+  return Promise.race([
+    promise,
+    new Promise<never>((_, reject) => {
+      timeoutId = setTimeout(() => reject(new Error(message)), ms);
+    }),
+  ]).finally(() => {
+    if (timeoutId) clearTimeout(timeoutId);
+  });
+}
+
 export default function AuthCallbackPage() {
   const router = useRouter();
   const [error, setError] = useState("");
@@ -29,10 +42,18 @@ export default function AuthCallbackPage() {
         const code = params.get("code");
 
         if (code) {
-          const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+          const { error: exchangeError } = await withTimeout(
+            supabase.auth.exchangeCodeForSession(code),
+            10_000,
+            "Google sign-in took too long. Please try again.",
+          );
           if (exchangeError) throw exchangeError;
         } else {
-          const session = await getClientSession();
+          const session = await withTimeout(
+            getClientSession(),
+            10_000,
+            "Google sign-in session took too long. Please try again.",
+          );
           if (!session) throw new Error("No Google sign-in session was returned.");
         }
 

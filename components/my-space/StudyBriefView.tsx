@@ -122,7 +122,7 @@ export default function StudyBriefView({ brief, resources, source }: Props) {
           color: rgba(148, 163, 184, 0.78);
         }
         .sbv-greeting {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-size: clamp(1.7rem, 3.8vw, 2.4rem);
           font-weight: 600;
           letter-spacing: -0.015em;

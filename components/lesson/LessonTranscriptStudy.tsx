@@ -145,10 +145,13 @@ const COPY = {
   },
 } as const;
 
-export default function LessonTranscriptStudy({ script, lang = "en" }: Props) {
+export default function LessonTranscriptStudy({ script, lang: _lang = "en" }: Props) {
+  // Platform is English-only — force "en" even if "ko" was passed in.
+  void _lang;
+  const lang = "en" as "en" | "ko";
   const copy = COPY[lang];
   const [openIdx, setOpenIdx] = useState<Record<number, boolean>>({});
-  const keywords = lang === "ko" ? KEYWORDS_KO : KEYWORDS_EN;
+  const keywords = KEYWORDS_EN;
 
   const prepared = useMemo<PreparedSection[]>(() => {
     if (!script?.trim()) return [];

@@ -94,7 +94,7 @@ export default function LiveActivityHeader({ slug }: Props) {
         .lah-root {
           display: flex; align-items: center; flex-wrap: wrap;
           gap: 0.5rem;
-          font-family: ui-monospace, 'JetBrains Mono', monospace;
+          font-family: ui-monospace, JetBrains Mono, monospace;
           font-size: 0.72rem;
           color: rgba(148,163,184,0.78);
         }

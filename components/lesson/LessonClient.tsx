@@ -39,7 +39,7 @@ export default function LessonClient({ lesson, courseId, courseName }: LessonCli
       <div className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-            <Link href="/courses" className="hover:text-primary-500 transition-colors">강의</Link>
+            <Link href="/courses" className="hover:text-primary-500 transition-colors">Courses</Link>
             <span>/</span>
             <Link href={`/courses/${courseId}`} className="hover:text-primary-500 transition-colors">{courseName}</Link>
             <span>/</span>
@@ -67,10 +67,10 @@ export default function LessonClient({ lesson, courseId, courseName }: LessonCli
               </div>
               <div className="flex gap-2 items-center">
                 <span className="text-xs bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 px-2.5 py-1 rounded-full font-semibold">
-                  강의 {lesson.order}
+                  Lesson {lesson.order}
                 </span>
                 <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-2.5 py-1 rounded-full">
-                  📝 {lesson.practiceQuestions.length}개 문제
+                  📝 {lesson.practiceQuestions.length} questions
                 </span>
               </div>
             </div>
@@ -83,7 +83,7 @@ export default function LessonClient({ lesson, courseId, courseName }: LessonCli
               <div className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-900/10 border-b border-gray-100 dark:border-gray-700">
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                 <span className="text-sm font-semibold text-primary-700 dark:text-primary-300">
-                  AI 즉시 설명
+                  Instant AI Explanation
                 </span>
                 <span className="text-xs text-gray-400 ml-auto">by Claude</span>
               </div>
@@ -118,14 +118,14 @@ export default function LessonClient({ lesson, courseId, courseName }: LessonCli
               href={`/courses/${courseId}/${lesson.prevLessonId}`}
               className="btn-secondary text-sm inline-flex items-center gap-2"
             >
-              ← 이전 강의
+              ← Previous lesson
             </Link>
           ) : (
             <Link
               href={`/courses/${courseId}`}
               className="btn-secondary text-sm inline-flex items-center gap-2"
             >
-              ← 강의 목록
+              ← Lesson list
             </Link>
           )}
 
@@ -134,14 +134,14 @@ export default function LessonClient({ lesson, courseId, courseName }: LessonCli
               href={`/courses/${courseId}/${lesson.nextLessonId}`}
               className="btn-primary text-sm inline-flex items-center gap-2"
             >
-              다음 강의 →
+              Next lesson →
             </Link>
           ) : (
             <Link
               href={`/courses/${courseId}`}
               className="btn-primary text-sm inline-flex items-center gap-2"
             >
-              강의 완료 ✓
+              Lesson complete ✓
             </Link>
           )}
         </div>

@@ -6,8 +6,7 @@ import LessonPlayer from "@/components/lesson/LessonPlayer";
 import OverlayPlayer from "@/components/lesson/OverlayPlayer";
 import LessonWorkspaceShell from "@/components/lesson/LessonWorkspaceShell";
 import PaymentButton from "@/components/PaymentButton";
-import { getCachedSession } from "@/lib/supabase";
-import { authFetch } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import type { LessonPlayerData } from "@/lib/lesson-player-types";
 import type { OverlayRow } from "@/lib/overlays";
 
@@ -62,17 +61,17 @@ export default function LessonPlayerGate({
 
   useEffect(() => {
     let cancelled = false;
-    // Watchdog kept as a belt-and-suspenders against truly stuck
-    // sessions. Primary fix is getCachedSession dedup so we don't
-    // hit lock-stealing in the first place.
+    // Watchdog kept as a belt-and-suspenders against truly stuck sessions.
+    // getClientSession also falls back to a valid stored token when Supabase
+    // auth lock rehydration is temporarily noisy.
     const watchdog = setTimeout(() => {
       if (!cancelled) {
         // eslint-disable-next-line no-console
-        console.warn("[lesson-gate] getCachedSession timeout — guest fallback");
+        console.warn("[lesson-gate] session lookup timeout — guest fallback");
         setAuthState((prev) => (prev === "loading" ? "guest" : prev));
       }
     }, 5000);
-    getCachedSession()
+    getClientSession()
       .then((session) => {
         if (cancelled) return;
         clearTimeout(watchdog);
@@ -290,16 +289,14 @@ export default function LessonPlayerGate({
               amount={29}
               orderName={`${courseName} — Single Subject Pass`}
               returnTo={resolvedRedirectHref}
-              label={lessonLang === "ko"
-                ? "이 과목 전체 잠금 해제 — $29/월"
-                : `Unlock ${courseName} — $29/mo`}
+              label={`Unlock ${courseName} — $29/mo`}
               className="lpg-btn-primary"
             />
             <Link href={resolvedCourseHref} className="lpg-btn-ghost">
               ← Back to {courseName}
             </Link>
             <Link href="/pricing" className="lpg-btn-link">
-              {lessonLang === "ko" ? "다른 요금제 보기" : "See other plans"}
+              See other plans
             </Link>
           </div>
         </div>

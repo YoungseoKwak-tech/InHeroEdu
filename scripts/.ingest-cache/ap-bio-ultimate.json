@@ -1,0 +1,2109 @@
+{
+  "01.01": {
+    "summary": "This chapter explains how water's molecular structure—polar covalent bonds and bent geometry—creates the hydrogen bonding network responsible for cohesion, adhesion, surface tension, and its role as the universal solvent. It also covers how pH and buffer systems affect enzyme function through protonation of amino acid R groups.",
+    "keyConcepts": [
+      "Electronegativity difference between oxygen (3.44) and hydrogen (2.20) creates polar covalent bonds",
+      "Bent molecular geometry (104.5°) produces a permanent dipole moment",
+      "Hydrogen bonds form between water molecules (not within them), each molecule can form up to four",
+      "Cohesion: hydrogen bonding between water molecules creates surface tension",
+      "Adhesion: hydrogen bonding between water and polar surfaces (e.g., cellulose hydroxyl groups)",
+      "Transpiration-cohesion-tension mechanism drives water transport in xylem",
+      "Hydration shells form around ions when water dissolves ionic compounds",
+      "Nonpolar molecules are excluded from aqueous solution due to water's polarity",
+      "pH measures H+ concentration and affects enzyme tertiary structure via R group protonation",
+      "Buffer systems resist pH change through reversible acceptance and release of H+ ions"
+    ],
+    "topics": [
+      "Polar covalent bonds and electronegativity",
+      "Water's bent molecular geometry and dipole moment",
+      "Hydrogen bonding network in liquid water",
+      "Cohesion and surface tension",
+      "Adhesion and capillary action",
+      "Cohesion-tension model of xylem transport",
+      "Water as universal solvent",
+      "Hydration shells and ionic dissolution",
+      "Hydrophobic exclusion of nonpolar molecules",
+      "pH scale and H+ concentration",
+      "Enzyme structure and pH sensitivity",
+      "Buffer systems and pH homeostasis"
+    ],
+    "examTips": [
+      "Hydrogen bonds hold water molecules to each other; covalent bonds hold atoms within a single water molecule—confusing these is a common FRQ error.",
+      "Xylem water transport is driven by cohesion and adhesion (transpiration pull), not osmosis—osmosis only applies when water crosses a selectively permeable membrane."
+    ],
+    "difficulty": "basic"
+  },
+  "01.02": {
+    "summary": "This chapter explains why carbon's four valence electrons make it uniquely suited for biological molecules, covering how structural formulas reveal molecular behavior that molecular formulas cannot. It also identifies the six major functional groups and demonstrates how structural isomers with identical molecular formulas can exhibit entirely different biological properties.",
+    "keyConcepts": [
+      "Carbon's four valence electrons enable four simultaneous covalent bonds",
+      "Tetrahedral geometry (109.5°) of carbon single bonds vs. planar geometry of double bonds",
+      "Hydrocarbon skeleton as nonpolar, stable backbone",
+      "Molecular formula vs. structural formula distinction",
+      "Structural isomers: same molecular formula, different atomic arrangement, different properties",
+      "Hydroxyl group (–OH): polar, hydrophilic, hydrogen bonding",
+      "Carbonyl group (C=O): aldehyde (terminal) vs. ketone (interior)",
+      "Carboxyl group (–COOH): acidic, proton donor, present in amino acids",
+      "Amino group (–NH2): basic, present in amino acids",
+      "Glucose vs. fructose as structural isomers (C6H12O6)",
+      "Butane vs. isobutane as structural isomers (C4H10)",
+      "Silicon vs. carbon: why carbon is biologically necessary"
+    ],
+    "topics": [
+      "Carbon bonding properties",
+      "Valence electrons and covalent bonding",
+      "Molecular geometry",
+      "Molecular formulas",
+      "Structural formulas",
+      "Structural isomers",
+      "Functional groups",
+      "Aldehyde vs. ketone",
+      "Hydrophilicity and hydrogen bonding",
+      "Biological macromolecule foundations"
+    ],
+    "examTips": [
+      "When asked why carbon is central to life, always reference its four valence electrons and ability to form four covalent bonds—never cite abundance or vague terms like 'building block'",
+      "When two molecules share the same molecular formula but have different properties, the answer always involves structural differences: functional group position, branching, or double bond location—never assume same formula means same behavior"
+    ],
+    "difficulty": "basic"
+  },
+  "01.03": {
+    "summary": "This chapter examines carbohydrates at the molecular level, tracing how monosaccharide ring geometry (alpha vs. beta glucose) determines the type of glycosidic linkage formed during dehydration synthesis and ultimately the shape and function of polysaccharides. It connects structural differences between starch, glycogen, and cellulose to their distinct biological roles using enzyme specificity and hydrogen bonding as the mechanistic explanations.",
+    "keyConcepts": [
+      "Monosaccharide ring structure and anomeric carbon orientation",
+      "Alpha vs. beta glucose configuration",
+      "Dehydration synthesis and hydrolysis of glycosidic linkages",
+      "Alpha 1,4 glycosidic linkages produce helical, curved chains",
+      "Beta 1,4 glycosidic linkages produce straight chains",
+      "Alpha 1,6 glycosidic linkages create branch points",
+      "Enzyme specificity for alpha vs. beta linkages",
+      "Starch (amylose and amylopectin) as plant energy storage",
+      "Glycogen as animal energy storage with frequent branching",
+      "Hydrogen bonding between cellulose chains provides tensile strength"
+    ],
+    "topics": [
+      "Monosaccharide structure and the anomeric carbon",
+      "Alpha and beta glucose configurations",
+      "Dehydration synthesis and hydrolysis",
+      "Glycosidic linkage nomenclature",
+      "Amylose and amylopectin structure",
+      "Glycogen structure and function",
+      "Cellulose and chitin structure",
+      "Enzyme specificity and carbohydrate digestion",
+      "Polysaccharide branching and glucose mobilization"
+    ],
+    "examTips": [
+      "For free-response questions on starch vs. cellulose, go beyond naming alpha/beta linkages—explicitly trace the mechanism from bond geometry → chain shape (helix vs. straight) → biological function (energy storage vs. structural support) to earn full credit.",
+      "Remember the directional logic for reactions: dehydration synthesis removes water to BUILD glycosidic bonds, while hydrolysis adds water to BREAK them—distractors often reverse these."
+    ],
+    "difficulty": "intermediate"
+  },
+  "01.04": {
+    "summary": "This chapter explains how lipid structure—particularly fatty acid saturation, cholesterol content, and phospholipid arrangement—determines membrane fluidity and function across temperature extremes. It also covers the entropy-driven hydrophobic effect as the thermodynamic basis for spontaneous bilayer self-assembly and contrasts lipid-soluble versus water-soluble hormone signaling pathways.",
+    "keyConcepts": [
+      "Saturated fatty acids have straight chains that pack tightly, increasing membrane rigidity via maximized van der Waals interactions",
+      "Unsaturated fatty acids have cis double bond kinks (~30°) that prevent tight packing, increasing membrane fluidity",
+      "Polyunsaturated fatty acids create multiple kinks causing greater disruption to molecular packing than monounsaturated fatty acids",
+      "Organisms regulate saturated-to-unsaturated fatty acid ratios to maintain optimal membrane fluidity across temperature environments",
+      "The hydrophobic effect is entropy-driven: water excludes nonpolar tails to avoid low-entropy clathrate cage formation, releasing water molecules to maximize system entropy",
+      "Phospholipids are amphipathic molecules whose dual nature drives spontaneous bilayer self-assembly without energy input",
+      "Cholesterol acts as a membrane fluidity buffer: its rigid ring structure restricts tail movement at high temperatures (decreasing fluidity) and interrupts tight packing at low temperatures (preventing rigidity)",
+      "Lipid-soluble hormones cross the phospholipid bilayer directly; water-soluble hormones cannot and must bind surface receptors",
+      "Clathrate structures are ordered water cages around nonpolar surfaces that represent decreased entropy and are thermodynamically unfavorable"
+    ],
+    "topics": [
+      "Fatty acid saturation and hydrocarbon chain geometry",
+      "Molecular packing and van der Waals interactions in membranes",
+      "Membrane fluidity regulation in response to temperature",
+      "Phospholipid bilayer self-assembly",
+      "Hydrophobic effect and entropy maximization",
+      "Amphipathic molecule behavior in aqueous environments",
+      "Cholesterol structure and temperature-dependent buffering of fluidity",
+      "Fluid mosaic model of membrane structure",
+      "Lipid-soluble vs. water-soluble hormone signaling",
+      "Omega-3 and omega-6 fatty acid packing geometry"
+    ],
+    "examTips": [
+      "When predicting membrane composition for organisms in cold environments, always explain the mechanism: unsaturated fatty acid kinks physically prevent tight molecular alignment, not just that they 'increase fluidity'",
+      "Cholesterol is a fluidity BUFFER, not a simple fluidity enhancer—at high temperatures it decreases fluidity by restraining tail movement; at low temperatures it increases fluidity by preventing tight packing; always specify the temperature context",
+      "The driving force for bilayer formation is water entropy maximization (release of clathrate-ordered water), NOT attraction between lipids—distractor answers often cite hydrophobic attraction or inter-lipid hydrogen bonding"
+    ],
+    "difficulty": "intermediate"
+  },
+  "01.05": {
+    "summary": "This chapter explains the four hierarchical levels of protein structure—primary, secondary, tertiary, and quaternary—and the specific bonds and forces that stabilize each level. It also covers how denaturation disrupts protein function by breaking non-covalent interactions while preserving the covalent peptide bonds of primary structure.",
+    "keyConcepts": [
+      "Primary structure: linear amino acid sequence held by covalent peptide bonds",
+      "Secondary structure: alpha helices and beta-pleated sheets stabilized by backbone hydrogen bonds",
+      "Tertiary structure: 3D shape from R-group interactions (hydrophobic effect, ionic bonds, hydrogen bonds, van der Waals, disulfide bridges)",
+      "Quaternary structure: multiple polypeptide subunits held by non-covalent forces",
+      "Denaturation: loss of secondary/tertiary/quaternary structure without breaking peptide bonds",
+      "Disulfide bridges as covalent stabilizers of tertiary structure",
+      "Hydrophobic effect driving interior burial of nonpolar R-groups",
+      "Heat, pH, and other environmental factors as denaturing agents"
+    ],
+    "topics": [
+      "Four levels of protein structure",
+      "Peptide bond formation via dehydration synthesis",
+      "Hydrogen bonding in secondary structure",
+      "R-group interactions in tertiary structure",
+      "Disulfide bridge formation between cysteine residues",
+      "Denaturation and its molecular basis",
+      "Enzyme active site geometry and tertiary structure",
+      "Effects of mutations, pH changes, and temperature on protein function"
+    ],
+    "examTips": [
+      "Peptide bonds stabilize ONLY primary structure; hydrogen bonds stabilize secondary structure (backbone) and contribute to tertiary/quaternary (R-groups)—confusing these is a common point-losing mistake.",
+      "Denaturation does NOT break peptide bonds or separate amino acids; it only disrupts non-covalent interactions at secondary, tertiary, and quaternary levels, leaving primary structure intact."
+    ],
+    "difficulty": "intermediate"
+  },
+  "01.06": {
+    "summary": "This chapter covers the structure and function of nucleic acids, focusing on how nucleotide chemistry determines strand directionality, how complementary base pairing stabilizes the double helix, and how three types of RNA execute the central dogma. Students learn to apply these principles to solve AP exam problems involving replication, transcription, and sequence determination.",
+    "keyConcepts": [
+      "Nucleotide structure: pentose sugar, phosphate group at 5' carbon, nitrogenous base at 1' carbon",
+      "Phosphodiester bond formation and 5' to 3' strand directionality",
+      "DNA polymerase and RNA polymerase require a free 3' hydroxyl group for synthesis",
+      "Deoxyribose vs. ribose: the 2' OH makes RNA less stable than DNA",
+      "Purines (adenine, guanine) vs. pyrimidines (cytosine, thymine, uracil)",
+      "Complementary base pairing: A-T (2 hydrogen bonds), G-C (3 hydrogen bonds)",
+      "Antiparallel orientation of double helix strands",
+      "G-C content determines melting temperature (~0.4°C per 1% G-C)",
+      "Chargaff's rules: [A]=[T] and [G]=[C] in double-stranded DNA",
+      "Leading strand vs. lagging strand; Okazaki fragments on lagging strand",
+      "Central dogma: DNA → RNA → Protein",
+      "mRNA carries genetic code from nucleus to ribosome",
+      "Template strand (read 3'→5') vs. coding strand (same sequence as mRNA)",
+      "Three RNA types: mRNA, tRNA, rRNA with distinct mechanistic roles"
+    ],
+    "topics": [
+      "Nucleotide structure and monomer components",
+      "Strand polarity and 5' to 3' directionality",
+      "Phosphodiester bond formation",
+      "Deoxyribose vs. ribose and chemical stability",
+      "Purine and pyrimidine classification",
+      "Watson-Crick complementary base pairing",
+      "Antiparallel double helix geometry",
+      "DNA thermal stability and melting temperature",
+      "G-C content and PCR primer design",
+      "Chargaff's rules",
+      "Leading and lagging strand synthesis",
+      "Okazaki fragments",
+      "Central dogma of molecular biology",
+      "Transcription: template strand vs. coding strand",
+      "Types of RNA and their roles in gene expression"
+    ],
+    "examTips": [
+      "When writing a complementary strand from a template, always identify the 3' end of the template first, start your new strand at its 5' end opposite that 3' end, and write toward your own 3' end — wrong polarity costs points on FRQs even with correct bases.",
+      "G-C pairs are more stable than A-T pairs because of three vs. two hydrogen bonds — not because of covalent bonds or base size; use this to reason about melting temperature and PCR annealing temperature questions."
+    ],
+    "difficulty": "intermediate"
+  },
+  "01.07": {
+    "summary": "This chapter explains how enzymes lower activation energy by stabilizing the transition state through induced fit, and quantifies enzyme behavior using Michaelis-Menten kinetics including Km and Vmax. It also covers competitive and noncompetitive inhibition, allosteric/feedback regulation, and the effects of environmental factors on enzyme structure and function.",
+    "keyConcepts": [
+      "Activation energy (Ea) and transition state stabilization",
+      "Induced fit model of enzyme-substrate interaction",
+      "Active site structure and catalytic mechanism",
+      "Michaelis-Menten kinetics: Vmax and Km",
+      "Enzyme-substrate affinity as inverse of Km",
+      "Competitive inhibition: active site binding, increased apparent Km, unchanged Vmax",
+      "Noncompetitive inhibition: allosteric site binding, decreased Vmax, unchanged Km",
+      "Allosteric regulation and feedback inhibition",
+      "Environmental effects on enzyme conformation and activity"
+    ],
+    "topics": [
+      "Activation energy and enzymes",
+      "Transition state stabilization",
+      "Induced fit vs. lock-and-key model",
+      "Michaelis-Menten curve interpretation",
+      "Reading Km and Vmax from graphs",
+      "Competitive inhibition kinetics",
+      "Noncompetitive inhibition kinetics",
+      "Allosteric enzyme regulation",
+      "Feedback inhibition in metabolic pathways",
+      "Effects of temperature and pH on enzyme function"
+    ],
+    "examTips": [
+      "For FRQ full credit, do not just state enzymes lower Ea—explain the mechanism: induced fit strains substrate bonds and positions catalytic residues to stabilize the transition state.",
+      "When analyzing Michaelis-Menten graphs, always identify both parameters: find the plateau for Vmax first, then locate half-Vmax on the y-axis and read the corresponding x-value for Km—competitive inhibition raises Km only, noncompetitive inhibition lowers Vmax only."
+    ],
+    "difficulty": "intermediate"
+  },
+  "01.08": {
+    "summary": "This chapter covers the structure and function of the cell membrane, explaining how the amphipathic nature of phospholipids drives spontaneous bilayer formation and how the fluid mosaic model describes the dynamic arrangement of proteins and lipids. It also addresses membrane transport mechanisms—including passive and active transport, osmosis, and water potential—and analyzes how disruptions to membrane components affect cellular function.",
+    "keyConcepts": [
+      "Amphipathic phospholipids and spontaneous bilayer formation driven by entropy",
+      "Hydrophobic core creating selective permeability",
+      "Cholesterol as a fluidity buffer in animal cell membranes",
+      "Fluid mosaic model: lateral phospholipid movement and protein distribution",
+      "Integral vs. peripheral membrane proteins",
+      "Transmembrane proteins, channel proteins, and carrier proteins",
+      "Aquaporins and ion channel selectivity filters",
+      "Glycocalyx: glycoproteins and glycolipids in cell recognition",
+      "Osmosis and water potential calculations",
+      "Passive transport vs. active transport relative to concentration gradients and energy requirements",
+      "Effects of transport protein disruption on cellular and organismal physiology"
+    ],
+    "topics": [
+      "Phospholipid bilayer structure",
+      "Selective permeability",
+      "Fluid mosaic model",
+      "Membrane protein types and functions",
+      "Glycocalyx and cell recognition",
+      "Osmosis and water potential",
+      "Passive transport",
+      "Active transport",
+      "Membrane fluidity regulation"
+    ],
+    "examTips": [
+      "When explaining spontaneous bilayer formation, always reference entropy: removing hydrophobic tails from water increases entropy of surrounding water by eliminating the ordered hydration cage—do not simply say 'like dissolves like.'",
+      "Distinguish channel proteins (open hydrophilic tunnels, no energy required) from carrier proteins (conformational change required) and both from active transporters (require ATP, move against concentration gradient) when answering transport mechanism questions."
+    ],
+    "difficulty": "intermediate"
+  },
+  "02.01": {
+    "summary": "This chapter explains the fundamental organizational difference between prokaryotic and eukaryotic cells, focusing on compartmentalization through membrane-bound organelles as the mechanistic basis for eukaryotic functional complexity. It covers how internal membranes enable incompatible reactions to occur simultaneously, how surface area-to-volume ratio constrains cell size, and the structural evidence supporting endosymbiotic theory.",
+    "keyConcepts": [
+      "Compartmentalization through membrane-bound organelles",
+      "Coupled vs. uncoupled transcription and translation",
+      "Post-transcriptional modification (5' capping, poly-A tail, intron splicing)",
+      "Nuclear envelope as physical separator of transcription and translation",
+      "Alternative splicing enabled by nuclear compartmentalization",
+      "Surface area-to-volume ratio constraints on cell size",
+      "Distinct chemical microenvironments in organelles (lysosome pH ~5, peroxisomes, mitochondrial matrix)",
+      "Endosymbiotic theory and supporting structural/molecular evidence",
+      "Nucleoid region in prokaryotes",
+      "Organelle-specific transport proteins as active regulators"
+    ],
+    "topics": [
+      "Prokaryote vs. eukaryote cell organization",
+      "Compartmentalization principle",
+      "RNA processing and nuclear envelope function",
+      "Surface area-to-volume ratio and cell size scaling",
+      "Internal membrane systems in eukaryotes",
+      "Endosymbiotic theory",
+      "Lysosome and peroxisome function",
+      "Mitochondrial structure and chemical environment",
+      "Plant vs. animal cell structural differences",
+      "Consequences of disrupted compartmentalization"
+    ],
+    "examTips": [
+      "On FRQs about post-transcriptional modification, go beyond 'eukaryotes have a nucleus'—explicitly state that the nuclear envelope physically separates transcription from translation, creating time and space for 5' capping, polyadenylation, and splicing before ribosomes access the mRNA.",
+      "When comparing prokaryotes and eukaryotes, frame the difference as a principle of organization (compartmentalization), not just a parts list—explain how membrane-bound organelles enable simultaneous incompatible reactions that would be mutually destructive in a shared cytoplasmic space."
+    ],
+    "difficulty": "intermediate"
+  },
+  "02.02": {
+    "summary": "This chapter examines how organelle structure directly enables function, focusing on the endomembrane system's continuous protein processing pathway and the mitochondrion's cristae architecture that maximizes ATP synthesis capacity. Students learn to trace secretory proteins through ER, Golgi, and vesicle trafficking, and to explain why membrane compartmentalization evolved for energy conversion in mitochondria and chloroplasts.",
+    "keyConcepts": [
+      "Endomembrane system as a continuous, directional membrane network (ER → Golgi → target)",
+      "Co-translational insertion of proteins into the ER lumen via signal sequences and translocon channels",
+      "Golgi cis-medial-trans compartmentalization and sequential protein modification (glycosylation, mannose-6-phosphate tagging)",
+      "Vesicle budding and fusion maintaining membrane continuity during exocytosis",
+      "Cristae folds increasing inner mitochondrial membrane surface area to concentrate ATP synthase complexes",
+      "Proton-motive force across the inner mitochondrial membrane driving oxidative phosphorylation",
+      "Matrix as site of citric acid cycle enzymes producing NADH and FADH2",
+      "Compartmentalization enabling electrochemical gradient formation essential for ATP synthesis"
+    ],
+    "topics": [
+      "Endomembrane system",
+      "Rough endoplasmic reticulum",
+      "Golgi apparatus",
+      "Vesicular trafficking and exocytosis",
+      "Signal sequences and protein sorting",
+      "Mitochondrial inner membrane and cristae",
+      "Oxidative phosphorylation",
+      "Proton-motive force",
+      "Citric acid cycle compartmentalization",
+      "Chloroplast organization",
+      "Endosymbiotic theory"
+    ],
+    "examTips": [
+      "When a secretory pathway step is blocked on FRQs, identify both the site of protein accumulation AND which modification is prevented (e.g., blocking ER-to-Golgi vesicle fusion means proteins accumulate in ER-derived vesicles and never receive Golgi glycosylation or mannose-6-phosphate sorting).",
+      "For cristae questions, use the full mechanistic chain: cristae folds → increased inner membrane surface area → more ATP synthase complexes embedded → higher rate of proton flow through ATP synthase → increased ATP production rate; never state that folds 'increase ATP' without explaining the mechanism."
+    ],
+    "difficulty": "intermediate"
+  },
+  "02.03": {
+    "summary": "This chapter examines the three cytoskeletal filament systems—microtubules, microfilaments, and intermediate filaments—comparing their molecular composition, structural properties, and distinct cellular functions. It then explores how microtubule polarity governs motor protein directionality, how dynamic instability drives chromosome segregation, and how actin-myosin interactions produce cytokinetic force.",
+    "keyConcepts": [
+      "Microtubules (25 nm) are hollow tubes of alpha/beta tubulin heterodimers arranged in 13 protofilaments",
+      "Microfilaments (7 nm) are solid F-actin double helices concentrated in the cell cortex",
+      "Intermediate filaments (10 nm) are rope-like fibrous protein assemblies providing tensile strength without active movement",
+      "Microtubule plus ends (beta tubulin exposed) grow faster and point toward the cell periphery; minus ends anchor at the centrosome",
+      "Kinesin is a plus-end-directed motor transporting cargo outward; dynein is a minus-end-directed motor transporting cargo inward",
+      "Motor proteins use ATP hydrolysis for cyclic conformational changes to walk along microtubule tracks",
+      "Dynamic instability: microtubules alternate between growth and rapid shrinkage, and depolymerization drives chromosome segregation during anaphase",
+      "Actin microfilaments and myosin generate contractile force at the cleavage furrow during animal cell cytokinesis",
+      "Intermediate filaments are the only cytoskeletal component that does not directly participate in cell movement",
+      "Drugs targeting tubulin or actin arrest cell division; intermediate filament disruption primarily affects tissue integrity"
+    ],
+    "topics": [
+      "Cytoskeletal filament types and molecular architecture",
+      "Microtubule structure and tubulin polymerization",
+      "Microfilament structure and actin dynamics",
+      "Intermediate filament composition and mechanical roles",
+      "Microtubule polarity and plus/minus end identity",
+      "Kinesin and dynein motor protein directionality",
+      "ATP hydrolysis mechanism of motor proteins",
+      "Centrosome as microtubule organizing center",
+      "Intracellular vesicle and organelle transport",
+      "Dynamic instability and mitotic spindle function",
+      "Chromosome segregation during anaphase",
+      "Actin-myosin contractile ring and cytokinesis",
+      "Pharmacological and mutational disruption of cytoskeletal dynamics"
+    ],
+    "examTips": [
+      "Intermediate filaments are the ONLY cytoskeletal filament that is primarily structural and stable—any question about mechanical reinforcement, nuclear shape, or organelle anchoring without movement points to intermediate filaments, not microtubules or microfilaments.",
+      "Identify transport direction before selecting the motor protein: outward movement toward the plasma membrane = kinesin (plus-end directed); inward movement toward the nucleus/centrosome = dynein (minus-end directed)."
+    ],
+    "difficulty": "intermediate"
+  },
+  "02.04": {
+    "summary": "This chapter explains how a signal molecule's chemical properties determine whether it uses a surface or intracellular receptor, then details the complete GPCR signaling cascade including G-proteins, adenylyl cyclase, and cAMP as a second messenger. It also covers signal amplification, mutation consequences, and comparisons between lipid-soluble and lipid-insoluble signaling pathways.",
+    "keyConcepts": [
+      "Chemistry rule: lipid solubility determines receptor location",
+      "Intracellular receptors for lipid-soluble signals (steroids, thyroid hormones)",
+      "Surface receptors for lipid-insoluble signals (protein hormones, neurotransmitters)",
+      "Hormone response elements and transcription factor activation",
+      "GPCR seven-transmembrane structure",
+      "G-protein heterotrimeric complex (alpha, beta, gamma subunits)",
+      "GDP-bound (inactive) vs. GTP-bound (active) G-protein states",
+      "Guanine nucleotide exchange factor (GEF) activity of activated GPCRs",
+      "Adenylyl cyclase and cAMP production from ATP",
+      "Intrinsic GTPase activity of alpha subunit for signal termination",
+      "Phosphodiesterase degradation of cAMP",
+      "Signal amplification through enzymatic cascades",
+      "Second messengers as intracellular signal relay molecules",
+      "Constitutive activation from GTPase-deficient mutations"
+    ],
+    "topics": [
+      "Plasma membrane as molecular gatekeeper",
+      "Lipid-soluble vs. lipid-insoluble signaling",
+      "Steroid hormone signaling mechanism",
+      "G-protein coupled receptor (GPCR) mechanism",
+      "Second messengers and cAMP",
+      "Signal transduction cascades",
+      "Signal amplification",
+      "Paracrine, autocrine, and endocrine signaling",
+      "Mutation effects on signal transduction",
+      "Signal termination mechanisms"
+    ],
+    "examTips": [
+      "When given an unfamiliar hormone, determine receptor location by chemistry: nonpolar/steroid = intracellular receptor; polar/protein/charged = surface receptor. Never assume all hormones work the same way.",
+      "G-protein activity is determined by bound nucleotide: GDP-bound = inactive, GTP-bound = active. A mutation preventing GTP hydrolysis causes constitutive activation, not inactivation."
+    ],
+    "difficulty": "advanced"
+  },
+  "02.05": {
+    "summary": "This chapter explains how molecules move across the plasma membrane through simple diffusion, channel proteins, carrier proteins, and bulk transport, emphasizing the role of molecular properties and protein mechanisms in determining transport pathways. It covers passive and active transport, ion channel selectivity, the Na+/K+ ATPase, and endocytosis/exocytosis as essential concepts for understanding cellular homeostasis.",
+    "keyConcepts": [
+      "Hydrophobic core as a selective barrier to charged and polar molecules",
+      "Simple diffusion of small nonpolar and uncharged polar molecules down concentration gradients",
+      "Channel proteins forming hydrophilic pores for facilitated diffusion of ions and water",
+      "Selectivity filter mechanism in ion channels (chemical fit, not size exclusion)",
+      "Gated channels: voltage-gated, ligand-gated, and mechanically-gated",
+      "Leak channels and resting membrane potential",
+      "Carrier proteins using alternating access conformational changes",
+      "GLUT transporters as examples of carrier-mediated facilitated diffusion",
+      "Na+/K+ ATPase as a primary active transporter establishing electrochemical gradients",
+      "Secondary active transport powered by ion gradients",
+      "Endocytosis and exocytosis as bulk transport mechanisms bypassing bilayer crossing",
+      "Aquaporins as specialized water channels"
+    ],
+    "topics": [
+      "Membrane permeability and simple diffusion",
+      "Channel proteins and ion selectivity",
+      "Facilitated diffusion",
+      "Active transport and the Na+/K+ ATPase",
+      "Secondary active transport",
+      "Bulk transport: endocytosis and exocytosis",
+      "Electrochemical gradients and membrane potential",
+      "Transport protein inhibition and mutation consequences"
+    ],
+    "examTips": [
+      "Membrane permeability depends on molecular properties, not biological importance—steroid hormones (nonpolar) cross freely, but peptide hormones (polar/large) cannot.",
+      "Potassium channels exclude Na+ because Na+ is too SMALL to fit the selectivity filter's carbonyl oxygens, not because Na+ is larger—a common AP exam distractor gets this backwards."
+    ],
+    "difficulty": "intermediate"
+  },
+  "02.06": {
+    "summary": "This chapter explains water potential (Ψ = Ψs + Ψp) as the governing force behind osmosis, detailing how to calculate and apply each component to predict water movement between compartments. It contrasts plant and animal cell responses to osmotic conditions, emphasizing how the plant cell wall generates turgor pressure to prevent lysis while animal cells are vulnerable to lysis and crenation.",
+    "keyConcepts": [
+      "Water potential equation: Ψ = Ψs + Ψp",
+      "Solute potential (Ψs = −iCRT) is always zero or negative",
+      "Pressure potential (Ψp) is positive in walled cells, zero in animal cells",
+      "Water moves from higher to lower water potential",
+      "Turgor pressure in plant cells generated by rigid cell wall",
+      "Turgid, flaccid, and plasmolyzed states in plant cells",
+      "Lysis and hemolysis in animal cells in hypotonic solutions",
+      "Crenation in animal cells in hypertonic solutions",
+      "Isotonic, hypotonic, and hypertonic solution effects",
+      "Ionization constant (i) for solute dissociation in Ψs calculations"
+    ],
+    "topics": [
+      "Water potential equation and components",
+      "Solute potential calculation",
+      "Pressure potential and turgor pressure",
+      "Animal cell osmotic responses",
+      "Plant cell osmotic responses",
+      "Cell wall structure and function",
+      "Lysis, hemolysis, and crenation",
+      "Turgid, flaccid, and plasmolyzed states",
+      "Osmoregulation in animals",
+      "Predicting water movement direction"
+    ],
+    "examTips": [
+      "Always calculate total Ψ (Ψs + Ψp) for each compartment before predicting water movement direction—never compare solute potentials alone, as ignoring Ψp is a common free-response point-loss.",
+      "Lysis and crenation apply to animal cells; turgid, flaccid, and plasmolyzed apply to plant cells—if a question asks about a red blood cell becoming plasmolyzed, it is a distractor testing terminology distinctions."
+    ],
+    "difficulty": "intermediate"
+  },
+  "02.07": {
+    "summary": "This chapter covers the three major types of cell communication—direct contact, local (paracrine and synaptic), and long-distance (endocrine) signaling—distinguishing each by mechanism and distance. It also addresses the structural basis of direct communication via gap junctions and plasmodesmata, the role of apoptosis as a programmed cellular response, and the consequences of disruptions in signaling pathways.",
+    "keyConcepts": [
+      "Direct contact signaling via gap junctions and plasmodesmata",
+      "Gap junction structure: connexins, connexons, and pore size",
+      "Plasmodesmata structure: desmotubule, symplast, and plant cell wall channels",
+      "Paracrine signaling: local ligand diffusion without bloodstream involvement",
+      "Synaptic signaling: neurotransmitter release across the synaptic cleft",
+      "Endocrine signaling: hormone transport through the bloodstream to distant cells",
+      "Steroid hormones vs. peptide hormones and their mechanisms of action",
+      "Apoptosis as a programmed cell death response to signaling",
+      "Signal pathway disruption and mutation outcomes"
+    ],
+    "topics": [
+      "Direct contact signaling",
+      "Gap junctions in animal cells",
+      "Plasmodesmata in plant cells",
+      "Paracrine signaling",
+      "Synaptic signaling and neurotransmitters",
+      "Endocrine signaling and hormones",
+      "Local vs. long-distance signaling comparison",
+      "Apoptosis",
+      "Cell signaling pathway disruptions"
+    ],
+    "examTips": [
+      "Never use 'gap junction' and 'plasmodesmata' interchangeably—gap junctions are connexin-based protein channels in animals, while plasmodesmata are membrane-lined, desmotubule-containing channels through plant cell walls.",
+      "Do not classify every secreted ligand as endocrine signaling—if the signal acts on nearby or neighboring cells without traveling through the bloodstream, it is paracrine signaling, not endocrine."
+    ],
+    "difficulty": "intermediate"
+  },
+  "02.08": {
+    "summary": "This chapter explains how homeostatic feedback loops maintain internal stability through three components—receptor, control center, and effector—that work together to detect and correct deviations from a set point. It distinguishes between negative feedback, which opposes the original stimulus to restore balance, and positive feedback, which amplifies the stimulus to drive rapid completion of physiological events.",
+    "keyConcepts": [
+      "Homeostasis and set point maintenance",
+      "Three-component feedback loop: receptor, control center, effector",
+      "Negative feedback as a self-limiting stabilization mechanism",
+      "Positive feedback as an amplification mechanism",
+      "Thermoregulation via hypothalamic negative feedback",
+      "Blood glucose regulation via insulin and GLUT4",
+      "Role of pancreatic beta cells as receptor and effector",
+      "Hypothalamus as systemic control center",
+      "GLUT4 transporter insertion in response to insulin signaling",
+      "Disruption of feedback loop components and physiological consequences"
+    ],
+    "topics": [
+      "Architecture of homeostatic control",
+      "Receptor function and signal detection",
+      "Control center comparison to set point",
+      "Effector response and loop closure",
+      "Negative feedback mechanisms",
+      "Thermoregulation: shivering, vasoconstriction, brown adipose tissue",
+      "Blood glucose regulation: insulin secretion and glucose uptake",
+      "Positive feedback mechanisms",
+      "Comparing negative and positive feedback",
+      "Applying feedback loop analysis to novel scenarios"
+    ],
+    "examTips": [
+      "On FRQs, explicitly label all three components (receptor, control center, effector) for partial credit—even if uncertain about one, identify and label what you can using the format: receptor detects X, control center compares X to set point and initiates Y, effector performs Z.",
+      "For negative feedback MCQs involving unfamiliar systems, apply the opposition rule: a stimulus increase above set point must produce an effector response that decreases the variable, and vice versa."
+    ],
+    "difficulty": "intermediate"
+  },
+  "03.01": {
+    "summary": "This chapter covers the thermodynamic principles governing biological reactions, focusing on Gibbs free energy (ΔG = ΔH − TΔS) as the determinant of reaction spontaneity in cellular systems. It explains how ATP coupling drives endergonic reactions, why cells comply with the Second Law of Thermodynamics, and how to distinguish thermodynamic spontaneity from kinetic reaction rate.",
+    "keyConcepts": [
+      "Gibbs free energy (ΔG = ΔH − TΔS) and spontaneity",
+      "Exergonic vs. endergonic reactions",
+      "Exothermic vs. exergonic distinction",
+      "ATP hydrolysis as the primary cellular energy currency",
+      "ATP coupling via phosphorylated intermediates",
+      "Entropy and the Second Law of Thermodynamics",
+      "Cells as open systems that export entropy",
+      "Thermodynamic spontaneity vs. kinetic reaction rate",
+      "Effect of temperature on reaction favorability",
+      "Standard free energy change vs. actual cellular ΔG"
+    ],
+    "topics": [
+      "Gibbs free energy equation and its biological applications",
+      "Predicting spontaneity from ΔG sign",
+      "Exergonic and endergonic reaction classification",
+      "Cellular respiration as an exergonic process",
+      "Protein synthesis as an endergonic process",
+      "Mechanism of ATP coupling in glutamine synthesis",
+      "Role of phosphorylated intermediates in coupled reactions",
+      "Entropy, disorder, and the Second Law",
+      "Enthalpy and entropy contributions to spontaneity",
+      "Activation energy and the spontaneity-rate distinction"
+    ],
+    "examTips": [
+      "Never equate spontaneous with fast—spontaneity means ΔG is negative (thermodynamic favorability), not that the reaction occurs quickly; high activation energy can make a spontaneous reaction extremely slow.",
+      "Never substitute exothermic for exergonic on free response; exergonic means ΔG < 0 (free energy), while exothermic means ΔH < 0 (heat)—a reaction can be exergonic and endothermic simultaneously if entropy increase is large enough."
+    ],
+    "difficulty": "intermediate"
+  },
+  "03.02": {
+    "summary": "This chapter explains how ATP functions as the cell's energy currency, focusing on why hydrolysis releases energy through electrostatic repulsion relief and product stabilization rather than high-energy bonds. It covers the two mechanisms of ATP synthesis (substrate-level and oxidative phosphorylation), the proton motive force driving ATP synthase, and anaerobic ATP production via fermentation.",
+    "keyConcepts": [
+      "ATP molecular structure: adenine, ribose, and three phosphate groups (alpha, beta, gamma)",
+      "Electrostatic repulsion among negatively charged phosphate groups as the source of ATP's free energy",
+      "ATP hydrolysis is exergonic (ΔG ≈ −30.5 kJ/mol) due to charge separation, resonance stabilization of Pi, and entropy increase",
+      "Energy coupling: direct mechanistic linkage of exergonic ATP hydrolysis to endergonic processes via phosphorylation",
+      "Phosphorylation-induced conformational changes enable cellular work (e.g., Na+/K+-ATPase)",
+      "Kinetic stability of ATP: slow spontaneous hydrolysis ensures controlled energy release",
+      "Substrate-level phosphorylation: direct phosphate transfer from high-energy intermediates (e.g., PEP) to ADP",
+      "Oxidative phosphorylation: ATP synthesis driven by the proton motive force across the inner mitochondrial membrane",
+      "ATP synthase rotation driven by proton gradient",
+      "Fermentation as an anaerobic strategy to regenerate NAD+ and sustain glycolytic ATP production"
+    ],
+    "topics": [
+      "ATP molecular architecture",
+      "Electrostatic repulsion and free energy of hydrolysis",
+      "Gibbs free energy and exergonic reactions",
+      "Energy coupling and phosphorylation mechanisms",
+      "Na+/K+-ATPase as a model of coupled transport",
+      "Substrate-level phosphorylation in glycolysis and citric acid cycle",
+      "Oxidative phosphorylation and the electron transport chain",
+      "Proton motive force and ATP synthase",
+      "Anaerobic respiration and fermentation",
+      "ATP-ADP cycle"
+    ],
+    "examTips": [
+      "Never state that breaking the phosphate bond releases stored energy; instead explain that products (ADP + Pi) are more stable than ATP due to relief of electrostatic repulsion, resonance stabilization of Pi, and increased entropy.",
+      "When explaining ATP-driven endergonic processes, describe the full coupling mechanism: ATP transfers a phosphate to the substrate/protein, the phosphorylated intermediate undergoes a conformational change, and this change performs the work—simply saying 'ATP provides energy' is insufficient for free response credit."
+    ],
+    "difficulty": "intermediate"
+  },
+  "03.03": {
+    "summary": "This chapter covers glycolysis as the universal first stage of cellular respiration, detailing the investment phase (steps 1–5, costing 2 ATP) and the payoff phase (steps 6–10, yielding 4 ATP and 2 NADH) for a net gain of 2 ATP per glucose. It also addresses regulation by phosphofructokinase, substrate-level vs. oxidative phosphorylation, and the critical role of NAD+ regeneration when mitochondrial function is impaired.",
+    "keyConcepts": [
+      "Investment phase: 2 ATP consumed to phosphorylate and destabilize glucose (steps 1–5)",
+      "Hexokinase catalyzes glucose → glucose-6-phosphate, trapping glucose in the cell",
+      "Phosphofructokinase (PFK) as the primary regulatory enzyme of glycolysis",
+      "Allosteric inhibition of PFK by ATP and citrate; activation by AMP and ADP",
+      "Aldolase cleaves fructose-1,6-bisphosphate into DHAP and glyceraldehyde-3-phosphate",
+      "Triose phosphate isomerase converts DHAP → G3P so both halves enter the payoff phase",
+      "Payoff phase: 4 ATP produced via substrate-level phosphorylation, net = 2 ATP per glucose",
+      "Substrate-level phosphorylation vs. oxidative phosphorylation",
+      "NADH produced in glycolysis; NAD+ must be regenerated for glycolysis to continue",
+      "Glycolytic rate increases when mitochondria are inhibited due to NAD+ regeneration via fermentation"
+    ],
+    "topics": [
+      "Glycolysis overview",
+      "Investment phase mechanics",
+      "Payoff phase mechanics",
+      "Enzyme regulation (PFK, hexokinase)",
+      "Substrate-level phosphorylation",
+      "Oxidative phosphorylation comparison",
+      "NAD+ regeneration and fermentation",
+      "Metabolic inhibitors and ATP-producing pathways",
+      "Net ATP yield calculation"
+    ],
+    "examTips": [
+      "FRQ rubrics require mechanistic explanation for ATP investment: phosphorylation by hexokinase and PFK destabilizes glucose and traps it in the cell—never say the investment is random.",
+      "When mitochondria are inhibited, glycolysis speeds up (not stops) because fermentation regenerates NAD+, allowing substrate-level phosphorylation to continue; only oxidative phosphorylation is lost."
+    ],
+    "difficulty": "intermediate"
+  },
+  "03.04": {
+    "summary": "This chapter covers pyruvate oxidation in the mitochondrial matrix, where the pyruvate dehydrogenase complex converts pyruvate to acetyl-CoA, and the citric acid cycle, which completely oxidizes acetyl groups to CO2 while generating NADH, FADH2, and ATP. Together these pathways account for all six carbons from glucose as CO2 and produce the electron carriers that drive oxidative phosphorylation.",
+    "keyConcepts": [
+      "Oxidative decarboxylation of pyruvate by the pyruvate dehydrogenase complex",
+      "Products of pyruvate oxidation: acetyl-CoA, NADH, CO2 (per pyruvate: 1 each; per glucose: 2 each)",
+      "Citric acid cycle (Krebs/TCA cycle) as a closed loop using oxaloacetate as recyclable scaffold",
+      "Per-turn citric acid cycle yield: 3 NADH, 1 FADH2, 1 ATP/GTP, 2 CO2",
+      "Per-glucose citric acid cycle yield: 6 NADH, 2 FADH2, 2 ATP, 4 CO2",
+      "Carbon accounting: 2 CO2 from pyruvate oxidation + 4 CO2 from citric acid cycle = 6 CO2 total per glucose",
+      "Substrate-level phosphorylation vs. electron carrier reduction in the citric acid cycle",
+      "Subcellular compartmentalization: glycolysis in cytoplasm, pyruvate oxidation and citric acid cycle in mitochondrial matrix",
+      "Succinate dehydrogenase as the only citric acid cycle enzyme embedded in the inner mitochondrial membrane",
+      "Allosteric regulation of pyruvate dehydrogenase by ATP, NADH, and acetyl-CoA",
+      "Anaplerotic reactions replenishing oxaloacetate to maintain cycle continuity",
+      "Irreversibility of pyruvate oxidation due to CO2 release"
+    ],
+    "topics": [
+      "Pyruvate transport into mitochondrial matrix",
+      "Pyruvate dehydrogenase complex mechanism",
+      "Oxidative decarboxylation",
+      "Acetyl-CoA formation and function",
+      "Coenzyme A structure and role",
+      "Citric acid cycle steps and intermediates",
+      "Carbon atom fate through cellular respiration",
+      "Decarboxylation reactions (isocitrate → alpha-ketoglutarate; alpha-ketoglutarate → succinyl-CoA)",
+      "GTP/ATP production via substrate-level phosphorylation in citric acid cycle",
+      "NADH and FADH2 production as electron carriers",
+      "Metabolic compartmentalization and regulation",
+      "Feedback inhibition of pyruvate dehydrogenase",
+      "Oxaloacetate regeneration and anaplerosis"
+    ],
+    "examTips": [
+      "Pyruvate oxidation occurs specifically in the mitochondrial matrix, not just 'in the mitochondria'; if mitochondrial transport is blocked, only glycolysis can proceed.",
+      "Memorize the CO2 tally: glycolysis = 0 CO2, pyruvate oxidation = 2 CO2, citric acid cycle = 4 CO2, totaling 6 CO2 per glucose to match all six original carbons."
+    ],
+    "difficulty": "intermediate"
+  },
+  "03.05": {
+    "summary": "This chapter explains how the electron transport chain (Complexes I–IV) transfers electrons from NADH and FADH2 to oxygen, using released energy to pump protons into the intermembrane space and establish the gradient that drives ATP synthase. It also distinguishes the proton-pumping capacities of NADH versus FADH2 and analyzes how inhibitors or uncouplers disrupt ATP production.",
+    "keyConcepts": [
+      "Electron transport chain architecture (Complexes I–IV)",
+      "Complex I (NADH dehydrogenase) pumps 4 protons per NADH",
+      "Complex II (succinate dehydrogenase) does not pump protons, explaining lower FADH2 ATP yield",
+      "Ubiquinone (Coenzyme Q) as mobile lipid-soluble electron carrier",
+      "Cytochrome c as mobile electron carrier between Complex III and IV",
+      "Complex III Q cycle pumps 4 protons",
+      "Complex IV reduces O2 to water and pumps 2–4 protons",
+      "Oxygen as terminal electron acceptor, not energy source",
+      "Chemiosmosis and the proton electrochemical gradient",
+      "ATP synthase couples proton flow to ADP phosphorylation",
+      "NADH yields ~2.5 ATP; FADH2 yields ~1.5 ATP",
+      "ETC inhibitors (e.g., cyanide) cause electron backup and halt ATP synthesis",
+      "Uncouplers dissipate proton gradient without ATP production"
+    ],
+    "topics": [
+      "Architecture of the electron transport chain",
+      "Proton pumping by Complexes I, III, and IV",
+      "Role of ubiquinone and cytochrome c as mobile carriers",
+      "Oxygen as terminal electron acceptor",
+      "Thermodynamic basis of electron flow through the ETC",
+      "Chemiosmosis and ATP synthase mechanism",
+      "Differential ATP yield of NADH vs. FADH2",
+      "Effects of ETC inhibitors on electron flow and ATP production",
+      "Electron backup caused by Complex IV inhibition (cyanide)",
+      "Comparison of aerobic vs. anaerobic ATP yield"
+    ],
+    "examTips": [
+      "NADH enters at Complex I (pumps 4 H+, ~2.5 ATP); FADH2 enters at Complex II (no proton pumping, ~1.5 ATP)—this distinction is a high-frequency AP exam target.",
+      "Oxygen does not provide energy; it accepts low-energy electrons at Complex IV to prevent electron backup—AP questions use words like 'burns' or 'provides energy' for oxygen to trap students holding a combustion model."
+    ],
+    "difficulty": "advanced"
+  },
+  "03.06": {
+    "summary": "This chapter explains fermentation as a NAD+ regeneration mechanism rather than an ATP-producing pathway, detailing how cells survive without oxygen by using pyruvate as an alternative electron acceptor. It compares lactic acid fermentation (direct one-step reduction of pyruvate to lactate) with ethanol fermentation (two-step decarboxylation then reduction), and quantifies the ATP yield difference between fermentation and aerobic respiration.",
+    "keyConcepts": [
+      "Fermentation regenerates NAD+ to sustain glycolysis, not to produce ATP",
+      "NAD+ depletion halts glycolysis when oxygen is unavailable",
+      "Lactic acid fermentation: lactate dehydrogenase reduces pyruvate directly to lactate, no CO2 released",
+      "Ethanol fermentation: pyruvate decarboxylase removes CO2 to form acetaldehyde, then alcohol dehydrogenase reduces acetaldehyde to ethanol",
+      "Pyruvate serves as the electron acceptor in both fermentation pathways",
+      "Fermentation yields only 2 ATP per glucose (from glycolysis) vs. ~30-32 ATP via aerobic respiration",
+      "NADH oxidation back to NAD+ is the essential function of fermentation",
+      "Muscle fatigue linked to proton accumulation and pH decrease, not lactate itself",
+      "Saccharomyces cerevisiae performs ethanol fermentation; Lactobacillus performs lactic acid fermentation"
+    ],
+    "topics": [
+      "NAD+/NADH redox cycling",
+      "Glycolysis dependence on NAD+ availability",
+      "Lactic acid fermentation pathway",
+      "Ethanol fermentation pathway",
+      "Pyruvate decarboxylase and alcohol dehydrogenase enzymes",
+      "Lactate dehydrogenase enzyme",
+      "ATP yield comparison: fermentation vs. aerobic respiration",
+      "Anaerobic vs. aerobic metabolism",
+      "Muscle fatigue and intracellular pH",
+      "Industrial and biological applications of fermentation"
+    ],
+    "examTips": [
+      "Never state fermentation produces ATP without oxygen — fermentation's sole purpose is NAD+ regeneration so glycolysis can continue producing ATP via substrate-level phosphorylation; this distinction is frequently tested on FRQs.",
+      "Distinguish the two pathways by CO2 release: lactic acid fermentation produces no CO2 (no decarboxylation), while ethanol fermentation releases CO2 when pyruvate is converted to acetaldehyde — gas bubbles in an experiment indicate ethanol fermentation."
+    ],
+    "difficulty": "intermediate"
+  },
+  "03.07": {
+    "summary": "This chapter covers the light-dependent reactions of photosynthesis, focusing on the structural organization of the thylakoid membrane and the sequential flow of electrons from water through Photosystem II, the cytochrome b6f complex, and Photosystem I to produce NADPH and ATP. Students learn how the proton gradient is established by two distinct mechanisms and how chemiosmosis drives ATP synthesis, with emphasis on the specific chemical roles of P680 and P700.",
+    "keyConcepts": [
+      "Thylakoid membrane architecture: lumen vs. stroma compartmentalization",
+      "Four major protein complexes: PSII, cytochrome b6f, PSI, ATP synthase",
+      "Z-scheme: linear electron flow from water to NADPH",
+      "P680 as the strongest biological oxidizing agent capable of water splitting",
+      "P700 re-energizes electrons for NADP+ reduction",
+      "Oxygen evolving complex and water splitting: 2H2O → 4H+ + 4e- + O2",
+      "Two mechanisms of proton gradient formation: water splitting at PSII lumen side and active proton pumping by cytochrome b6f",
+      "Chemiosmosis: proton return through ATP synthase drives ATP synthesis in the stroma",
+      "Mobile electron carriers: plastoquinone and plastocyanin",
+      "NADPH production via ferredoxin and NADP+ reductase on stromal side"
+    ],
+    "topics": [
+      "Chloroplast structure and thylakoid organization",
+      "Antenna complexes and reaction centers",
+      "Photosystem II function and P680",
+      "Photosystem I function and P700",
+      "Linear electron flow pathway",
+      "Proton gradient establishment",
+      "Chemiosmosis and ATP synthesis",
+      "Role of oxygen as a byproduct of water splitting",
+      "Functional order of photosystems vs. discovery order"
+    ],
+    "examTips": [
+      "ATP is released into the stroma and NADPH is produced on the stromal side—saying 'in the chloroplast' is insufficient for free-response credit; specify thylakoid membrane (ATP synthase) and stromal face.",
+      "Photosystem II functions FIRST despite being numbered second; PSII must precede PSI because only P680+ is a strong enough oxidizing agent to extract electrons from water—P700+ cannot perform water oxidation."
+    ],
+    "difficulty": "advanced"
+  },
+  "03.08": {
+    "summary": "This chapter covers the three stages of the Calvin cycle—carbon fixation by RuBisCO, reduction of 3-PGA to G3P, and regeneration of RuBP—detailing the specific inputs, outputs, and energy requirements at each stage. It also addresses RuBisCO's dual carboxylase/oxygenase activity leading to photorespiration, and distinguishes C3, C4, and CAM photosynthetic pathways by their CO2 concentration mechanisms and first stable carbon products.",
+    "keyConcepts": [
+      "RuBisCO catalyzes CO2 fixation: CO2 + RuBP → 2 molecules of 3-PGA",
+      "3-PGA is the first stable product of carbon fixation in C3 plants",
+      "Reduction stage: 3-PGA → 1,3-bisphosphoglycerate → G3P, consuming ATP and NADPH",
+      "G3P is the Calvin cycle output and precursor for glucose, amino acids, and lipids",
+      "RuBP regeneration: 5 G3P (15C) → 3 RuBP (15C), requires ATP",
+      "Stoichiometry: 3 CO2 fixed per cycle, 6 G3P produced, 1 net G3P exported, 5 recycled",
+      "Per CO2 fixed: 2 ATP and 2 NADPH consumed in reduction stage",
+      "RuBisCO oxygenase activity produces 2-phosphoglycolate, triggering photorespiration",
+      "Photorespiration consumes ATP, releases fixed CO2, and produces no usable sugar",
+      "C3 plants fix CO2 directly via RuBisCO; first stable product is 3-PGA (3 carbons)",
+      "C4 and CAM plants use CO2-concentrating mechanisms to reduce photorespiration",
+      "Calvin cycle location: stroma of the chloroplast",
+      "Light reactions supply ATP and NADPH consumed by the Calvin cycle",
+      "RuBP regeneration is the rate-limiting control point linking light reactions to carbon fixation"
+    ],
+    "topics": [
+      "Calvin cycle stage 1: carbon fixation",
+      "RuBisCO structure and function",
+      "RuBP as CO2 acceptor molecule",
+      "3-PGA as first stable carbon product",
+      "Calvin cycle stage 2: reduction",
+      "ATP and NADPH consumption in the Calvin cycle",
+      "G3P synthesis and uses",
+      "Calvin cycle stage 3: RuBP regeneration",
+      "Carbon skeleton rearrangements (transketolase, aldolase)",
+      "Calvin cycle stoichiometry",
+      "Photorespiration and 2-phosphoglycolate",
+      "C3, C4, and CAM photosynthesis",
+      "Coupling of light reactions to Calvin cycle",
+      "Radioactive carbon tracer experiments (Calvin cycle intermediates)"
+    ],
+    "examTips": [
+      "For FRQ credit on RuBisCO inefficiency, state TWO explicit points: (1) it is the sole entry point for atmospheric CO2 into organic carbon, and (2) its oxygenase activity produces 2-phosphoglycolate, triggering wasteful photorespiration—both require mechanism-level explanation.",
+      "Trace ATP and NADPH from their production site (thylakoid membranes via chemiosmosis and ferredoxin reduction) to their consumption site (stroma, reduction stage of Calvin cycle converting 3-PGA to G3P); also memorize per-CO2 costs: 3 ATP and 2 NADPH total per CO2 fixed across the full cycle."
+    ],
+    "difficulty": "advanced"
+  },
+  "03.09": {
+    "summary": "This chapter examines the relationship between cellular respiration and photosynthesis, emphasizing that they are not perfect opposites but simultaneous processes requiring careful rate accounting. Students learn to calculate true (gross) photosynthesis from gas exchange data, compare electron transport chain mechanisms in mitochondria and chloroplasts, and design experiments to distinguish apparent from true metabolic rates.",
+    "keyConcepts": [
+      "True (gross) photosynthesis = apparent photosynthesis + respiration rate",
+      "Compensation point: light intensity where photosynthesis rate equals respiration rate, yielding zero net gas exchange",
+      "Apparent photosynthesis is always less than true photosynthesis due to simultaneous respiration",
+      "Chemiosmosis drives ATP synthesis in both mitochondria and chloroplasts via proton gradients",
+      "In mitochondria, protons accumulate in the intermembrane space; in chloroplasts, protons accumulate in the thylakoid lumen",
+      "Oxygen is the final electron acceptor in mitochondria; oxygen is a byproduct of water splitting in chloroplasts",
+      "Both processes operate simultaneously in photosynthetic cells containing both chloroplasts and mitochondria",
+      "Dark respiration rate remains relatively constant regardless of light conditions",
+      "Net gas exchange reflects the combined, simultaneous effects of photosynthesis and respiration"
+    ],
+    "topics": [
+      "Gross vs. net (apparent) photosynthesis",
+      "Compensation point",
+      "Gas exchange calculations using oxygen and CO2 data",
+      "Electron transport chain comparison: chloroplasts vs. mitochondria",
+      "Chemiosmosis and ATP synthase",
+      "Proton gradient orientation in thylakoid lumen vs. intermembrane space",
+      "Experimental methods: oxygen probes, CO2 sensors, radioactive tracers",
+      "Measuring dark respiration rate",
+      "Photorespiration and C4/CAM adaptations"
+    ],
+    "examTips": [
+      "Never equate measured oxygen output in the light with true photosynthesis rate — always add the dark respiration rate to apparent photosynthesis to find gross photosynthesis.",
+      "Zero net gas exchange means the compensation point has been reached, NOT that photosynthesis has stopped; both processes are running at equal rates."
+    ],
+    "difficulty": "intermediate"
+  },
+  "04.01": {
+    "summary": "This chapter explains the three-stage process of signal transduction—reception, transduction, and response—detailing how ligand binding causes receptor conformational changes, how phosphorylation cascades amplify signals exponentially, and how activated cascades produce fast cytoplasmic or slow gene expression responses. It also covers cell-specific signaling, second messengers, and the molecular mechanisms that terminate and reverse signaling.",
+    "keyConcepts": [
+      "Ligand-receptor binding and conformational change",
+      "G protein-coupled receptors, receptor tyrosine kinases, and ion channel receptors",
+      "Phosphorylation cascades and signal amplification",
+      "Protein kinases and phosphatases",
+      "Second messengers (cAMP, calcium ions, IP3)",
+      "MAPK pathway",
+      "Fast cytoplasmic responses vs. slow gene expression responses",
+      "Signal termination and reversibility",
+      "Cell-specific responses through differential receptor expression"
+    ],
+    "topics": [
+      "Reception: ligand binding and receptor conformational change",
+      "Receptor types: GPCRs, RTKs, ion channel receptors",
+      "Transduction: phosphorylation cascade mechanics",
+      "Signal amplification mathematics",
+      "Second messenger function and diffusion",
+      "Phosphatase-mediated signal termination",
+      "Fast metabolic responses (e.g., glycogen breakdown)",
+      "Slow transcriptional responses via gene expression",
+      "Receptor specificity and differential gene expression"
+    ],
+    "examTips": [
+      "Reception = ligand binding + conformational change only; any mention of phosphorylation or enzyme activation describes transduction—keep these stages strictly separate on FRQs.",
+      "To earn full credit for amplification questions, explicitly state the multiplicative mechanism: each kinase activates multiple copies of the next kinase, not just that 'the signal gets stronger.'"
+    ],
+    "difficulty": "intermediate"
+  },
+  "04.02": {
+    "summary": "This chapter covers the four phases of the cell cycle (G1, S, G2, M) and explains why each phase must precede the next based on molecular prerequisites. It also details the three major checkpoints (G1/S, G2/M, Spindle Assembly), cyclin-CDK regulation, and how mutations in tumor suppressors and proto-oncogenes lead to cancer.",
+    "keyConcepts": [
+      "G1 phase: cell growth and growth factor integration",
+      "S phase: DNA replication and sister chromatid formation",
+      "G2 phase: DNA repair and mitotic protein synthesis",
+      "M phase: chromosome segregation and cytokinesis",
+      "G0 quiescent state",
+      "G1/S restriction point checkpoint",
+      "G2/M checkpoint: verifying complete and accurate DNA replication",
+      "Spindle Assembly Checkpoint: bipolar kinetochore attachment",
+      "Cyclin-CDK complexes and phosphorylation of target proteins",
+      "p53 tumor suppressor and p21 CDK inhibitor",
+      "ATM and ATR sensor kinases",
+      "Mitotic Checkpoint Complex and Anaphase Promoting Complex",
+      "Proto-oncogenes vs. tumor suppressors in cancer",
+      "DNA content vs. chromosome number distinction"
+    ],
+    "topics": [
+      "Cell cycle phases (G1, S, G2, M, G0)",
+      "Molecular events and prerequisites of each cell cycle phase",
+      "Cell cycle checkpoints and their specific functions",
+      "Growth factor signaling and receptor tyrosine kinases",
+      "DNA replication and sister chromatids",
+      "Spindle microtubule assembly and chromosome segregation",
+      "Cyclin-CDK complex regulation",
+      "Tumor suppressors and proto-oncogenes",
+      "Aneuploidy and cancer cell biology"
+    ],
+    "examTips": [
+      "DNA content doubles during S phase, but chromosome number stays constant until anaphase—a diploid human cell has 92 DNA molecules but still 46 chromosomes after S phase.",
+      "Each checkpoint monitors a distinct condition: G1/S checks cell size, nutrients, growth factors, and DNA integrity; G2/M checks for complete and accurate replication; the Spindle Assembly Checkpoint checks for bipolar kinetochore attachment—do not conflate them as all simply 'checking for DNA damage.'"
+    ],
+    "difficulty": "advanced"
+  },
+  "04.03": {
+    "summary": "This chapter covers the molecular mechanisms of mitosis, focusing on chromosome structure after replication, spindle apparatus function, and the precise segregation of sister chromatids. It explains how kinetochore-microtubule interactions, motor proteins, and checkpoint mechanisms ensure accurate chromosome distribution to daughter cells.",
+    "keyConcepts": [
+      "Sister chromatids vs. homologous chromosomes",
+      "Centromere and cohesin function in holding sister chromatids together",
+      "Chromosome number vs. chromatid number at different cell cycle stages",
+      "Mitotic spindle structure: kinetochore, polar, and astral microtubules",
+      "Amphitelic (bioriented) attachment of kinetochores to opposite spindle poles",
+      "Dynamic instability of microtubules",
+      "Force generation during anaphase via microtubule depolymerization",
+      "Kinesin and dynein motor protein roles in spindle function",
+      "Aurora B kinase error correction of improper kinetochore attachments",
+      "Separase cleavage of cohesin to trigger anaphase",
+      "Condensin-mediated chromosome condensation during prophase",
+      "Spindle assembly checkpoint (SAC) preventing premature anaphase",
+      "PMAT phases: prophase, prometaphase, metaphase, anaphase, telophase"
+    ],
+    "topics": [
+      "Chromosome structure after DNA replication",
+      "Centromere and kinetochore molecular organization",
+      "Cohesin and sister chromatid cohesion",
+      "Mitotic spindle apparatus and microtubule types",
+      "Kinetochore-microtubule attachment and biorientation",
+      "Anaphase force generation mechanisms",
+      "Motor proteins in mitosis",
+      "Stages of mitosis (PMAT)",
+      "Spindle assembly checkpoint",
+      "Chromosome segregation errors and consequences"
+    ],
+    "examTips": [
+      "Chromosome number changes only when centromeres separate at anaphase: a post-replication cell has 46 chromosomes (92 chromatids) until anaphase, when it briefly has 92 chromosomes before cytokinesis restores 46 per cell.",
+      "For free-response questions about anaphase chromosome movement, describe microtubule depolymerization at the kinetochore end with the kinetochore tracking the shrinking end—do not say a motor protein pulls the chromosome along a static microtubule track."
+    ],
+    "difficulty": "advanced"
+  },
+  "04.04": {
+    "summary": "This chapter covers the mechanics of meiosis, explaining how two sequential divisions reduce chromosome number and generate genetic diversity through crossing over and independent assortment. It also addresses meiotic errors leading to aneuploidy and connects genetic variation in gametes to evolutionary fitness.",
+    "keyConcepts": [
+      "Meiosis I is the reductive division separating homologous chromosomes (2n to n); Meiosis II separates sister chromatids like mitosis",
+      "DNA content changes: 4C before meiosis, 2C after Meiosis I, 1C after Meiosis II",
+      "Synapsis and bivalent (tetrad) formation during Prophase I",
+      "Crossing over occurs between non-sister chromatids of homologous chromosomes during Prophase I",
+      "Chiasmata are visible sites of crossing over and hold homologs together until Anaphase I",
+      "SPO11 initiates programmed double-strand breaks to start recombination",
+      "Independent assortment generates 2^n chromosome combinations",
+      "Meiotic nondisjunction causes aneuploidy with predictable phenotypic consequences",
+      "Genetic diversity in gametes provides selective evolutionary advantages"
+    ],
+    "topics": [
+      "Architecture of Meiosis I vs. Meiosis II",
+      "Ploidy vs. DNA content (n vs. C values)",
+      "Synapsis and synaptonemal complex",
+      "Crossing over and recombination mechanism",
+      "Chiasmata structure and function",
+      "Recombinant chromosomes and gamete diversity",
+      "Independent assortment and the 2^n formula",
+      "Meiotic errors and aneuploidy",
+      "Evolutionary significance of meiotic genetic diversity"
+    ],
+    "examTips": [
+      "FRQ credit requires specifying that Meiosis I separates HOMOLOGOUS chromosomes (not just 'chromosomes') to cause ploidy reduction; Meiosis II separates SISTER CHROMATIDS.",
+      "When explaining crossing over, you must state it occurs between NON-SISTER chromatids of HOMOLOGOUS chromosomes during PROPHASE I — omitting any of these specifics loses points."
+    ],
+    "difficulty": "intermediate"
+  },
+  "04.05": {
+    "summary": "This chapter explains how mutations in proto-oncogenes and tumor suppressor genes disrupt normal cell cycle control, leading to uncontrolled proliferation and cancer. It covers the molecular mechanisms of oncogene activation, the two-hit hypothesis for tumor suppressor inactivation, checkpoint failure, and metastasis.",
+    "keyConcepts": [
+      "Proto-oncogenes encode normal growth-promoting proteins; oncogenes are mutated, constitutively active forms",
+      "Oncogene mutations are gain-of-function and dominant — one mutated allele is sufficient",
+      "Tumor suppressor mutations are loss-of-function and recessive — both alleles must be inactivated (two-hit hypothesis)",
+      "Ras protein cycles between GTP-bound (active) and GDP-bound (inactive) states to transduce growth signals",
+      "Rb protein sequesters E2F transcription factors to block G1/S transition until phosphorylated by cyclin D/CDK4",
+      "p53 acts as guardian of the genome, inducing p21-mediated arrest or BAX-mediated apoptosis in response to DNA damage",
+      "Cancer requires multiple mutations because redundant, independent checkpoint systems must all fail",
+      "Inherited cancer syndromes (e.g., Li-Fraumeni) arise when one allele is already mutated at birth, requiring only one somatic hit",
+      "G1/S checkpoint controlled by Rb pathway and p53; G2/M checkpoint controlled by ATM/ATR kinases",
+      "Loss of cell adhesion molecules contributes to metastasis by enabling cells to detach and invade distant tissues"
+    ],
+    "topics": [
+      "Proto-oncogenes vs. oncogenes",
+      "Gain-of-function mutations",
+      "Ras and MAP kinase signaling",
+      "Gene amplification and chromosomal translocation",
+      "Two-hit hypothesis",
+      "Rb protein and G1/S checkpoint",
+      "p53, p21, and BAX pathways",
+      "ATM/ATR kinase checkpoint signaling",
+      "Multi-hit model of cancer",
+      "Spindle assembly checkpoint",
+      "Metastasis and cell adhesion molecules",
+      "Inherited vs. somatic cancer mutations"
+    ],
+    "examTips": [
+      "Never describe a proto-oncogene as harmful — it is a normal gene; only the mutated oncogene form is oncogenic. Oncogenes are dominant (one hit), tumor suppressors are recessive (two hits); mixing these up is one of the most common AP exam errors.",
+      "For tumor suppressor questions, remember that one functional allele is sufficient for checkpoint control — inherited one-allele mutations create predisposition, not immediate cancer. Always connect p53 loss to failure of both arrest (via p21) and apoptosis (via BAX)."
+    ],
+    "difficulty": "advanced"
+  },
+  "04.06": {
+    "summary": "This chapter explains apoptosis as a genetically programmed cell death mechanism that serves essential biological functions in development, immunity, and cancer prevention. It details the intrinsic (mitochondrial) and extrinsic (death receptor) pathways, the caspase cascade execution mechanism, and the consequences of apoptosis dysregulation.",
+    "keyConcepts": [
+      "Apoptosis as adaptive programmed cell death, not pathology",
+      "Intrinsic pathway: BAX/BAK, MOMP, cytochrome c release, apoptosome, caspase-9",
+      "Extrinsic pathway: death receptors (Fas), FADD, DISC formation, caspase-8",
+      "Caspase cascade: procaspase zymogens activated by proteolytic cleavage",
+      "Bcl-2 family proteins (anti-apoptotic Bcl-2/Bcl-xL vs. pro-apoptotic BAX/BAK)",
+      "Neural pruning via apoptosis during brain development",
+      "Negative selection of self-reactive T cells in the thymus",
+      "Apoptotic body formation and phagocytosis without inflammation",
+      "Apoptosis dysregulation leading to cancer, autoimmunity, or developmental defects",
+      "Apoptosis vs. necrosis: ordered dismantling vs. inflammatory cell rupture"
+    ],
+    "topics": [
+      "Programmed cell death logic and biological rationale",
+      "Intrinsic (mitochondrial) apoptosis pathway",
+      "Extrinsic (death receptor) apoptosis pathway",
+      "Mitochondrial outer membrane permeabilization (MOMP)",
+      "Apoptosome assembly and caspase-9 activation",
+      "DISC formation and caspase-8 activation",
+      "Caspase cascade and proteolytic execution",
+      "Bcl-2 family proteins and apoptosis regulation",
+      "Developmental roles of apoptosis (digit formation, neural pruning)",
+      "Immune system apoptosis (negative selection, clonal contraction)",
+      "Cancer and apoptosis evasion",
+      "Apoptosis versus necrosis"
+    ],
+    "examTips": [
+      "Apoptosis absence—not presence—causes disease; when a question describes cancer or autoimmunity, the answer is almost always that apoptosis failed to eliminate dangerous cells.",
+      "Match pathway components precisely: cytochrome c, apoptosome, and caspase-9 are intrinsic pathway only; Fas, FADD, DISC, and caspase-8 are extrinsic pathway only—placing cytochrome c in the extrinsic pathway is a common trap."
+    ],
+    "difficulty": "advanced"
+  },
+  "04.07": {
+    "summary": "This chapter explains the stem cell hierarchy from totipotent to pluripotent to multipotent cells, emphasizing that developmental potential is restricted through epigenetic commitment rather than gene loss. It details how differential gene expression via transcription factor networks and epigenetic mechanisms like DNA methylation and histone modification produce specialized cell types from identical genomes.",
+    "keyConcepts": [
+      "Totipotency vs. pluripotency vs. multipotency",
+      "Extraembryonic tissue formation as the key distinction for totipotent cells",
+      "Blastocyst inner cell mass as source of pluripotent embryonic stem cells",
+      "Hematopoietic stem cells as a model of multipotency",
+      "Differential gene expression from identical genomes",
+      "Transcription factor networks and cell identity",
+      "Master regulatory transcription factors and feed-forward loops",
+      "DNA methylation at CpG dinucleotides silencing gene promoters",
+      "DNMT1 maintenance methylation ensuring heritable silencing",
+      "Histone modification altering chromatin accessibility",
+      "Epigenetic restriction as the molecular basis of developmental commitment",
+      "Reciprocal relationship between transcription factors and epigenetic marks"
+    ],
+    "topics": [
+      "Stem cell hierarchy and developmental potential",
+      "Totipotent, pluripotent, and multipotent stem cells",
+      "Blastocyst formation and inner cell mass",
+      "Differential gene expression",
+      "Transcription factors and promoter/enhancer binding",
+      "Signal transduction and lineage commitment",
+      "DNA methylation and CpG dinucleotides",
+      "Histone modification and chromatin structure",
+      "Nucleosomes and chromatin packaging",
+      "Heritable epigenetic marks across cell divisions",
+      "Epigenetic mechanisms of gene silencing"
+    ],
+    "examTips": [
+      "Totipotent cells are the only type that can form extraembryonic structures like the placenta; if a question mentions forming 'all body cell types,' both totipotent and pluripotent may seem correct, but only totipotent is accurate when extraembryonic tissues are involved.",
+      "Free response answers about why differentiated cells express different genes must include both transcription factors AND epigenetic mechanisms for full credit; stating that cells lost genes or have different DNA sequences earns zero credit."
+    ],
+    "difficulty": "intermediate"
+  },
+  "04.08": {
+    "summary": "This chapter examines the structural and functional roles of cell junctions (tight junctions, desmosomes, and gap junctions) and extracellular matrix components (collagen, proteoglycans, fibronectin, laminin) in maintaining tissue integrity. It also explores how integrin signaling, contact inhibition, and disruption of these systems contribute to cancer metastasis.",
+    "keyConcepts": [
+      "Tight junctions seal the paracellular pathway using claudin and occludin proteins",
+      "Desmosomes anchor intermediate filaments between adjacent cells via cadherin proteins for mechanical strength",
+      "Gap junctions create cytoplasmic continuity via connexon channels (6 connexin subunits each) for ion and small molecule transfer",
+      "Collagen triple helix structure resists tensile forces and is the dominant structural protein in connective tissue",
+      "Proteoglycans resist compression through negatively charged glycosaminoglycan chains that attract water",
+      "Fibronectin and laminin are adhesive glycoproteins that organize ECM and link it to cells",
+      "Integrins are transmembrane receptors that connect ECM to the intracellular cytoskeleton and activate signaling cascades",
+      "Contact inhibition stops normal cell proliferation when cells reach confluency; loss of contact inhibition is a hallmark of cancer"
+    ],
+    "topics": [
+      "Tight junctions and claudin/occludin proteins",
+      "Desmosomes and intermediate filament anchoring",
+      "Gap junctions and connexin/connexon structure",
+      "Paracellular pathway and epithelial barrier function",
+      "Collagen structure, assembly, and tissue-specific organization",
+      "Proteoglycans and glycosaminoglycans",
+      "Fibronectin and laminin as adhesive glycoproteins",
+      "Integrin signaling and cell-ECM communication",
+      "Contact inhibition and normal cell cycle control",
+      "Cancer metastasis and loss of junction/ECM integrity"
+    ],
+    "examTips": [
+      "Use functional clues to identify junction type: leakage between cells = tight junctions/claudins; blistering/tearing under stress = desmosomes/intermediate filaments; loss of electrical or chemical coordination = gap junctions/connexins",
+      "Do not confuse tight junctions (create barriers) with gap junctions (create passages); their functions are opposite even though both connect adjacent cells"
+    ],
+    "difficulty": "advanced"
+  },
+  "05.01": {
+    "summary": "This chapter explains Mendelian genetics by connecting Mendel's Laws of Segregation and Independent Assortment to the physical behavior of chromosomes during meiosis I. Students learn to predict genotype and phenotype ratios using Punnett squares and probability rules, design test crosses, and distinguish descriptive laws from chromosomal mechanisms.",
+    "keyConcepts": [
+      "Law of Segregation: homologous chromosome separation at anaphase I causes each gamete to receive only one allele",
+      "Law of Independent Assortment: random orientation of chromosome pairs at metaphase I produces independent sorting of alleles on different chromosomes",
+      "Monohybrid cross (Bb x Bb) yields 1:2:1 genotypic ratio and 3:1 phenotypic ratio",
+      "Dihybrid cross (BbRr x BbRr) produces four gamete types in equal frequencies: BR, Br, bR, br",
+      "Punnett squares model gamete combinations resulting from meiotic segregation",
+      "Probability multiplication rule: P(two recessive alleles) = 1/2 x 1/2 = 1/4",
+      "Test crosses use homozygous recessive individuals to reveal unknown genotypes",
+      "Chromosome theory provides mechanistic explanation for Mendel's descriptive laws"
+    ],
+    "topics": [
+      "Law of Segregation",
+      "Law of Independent Assortment",
+      "Meiosis I and homolog separation",
+      "Metaphase I random orientation",
+      "Monohybrid crosses",
+      "Dihybrid crosses",
+      "Punnett squares",
+      "Genotypic and phenotypic ratios",
+      "Test crosses",
+      "Chromosome theory of inheritance",
+      "Dominant and recessive alleles",
+      "Probability rules in genetics"
+    ],
+    "examTips": [
+      "FRQ alert: always explain WHY alleles segregate by citing homologous chromosome separation at anaphase I — stating the Law of Segregation alone earns no mechanism points",
+      "For dihybrid crosses, use the product rule (multiply monohybrid probabilities) rather than drawing a 16-box Punnett square to save time and reduce errors"
+    ],
+    "difficulty": "intermediate"
+  },
+  "05.02": {
+    "summary": "This chapter examines inheritance patterns that deviate from Mendelian genetics, focusing on incomplete dominance, codominance, multiple alleles, and pleiotropy. Students learn the molecular mechanisms behind each pattern and how to predict phenotypic ratios, including why heterozygotes produce 1:2:1 ratios instead of the classic 3:1.",
+    "keyConcepts": [
+      "Incomplete dominance produces intermediate phenotypes due to gene dosage effects (50% functional protein in heterozygotes)",
+      "Codominance results in simultaneous, independent expression of both alleles in heterozygotes",
+      "Both incomplete dominance and codominance produce 1:2:1 phenotypic ratios in heterozygote crosses",
+      "ABO blood type uses three alleles (IA, IB, i) with both codominance and complete dominance",
+      "The ABO gene encodes a glycosyltransferase that adds sugar antigens to red blood cell surfaces",
+      "Pleiotropy occurs when a single gene product functions in multiple tissues or developmental pathways",
+      "Multiple allele systems show that dominance relationships vary depending on which alleles are paired"
+    ],
+    "topics": [
+      "Incomplete dominance",
+      "Codominance",
+      "Gene dosage effects",
+      "ABO blood type inheritance",
+      "Multiple allele systems",
+      "Pleiotropy",
+      "Non-Mendelian inheritance",
+      "Phenotypic ratios in modified dominance patterns",
+      "Punnett squares for non-Mendelian crosses"
+    ],
+    "examTips": [
+      "To distinguish codominance from incomplete dominance, ask: Can both original parental phenotypes be detected separately in the heterozygote? Yes = codominance (e.g., distinct white and black hairs in roan cattle); No = incomplete dominance (e.g., uniformly pink snapdragons).",
+      "Free response answers about incomplete dominance must include the molecular mechanism: heterozygotes produce only ~50% functional protein because only one allele encodes the active enzyme, creating a quantitatively distinct intermediate phenotype—stating that alleles 'blend' will not earn full credit."
+    ],
+    "difficulty": "intermediate"
+  },
+  "05.03": {
+    "summary": "This chapter explains how genes located on the same chromosome violate Mendel's law of independent assortment due to physical linkage, and how crossing over during prophase I generates recombinant gametes at frequencies proportional to the distance between genes. Students learn to calculate recombination frequency, convert it to map distances in centimorgans, and apply chi-square analysis to determine whether observed offspring ratios indicate linkage or independent assortment.",
+    "keyConcepts": [
+      "Linked genes on the same chromosome tend to be inherited together, violating independent assortment",
+      "Parental-type gametes reflect original allele combinations; recombinant-type gametes result from crossing over",
+      "Crossing over occurs during prophase I via synapsis, chiasmata formation, and strand exchange between non-sister chromatids",
+      "Only two of four chromatids in a bivalent are affected per crossover event, capping recombinant gametes at 50%",
+      "Recombination frequency (%) = (recombinant offspring / total offspring) × 100",
+      "One centimorgan (cM) equals 1% recombination frequency",
+      "Map distances are additive for genes in linear sequence on the same chromosome",
+      "Chi-square analysis determines whether deviations from expected Mendelian ratios indicate gene linkage",
+      "Cis configuration (coupling): both dominant alleles on the same chromosome (AB/ab)",
+      "Testcross design is required to accurately measure recombination frequency"
+    ],
+    "topics": [
+      "Physical basis of gene linkage",
+      "Linked genes and violations of independent assortment",
+      "Crossing over mechanism and recombinant gamete formation",
+      "Recombination frequency calculation",
+      "Centimorgan units and genetic map distance",
+      "Linkage map construction",
+      "Chi-square analysis of linked vs. unlinked genes",
+      "Parental vs. recombinant offspring ratios",
+      "Testcross design for mapping",
+      "50% recombination frequency ceiling"
+    ],
+    "examTips": [
+      "When a dihybrid testcross ratio deviates from 1:1:1:1 with an excess of parental types, suspect gene linkage rather than a calculation error — linked genes always overproduce parental-type offspring.",
+      "Remember that crossing over affects only 2 of 4 chromatids per bivalent, so even if crossing over occurs in 100% of meioses, the maximum recombinant gamete frequency is 50%, making genes >50 cM apart appear unlinked."
+    ],
+    "difficulty": "advanced"
+  },
+  "05.04": {
+    "summary": "This chapter covers sex determination in mammals via the SRY gene and sex chromosomes, explaining how the hemizygous state of males drives X-linked inheritance patterns. Students learn to analyze pedigrees for X-linked recessive and dominant traits, apply Punnett squares with correct genotype notation, and understand X-inactivation as a mechanism producing mosaic phenotypes in heterozygous females.",
+    "keyConcepts": [
+      "Sex chromosomes (XX female, XY male) and SRY gene as master regulator of male development",
+      "Hemizygosity: males carry only one allele for most X-linked genes, so recessive alleles are always expressed",
+      "X-linked recessive inheritance: trait predominantly affects males; carrier females are unaffected",
+      "Criss-cross inheritance pattern: trait passes from affected grandfather through carrier daughter to affected grandson",
+      "Obligate carrier: female deduced to carry X-linked recessive allele based on pedigree logic",
+      "X-linked dominant inheritance: affected fathers pass trait to ALL daughters and NO sons",
+      "X-inactivation (Lyon hypothesis): random inactivation of one X chromosome in each somatic cell producing mosaic phenotypes",
+      "Pseudoautosomal regions: homologous X and Y tips that allow crossing over during male meiosis",
+      "Pedigree analysis rules for distinguishing autosomal vs. X-linked and dominant vs. recessive inheritance"
+    ],
+    "topics": [
+      "Sex chromosome structure and gene content (X vs. Y)",
+      "SRY gene and male developmental pathway",
+      "Hemizygosity and its genetic consequences",
+      "Sperm sex chromosome segregation and sex determination ratios",
+      "X-linked recessive pedigree characteristics",
+      "Genotype notation for X-linked traits (X^H X^h notation)",
+      "Carrier females and obligate carriers",
+      "X-linked dominant pedigree characteristics",
+      "Systematic pedigree analysis to distinguish inheritance modes",
+      "X-inactivation mechanism and Barr bodies",
+      "Mosaic phenotypes in heterozygous females (e.g., calico cats)"
+    ],
+    "examTips": [
+      "If a pedigree shows father-to-son transmission of a trait, immediately eliminate X-linked inheritance — sons receive the Y from dad, so any X-linked allele must come from mom.",
+      "Distinguish X-linked recessive from autosomal recessive by checking the sex ratio of affected individuals: if all or nearly all affected individuals are male, X-linked recessive is strongly indicated, whereas autosomal recessive affects both sexes equally."
+    ],
+    "difficulty": "intermediate"
+  },
+  "05.05": {
+    "summary": "This chapter teaches systematic pedigree analysis for diagnosing the four Mendelian inheritance patterns—autosomal dominant, autosomal recessive, X-linked dominant, and X-linked recessive—using a three-filter elimination approach. It also covers conditional probability calculations for carrier frequency among unaffected individuals, a frequently tested AP Biology skill.",
+    "keyConcepts": [
+      "Autosomal dominant inheritance: trait appears every generation, no skipping, both sexes equally affected",
+      "Autosomal recessive inheritance: generation skipping, carrier parents unaffected, both sexes equally affected",
+      "X-linked recessive inheritance: hemizygous males predominantly affected, carrier females unaffected",
+      "X-linked dominant inheritance: affected fathers pass trait to all daughters but no sons",
+      "Three-filter elimination system: generation skipping, sex ratio, parent-to-child transmission direction",
+      "Conditional probability: P(carrier | unaffected) = 2/3 for unaffected sibling of affected child from two carrier parents",
+      "Obligate carrier: genotype proven by pedigree transmission evidence",
+      "Hemizygosity: males have only one allele for X-linked genes, explaining male predominance in X-linked recessive conditions",
+      "Generation skipping as diagnostic evidence for recessive inheritance",
+      "Differential diagnosis: systematically eliminating inconsistent inheritance patterns"
+    ],
+    "topics": [
+      "Pedigree analysis",
+      "Inheritance pattern diagnosis",
+      "Autosomal dominant inheritance",
+      "Autosomal recessive inheritance",
+      "X-linked dominant inheritance",
+      "X-linked recessive inheritance",
+      "Three-filter elimination method",
+      "Conditional probability in genetics",
+      "Carrier frequency calculations",
+      "Obligate carriers",
+      "Hemizygosity",
+      "Mendelian genetics"
+    ],
+    "examTips": [
+      "Always eliminate inheritance patterns explicitly on free response questions by citing specific pedigree individuals and mechanistic reasoning—rubrics reward elimination logic, not just pattern identification.",
+      "When calculating carrier probability for an unaffected sibling of an affected child (both parents carriers), the answer is 2/3 not 1/2—you must condition on the unaffected phenotype by removing the aa genotype from the sample space."
+    ],
+    "difficulty": "advanced"
+  },
+  "05.06": {
+    "summary": "This chapter explains how nondisjunction during meiosis I or meiosis II produces gametes with abnormal chromosome numbers, and how these errors lead to aneuploid conditions such as Down syndrome, Turner syndrome, and Klinefelter syndrome. It also introduces chromosomal structural mutations as distinct from numerical mutations, emphasizing backward reasoning from offspring genotype to meiotic error for exam success.",
+    "keyConcepts": [
+      "Nondisjunction in meiosis I produces 4 abnormal gametes (2 n+1 and 2 n-1); all gametes are abnormal",
+      "Nondisjunction in meiosis II produces 2 abnormal gametes and 2 normal gametes; only one cell is affected",
+      "Aneuploidy arises when abnormal gametes participate in fertilization, producing trisomy (2n+1) or monosomy (2n-1)",
+      "Trisomy 21 (Down syndrome) results primarily from maternal meiosis I nondisjunction; frequency increases with maternal age",
+      "Turner syndrome (45,X) is monosomy of the sex chromosome; survivable due to X inactivation",
+      "Klinefelter syndrome (47,XXY) results from an extra X chromosome; Y determines male development",
+      "Autosomal monosomies are nearly always lethal; autosomal trisomies for large chromosomes are also lethal",
+      "Chromosomal structural mutations (deletions, duplications, inversions, translocations) alter chromosome architecture without changing total chromosome number",
+      "Gene dosage effects explain phenotypic consequences of aneuploidy"
+    ],
+    "topics": [
+      "Nondisjunction mechanism in meiosis I vs. meiosis II",
+      "Gamete ratios from meiosis I vs. meiosis II nondisjunction",
+      "Aneuploidy: trisomy and monosomy",
+      "Trisomy 21 / Down syndrome",
+      "Turner syndrome (45,X)",
+      "Klinefelter syndrome (47,XXY)",
+      "Trisomy 13 (Patau) and Trisomy 18 (Edwards)",
+      "Chromosomal structural mutations overview",
+      "Maternal age and nondisjunction frequency",
+      "Backward reasoning from offspring genotype to meiotic error"
+    ],
+    "examTips": [
+      "If any normal gametes are produced by the affected parent, nondisjunction must have occurred in meiosis II; if all gametes are abnormal, it occurred in meiosis I — use this to eliminate answer choices on FRQs.",
+      "For origin-of-error questions (e.g., XXY Klinefelter with paternal extra X), trace backward: XY sperm can only come from meiosis I nondisjunction where X and Y homologs failed to separate."
+    ],
+    "difficulty": "intermediate"
+  },
+  "05.07": {
+    "summary": "This chapter explains epigenetic mechanisms—DNA methylation and histone modification—that regulate gene expression without altering DNA sequence. It distinguishes between mitotic inheritance of epigenetic marks within an organism and transgenerational inheritance across generations, emphasizing reversibility and environmental responsiveness.",
+    "keyConcepts": [
+      "DNA methylation at CpG dinucleotides silences genes by recruiting MBD proteins that block transcriptional machinery",
+      "DNA methyltransferases (DNMTs) catalyze methylation; DNMT1 maintains patterns during replication",
+      "TET enzymes actively demethylate cytosines, enabling reversibility and cellular plasticity",
+      "Histone acetylation by HATs neutralizes positive lysine charges, relaxing chromatin into euchromatin for transcription",
+      "Histone deacetylases (HDACs) remove acetyl groups, restoring positive charge and compacting chromatin into heterochromatin",
+      "Histone code: combinations of modifications (methylation, acetylation, phosphorylation) specify transcriptional outcomes",
+      "Mitotic inheritance: epigenetic marks passed to daughter cells within one organism via DNMT1 on hemimethylated DNA",
+      "Transgenerational inheritance: epigenetic marks that survive germ line reprogramming and are passed to offspring",
+      "Epigenetic changes are reversible, distinguishing them from permanent mutations"
+    ],
+    "topics": [
+      "DNA methylation mechanism and CpG sites",
+      "DNA methyltransferases and demethylation",
+      "Nucleosome structure and histone tails",
+      "Histone acetylation and euchromatin",
+      "Histone deacetylation and heterochromatin",
+      "HAT and HDAC enzyme activity",
+      "Histone code and combinatorial modifications",
+      "Mitotic vs. transgenerational epigenetic inheritance",
+      "Environmental influences on epigenetic marks",
+      "HDAC inhibitors in cancer therapy"
+    ],
+    "examTips": [
+      "Methylation does NOT change the DNA sequence—cytosine remains cytosine; silencing occurs through MBD protein recruitment and chromatin condensation, not sequence alteration. Methylated and unmethylated genes are genetically identical.",
+      "If HDACs are inhibited, acetyl groups cannot be removed, chromatin stays open (euchromatin), and normally silenced genes remain active—trace the charge mechanism: acetylation neutralizes positive lysine, reducing attraction to negative DNA phosphates."
+    ],
+    "difficulty": "advanced"
+  },
+  "05.08": {
+    "summary": "This chapter explains how multiple genes with additive effects produce continuous phenotypic distributions (polygenic inheritance), contrasting with discrete Mendelian patterns. It covers heritability (h²) as a population-specific variance ratio, norms of reaction for genotype-environment interactions, and methods for partitioning genetic versus environmental contributions to trait variation.",
+    "keyConcepts": [
+      "Polygenic inheritance and additive allelic effects",
+      "Continuous variation and bell-curve phenotypic distributions",
+      "Heritability (h²) = VG/VP as a population-specific measure",
+      "Genetic variance (VG) vs. environmental variance (VE)",
+      "Phenotypic variance = VG + VE + VG×E",
+      "Norms of reaction: one genotype expressing multiple phenotypes across environments",
+      "Twin studies for estimating heritability",
+      "Central limit theorem applied to polygenic traits",
+      "Population specificity of heritability estimates"
+    ],
+    "topics": [
+      "Polygenic vs. single-gene Mendelian inheritance",
+      "Phenotypic distribution patterns (discrete vs. continuous)",
+      "Heritability calculation and interpretation",
+      "Genotype-by-environment interactions",
+      "Twin study experimental design",
+      "Selective breeding and quantitative genetics",
+      "Partitioning phenotypic variance",
+      "Norms of reaction graphs"
+    ],
+    "examTips": [
+      "On histogram questions, discrete bars with gaps = single-gene inheritance; smooth bell curve = polygenic inheritance. Do not confuse multiple alleles at one locus (ABO blood type, still discrete) with multiple genes (continuous distribution).",
+      "Heritability of 0.7 does NOT mean 70% of a trait is 'caused by genes' in an individual — it means 70% of phenotypic differences among individuals in that specific population are attributable to genetic differences. Heritability is always population- and environment-specific."
+    ],
+    "difficulty": "advanced"
+  },
+  "06.01": {
+    "summary": "This chapter covers the molecular machinery and chemistry of DNA replication in bacteria, focusing on the roles of helicase, SSBs, topoisomerase, primase, DNA polymerase III, DNA polymerase I, and ligase at the replication fork. It explains why DNA polymerase can only synthesize 5' to 3' and how this chemical constraint drives the asymmetry between leading and lagging strand synthesis, as well as how proofreading and mismatch repair minimize errors.",
+    "keyConcepts": [
+      "Origins of replication and replication fork formation",
+      "Helicase unwinds DNA using ATP hydrolysis by breaking hydrogen bonds",
+      "Single-strand binding proteins (SSBs) prevent re-annealing and secondary structures",
+      "Topoisomerase (DNA gyrase) relieves positive supercoiling ahead of the fork by breaking and rejoining phosphodiester bonds",
+      "5' to 3' directionality of DNA synthesis due to nucleophilic attack of 3'-OH on incoming dNTP alpha phosphate",
+      "Pyrophosphate release as the energy driver for phosphodiester bond formation",
+      "Antiparallel template strands necessitate leading and lagging strand synthesis",
+      "Lagging strand synthesized discontinuously as Okazaki fragments",
+      "Sequential roles: helicase → primase → DNA Pol III → DNA Pol I → ligase",
+      "Proofreading by DNA polymerase 3' to 5' exonuclease activity",
+      "Mismatch repair as a post-replication error correction mechanism"
+    ],
+    "topics": [
+      "DNA replication fork structure",
+      "Helicase mechanism and directionality",
+      "Single-strand binding proteins",
+      "Topoisomerase and supercoil relief",
+      "Chemistry of phosphodiester bond formation",
+      "5' to 3' synthesis constraint",
+      "Leading strand vs. lagging strand synthesis",
+      "Okazaki fragments",
+      "Bacterial replication enzymes",
+      "DNA proofreading",
+      "Mismatch repair",
+      "Semiconservative replication"
+    ],
+    "examTips": [
+      "Helicase breaks hydrogen bonds between bases; topoisomerase breaks covalent phosphodiester bonds in the backbone to relieve supercoiling — never confuse these two on MCQ or FRQ.",
+      "On FRQ, explaining lagging strand discontinuity requires stating that DNA polymerase can only add to a 3'-OH synthesizing 5' to 3', forcing synthesis away from the fork — simply saying 'opposite direction' earns no mechanism points."
+    ],
+    "difficulty": "advanced"
+  },
+  "06.02": {
+    "summary": "This chapter covers the molecular mechanisms of transcription, from promoter recognition and initiation complex assembly in prokaryotes and eukaryotes to the distinction between template and coding strands. It also addresses eukaryotic post-transcriptional RNA processing modifications and how mutations in these systems alter gene expression.",
+    "keyConcepts": [
+      "Promoter recognition by sigma factor (prokaryotes) vs. general transcription factors (eukaryotes)",
+      "TATA box and TATAAA consensus sequence recognized by TATA-binding protein (TBP)",
+      "Transcription initiation complex assembly: TFIID, TFIIB, TFIIF, TFIIE, TFIIH, and RNA polymerase II",
+      "TFIIH helicase and kinase activities required for DNA unwinding and promoter escape",
+      "Template strand (antisense, 3'→5') vs. coding strand (sense, 5'→3')",
+      "mRNA sequence is identical to coding strand with U substituted for T",
+      "RNA polymerase reads template strand 3'→5' and synthesizes mRNA 5'→3'",
+      "Post-transcriptional modifications: 5' cap, poly-A tail, and splicing of introns",
+      "Sigma factor recognition of −10 (TATAAT) and −35 (TTGACA) boxes in prokaryotes",
+      "Transcription start site (+1) is distinct from the promoter sequence"
+    ],
+    "topics": [
+      "Transcription initiation",
+      "Prokaryotic vs. eukaryotic transcription",
+      "Promoter sequences",
+      "General transcription factors",
+      "Template strand vs. coding strand",
+      "mRNA sequence prediction",
+      "Post-transcriptional RNA processing",
+      "RNA polymerase II",
+      "Sigma factor",
+      "Gene expression regulation"
+    ],
+    "examTips": [
+      "RNA polymerase reads the template strand (3'→5'); the mRNA matches the coding strand (replace T with U) — these are two different questions requiring different answers.",
+      "If TFIIH is nonfunctional, DNA cannot be unwound and RNA polymerase II cannot be phosphorylated for promoter escape, halting eukaryotic transcription; prokaryotes lack general transcription factors entirely."
+    ],
+    "difficulty": "intermediate"
+  },
+  "06.03": {
+    "summary": "This chapter explains how mRNA is decoded into protein through translation, covering the role of tRNA as an adaptor molecule, ribosome structure and the A-P-E site cycle, and the three phases of translation (initiation, elongation, termination). It also addresses the genetic code's redundancy and how different mutation types affect protein structure.",
+    "keyConcepts": [
+      "tRNA as adaptor molecule bridging mRNA codons and amino acids",
+      "Aminoacyl tRNA synthetase charging reaction and specificity",
+      "Anticodon-codon antiparallel base pairing and directionality",
+      "Wobble hypothesis and inosine base pairing at third codon position",
+      "Ribosomal A site (aminoacyl), P site (peptidyl), and E site (exit) functions",
+      "Peptidyl transferase activity residing in rRNA, making ribosome a ribozyme",
+      "Translocation powered by EF-G/GTP hydrolysis",
+      "Prokaryotic initiation via Shine-Dalgarno sequence",
+      "Eukaryotic cap-dependent scanning and Kozak sequence",
+      "Initiator tRNA entering P site directly (unique to initiation)",
+      "Frameshift vs. point mutations and their consequences on protein",
+      "Genetic code redundancy buffering against deleterious mutations"
+    ],
+    "topics": [
+      "Adaptor hypothesis and tRNA structure",
+      "Aminoacylation (charging) of tRNA",
+      "Anticodon sequence and antiparallel orientation",
+      "Wobble position and synonymous codon recognition",
+      "Ribosome subunit composition (prokaryotic 70S vs. eukaryotic 80S)",
+      "A-P-E site cycle during elongation",
+      "Peptide bond formation mechanism",
+      "Translation initiation in prokaryotes vs. eukaryotes",
+      "Elongation cycle and elongation factors",
+      "Mutation types and effects on protein structure",
+      "Redundancy of the genetic code"
+    ],
+    "examTips": [
+      "When reporting an anticodon, always specify directionality: if mRNA codon is 5'-CGU-3', the anticodon pairs as 3'-GCA-5', but written in standard 5'-to-3' notation it is 5'-ACG-3'; omitting direction markers will cost points on FRQs.",
+      "For FRQs tracing an amino acid through the ribosome, remember the order: charged tRNA enters A site → peptide bond transfers chain to A site tRNA → translocation moves it to P site (holding chain) → next translocation moves empty tRNA to E site → tRNA exits; the polypeptide chain never occupies the E site."
+    ],
+    "difficulty": "advanced"
+  },
+  "06.04": {
+    "keyConcepts": [
+      "Point mutations: missense, nonsense, and silent substitutions",
+      "Codon degeneracy and the wobble position",
+      "Frameshift mutations from non-triplet insertions or deletions",
+      "Premature stop codons and truncated proteins",
+      "Nonsense-mediated decay surveillance mechanism",
+      "Silent mutations disrupting splice site consensus sequences",
+      "Base excision repair and nucleotide excision repair",
+      "Complementary strand as template for DNA repair",
+      "Repair pathway defects and cancer susceptibility",
+      "Sickle cell disease as a missense mutation example"
+    ],
+    "topics": [
+      "Point mutations",
+      "Frameshift mutations",
+      "Silent mutations and splicing",
+      "DNA repair mechanisms",
+      "Gene expression consequences of mutations",
+      "Nonsense-mediated decay",
+      "Codon reading frame",
+      "Cancer and mutation repair defects"
+    ],
+    "examTips": [
+      "Never conclude that a silent mutation is harmless without checking its location—if it is near an exon-intron boundary, it may disrupt splicing and produce a nonfunctional protein even though the amino acid sequence is unchanged.",
+      "Insertions or deletions of exactly three nucleotides (or multiples of three) preserve the reading frame and add/remove one amino acid rather than scrambling all downstream codons—a key exception the AP exam tests repeatedly."
+    ],
+    "difficulty": "intermediate",
+    "summary": "This chapter covers the molecular mechanisms and functional consequences of point mutations (missense, nonsense, and silent) and frameshift mutations, tracing their effects from DNA through transcription, RNA processing, and translation to the final protein. It also explains how base excision repair and nucleotide excision repair restore DNA integrity using the complementary strand as a template, and connects defects in these repair pathways to increased mutation rates and cancer susceptibility."
+  },
+  "06.05": {
+    "summary": "This chapter explains the operon model of prokaryotic gene regulation, focusing on how structural components like the promoter, operator, and regulatory genes work together to coordinate gene expression. It uses the lac and trp operons as model systems to illustrate inducible versus repressible regulation, negative versus positive control, and how bacteria efficiently respond to environmental nutrient availability.",
+    "keyConcepts": [
+      "Operon structure: promoter, operator, structural genes, regulatory gene",
+      "Polycistronic mRNA and coordinated gene expression",
+      "Negative regulation by repressor proteins via steric hindrance at the operator",
+      "Inducible operons: lac operon as the model system",
+      "Allolactose (not lactose) as the true inducer of the lac operon",
+      "Repressible operons: trp operon as the model system",
+      "Positive regulation by CAP-cAMP complex at the lac operon",
+      "Dual regulation of lac operon by glucose and lactose availability",
+      "Conformational changes in allosteric regulatory proteins",
+      "Effects of mutations in operon components on gene expression"
+    ],
+    "topics": [
+      "Logic of coordinated gene control in prokaryotes",
+      "Operon model (Jacob and Monod, 1961)",
+      "Lac operon: inducible negative regulation",
+      "Trp operon: repressible negative regulation",
+      "CAP-cAMP positive regulation of the lac operon",
+      "Glucose vs. lactose availability and transcription prediction",
+      "Prokaryotic vs. eukaryotic gene expression differences",
+      "Mutation analysis of operon components"
+    ],
+    "examTips": [
+      "The inducer of the lac operon is allolactose, NOT lactose itself — allolactose is the isomer formed inside the cell by beta-galactosidase that binds the repressor; stating lactose will cost points on FRQs.",
+      "Prokaryotic operons produce polycistronic mRNA (multiple proteins per transcript), while eukaryotes produce monocistronic mRNA — this distinction is a frequent AP exam question about differences in gene expression."
+    ],
+    "difficulty": "intermediate"
+  },
+  "06.06": {
+    "summary": "This chapter examines the multiple layers of eukaryotic gene regulation from chromatin remodeling through translation, explaining how histone modifications, transcription factors, and post-transcriptional mechanisms collectively control which genes are expressed. Students learn to apply a six-layer regulatory model to explain differential gene expression across differentiated cell types.",
+    "keyConcepts": [
+      "Nucleosome structure: 147 bp DNA wrapped around histone octamer",
+      "Histone acetylation (HATs) neutralizes lysine charge → open chromatin (euchromatin) → transcription ON",
+      "Histone deacetylation (HDACs) restores lysine charge → condensed chromatin (heterochromatin) → transcription OFF",
+      "DNA methylation at CpG dinucleotides → gene silencing, heritable through cell division",
+      "Promoters vs. enhancers in transcriptional control",
+      "Combinatorial control by transcription factors",
+      "Alternative splicing as post-transcriptional regulation",
+      "miRNA and siRNA-mediated regulation of protein output",
+      "Six-layer model of eukaryotic gene regulation",
+      "Differential gene expression in differentiated cell types"
+    ],
+    "topics": [
+      "Chromatin remodeling",
+      "Histone acetylation and deacetylation",
+      "Epigenetic regulation",
+      "DNA methylation",
+      "Transcriptional control",
+      "Promoters and enhancers",
+      "Transcription factors",
+      "Post-transcriptional regulation",
+      "Alternative splicing",
+      "RNA interference (miRNA and siRNA)",
+      "Translational regulation",
+      "Differential gene expression"
+    ],
+    "examTips": [
+      "Distinguish histone acetylation (opens chromatin, promotes transcription) from DNA methylation (silences genes long-term); both are epigenetic but have opposite effects—acetylation removes positive charge on histones while methylation recruits condensing proteins.",
+      "If an FRQ gives data showing normal mRNA levels but reduced protein output, target post-transcriptional or translational regulation (miRNA, siRNA, or translation inhibition), not chromatin or transcriptional layers."
+    ],
+    "difficulty": "advanced"
+  },
+  "06.07": {
+    "summary": "This chapter covers three core biotechnology techniques—PCR, gel electrophoresis, and recombinant DNA cloning—explaining the molecular mechanisms behind each. Students learn how temperature-dependent DNA chemistry enables exponential amplification, how charge and gel matrix properties separate fragments by size, and how restriction enzymes and DNA ligase enable insertion of foreign DNA into plasmid vectors.",
+    "keyConcepts": [
+      "PCR thermal cycling: denaturation (95°C), annealing (50–65°C), extension (72°C)",
+      "Exponential amplification: 2^n copies after n cycles",
+      "Taq polymerase requires free 3′ OH from primer to initiate synthesis",
+      "Hydrogen bonds broken during denaturation; covalent phosphodiester bonds remain intact",
+      "DNA migrates toward positive electrode (anode) due to negative phosphate charges",
+      "Smaller fragments migrate farther in gel; larger fragments migrate less",
+      "Logarithmic relationship between fragment size and migration distance",
+      "DNA ladder used as size reference in gel electrophoresis",
+      "Restriction endonucleases cleave DNA at specific recognition sequences",
+      "Sticky ends created by restriction enzyme cuts enable compatible fragment joining",
+      "Hydrogen bonds hold sticky ends together; DNA ligase forms covalent phosphodiester bonds",
+      "Plasmid vectors carry foreign DNA inserts for recombinant DNA cloning"
+    ],
+    "topics": [
+      "Polymerase Chain Reaction (PCR)",
+      "Thermal cycling steps and temperatures",
+      "Taq polymerase function and origin",
+      "Primer design and specificity",
+      "Gel electrophoresis principles",
+      "Agarose gel as molecular sieve",
+      "Band interpretation and DNA ladder use",
+      "RFLP and forensic STR analysis",
+      "Restriction enzymes and recognition sequences",
+      "Sticky ends and compatible overhangs",
+      "Recombinant DNA construction",
+      "Plasmid vectors and DNA ligase"
+    ],
+    "examTips": [
+      "If primers are absent, incorrectly designed, or bind within (not flanking) the target, the result is zero copies—not reduced copies—because Taq polymerase cannot initiate without a primer providing a free 3′ OH group.",
+      "When interpreting gel images, locate the wells first (larger fragments stay near wells) and use the DNA ladder to orient the gel; bands farther from the wells are smaller fragments migrating toward the positive electrode."
+    ],
+    "difficulty": "intermediate"
+  },
+  "06.08": {
+    "summary": "This chapter explains the molecular mechanisms of the CRISPR-Cas9 gene editing system, including how guide RNA and Cas9 work together to create targeted double-strand breaks. It then connects the two cellular DNA repair pathways—NHEJ and HDR—to specific experimental and therapeutic outcomes in biomedical and agricultural contexts.",
+    "keyConcepts": [
+      "CRISPR-Cas9 two-component system (gRNA + Cas9)",
+      "Guide RNA base pairing and target specificity",
+      "Cas9 endonuclease and double-strand break creation",
+      "PAM sequence (NGG) as a binding requirement",
+      "Non-Homologous End Joining (NHEJ) and indel formation",
+      "Homology-Directed Repair (HDR) and precise editing",
+      "Frameshift mutations leading to gene knockout",
+      "Donor template requirement for HDR",
+      "Cell cycle dependence of HDR (S and G2 phases)",
+      "Somatic vs. germline editing and heritability",
+      "Off-target effects and ethical considerations",
+      "Biomedical applications: sickle cell disease, beta-thalassemia",
+      "Agricultural applications of CRISPR"
+    ],
+    "topics": [
+      "CRISPR-Cas9 molecular architecture",
+      "Guide RNA design and function",
+      "Cas9 protein and nuclease domains",
+      "Double-strand break repair pathways",
+      "NHEJ mechanism and outcomes",
+      "HDR mechanism and outcomes",
+      "Gene knockout via NHEJ",
+      "Precise gene correction via HDR",
+      "Donor template and homology arms",
+      "Therapeutic CRISPR applications",
+      "Agricultural CRISPR applications",
+      "Germline vs. somatic cell editing ethics"
+    ],
+    "examTips": [
+      "Remember that guide RNA only targets (no catalytic activity) and Cas9 only cuts—changing gRNA sequence affects targeting specificity, not cutting efficiency; Cas9 mutations affect cutting, not recognition.",
+      "No donor template in an experiment = NHEJ = indels = frameshift = gene knockout; a donor template = HDR = precise correction or insertion—the AP exam tests this logic chain directly."
+    ],
+    "difficulty": "advanced"
+  },
+  "07.01": {
+    "summary": "This chapter explains Darwin's four postulates as a linked causal chain—variation, heritability, differential reproduction, and allele frequency change—that together produce evolution by natural selection. It also distinguishes heritable genetic variation from acquired characteristics, defines biological fitness strictly as reproductive success, and requires all four conditions to be present for natural selection to operate.",
+    "keyConcepts": [
+      "Darwin's four postulates as a causal chain",
+      "Heritable variation vs. acquired characteristics",
+      "Lamarck's inheritance of acquired characteristics (disproven)",
+      "Central dogma and why environmental changes cannot alter germline DNA",
+      "Biological fitness as reproductive success (not physical strength)",
+      "Allele frequency change as the definition of evolution",
+      "Natural selection acts on phenotypes; evolution is measured in allele frequencies",
+      "Mutations are random with respect to fitness",
+      "Sources of heritable variation: mutation, independent assortment, crossing over",
+      "Populations evolve; individuals do not"
+    ],
+    "topics": [
+      "Darwin's four postulates",
+      "Variation within populations",
+      "Heritability and germline DNA",
+      "Differential reproduction",
+      "Allele frequency change across generations",
+      "Lamarckism vs. Darwinism",
+      "Acquired characteristics",
+      "Biological fitness definition",
+      "Sources of genetic variation",
+      "Conditions required for natural selection"
+    ],
+    "examTips": [
+      "Free response answers must explicitly connect heritable variation → differential reproduction → allele frequency change; vague claims that a trait was 'beneficial' or organisms 'adapted' earn zero points.",
+      "When a scenario involves environmental stress (e.g., antibiotic exposure), resistant variants must already exist in the population before the stress—the stress selects for pre-existing variants, it does not cause resistance to arise."
+    ],
+    "difficulty": "basic"
+  },
+  "07.02": {
+    "summary": "This chapter introduces Hardy-Weinberg equilibrium as a null model in population genetics, explaining the mathematical framework (p+q=1 and p²+2pq+q²=1) used to predict genotype frequencies from allele frequencies. Students learn to calculate allele and genotype frequencies from phenotype data, identify the five conditions required for equilibrium, and apply deviations from expected frequencies as evidence of evolutionary forces.",
+    "keyConcepts": [
+      "Hardy-Weinberg equilibrium as a null model for detecting evolutionary change",
+      "p + q = 1 (allele frequency equation)",
+      "p² + 2pq + q² = 1 (genotype frequency equation)",
+      "Five conditions for Hardy-Weinberg equilibrium: large population, random mating, no mutation, no migration, no natural selection",
+      "Evolution defined as change in allele frequencies over time",
+      "Distinction between allele frequencies and genotype frequencies",
+      "Entry point for calculations: q² from recessive phenotype data",
+      "Excess homozygosity as a signal of non-random mating (inbreeding)",
+      "Genetic drift as cause of erratic frequency fluctuations in small populations",
+      "Matching H-W predictions means data are consistent with null hypothesis, not proof of no evolution"
+    ],
+    "topics": [
+      "Hardy-Weinberg equilibrium",
+      "Null model in population genetics",
+      "Allele frequency calculation",
+      "Genotype frequency calculation",
+      "Five conditions for Hardy-Weinberg equilibrium",
+      "Detecting evolutionary forces via H-W deviations",
+      "Dominant-recessive inheritance and phenotype-based calculations",
+      "Inbreeding and non-random mating effects",
+      "Genetic drift",
+      "Natural selection detection"
+    ],
+    "examTips": [
+      "Always start Hardy-Weinberg calculations with q² (recessive phenotype count ÷ total population), then find q, then p, then compute p², 2pq; verify all three genotype frequencies sum to exactly 1.",
+      "Never omit the coefficient 2 in the heterozygote term (2pq); also remember that data matching H-W predictions does not prove evolution is absent—it only means the data are consistent with the null hypothesis."
+    ],
+    "difficulty": "intermediate"
+  },
+  "07.03": {
+    "summary": "This chapter examines the three modes of natural selection—directional, stabilizing, and disruptive—by analyzing how each reshapes the mean and variance of phenotype distributions over generations. Students learn to interpret graphical representations of selection, connect these mechanisms to real examples like peppered moths and human birth weight, and link disruptive selection to sympatric speciation.",
+    "keyConcepts": [
+      "Phenotype distribution (mean and variance as targets of selection)",
+      "Directional selection shifts the mean toward one extreme phenotype",
+      "Stabilizing selection maintains the mean while reducing variance",
+      "Disruptive selection favors both extremes over intermediates, increasing variance",
+      "Industrial melanism as evidence of directional selection",
+      "Human birth weight as evidence of stabilizing selection",
+      "Disruptive selection as a mechanism for sympatric speciation",
+      "Fitness landscapes and differential reproductive success",
+      "Allele frequency change as the genetic basis of selection",
+      "Phenotypic stasis as a result of long-term stabilizing selection"
+    ],
+    "topics": [
+      "Modes of natural selection",
+      "Phenotype distributions and bell curves",
+      "Directional selection and environmental change",
+      "Stabilizing selection and optimal intermediate phenotypes",
+      "Disruptive selection and reproductive isolation",
+      "Graphical interpretation of selection pressure",
+      "Peppered moth case study",
+      "Antibiotic and pesticide resistance",
+      "Sympatric speciation",
+      "Quantitative traits and continuous variation"
+    ],
+    "examTips": [
+      "When analyzing before/after distribution graphs, always check two things independently: did the peak position (mean) shift, and did the curve width (variance) change—a narrower curve with the same peak is stabilizing, not directional selection.",
+      "In free response, directional selection answers must name the favored phenotype, explain why it has higher fitness in the specific environment, describe how allele frequencies shift, and state that the mean moves toward the favored extreme—stating only that the environment changed is insufficient for full credit."
+    ],
+    "difficulty": "intermediate"
+  },
+  "07.04": {
+    "summary": "This chapter explains how genetic drift and gene flow change allele frequencies in populations independently of natural selection, with drift driven by random sampling error (especially in small populations) and gene flow driven by migration of individuals between populations. It covers the bottleneck and founder effects as specific causes of drift, and analyzes how these mechanisms interact with natural selection to shape population genetics.",
+    "keyConcepts": [
+      "Genetic drift as random sampling error, not differential fitness",
+      "Allele fixation and loss through drift",
+      "Effective population size and its relationship to drift strength",
+      "Bottleneck effect: catastrophic population size reduction in place",
+      "Founder effect: small group migrates to establish new colony",
+      "Mutational meltdown in small populations",
+      "Gene flow as transfer of alleles via migration or gamete movement",
+      "Homogenization of allele frequencies through gene flow",
+      "Gene flow counteracting local adaptation by natural selection",
+      "Ellis van Creveld syndrome as a founder effect example",
+      "Northern elephant seal as a bottleneck effect example"
+    ],
+    "topics": [
+      "Genetic drift",
+      "Random sampling error in reproduction",
+      "Allele fixation and loss",
+      "Bottleneck effect",
+      "Founder effect",
+      "Genetic diversity reduction",
+      "Gene flow",
+      "Migration and allele movement",
+      "Local adaptation vs. gene flow",
+      "Interactions between drift, gene flow, and natural selection",
+      "Population size and evolutionary mechanisms"
+    ],
+    "examTips": [
+      "If a harmful or neutral allele increases in frequency in a small or isolated population, genetic drift is almost certainly the correct mechanism—natural selection would decrease harmful alleles, not increase them.",
+      "To distinguish bottleneck from founder effect, look for geography and cause: bottleneck = population reduced in place by catastrophe; founder effect = small group migrates to establish a new population elsewhere."
+    ],
+    "difficulty": "intermediate"
+  },
+  "07.05": {
+    "summary": "This chapter examines sexual selection through intrasexual and intersexual mechanisms, explaining how costly traits can evolve when mating advantages outweigh survival costs via the handicap principle and runaway selection. It also analyzes how non-random mating violates Hardy-Weinberg equilibrium by shifting genotype frequencies while leaving allele frequencies unchanged in the absence of other evolutionary forces.",
+    "keyConcepts": [
+      "Intrasexual selection: same-sex competition determines mating access (e.g., elk antlers)",
+      "Intersexual selection: one sex chooses mates based on preferred traits (e.g., peacock tails)",
+      "Identifying the selecting agent to distinguish intrasexual vs. intersexual selection",
+      "Survival-reproduction tradeoff: mating advantages can compensate for survival costs",
+      "Handicap principle: costly traits as honest signals of genetic quality",
+      "Fisher's runaway selection: genetically correlated trait-preference co-evolution",
+      "Non-random mating changes genotype frequencies but not allele frequencies",
+      "Hardy-Weinberg condition of random mating violated by sexual selection"
+    ],
+    "topics": [
+      "Two modes of sexual selection",
+      "Intrasexual competition",
+      "Intersexual mate choice",
+      "Costly trait evolution and the peacock paradox",
+      "Handicap principle and honest signaling",
+      "Runaway selection and positive feedback loops",
+      "Non-random mating and Hardy-Weinberg equilibrium",
+      "Genotype frequency vs. allele frequency changes"
+    ],
+    "examTips": [
+      "To classify a behavior as intrasexual or intersexual selection, identify the selecting agent: if females choose among displaying males it is intersexual; if male-vs-male combat determines the winner regardless of female preference it is intrasexual.",
+      "When asked why a survival-reducing trait spreads, explicitly state that fitness equals total reproductive output—mating advantages must be shown to outweigh survival costs so carriers produce more offspring despite dying younger; simply labeling it 'sexually selected' is insufficient for FRQ credit."
+    ],
+    "difficulty": "advanced"
+  },
+  "07.06": {
+    "summary": "This chapter explains how new species form through allopatric and sympatric speciation, emphasizing that true speciation requires intrinsic reproductive isolation rather than mere geographic separation. It covers the biological species concept, reproductive isolating mechanisms (prezygotic and postzygotic), polyploidy, and adaptive radiation.",
+    "keyConcepts": [
+      "Biological species concept: interbreeding to produce viable, fertile offspring",
+      "Reproductive isolation as the defining criterion for speciation",
+      "Gene flow and its role in maintaining genetic cohesion",
+      "Allopatric speciation via geographic barriers",
+      "Sympatric speciation without geographic separation",
+      "Polyploidy (autopolyploidy and allopolyploidy) as a mechanism of instant speciation",
+      "Prezygotic barriers: habitat, temporal, behavioral, mechanical, gametic isolation",
+      "Postzygotic barriers: reduced hybrid viability or fertility",
+      "Adaptive radiation driven by geographic isolation and ecological opportunity",
+      "Chromosome number compatibility and meiotic pairing in hybridization"
+    ],
+    "topics": [
+      "Biological species concept",
+      "Reproductive isolation",
+      "Allopatric speciation",
+      "Sympatric speciation",
+      "Polyploidy",
+      "Autopolyploidy vs. allopolyploidy",
+      "Prezygotic reproductive barriers",
+      "Postzygotic reproductive barriers",
+      "Adaptive radiation",
+      "Gene flow and population divergence",
+      "Evidence for speciation in isolated populations"
+    ],
+    "examTips": [
+      "On FRQs, always tie speciation to reproductive isolation, not just geographic separation—state that populations must be unable to produce viable, fertile offspring even if the barrier were removed.",
+      "For multiple choice, distinguish allopatric from sympatric speciation by how reproductive isolation arises (geographic isolation first vs. direct mechanisms like polyploidy), not by where populations currently live."
+    ],
+    "difficulty": "intermediate"
+  },
+  "07.07": {
+    "keyConcepts": [
+      "Cladograms show branching relationships, not evolutionary progress or ranking",
+      "Nodes represent common ancestors; terminal taxa all exist in the present",
+      "Topology can be rotated at any node without changing evolutionary meaning",
+      "Clades (monophyletic groups) include an ancestor and ALL of its descendants",
+      "Synapomorphies (shared derived characters) define clades",
+      "Plesiomorphies (ancestral characters) cannot define more recent clades",
+      "Outgroups are used to distinguish ancestral from derived character states",
+      "Paraphyletic groups are invalid because they exclude some descendants",
+      "Homologous structures share a common ancestor and structural blueprint",
+      "Analogous structures share function but arose through convergent evolution",
+      "Molecular clocks use mutation rates to estimate divergence times",
+      "Conflicts between morphological and molecular data can challenge phylogenetic hypotheses"
+    ],
+    "topics": [
+      "Reading and interpreting cladograms",
+      "Sister taxa and node relationships",
+      "Monophyletic vs. paraphyletic groups",
+      "Synapomorphies and apomorphies",
+      "Outgroup comparison",
+      "Homology vs. analogy",
+      "Convergent evolution",
+      "Molecular clocks and divergence time estimation",
+      "Morphological vs. molecular phylogenetic data"
+    ],
+    "examTips": [
+      "Never equate left-to-right position on a cladogram with evolutionary advancement; all terminal taxa have evolved equally long since their common ancestor",
+      "When identifying a synapomorphy for a clade, always verify the trait is absent in the outgroup — if the outgroup shares it, the character is ancestral and cannot define the clade"
+    ],
+    "difficulty": "intermediate",
+    "summary": "This chapter teaches students how to correctly read cladograms as maps of shared ancestry rather than rankings of evolutionary progress, and how to identify valid clades using shared derived characters (synapomorphies). It also covers distinguishing homologous from analogous structures, applying molecular clock data to estimate divergence times, and resolving conflicts between morphological and molecular phylogenetic evidence."
+  },
+  "07.08": {
+    "summary": "This chapter examines the multiple independent lines of evidence supporting evolutionary theory, including the fossil record, comparative anatomy, molecular phylogenetics, and biogeography. Students learn to distinguish homologous from analogous structures, interpret transitional fossils and stratigraphic sequences, and understand how converging evidence from different fields strengthens evolutionary hypotheses.",
+    "keyConcepts": [
+      "Stratigraphic sequencing as temporal evidence for evolution",
+      "Transitional fossils and intermediate morphology",
+      "Fossilization bias and incompleteness of the fossil record",
+      "Homologous structures indicating common ancestry",
+      "Analogous structures and convergent evolution",
+      "Vestigial structures as evidence of descent with modification",
+      "Molecular phylogenetics using DNA and protein sequences",
+      "Biogeographic distribution patterns and common ancestry",
+      "Divergent evolution",
+      "Multiple independent lines of evidence corroborating evolutionary relationships"
+    ],
+    "topics": [
+      "Fossil record and stratigraphy",
+      "Tiktaalik as a transitional fossil example",
+      "Comparative anatomy",
+      "Homology vs. analogy",
+      "Vestigial structures",
+      "Molecular phylogenetics",
+      "Biogeography",
+      "Convergent evolution",
+      "Predictive power of evolutionary theory"
+    ],
+    "examTips": [
+      "Never claim the fossil record is complete on the AP exam; explain fossilization bias and state that gaps reflect preservation probability, not evolutionary absence.",
+      "To distinguish homology from analogy, focus on underlying anatomical structure (same bones, same arrangement = homology) rather than function; analogous structures share function but differ in structural organization."
+    ],
+    "difficulty": "intermediate"
+  },
+  "08.01": {
+    "summary": "This chapter covers population ecology by comparing exponential and logistic growth models, explaining how the (K-N)/K term creates density-dependent negative feedback as populations approach carrying capacity. It also distinguishes density-dependent from density-independent limiting factors and examines life history tradeoffs between r-selected and K-selected reproductive strategies.",
+    "keyConcepts": [
+      "Exponential growth equation: dN/dt = rN",
+      "Intrinsic rate of natural increase (r = b - d)",
+      "Doubling time: ln(2)/r",
+      "Logistic growth equation: dN/dt = rN(K-N)/K",
+      "Carrying capacity (K)",
+      "The (K-N)/K braking term and negative feedback",
+      "Inflection point at N = K/2",
+      "Sigmoid (S-shaped) growth curve",
+      "Maximum sustainable yield at N = K/2",
+      "Density-dependent limiting factors (competition, disease, predation)",
+      "Density-independent limiting factors",
+      "r-selected vs. K-selected life history strategies"
+    ],
+    "topics": [
+      "Exponential (J-curve) population growth",
+      "Logistic (S-curve) population growth",
+      "Carrying capacity and environmental resistance",
+      "Density-dependent regulation mechanisms",
+      "Density-independent limiting factors",
+      "Life history tradeoffs and reproductive strategies",
+      "Population overshoot and oscillation",
+      "Sustainable harvest and wildlife management"
+    ],
+    "examTips": [
+      "Increasing doubling times as a population grows signals logistic growth, not exponential, because per capita growth rate is declining.",
+      "Logistic and exponential growth are not sequential phases—if a population eventually plateaus, the entire trajectory is logistic; exponential growth by definition never levels off."
+    ],
+    "difficulty": "intermediate"
+  },
+  "08.02": {
+    "summary": "This chapter covers the classification and mechanisms of ecological interactions—predation, parasitism, competition, mutualism, and commensalism—by evaluating measurable fitness effects on both species involved. It also examines competitive exclusion, character displacement, niche partitioning, and the disproportionate role of keystone species in shaping community structure.",
+    "keyConcepts": [
+      "Ecological interaction classification by fitness effect (+/−/0) on both species",
+      "Predation (+/−) vs. parasitism (+/−): mechanism and duration distinctions",
+      "Competition (−/−): interspecific vs. intraspecific",
+      "Competitive exclusion principle (Gause's principle)",
+      "Character displacement as evolutionary response to competition",
+      "Niche partitioning as ecological outcome enabling coexistence",
+      "Mutualism (+/+) vs. commensalism (+/0)",
+      "Mycorrhizal associations and nitrogen-fixing bacteria as obligate mutualisms",
+      "Keystone species and trophic cascades",
+      "Food web dynamics and community stability"
+    ],
+    "topics": [
+      "Framework of ecological interactions",
+      "Competitive exclusion and Gause's principle",
+      "Character displacement in Darwin's finches",
+      "Niche partitioning in MacArthur's warblers and Anolis lizards",
+      "Mutualism versus commensalism classification",
+      "Mycorrhizal fungi–plant mutualism",
+      "Keystone species effects on community structure",
+      "Trophic cascades from keystone species removal or addition"
+    ],
+    "examTips": [
+      "Always state the fitness effect on Species A and Species B separately before naming the interaction type; AP rubrics require justification for both participants.",
+      "When two similar species coexist, explain coexistence by identifying the specific resource dimension (spatial, temporal, morphological) along which niche partitioning occurs—not just that the species differ."
+    ],
+    "difficulty": "intermediate"
+  },
+  "08.03": {
+    "summary": "This chapter covers ecosystem energy flow, beginning with the distinction between GPP and NPP, then tracing the three fates of consumed energy across trophic levels to explain why ecological efficiency averages only 10%. It also addresses how endothermy versus ectothermy affects production efficiency and how food web structure determines ecosystem stability.",
+    "keyConcepts": [
+      "NPP = GPP − Respiration; NPP is the only energy available to consumers",
+      "Three fates of consumed energy: feces (detrital chain), cellular respiration (heat loss), biomass (available to next trophic level)",
+      "Ecological efficiency = energy at higher trophic level ÷ energy at lower trophic level (ranges 5–20%, not always 10%)",
+      "Assimilation efficiency varies with diet: low in herbivores (~30%), high in carnivores (~80%)",
+      "Production efficiency is higher in ectotherms than endotherms due to lower thermoregulation costs",
+      "Endotherms lose 80%+ of assimilated energy to respiration for thermoregulation",
+      "Food webs vs. food chains: webs show realistic interconnections; species removal can cascade through multiple trophic levels",
+      "Trophic levels: producers (1) → primary consumers (2) → secondary consumers (3) → tertiary consumers (4)"
+    ],
+    "topics": [
+      "Gross primary productivity (GPP)",
+      "Net primary productivity (NPP)",
+      "Producer respiration",
+      "Trophic levels",
+      "Ecological (trophic) efficiency",
+      "Assimilation efficiency",
+      "Production efficiency",
+      "Endothermy vs. ectothermy",
+      "Food chains and food webs",
+      "Detrital food chain and decomposers",
+      "Energy loss as heat (second law of thermodynamics)"
+    ],
+    "examTips": [
+      "Always use NPP (not GPP) as the energy available to consumers; subtract producer respiration before any calculation.",
+      "When a question provides actual energy values at each trophic level, calculate ecological efficiency from the data (higher ÷ lower) rather than automatically applying the 10% rule."
+    ],
+    "difficulty": "intermediate"
+  },
+  "08.04": {
+    "summary": "This chapter examines the carbon, nitrogen, and phosphorus biogeochemical cycles, detailing the mechanisms by which each element moves between atmospheric, biological, and geological reservoirs. It emphasizes bacterial roles as rate-limiting steps in the nitrogen cycle, the absence of an atmospheric phosphorus reservoir, and how human disruptions to these cycles lead to consequences such as eutrophication.",
+    "keyConcepts": [
+      "Carbon fixation via RuBisCO in the Calvin cycle",
+      "Cellular respiration releases CO2 in both plants and animals",
+      "Decomposition returns carbon to atmosphere via extracellular enzyme breakdown",
+      "Fossil fuel combustion releases geologically sequestered carbon",
+      "Nitrogen fixation by prokaryotes (Rhizobium, Azotobacter) as the rate-limiting bottleneck",
+      "Nitrification: Nitrosomonas converts NH3 to NO2-, Nitrobacter converts NO2- to NO3-",
+      "Denitrification returns N2 to atmosphere under anaerobic conditions",
+      "Ammonification recycles nitrogen from decomposing organic matter",
+      "Assimilation incorporates nitrate into amino acids via nitrate reductase",
+      "Nitrogenase is oxygen-sensitive and requires 16 ATP per N2 fixed",
+      "Phosphorus cycle lacks an atmospheric reservoir, making it vulnerable to depletion",
+      "Eutrophication results from nutrient overload disrupting aquatic ecosystems"
+    ],
+    "topics": [
+      "Carbon cycle reservoirs and fluxes",
+      "Photosynthesis and respiration as opposing carbon processes",
+      "Fossil fuel formation and combustion",
+      "Nitrogen cycle steps and bacterial transformations",
+      "Nitrogen fixation bottleneck",
+      "Leghemoglobin and root nodule oxygen regulation",
+      "Phosphorus cycle and geological constraints",
+      "Eutrophication mechanisms",
+      "Human impacts on biogeochemical cycles"
+    ],
+    "examTips": [
+      "Plants both photosynthesize AND respire continuously; at night only respiration occurs, releasing CO2 — AP exams frequently test this misconception with chamber data questions.",
+      "Nitrogen fixation is the bottleneck of the entire nitrogen cycle; eliminating nitrogen-fixing bacteria halts new nitrogen input regardless of how efficiently nitrification, assimilation, or denitrification operate."
+    ],
+    "difficulty": "advanced"
+  },
+  "08.05": {
+    "summary": "This chapter covers ecological succession, distinguishing primary and secondary succession based on whether the soil biological legacy survived the disturbance. It explains the facilitation model of pioneer species, climax community dynamics, and how successional principles apply to volcanic, glacial, and anthropogenic disturbance scenarios.",
+    "keyConcepts": [
+      "Primary succession occurs on substrates with no soil biological legacy; secondary succession occurs when soil infrastructure survives disturbance",
+      "Soil biological legacy includes seed banks, mycorrhizal fungi, nitrogen-fixing bacteria, root fragments, and organic matter",
+      "Facilitation model: pioneer species mechanistically modify abiotic conditions (soil formation, nutrient cycling, microclimate) to favor subsequent colonizers while reducing their own fitness",
+      "Lichens secrete organic acids (carbonic and oxalic) to chemically weather rock, producing primitive soil over centuries",
+      "Tolerance model: late-successional species dominate by tolerating lower resource availability",
+      "Inhibition model: early colonizers actively resist replacement until death or disturbance",
+      "Climax communities represent dynamic equilibria, not permanent endpoints",
+      "Disturbance regime alterations (e.g., fire suppression) can disrupt successional outcomes in fire-adapted ecosystems"
+    ],
+    "topics": [
+      "Primary vs. secondary succession",
+      "Soil biological legacy",
+      "Pioneer species adaptations",
+      "Facilitation model of succession",
+      "Tolerance and inhibition models",
+      "Lichen as pioneer organism",
+      "Climax community dynamics",
+      "Disturbance-dependent ecosystems",
+      "Successional timelines",
+      "Volcanic, glacial, and anthropogenic disturbance scenarios"
+    ],
+    "examTips": [
+      "Never use disturbance severity to classify succession type — always ask whether the soil biological legacy survived; a thin ash deposit over intact soil = secondary succession, soil scoured to bedrock = primary succession",
+      "When explaining pioneer species facilitation, describe the specific mechanism (e.g., lichens secrete organic acids that weather rock, dead organic matter accumulates to form primitive soil) — vague answers about 'making conditions better' earn minimal credit"
+    ],
+    "difficulty": "intermediate"
+  },
+  "08.06": {
+    "summary": "This chapter examines biodiversity measurement through species richness and evenness, then applies the MacArthur-Wilson equilibrium model of island biogeography to predict species diversity based on island size and distance from mainland. It extends these principles to habitat fragmentation, population viability, and evidence-based conservation strategies including corridor design and reserve optimization.",
+    "keyConcepts": [
+      "Species richness vs. species evenness",
+      "Shannon Diversity Index (H)",
+      "Functional redundancy and ecosystem resilience",
+      "MacArthur-Wilson equilibrium theory of island biogeography",
+      "Immigration rate and extinction rate curves",
+      "Equilibrium species number and species turnover",
+      "Effect of island size on extinction rate",
+      "Effect of island distance on immigration rate",
+      "Habitat fragmentation as ecological island creation",
+      "Minimum viable population (MVP)",
+      "Demographic stochasticity and genetic drift in small populations",
+      "Conservation corridor design",
+      "Reserve size optimization"
+    ],
+    "topics": [
+      "Components of biodiversity",
+      "Shannon Diversity Index calculation and interpretation",
+      "Island biogeography equilibrium model",
+      "Ranking islands by predicted species diversity",
+      "Habitat fragmentation effects on population viability",
+      "Immigration and extinction dynamics in fragmented habitats",
+      "Conservation biology strategies"
+    ],
+    "examTips": [
+      "When comparing biodiversity between two communities, always address both richness AND evenness—a community with fewer species but high evenness can have a higher Shannon Index than one with more species but extreme dominance.",
+      "When ranking islands by species diversity, analyze island size (shifts extinction curve down) and distance from mainland (shifts immigration curve up) separately before combining—large AND close islands achieve both benefits simultaneously."
+    ],
+    "difficulty": "intermediate"
+  },
+  "08.07": {
+    "keyConcepts": [
+      "Greenhouse gas molecular absorption and re-emission of infrared radiation",
+      "Shortwave vs. longwave radiation and wavelength shift at Earth's surface",
+      "Radiative forcing and Earth's energy budget imbalance",
+      "Competitive release and energetic reallocation in invasive species",
+      "Trophic cascades triggered by invasive species",
+      "Sixth mass extinction and compounding anthropogenic drivers",
+      "Habitat fragmentation as primary biodiversity loss driver",
+      "Biogeochemical cycle disruption by human activity",
+      "Carbon cycle perturbation via fossil fuel combustion and deforestation",
+      "Biological control risks and invasive species management"
+    ],
+    "topics": [
+      "Greenhouse effect mechanism",
+      "Infrared radiation absorption by CO2",
+      "Atmospheric CO2 concentration increase",
+      "Invasive species ecology",
+      "Competitive release",
+      "Trophic cascades",
+      "Habitat disturbance and invasion synergy",
+      "Mass extinction events",
+      "Biodiversity loss",
+      "Anthropogenic ecosystem disruption"
+    ],
+    "examTips": [
+      "FRQ rubrics require two distinct steps: CO2 absorbs outgoing infrared (longwave) radiation, then re-emits it in all directions including back toward Earth's surface — writing 'CO2 traps heat' earns zero mechanism points",
+      "For invasive species questions, name 'competitive release' explicitly and link it to escape from co-evolved predators, parasites, and pathogens — then trace trophic cascade effects through specific energy pathways rather than just saying invasives 'outcompete' natives"
+    ],
+    "difficulty": "advanced",
+    "summary": "This chapter examines the molecular mechanisms behind the greenhouse effect, the ecological dynamics of invasive species through competitive release and trophic cascades, and the compounding factors driving the sixth mass extinction. Students learn to connect human-caused disruptions — fossil fuel combustion, habitat loss, and biological introductions — to measurable changes in energy flow, population dynamics, and biogeochemical cycles."
+  },
+  "08.08": {
+    "summary": "This chapter examines animal behavior through two complementary lenses: proximate causation (immediate hormonal, neural, and sensory mechanisms) and ultimate causation (evolutionary advantages conferred by natural selection). It covers fixed action patterns triggered by sign stimuli, imprinting during critical periods, and kin selection via Hamilton's Rule as frameworks for understanding both the mechanics and adaptive significance of behavior.",
+    "keyConcepts": [
+      "Proximate vs. ultimate causation (Tinbergen's framework)",
+      "Fixed action patterns (FAPs) and sign stimuli",
+      "Innate releasing mechanism and central pattern generators",
+      "Supernormal stimuli",
+      "Imprinting and critical/sensitive periods",
+      "Kin selection and Hamilton's Rule",
+      "Direct fitness vs. inclusive fitness",
+      "Altruistic behavior and natural selection"
+    ],
+    "topics": [
+      "Proximate causation: hormones, neural circuits, sensory receptors",
+      "Ultimate causation: reproductive success, survival advantage, gene frequency",
+      "Tinbergen's four questions for behavioral analysis",
+      "Hypothalamus-pituitary-gonad axis as proximate mechanism",
+      "Egg-rolling behavior in greylag geese as FAP example",
+      "Herring gull chick pecking behavior and sign stimulus experiments",
+      "Filial imprinting and genetic constraints on learning",
+      "Hamilton's Rule (rB > C) and prediction of altruistic behavior",
+      "Coefficient of relatedness in kin selection"
+    ],
+    "examTips": [
+      "FRQs asking 'why' an animal behaves a certain way require BOTH a proximate answer (hormones, neurons, stimuli) AND an ultimate answer (reproductive/survival advantage); omitting either level costs points.",
+      "FAPs are identified by three diagnostic features: triggered by a specific sign stimulus, stereotyped execution (same sequence every time), and completion even after the stimulus is removed—distinguish these from learned or voluntary behaviors."
+    ],
+    "difficulty": "intermediate"
+  }
+}

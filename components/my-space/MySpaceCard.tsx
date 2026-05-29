@@ -73,6 +73,9 @@ export default function MySpaceCard({ item, variant, onRemoved, onMoved }: Props
         <SaveButton
           resourceId={item.id}
           initialSaved={variant === "saved"}
+          confirmOnRemove={variant === "saved"}
+          confirmRemoveTitle="Remove from My Space?"
+          confirmRemoveMessage="This resource will leave your saved archive. You can save it again from the library."
           onChange={(saved) => {
             if (!saved) {
               setRemoved(true);
@@ -383,7 +386,7 @@ export default function MySpaceCard({ item, variant, onRemoved, onMoved }: Props
         }
         .mc-author { font-size: 0.72rem; color: rgba(216, 217, 230, 0.7); }
         .mc-author em {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: Cormorant Garamond, serif;
           font-style: italic;
           font-size: 1.05em;
           font-weight: 600;

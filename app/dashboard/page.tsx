@@ -75,7 +75,9 @@ const weakTopics = [
 ];
 
 export default function DashboardPage() {
-  const { lang } = useLang();
+  const { lang: _lang } = useLang();
+  void _lang;
+  const lang = "en" as "en" | "ko";
   const tx = t[lang].dashboard;
 
   const totalCompleted = progressData.reduce((sum, s) => sum + s.completed, 0);
