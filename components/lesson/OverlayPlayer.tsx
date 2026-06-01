@@ -20,7 +20,7 @@ const TYPE_CFG = {
 } as const;
 type OType = keyof typeof TYPE_CFG;
 
-// ── Logging helper (fire-and-forget) ────────────────────────────────────────
+// ── Logging helper ──────────────────────────────────────────────────────────
 function logResponse(data: {
   lessonId: string;
   overlayId: string;
@@ -31,11 +31,40 @@ function logResponse(data: {
   gapType?: string | null;
   questionIdx?: number | null;
 }) {
-  authFetch("/api/overlay-responses", {
+  void authFetch("/api/overlay-responses", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
-  }).catch(() => {});
+  })
+    .then(async (res) => {
+      if (res.ok) return;
+      let error = `HTTP ${res.status}`;
+      try {
+        const json = await res.json();
+        error = typeof json?.error === "string" ? json.error : error;
+      } catch {
+        // Keep the status fallback when the response is not JSON.
+      }
+      const detail = {
+        error,
+        status: res.status,
+        lessonId: data.lessonId,
+        overlayId: data.overlayId,
+        overlayType: data.overlayType,
+      };
+      console.error("[overlay-response] save failed", detail);
+      window.dispatchEvent(new CustomEvent("overlay-response-save-failed", { detail }));
+    })
+    .catch((error) => {
+      const detail = {
+        error: error instanceof Error ? error.message : String(error),
+        lessonId: data.lessonId,
+        overlayId: data.overlayId,
+        overlayType: data.overlayType,
+      };
+      console.error("[overlay-response] request failed", detail);
+      window.dispatchEvent(new CustomEvent("overlay-response-save-failed", { detail }));
+    });
 }
 
 // ── Stars ────────────────────────────────────────────────────────────────────
