@@ -40,6 +40,11 @@ export interface Course {
   // to /textbooks/<textbookSlug>. Today only AP Bio has a published
   // textbook; AP Chem / AP Physics will get slugs once they ship.
   textbookSlug?: string;
+  // Catalog card CTA target. When set, the course card on /courses
+  // surfaces a "Start lesson →" button that deep-links straight into
+  // this lesson (skipping the units page). When unset, the card shows
+  // a disabled "Coming Soon" state.
+  firstLessonId?: string;
 }
 
 export const courses: Course[] = [
@@ -51,6 +56,7 @@ export const courses: Course[] = [
     topicCount: 47, difficulty: "Intermediate", color: "from-green-500 to-emerald-600", icon: "🧬",
     lessonIds: [],
     textbookSlug: "ap-bio-ultimate",
+    firstLessonId: "ap-biology-u1-l1",
     units: [
       {
         number: 1, title: "Chemistry of Life", slug: "chemistry-of-life", examWeight: "8–11%",

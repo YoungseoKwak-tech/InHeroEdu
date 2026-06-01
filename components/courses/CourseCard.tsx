@@ -53,14 +53,25 @@ export default function CourseCard({ course, hrefBase = "/courses" }: CourseCard
             </span>
           </div>
 
-          {/* CTA */}
+          {/* CTA — deep-link straight into the first lesson when the course
+              has content; otherwise show a disabled Coming Soon state so the
+              student knows the path exists but hasn't shipped yet. */}
           <div className="mt-5">
-            <Link
-              href={`${hrefBase}/${course.id}`}
-              className="w-full btn-primary text-center text-sm py-2.5 block rounded-xl"
-            >
-              Preview course →
-            </Link>
+            {course.firstLessonId ? (
+              <Link
+                href={`${hrefBase}/${course.id}/${course.firstLessonId}`}
+                className="w-full text-center text-sm py-2.5 block rounded-xl border border-emerald-400/40 bg-emerald-400/10 text-emerald-300 font-semibold tracking-wide transition-colors duration-150 hover:bg-emerald-400 hover:text-slate-900 hover:border-emerald-400"
+              >
+                Start lesson →
+              </Link>
+            ) : (
+              <span
+                aria-disabled="true"
+                className="w-full text-center text-sm py-2.5 block rounded-xl border border-slate-700/60 bg-slate-800/40 text-slate-500 font-semibold tracking-wide cursor-not-allowed select-none"
+              >
+                Coming Soon
+              </span>
+            )}
           </div>
         </div>
       </div>
