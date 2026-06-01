@@ -14,9 +14,21 @@ export const dynamic = "force-dynamic";
 
 export default async function CoursesPage() {
   const faculty = await getAllFacultyWithAssets();
-  const studentCourses = courses.filter(
-    (course) => course.category !== "IB" && course.category !== "Core"
-  );
+  // Public catalog — exactly the five AP courses we surface today, in the
+  // order we want students to see them. Everything else (Honors / IB / Core /
+  // Competition / Test Prep / un-shipped AP titles) stays in the data layer
+  // for legacy unit pages but never reaches this surface. Single source of
+  // truth for "what's in the catalog" is this whitelist.
+  const FEATURED_COURSE_IDS = [
+    "ap-biology",
+    "ap-calculus-ab",
+    "ap-chemistry",
+    "ap-physics-1",
+    "ap-us-history",
+  ] as const;
+  const studentCourses = FEATURED_COURSE_IDS
+    .map((id) => courses.find((c) => c.id === id))
+    .filter((c): c is NonNullable<typeof c> => Boolean(c));
 
   return (
     <div className="cls-root">

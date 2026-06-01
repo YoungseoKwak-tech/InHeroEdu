@@ -329,6 +329,7 @@ export const courses: Course[] = [
     description: "Learn core differentiation and integration with a strong foundation before advancing into BC.",
     topicCount: 48, difficulty: "Intermediate", color: "from-orange-500 to-amber-600", icon: "∫",
     lessonIds: [],
+    firstLessonId: "ap-calculus-ab-u1-l1",
     units: [
       {
         number: 1, title: "Limits and Continuity", slug: "limits-and-continuity", examWeight: "10–12%",

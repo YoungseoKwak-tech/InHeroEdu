@@ -105,7 +105,7 @@ const COPY = {
         Your pattern, your mission.
       </>
     ),
-    leftStat: "5 courses · first cohort live",
+    leftStat: "2 courses live · 7 lessons",
     leftHref: "/academy",
     rightIcon: "◉◉◉",
     rightTitle: "Find Your People",
@@ -134,7 +134,7 @@ const COPY = {
         Memory that remembers how you learn.
       </>
     ),
-    leftStat: "5 courses · first cohort live",
+    leftStat: "2 courses live · 7 lessons",
     leftHref: "/courses",
     rightIcon: "◉◉◉",
     rightTitle: "Meet your peers",
