@@ -122,7 +122,7 @@ export default function LoungeFeed({ slug, initialPosts }: Props) {
             ) : (
               <>
                 <strong>Sign in to post in this lounge.</strong>
-                <span>Use the EJECT/SIGN-IN button up top — then claim your handle.</span>
+                <span>Use the Sign in / Log out button up top — then claim your handle.</span>
               </>
             )}
           </div>

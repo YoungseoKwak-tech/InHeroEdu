@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { getLiveConfig } from "@/lib/seed/loungeRoster";
+import { useEffect, useRef } from "react";
 import styles from "./HomeHeroDualPath.module.css";
 
 type Locale = "en" | "ko";
@@ -90,52 +89,6 @@ function OrbitRings() {
   );
 }
 
-// ── Live drifting counters (reuse the LiveActivityHeader pattern) ──────────
-function useDriftingOnline(): number {
-  const cfg = getLiveConfig("home");
-  const [value, setValue] = useState(cfg.onlineBase);
-  // 30s drift per spec, subtle.
-  useEffect(() => {
-    const min = cfg.onlineBase - cfg.onlineRange;
-    const max = cfg.onlineBase + cfg.onlineRange;
-    const t = window.setInterval(() => {
-      setValue((prev) => {
-        const drift = Math.round((Math.random() - 0.5) * 12);
-        return Math.max(min, Math.min(max, prev + drift));
-      });
-    }, 30_000);
-    return () => window.clearInterval(t);
-  }, [cfg]);
-  return value;
-}
-
-function useDriftingTyping(): number {
-  const cfg = getLiveConfig("home");
-  const [value, setValue] = useState(cfg.typingBase);
-  // 5–8s fluctuation per spec, with occasional dip toward 0–3.
-  useEffect(() => {
-    let dipUntil = 0;
-    let timer: number;
-    const tick = () => {
-      const now = Date.now();
-      if (now < dipUntil) {
-        setValue(Math.floor(Math.random() * 4));
-      } else if (Math.random() < 0.07) {
-        dipUntil = now + 5000;
-      } else {
-        const base = cfg.typingBase;
-        const range = cfg.typingRange;
-        setValue(base - range + Math.floor(Math.random() * (range * 2 + 1)));
-      }
-      const next = 5000 + Math.floor(Math.random() * 3001); // 5–8s
-      timer = window.setTimeout(tick, next);
-    };
-    timer = window.setTimeout(tick, 5000 + Math.floor(Math.random() * 3001));
-    return () => window.clearTimeout(timer);
-  }, [cfg]);
-  return value;
-}
-
 // ── Copy per locale ────────────────────────────────────────────────────────
 const COPY = {
   en: {
@@ -152,8 +105,7 @@ const COPY = {
         Your pattern, your mission.
       </>
     ),
-    leftStat1: "42 courses ready",
-    leftStat2: "631 lessons deployed",
+    leftStat: "5 courses · first cohort live",
     leftHref: "/academy",
     rightIcon: "◉◉◉",
     rightTitle: "Find Your People",
@@ -164,10 +116,8 @@ const COPY = {
         Build research, study, win competitions together.
       </>
     ),
-    rightStat1Suffix: "online now",
-    rightStat2Suffix: "typing right now",
     rightHref: "/lounges",
-    statsLine: "▸ 1,800+ MISSIONS LOGGED · 631 LESSONS DEPLOYED · HERO FACULTY: ACTIVE",
+    statsLine: "▸ FIRST COHORT BOARDING",
   },
   // Platform is English-only — `ko` mirror kept identical to `en` so any
   // upstream caller passing locale="ko" still renders the English copy.
@@ -184,8 +134,7 @@ const COPY = {
         Memory that remembers how you learn.
       </>
     ),
-    leftStat1: "42 courses ready",
-    leftStat2: "631 lessons deployed",
+    leftStat: "5 courses · first cohort live",
     leftHref: "/courses",
     rightIcon: "◉◉◉",
     rightTitle: "Meet your peers",
@@ -196,18 +145,14 @@ const COPY = {
         Research, study, compete — together.
       </>
     ),
-    rightStat1Suffix: "online now",
-    rightStat2Suffix: "typing right now",
     rightHref: "/lounges",
-    statsLine: "▸ 1,800+ MISSIONS LOGGED · 631 LESSONS DEPLOYED · HERO FACULTY: ACTIVE",
+    statsLine: "▸ FIRST COHORT BOARDING",
   },
 } as const;
 
 // ── Component ──────────────────────────────────────────────────────────────
 export default function HomeHeroDualPath({ locale = "en" }: Props) {
   const copy = COPY[locale];
-  const online = useDriftingOnline();
-  const typing = useDriftingTyping();
 
   return (
     <section className={styles.hhRoot}>
@@ -257,8 +202,7 @@ export default function HomeHeroDualPath({ locale = "en" }: Props) {
             <p className={styles.hhCardBody}>{copy.leftBody}</p>
             <div className={styles.hhCardRule} />
             <div className={styles.hhCardStats}>
-              <span>{copy.leftStat1}</span>
-              <span>{copy.leftStat2}</span>
+              <span>{copy.leftStat}</span>
             </div>
             <span className={styles.hhCardArrow} aria-hidden="true">→</span>
           </Link>
@@ -268,27 +212,6 @@ export default function HomeHeroDualPath({ locale = "en" }: Props) {
             <h2 className={styles.hhCardTitle}>{copy.rightTitle}</h2>
             <p className={styles.hhCardBody}>{copy.rightBody}</p>
             <div className={styles.hhCardRule} />
-            <div className={styles.hhCardStats}>
-              <span className={styles.hhOnlineRow}>
-                <span className={styles.hhOnlineDot} aria-hidden="true" />
-                {locale === "ko" ? (
-                  <>
-                    지금 <span key={`online-${online}`} className={styles.hhNumFade}>{online}</span>{copy.rightStat1Suffix}
-                  </>
-                ) : (
-                  <>
-                    <span key={`online-${online}`} className={styles.hhNumFade}>{online}</span> {copy.rightStat1Suffix}
-                  </>
-                )}
-              </span>
-              <span>
-                {locale === "ko" ? (
-                  <>지금 <span className={styles.hhTypingNum}>{typing}</span>{copy.rightStat2Suffix}</>
-                ) : (
-                  <><span className={styles.hhTypingNum}>{typing}</span> {copy.rightStat2Suffix}</>
-                )}
-              </span>
-            </div>
             <span className={styles.hhCardArrow} aria-hidden="true">→</span>
           </Link>
         </div>

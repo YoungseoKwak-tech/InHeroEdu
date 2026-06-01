@@ -230,7 +230,7 @@ export default function OnboardingPage() {
         {authStatus === "out" && (
           <div className="ob-signed-out">
             <strong>You need to sign in first.</strong>
-            <p>Hit the SIGN IN / EJECT button in the top nav, then come back here.</p>
+            <p>Hit the Sign in / Log out button in the top nav, then come back here.</p>
             <Link href="/" className="ob-link-home">← Back to home</Link>
           </div>
         )}

@@ -246,7 +246,7 @@ export default function SubjectGrid() {
         {/* CTA */}
         <div style={{ textAlign: "center", marginTop: "40px" }}>
           <Link href="/courses" className="btn-secondary" style={{ display: "inline-flex" }}>
-            Browse all missions →
+            Browse all courses →
           </Link>
         </div>
       </div>

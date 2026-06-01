@@ -13,16 +13,16 @@ import { normalizeProfileFields } from "@/lib/profile";
 
 const NAV_LINKS = [
   // { href: "/future",          label: "🌌 FUTURE" }, // hidden — restore when /future is demo-ready
-  { href: "/my-plan",         label: "MY PLAN" },
+  { href: "/my-plan",         label: "Home" },
   // { href: "/textbooks",       label: "TEXTBOOKS" }, // merged into LIBRARY (sidebar) — /textbooks redirects to /library
-  { href: "/academy",         label: "ACADEMY" },
-  { href: "/lounges",         label: "LOUNGES" },
-  { href: "/library",         label: "LIBRARY" },
-  { href: "/my-space",        label: "MY SPACE" },
-  { href: "/clubs",           label: "CLUBS" },
+  { href: "/academy",         label: "Courses" },
+  { href: "/lounges",         label: "Lounges" },
+  { href: "/library",         label: "Library" },
+  { href: "/my-space",        label: "Saved" },
+  { href: "/clubs",           label: "Clubs" },
   // { href: "/trajectory",      label: "TRAJECTORY" }, // hidden — restore when /trajectory is demo-ready
-  { href: "/command-center",  label: "COMMAND CENTER" },
-  { href: "/pricing",         label: "PRICING" },
+  { href: "/command-center",  label: "Dashboard" },
+  { href: "/pricing",         label: "Pricing" },
 ];
 
 export default function Navbar() {
@@ -237,7 +237,7 @@ export default function Navbar() {
                   letterSpacing: "0.08em",
                 }}
               >
-                BILLING
+                Billing
               </Link>
               <Link
                 href="/me"
@@ -270,7 +270,7 @@ export default function Navbar() {
                 onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#FF3B3B")}
                 onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#444466")}
               >
-                EJECT
+                Log out
               </button>
             </div>
           ) : (
@@ -397,7 +397,7 @@ export default function Navbar() {
                   onClick={handleSignOut}
                   style={{ color: "#FF3B3B", background: "none", border: "none", fontSize: "12px", fontFamily: "'JetBrains Mono', monospace", cursor: "none", textAlign: "left", padding: "10px 4px" }}
                 >
-                  EJECT SESSION
+                  Log out
                 </button>
               </>
             ) : (

@@ -33,13 +33,6 @@ const testimonials = [
   },
 ];
 
-const stats = [
-  { num: "2,400+", label: "Learning Logs" },
-  { num: "4 Years", label: "Thinking Memory" },
-  { num: "631",    label: "Lessons Deployed" },
-  { num: "1st",    label: "First Cohort Live" },
-];
-
 export default function Testimonials() {
   return (
     <section style={{ background: "transparent", padding: "100px 24px", position: "relative", zIndex: 10 }}>
@@ -181,52 +174,11 @@ export default function Testimonials() {
           ))}
         </div>
 
-        {/* Stats row */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          gap: "1px",
-          background: "rgba(255,255,255,0.06)",
-          border: "1px solid rgba(255,255,255,0.06)",
-          borderRadius: "6px",
-          overflow: "hidden",
-          backdropFilter: "blur(10px)",
-        }} className="stats-grid">
-          {stats.map((s) => (
-            <div key={s.label} style={{
-              textAlign: "center",
-              padding: "32px 20px",
-              background: "rgba(0,0,10,0.5)",
-            }}>
-              <p style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
-                fontWeight: 700,
-                color: "#00FF88",
-                letterSpacing: "-0.02em",
-                marginBottom: "8px",
-                textShadow: "0 0 20px rgba(0,255,136,0.3)",
-              }}>
-                {s.num}
-              </p>
-              <p style={{
-                fontSize: "11px",
-                color: "#444466",
-                fontFamily: "'JetBrains Mono', monospace",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-              }}>
-                {s.label}
-              </p>
-            </div>
-          ))}
-        </div>
       </div>
 
       <style>{`
         @media (max-width: 900px) {
           .testimonial-grid { grid-template-columns: 1fr !important; }
-          .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
       `}</style>
     </section>

@@ -133,7 +133,7 @@ export default function HomePage() {
                   transition: "all 250ms cubic-bezier(0.16,1,0.3,1)",
                 }}
               >
-                BEGIN YOUR MISSION →
+                Join the waitlist →
               </Link>
               <Link
                 href="/pricing"
@@ -162,7 +162,7 @@ export default function HomePage() {
                   el.style.color = "#8888AA";
                 }}
               >
-                VIEW PRICING
+                See pricing
               </Link>
             </div>
           </div>
