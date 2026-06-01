@@ -15,10 +15,12 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import OverlayCard from "@/components/lesson/OverlayCard";
+import ConsentModal from "@/components/ConsentModal";
 import type { PlaylistItem } from "@/lib/buildPlaylist";
 import { getTier } from "@/lib/streakTiers";
 import { authFetch } from "@/lib/client-auth";
 import { startTelemetrySession, emit as emitTelemetry, endTelemetrySession } from "@/lib/attentionTelemetry";
+import { useAttentionTelemetryConsent } from "@/lib/useAttentionTelemetryConsent";
 
 const STREAK_CHANGED_EVENT = "inhero:streak-changed";
 
@@ -68,9 +70,11 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
     prevStreakRef.current = tapStreak;
   }, [tapStreak]);
   const sprintCount = useRef(0);
+  const { attentionConsent, handleAttentionConsent } = useAttentionTelemetryConsent();
 
-  // ── Stage-1 attention telemetry: start a session per lesson visit ───────
+  // ── Stage-1 attention telemetry: consent gates raw behavioral writes ────
   useEffect(() => {
+    if (attentionConsent !== "granted") return;
     startTelemetrySession({ lessonId });
     emitTelemetry("lesson_start", { playlist_length: playlist.length });
     return () => {
@@ -79,7 +83,8 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
       // closed cleanly either way.
       endTelemetrySession();
     };
-  }, [lessonId, playlist.length]);
+  }, [attentionConsent, lessonId, playlist.length]);
+
 
   // ── Hydrate streak from server on mount ─────────────────────────────────
   // Source of truth lives in student_streak_state (server). Local useState
@@ -333,6 +338,10 @@ export default function SectionLessonPlayer({ playlist, lessonId, onComplete }: 
 
   return (
     <div className="slp-root">
+      {attentionConsent === "prompt" && (
+        <ConsentModal onConsent={handleAttentionConsent} />
+      )}
+
       {/* In-player progress bar (always present at top of player) */}
       {progressBar}
 

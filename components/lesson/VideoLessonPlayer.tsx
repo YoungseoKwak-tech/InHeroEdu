@@ -16,7 +16,10 @@
 
 import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import OverlayCard from "@/components/lesson/OverlayCard";
+import ConsentModal from "@/components/ConsentModal";
 import type { OverlayRow } from "@/lib/overlays";
+import { startTelemetrySession, emit as emitTelemetry, endTelemetrySession } from "@/lib/attentionTelemetry";
+import { useAttentionTelemetryConsent } from "@/lib/useAttentionTelemetryConsent";
 
 interface TimedOverlay extends OverlayRow {
   triggerAt?: number;
@@ -35,6 +38,7 @@ export default function VideoLessonPlayer({ lessonId, videoUrl, overlays, onComp
   const [activeOverlay, setActiveOverlay] = useState<TimedOverlay | null>(null);
   const [overlayVisible, setOverlayVisible] = useState(false);
   const [duration, setDuration] = useState<number | null>(null);
+  const { attentionConsent, handleAttentionConsent } = useAttentionTelemetryConsent();
 
   const sortedOverlays = useMemo(() => {
     const timed = overlays.filter((overlay) => typeof overlay.triggerAt === "number");
@@ -83,6 +87,44 @@ export default function VideoLessonPlayer({ lessonId, videoUrl, overlays, onComp
     return () => video.removeEventListener("timeupdate", handleTimeUpdate);
   }, [handleTimeUpdate]);
 
+  // ── Stage-1 attention telemetry: session lifecycle + video boundary events
+  useEffect(() => {
+    if (attentionConsent !== "granted") return;
+    startTelemetrySession({ lessonId });
+    emitTelemetry("lesson_start", { player: "video", overlay_count: overlays.length });
+    return () => {
+      endTelemetrySession();
+    };
+  }, [attentionConsent, lessonId, overlays.length]);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    let lastTime = 0;
+    const onPlay   = () => emitTelemetry("video_play", { current_time: v.currentTime });
+    const onPause  = () => emitTelemetry("video_pause", { current_time: v.currentTime });
+    const onSeeked = () => {
+      const to = v.currentTime;
+      emitTelemetry("video_seek", {
+        from_sec: lastTime,
+        to_sec: to,
+        direction: to < lastTime ? "back" : "forward",
+      });
+      lastTime = to;
+    };
+    const onTime = () => { lastTime = v.currentTime; };
+    v.addEventListener("play", onPlay);
+    v.addEventListener("pause", onPause);
+    v.addEventListener("seeked", onSeeked);
+    v.addEventListener("timeupdate", onTime);
+    return () => {
+      v.removeEventListener("play", onPlay);
+      v.removeEventListener("pause", onPause);
+      v.removeEventListener("seeked", onSeeked);
+      v.removeEventListener("timeupdate", onTime);
+    };
+  }, []);
+
   function handleOverlayComplete() {
     setOverlayVisible(false);
     setTimeout(() => {
@@ -92,11 +134,17 @@ export default function VideoLessonPlayer({ lessonId, videoUrl, overlays, onComp
   }
 
   function handleVideoEnded() {
+    emitTelemetry("video_ended", {});
+    emitTelemetry("lesson_complete", { player: "video" });
     onComplete?.();
   }
 
   return (
     <div className="vlp-root">
+      {attentionConsent === "prompt" && (
+        <ConsentModal onConsent={handleAttentionConsent} />
+      )}
+
       {/* Video element */}
       <div className="vlp-video-wrap">
         <video

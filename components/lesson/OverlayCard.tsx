@@ -60,11 +60,40 @@ const cardStyle = (tok: string): React.CSSProperties =>
 
 function logResponse(data: Record<string, unknown>, ctx?: LogContext) {
   const payload = ctx ? { ...data, ...ctx } : data;
-  authFetch("/api/overlay-responses", {
+  void authFetch("/api/overlay-responses", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
-  }).catch(() => {});
+  })
+    .then(async (res) => {
+      if (res.ok) return;
+      let error = `HTTP ${res.status}`;
+      try {
+        const json = await res.json();
+        error = typeof json?.error === "string" ? json.error : error;
+      } catch {
+        // Keep the status fallback when the response is not JSON.
+      }
+      const detail = {
+        error,
+        status: res.status,
+        lessonId: payload.lessonId,
+        overlayId: payload.overlayId,
+        overlayType: payload.overlayType,
+      };
+      console.error("[overlay-response] save failed", detail);
+      window.dispatchEvent(new CustomEvent("overlay-response-save-failed", { detail }));
+    })
+    .catch((error) => {
+      const detail = {
+        error: error instanceof Error ? error.message : String(error),
+        lessonId: payload.lessonId,
+        overlayId: payload.overlayId,
+        overlayType: payload.overlayType,
+      };
+      console.error("[overlay-response] request failed", detail);
+      window.dispatchEvent(new CustomEvent("overlay-response-save-failed", { detail }));
+    });
 }
 
 function pickCtx(props: Props): LogContext {

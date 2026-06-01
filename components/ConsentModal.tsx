@@ -21,15 +21,15 @@ export default function ConsentModal({ onConsent }: { onConsent: (agreed: boolea
         </h2>
         <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px', lineHeight: 1.7, marginBottom: '24px' }}>
           <p>
-            To improve your learning experience, InHero collects{' '}
-            <strong style={{ color: '#C9A84C' }}>behavioral pattern data</strong>.
+            To improve your learning experience, InHero can collect{' '}
+            <strong style={{ color: '#C9A84C' }}>lesson interaction signals</strong>.
           </p>
           <br />
           <p><strong style={{ color: 'white' }}>What we collect:</strong></p>
-          <p>• Which question types you get stuck on</p>
-          <p>• Study time and frequency</p>
-          <p>• Thinking-style patterns (direct / analytical / creative)</p>
-          <p>• Essay-topic potential signals</p>
+          <p>• Video play, pause, seek, and completion signals</p>
+          <p>• Overlay answer timing and correctness</p>
+          <p>• Tab visibility and inactivity windows during lessons</p>
+          <p>• Aggregated learning-pattern features for recommendations</p>
           <br />
           <p><strong style={{ color: 'white' }}>What we do NOT collect:</strong></p>
           <p>• Verbatim AI chat transcripts</p>

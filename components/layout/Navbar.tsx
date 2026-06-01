@@ -22,6 +22,7 @@ const NAV_LINKS = [
   { href: "/clubs",           label: "CLUBS" },
   // { href: "/trajectory",      label: "TRAJECTORY" }, // hidden — restore when /trajectory is demo-ready
   { href: "/command-center",  label: "COMMAND CENTER" },
+  { href: "/pricing",         label: "PRICING" },
 ];
 
 export default function Navbar() {

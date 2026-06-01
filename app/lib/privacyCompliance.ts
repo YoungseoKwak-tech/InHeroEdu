@@ -19,13 +19,18 @@ export async function recordConsent(
   consented: boolean
 ) {
   const supabase = createAdminClient()
-  await supabase.from('privacy_consents').upsert({
-    user_id: userId,
-    consent_type: consentType,
-    consented,
-    consent_date: new Date().toISOString(),
-    version: '1.0',
-  })
+  const now = new Date().toISOString()
+  await supabase.from('privacy_consents').upsert(
+    {
+      user_id: userId,
+      consent_type: consentType,
+      consented,
+      consent_date: now,
+      updated_at: now,
+      version: '1.0',
+    },
+    { onConflict: 'user_id,consent_type' }
+  )
 }
 
 // GDPR Article 17 — 삭제 권리
@@ -41,6 +46,7 @@ export async function requestDataDeletion(userId: string) {
   await Promise.all([
     supabase.from('cognitive_logs').delete().eq('user_id', userId),
     supabase.from('thinking_evolution').delete().eq('user_id', userId),
+    supabase.from('attention_events').delete().eq('user_id', userId),
     supabase.from('privacy_consents').delete().eq('user_id', userId),
   ])
 
@@ -51,9 +57,10 @@ export async function requestDataDeletion(userId: string) {
 export async function exportUserData(userId: string) {
   const supabase = createAdminClient()
 
-  const [logs, evolution, consents] = await Promise.all([
+  const [logs, evolution, attentionEvents, consents] = await Promise.all([
     supabase.from('cognitive_logs').select('*').eq('user_id', userId),
     supabase.from('thinking_evolution').select('*').eq('user_id', userId),
+    supabase.from('attention_events').select('*').eq('user_id', userId),
     supabase.from('privacy_consents').select('*').eq('user_id', userId),
   ])
 
@@ -61,6 +68,7 @@ export async function exportUserData(userId: string) {
     exported_at: new Date().toISOString(),
     cognitive_logs: logs.data,
     thinking_evolution: evolution.data,
+    attention_events: attentionEvents.data,
     privacy_consents: consents.data,
     note: '이 파일에는 행동 패턴 데이터만 포함됩니다. 대화 내용 원본은 저장되지 않습니다.',
   }

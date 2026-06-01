@@ -2,6 +2,9 @@
 
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { authFetch } from "@/lib/client-auth";
+import { startTelemetrySession, emit as emitTelemetry, endTelemetrySession } from "@/lib/attentionTelemetry";
+import ConsentModal from "@/components/ConsentModal";
+import { useAttentionTelemetryConsent } from "@/lib/useAttentionTelemetryConsent";
 import type {
   LessonPart,
   LessonPlayerData,
@@ -443,6 +446,7 @@ export default function LessonPlayer({ lesson, onComplete, onVideoPartEnd }: Les
   const [currentIdx, setCurrentIdx] = useState(0);
   const [overlayVisible, setOverlayVisible] = useState(false);
   const videoPartsPlayedRef = useRef(0);
+  const { attentionConsent, handleAttentionConsent } = useAttentionTelemetryConsent();
 
   const isComplete = currentIdx >= lesson.parts.length;
   const currentPart: LessonPart | null = isComplete ? null : lesson.parts[currentIdx];
@@ -497,6 +501,24 @@ export default function LessonPlayer({ lesson, onComplete, onVideoPartEnd }: Les
     if (isComplete) onComplete?.();
   }, [isComplete, onComplete]);
 
+  // ── Stage-1 attention telemetry: session lifecycle for the static-playlist
+  //    player. YouTube IFrame and HTML5 video share onEnded → we emit
+  //    video_ended + lesson_complete from handleVideoEnded. Fine-grained
+  //    play/pause/seek are skipped here because the YouTube IFrame state
+  //    surface would need a separate refactor; OverlayCard + drift listeners
+  //    (visibility / inactivity) still flow.
+  useEffect(() => {
+    if (attentionConsent !== "granted") return;
+    startTelemetrySession({ lessonId: lesson.id });
+    emitTelemetry("lesson_start", { player: "static-playlist", parts: lesson.parts.length });
+    return () => { endTelemetrySession(); };
+  }, [attentionConsent, lesson.id, lesson.parts.length]);
+
+  useEffect(() => {
+    if (!isComplete) return;
+    emitTelemetry("lesson_complete", { player: "static-playlist" });
+  }, [isComplete]);
+
   // ── Advance ───────────────────────────────────────────────────────────────
   function advance() {
     setOverlayVisible(false);
@@ -526,6 +548,8 @@ export default function LessonPlayer({ lesson, onComplete, onVideoPartEnd }: Les
   function handleVideoEnded() {
     const sectionIdx = videoPartsPlayedRef.current;
     videoPartsPlayedRef.current += 1;
+    emitTelemetry("video_ended", { section_idx: sectionIdx });
+    emitTelemetry("clip_locked", { clip_idx: sectionIdx });
     if (onVideoPartEnd) {
       onVideoPartEnd(sectionIdx, advance);
     } else {
@@ -561,6 +585,10 @@ export default function LessonPlayer({ lesson, onComplete, onVideoPartEnd }: Les
   // ── Render ────────────────────────────────────────────────────────────────
   return (
     <div className="lp-root">
+      {attentionConsent === "prompt" && (
+        <ConsentModal onConsent={handleAttentionConsent} />
+      )}
+
       {/* ── Progress bar ── */}
       <div className="lp-topbar">
         <div className="lp-topbar-inner">
