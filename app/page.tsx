@@ -9,7 +9,6 @@ import ClickSeries from "@/components/landing/ClickSeries";
 import Features from "@/components/landing/Features";
 import SubjectGrid from "@/components/landing/SubjectGrid";
 import Testimonials from "@/components/landing/Testimonials";
-import UniversityBanner from "@/components/UniversityBanner";
 import SignedInRedirector from "@/components/landing/SignedInRedirector";
 import Link from "next/link";
 
@@ -18,7 +17,6 @@ export default function HomePage() {
     <>
       <SignedInRedirector />
       <HomeHeroDualPath locale="en" />
-      <UniversityBanner />
       <FacultyLineup />
       <AcademyCampus />
       <DropFeaturedCard />

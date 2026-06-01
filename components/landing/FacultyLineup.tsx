@@ -139,7 +139,7 @@ export default function FacultyLineup() {
                 </div>
                 <div className="fc-principal-label">
                   <div className="fc-principal-name">THE UNSEEN PRINCIPAL</div>
-                  <div className="fc-principal-sub">IVY LEAGUE LEGEND, [REDACTED] STUDENT</div>
+                  <div className="fc-principal-sub">LEGEND · [REDACTED] STUDENT</div>
                 </div>
               </div>
             </div>
@@ -209,11 +209,11 @@ function PrincipalModal({ onClose }: { onClose: () => void }) {
         </p>
         <div className="pm-meta">
           <div className="pm-meta-row"><span className="pm-k">ALIAS</span><span className="pm-v">[REDACTED]</span></div>
-          <div className="pm-meta-row"><span className="pm-k">EDU</span><span className="pm-v">IVY LEAGUE · ENGINEERING</span></div>
+          <div className="pm-meta-row"><span className="pm-k">EDU</span><span className="pm-v">ENGINEERING</span></div>
           <div className="pm-meta-row"><span className="pm-k">ROLE</span><span className="pm-v">THE ARCHITECT — original Korean logic source</span></div>
           <div className="pm-meta-row"><span className="pm-k">STATUS</span><span className="pm-v"><span className="pm-pulse" /> Reconstructing axioms</span></div>
         </div>
-        <p className="pm-footer">The Principal is rebuilding logic structures in Cornell&apos;s engineering library. Do not disturb.</p>
+        <p className="pm-footer">The Principal is rebuilding logic structures in the library. Do not disturb.</p>
       </div>
       <style>{PM_STYLES}</style>
     </div>

@@ -35,7 +35,7 @@ function TADesk() {
           </div>
           <h2 className="td-title">When the professors are too proud, <em>ask the intern</em>.</h2>
           <p className="td-sub">
-            Faculty are stars. The TA does the actual grading. Hooded, caffeinated, slightly disillusioned, and on the way to graduating from the same Ivy League department.
+            Faculty are stars. The TA does the actual grading. Hooded, caffeinated, slightly disillusioned, and on the way to graduating from the same department.
           </p>
         </header>
 
@@ -82,7 +82,7 @@ function TADesk() {
               </li>
               <li>
                 <span className="td-list-bullet" />
-                Currently an Ivy League senior. Don't tell the professors she's better at explaining.
+                Currently a senior. Don't tell the professors she's better at explaining.
               </li>
             </ul>
 

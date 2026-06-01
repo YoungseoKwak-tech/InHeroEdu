@@ -60,7 +60,7 @@ const SLIDES: Slide[] = [
     body:
       "Rubrics that map the grader's mind. Model answers that close every loophole. Perfection by design, not by luck.",
     caption:
-      "Worked MCQ explanations on the left. FRQ scoring points + a full model answer on the right — written the way an Ivy League 5-scorer would write it.",
+      "Worked MCQ explanations on the left. FRQ scoring points + a full model answer on the right — written the way a top-scoring student would write it.",
   },
 ];
 
@@ -104,7 +104,7 @@ export default function TextbookSlider() {
             The blueprint of <em>perfection</em>.
           </h2>
           <p className="ts-sub">
-            Field Manuals reviewed by Ivy League 5-scorers. Visual logic — no memorization required.
+            Field Manuals modeled on top-scorer thinking. Visual logic — no memorization required.
           </p>
         </header>
 

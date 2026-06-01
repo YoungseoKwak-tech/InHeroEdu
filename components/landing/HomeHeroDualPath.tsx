@@ -142,13 +142,13 @@ const COPY = {
     badge: "MISSION CONTROL — ACTIVE",
     headline: "Learn Fast. Think",
     headlineEm: "Deep.",
-    tagline: <>Where ambitious students learn from Ivy<br />— and find each other.</>,
+    tagline: <>Where ambitious students think deep together<br />— and find each other.</>,
     leftIcon: "🛸",
     leftTitle: "Enter the Classroom",
     leftBody: (
       <>
-        Ivy League instructors.<br />
-        AI that remembers your gaps.<br />
+        AI tutors trained on top-scorer thinking.<br />
+        Memory that remembers your gaps.<br />
         Your pattern, your mission.
       </>
     ),
@@ -175,13 +175,13 @@ const COPY = {
     badge: "MISSION CONTROL — ACTIVE",
     headline: "The smartest",
     headlineEm: "classroom ever built.",
-    tagline: <>Learn from Ivy instructors.<br />Find friends just like you.</>,
+    tagline: <>AI tutors that remember how you learn.<br />Find friends just like you.</>,
     leftIcon: "🛸",
     leftTitle: "Start a class",
     leftBody: (
       <>
-        Ivy League instructors.<br />
-        AI that remembers how you learn.
+        AI tutors trained on top-scorer thinking.<br />
+        Memory that remembers how you learn.
       </>
     ),
     leftStat1: "42 courses ready",
