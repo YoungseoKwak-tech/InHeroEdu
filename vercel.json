@@ -33,7 +33,7 @@
   "crons": [
     {
       "path": "/api/cron/process-attention-rollups",
-      "schedule": "*/15 * * * *"
+      "schedule": "0 2 * * *"
     },
     {
       "path": "/api/cron/cleanup-deleted-resources",
