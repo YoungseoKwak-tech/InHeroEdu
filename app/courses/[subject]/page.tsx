@@ -6,6 +6,7 @@ import { resolveCourseId } from "@/lib/courseAliases";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import UnitsLessonsWithProgress from "@/components/courses/UnitsLessonsWithProgress";
 
 interface Props {
   params: { subject: string };
@@ -99,88 +100,22 @@ export default async function CoursePage({ params }: Props) {
                 2025–26 College Board CED
               </span>
             </div>
-            <div className="space-y-6">
-              {course.units!.map((unit) => {
-                const unitLessons = dbLessons.filter(
-                  (l) => l.unit_number === unit.number
-                );
-                return (
-                  <div key={unit.slug}>
-                    {/* Unit header */}
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="w-9 h-9 rounded-xl bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 font-bold text-sm flex items-center justify-center flex-shrink-0">
-                        {unit.number}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-3">
-                          <span className="font-bold text-gray-900 dark:text-white">
-                            {unit.title}
-                          </span>
-                          <span className="text-xs font-semibold text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 rounded-full flex-shrink-0">
-                            {unit.examWeight} of exam
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Lessons under this unit */}
-                    {unitLessons.length > 0 ? (
-                      <div className="space-y-1.5 ml-13 pl-1">
-                        {unitLessons.map((lesson, idx) => {
-                          const hasClip = lessonsWithClips.has(lesson.id);
-                          return (
-                            <Link
-                              key={lesson.id}
-                              href={`/courses/${course.id}/${lesson.id}`}
-                              className="flex items-center gap-4 card p-4 hover:shadow-md hover:border-primary-200 dark:hover:border-primary-700 transition-all duration-200 group"
-                            >
-                              <div className="w-7 h-7 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 font-semibold text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-primary-500 group-hover:text-white transition-colors">
-                                {unit.number}.{lesson.lesson_number}
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <div className="font-medium text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors text-sm">
-                                  {lesson.title}
-                                </div>
-                              </div>
-                              <div className="flex items-center gap-2 flex-shrink-0">
-                                {hasClip ? (
-                                  <span className="hidden sm:inline-flex rounded-full bg-primary-50 dark:bg-primary-900/20 px-2.5 py-1 text-[11px] font-semibold text-primary-600 dark:text-primary-400">
-                                    Watch
-                                  </span>
-                                ) : (
-                                  <span className="hidden sm:inline-flex rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-semibold text-amber-700 dark:bg-amber-900/20 dark:text-amber-400">
-                                    Coming Soon
-                                  </span>
-                                )}
-                                <svg
-                                  className="w-3.5 h-3.5 text-gray-400 group-hover:translate-x-1 transition-transform"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M9 5l7 7-7 7"
-                                  />
-                                </svg>
-                              </div>
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    ) : (
-                      <div className="ml-13 pl-1">
-                        <p className="text-sm text-gray-400 dark:text-gray-500 py-2">
-                          Lessons coming soon
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+            <UnitsLessonsWithProgress
+              courseId={course.id}
+              units={course.units!.map((u) => ({
+                number: u.number,
+                slug: u.slug,
+                title: u.title,
+                examWeight: u.examWeight,
+              }))}
+              lessons={dbLessons.map((l) => ({
+                id: l.id,
+                title: l.title,
+                unit_number: l.unit_number,
+                lesson_number: l.lesson_number,
+              }))}
+              lessonsWithClips={Array.from(lessonsWithClips)}
+            />
           </div>
         ) : staticLessons.length === 0 ? (
           /* No units, no lessons */
