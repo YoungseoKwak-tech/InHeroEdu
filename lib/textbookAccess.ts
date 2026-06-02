@@ -10,6 +10,8 @@
  */
 
 import { createAdminClient } from "@/lib/supabase";
+import { hasPaidEnglishCourseAccess } from "@/lib/course-access";
+import { listStoredOrdersForUser } from "@/lib/orderStore";
 
 function parseEmailList(raw: string | undefined): string[] {
   return (raw ?? "")
@@ -124,6 +126,16 @@ export async function hasTextbookAccess(args: {
   if (comp) return { allowed: true, reason: "complimentary" };
 
   const supabase = createAdminClient();
+
+  try {
+    const orders = await listStoredOrdersForUser(supabase, args.userId);
+    if (hasPaidEnglishCourseAccess(orders, args.subjectId)) {
+      return { allowed: true, reason: "purchased" };
+    }
+  } catch {
+    // Keep the textbook reader resilient if the orders table is temporarily unavailable.
+  }
+
   const { data, error } = await supabase
     .from("textbook_purchases")
     .select("subject_id")

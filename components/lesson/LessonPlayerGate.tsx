@@ -286,10 +286,10 @@ export default function LessonPlayerGate({
             <PaymentButton
               serviceId="single"
               subjectId={courseId}
-              amount={29}
-              orderName={`${courseName} — Single Subject Pass`}
+              amount={49}
+              orderName={`${courseName} — One Subject Elite Pass`}
               returnTo={resolvedRedirectHref}
-              label={`Unlock ${courseName} — $29/mo`}
+              label={`Unlock ${courseName} — $49/mo`}
               className="lpg-btn-primary"
             />
             <Link href={resolvedCourseHref} className="lpg-btn-ghost">

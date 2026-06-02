@@ -63,10 +63,10 @@ export const PRICING = {
   subscriptions: [
     {
       id: "single",
-      name: "한 과목 패스", nameEn: "Single Subject Pass",
-      priceKRW: 79000, priceUSD: 29,
+      name: "한 과목 엘리트 패스", nameEn: "One Subject Elite Pass",
+      priceKRW: 69000, priceUSD: 49,
       period: "월 / mo",
-      features: ["선택 1과목 강의 무제한","AI 즉시 설명","사고력 분석","학습 대시보드"],
+      features: ["선택 1과목 강의 무제한","해당 과목 textbook access","AI 즉시 설명","학습 대시보드"],
       badge: null as string | null,
     },
     {
@@ -109,10 +109,10 @@ export const PRICING = {
       badge: null as string | null,
     },
     {
-      id: "novapass", name: "노바패스", nameEn: "Nova Pass",
-      priceKRW: 990000, priceUSD: 721, period: "월 / mo",
-      desc: "전 학년 커리큘럼 + 리버스튜터세션",
-      includes: ["전 학년 커리큘럼","리버스튜터세션 무제한","대입 로드맵 자동 생성"],
+      id: "novapass", name: "전체 과목 엘리트 패스", nameEn: "All Subject Elite Pass",
+      priceKRW: 275000, priceUSD: 199, period: "월 / mo",
+      desc: "전 과목 강의 + 전 과목 textbook access",
+      includes: ["전 과목 강의 무제한","전 과목 textbook access","AI 학습 레이어 전체"],
       badge: "최고 가성비 / Best Value",
     },
   ],
