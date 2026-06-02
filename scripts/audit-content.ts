@@ -46,13 +46,18 @@ interface LessonRow {
   lesson_number: number | null;
 }
 
-async function fetchAll<T>(table: string, columns: string, filter?: (q: ReturnType<typeof supabase.from>) => unknown): Promise<T[]> {
+// Filter callback is typed loosely on purpose: PostgrestFilterBuilder
+// chains (`.not()`, `.eq()`, etc.) don't narrow cleanly through a
+// generic, and this script is a one-shot diagnostic — strict typing
+// gives no real safety here while breaking `next build`'s type pass.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function fetchAll<T>(table: string, columns: string, filter?: (q: any) => any): Promise<T[]> {
   const out: T[] = [];
   const PAGE = 1000;
   let offset = 0;
   for (;;) {
-    let q = supabase.from(table).select(columns).range(offset, offset + PAGE - 1);
-    if (filter) q = filter(q) as typeof q;
+    let q: any = supabase.from(table).select(columns).range(offset, offset + PAGE - 1); // eslint-disable-line @typescript-eslint/no-explicit-any
+    if (filter) q = filter(q);
     const { data, error } = await q;
     if (error) {
       console.error(`[audit] ${table}: ${error.message}`);
@@ -123,7 +128,7 @@ async function main() {
     if ((clipCount.get(l.id) ?? 0) > 0 || hasVideo.has(l.id)) c.playable += 1;
     perCourse.set(l.course_id, c);
   }
-  const sortedCourses = [...perCourse.entries()].sort((a, b) => (b[1].playable - a[1].playable) || a[0].localeCompare(b[0]));
+  const sortedCourses = Array.from(perCourse.entries()).sort((a, b) => (b[1].playable - a[1].playable) || a[0].localeCompare(b[0]));
 
   console.log("=== Q2: per-course summary ===\n");
   console.log("course_id".padEnd(28) + "playable  total");
