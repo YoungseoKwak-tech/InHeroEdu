@@ -6,15 +6,6 @@ import { usd } from '@/lib/pricing'
 
 const AP_BIO_FIRST_LESSON = '/courses/ap-biology/ap-biology-u1-l1'
 
-function openSignupModal() {
-  if (typeof window === 'undefined') return
-  window.dispatchEvent(
-    new CustomEvent('inhero:open-auth', {
-      detail: { mode: 'signup', source: 'pricing_free', redirectTo: '/dashboard' },
-    }),
-  )
-}
-
 const planShell: CSSProperties = {
   position: 'relative',
   borderRadius: '24px',
@@ -190,7 +181,7 @@ export default function EnglishPricingSection() {
               lineHeight: 1.7,
             }}
           >
-            Compare the free plan, one-subject Elite, and the all-subject pass at a glance.
+            Compare the first-lesson free plan, one-subject Elite, and the all-subject pass at a glance.
             Elite includes unlimited course access plus textbook access.
           </p>
         </div>
@@ -200,7 +191,7 @@ export default function EnglishPricingSection() {
             badge="Start here"
             eyebrow="Free version"
             title="Free Plan"
-            description="Try InHero without a credit card. Use the public preview flow and start building your account before upgrading."
+            description="No timed trial. Every course opens its first lesson for free, then Elite unlocks the rest."
             border="1px solid rgba(0,255,178,0.28)"
             background="linear-gradient(180deg, rgba(0,255,178,0.08), rgba(255,255,255,0.025))"
             accent="#00FFB2"
@@ -212,16 +203,16 @@ export default function EnglishPricingSection() {
             <FeatureList
               color="#00FFB2"
               items={[
-                'Create an InHero account',
-                'Access public previews and free lesson gates',
+                'First lesson free in every course',
+                'No timed trial or credit card required',
                 'Explore courses, library, and lounges',
                 'Upgrade only when Elite is useful',
               ]}
             />
-            <button
-              type="button"
-              onClick={openSignupModal}
+            <a
+              href={AP_BIO_FIRST_LESSON}
               style={{
+                display: 'block',
                 width: '100%',
                 padding: '15px 18px',
                 borderRadius: 14,
@@ -234,10 +225,12 @@ export default function EnglishPricingSection() {
                 border: 'none',
                 cursor: 'pointer',
                 boxShadow: '0 0 32px rgba(0,255,178,0.3)',
+                textAlign: 'center',
+                textDecoration: 'none',
               }}
             >
-              Start free
-            </button>
+              Start first lesson free
+            </a>
           </PlanCard>
 
           <PlanCard

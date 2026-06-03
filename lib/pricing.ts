@@ -1,6 +1,6 @@
 export const PRICING = {
   free: [
-    { id: "trial",        name: "첫 강의 무료체험",  nameEn: "Free Trial Lesson", price: 0, desc: "과목별 1강 무료" },
+    { id: "trial",        name: "첫 강의 무료",      nameEn: "First Lesson Free", price: 0, desc: "과목별 첫 강의만 무료" },
     { id: "ai_counseling",name: "고민상담 AI",        nameEn: "AI Counseling",     price: 0, desc: "마음 나누기 무제한" },
   ],
 

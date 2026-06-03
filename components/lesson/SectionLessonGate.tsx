@@ -94,12 +94,12 @@ export default function SectionLessonGate({
   useEffect(() => {
     let cancelled = false;
     async function checkAccess() {
-      if (authState !== "authenticated") {
-        setAccessState("loading");
-        return;
-      }
       if (isFreePreviewLesson) {
         setAccessState("granted");
+        return;
+      }
+      if (authState !== "authenticated") {
+        setAccessState("loading");
         return;
       }
       setAccessState("loading");
@@ -129,7 +129,7 @@ export default function SectionLessonGate({
     );
   }
 
-  if (authState === "guest") {
+  if (authState === "guest" && !isFreePreviewLesson) {
     return (
       <div className="slg-center">
         <div className="slg-card">
