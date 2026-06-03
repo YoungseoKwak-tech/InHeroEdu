@@ -22,8 +22,9 @@ interface ClubListing {
 
 async function fetchClubs(): Promise<ClubListing[]> {
   noStore();
-  const host = headers().get("host");
-  const proto = headers().get("x-forwarded-proto") ?? (host?.startsWith("localhost") ? "http" : "https");
+  const h = await headers();
+  const host = h.get("host");
+  const proto = h.get("x-forwarded-proto") ?? (host?.startsWith("localhost") ? "http" : "https");
   const base = host ? `${proto}://${host}` : "";
   try {
     const res = await fetch(`${base}/api/clubs`, { cache: "no-store" });

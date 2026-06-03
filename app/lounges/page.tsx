@@ -241,9 +241,10 @@ const LOUNGE_EMOJI: Record<string, string> = {
 
 async function fetchLounges(): Promise<LoungeListing[]> {
   noStore();
-  const host = headers().get("host");
+  const h = await headers();
+  const host = h.get("host");
   const proto =
-    headers().get("x-forwarded-proto") ?? (host?.startsWith("localhost") ? "http" : "https");
+    h.get("x-forwarded-proto") ?? (host?.startsWith("localhost") ? "http" : "https");
   const base = host ? `${proto}://${host}` : "";
   try {
     const res = await fetch(`${base}/api/lounges`, { cache: "no-store" });
