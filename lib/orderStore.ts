@@ -29,12 +29,14 @@ type PendingOrderInput = {
   amount: number;
   currency: PaymentCurrency;
   kind: PaymentKind;
+  provider?: "paypal" | "paddle";
   customerName?: string;
   customerEmail?: string;
 };
 
 type PaidOrderInput = {
   userId?: string | null;
+  provider?: "paypal" | "paddle";
   providerOrderId?: string | null;
   providerSubscriptionId?: string | null;
   rawResponse?: unknown;
@@ -117,7 +119,7 @@ export async function createPendingOrder(
     amount: input.amount,
     currency: input.currency,
     status: "pending",
-    provider: "paypal",
+    provider: input.provider ?? "paypal",
     kind: input.kind,
     customer_name: input.customerName ?? null,
     customer_email: input.customerEmail ?? null,
@@ -251,7 +253,7 @@ export async function markStoredOrderPaid(
   }
   if (input.rawResponse) {
     legacyUpdate.raw_toss_response = {
-      provider: "paypal",
+      provider: input.provider ?? "paypal",
       provider_order_id: input.providerOrderId ?? null,
       provider_subscription_id: input.providerSubscriptionId ?? null,
       raw_provider_response: input.rawResponse,
