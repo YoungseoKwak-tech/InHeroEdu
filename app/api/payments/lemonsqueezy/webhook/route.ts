@@ -4,6 +4,7 @@ import {
   verifyLemonSqueezyWebhookSignature,
 } from "@/lib/lemonsqueezy";
 import {
+  attachStoredOrderProviderDetails,
   getStoredOrder,
   getStoredOrderByProviderSubscriptionId,
   markStoredOrderInactive,
@@ -20,26 +21,12 @@ const RETAINING_SUBSCRIPTION_STATUSES = new Set([
   "cancelled",
 ]);
 
-async function unlockTextbookIfNeeded({
-  supabase,
-  userId,
-  serviceId,
-  orderId,
-}: {
-  supabase: ReturnType<typeof createAdminClient>;
-  userId: string | null;
-  serviceId: string;
-  orderId: string;
-}) {
-  if (!userId || !serviceId.startsWith("textbook:")) return;
-
-  const subjectId = serviceId.replace("textbook:", "");
-  await supabase
-    .from("textbook_purchases")
-    .upsert(
-      { user_id: userId, subject_id: subjectId, order_id: orderId },
-      { onConflict: "user_id,subject_id" }
-    );
+function getStoredPlanParts(serviceId: string) {
+  const [plan, subject] = serviceId.toLowerCase().split(":");
+  return {
+    plan,
+    subject: subject ?? null,
+  };
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -133,6 +120,54 @@ function getEffectiveUserId(storedOrder: StoredOrder, customUserId: string | nul
   };
 }
 
+function validatePlanMapping({
+  storedOrder,
+  customPlan,
+  customSubject,
+  requireCustomPlan,
+}: {
+  storedOrder: StoredOrder;
+  customPlan: string | null;
+  customSubject: string | null;
+  requireCustomPlan: boolean;
+}) {
+  const stored = getStoredPlanParts(storedOrder.serviceId);
+  const plan = customPlan?.toLowerCase() ?? null;
+  const subject = customSubject?.toLowerCase() ?? null;
+
+  if (requireCustomPlan && !plan) {
+    return "missing custom plan";
+  }
+
+  if (!plan) {
+    return null;
+  }
+
+  if (plan !== "one_subject" && plan !== "all_subjects") {
+    return "unsupported custom plan";
+  }
+
+  if (stored.plan !== plan) {
+    return "plan mismatch";
+  }
+
+  if (plan === "one_subject") {
+    if (!subject) {
+      return "missing custom subject";
+    }
+
+    if (stored.subject !== subject) {
+      return "subject mismatch";
+    }
+  }
+
+  if (plan === "all_subjects" && stored.subject) {
+    return "all_subjects cannot be subject-bound";
+  }
+
+  return null;
+}
+
 async function markPaidOnce({
   supabase,
   storedOrder,
@@ -148,7 +183,20 @@ async function markPaidOnce({
   userId: string;
   event: Record<string, unknown>;
 }) {
-  if (storedOrder.status === "paid") return;
+  if (storedOrder.status === "paid") {
+    if (
+      isSubscriptionEvent(eventName) &&
+      providerResourceId &&
+      storedOrder.providerSubscriptionId !== providerResourceId
+    ) {
+      await attachStoredOrderProviderDetails(supabase, storedOrder.id, {
+        providerSubscriptionId: providerResourceId,
+        rawResponse: event,
+      });
+    }
+
+    return;
+  }
 
   await markStoredOrderPaid(supabase, storedOrder.id, {
     userId,
@@ -182,6 +230,8 @@ export async function POST(req: NextRequest) {
     const customData = getLemonSqueezyCustomData(event);
     const localOrderId = getCustomString(customData, ["localOrderId", "local_order_id"]);
     const customUserId = getCustomString(customData, ["user_id", "userId"]);
+    const customPlan = getCustomString(customData, ["plan"]);
+    const customSubject = getCustomString(customData, ["subject", "subjectId"]);
     const providerResourceId = getProviderResourceId(event);
     const providerSubscriptionId = isSubscriptionEvent(eventName)
       ? providerResourceId
@@ -220,6 +270,26 @@ export async function POST(req: NextRequest) {
         customUserId,
       });
       return NextResponse.json({ error: "invalid user mapping" }, { status: 400 });
+    }
+
+    const planError = validatePlanMapping({
+      storedOrder,
+      customPlan,
+      customSubject,
+      requireCustomPlan:
+        eventName === "order_created" || eventName === "subscription_created",
+    });
+
+    if (planError) {
+      console.error("[api/payments/lemonsqueezy/webhook] invalid plan mapping", {
+        eventName,
+        localOrderId: storedOrder.id,
+        storedServiceId: storedOrder.serviceId,
+        customPlan,
+        customSubject,
+        planError,
+      });
+      return NextResponse.json({ error: "invalid plan mapping" }, { status: 400 });
     }
 
     if (eventName === "subscription_expired" || getSubscriptionStatus(event) === "expired") {
@@ -270,13 +340,6 @@ export async function POST(req: NextRequest) {
       providerResourceId,
       userId,
       event,
-    });
-
-    await unlockTextbookIfNeeded({
-      supabase,
-      userId,
-      serviceId: storedOrder.serviceId,
-      orderId: storedOrder.id,
     });
 
     return NextResponse.json({ ok: true, localOrderId: storedOrder.id });

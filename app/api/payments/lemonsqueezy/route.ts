@@ -9,10 +9,7 @@ import {
   isLemonSqueezyConfigured,
 } from "@/lib/lemonsqueezy";
 import { createPendingOrder } from "@/lib/orderStore";
-import {
-  getPaymentCatalogEntry,
-  getTextbookPaymentEntry,
-} from "@/lib/paymentCatalog";
+import { getPaymentCatalogEntry } from "@/lib/paymentCatalog";
 import { createAdminClient } from "@/lib/supabase";
 
 function getSafeReturnTo(value: unknown) {
@@ -41,6 +38,23 @@ function getRequestOrigin(req: NextRequest) {
   return new URL(req.url).origin;
 }
 
+function getPlanSubjectRequirement(serviceId: string, subjectId: unknown) {
+  if (serviceId === "one_subject") {
+    const normalizedSubject = typeof subjectId === "string" ? subjectId.trim() : "";
+    if (!normalizedSubject) {
+      return { error: "subjectId required for one_subject", subjectId: null };
+    }
+
+    return { error: null, subjectId: normalizedSubject };
+  }
+
+  if (serviceId === "all_subjects") {
+    return { error: null, subjectId: null };
+  }
+
+  return { error: "invalid Lemon Squeezy plan", subjectId: null };
+}
+
 export async function POST(req: NextRequest) {
   try {
     const authedUser = await requireAuthenticatedUser(req);
@@ -62,31 +76,20 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const supabase = createAdminClient();
-    let entry = getPaymentCatalogEntry(serviceId);
-
-    if (serviceId === "textbook" && subjectId) {
-      const { data: product, error: productError } = await supabase
-        .from("textbook_products")
-        .select("title, status")
-        .eq("subject_id", subjectId)
-        .eq("status", "available")
-        .single();
-
-      if (productError || !product) {
-        return NextResponse.json({ error: "textbook not available" }, { status: 404 });
-      }
-
-      entry = getTextbookPaymentEntry(product.title, subjectId);
+    const planValidation = getPlanSubjectRequirement(serviceId, subjectId);
+    if (planValidation.error) {
+      return NextResponse.json({ error: planValidation.error }, { status: 400 });
     }
+
+    const entry = getPaymentCatalogEntry(serviceId);
 
     if (!entry) {
       return NextResponse.json({ error: "invalid service" }, { status: 400 });
     }
 
-    const boundServiceId = bindCourseAccessServiceId(entry.serviceId, subjectId);
-    const boundCourseName = subjectId
-      ? courses.find((course) => course.id === subjectId)?.subjectEn ?? subjectId
+    const boundServiceId = bindCourseAccessServiceId(entry.serviceId, planValidation.subjectId);
+    const boundCourseName = planValidation.subjectId
+      ? courses.find((course) => course.id === planValidation.subjectId)?.subjectEn ?? planValidation.subjectId
       : null;
     const boundOrderName = buildCourseBoundOrderName(
       entry.orderName,
@@ -112,8 +115,10 @@ export async function POST(req: NextRequest) {
     successUrl.searchParams.set("provider", "lemonsqueezy");
     successUrl.searchParams.set("localOrderId", localOrderId);
     successUrl.searchParams.set("serviceId", boundServiceId);
-    if (subjectId) successUrl.searchParams.set("subjectId", subjectId);
+    if (planValidation.subjectId) successUrl.searchParams.set("subjectId", planValidation.subjectId);
     if (safeReturnTo) successUrl.searchParams.set("returnTo", safeReturnTo);
+
+    const supabase = createAdminClient();
 
     await createPendingOrder(supabase, {
       id: localOrderId,
@@ -136,7 +141,7 @@ export async function POST(req: NextRequest) {
       userEmail: authedUser.email ?? customerEmail ?? "",
       userName: customerName ?? "InHero Student",
       serviceId: boundServiceId,
-      subjectId: subjectId ?? null,
+      subjectId: planValidation.subjectId,
       returnTo: safeReturnTo,
       successUrl: successUrl.toString(),
     });
@@ -147,7 +152,7 @@ export async function POST(req: NextRequest) {
       checkoutId: checkout.checkoutId,
       localOrderId,
       serviceId: boundServiceId,
-      subjectId: subjectId ?? null,
+      subjectId: planValidation.subjectId,
       orderName: boundOrderName,
       returnTo: safeReturnTo,
     });

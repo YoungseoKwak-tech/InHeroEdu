@@ -256,7 +256,7 @@ export default function EnglishPricingSection() {
               ]}
             />
             <PaymentButton
-              serviceId="single"
+              serviceId="one_subject"
               subjectId="ap-biology"
               amount={49}
               orderName="AP Biology Elite Pass"
@@ -300,7 +300,7 @@ export default function EnglishPricingSection() {
               ]}
             />
             <PaymentButton
-              serviceId="novapass"
+              serviceId="all_subjects"
               amount={199}
               orderName="Elite All Subject Pass"
               returnTo="/courses"

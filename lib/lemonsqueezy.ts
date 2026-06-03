@@ -24,16 +24,12 @@ export function isLemonSqueezyConfigured() {
 export function getLemonSqueezyVariantIdForService(serviceId: string) {
   const normalized = serviceId.split(":")[0];
 
-  if (normalized === "single") {
-    return process.env.LEMONSQUEEZY_VARIANT_SINGLE ?? null;
+  if (normalized === "one_subject") {
+    return process.env.LEMONSQUEEZY_VARIANT_ONE_SUBJECT ?? null;
   }
 
-  if (normalized === "novapass") {
-    return process.env.LEMONSQUEEZY_VARIANT_NOVAPASS ?? null;
-  }
-
-  if (normalized === "textbook") {
-    return process.env.LEMONSQUEEZY_VARIANT_TEXTBOOK ?? null;
+  if (normalized === "all_subjects") {
+    return process.env.LEMONSQUEEZY_VARIANT_ALL_SUBJECTS ?? null;
   }
 
   return null;
@@ -69,6 +65,8 @@ export async function createLemonSqueezyCheckout({
 }) {
   const apiKey = process.env.LEMONSQUEEZY_API_KEY;
   const storeId = process.env.LEMONSQUEEZY_STORE_ID;
+  const plan = serviceId.split(":")[0];
+  const subject = subjectId ?? serviceId.split(":")[1] ?? null;
 
   if (!apiKey || !storeId) {
     throw new Error("missing Lemon Squeezy API config");
@@ -92,6 +90,8 @@ export async function createLemonSqueezyCheckout({
             custom: {
               localOrderId,
               user_id: userId,
+              plan,
+              subject,
               serviceId,
               subjectId,
               returnTo,
