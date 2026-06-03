@@ -3,8 +3,22 @@ import {
   getLemonSqueezyCustomData,
   verifyLemonSqueezyWebhookSignature,
 } from "@/lib/lemonsqueezy";
-import { getStoredOrder, markStoredOrderPaid } from "@/lib/orderStore";
+import {
+  getStoredOrder,
+  getStoredOrderByProviderSubscriptionId,
+  markStoredOrderInactive,
+  markStoredOrderPaid,
+  type StoredOrder,
+} from "@/lib/orderStore";
 import { createAdminClient } from "@/lib/supabase";
+
+const GRANTING_SUBSCRIPTION_STATUSES = new Set(["on_trial", "active"]);
+const RETAINING_SUBSCRIPTION_STATUSES = new Set([
+  "paused",
+  "past_due",
+  "unpaid",
+  "cancelled",
+]);
 
 async function unlockTextbookIfNeeded({
   supabase,
@@ -28,18 +42,121 @@ async function unlockTextbookIfNeeded({
     );
 }
 
-function isPaidOrderEvent(eventName: string | undefined) {
-  return eventName === "order_created" || eventName === "subscription_created";
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function getProviderOrderId(payload: Record<string, unknown>) {
+function getEventName(payload: Record<string, unknown>) {
+  const meta = payload.meta;
+  if (!isRecord(meta)) return "";
+  const eventName = meta.event_name;
+  return typeof eventName === "string" ? eventName : "";
+}
+
+function isSupportedEvent(eventName: string) {
+  return (
+    eventName === "order_created" ||
+    eventName === "subscription_created" ||
+    eventName === "subscription_updated" ||
+    eventName === "subscription_expired"
+  );
+}
+
+function isSubscriptionEvent(eventName: string) {
+  return eventName.startsWith("subscription_");
+}
+
+function getProviderResourceId(payload: Record<string, unknown>) {
   const data = payload.data;
-  if (typeof data !== "object" || data === null || Array.isArray(data)) {
+  if (!isRecord(data)) {
     return null;
   }
 
-  const id = (data as Record<string, unknown>).id;
+  const id = data.id;
   return typeof id === "string" ? id : null;
+}
+
+function getDataAttributes(payload: Record<string, unknown>) {
+  const data = payload.data;
+  if (!isRecord(data)) return {};
+  const attributes = data.attributes;
+  return isRecord(attributes) ? attributes : {};
+}
+
+function getSubscriptionStatus(payload: Record<string, unknown>) {
+  const status = getDataAttributes(payload).status;
+  return typeof status === "string" ? status.toLowerCase() : null;
+}
+
+function getCustomString(
+  customData: Record<string, unknown>,
+  keys: string[]
+) {
+  for (const key of keys) {
+    const value = customData[key];
+    if (typeof value === "string" && value.trim()) {
+      return value.trim();
+    }
+  }
+
+  return null;
+}
+
+async function resolveStoredOrder({
+  supabase,
+  localOrderId,
+  providerSubscriptionId,
+}: {
+  supabase: ReturnType<typeof createAdminClient>;
+  localOrderId: string | null;
+  providerSubscriptionId: string | null;
+}) {
+  if (localOrderId) {
+    return getStoredOrder(supabase, localOrderId);
+  }
+
+  if (providerSubscriptionId) {
+    return getStoredOrderByProviderSubscriptionId(supabase, providerSubscriptionId);
+  }
+
+  return null;
+}
+
+function getEffectiveUserId(storedOrder: StoredOrder, customUserId: string | null) {
+  if (storedOrder.userId && customUserId && storedOrder.userId !== customUserId) {
+    return { error: "user mismatch" as const, userId: null };
+  }
+
+  return {
+    error: null,
+    userId: storedOrder.userId ?? customUserId,
+  };
+}
+
+async function markPaidOnce({
+  supabase,
+  storedOrder,
+  eventName,
+  providerResourceId,
+  userId,
+  event,
+}: {
+  supabase: ReturnType<typeof createAdminClient>;
+  storedOrder: StoredOrder;
+  eventName: string;
+  providerResourceId: string | null;
+  userId: string;
+  event: Record<string, unknown>;
+}) {
+  if (storedOrder.status === "paid") return;
+
+  await markStoredOrderPaid(supabase, storedOrder.id, {
+    userId,
+    provider: "lemonsqueezy",
+    providerOrderId: eventName === "order_created" ? providerResourceId : null,
+    providerSubscriptionId: isSubscriptionEvent(eventName) ? providerResourceId : null,
+    rawResponse: event,
+  });
 }
 
 export async function POST(req: NextRequest) {
@@ -56,55 +173,113 @@ export async function POST(req: NextRequest) {
 
   try {
     const event = JSON.parse(rawBody) as Record<string, unknown>;
-    const meta = event.meta;
-    const eventName =
-      typeof meta === "object" && meta !== null && !Array.isArray(meta)
-        ? String((meta as Record<string, unknown>).event_name ?? "")
-        : "";
+    const eventName = getEventName(event);
 
-    if (!isPaidOrderEvent(eventName)) {
+    if (!isSupportedEvent(eventName)) {
       return NextResponse.json({ ok: true, ignored: eventName || "unknown" });
     }
 
     const customData = getLemonSqueezyCustomData(event);
-    const localOrderId =
-      typeof customData.localOrderId === "string" ? customData.localOrderId : null;
+    const localOrderId = getCustomString(customData, ["localOrderId", "local_order_id"]);
+    const customUserId = getCustomString(customData, ["user_id", "userId"]);
+    const providerResourceId = getProviderResourceId(event);
+    const providerSubscriptionId = isSubscriptionEvent(eventName)
+      ? providerResourceId
+      : null;
 
-    if (!localOrderId) {
+    if (!localOrderId && !providerSubscriptionId) {
       console.error("[api/payments/lemonsqueezy/webhook] missing local order id", {
         eventName,
-        providerOrderId: getProviderOrderId(event),
+        providerResourceId,
       });
-      return NextResponse.json({ error: "missing local order id" }, { status: 400 });
+      return NextResponse.json({ error: "missing order mapping" }, { status: 400 });
     }
 
     const supabase = createAdminClient();
-    const storedOrder = await getStoredOrder(supabase, localOrderId);
+    const storedOrder = await resolveStoredOrder({
+      supabase,
+      localOrderId,
+      providerSubscriptionId,
+    });
+
     if (!storedOrder) {
       console.error("[api/payments/lemonsqueezy/webhook] order not found", {
         localOrderId,
-        providerOrderId: getProviderOrderId(event),
+        providerSubscriptionId,
+        providerResourceId,
       });
       return NextResponse.json({ error: "order not found" }, { status: 404 });
     }
 
-    if (storedOrder.status !== "paid") {
-      await markStoredOrderPaid(supabase, localOrderId, {
-        userId: storedOrder.userId,
-        provider: "lemonsqueezy",
-        providerOrderId: getProviderOrderId(event),
-        rawResponse: event,
+    const { error: userError, userId } = getEffectiveUserId(storedOrder, customUserId);
+    if (userError || !userId) {
+      console.error("[api/payments/lemonsqueezy/webhook] invalid user mapping", {
+        eventName,
+        localOrderId: storedOrder.id,
+        storedUserId: storedOrder.userId,
+        customUserId,
+      });
+      return NextResponse.json({ error: "invalid user mapping" }, { status: 400 });
+    }
+
+    if (eventName === "subscription_expired" || getSubscriptionStatus(event) === "expired") {
+      if (storedOrder.status !== "expired") {
+        await markStoredOrderInactive(supabase, storedOrder.id, "expired", {
+          providerSubscriptionId,
+          rawResponse: event,
+        });
+      }
+
+      return NextResponse.json({ ok: true, localOrderId: storedOrder.id, revoked: true });
+    }
+
+    const subscriptionStatus = getSubscriptionStatus(event);
+    const shouldRetain =
+      subscriptionStatus !== null && RETAINING_SUBSCRIPTION_STATUSES.has(subscriptionStatus);
+    const shouldGrant =
+      eventName === "order_created" ||
+      eventName === "subscription_created" ||
+      (subscriptionStatus !== null && GRANTING_SUBSCRIPTION_STATUSES.has(subscriptionStatus));
+
+    if (shouldRetain && storedOrder.status === "paid") {
+      return NextResponse.json({
+        ok: true,
+        localOrderId: storedOrder.id,
+        retained: subscriptionStatus,
       });
     }
 
-    await unlockTextbookIfNeeded({
+    if (!shouldGrant) {
+      console.warn("[api/payments/lemonsqueezy/webhook] ignored subscription status", {
+        eventName,
+        localOrderId: storedOrder.id,
+        providerSubscriptionId,
+        subscriptionStatus,
+      });
+      return NextResponse.json({
+        ok: true,
+        localOrderId: storedOrder.id,
+        ignored: subscriptionStatus ?? eventName,
+      });
+    }
+
+    await markPaidOnce({
       supabase,
-      userId: storedOrder.userId,
-      serviceId: storedOrder.serviceId,
-      orderId: localOrderId,
+      storedOrder,
+      eventName,
+      providerResourceId,
+      userId,
+      event,
     });
 
-    return NextResponse.json({ ok: true, localOrderId });
+    await unlockTextbookIfNeeded({
+      supabase,
+      userId,
+      serviceId: storedOrder.serviceId,
+      orderId: storedOrder.id,
+    });
+
+    return NextResponse.json({ ok: true, localOrderId: storedOrder.id });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     console.error("[api/payments/lemonsqueezy/webhook] failed", {

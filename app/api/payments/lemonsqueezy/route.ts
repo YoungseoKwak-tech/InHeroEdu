@@ -132,6 +132,7 @@ export async function POST(req: NextRequest) {
       variantId,
       localOrderId,
       orderName: boundOrderName,
+      userId: authedUser.id,
       userEmail: authedUser.email ?? customerEmail ?? "",
       userName: customerName ?? "InHero Student",
       serviceId: boundServiceId,

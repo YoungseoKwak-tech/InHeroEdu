@@ -48,6 +48,7 @@ export async function createLemonSqueezyCheckout({
   variantId,
   localOrderId,
   orderName,
+  userId,
   userEmail,
   userName,
   serviceId,
@@ -58,6 +59,7 @@ export async function createLemonSqueezyCheckout({
   variantId: string;
   localOrderId: string;
   orderName: string;
+  userId: string;
   userEmail: string;
   userName: string;
   serviceId: string;
@@ -89,6 +91,7 @@ export async function createLemonSqueezyCheckout({
             name: userName,
             custom: {
               localOrderId,
+              user_id: userId,
               serviceId,
               subjectId,
               returnTo,

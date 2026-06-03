@@ -42,6 +42,8 @@ type PaidOrderInput = {
   rawResponse?: unknown;
 };
 
+type InactiveOrderStatus = "cancelled" | "expired" | "failed";
+
 function looksLikeMissingColumn(error: unknown) {
   const message =
     typeof error === "object" && error !== null && "message" in error
@@ -209,6 +211,20 @@ export async function getStoredOrder(
   return normalizeOrderRow(result.data as Record<string, unknown>);
 }
 
+export async function getStoredOrderByProviderSubscriptionId(
+  supabase: SupabaseClient,
+  providerSubscriptionId: string
+): Promise<StoredOrder | null> {
+  const result = await supabase
+    .from("orders")
+    .select("*")
+    .eq("provider_subscription_id", providerSubscriptionId)
+    .maybeSingle();
+
+  if (result.error || !result.data) return null;
+  return normalizeOrderRow(result.data as Record<string, unknown>);
+}
+
 export async function listStoredOrdersForUser(
   supabase: SupabaseClient,
   userId: string
@@ -290,6 +306,42 @@ export async function markStoredOrderFailed(
       ...(rawResponse ? { raw_toss_response: { provider: "paypal", raw_provider_response: rawResponse } } : {}),
     })
     .eq("id", orderId);
+  if (legacyResult.error) {
+    throw legacyResult.error;
+  }
+}
+
+export async function markStoredOrderInactive(
+  supabase: SupabaseClient,
+  orderId: string,
+  status: InactiveOrderStatus,
+  input: ProviderAttachmentInput = {}
+) {
+  const modernUpdate = {
+    status,
+    provider_order_id: input.providerOrderId ?? undefined,
+    provider_subscription_id: input.providerSubscriptionId ?? undefined,
+    raw_provider_response: input.rawResponse ?? undefined,
+  };
+
+  const modernResult = await supabase.from("orders").update(modernUpdate).eq("id", orderId);
+  if (!modernResult.error) return;
+
+  if (!looksLikeMissingColumn(modernResult.error)) {
+    throw modernResult.error;
+  }
+
+  const legacyUpdate: Record<string, unknown> = { status };
+  if (input.rawResponse) {
+    legacyUpdate.raw_toss_response = {
+      provider: "lemonsqueezy",
+      provider_order_id: input.providerOrderId ?? null,
+      provider_subscription_id: input.providerSubscriptionId ?? null,
+      raw_provider_response: input.rawResponse,
+    };
+  }
+
+  const legacyResult = await supabase.from("orders").update(legacyUpdate).eq("id", orderId);
   if (legacyResult.error) {
     throw legacyResult.error;
   }
