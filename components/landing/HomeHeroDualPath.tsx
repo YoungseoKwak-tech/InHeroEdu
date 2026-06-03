@@ -96,6 +96,7 @@ const COPY = {
     headline: "Learn Fast. Think",
     headlineEm: "Deep.",
     tagline: <>Where ambitious students think deep together<br />— and find each other.</>,
+    trustLine: "Trusted and built by Ivy League engineers",
     leftIcon: "🛸",
     leftTitle: "Enter the Classroom",
     leftBody: (
@@ -126,6 +127,7 @@ const COPY = {
     headline: "The smartest",
     headlineEm: "classroom ever built.",
     tagline: <>AI tutors that remember how you learn.<br />Find friends just like you.</>,
+    trustLine: "Trusted and built by Ivy League engineers",
     leftIcon: "🛸",
     leftTitle: "Start a class",
     leftBody: (
@@ -193,6 +195,7 @@ export default function HomeHeroDualPath({ locale = "en" }: Props) {
 
         {/* Tagline — smaller / lighter than the headline */}
         <p className={styles.hhTag}>{copy.tagline}</p>
+        <p className={styles.hhTrust}>{copy.trustLine}</p>
 
         {/* Dual-path card grid */}
         <div className={styles.hhGrid}>

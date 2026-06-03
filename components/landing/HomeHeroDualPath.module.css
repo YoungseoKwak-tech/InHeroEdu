@@ -81,9 +81,26 @@
   font-size: clamp(16px, 1.6vw, 20px);
   line-height: 1.55;
   color: rgba(216, 217, 230, 0.78);
-  margin: 18px auto 48px;
+  margin: 18px auto 18px;
   max-width: 600px;
   font-style: italic;
+}
+
+.hhTrust {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 44px;
+  padding: 8px 16px;
+  border: 1px solid rgba(160, 255, 214, 0.18);
+  border-radius: 999px;
+  background: rgba(0, 255, 136, 0.04);
+  color: rgba(216, 217, 230, 0.82);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 /* Card grid */

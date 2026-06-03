@@ -97,8 +97,7 @@ export default async function CoursesPage() {
             Pick a <em>Classroom</em>.<br />Meet the instructor.
           </h1>
           <p className="cls-sub">
-            Six AI instructors. One Architect. Each Classroom carries the personality of the
-            subject — and an instructor who would die on its hill.
+            Instructors who would die on a hill. Tutors are expanding.
           </p>
         </div>
       </section>
