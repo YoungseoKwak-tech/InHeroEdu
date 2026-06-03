@@ -9,14 +9,15 @@ import type { Metadata } from "next";
 import UnitsLessonsWithProgress from "@/components/courses/UnitsLessonsWithProgress";
 
 interface Props {
-  params: { subject: string };
+  params: Promise<{ subject: string }>;
 }
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const resolvedSubject = resolveCourseId(params.subject);
+  const { subject } = await params;
+  const resolvedSubject = resolveCourseId(subject);
   const course = courses.find((c) => c.id === resolvedSubject);
   if (!course || course.category === "IB") return { title: "Course | InHero" };
   return {
@@ -26,7 +27,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CoursePage({ params }: Props) {
-  const resolvedSubject = resolveCourseId(params.subject);
+  const { subject } = await params;
+  const resolvedSubject = resolveCourseId(subject);
   const course = courses.find((c) => c.id === resolvedSubject);
   if (!course || course.category === "IB") notFound();
 

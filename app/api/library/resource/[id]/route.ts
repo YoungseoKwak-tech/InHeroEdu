@@ -153,11 +153,12 @@ async function loadFallbackResource(
  * Returns a single approved resource hydrated with author handle + lounge
  * slug/name. Used by /library/[resourceId] detail page.
  */
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
 
-  const id = String(params.id ?? "").trim();
+  const { id: rawId } = await params;
+  const id = String(rawId ?? "").trim();
   if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
 
   const supabase = createAdminClient();
@@ -254,11 +255,12 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
  * row stays in the DB so it can be recovered. Feed + GET queries
  * filter on deleted_at IS NULL. Hard-delete cron is a future round.
  */
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
 
-  const id = String(params.id ?? "").trim();
+  const { id: rawId } = await params;
+  const id = String(rawId ?? "").trim();
   if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
 
   const supabase = createAdminClient();

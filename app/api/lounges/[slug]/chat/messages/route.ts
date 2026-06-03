@@ -28,8 +28,9 @@ function noProfileResponse() {
  *   Returns most-recent first. With after=, returns only messages strictly
  *   after that timestamp (used for polling new arrivals).
  */
-export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
-  const slug = String(params.slug ?? "").trim();
+export async function GET(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+  const { slug: rawSlug } = await params;
+  const slug = String(rawSlug ?? "").trim();
   if (!slug) return NextResponse.json({ error: "slug required" }, { status: 400 });
 
   const url = new URL(req.url);
@@ -80,11 +81,12 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
  * POST /api/lounges/[slug]/chat/messages { content, replyToId? }
  *   Send a text chat message. Requires profile + rate limit.
  */
-export async function POST(req: NextRequest, { params }: { params: { slug: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
 
-  const slug = String(params.slug ?? "").trim();
+  const { slug: rawSlug } = await params;
+  const slug = String(rawSlug ?? "").trim();
   if (!slug) return NextResponse.json({ error: "slug required" }, { status: 400 });
 
   let body: { content?: string; replyToId?: string | null };

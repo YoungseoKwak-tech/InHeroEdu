@@ -24,11 +24,12 @@ const IMAGE_MIMES = new Set([
  * chat_messages row, dual-writes to lounge_resources, and returns the
  * hydrated message.
  */
-export async function POST(req: NextRequest, { params }: { params: { slug: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
 
-  const slug = String(params.slug ?? "").trim();
+  const { slug: rawSlug } = await params;
+  const slug = String(rawSlug ?? "").trim();
   if (!slug) return NextResponse.json({ error: "slug required" }, { status: 400 });
 
   const body = (await req.json().catch(() => null)) as {

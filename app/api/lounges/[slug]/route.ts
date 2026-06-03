@@ -11,9 +11,10 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /** GET /api/lounges/[slug] — lounge meta + most recent posts (hydrated). */
-export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const supabase = createAdminClient();
-  const slug = String(params.slug ?? "").trim();
+  const { slug: rawSlug } = await params;
+  const slug = String(rawSlug ?? "").trim();
   if (!slug) return NextResponse.json({ error: "slug required" }, { status: 400 });
 
   const { data: lounge, error: loungeErr } = await supabase

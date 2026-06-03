@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@/lib/supabase";
@@ -29,10 +29,10 @@ const MAX_UPLOAD = 5 * 1024 * 1024 * 1024; // 5 GB — Supabase Pro per-file cei
 const MAX_UPLOAD_LABEL = "5 GB";
 const IMAGE_MIMES = new Set(["image/jpeg", "image/png", "image/gif", "image/webp", "image/heic", "image/heif"]);
 
-interface PageProps { params: { slug: string }; }
+interface PageProps { params: Promise<{ slug: string }>; }
 
 export default function LoungePage({ params }: PageProps) {
-  const { slug } = params;
+  const { slug } = use(params);
   const router = useRouter();
   const supabase = createBrowserClient();
 

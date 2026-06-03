@@ -15,7 +15,7 @@ import { toMentorPublic, type MentorProfileRow, type MentorPublic } from "@/lib/
 export const dynamic = "force-dynamic";
 
 interface Props {
-  params: { handle: string };
+  params: Promise<{ handle: string }>;
 }
 
 async function loadProfile(handle: string) {
@@ -62,7 +62,8 @@ async function loadProfile(handle: string) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const profile = await loadProfile(params.handle);
+  const { handle } = await params;
+  const profile = await loadProfile(handle);
   if (!profile) return { title: "Trajectory not found | InHero" };
   return {
     title: `${profile.handle} | InHero Trajectory`,
@@ -73,7 +74,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function TrajectoryProfilePage({ params }: Props) {
-  const profile = await loadProfile(params.handle);
+  const { handle } = await params;
+  const profile = await loadProfile(handle);
   if (!profile) notFound();
 
   const yearShort = profile.graduationYear ? `'${String(profile.graduationYear).slice(-2)}` : null;

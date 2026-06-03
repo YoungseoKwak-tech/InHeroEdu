@@ -7,8 +7,9 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /** GET /api/drops/[slug] — single published drop, hydrated. */
-export async function GET(_req: NextRequest, { params }: { params: { slug: string } }) {
-  const slug = String(params.slug ?? "").trim();
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+  const { slug: rawSlug } = await params;
+  const slug = String(rawSlug ?? "").trim();
   if (!slug) return NextResponse.json({ error: "slug required" }, { status: 400 });
 
   const supabase = createAdminClient();
@@ -25,11 +26,12 @@ export async function GET(_req: NextRequest, { params }: { params: { slug: strin
 }
 
 /** PATCH /api/drops/[slug] (admin) — edit fields. */
-export async function PATCH(req: NextRequest, { params }: { params: { slug: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const admin = await requireAdminUser(req);
   if (admin instanceof NextResponse) return admin;
 
-  const slug = String(params.slug ?? "").trim();
+  const { slug: rawSlug } = await params;
+  const slug = String(rawSlug ?? "").trim();
   if (!slug) return NextResponse.json({ error: "slug required" }, { status: 400 });
 
   let body: {
@@ -109,11 +111,12 @@ export async function PATCH(req: NextRequest, { params }: { params: { slug: stri
 }
 
 /** DELETE /api/drops/[slug] (admin) — hard delete. */
-export async function DELETE(req: NextRequest, { params }: { params: { slug: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const admin = await requireAdminUser(req);
   if (admin instanceof NextResponse) return admin;
 
-  const slug = String(params.slug ?? "").trim();
+  const { slug: rawSlug } = await params;
+  const slug = String(rawSlug ?? "").trim();
   if (!slug) return NextResponse.json({ error: "slug required" }, { status: 400 });
 
   const supabase = createAdminClient();

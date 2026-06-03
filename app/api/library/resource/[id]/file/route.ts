@@ -38,11 +38,12 @@ function fallbackFilename(fileName: string | null, meta: Record<string, unknown>
  * will gate by tier (free vs pro), bake in watermarks, and serve
  * pre-rendered page images per request.
  */
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
 
-  const id = String(params.id ?? "").trim();
+  const { id: rawId } = await params;
+  const id = String(rawId ?? "").trim();
   if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
 
   const supabase = createAdminClient();

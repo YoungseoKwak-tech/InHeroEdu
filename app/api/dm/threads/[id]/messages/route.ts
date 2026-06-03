@@ -30,11 +30,12 @@ async function authorizeThread(threadId: string, userId: string): Promise<Thread
 }
 
 /** GET /api/dm/threads/[id]/messages?limit=50&after=ISO */
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
 
-  const threadId = String(params.id ?? "").trim();
+  const { id: rawId } = await params;
+  const threadId = String(rawId ?? "").trim();
   const thread = await authorizeThread(threadId, user.id);
   if (!thread) return NextResponse.json({ error: "thread not found" }, { status: 404 });
 
@@ -82,11 +83,12 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 }
 
 /** POST /api/dm/threads/[id]/messages { content, replyToId? } */
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
 
-  const threadId = String(params.id ?? "").trim();
+  const { id: rawId } = await params;
+  const threadId = String(rawId ?? "").trim();
   const thread = await authorizeThread(threadId, user.id);
   if (!thread) return NextResponse.json({ error: "thread not found" }, { status: 404 });
 

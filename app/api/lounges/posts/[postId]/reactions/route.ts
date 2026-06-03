@@ -9,11 +9,12 @@ export const dynamic = "force-dynamic";
 const KIND_SET = new Set<string>(REACTION_KINDS);
 
 /** POST /api/lounges/posts/[postId]/reactions { kind } — toggle. */
-export async function POST(req: NextRequest, { params }: { params: { postId: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ postId: string }> }) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
 
-  const postId = String(params.postId ?? "").trim();
+  const { postId: rawPostId } = await params;
+  const postId = String(rawPostId ?? "").trim();
   if (!postId) return NextResponse.json({ error: "postId required" }, { status: 400 });
 
   let body: { kind?: string };

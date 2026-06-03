@@ -26,7 +26,7 @@ import type { Metadata } from "next";
 
 
 interface Props {
-  params: { subject: string; lesson: string };
+  params: Promise<{ subject: string; lesson: string }>;
 }
 
 // Allow DB lesson IDs (e.g. ap-biology-u1-l1) that aren't in the static dict
@@ -170,8 +170,9 @@ async function resolveLessonInfo(
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const resolvedSubject = resolveCourseId(params.subject);
-  const lesson = lessons[params.lesson];
+  const { subject, lesson: lessonParam } = await params;
+  const resolvedSubject = resolveCourseId(subject);
+  const lesson = lessons[lessonParam];
   if (lesson) {
     return {
       title: `${lesson.titleEn} | NovaIQ`,
@@ -179,7 +180,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const lessonInfo = await resolveLessonInfo(params.lesson, resolvedSubject);
+  const lessonInfo = await resolveLessonInfo(lessonParam, resolvedSubject);
   if (!lessonInfo) return { title: "Lesson | NovaIQ" };
   return {
     title: `${lessonInfo.titleEn} | NovaIQ`,
@@ -188,15 +189,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function LessonPage({ params }: Props) {
-  const resolvedSubject = resolveCourseId(params.subject);
-  const dbLessonId = resolveLessonDbId(params.lesson);
-  const lessonInfo = await resolveLessonInfo(params.lesson, resolvedSubject);
+  const { subject, lesson: lessonParam } = await params;
+  const resolvedSubject = resolveCourseId(subject);
+  const dbLessonId = resolveLessonDbId(lessonParam);
+  const lessonInfo = await resolveLessonInfo(lessonParam, resolvedSubject);
   if (!lessonInfo) notFound();
 
   const course = courses.find((c) => c.id === resolvedSubject);
   if (!course) notFound();
   const courseHref = `/courses/${course.id}`;
-  const lessonHref = `${courseHref}/${params.lesson}`;
+  const lessonHref = `${courseHref}/${lessonParam}`;
   const nextLessonHref = lessonInfo.nextLessonId ? `${courseHref}/${lessonInfo.nextLessonId}` : null;
   const courseVariants = getCourseIdVariants(course.id);
   const lessonIdCandidates = getLessonIdVariants(dbLessonId, course.id);
@@ -367,7 +369,7 @@ export default async function LessonPage({ params }: Props) {
   }
 
   // Static player data (legacy)
-  const playerData = getLessonPlayerData(params.lesson);
+  const playerData = getLessonPlayerData(lessonParam);
   if (playerData) {
       return (
         <LessonPlayerGate

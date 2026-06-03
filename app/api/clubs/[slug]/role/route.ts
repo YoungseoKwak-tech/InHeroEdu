@@ -9,11 +9,12 @@ export const dynamic = "force-dynamic";
 const ROLE_SET = new Set<string>(CLUB_ROLES);
 
 /** POST /api/clubs/[slug]/role { handle, role } — founder assigns a role. */
-export async function POST(req: NextRequest, { params }: { params: { slug: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
 
-  const slug = String(params.slug ?? "").trim();
+  const { slug: rawSlug } = await params;
+  const slug = String(rawSlug ?? "").trim();
   if (!slug) return NextResponse.json({ error: "slug required" }, { status: 400 });
 
   let body: { handle?: string; role?: string };

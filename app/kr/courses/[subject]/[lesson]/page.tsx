@@ -29,7 +29,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 interface Props {
-  params: { subject: string; lesson: string };
+  params: Promise<{ subject: string; lesson: string }>;
 }
 
 export const dynamic = "force-dynamic";
@@ -190,8 +190,9 @@ async function resolveLessonInfo(
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const resolvedSubject = resolveCourseId(params.subject);
-  const lesson = lessons[params.lesson];
+  const { subject, lesson: lessonParam } = await params;
+  const resolvedSubject = resolveCourseId(subject);
+  const lesson = lessons[lessonParam];
   if (lesson) {
     return {
       title: `${lesson.titleEn} | InHero Korean Lectures`,
@@ -199,7 +200,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const lessonInfo = await resolveLessonInfo(params.lesson, resolvedSubject);
+  const lessonInfo = await resolveLessonInfo(lessonParam, resolvedSubject);
   if (!lessonInfo) return { title: "Lesson | InHero" };
   const course = courses.find((item) => item.id === lessonInfo.courseId);
 
@@ -210,9 +211,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function KoreanLessonPage({ params }: Props) {
-  const baseLessonId = resolveLessonDbId(params.lesson);
-  const resolvedSubject = resolveCourseId(params.subject);
-  const lessonInfo = await resolveLessonInfo(params.lesson, resolvedSubject);
+  const { subject, lesson: lessonParam } = await params;
+  const baseLessonId = resolveLessonDbId(lessonParam);
+  const resolvedSubject = resolveCourseId(subject);
+  const lessonInfo = await resolveLessonInfo(lessonParam, resolvedSubject);
   if (!lessonInfo) notFound();
 
   const course = courses.find((c) => c.id === resolvedSubject);
@@ -379,7 +381,7 @@ export default async function KoreanLessonPage({ params }: Props) {
     // Non-fatal: fall through.
   }
 
-  const playerData = getLessonPlayerData(params.lesson);
+  const playerData = getLessonPlayerData(lessonParam);
   if (playerData) {
     return (
       <LessonPlayerGate

@@ -8,7 +8,7 @@ import { hydrateDrops, type DropPublic, type DropRow } from "@/lib/drops";
 export const dynamic = "force-dynamic";
 
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 async function loadDrop(slug: string): Promise<DropPublic | null> {
@@ -26,7 +26,8 @@ async function loadDrop(slug: string): Promise<DropPublic | null> {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const drop = await loadDrop(params.slug);
+  const { slug } = await params;
+  const drop = await loadDrop(slug);
   if (!drop) return { title: "Drop | InHero" };
   return {
     title: `${drop.title} | InHero Drops`,
@@ -43,7 +44,8 @@ function formatDate(iso: string): string {
 }
 
 export default async function DropPage({ params }: PageProps) {
-  const drop = await loadDrop(params.slug);
+  const { slug } = await params;
+  const drop = await loadDrop(slug);
   if (!drop) notFound();
 
   return (

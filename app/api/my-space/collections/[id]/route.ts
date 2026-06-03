@@ -16,7 +16,7 @@ interface PatchBody {
 //   Mutate any subset of name / description / cover / privacy.
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
@@ -43,11 +43,12 @@ export async function PATCH(
     return NextResponse.json({ error: "nothing to update" }, { status: 400 });
   }
 
+  const { id } = await params;
   const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("user_collections")
     .update(updates)
-    .eq("id", params.id)
+    .eq("id", id)
     .eq("user_id", user.id)
     .select("id, name, description, cover_resource_id, is_private, created_at, updated_at")
     .single();
@@ -73,16 +74,17 @@ export async function PATCH(
 //   so saves inside this collection fall back to "All Saved".
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
 
+  const { id } = await params;
   const supabase = createAdminClient();
   const { error } = await supabase
     .from("user_collections")
     .delete()
-    .eq("id", params.id)
+    .eq("id", id)
     .eq("user_id", user.id);
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

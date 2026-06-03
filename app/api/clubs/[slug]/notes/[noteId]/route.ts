@@ -9,13 +9,15 @@ export const dynamic = "force-dynamic";
 /** DELETE /api/clubs/[slug]/notes/[noteId] — author or founder/cofounder deletes. */
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { slug: string; noteId: string } }
+  { params }: { params: Promise<{ slug: string; noteId: string }> }
 ) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
 
-  const slug = String(params.slug ?? "").trim();
-  const noteId = String(params.noteId ?? "").trim();
+  const { slug: rawSlug } = await params;
+  const slug = String(rawSlug ?? "").trim();
+  const { noteId: rawNoteId } = await params;
+  const noteId = String(rawNoteId ?? "").trim();
   if (!slug || !noteId) {
     return NextResponse.json({ error: "slug + noteId required" }, { status: 400 });
   }

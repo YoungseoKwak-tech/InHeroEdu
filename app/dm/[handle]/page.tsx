@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { authFetch, getClientSession } from "@/lib/client-auth";
 import type { ChatMessagePublic } from "@/lib/chat";
 
 const POLL_MS = 6000;
 
-interface PageProps { params: { handle: string }; }
+interface PageProps { params: Promise<{ handle: string }>; }
 
 export default function DMPage({ params }: PageProps) {
-  const handle = decodeURIComponent(params.handle);
+  const { handle: rawHandle } = use(params);
+  const handle = decodeURIComponent(rawHandle);
   const [authStatus, setAuthStatus] = useState<"loading" | "out" | "no_profile" | "ok">("loading");
   const [threadId, setThreadId] = useState<string | null>(null);
   const [other, setOther] = useState<{ handle: string; graduationYear: number | null } | null>(null);

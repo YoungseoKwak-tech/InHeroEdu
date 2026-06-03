@@ -2,4 +2,9 @@
 // Re-exports /courses/page so both URLs render the same content during
 // the IA transition. Existing /courses links stay alive.
 
-export { default, metadata, dynamic } from "@/app/courses/page";
+import CoursesPage, { metadata } from "@/app/courses/page";
+
+export { metadata };
+export const dynamic = "force-dynamic";
+
+export default CoursesPage;

@@ -22,7 +22,7 @@ import {
 export const dynamic = "force-dynamic";
 
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 async function loadClub(
@@ -57,7 +57,8 @@ async function loadClub(
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const data = await loadClub(params.slug);
+  const { slug } = await params;
+  const data = await loadClub(slug);
   if (!data) return { title: "Club | InHero" };
   return {
     title: `${data.club.name} | InHero Clubs`,
@@ -66,7 +67,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function ClubRoomPage({ params }: PageProps) {
-  const data = await loadClub(params.slug);
+  const { slug } = await params;
+  const data = await loadClub(slug);
   if (!data) notFound();
   const { club, members, notes } = data;
 

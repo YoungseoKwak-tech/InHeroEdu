@@ -13,8 +13,9 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /** GET /api/lounges/posts/[postId] — post + comments (hydrated). */
-export async function GET(req: NextRequest, { params }: { params: { postId: string } }) {
-  const postId = String(params.postId ?? "").trim();
+export async function GET(req: NextRequest, { params }: { params: Promise<{ postId: string }> }) {
+  const { postId: rawPostId } = await params;
+  const postId = String(rawPostId ?? "").trim();
   if (!postId) return NextResponse.json({ error: "postId required" }, { status: 400 });
 
   const supabase = createAdminClient();
@@ -56,10 +57,11 @@ export async function GET(req: NextRequest, { params }: { params: { postId: stri
 }
 
 /** DELETE /api/lounges/posts/[postId] — author or admin soft-deletes. */
-export async function DELETE(req: NextRequest, { params }: { params: { postId: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ postId: string }> }) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
-  const postId = String(params.postId ?? "").trim();
+  const { postId: rawPostId } = await params;
+  const postId = String(rawPostId ?? "").trim();
   if (!postId) return NextResponse.json({ error: "postId required" }, { status: 400 });
 
   const supabase = createAdminClient();

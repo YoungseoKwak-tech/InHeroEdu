@@ -13,11 +13,12 @@ const EMOJI_SET = new Set<string>(REACTION_EMOJI);
  *   Toggle: if user already reacted with this emoji on this message, remove.
  *   Otherwise insert. Returns the message's full reactions list (hydrated).
  */
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
 
-  const messageId = String(params.id ?? "").trim();
+  const { id: rawId } = await params;
+  const messageId = String(rawId ?? "").trim();
   if (!messageId) return NextResponse.json({ error: "message id required" }, { status: 400 });
 
   let body: { emoji?: string };

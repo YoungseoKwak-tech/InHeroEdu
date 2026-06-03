@@ -15,8 +15,9 @@ export const dynamic = "force-dynamic";
  *   this lounge. Pure derivation: photos = image messages, files = file
  *   messages, links = URLs extracted from text messages.
  */
-export async function GET(_req: NextRequest, { params }: { params: { slug: string } }) {
-  const slug = String(params.slug ?? "").trim();
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+  const { slug: rawSlug } = await params;
+  const slug = String(rawSlug ?? "").trim();
   if (!slug) return NextResponse.json({ error: "slug required" }, { status: 400 });
 
   const supabase = createAdminClient();

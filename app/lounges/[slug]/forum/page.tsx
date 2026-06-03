@@ -14,7 +14,7 @@ import LoungeFeed from "@/components/lounges/LoungeFeed";
 export const dynamic = "force-dynamic";
 
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 interface LoungeMeta {
@@ -63,7 +63,8 @@ async function loadLounge(slug: string): Promise<
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const data = await loadLounge(params.slug);
+  const { slug } = await params;
+  const data = await loadLounge(slug);
   if (!data) return { title: "Forum | InHero" };
   return {
     title: `${data.lounge.name} · Forum | InHero`,
@@ -72,7 +73,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function LoungeForumPage({ params }: PageProps) {
-  const data = await loadLounge(params.slug);
+  const { slug } = await params;
+  const data = await loadLounge(slug);
   if (!data) notFound();
   const { lounge, posts } = data;
 

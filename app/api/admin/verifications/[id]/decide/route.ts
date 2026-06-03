@@ -17,11 +17,12 @@ export const dynamic = "force-dynamic";
  * On approve → inserts the matching badge row (with metadata).
  * On reject → records decline_reason for the user to see.
  */
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const admin = await requireAdminUser(req);
   if (admin instanceof NextResponse) return admin;
 
-  const id = String(params.id ?? "").trim();
+  const { id: rawId } = await params;
+  const id = String(rawId ?? "").trim();
   if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
 
   let body: { decision?: string; declineReason?: string };

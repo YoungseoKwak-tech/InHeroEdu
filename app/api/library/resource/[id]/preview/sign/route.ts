@@ -24,11 +24,12 @@ const PATH_SUFFIX = "page-1.jpg";
  *   - resource mime_type is not application/pdf
  *   - resource already has preview_page_1_url set (avoids churn)
  */
-export async function POST(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const user = await requireAuthenticatedUser(_req);
   if (user instanceof NextResponse) return user;
 
-  const id = String(params.id ?? "").trim();
+  const { id: rawId } = await params;
+  const id = String(rawId ?? "").trim();
   if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
 
   const supabase = createAdminClient();

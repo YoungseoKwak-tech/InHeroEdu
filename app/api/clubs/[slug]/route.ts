@@ -14,9 +14,10 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /** GET /api/clubs/[slug] — club room + member showcase + my-role. */
-export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const supabase = createAdminClient();
-  const slug = String(params.slug ?? "").trim();
+  const { slug: rawSlug } = await params;
+  const slug = String(rawSlug ?? "").trim();
   if (!slug) return NextResponse.json({ error: "slug required" }, { status: 400 });
 
   const { data: club } = await supabase
@@ -51,11 +52,12 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
 }
 
 /** PATCH /api/clubs/[slug] — founder/cofounder edits club metadata. */
-export async function PATCH(req: NextRequest, { params }: { params: { slug: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
 
-  const slug = String(params.slug ?? "").trim();
+  const { slug: rawSlug } = await params;
+  const slug = String(rawSlug ?? "").trim();
   if (!slug) return NextResponse.json({ error: "slug required" }, { status: 400 });
 
   let body: {

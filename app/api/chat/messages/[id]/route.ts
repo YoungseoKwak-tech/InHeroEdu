@@ -12,12 +12,13 @@ export const dynamic = "force-dynamic";
  */
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
 
-  const id = String(params.id ?? "").trim();
+  const { id: rawId } = await params;
+  const id = String(rawId ?? "").trim();
   if (!id) return NextResponse.json({ error: "message id required" }, { status: 400 });
 
   const supabase = createAdminClient();

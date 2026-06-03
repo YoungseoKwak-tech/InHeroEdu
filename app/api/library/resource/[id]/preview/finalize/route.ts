@@ -19,11 +19,12 @@ const PATH_SUFFIX = "page-1.jpg";
  * generators both PATCH the same URL, which is harmless because the
  * upload path is deterministic.
  */
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
 
-  const id = String(params.id ?? "").trim();
+  const { id: rawId } = await params;
+  const id = String(rawId ?? "").trim();
   if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
 
   const supabase = createAdminClient();

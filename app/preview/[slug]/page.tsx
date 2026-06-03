@@ -36,7 +36,7 @@ import type { LessonClip } from "@/lib/lessonClips";
 import PreviewClient from "@/components/preview/PreviewClient";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export const dynamic = "force-dynamic";
@@ -67,7 +67,8 @@ async function loadPreviewLesson(slug: string): Promise<PreviewLessonRow | null>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const lesson = await loadPreviewLesson(params.slug);
+  const { slug } = await params;
+  const lesson = await loadPreviewLesson(slug);
   if (!lesson) return { title: "Preview | InHero" };
   return {
     title: `${lesson.title} — Free preview | InHero`,
@@ -76,7 +77,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PreviewPage({ params }: Props) {
-  const lesson = await loadPreviewLesson(params.slug);
+  const { slug } = await params;
+  const lesson = await loadPreviewLesson(slug);
   if (!lesson) notFound();
 
   const supabase = createAdminClient();
@@ -151,7 +153,7 @@ export default async function PreviewPage({ params }: Props) {
           lessonId={lesson.id}
           lessonTitle={lesson.title}
           playlist={playlist}
-          continueHref={`/preview/${params.slug}`}
+          continueHref={`/preview/${slug}`}
         />
       </div>
     </div>
