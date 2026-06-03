@@ -2,6 +2,7 @@ import { courses } from "@/lib/data/courses";
 import CourseListClient from "@/components/courses/CourseListClient";
 import ClassroomGrid from "@/components/courses/ClassroomGrid";
 import { getAllFacultyWithAssets } from "@/lib/facultyAssets";
+import { createAdminClient } from "@/lib/supabase";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,21 +15,70 @@ export const dynamic = "force-dynamic";
 
 export default async function CoursesPage() {
   const faculty = await getAllFacultyWithAssets();
-  // Public catalog — exactly the five AP courses we surface today, in the
-  // order we want students to see them. Everything else (Honors / IB / Core /
-  // Competition / Test Prep / un-shipped AP titles) stays in the data layer
-  // for legacy unit pages but never reaches this surface. Single source of
-  // truth for "what's in the catalog" is this whitelist.
-  const FEATURED_COURSE_IDS = [
+  // Public catalog surfaces every AP course in courses.ts, with four
+  // featured titles pinned to the top in a fixed order so students see
+  // the shipping / next-up ones first. IB / Honors / Core / Competition
+  // / Test Prep stay in the data layer for legacy pages but never reach
+  // this surface (we'll add them back once they have shipping content).
+  const FEATURED_FIRST_IDS = [
     "ap-biology",
-    "ap-calculus-ab",
     "ap-chemistry",
+    "ap-calculus-ab",
     "ap-physics-1",
-    "ap-us-history",
   ] as const;
-  const studentCourses = FEATURED_COURSE_IDS
+  const featuredSet = new Set<string>(FEATURED_FIRST_IDS);
+  const featuredCourses = FEATURED_FIRST_IDS
     .map((id) => courses.find((c) => c.id === id))
     .filter((c): c is NonNullable<typeof c> => Boolean(c));
+  const restApCourses = courses.filter(
+    (c) => c.category === "AP" && !featuredSet.has(c.id)
+  );
+  const baseStudentCourses = [...featuredCourses, ...restApCourses];
+
+  // Auto-detect the first playable lesson per course. A lesson counts as
+  // playable as soon as it has a clip/video URL. Overlay questions are not
+  // required for catalog availability; uploading even one clip should flip
+  // the AP course card from "Coming Soon" to "Start lesson →".
+  const courseIds = baseStudentCourses.map((c) => c.id);
+  const firstLessonByCourse = new Map<string, string>();
+  if (courseIds.length > 0) {
+    const supabase = createAdminClient();
+    try {
+      const [lessonsRes, clipsRes, scriptVideosRes] = await Promise.all([
+        supabase
+          .from("lessons")
+          .select("id, course_id, unit_number, lesson_number")
+          .in("course_id", courseIds)
+          .order("unit_number", { ascending: true })
+          .order("lesson_number", { ascending: true }),
+        supabase.from("lesson_clips").select("lesson_id").not("clip_url", "is", null),
+        supabase.from("lesson_scripts").select("lesson_id").not("video_url", "is", null),
+      ]);
+
+      const clipSet = new Set((clipsRes.data ?? []).map((r) => r.lesson_id as string));
+      const scriptVideoSet = new Set((scriptVideosRes.data ?? []).map((r) => r.lesson_id as string));
+
+      for (const lesson of lessonsRes.data ?? []) {
+        const courseId = lesson.course_id as string;
+        const lessonId = lesson.id as string;
+        if (firstLessonByCourse.has(courseId)) continue;
+        if (clipSet.has(lessonId) || scriptVideoSet.has(lessonId)) {
+          firstLessonByCourse.set(courseId, lessonId);
+        }
+      }
+    } catch (err) {
+      // Non-fatal — catalog falls back to whatever firstLessonId is hard-
+      // coded in courses.ts (or "Coming Soon" if none).
+      console.error("[catalog] auto-detect first lesson failed", err);
+    }
+  }
+
+  // Apply auto-detected firstLessonId. Hardcoded firstLessonId in
+  // courses.ts is kept as a safety fallback (e.g. DB query fails).
+  const studentCourses = baseStudentCourses.map((c) => ({
+    ...c,
+    firstLessonId: firstLessonByCourse.get(c.id) ?? c.firstLessonId,
+  }));
 
   return (
     <div className="cls-root">
