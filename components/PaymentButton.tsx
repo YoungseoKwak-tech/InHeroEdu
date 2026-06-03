@@ -15,60 +15,20 @@ interface PaymentButtonProps {
   showPayPalBackup?: boolean;
 }
 
-type LoadingProvider = "paddle" | "paypal" | null;
+type LoadingProvider = "lemonsqueezy" | "paypal" | null;
 
-type PaddleEvent = {
-  name?: string;
-  data?: {
-    id?: string;
-    transaction_id?: string;
-    transactionId?: string;
-  };
-};
-
-type PaddleCheckoutResponse = {
-  clientToken?: string;
-  environment?: "sandbox" | "production";
-  priceId?: string;
+type LemonSqueezyCheckoutResponse = {
+  checkoutUrl?: string;
   localOrderId?: string;
   serviceId?: string;
   subjectId?: string | null;
   returnTo?: string | null;
-  customer?: {
-    email?: string;
-    name?: string;
-  };
-  customData?: Record<string, unknown>;
   error?: string;
   scope?: string;
 };
 
-type PaddleWindow = Window & {
-  Paddle?: {
-    Environment?: {
-      set?: (environment: "sandbox" | "production") => void;
-    };
-    Initialize?: (options: {
-      token: string;
-      eventCallback?: (event: PaddleEvent) => void;
-    }) => void;
-    Checkout?: {
-      open?: (options: {
-        items: Array<{ priceId: string; quantity: number }>;
-        customer?: { email?: string };
-        customData?: Record<string, unknown>;
-        settings?: {
-          displayMode?: "overlay" | "inline";
-          theme?: "light" | "dark";
-          successUrl?: string;
-        };
-      }) => void;
-    };
-  };
-};
-
-let paddleScriptPromise: Promise<void> | null = null;
-const paddleClientConfigured = Boolean(process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN);
+const lemonSqueezyPrimary =
+  process.env.NEXT_PUBLIC_LEMONSQUEEZY_ENABLED === "true";
 
 function openAuthModal(returnTo?: string) {
   const safeReturnTo =
@@ -88,46 +48,6 @@ function openAuthModal(returnTo?: string) {
       },
     })
   );
-}
-
-function loadPaddleScript() {
-  const paddleWindow = window as PaddleWindow;
-  if (paddleWindow.Paddle) return Promise.resolve();
-  if (paddleScriptPromise) return paddleScriptPromise;
-
-  paddleScriptPromise = new Promise((resolve, reject) => {
-    const script = document.createElement("script");
-    script.src = "https://cdn.paddle.com/paddle/v2/paddle.js";
-    script.async = true;
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error("Could not load Paddle checkout."));
-    document.head.appendChild(script);
-  });
-
-  return paddleScriptPromise;
-}
-
-function buildSuccessUrl({
-  localOrderId,
-  serviceId,
-  subjectId,
-  returnTo,
-  transactionId,
-}: {
-  localOrderId: string;
-  serviceId?: string;
-  subjectId?: string | null;
-  returnTo?: string | null;
-  transactionId?: string | null;
-}) {
-  const url = new URL("/payment/success", window.location.origin);
-  url.searchParams.set("provider", "paddle");
-  url.searchParams.set("localOrderId", localOrderId);
-  if (serviceId) url.searchParams.set("serviceId", serviceId);
-  if (subjectId) url.searchParams.set("subjectId", subjectId);
-  if (returnTo) url.searchParams.set("returnTo", returnTo);
-  if (transactionId) url.searchParams.set("transactionId", transactionId);
-  return url.toString();
 }
 
 export default function PaymentButton({
@@ -177,20 +97,20 @@ export default function PaymentButton({
     }
   }
 
-  async function launchPaddle(customerName: string, customerEmail: string) {
-    setLoadingProvider("paddle");
+  async function launchLemonSqueezy(customerName: string, customerEmail: string) {
+    setLoadingProvider("lemonsqueezy");
     setError(null);
     try {
-      const res = await authFetch("/api/payments/paddle", {
+      const res = await authFetch("/api/payments/lemonsqueezy", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ serviceId, subjectId, customerName, customerEmail, returnTo }),
       });
 
-      const data = (await res.json().catch(() => ({}))) as PaddleCheckoutResponse;
-      if (!res.ok || !data.clientToken || !data.priceId || !data.localOrderId) {
+      const data = (await res.json().catch(() => ({}))) as LemonSqueezyCheckoutResponse;
+      if (!res.ok || !data.checkoutUrl || !data.localOrderId) {
         const reason = data.error || `HTTP ${res.status}`;
-        console.error("[PaymentButton] Paddle checkout failed", {
+        console.error("[PaymentButton] Lemon Squeezy checkout failed", {
           status: res.status,
           scope: data.scope,
           error: data.error,
@@ -200,56 +120,7 @@ export default function PaymentButton({
         throw new Error(reason);
       }
 
-      await loadPaddleScript();
-      const paddleWindow = window as PaddleWindow;
-      const paddle = paddleWindow.Paddle;
-      if (!paddle?.Initialize || !paddle.Checkout?.open) {
-        throw new Error("Paddle checkout unavailable.");
-      }
-
-      const successUrl = buildSuccessUrl({
-        localOrderId: data.localOrderId,
-        serviceId: data.serviceId,
-        subjectId: data.subjectId,
-        returnTo: data.returnTo,
-      });
-
-      if (data.environment === "sandbox") {
-        paddle.Environment?.set?.("sandbox");
-      }
-      paddle.Initialize({
-        token: data.clientToken,
-        eventCallback: (event) => {
-          if (event.name !== "checkout.completed") return;
-
-          const transactionId =
-            event.data?.transaction_id ??
-            event.data?.transactionId ??
-            event.data?.id ??
-            null;
-
-          window.location.href = buildSuccessUrl({
-            localOrderId: data.localOrderId!,
-            serviceId: data.serviceId,
-            subjectId: data.subjectId,
-            returnTo: data.returnTo,
-            transactionId,
-          });
-        },
-      });
-
-      paddle.Checkout.open({
-        items: [{ priceId: data.priceId, quantity: 1 }],
-        customer: {
-          email: data.customer?.email || customerEmail,
-        },
-        customData: data.customData,
-        settings: {
-          displayMode: "overlay",
-          theme: "dark",
-          successUrl,
-        },
-      });
+      window.location.href = data.checkoutUrl;
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : "Something went wrong.";
       setError(msg);
@@ -274,10 +145,10 @@ export default function PaymentButton({
     return { userEmail, userName };
   }
 
-  async function handlePaddleClick() {
+  async function handleLemonSqueezyClick() {
     const customer = await getSignedInCustomer();
     if (!customer) return;
-    await launchPaddle(customer.userName, customer.userEmail);
+    await launchLemonSqueezy(customer.userName, customer.userEmail);
   }
 
   async function handlePayPalClick() {
@@ -287,9 +158,9 @@ export default function PaymentButton({
   }
 
   const loading = loadingProvider !== null;
-  const usePaddlePrimary = paddleClientConfigured;
+  const useLemonSqueezyPrimary = lemonSqueezyPrimary;
   const primaryLabel =
-    loadingProvider === "paddle"
+    loadingProvider === "lemonsqueezy"
       ? "Opening secure checkout…"
       : loadingProvider === "paypal"
         ? "Opening PayPal…"
@@ -298,14 +169,14 @@ export default function PaymentButton({
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8, width: style?.width ?? "auto" }}>
       <button
-        onClick={usePaddlePrimary ? handlePaddleClick : handlePayPalClick}
+        onClick={useLemonSqueezyPrimary ? handleLemonSqueezyClick : handlePayPalClick}
         disabled={loading}
         className={style ? undefined : className}
         style={style ? { ...style, opacity: loading ? 0.6 : 1, cursor: loading ? "default" : "pointer" } : undefined}
       >
         {primaryLabel}
       </button>
-      {usePaddlePrimary && showPayPalBackup && (
+      {useLemonSqueezyPrimary && showPayPalBackup && (
         <button
           type="button"
           onClick={handlePayPalClick}
@@ -324,7 +195,7 @@ export default function PaymentButton({
             opacity: loading ? 0.5 : 1,
           }}
         >
-          {loadingProvider === "paypal" ? "Opening PayPal…" : "PayPal backup (outside Korea)"}
+          {loadingProvider === "paypal" ? "Opening PayPal…" : "PayPal backup"}
         </button>
       )}
       <div
@@ -335,9 +206,9 @@ export default function PaymentButton({
           fontFamily: "ui-monospace, monospace",
         }}
       >
-        {usePaddlePrimary
-          ? "Secure card checkout by Paddle. PayPal may block Korea-to-Korea payments."
-          : "Global PayPal checkout is active. Korea-friendly card checkout is being connected."}
+        {useLemonSqueezyPrimary
+          ? "Secure global card checkout by Lemon Squeezy. PayPal remains as backup."
+          : "Global PayPal checkout is active. Lemon Squeezy checkout is being connected."}
       </div>
       {error && (
         <div

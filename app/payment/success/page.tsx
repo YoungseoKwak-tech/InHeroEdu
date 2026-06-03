@@ -22,13 +22,12 @@ function SuccessInner() {
       params.has("localOrderId") ||
       params.has("token") ||
       params.has("subscription_id");
-    const isPaddle = provider === "paddle";
+    const isLemonSqueezy = provider === "lemonsqueezy";
 
     let body: Record<string, unknown> | null = null;
 
-    if (isPaddle) {
+    if (isLemonSqueezy) {
       const localOrderId = params.get("localOrderId") ?? params.get("orderId");
-      const transactionId = params.get("transactionId") ?? params.get("_ptxn");
 
       if (!localOrderId) {
         setStatus("error");
@@ -37,11 +36,10 @@ function SuccessInner() {
       }
 
       body = {
-        provider: "paddle",
+        provider: "lemonsqueezy",
         localOrderId,
         serviceId,
         subjectId,
-        ...(transactionId ? { transactionId } : {}),
       };
     } else if (isPayPal) {
       const localOrderId = params.get("localOrderId") ?? params.get("orderId");

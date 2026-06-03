@@ -29,14 +29,14 @@ type PendingOrderInput = {
   amount: number;
   currency: PaymentCurrency;
   kind: PaymentKind;
-  provider?: "paypal" | "paddle";
+  provider?: "paypal" | "lemonsqueezy";
   customerName?: string;
   customerEmail?: string;
 };
 
 type PaidOrderInput = {
   userId?: string | null;
-  provider?: "paypal" | "paddle";
+  provider?: "paypal" | "lemonsqueezy";
   providerOrderId?: string | null;
   providerSubscriptionId?: string | null;
   rawResponse?: unknown;

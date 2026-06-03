@@ -3,16 +3,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAuthenticatedUser } from "@/lib/auth";
 import { bindCourseAccessServiceId, buildCourseBoundOrderName } from "@/lib/course-access";
 import { courses } from "@/lib/data/courses";
+import {
+  createLemonSqueezyCheckout,
+  getLemonSqueezyVariantIdForService,
+  isLemonSqueezyConfigured,
+} from "@/lib/lemonsqueezy";
 import { createPendingOrder } from "@/lib/orderStore";
 import {
   getPaymentCatalogEntry,
   getTextbookPaymentEntry,
 } from "@/lib/paymentCatalog";
-import {
-  getPaddleClientToken,
-  getPaddleEnvironment,
-  getPaddlePriceIdForService,
-} from "@/lib/paddle";
 import { createAdminClient } from "@/lib/supabase";
 
 function getSafeReturnTo(value: unknown) {
@@ -34,6 +34,13 @@ function getSafeReturnTo(value: unknown) {
   }
 }
 
+function getRequestOrigin(req: NextRequest) {
+  const forwardedProto = req.headers.get("x-forwarded-proto") ?? "https";
+  const forwardedHost = req.headers.get("x-forwarded-host") ?? req.headers.get("host");
+  if (forwardedHost) return `${forwardedProto}://${forwardedHost}`;
+  return new URL(req.url).origin;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const authedUser = await requireAuthenticatedUser(req);
@@ -48,10 +55,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "serviceId required" }, { status: 400 });
     }
 
-    const clientToken = getPaddleClientToken();
-    if (!clientToken) {
+    if (!isLemonSqueezyConfigured()) {
       return NextResponse.json(
-        { error: "Paddle client token missing", scope: "paddle_config" },
+        { error: "Lemon Squeezy is not configured", scope: "lemonsqueezy_config" },
         { status: 503 }
       );
     }
@@ -87,17 +93,27 @@ export async function POST(req: NextRequest) {
       entry.serviceId,
       boundCourseName
     );
-    const priceId = getPaddlePriceIdForService(boundServiceId);
+    const variantId = getLemonSqueezyVariantIdForService(boundServiceId);
 
-    if (!priceId) {
+    if (!variantId) {
       return NextResponse.json(
-        { error: `Paddle price missing for ${boundServiceId}`, scope: "paddle_config" },
+        {
+          error: `Lemon Squeezy variant missing for ${boundServiceId}`,
+          scope: "lemonsqueezy_config",
+        },
         { status: 503 }
       );
     }
 
     const localOrderId = randomUUID();
     const safeReturnTo = getSafeReturnTo(returnTo);
+    const origin = getRequestOrigin(req);
+    const successUrl = new URL("/payment/success", origin);
+    successUrl.searchParams.set("provider", "lemonsqueezy");
+    successUrl.searchParams.set("localOrderId", localOrderId);
+    successUrl.searchParams.set("serviceId", boundServiceId);
+    if (subjectId) successUrl.searchParams.set("subjectId", subjectId);
+    if (safeReturnTo) successUrl.searchParams.set("returnTo", safeReturnTo);
 
     await createPendingOrder(supabase, {
       id: localOrderId,
@@ -107,41 +123,42 @@ export async function POST(req: NextRequest) {
       amount: entry.amountUSD,
       currency: "USD",
       kind: entry.kind,
-      provider: "paddle",
+      provider: "lemonsqueezy",
       customerName,
       customerEmail: authedUser.email ?? customerEmail,
     });
 
+    const checkout = await createLemonSqueezyCheckout({
+      variantId,
+      localOrderId,
+      orderName: boundOrderName,
+      userEmail: authedUser.email ?? customerEmail ?? "",
+      userName: customerName ?? "InHero Student",
+      serviceId: boundServiceId,
+      subjectId: subjectId ?? null,
+      returnTo: safeReturnTo,
+      successUrl: successUrl.toString(),
+    });
+
     return NextResponse.json({
-      provider: "paddle",
-      environment: getPaddleEnvironment(),
-      clientToken,
-      priceId,
+      provider: "lemonsqueezy",
+      checkoutUrl: checkout.checkoutUrl,
+      checkoutId: checkout.checkoutId,
       localOrderId,
       serviceId: boundServiceId,
       subjectId: subjectId ?? null,
       orderName: boundOrderName,
       returnTo: safeReturnTo,
-      customer: {
-        email: authedUser.email ?? customerEmail ?? "",
-        name: customerName ?? "InHero Student",
-      },
-      customData: {
-        localOrderId,
-        serviceId: boundServiceId,
-        subjectId: subjectId ?? null,
-        source: "inhero",
-      },
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error("[api/payments/paddle] failed", {
+    console.error("[api/payments/lemonsqueezy] failed", {
       message,
       stack: error instanceof Error ? error.stack : undefined,
       name: error instanceof Error ? error.name : undefined,
     });
     return NextResponse.json(
-      { error: message || "server error", scope: "paddle_checkout" },
+      { error: message || "server error", scope: "lemonsqueezy_checkout" },
       { status: 500 }
     );
   }

@@ -9,11 +9,6 @@ import {
   type StoredOrder,
 } from "@/lib/orderStore";
 import {
-  fetchPaddleTransaction,
-  getPaddleCustomData,
-  isPaidPaddleTransaction,
-} from "@/lib/paddle";
-import {
   activatePayPalSubscription,
   capturePayPalOrder,
   getPayPalOrder,
@@ -497,16 +492,14 @@ async function confirmPayPalPayment({
   });
 }
 
-async function confirmPaddlePayment({
+async function confirmLemonSqueezyPayment({
   supabase,
   localOrderId,
   userId,
-  transactionId,
 }: {
   supabase: ReturnType<typeof createAdminClient>;
   localOrderId: string;
   userId: string | null;
-  transactionId?: string | null;
 }) {
   const storedOrder = await getStoredOrder(supabase, localOrderId);
   if (!storedOrder) {
@@ -519,76 +512,15 @@ async function confirmPaddlePayment({
   if (storedOrder.status === "paid") {
     return NextResponse.json({
       success: true,
-      provider: "paddle",
+      provider: "lemonsqueezy",
       order: mapStoredOrderForResponse(storedOrder),
     });
   }
 
-  if (!transactionId) {
-    return NextResponse.json(
-      { error: "payment is still processing" },
-      { status: 202 }
-    );
-  }
-
-  let transaction: Record<string, unknown>;
-  try {
-    transaction = await fetchPaddleTransaction(transactionId);
-  } catch (error) {
-    console.error("[api/payments/confirm] paddle lookup failed", {
-      localOrderId,
-      transactionId,
-      message: error instanceof Error ? error.message : String(error),
-    });
-    return NextResponse.json(
-      { error: "payment is still processing" },
-      { status: 202 }
-    );
-  }
-
-  if (!isPaidPaddleTransaction(transaction)) {
-    return NextResponse.json(
-      { error: `paddle status: ${String(transaction.status ?? "unknown")}` },
-      { status: 400 }
-    );
-  }
-
-  const customData = getPaddleCustomData(transaction);
-  if (customData.localOrderId !== localOrderId) {
-    await markStoredOrderFailed(supabase, localOrderId, {
-      provider: "paddle",
-      transaction,
-      validationError: "local order mismatch",
-    });
-    return NextResponse.json({ error: "paddle order reference mismatch" }, { status: 400 });
-  }
-
-  await markStoredOrderPaid(supabase, localOrderId, {
-    userId,
-    provider: "paddle",
-    providerOrderId: typeof transaction.id === "string" ? transaction.id : transactionId,
-    providerSubscriptionId:
-      typeof transaction.subscription_id === "string"
-        ? transaction.subscription_id
-        : null,
-    rawResponse: transaction,
-  });
-
-  await unlockTextbookIfNeeded({
-    supabase,
-    userId,
-    serviceId: storedOrder.serviceId,
-    orderId: localOrderId,
-  });
-
-  return NextResponse.json({
-    success: true,
-    provider: "paddle",
-    order: {
-      ...mapStoredOrderForResponse(storedOrder),
-      status: "paid",
-    },
-  });
+  return NextResponse.json(
+    { error: "payment is still processing" },
+    { status: 202 }
+  );
 }
 
 export async function POST(req: NextRequest) {
@@ -598,7 +530,6 @@ export async function POST(req: NextRequest) {
       paymentKey?: string;
       orderId?: string;
       localOrderId?: string;
-      transactionId?: string;
       serviceId?: string;
       subjectId?: string;
       paypalOrderId?: string;
@@ -627,17 +558,16 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    if (provider === "paddle") {
+    if (provider === "lemonsqueezy") {
       const localOrderId = body.localOrderId ?? body.orderId;
       if (!localOrderId) {
         return NextResponse.json({ error: "missing order id" }, { status: 400 });
       }
 
-      return confirmPaddlePayment({
+      return confirmLemonSqueezyPayment({
         supabase,
         localOrderId,
         userId: authedUserId,
-        transactionId: body.transactionId,
       });
     }
 
