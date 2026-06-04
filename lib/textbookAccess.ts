@@ -10,6 +10,7 @@
  */
 
 import { createAdminClient } from "@/lib/supabase";
+import { FREE_FOR_ALL } from "@/lib/config";
 import { hasPaidEnglishCourseAccess } from "@/lib/course-access";
 import { listStoredOrdersForUser } from "@/lib/orderStore";
 
@@ -22,9 +23,12 @@ function parseEmailList(raw: string | undefined): string[] {
 
 export function getStaticCompEmails(): string[] {
   const comp = parseEmailList(process.env.COMP_TEXTBOOK_EMAILS);
-  const localAdminFallback =
-    process.env.NODE_ENV === "development" ? "yk777@cornell.edu,hyeonjei@gmail.com" : "";
-  const admins = parseEmailList(process.env.ADMIN_EMAILS ?? localAdminFallback);
+  // Owner-email fallback applies in every environment so the founders
+  // never lose access in prod when the Vercel env var is unset.
+  const ownerFallback = "yk777@cornell.edu,hyeonjei@gmail.com";
+  const admins = parseEmailList(
+    [process.env.ADMIN_EMAILS ?? "", ownerFallback].join(",")
+  );
   return Array.from(new Set([...comp, ...admins]));
 }
 
@@ -122,6 +126,9 @@ export async function hasTextbookAccess(args: {
   email: string | null | undefined;
   subjectId: string;
 }): Promise<{ allowed: boolean; reason: "complimentary" | "purchased" | "denied" }> {
+  // Free-for-all mode: every student can read every textbook.
+  if (FREE_FOR_ALL) return { allowed: true, reason: "complimentary" };
+
   const comp = await hasComplimentaryTextbookAccess(args.email);
   if (comp) return { allowed: true, reason: "complimentary" };
 

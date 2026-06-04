@@ -1,4 +1,4 @@
-import { PRELAUNCH_MODE } from "@/lib/config";
+import { FREE_FOR_ALL, PRELAUNCH_MODE } from "@/lib/config";
 import type { StoredOrder } from "@/lib/orderStore";
 
 export const PRELAUNCH_OPEN_COURSE_ID = "ap-biology";
@@ -47,6 +47,9 @@ export function hasPaidEnglishCourseAccess(
   orders: StoredOrder[],
   courseId: string
 ) {
+  // Free-for-all mode: every student has full course access without paying.
+  if (FREE_FOR_ALL) return true;
+
   const normalizedCourseId = courseId.toLowerCase();
 
   return orders.some((order) => {

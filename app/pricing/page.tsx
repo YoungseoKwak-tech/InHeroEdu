@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import EnglishPricingSection from "@/components/pricing/EnglishPricingSection";
+import { FREE_FOR_ALL } from "@/lib/config";
 
 const pricingUrl = "https://inheroedu.com/pricing";
 
-export const metadata: Metadata = {
+const paidMetadata: Metadata = {
   metadataBase: new URL("https://inheroedu.com"),
   title: "InHero Pricing | AP Course + Textbook Access from $49",
   description:
@@ -27,7 +28,79 @@ export const metadata: Metadata = {
   },
 };
 
-const pricingStructuredData = {
+const freeMetadata: Metadata = {
+  metadataBase: new URL("https://inheroedu.com"),
+  title: "InHero | Free AP Courses + Textbook Access for All Students",
+  description:
+    "Every InHero course, textbook, and AI study tool is free for all students right now. No plans, no checkout, no credit card.",
+  alternates: {
+    canonical: "/pricing",
+  },
+  openGraph: {
+    title: "InHero | Free AP Courses + Textbook Access for All Students",
+    description:
+      "Every InHero course, textbook, and AI study tool is free for all students right now. No plans, no checkout, no credit card.",
+    url: pricingUrl,
+    siteName: "InHero",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "InHero | Free AP Courses + Textbook Access for All Students",
+    description:
+      "Every course, textbook, and AI study tool is free for all students right now.",
+  },
+};
+
+export const metadata: Metadata = FREE_FOR_ALL ? freeMetadata : paidMetadata;
+
+const freeStructuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://inheroedu.com/#organization",
+      name: "InHero",
+      url: "https://inheroedu.com",
+      sameAs: ["https://inheroedu.com"],
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${pricingUrl}#webpage`,
+      url: pricingUrl,
+      name: "InHero Access",
+      description:
+        "Every InHero course, textbook, and AI study tool is free for all students right now.",
+      isPartOf: {
+        "@id": "https://inheroedu.com/#website",
+      },
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${pricingUrl}#faq`,
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "How much does InHero cost?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "InHero is currently free for all students. Every course, textbook, and AI study tool is included at no charge.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Does InHero include textbook access?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes. Textbook access across all published subjects is included for free.",
+          },
+        },
+      ],
+    },
+  ],
+};
+
+const paidStructuredData = {
   "@context": "https://schema.org",
   "@graph": [
     {
@@ -126,12 +199,13 @@ const pricingStructuredData = {
 };
 
 export default function PricingPage() {
+  const structuredData = FREE_FOR_ALL ? freeStructuredData : paidStructuredData;
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(pricingStructuredData).replace(/</g, "\\u003c"),
+          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
         }}
       />
       <EnglishPricingSection />
