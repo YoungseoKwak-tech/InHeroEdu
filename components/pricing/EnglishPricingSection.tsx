@@ -262,6 +262,7 @@ export default function EnglishPricingSection() {
               orderName="AP Biology Elite Pass"
               returnTo={AP_BIO_FIRST_LESSON}
               label="Checkout AP Bio — $49/mo"
+              showPayPalBackup={false}
               style={{
                 width: '100%',
                 padding: '15px 18px',
@@ -305,6 +306,7 @@ export default function EnglishPricingSection() {
               orderName="Elite All Subject Pass"
               returnTo="/courses"
               label="Checkout All Subjects — $199/mo"
+              showPayPalBackup={false}
               style={{
                 width: '100%',
                 padding: '15px 18px',

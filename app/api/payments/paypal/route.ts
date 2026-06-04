@@ -56,18 +56,24 @@ export async function POST(req: NextRequest) {
       returnTo,
     } = await req.json();
 
-    if (!serviceId) {
+    if (typeof serviceId !== "string" || !serviceId) {
       return NextResponse.json({ error: "serviceId required" }, { status: 400 });
     }
 
-    const supabase = createAdminClient();
-    let entry = getPaymentCatalogEntry(serviceId);
+    const [baseServiceId, boundSubjectId] = serviceId.split(":");
+    const resolvedSubjectId =
+      typeof subjectId === "string" && subjectId
+        ? subjectId
+        : boundSubjectId || null;
 
-    if (serviceId === "textbook" && subjectId) {
+    const supabase = createAdminClient();
+    let entry = getPaymentCatalogEntry(baseServiceId);
+
+    if (baseServiceId === "textbook" && resolvedSubjectId) {
       const { data: product, error: productError } = await supabase
         .from("textbook_products")
         .select("title, status")
-        .eq("subject_id", subjectId)
+        .eq("subject_id", resolvedSubjectId)
         .eq("status", "available")
         .single();
 
@@ -75,17 +81,24 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: "textbook not available" }, { status: 404 });
       }
 
-      entry = getTextbookPaymentEntry(product.title, subjectId);
+      entry = getTextbookPaymentEntry(product.title, resolvedSubjectId);
     }
 
     if (!entry) {
       return NextResponse.json({ error: "invalid service" }, { status: 400 });
     }
 
-    const boundServiceId = bindCourseAccessServiceId(entry.serviceId, subjectId);
+    if (entry.serviceId === "one_subject" && !resolvedSubjectId) {
+      return NextResponse.json(
+        { error: "subjectId required for one_subject" },
+        { status: 400 }
+      );
+    }
+
+    const boundServiceId = bindCourseAccessServiceId(entry.serviceId, resolvedSubjectId);
     const boundCourseName =
-      subjectId
-        ? courses.find((course) => course.id === subjectId)?.subjectEn ?? subjectId
+      resolvedSubjectId
+        ? courses.find((course) => course.id === resolvedSubjectId)?.subjectEn ?? resolvedSubjectId
         : null;
     const boundOrderName = buildCourseBoundOrderName(
       entry.orderName,
@@ -100,8 +113,8 @@ export async function POST(req: NextRequest) {
     successUrl.searchParams.set("provider", "paypal");
     successUrl.searchParams.set("localOrderId", localOrderId);
     successUrl.searchParams.set("serviceId", boundServiceId);
-    if (subjectId) {
-      successUrl.searchParams.set("subjectId", subjectId);
+    if (resolvedSubjectId) {
+      successUrl.searchParams.set("subjectId", resolvedSubjectId);
     }
     if (safeReturnTo) {
       successUrl.searchParams.set("returnTo", safeReturnTo);
@@ -110,8 +123,8 @@ export async function POST(req: NextRequest) {
     const failUrl = new URL("/payment/fail", origin);
     failUrl.searchParams.set("provider", "paypal");
     failUrl.searchParams.set("serviceId", boundServiceId);
-    if (subjectId) {
-      failUrl.searchParams.set("subjectId", subjectId);
+    if (resolvedSubjectId) {
+      failUrl.searchParams.set("subjectId", resolvedSubjectId);
     }
     if (safeReturnTo) {
       failUrl.searchParams.set("returnTo", safeReturnTo);
