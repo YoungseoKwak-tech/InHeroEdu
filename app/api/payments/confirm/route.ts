@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 import { getAuthenticatedUser } from "@/lib/auth";
-import { inferStoredOrderCurrency } from "@/lib/paymentCatalog";
 import {
   getStoredOrder,
   markStoredOrderFailed,
@@ -14,17 +13,6 @@ import {
   getPayPalOrder,
   getPayPalSubscription,
 } from "@/lib/paypal";
-
-const PAYMENT_CONFIRM_TIMEOUT_MS = 15000;
-
-function createTossAuthHeader() {
-  const secretKey = process.env.TOSS_SECRET_KEY;
-  if (!secretKey) {
-    throw new Error("missing toss secret key");
-  }
-
-  return `Basic ${Buffer.from(`${secretKey}:`).toString("base64")}`;
-}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -147,29 +135,6 @@ function validatePayPalSubscription({
   return null;
 }
 
-function validateTossConfirmation(
-  payload: Record<string, unknown>,
-  orderId: string,
-  expectedAmount: number
-) {
-  const responseOrderId = typeof payload.orderId === "string" ? payload.orderId : null;
-  if (responseOrderId && responseOrderId !== orderId) {
-    return "toss order id mismatch";
-  }
-
-  const status = String(payload.status ?? "").toUpperCase();
-  if (status && status !== "DONE") {
-    return `toss status: ${status}`;
-  }
-
-  const totalAmount = Number(payload.totalAmount ?? payload.amount);
-  if (Number.isFinite(totalAmount) && totalAmount !== expectedAmount) {
-    return "toss amount mismatch";
-  }
-
-  return null;
-}
-
 function mapStoredOrderForResponse(order: {
   id: string;
   serviceId: string;
@@ -208,87 +173,6 @@ async function unlockTextbookIfNeeded({
       { user_id: userId, subject_id: subjectId, order_id: orderId },
       { onConflict: "user_id,subject_id" }
     );
-}
-
-async function confirmLegacyTextbookPayment({
-  supabase,
-  paymentKey,
-  orderId,
-  subjectId,
-  userId,
-}: {
-  supabase: ReturnType<typeof createAdminClient>;
-  paymentKey: string;
-  orderId: string;
-  subjectId: string;
-  userId: string | null;
-}) {
-  if (!userId) {
-    return NextResponse.json({ error: "authentication required" }, { status: 401 });
-  }
-
-  const { data: product, error: productError } = await supabase
-    .from("textbook_products")
-    .select("title, price_krw, status")
-    .eq("subject_id", subjectId)
-    .eq("status", "available")
-    .single();
-
-  if (productError || !product) {
-    return NextResponse.json({ error: "textbook not available" }, { status: 404 });
-  }
-
-  const tossRes = await fetch("https://api.tosspayments.com/v1/payments/confirm", {
-    method: "POST",
-    signal: AbortSignal.timeout(PAYMENT_CONFIRM_TIMEOUT_MS),
-    headers: {
-      Authorization: createTossAuthHeader(),
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      paymentKey,
-      orderId,
-      amount: Number(product.price_krw),
-    }),
-  });
-
-  const tossData = await tossRes.json();
-  if (!tossRes.ok) {
-    return NextResponse.json(
-      { error: tossData.message ?? "payment failed" },
-      { status: 400 }
-    );
-  }
-
-  const tossValidationError = validateTossConfirmation(
-    tossData,
-    orderId,
-    Number(product.price_krw)
-  );
-  if (tossValidationError) {
-    return NextResponse.json({ error: tossValidationError }, { status: 400 });
-  }
-
-  await supabase
-    .from("textbook_purchases")
-    .upsert(
-      { user_id: userId, subject_id: subjectId, order_id: orderId },
-      { onConflict: "user_id,subject_id" }
-    );
-
-  return NextResponse.json({
-    success: true,
-    provider: "toss",
-    tossData,
-    order: {
-      id: orderId,
-      serviceId: `textbook:${subjectId}`,
-      orderName: product.title,
-      amount: product.price_krw,
-      currency: "KRW",
-      status: "paid",
-    },
-  });
 }
 
 async function confirmPayPalPayment({
@@ -492,7 +376,7 @@ async function confirmPayPalPayment({
   });
 }
 
-async function confirmLemonSqueezyPayment({
+async function confirmNicePayPayment({
   supabase,
   localOrderId,
   userId,
@@ -512,7 +396,7 @@ async function confirmLemonSqueezyPayment({
   if (storedOrder.status === "paid") {
     return NextResponse.json({
       success: true,
-      provider: "lemonsqueezy",
+      provider: "nicepay",
       order: mapStoredOrderForResponse(storedOrder),
     });
   }
@@ -527,11 +411,8 @@ export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as {
       provider?: string;
-      paymentKey?: string;
       orderId?: string;
       localOrderId?: string;
-      serviceId?: string;
-      subjectId?: string;
       paypalOrderId?: string;
       subscriptionId?: string;
       token?: string;
@@ -541,7 +422,7 @@ export async function POST(req: NextRequest) {
     const authedUser = await getAuthenticatedUser(req);
     const authedUserId = authedUser?.id ?? null;
 
-    const provider = body.provider ?? (body.paymentKey ? "toss" : "paypal");
+    const provider = body.provider ?? "paypal";
 
     if (provider === "paypal") {
       const localOrderId = body.localOrderId ?? body.orderId;
@@ -558,141 +439,23 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    if (provider === "lemonsqueezy") {
+    if (provider === "nicepay") {
       const localOrderId = body.localOrderId ?? body.orderId;
       if (!localOrderId) {
         return NextResponse.json({ error: "missing order id" }, { status: 400 });
       }
 
-      return confirmLemonSqueezyPayment({
+      return confirmNicePayPayment({
         supabase,
         localOrderId,
         userId: authedUserId,
       });
     }
 
-    const paymentKey = body.paymentKey;
-    const orderId = body.orderId;
-    const serviceId = body.serviceId;
-    const subjectId = body.subjectId;
-
-    if (!paymentKey || !orderId) {
-      return NextResponse.json({ error: "missing fields" }, { status: 400 });
-    }
-
-    const { data: order, error: orderError } = await supabase
-      .from("orders")
-      .select("id, amount_krw, status, service_id, order_name, user_id")
-      .eq("id", orderId)
-      .single();
-
-    if (orderError || !order) {
-      if (serviceId === "textbook" && subjectId) {
-        return confirmLegacyTextbookPayment({
-          supabase,
-          paymentKey,
-          orderId,
-          subjectId,
-          userId: authedUserId,
-        });
-      }
-
-      return NextResponse.json({ error: "order not found" }, { status: 404 });
-    }
-
-    if (!authedUserId) {
-      return NextResponse.json({ error: "authentication required" }, { status: 401 });
-    }
-
-    if (order.user_id && order.user_id !== authedUserId) {
-      return NextResponse.json(
-        { error: "order does not belong to user" },
-        { status: 403 }
-      );
-    }
-
-    if (order.status === "paid") {
-      return NextResponse.json({
-        success: true,
-        provider: "toss",
-        order: {
-          id: order.id,
-          serviceId: order.service_id,
-          orderName: order.order_name,
-          amount: order.amount_krw,
-          currency: inferStoredOrderCurrency(
-            order.service_id ?? "",
-            Number(order.amount_krw)
-          ),
-          status: "paid",
-        },
-      });
-    }
-
-    const tossRes = await fetch("https://api.tosspayments.com/v1/payments/confirm", {
-      method: "POST",
-      signal: AbortSignal.timeout(PAYMENT_CONFIRM_TIMEOUT_MS),
-      headers: {
-        Authorization: createTossAuthHeader(),
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        paymentKey,
-        orderId,
-        amount: Number(order.amount_krw),
-      }),
-    });
-
-    const tossData = await tossRes.json();
-
-    if (!tossRes.ok) {
-      await supabase.from("orders").update({ status: "failed" }).eq("id", orderId);
-      return NextResponse.json(
-        { error: tossData.message ?? "payment failed" },
-        { status: 400 }
-      );
-    }
-
-    const tossValidationError = validateTossConfirmation(
-      tossData,
-      orderId,
-      Number(order.amount_krw)
+    return NextResponse.json(
+      { error: "unsupported payment provider" },
+      { status: 400 }
     );
-    if (tossValidationError) {
-      await supabase.from("orders").update({ status: "failed" }).eq("id", orderId);
-      return NextResponse.json({ error: tossValidationError }, { status: 400 });
-    }
-
-    const effectiveUserId = authedUserId;
-    const orderUpdate: { status: string; user_id?: string } = { status: "paid" };
-    if (effectiveUserId && !order.user_id) {
-      orderUpdate.user_id = effectiveUserId;
-    }
-
-    await supabase.from("orders").update(orderUpdate).eq("id", orderId);
-    await unlockTextbookIfNeeded({
-      supabase,
-      userId: effectiveUserId,
-      serviceId: order.service_id,
-      orderId,
-    });
-
-    return NextResponse.json({
-      success: true,
-      provider: "toss",
-      tossData,
-      order: {
-        id: order.id,
-        serviceId: order.service_id,
-        orderName: order.order_name,
-        amount: order.amount_krw,
-        currency: inferStoredOrderCurrency(
-          order.service_id ?? "",
-          Number(order.amount_krw)
-        ),
-        status: "paid",
-      },
-    });
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);
     console.error("[api/payments/confirm] failed", {

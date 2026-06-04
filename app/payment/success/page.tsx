@@ -22,11 +22,11 @@ function SuccessInner() {
       params.has("localOrderId") ||
       params.has("token") ||
       params.has("subscription_id");
-    const isLemonSqueezy = provider === "lemonsqueezy";
+    const isNicePay = provider === "nicepay";
 
     let body: Record<string, unknown> | null = null;
 
-    if (isLemonSqueezy) {
+    if (isNicePay) {
       const localOrderId = params.get("localOrderId") ?? params.get("orderId");
 
       if (!localOrderId) {
@@ -36,7 +36,7 @@ function SuccessInner() {
       }
 
       body = {
-        provider: "lemonsqueezy",
+        provider: "nicepay",
         localOrderId,
         serviceId,
         subjectId,

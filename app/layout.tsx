@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -37,7 +36,6 @@ export default function RootLayout({
         <meta name="naver-site-verification" content="d5b871944cd8817a818e2f3e40c017cef645bce9" />
       </head>
       <body style={{ color: '#fff', minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
-        <Script src="https://js.tosspayments.com/v2/standard" strategy="lazyOnload" />
         <SpaceBackground />
         <SpaceCursor />
         <LanguageProvider>

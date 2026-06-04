@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { authFetch, getClientSession } from "@/lib/client-auth";
 
 interface PaymentButtonProps {
@@ -15,20 +15,72 @@ interface PaymentButtonProps {
   showPayPalBackup?: boolean;
 }
 
-type LoadingProvider = "lemonsqueezy" | "paypal" | null;
+type LoadingProvider = "nicepay" | "paypal" | null;
 
-type LemonSqueezyCheckoutResponse = {
-  checkoutUrl?: string;
-  localOrderId?: string;
-  serviceId?: string;
-  subjectId?: string | null;
-  returnTo?: string | null;
+type NicePayPrepareResponse = {
+  clientId?: string;
+  method?: string;
+  orderId?: string;
+  amount?: number;
+  goodsName?: string;
+  returnUrl?: string;
+  mallReserved?: string;
   error?: string;
   scope?: string;
 };
 
-const lemonSqueezyPrimary =
-  process.env.NEXT_PUBLIC_LEMONSQUEEZY_ENABLED === "true";
+type PayPalCheckoutResponse = {
+  approveUrl?: string;
+  error?: string;
+  scope?: string;
+};
+
+const NICEPAY_SDK_URL = "https://pay.nicepay.co.kr/v1/js/";
+const nicePayPrimary = process.env.NEXT_PUBLIC_NICEPAY_ENABLED !== "false";
+const nicePaySupportedServices = new Set(["one_subject", "all_subjects"]);
+
+declare global {
+  interface Window {
+    AUTHNICE?: {
+      requestPay: (payload: Record<string, unknown>) => void;
+    };
+  }
+}
+
+let nicePayScriptPromise: Promise<void> | null = null;
+
+function loadNicePayScript() {
+  if (typeof window === "undefined") {
+    return Promise.reject(new Error("browser required"));
+  }
+
+  if (window.AUTHNICE) return Promise.resolve();
+  if (nicePayScriptPromise) return nicePayScriptPromise;
+
+  nicePayScriptPromise = new Promise((resolve, reject) => {
+    const existing = document.querySelector<HTMLScriptElement>(
+      `script[src="${NICEPAY_SDK_URL}"]`
+    );
+    if (existing) {
+      existing.addEventListener("load", () => resolve(), { once: true });
+      existing.addEventListener(
+        "error",
+        () => reject(new Error("NICEPAY SDK failed to load")),
+        { once: true }
+      );
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = NICEPAY_SDK_URL;
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("NICEPAY SDK failed to load"));
+    document.head.appendChild(script);
+  });
+
+  return nicePayScriptPromise;
+}
 
 function openAuthModal(returnTo?: string) {
   const safeReturnTo =
@@ -50,8 +102,29 @@ function openAuthModal(returnTo?: string) {
   );
 }
 
+function isNicePaySupportedService(serviceId: string) {
+  return nicePaySupportedServices.has(serviceId.split(":")[0] ?? serviceId);
+}
+
+function shouldUseNicePayForCurrentBrowser(serviceId: string) {
+  if (!nicePayPrimary || typeof window === "undefined") return false;
+  if (!isNicePaySupportedService(serviceId)) return false;
+
+  const language =
+    navigator.language || navigator.languages?.[0] || "";
+  const timezone =
+    Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+
+  if (language.toLowerCase().startsWith("ko")) return true;
+  if (timezone === "Asia/Seoul") return true;
+
+  return false;
+}
+
 export default function PaymentButton({
   serviceId,
+  amount,
+  orderName,
   subjectId,
   returnTo,
   label = "Checkout",
@@ -61,22 +134,49 @@ export default function PaymentButton({
 }: PaymentButtonProps) {
   const [loadingProvider, setLoadingProvider] = useState<LoadingProvider>(null);
   const [error, setError] = useState<string | null>(null);
+  const [preferredProvider, setPreferredProvider] = useState<"nicepay" | "paypal">(
+    nicePayPrimary && isNicePaySupportedService(serviceId) ? "nicepay" : "paypal"
+  );
+
+  useEffect(() => {
+    setPreferredProvider(shouldUseNicePayForCurrentBrowser(serviceId) ? "nicepay" : "paypal");
+  }, [serviceId]);
+
+  async function getSignedInCustomer() {
+    const session = await getClientSession();
+
+    if (!session?.user) {
+      openAuthModal(returnTo);
+      return null;
+    }
+
+    const userEmail = session.user.email ?? "";
+    const userName =
+      (session.user.user_metadata?.name as string | undefined) ||
+      userEmail.split("@")[0] ||
+      "InHero Student";
+
+    return { userEmail, userName };
+  }
 
   async function launchPayPal(customerName: string, customerEmail: string) {
     setLoadingProvider("paypal");
     setError(null);
+
     try {
       const res = await authFetch("/api/payments/paypal", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ serviceId, subjectId, customerName, customerEmail, returnTo }),
+        body: JSON.stringify({
+          serviceId,
+          subjectId,
+          customerName,
+          customerEmail,
+          returnTo,
+        }),
       });
 
-      const data = (await res.json().catch(() => ({}))) as {
-        approveUrl?: string;
-        error?: string;
-        scope?: string;
-      };
+      const data = (await res.json().catch(() => ({}))) as PayPalCheckoutResponse;
       if (!res.ok || !data.approveUrl) {
         const reason = data.error || `HTTP ${res.status}`;
         console.error("[PaymentButton] PayPal checkout failed", {
@@ -97,20 +197,29 @@ export default function PaymentButton({
     }
   }
 
-  async function launchLemonSqueezy(customerName: string, customerEmail: string) {
-    setLoadingProvider("lemonsqueezy");
+  async function launchNicePay(customerName: string, customerEmail: string) {
+    setLoadingProvider("nicepay");
     setError(null);
+
     try {
-      const res = await authFetch("/api/payments/lemonsqueezy", {
+      const res = await authFetch("/api/payments/nicepay/prepare", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ serviceId, subjectId, customerName, customerEmail, returnTo }),
+        body: JSON.stringify({
+          serviceId,
+          subjectId,
+          amount,
+          orderName,
+          customerName,
+          customerEmail,
+          returnTo,
+        }),
       });
 
-      const data = (await res.json().catch(() => ({}))) as LemonSqueezyCheckoutResponse;
-      if (!res.ok || !data.checkoutUrl || !data.localOrderId) {
+      const data = (await res.json().catch(() => ({}))) as NicePayPrepareResponse;
+      if (!res.ok || !data.clientId || !data.orderId || !data.amount || !data.returnUrl) {
         const reason = data.error || `HTTP ${res.status}`;
-        console.error("[PaymentButton] Lemon Squeezy checkout failed", {
+        console.error("[PaymentButton] NICEPAY checkout failed", {
           status: res.status,
           scope: data.scope,
           error: data.error,
@@ -120,7 +229,29 @@ export default function PaymentButton({
         throw new Error(reason);
       }
 
-      window.location.href = data.checkoutUrl;
+      await loadNicePayScript();
+      if (!window.AUTHNICE) {
+        throw new Error("NICEPAY SDK unavailable.");
+      }
+
+      window.AUTHNICE.requestPay({
+        clientId: data.clientId,
+        method: data.method ?? "card",
+        orderId: data.orderId,
+        amount: data.amount,
+        goodsName: data.goodsName ?? orderName,
+        returnUrl: data.returnUrl,
+        ...(data.mallReserved ? { mallReserved: data.mallReserved } : {}),
+        fnError: (result: { errorCode?: string; errorMsg?: string }) => {
+          setLoadingProvider(null);
+          setError(
+            result.errorMsg ??
+              (result.errorCode
+                ? `NICEPAY error: ${result.errorCode}`
+                : "NICEPAY checkout was cancelled.")
+          );
+        },
+      });
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : "Something went wrong.";
       setError(msg);
@@ -128,27 +259,10 @@ export default function PaymentButton({
     }
   }
 
-  async function getSignedInCustomer() {
-    const session = await getClientSession();
-
-    if (!session?.user) {
-      openAuthModal(returnTo);
-      return null;
-    }
-
-    const userEmail = session.user.email ?? "";
-    const userName =
-      (session.user.user_metadata?.name as string | undefined) ||
-      userEmail.split("@")[0] ||
-      "InHero Student";
-
-    return { userEmail, userName };
-  }
-
-  async function handleLemonSqueezyClick() {
+  async function handleNicePayClick() {
     const customer = await getSignedInCustomer();
     if (!customer) return;
-    await launchLemonSqueezy(customer.userName, customer.userEmail);
+    await launchNicePay(customer.userName, customer.userEmail);
   }
 
   async function handlePayPalClick() {
@@ -158,10 +272,11 @@ export default function PaymentButton({
   }
 
   const loading = loadingProvider !== null;
-  const useLemonSqueezyPrimary = lemonSqueezyPrimary;
+  const supportsNicePay = isNicePaySupportedService(serviceId);
+  const useNicePayPrimary = supportsNicePay && preferredProvider === "nicepay";
   const primaryLabel =
-    loadingProvider === "lemonsqueezy"
-      ? "Opening secure checkout…"
+    loadingProvider === "nicepay"
+      ? "Opening NICEPAY…"
       : loadingProvider === "paypal"
         ? "Opening PayPal…"
         : label;
@@ -169,17 +284,17 @@ export default function PaymentButton({
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8, width: style?.width ?? "auto" }}>
       <button
-        onClick={useLemonSqueezyPrimary ? handleLemonSqueezyClick : handlePayPalClick}
+        onClick={useNicePayPrimary ? handleNicePayClick : handlePayPalClick}
         disabled={loading}
         className={style ? undefined : className}
         style={style ? { ...style, opacity: loading ? 0.6 : 1, cursor: loading ? "default" : "pointer" } : undefined}
       >
         {primaryLabel}
       </button>
-      {useLemonSqueezyPrimary && showPayPalBackup && (
+      {nicePayPrimary && supportsNicePay && showPayPalBackup && (
         <button
           type="button"
-          onClick={handlePayPalClick}
+          onClick={useNicePayPrimary ? handlePayPalClick : handleNicePayClick}
           disabled={loading}
           style={{
             border: "1px solid rgba(255,255,255,0.14)",
@@ -195,7 +310,13 @@ export default function PaymentButton({
             opacity: loading ? 0.5 : 1,
           }}
         >
-          {loadingProvider === "paypal" ? "Opening PayPal…" : "PayPal backup"}
+          {loadingProvider === "paypal"
+            ? "Opening PayPal…"
+            : loadingProvider === "nicepay"
+              ? "Opening NICEPAY…"
+              : useNicePayPrimary
+                ? "International card / PayPal backup"
+                : "Korea card / NICEPAY"}
         </button>
       )}
       <div
@@ -206,9 +327,11 @@ export default function PaymentButton({
           fontFamily: "ui-monospace, monospace",
         }}
       >
-        {useLemonSqueezyPrimary
-          ? "Secure global card checkout by Lemon Squeezy. PayPal remains as backup."
-          : "Global PayPal checkout is active. Lemon Squeezy checkout is being connected."}
+        {nicePayPrimary
+          ? supportsNicePay
+            ? "Korea browsers route to NICEPAY; international browsers route to PayPal. The other option stays available as backup."
+            : "PayPal checkout is active for this item until NICEPAY support is enabled for it."
+          : "PayPal checkout is active. NICEPAY can be re-enabled with NEXT_PUBLIC_NICEPAY_ENABLED."}
       </div>
       {error && (
         <div

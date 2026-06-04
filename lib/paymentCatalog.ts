@@ -13,8 +13,6 @@ export type PaymentCatalogEntry = {
 };
 
 export const DEFAULT_PAYMENT_CURRENCY = "USD" as const;
-export const DEFAULT_TOSS_METHOD = "FOREIGN_EASY_PAY";
-export const DEFAULT_TOSS_PROVIDER = "PAYPAL";
 
 type CatalogEntry = {
   id: string;

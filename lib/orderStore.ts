@@ -29,14 +29,14 @@ type PendingOrderInput = {
   amount: number;
   currency: PaymentCurrency;
   kind: PaymentKind;
-  provider?: "paypal" | "lemonsqueezy";
+  provider?: "paypal" | "nicepay";
   customerName?: string;
   customerEmail?: string;
 };
 
 type PaidOrderInput = {
   userId?: string | null;
-  provider?: "paypal" | "lemonsqueezy";
+  provider?: "paypal" | "nicepay";
   providerOrderId?: string | null;
   providerSubscriptionId?: string | null;
   rawResponse?: unknown;
@@ -162,6 +162,7 @@ export async function createPendingOrder(
 }
 
 type ProviderAttachmentInput = {
+  provider?: "paypal" | "nicepay";
   providerOrderId?: string | null;
   providerSubscriptionId?: string | null;
   rawResponse?: unknown;
@@ -186,7 +187,7 @@ export async function attachStoredOrderProviderDetails(
   }
 
   const legacyPayload = {
-    provider: "paypal",
+    provider: input.provider ?? "paypal",
     provider_order_id: input.providerOrderId ?? null,
     provider_subscription_id: input.providerSubscriptionId ?? null,
     raw_provider_response: input.rawResponse ?? null,
@@ -285,7 +286,8 @@ export async function markStoredOrderPaid(
 export async function markStoredOrderFailed(
   supabase: SupabaseClient,
   orderId: string,
-  rawResponse?: unknown
+  rawResponse?: unknown,
+  provider: "paypal" | "nicepay" = "paypal"
 ) {
   const modernUpdate = {
     status: "failed",
@@ -303,7 +305,7 @@ export async function markStoredOrderFailed(
     .from("orders")
     .update({
       status: "failed",
-      ...(rawResponse ? { raw_toss_response: { provider: "paypal", raw_provider_response: rawResponse } } : {}),
+      ...(rawResponse ? { raw_toss_response: { provider, raw_provider_response: rawResponse } } : {}),
     })
     .eq("id", orderId);
   if (legacyResult.error) {
@@ -334,7 +336,7 @@ export async function markStoredOrderInactive(
   const legacyUpdate: Record<string, unknown> = { status };
   if (input.rawResponse) {
     legacyUpdate.raw_toss_response = {
-      provider: "lemonsqueezy",
+      provider: input.provider ?? "paypal",
       provider_order_id: input.providerOrderId ?? null,
       provider_subscription_id: input.providerSubscriptionId ?? null,
       raw_provider_response: input.rawResponse,
