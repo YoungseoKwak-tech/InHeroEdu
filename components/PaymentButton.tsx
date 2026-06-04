@@ -307,7 +307,9 @@ export default function PaymentButton({
       >
         {nicePayPrimary
           ? supportsNicePay
-            ? "Primary checkout opens NICEPAY. PayPal stays available as an international backup."
+            ? showPayPalBackup
+              ? "Primary checkout opens NICEPAY. PayPal stays available as an international backup."
+              : "Checkout opens NICEPAY."
             : "PayPal checkout is active for this item until NICEPAY support is enabled for it."
           : "PayPal checkout is active. NICEPAY can be re-enabled with NEXT_PUBLIC_NICEPAY_ENABLED."}
       </div>
