@@ -244,7 +244,7 @@ export default function EnglishPricingSection() {
           >
             <PriceLine original={99} current={49} suffix="/ subject / mo" accent="#C9A84C" />
             <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.42)', margin: 0 }}>
-              AP Biology checkout shown first
+              AP Biology checkout shown first · Korea checkout ₩75,000/mo
             </p>
             <FeatureList
               color="#C9A84C"

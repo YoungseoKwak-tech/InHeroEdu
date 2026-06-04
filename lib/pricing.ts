@@ -64,7 +64,7 @@ export const PRICING = {
     {
       id: "one_subject",
       name: "한 과목 엘리트 패스", nameEn: "One Subject Elite Pass",
-      priceKRW: 69000, priceUSD: 49,
+      priceKRW: 75000, priceUSD: 49,
       period: "월 / mo",
       features: ["선택 1과목 강의 무제한","해당 과목 textbook access","AI 즉시 설명","학습 대시보드"],
       badge: null as string | null,
