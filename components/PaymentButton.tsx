@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { authFetch, getClientSession } from "@/lib/client-auth";
 
 interface PaymentButtonProps {
@@ -106,21 +106,6 @@ function isNicePaySupportedService(serviceId: string) {
   return nicePaySupportedServices.has(serviceId.split(":")[0] ?? serviceId);
 }
 
-function shouldUseNicePayForCurrentBrowser(serviceId: string) {
-  if (!nicePayPrimary || typeof window === "undefined") return false;
-  if (!isNicePaySupportedService(serviceId)) return false;
-
-  const language =
-    navigator.language || navigator.languages?.[0] || "";
-  const timezone =
-    Intl.DateTimeFormat().resolvedOptions().timeZone || "";
-
-  if (language.toLowerCase().startsWith("ko")) return true;
-  if (timezone === "Asia/Seoul") return true;
-
-  return false;
-}
-
 export default function PaymentButton({
   serviceId,
   amount,
@@ -134,13 +119,6 @@ export default function PaymentButton({
 }: PaymentButtonProps) {
   const [loadingProvider, setLoadingProvider] = useState<LoadingProvider>(null);
   const [error, setError] = useState<string | null>(null);
-  const [preferredProvider, setPreferredProvider] = useState<"nicepay" | "paypal">(
-    nicePayPrimary && isNicePaySupportedService(serviceId) ? "nicepay" : "paypal"
-  );
-
-  useEffect(() => {
-    setPreferredProvider(shouldUseNicePayForCurrentBrowser(serviceId) ? "nicepay" : "paypal");
-  }, [serviceId]);
 
   async function getSignedInCustomer() {
     const session = await getClientSession();
@@ -273,7 +251,7 @@ export default function PaymentButton({
 
   const loading = loadingProvider !== null;
   const supportsNicePay = isNicePaySupportedService(serviceId);
-  const useNicePayPrimary = supportsNicePay && preferredProvider === "nicepay";
+  const useNicePayPrimary = nicePayPrimary && supportsNicePay;
   const primaryLabel =
     loadingProvider === "nicepay"
       ? "Opening NICEPAY…"
@@ -329,7 +307,7 @@ export default function PaymentButton({
       >
         {nicePayPrimary
           ? supportsNicePay
-            ? "Korea browsers route to NICEPAY; international browsers route to PayPal. The other option stays available as backup."
+            ? "Primary checkout opens NICEPAY. PayPal stays available as an international backup."
             : "PayPal checkout is active for this item until NICEPAY support is enabled for it."
           : "PayPal checkout is active. NICEPAY can be re-enabled with NEXT_PUBLIC_NICEPAY_ENABLED."}
       </div>
