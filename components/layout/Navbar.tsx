@@ -16,6 +16,7 @@ const NAV_LINKS = [
   { href: "/my-plan",         label: "Home" },
   // { href: "/textbooks",       label: "TEXTBOOKS" }, // merged into LIBRARY (sidebar) — /textbooks redirects to /library
   { href: "/academy",         label: "Courses" },
+  { href: "/question-bank",   label: "Question Bank" },
   { href: "/lounges",         label: "Lounges" },
   { href: "/library",         label: "Library" },
   { href: "/my-space",        label: "Saved" },

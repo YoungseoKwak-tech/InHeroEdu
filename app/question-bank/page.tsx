@@ -1,165 +1,291 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { SUBJECTS, SUBJECT_CATEGORIES, CATEGORY_LABELS, getSubjectsByCategory } from "@/lib/subjects";
+/**
+ * Question Bank — every practice question InHero has authored, pulled from
+ * lesson overlays + the admin questions table (see /api/question-bank/bank).
+ *
+ * Click an option to answer. Right → green + explanation. Wrong → the
+ * option's feedback + explanation, then a "Try a similar one" card with a
+ * near-variant (the in-lesson followup), mirroring how the lessons teach.
+ */
+
+import { useEffect, useMemo, useState } from "react";
+
+interface BankOption {
+  label: string;
+  correct: boolean;
+  feedback?: string | null;
+}
+interface BankQuestion {
+  id: string;
+  source: "lesson" | "admin";
+  courseId: string | null;
+  subjectLabel: string;
+  emoji: string;
+  lessonId: string | null;
+  unit: number | null;
+  prompt: string;
+  options: BankOption[];
+  explanation?: string | null;
+  similar?: { prompt: string; options: BankOption[] } | null;
+}
+interface SubjectCount {
+  courseId: string | null;
+  label: string;
+  emoji: string;
+  count: number;
+}
 
 export default function QuestionBankPage() {
-  const [counts, setCounts] = useState<Record<string, number>>({});
+  const [subjects, setSubjects] = useState<SubjectCount[]>([]);
+  const [total, setTotal] = useState(0);
+  const [active, setActive] = useState<string | null>(null); // courseId or null = all
+  const [questions, setQuestions] = useState<BankQuestion[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/question-bank?countOnly=true")
+    fetch("/api/question-bank/bank?countOnly=true")
       .then((r) => r.json())
-      .then((data) => setCounts(data.counts ?? {}))
-      .finally(() => setLoading(false));
+      .then((d) => {
+        setSubjects(d.subjects ?? []);
+        setTotal(d.total ?? 0);
+      })
+      .catch(() => {});
   }, []);
 
-  const totalQuestions = Object.values(counts).reduce((a, b) => a + b, 0);
+  useEffect(() => {
+    setLoading(true);
+    const q = active ? `?subject=${encodeURIComponent(active)}` : "";
+    fetch(`/api/question-bank/bank${q}`)
+      .then((r) => r.json())
+      .then((d) => setQuestions(d.questions ?? []))
+      .catch(() => setQuestions([]))
+      .finally(() => setLoading(false));
+  }, [active]);
+
+  const shown = useMemo(() => questions.slice(0, 150), [questions]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      {/* Header */}
-      <div className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center text-xl">
-              🏦
-            </div>
-            <div>
-              <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white">Question Bank</h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Practice by subject · auto-grade · review what you missed
-              </p>
-            </div>
-          </div>
-          {!loading && (
-            <div className="flex flex-wrap items-center gap-3 mt-4">
-              <p className="text-sm text-gray-400">
-                <span className="font-bold text-primary-500">{totalQuestions.toLocaleString()}</span> questions total
-              </p>
-              {totalQuestions > 0 && (
-                <span
-                  className="qb-time-chip"
-                  title="Estimate based on ~1 minute per AP-style multiple-choice question"
-                >
-                  ⏱ ~{totalQuestions.toLocaleString()} min total
-                </span>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
+    <div style={{ background: "#000", minHeight: "100vh", padding: "72px 24px 120px", fontFamily: "Inter, sans-serif" }}>
+      <div style={{ maxWidth: 880, margin: "0 auto" }}>
+        {/* Header */}
+        <p style={{ fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(0,255,178,0.7)", marginBottom: 14 }}>
+          INHERO QUESTION BANK
+        </p>
+        <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.4rem)", fontWeight: 850, color: "#fff", letterSpacing: "-0.05em", lineHeight: 1.02, marginBottom: 14 }}>
+          Every question.<br />Miss one, get one like it.
+        </h1>
+        <p style={{ fontSize: 15, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, marginBottom: 30, maxWidth: 620 }}>
+          {total.toLocaleString()} practice questions pulled straight from InHero lessons — answer one, and if
+          you miss it you get the explanation plus a similar problem to lock it in.
+        </p>
 
-      {/* Subject grid by category */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+        {/* Subject filter chips */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 34 }}>
+          <Chip active={active === null} onClick={() => setActive(null)} label="All" emoji="🏦" count={total} />
+          {subjects.map((s) => (
+            <Chip
+              key={s.courseId ?? s.label}
+              active={active === s.courseId}
+              onClick={() => setActive(s.courseId)}
+              label={s.label}
+              emoji={s.emoji}
+              count={s.count}
+            />
+          ))}
+        </div>
+
+        {/* Questions */}
         {loading ? (
-          <div className="flex justify-center py-20">
-            <div className="flex gap-1.5">
-              {[0, 1, 2].map((i) => (
-                <div key={i} className="w-3 h-3 bg-primary-400 rounded-full animate-bounce"
-                  style={{ animationDelay: `${i * 0.15}s` }} />
-              ))}
-            </div>
-          </div>
+          <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14 }}>Loading questions…</p>
+        ) : shown.length === 0 ? (
+          <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14 }}>No questions here yet.</p>
         ) : (
-          SUBJECT_CATEGORIES.map((cat) => {
-            const subjects = getSubjectsByCategory(cat);
-            const hasAny = subjects.some((s) => (counts[s.id] ?? 0) > 0);
-            return (
-              <div key={cat}>
-                <div className="flex items-center gap-3 mb-4">
-                  <h2 className="text-lg font-extrabold text-gray-900 dark:text-white">
-                    {CATEGORY_LABELS[cat]}
-                  </h2>
-                  <div className="h-px flex-1 bg-gray-100 dark:bg-gray-800" />
-                  {!hasAny && (
-                    <span className="text-xs text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full">
-                      Coming soon
-                    </span>
-                  )}
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                  {subjects.map((subject) => {
-                    const count = counts[subject.id] ?? 0;
-                    const isEmpty = count === 0;
-                    return (
-                      <Link
-                        key={subject.id}
-                        href={isEmpty ? "#" : `/question-bank/${subject.id}`}
-                        className={`group card p-4 flex flex-col gap-2 transition-all ${
-                          isEmpty
-                            ? "opacity-50 cursor-not-allowed"
-                            : "hover:shadow-md hover:-translate-y-0.5"
-                        }`}
-                        onClick={(e) => isEmpty && e.preventDefault()}
-                      >
-                        <div
-                          className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
-                          style={{ backgroundColor: subject.color }}
-                        >
-                          {subject.name.slice(0, 2)}
-                        </div>
-                        <div className="flex-1">
-                          <p className="text-xs font-bold text-gray-900 dark:text-white leading-tight">
-                            {subject.name}
-                          </p>
-                        </div>
-                        <div className="flex items-center justify-between gap-2 flex-wrap">
-                          {count > 0 ? (
-                            <div className="flex items-center gap-1.5">
-                              <span className="text-xs font-semibold text-primary-500">
-                                {count} questions
-                              </span>
-                              <span
-                                className="qb-time-chip qb-time-chip-sm"
-                                title={`~1 min per question · ~${count} min total`}
-                              >
-                                ~{count} min
-                              </span>
-                            </div>
-                          ) : (
-                            <span className="text-xs text-gray-300 dark:text-gray-600">Coming soon</span>
-                          )}
-                          {count > 0 && (
-                            <svg className="w-3.5 h-3.5 text-gray-300 group-hover:text-primary-400 transition-colors"
-                              fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                            </svg>
-                          )}
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {shown.map((q, i) => (
+              <QuestionCard key={q.id} q={q} index={i} />
+            ))}
+            {questions.length > shown.length && (
+              <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, textAlign: "center", marginTop: 8 }}>
+                Showing first {shown.length} of {questions.length.toLocaleString()} — filter by subject to narrow.
+              </p>
+            )}
+          </div>
         )}
       </div>
+    </div>
+  );
+}
 
-      <style>{`
-        .qb-time-chip {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.3rem;
-          font-family: 'JetBrains Mono', ui-monospace, monospace;
-          font-size: 0.66rem;
-          font-weight: 700;
-          letter-spacing: 0.04em;
-          color: rgba(0, 255, 178, 0.85);
-          background: rgba(0, 255, 178, 0.08);
-          border: 1px solid rgba(0, 255, 178, 0.24);
-          padding: 0.22rem 0.6rem;
-          border-radius: 9999px;
-          flex-shrink: 0;
-        }
-        .qb-time-chip-sm {
-          font-size: 0.58rem;
-          padding: 0.12rem 0.42rem;
-          letter-spacing: 0.04em;
-        }
-      `}</style>
+function Chip({ active, onClick, label, emoji, count }: { active: boolean; onClick: () => void; label: string; emoji: string; count: number }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 7,
+        padding: "8px 14px",
+        borderRadius: 999,
+        fontSize: 13,
+        fontWeight: 700,
+        cursor: "pointer",
+        border: active ? "1px solid rgba(0,255,178,0.55)" : "1px solid rgba(255,255,255,0.1)",
+        background: active ? "rgba(0,255,178,0.14)" : "rgba(255,255,255,0.03)",
+        color: active ? "#5eead4" : "rgba(255,255,255,0.7)",
+        transition: "all .12s",
+      }}
+    >
+      <span>{emoji}</span>
+      {label}
+      <span style={{ opacity: 0.6, fontSize: 11 }}>{count}</span>
+    </button>
+  );
+}
+
+function QuestionCard({ q, index }: { q: BankQuestion; index: number }) {
+  return (
+    <div
+      style={{
+        borderRadius: 16,
+        border: "1px solid rgba(255,255,255,0.08)",
+        background: "rgba(255,255,255,0.02)",
+        padding: "20px 22px",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
+        <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.06em", color: "rgba(0,255,178,0.75)" }}>
+          {q.emoji} {q.subjectLabel}
+        </span>
+        {q.unit != null && (
+          <span style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.4)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 999, padding: "2px 8px" }}>
+            Unit {q.unit}
+          </span>
+        )}
+        <span style={{ marginLeft: "auto", fontSize: 11, color: "rgba(255,255,255,0.28)" }}>#{index + 1}</span>
+      </div>
+      <Askable prompt={q.prompt} options={q.options} explanation={q.explanation} similar={q.similar} />
+    </div>
+  );
+}
+
+/** One answerable MCQ. Reveals feedback on click; on a wrong answer it
+ *  offers the similar question as a nested Askable. */
+function Askable({
+  prompt,
+  options,
+  explanation,
+  similar,
+  nested = false,
+}: {
+  prompt: string;
+  options: BankOption[];
+  explanation?: string | null;
+  similar?: { prompt: string; options: BankOption[] } | null;
+  nested?: boolean;
+}) {
+  const [picked, setPicked] = useState<number | null>(null);
+  const [showSimilar, setShowSimilar] = useState(false);
+  const answered = picked !== null;
+  const pickedOpt = answered ? options[picked!] : null;
+  const isWrong = answered && !pickedOpt?.correct;
+
+  return (
+    <div>
+      <p style={{ fontSize: nested ? 14 : 15.5, fontWeight: 600, color: "#fff", lineHeight: 1.55, marginBottom: 14, whiteSpace: "pre-wrap" }}>
+        {prompt}
+      </p>
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        {options.map((o, i) => {
+          const chosen = picked === i;
+          let border = "1px solid rgba(255,255,255,0.1)";
+          let bg = "rgba(255,255,255,0.02)";
+          let color = "rgba(255,255,255,0.85)";
+          if (answered) {
+            if (o.correct) {
+              border = "1px solid rgba(0,255,178,0.55)";
+              bg = "rgba(0,255,178,0.12)";
+              color = "#5eead4";
+            } else if (chosen) {
+              border = "1px solid rgba(255,107,107,0.55)";
+              bg = "rgba(255,107,107,0.12)";
+              color = "#ff8b8b";
+            } else {
+              color = "rgba(255,255,255,0.4)";
+            }
+          }
+          return (
+            <button
+              key={i}
+              disabled={answered}
+              onClick={() => setPicked(i)}
+              style={{
+                textAlign: "left",
+                padding: "11px 14px",
+                borderRadius: 11,
+                border,
+                background: bg,
+                color,
+                fontSize: 14,
+                fontWeight: 500,
+                cursor: answered ? "default" : "pointer",
+                lineHeight: 1.5,
+                transition: "all .1s",
+              }}
+            >
+              {answered && o.correct ? "✓ " : answered && chosen ? "✗ " : ""}
+              {o.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Feedback */}
+      {answered && (
+        <div style={{ marginTop: 14 }}>
+          {pickedOpt?.feedback && (
+            <p style={{ fontSize: 13.5, lineHeight: 1.6, color: isWrong ? "#ffb3b3" : "rgba(0,255,178,0.85)", margin: "0 0 8px" }}>
+              {pickedOpt.feedback}
+            </p>
+          )}
+          {explanation && (
+            <p style={{ fontSize: 13.5, lineHeight: 1.6, color: "rgba(255,255,255,0.6)", margin: 0, borderLeft: "2px solid rgba(255,255,255,0.15)", paddingLeft: 12 }}>
+              {explanation}
+            </p>
+          )}
+
+          {isWrong && similar && !showSimilar && (
+            <button
+              onClick={() => setShowSimilar(true)}
+              style={{
+                marginTop: 14,
+                padding: "9px 16px",
+                borderRadius: 10,
+                border: "1px solid rgba(201,168,76,0.5)",
+                background: "rgba(201,168,76,0.12)",
+                color: "#e8d9a8",
+                fontSize: 12.5,
+                fontWeight: 800,
+                letterSpacing: "0.04em",
+                cursor: "pointer",
+              }}
+            >
+              ↻ Try a similar one →
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* Similar problem (the in-lesson followup) */}
+      {showSimilar && similar && (
+        <div style={{ marginTop: 16, padding: "16px 16px 4px", borderRadius: 12, border: "1px dashed rgba(201,168,76,0.4)", background: "rgba(201,168,76,0.04)" }}>
+          <p style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase", color: "#C9A84C", margin: "0 0 10px" }}>
+            Similar problem
+          </p>
+          <Askable prompt={similar.prompt} options={similar.options} nested />
+          <div style={{ height: 12 }} />
+        </div>
+      )}
     </div>
   );
 }
