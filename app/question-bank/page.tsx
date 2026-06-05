@@ -29,6 +29,8 @@ interface BankQuestion {
   options: BankOption[];
   explanation?: string | null;
   similar?: { prompt: string; options: BankOption[] } | null;
+  /** Not in the student's paid plan — answers stripped server-side; render blurred. */
+  locked?: boolean;
 }
 interface SubjectCount {
   courseId: string | null;
@@ -98,8 +100,12 @@ export default function QuestionBankPage() {
       .finally(() => setLoading(false));
   }, [active]);
 
-  // API already caps the payload; render what it sent.
-  const shown = questions;
+  // API already caps the payload; render what it sent. Free/answerable
+  // questions render as normal cards; locked ones stack blurred behind a
+  // single upgrade CTA.
+  const unlockedShown = questions.filter((q) => !q.locked);
+  const lockedShown = questions.filter((q) => q.locked);
+  const lockedRemaining = Math.max(filteredTotal - unlockedShown.length, lockedShown.length);
 
   return (
     <div style={{ background: "#000", minHeight: "100vh", padding: "72px 24px 120px", fontFamily: "Inter, sans-serif" }}>
@@ -145,22 +151,29 @@ export default function QuestionBankPage() {
             }}
           >
             <p style={{ color: "#C9A84C", fontWeight: 900, letterSpacing: "0.12em", fontSize: 11, marginBottom: 8, textTransform: "uppercase" }}>
-              Elite question bank
+              Question bank
             </p>
             <p style={{ margin: 0 }}>{accessMessage}</p>
           </div>
         ) : loading ? (
           <QuestionLoader />
-        ) : shown.length === 0 ? (
+        ) : questions.length === 0 ? (
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14 }}>No questions here yet.</p>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            {shown.map((q, i) => (
+            {unlockedShown.map((q, i) => (
               <QuestionCard key={q.id} q={q} index={i} />
             ))}
-            {filteredTotal > shown.length && (
+            {lockedShown.length > 0 && (
+              <LockedStack
+                questions={lockedShown.slice(0, 4)}
+                startIndex={unlockedShown.length}
+                lockedCount={lockedRemaining}
+              />
+            )}
+            {lockedShown.length === 0 && filteredTotal > unlockedShown.length && (
               <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, textAlign: "center", marginTop: 8 }}>
-                Showing first {shown.length} of {filteredTotal.toLocaleString()} — filter by subject to narrow.
+                Showing first {unlockedShown.length} of {filteredTotal.toLocaleString()} — filter by subject to narrow.
               </p>
             )}
           </div>
@@ -210,9 +223,89 @@ function QuestionLoader() {
 }
 
 function questionBankAccessMessage(reason?: string) {
-  if (reason === "sign_in_required") return "Sign in to see the question bank attached to your plan.";
-  if (reason === "subject_not_in_plan") return "This subject is not included in your One Subject Elite plan.";
-  return "Upgrade to One Subject Elite or All Subject Pass to unlock question banks.";
+  if (reason === "sign_in_required") return "Sign in to browse the question bank — a couple of free questions per subject are on us.";
+  return "Could not load the question bank. Try again in a moment.";
+}
+
+/** Blurred stack of locked questions with a single upgrade CTA floating on top. */
+function LockedStack({
+  questions,
+  startIndex,
+  lockedCount,
+}: {
+  questions: BankQuestion[];
+  startIndex: number;
+  lockedCount: number;
+}) {
+  return (
+    <div style={{ position: "relative", marginTop: 4 }}>
+      <div
+        aria-hidden
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 16,
+          filter: "blur(7px)",
+          pointerEvents: "none",
+          userSelect: "none",
+          maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.25))",
+          WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.25))",
+        }}
+      >
+        {questions.map((q, i) => (
+          <QuestionCard key={q.id} q={q} index={startIndex + i} />
+        ))}
+      </div>
+
+      {/* Upgrade CTA */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 24,
+        }}
+      >
+        <div
+          style={{
+            borderRadius: 18,
+            border: "1px solid rgba(201,168,76,0.4)",
+            background: "rgba(10,10,10,0.92)",
+            boxShadow: "0 16px 48px rgba(0,0,0,0.6)",
+            padding: "28px 32px",
+            textAlign: "center",
+            maxWidth: 420,
+          }}
+        >
+          <p style={{ fontSize: 26, margin: "0 0 10px" }}>🔒</p>
+          <p style={{ color: "#fff", fontSize: 17, fontWeight: 850, letterSpacing: "-0.02em", margin: "0 0 8px" }}>
+            {lockedCount.toLocaleString()} more questions locked
+          </p>
+          <p style={{ color: "rgba(255,255,255,0.55)", fontSize: 13.5, lineHeight: 1.65, margin: "0 0 18px" }}>
+            You tried the free ones — unlock the full bank with One Subject Elite or the All Subject Pass.
+          </p>
+          <a
+            href="/pricing"
+            style={{
+              display: "inline-block",
+              padding: "11px 26px",
+              borderRadius: 999,
+              background: "#C9A84C",
+              color: "#0a0a0a",
+              fontSize: 13.5,
+              fontWeight: 850,
+              letterSpacing: "0.02em",
+              textDecoration: "none",
+            }}
+          >
+            Unlock the full bank →
+          </a>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function Chip({ active, onClick, label, emoji, count }: { active: boolean; onClick: () => void; label: string; emoji: string; count: number }) {
