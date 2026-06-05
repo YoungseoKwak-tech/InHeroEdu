@@ -468,7 +468,7 @@ export default function EnglishPricingSection() {
           >
             <PriceLine original={899} current={199} suffix="/ mo" accent="#00FFB2" />
             <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.42)', margin: 0 }}>
-              All subjects, one pass
+              All subjects, one pass · Korea checkout ₩275,000/mo
             </p>
             <FeatureList
               color="#00FFB2"
@@ -481,7 +481,7 @@ export default function EnglishPricingSection() {
             />
             <PaymentButton
               serviceId="all_subjects"
-              amount={199}
+              amount={275000}
               orderName="Elite All Subject Pass"
               returnTo="/courses"
               label="Checkout All Subjects — $199/mo"

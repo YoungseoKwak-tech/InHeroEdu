@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
   try {
     quote = assertRequestedNicePayPrice({
       serviceId: body.serviceId,
-      requestedAmountUSD: body.amount,
+      requestedChargeAmount: body.amount,
     });
   } catch (error) {
     return NextResponse.json(
