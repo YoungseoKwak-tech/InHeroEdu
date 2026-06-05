@@ -1,4 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getAuthenticatedUser } from "@/lib/auth";
+import { normalizeCourseAccessSubjectId } from "@/lib/course-access";
+import {
+  getPaidSubjectAccessIds,
+  hasPaidSubjectAccess,
+} from "@/lib/paid-subject-access";
+import { SUBJECTS } from "@/lib/subjects";
 import { createAdminClient } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
@@ -13,8 +20,43 @@ export async function GET(req: NextRequest) {
     const page       = Math.max(1, parseInt(searchParams.get("page") ?? "1"));
     const limit      = Math.min(50, parseInt(searchParams.get("limit") ?? "20"));
     const countOnly  = searchParams.get("countOnly") === "true";
+    const user = await getAuthenticatedUser(req);
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "sign in required", reason: "sign_in_required" },
+        { status: 401 }
+      );
+    }
 
     const supabase = createAdminClient();
+    const accessIds = await getPaidSubjectAccessIds(user);
+
+    if (accessIds.size === 0) {
+      return NextResponse.json(
+        { error: "elite plan required", reason: "paid_plan_required" },
+        { status: 403 }
+      );
+    }
+
+    if (subject && !hasPaidSubjectAccess(accessIds, subject)) {
+      return NextResponse.json(
+        { error: "subject not included in plan", reason: "subject_not_in_plan" },
+        { status: 403 }
+      );
+    }
+
+    const allowedQuestionSubjects = new Set<string>();
+    for (const courseId of accessIds) {
+      allowedQuestionSubjects.add(courseId);
+    }
+    for (const legacySubject of SUBJECTS) {
+      const courseId = normalizeCourseAccessSubjectId(legacySubject.id);
+      if (courseId && accessIds.has(courseId)) {
+        allowedQuestionSubjects.add(legacySubject.id);
+        allowedQuestionSubjects.add(courseId);
+      }
+    }
 
     if (countOnly) {
       // Return question counts per subject
@@ -26,6 +68,7 @@ export async function GET(req: NextRequest) {
       // Group by subject
       const counts: Record<string, number> = {};
       (data ?? []).forEach((row: { subject: string }) => {
+        if (!hasPaidSubjectAccess(accessIds, row.subject)) return;
         counts[row.subject] = (counts[row.subject] ?? 0) + 1;
       });
       return NextResponse.json({ counts });
@@ -36,6 +79,7 @@ export async function GET(req: NextRequest) {
       .select("id,subject,topic,difficulty,type,question_text,option_a,option_b,option_c,option_d,option_e,correct_answer,explanation,explanation_korean,tags", { count: "exact" });
 
     if (subject)    query = query.eq("subject", subject);
+    else if (allowedQuestionSubjects.size > 0) query = query.in("subject", Array.from(allowedQuestionSubjects));
     if (difficulty) query = query.eq("difficulty", difficulty);
     if (type)       query = query.eq("type", type);
 

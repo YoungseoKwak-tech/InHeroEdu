@@ -25,6 +25,7 @@ import { createAdminClient } from "@/lib/supabase";
 import { inferCourseIdFromLessonId } from "@/lib/learning-tracking";
 import { getCourseIdVariants } from "@/lib/courseAliases";
 import { courses } from "@/lib/data/courses";
+import { normalizeCourseAccessSubjectId } from "@/lib/course-access";
 
 export interface BankOption {
   label: string;
@@ -251,13 +252,17 @@ function fromAdminRow(row: AdminQuestionRow): BankQuestion | null {
     .filter((o) => o.label.length > 0);
   if (options.length < 2 || !options.some((o) => o.correct)) return null;
 
-  // Admin subjects use ap_bio-style ids; best-effort emoji/label.
+  const courseId = normalizeCourseAccessSubjectId(row.subject);
+  const meta = metaFor(courseId);
+
+  // Admin subjects may use ap_bio-style ids; normalize them so access
+  // checks and subject filters use the same course id vocabulary.
   return {
     id: `admin:${row.id}`,
     source: "admin",
-    courseId: null,
-    subjectLabel: row.subject ?? row.topic ?? "Question Bank",
-    emoji: "🏦",
+    courseId,
+    subjectLabel: courseId ? meta.label : row.subject ?? row.topic ?? "Question Bank",
+    emoji: courseId ? meta.emoji : "🏦",
     lessonId: null,
     unit: null,
     prompt,
@@ -353,9 +358,10 @@ export async function buildBankQuestions(subject?: string): Promise<BankQuestion
 
   // Filter by course id, tolerant of id variants (course pages may pass
   // "ap-physics-c-mech" while bank questions are tagged the data-layer
-  // form "ap-physics-c-mechanics").
+  // form "ap-physics-c-mechanics") and of access-subject normalization.
   if (!subject) return all;
-  const subjectVariants = getCourseIdVariants(subject);
+  const normalizedSubject = normalizeCourseAccessSubjectId(subject) ?? subject;
+  const subjectVariants = getCourseIdVariants(normalizedSubject);
   return all.filter((q) => q.courseId && subjectVariants.includes(q.courseId));
 }
 

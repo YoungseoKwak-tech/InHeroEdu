@@ -4,6 +4,7 @@ import { useEffect, useState, use, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getSubjectById } from "@/lib/subjects";
+import { authFetch } from "@/lib/client-auth";
 import { Suspense } from "react";
 
 interface Question {
@@ -61,9 +62,17 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
     if (diff) params.set("difficulty", diff);
     if (type) params.set("type", type);
 
-    fetch(`/api/question-bank?${params}`)
-      .then((r) => r.json())
+    authFetch(`/api/question-bank?${params}`)
+      .then(async (r) => {
+        const data = await r.json();
+        if (!r.ok) {
+          setError(questionBankAccessMessage(data.reason));
+          return null;
+        }
+        return data;
+      })
       .then((data) => {
+        if (!data) return;
         if (!data.questions?.length) setError("No questions available.");
         setQuestions(data.questions ?? []);
       })
@@ -101,7 +110,7 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
     setAttempts((prev) => [...prev, attempt]);
 
     // Save to DB (fire-and-forget)
-    fetch("/api/question-bank/attempt", {
+    authFetch("/api/question-bank/attempt", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -110,7 +119,7 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
         isCorrect: correct,
         timeSpent,
       }),
-    }).catch(() => {});
+    }).catch((err) => console.warn("[question-bank] attempt save failed", err));
   }
 
   function handleNext() {
@@ -457,6 +466,12 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
       </div>
     </div>
   );
+}
+
+function questionBankAccessMessage(reason?: string) {
+  if (reason === "sign_in_required") return "Sign in to practice questions from your plan.";
+  if (reason === "subject_not_in_plan") return "This subject is not included in your One Subject Elite plan.";
+  return "Upgrade to One Subject Elite or All Subject Pass to practice this question bank.";
 }
 
 export default function PracticePage({

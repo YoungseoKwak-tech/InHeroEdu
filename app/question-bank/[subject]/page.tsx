@@ -3,6 +3,7 @@
 import { useEffect, useState, use } from "react";
 import Link from "next/link";
 import { getSubjectById } from "@/lib/subjects";
+import { authFetch } from "@/lib/client-auth";
 import { useRouter } from "next/navigation";
 
 interface Question {
@@ -34,6 +35,7 @@ export default function SubjectQuestionBankPage({
   const [loading, setLoading] = useState(true);
   const [filterDiff, setFilterDiff] = useState("");
   const [filterType, setFilterType] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!subject) return;
@@ -42,12 +44,26 @@ export default function SubjectQuestionBankPage({
     if (filterDiff) params.set("difficulty", filterDiff);
     if (filterType) params.set("type", filterType);
 
-    fetch(`/api/question-bank?${params}`)
-      .then((r) => r.json())
+    setError("");
+    authFetch(`/api/question-bank?${params}`)
+      .then(async (r) => {
+        const data = await r.json();
+        if (!r.ok) {
+          setError(questionBankAccessMessage(data.reason));
+          return null;
+        }
+        return data;
+      })
       .then((data) => {
+        if (!data) {
+          setQuestions([]);
+          setTotal(0);
+          return;
+        }
         setQuestions(data.questions ?? []);
         setTotal(data.total ?? 0);
       })
+      .catch(() => setError("Could not load your question-bank access. Try again in a moment."))
       .finally(() => setLoading(false));
   }, [subjectId, filterDiff, filterType, subject]);
 
@@ -188,6 +204,13 @@ export default function SubjectQuestionBankPage({
                   ))}
                 </div>
               </div>
+            ) : error ? (
+              <div className="card p-12 text-center text-gray-400">
+                <p className="font-semibold text-gray-600 dark:text-gray-300">{error}</p>
+                <Link href="/pricing" className="btn-primary text-sm mt-4 inline-block">
+                  View Elite plans
+                </Link>
+              </div>
             ) : questions.length === 0 ? (
               <div className="card p-12 text-center text-gray-400">
                 <div className="text-4xl mb-3">📭</div>
@@ -249,4 +272,10 @@ export default function SubjectQuestionBankPage({
       `}</style>
     </div>
   );
+}
+
+function questionBankAccessMessage(reason?: string) {
+  if (reason === "sign_in_required") return "Sign in to see the question bank attached to your plan.";
+  if (reason === "subject_not_in_plan") return "This subject is not included in your One Subject Elite plan.";
+  return "Upgrade to One Subject Elite or All Subject Pass to unlock this question bank.";
 }
