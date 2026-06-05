@@ -52,11 +52,13 @@ export default function RefundPolicyPage() {
           cancellation.
         </p>
         <p style={{ margin: 0 }}>
-          To cancel, email{" "}
+          To cancel online, open <strong style={{ color: "#fff" }}>My Plan</strong> and use the
+          &ldquo;Cancel renewal&rdquo; button in the billing section. If the in-product cancellation
+          control is unavailable, email{" "}
           <a href="mailto:inheroedu@gmail.com" style={{ color: "rgba(0,255,178,0.85)" }}>
             inheroedu@gmail.com
           </a>{" "}
-          and we will stop the next billing cycle.
+          and we will stop the next billing cycle manually.
         </p>
       </LegalSection>
 

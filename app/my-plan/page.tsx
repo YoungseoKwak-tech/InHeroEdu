@@ -14,6 +14,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authFetch, getClientSession } from "@/lib/client-auth";
+import { courses } from "@/lib/data/courses";
 import { findExam } from "@/lib/planning/exams";
 import ResumeCard from "@/components/my-plan/ResumeCard";
 
@@ -79,6 +80,24 @@ interface StudyPlan {
   recommended_lounges: LoungeRec[];
   recommended_clubs: ClubRec[];
   created_at: string;
+}
+
+interface BillingSubscription {
+  id: string;
+  provider: string;
+  service_id: string;
+  subject_id: string | null;
+  status: string;
+  next_billing_at: string | null;
+  last_billed_at: string | null;
+  last_order_id: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+  can_cancel: boolean;
+}
+
+interface BillingSummary {
+  subscriptions: BillingSubscription[];
 }
 
 const DAYS: { key: keyof StudyPlan["weekly_schedule"]; label: string; abbr: string }[] = [
@@ -147,6 +166,31 @@ async function loadPlanResponse(): Promise<Response> {
   }
 }
 
+async function loadBillingResponse(): Promise<BillingSummary> {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 7_000);
+
+  try {
+    const res = await authFetch("/api/billing", {
+      signal: controller.signal,
+    });
+    const json = await readJsonSafely(res);
+    if (!res.ok) {
+      const message =
+        typeof json?.error === "string"
+          ? json.error
+          : `Could not load billing yet (${res.status}).`;
+      throw new Error(message);
+    }
+    const subscriptions = Array.isArray(json?.subscriptions)
+      ? (json.subscriptions as BillingSubscription[])
+      : [];
+    return { subscriptions };
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
 // Subject color palette — desaturated ~40% vs. the original
 // tailwind-bright values so the countdown strip and weekly
 // calendar feel cosmic-watercolor instead of rainbow-neon. Each
@@ -167,6 +211,32 @@ function pal(color: string) {
   return COLOR_PALETTE[color] ?? COLOR_PALETTE.slate;
 }
 
+function formatDateTime(iso: string | null): string {
+  if (!iso) return "Not scheduled";
+  return new Date(iso).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+function subjectLabel(subjectId: string | null): string {
+  if (!subjectId) return "All subjects";
+  const course = courses.find((c) => c.id === subjectId);
+  if (course) return course.subjectEn;
+  return subjectId
+    .split("-")
+    .map((part) => (part === "ap" ? "AP" : part.charAt(0).toUpperCase() + part.slice(1)))
+    .join(" ");
+}
+
+function planLabel(subscription: BillingSubscription): string {
+  if (subscription.service_id === "all_subjects") return "All Subject Elite";
+  if (subscription.service_id.startsWith("one_subject:")) return "One Subject Elite";
+  if (subscription.service_id === "one_subject") return "One Subject Elite";
+  return subscription.service_id.replace(/_/g, " ");
+}
+
 export default function MyPlanPage() {
   const router = useRouter();
   const [authStatus, setAuthStatus] = useState<"loading" | "out" | "in">("loading");
@@ -175,6 +245,10 @@ export default function MyPlanPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [shifting, setShifting] = useState(false);
+  const [billing, setBilling] = useState<BillingSummary | null>(null);
+  const [billingLoading, setBillingLoading] = useState(false);
+  const [billingError, setBillingError] = useState<string | null>(null);
+  const [cancelingSubscriptionId, setCancelingSubscriptionId] = useState<string | null>(null);
 
   // Rebuild the plan against the current EXAM_CATALOG default dates.
   // Used by the "Plan for AP 2027" banner when the existing selections
@@ -275,6 +349,71 @@ export default function MyPlanPage() {
     return () => { mounted = false; };
   }, [router]);
 
+  useEffect(() => {
+    if (authStatus !== "in") return;
+
+    let mounted = true;
+    setBillingLoading(true);
+    setBillingError(null);
+
+    loadBillingResponse()
+      .then((summary) => {
+        if (mounted) setBilling(summary);
+      })
+      .catch((e) => {
+        if (!mounted) return;
+        const message =
+          e instanceof DOMException && e.name === "AbortError"
+            ? "Billing took too long to load. Try refreshing once."
+            : e instanceof Error
+              ? e.message
+              : "Failed to load billing.";
+        setBillingError(message);
+      })
+      .finally(() => {
+        if (mounted) setBillingLoading(false);
+      });
+
+    return () => { mounted = false; };
+  }, [authStatus]);
+
+  async function cancelSubscription(subscription: BillingSubscription) {
+    if (subscription.status !== "active") return;
+
+    const confirmed = window.confirm(
+      "Cancel future recurring billing? You will keep access through the paid period, and no next monthly charge will be attempted."
+    );
+    if (!confirmed) return;
+
+    setCancelingSubscriptionId(subscription.id);
+    setBillingError(null);
+    try {
+      const res = await authFetch(
+        `/api/billing/subscriptions/${encodeURIComponent(subscription.id)}/cancel`,
+        { method: "POST" }
+      );
+      const json = await readJsonSafely(res);
+      if (!res.ok) {
+                        throw new Error(typeof json?.error === "string" ? json.error : "Could not cancel subscription.");
+      }
+
+      setBilling((current) => {
+        if (!current) return current;
+        return {
+          subscriptions: current.subscriptions.map((item) =>
+            item.id === subscription.id
+              ? { ...item, status: "cancelled", can_cancel: false }
+              : item
+          ),
+        };
+      });
+    } catch (e) {
+      setBillingError(e instanceof Error ? e.message : "Could not cancel subscription.");
+    } finally {
+      setCancelingSubscriptionId(null);
+    }
+  }
+
   const today = useMemo(todayKey, []);
 
   if (authStatus === "loading" || loading) {
@@ -318,6 +457,7 @@ export default function MyPlanPage() {
     month: "short", day: "numeric", year: "numeric",
   });
   const startHere = plan.recommended_materials[0];
+  const subscriptions = billing?.subscriptions ?? [];
 
   return (
     <main className="mp-root">
@@ -401,6 +541,92 @@ export default function MyPlanPage() {
         {/* ── Resume CTA ──────────────────────────────────────────
             Single primary action: continue the last lesson + streak handoff. */}
         <ResumeCard />
+
+        {/* ── BILLING + LEGAL CONTROLS ──────────────────────────── */}
+        <section className="mp-billing">
+          <div className="mp-billing-head">
+            <div>
+              <div className="mp-billing-eyebrow">BILLING CONTROL</div>
+              <h2 className="mp-h2">My subscription</h2>
+            </div>
+            <Link href="/billing" className="mp-billing-link">Full billing history →</Link>
+          </div>
+
+          {billingLoading ? (
+            <div className="mp-billing-muted">Loading billing status…</div>
+          ) : billingError ? (
+            <div className="mp-billing-error">
+              {billingError}
+              <span>If this persists, email inheroedu@gmail.com and we’ll handle cancellation manually.</span>
+            </div>
+          ) : subscriptions.length === 0 ? (
+            <div className="mp-billing-empty">
+              <strong>No active subscription on this account yet.</strong>
+              <span>You can still use the free first lesson for each course. Upgrade only when you want the full subject unlocked.</span>
+              <Link href="/pricing" className="mp-billing-cta">See pricing →</Link>
+            </div>
+          ) : (
+            <div className="mp-subscription-list">
+              {subscriptions.map((subscription) => {
+                const isActive = subscription.status === "active";
+                const isCancelling = cancelingSubscriptionId === subscription.id;
+                return (
+                  <article key={subscription.id} className={`mp-sub-card ${isActive ? "is-active" : "is-inactive"}`}>
+                    <div className="mp-sub-main">
+                      <div className="mp-sub-title-row">
+                        <span className="mp-sub-title">{planLabel(subscription)}</span>
+                        <span className={`mp-sub-status ${isActive ? "is-active" : ""}`}>
+                          {subscription.status}
+                        </span>
+                      </div>
+                      <div className="mp-sub-scope">
+                        {subscription.service_id === "all_subjects"
+                          ? "All courses, textbooks, question banks, and lounges"
+                          : `${subjectLabel(subscription.subject_id)} course, textbook, question bank + all lounges`}
+                      </div>
+                      <div className="mp-sub-meta">
+                        <span>Provider: {subscription.provider.toUpperCase()}</span>
+                        <span>
+                          {isActive ? "Next billing" : "Access through"}: {formatDateTime(subscription.next_billing_at)}
+                        </span>
+                        <span>Last billed: {formatDateTime(subscription.last_billed_at)}</span>
+                      </div>
+                    </div>
+                    <div className="mp-sub-actions">
+                      {isActive ? (
+                        <button
+                          type="button"
+                          className="mp-cancel-btn"
+                          disabled={isCancelling}
+                          onClick={() => void cancelSubscription(subscription)}
+                        >
+                          {isCancelling ? "Cancelling…" : "Cancel renewal"}
+                        </button>
+                      ) : (
+                        <span className="mp-cancelled-note">Renewal stopped</span>
+                      )}
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+
+          <div className="mp-legal-box">
+            <div className="mp-legal-copy">
+              <strong>Cancellation + refund terms</strong>
+              <span>
+                Cancel renewal here anytime before the next billing cycle. Cancellation stops future recurring billing; current paid access stays available through the paid period unless applicable law or our refund review requires otherwise.
+              </span>
+            </div>
+            <div className="mp-legal-links" aria-label="Legal and commerce policy links">
+              <Link href="/refund-policy">Refund policy</Link>
+              <Link href="/terms">Terms</Link>
+              <Link href="/privacy">Privacy</Link>
+              <Link href="/legal">Business info</Link>
+            </div>
+          </div>
+        </section>
 
         {/* Past-cycle banner: any exam date in the past gets a one-tap
             "rebuild on this year's catalog dates" affordance. */}
@@ -730,6 +956,233 @@ const pageCss = `
     color: rgba(216,217,230,0.7);
     font-size: 0.88rem;
     line-height: 1.55;
+  }
+
+  /* ── Billing controls ───────────────────────────────────────── */
+  .mp-billing {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 1.15rem;
+    border-radius: 0.9rem;
+    border: 1px solid rgba(94,234,212,0.26);
+    background:
+      radial-gradient(circle at 12% 0%, rgba(94,234,212,0.08), transparent 38%),
+      linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.012));
+    box-shadow: 0 0 0 1px rgba(94,234,212,0.04) inset;
+  }
+  .mp-billing-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .mp-billing-eyebrow {
+    margin-bottom: 0.25rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    color: #5eead4;
+  }
+  .mp-billing-link,
+  .mp-billing-cta {
+    color: #5eead4;
+    text-decoration: none;
+    font-family: ui-monospace, monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+  .mp-billing-link:hover,
+  .mp-billing-cta:hover {
+    text-decoration: underline;
+  }
+  .mp-billing-muted,
+  .mp-billing-empty,
+  .mp-billing-error {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding: 1rem;
+    border-radius: 0.7rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .mp-billing-muted {
+    border: 1px dashed rgba(148,163,184,0.2);
+    color: rgba(148,163,184,0.78);
+  }
+  .mp-billing-empty {
+    border: 1px dashed rgba(94,234,212,0.25);
+    color: rgba(216,217,230,0.78);
+    background: rgba(94,234,212,0.035);
+  }
+  .mp-billing-empty strong {
+    color: #f3f3fb;
+  }
+  .mp-billing-error {
+    border: 1px solid rgba(255,107,91,0.4);
+    color: #ffb0a7;
+    background: rgba(255,107,91,0.08);
+  }
+  .mp-billing-error span {
+    color: rgba(255,224,220,0.75);
+  }
+  .mp-subscription-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+  .mp-sub-card {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(5,6,16,0.58);
+  }
+  .mp-sub-card.is-active {
+    border-color: rgba(94,234,212,0.35);
+    box-shadow: 0 0 20px rgba(94,234,212,0.08);
+  }
+  .mp-sub-card.is-inactive {
+    opacity: 0.74;
+  }
+  .mp-sub-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    min-width: 0;
+  }
+  .mp-sub-title-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+  .mp-sub-title {
+    color: #f3f3fb;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .mp-sub-status {
+    padding: 0.16rem 0.48rem;
+    border-radius: 999px;
+    border: 1px solid rgba(148,163,184,0.26);
+    color: rgba(148,163,184,0.82);
+    font-family: ui-monospace, monospace;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .mp-sub-status.is-active {
+    border-color: rgba(94,234,212,0.45);
+    color: #5eead4;
+    background: rgba(94,234,212,0.1);
+  }
+  .mp-sub-scope {
+    color: rgba(216,217,230,0.86);
+    line-height: 1.45;
+  }
+  .mp-sub-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.9rem;
+    color: rgba(148,163,184,0.72);
+    font-family: ui-monospace, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.03em;
+  }
+  .mp-sub-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 9.5rem;
+  }
+  .mp-cancel-btn {
+    padding: 0.55rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,107,91,0.55);
+    background: rgba(255,107,91,0.09);
+    color: #ffb0a7;
+    font-family: ui-monospace, monospace;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .mp-cancel-btn:hover:not(:disabled) {
+    background: rgba(255,107,91,0.16);
+    border-color: rgba(255,107,91,0.75);
+  }
+  .mp-cancel-btn:disabled {
+    cursor: default;
+    opacity: 0.55;
+  }
+  .mp-cancelled-note {
+    color: rgba(148,163,184,0.72);
+    font-family: ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .mp-legal-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .mp-legal-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    max-width: 44rem;
+    color: rgba(148,163,184,0.78);
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+  .mp-legal-copy strong {
+    color: rgba(216,217,230,0.92);
+  }
+  .mp-legal-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.5rem 0.75rem;
+    min-width: 14rem;
+  }
+  .mp-legal-links a {
+    color: rgba(94,234,212,0.88);
+    text-decoration: none;
+    font-family: ui-monospace, monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+  }
+  .mp-legal-links a:hover {
+    text-decoration: underline;
+  }
+  @media (max-width: 760px) {
+    .mp-billing-head,
+    .mp-sub-card,
+    .mp-legal-box {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .mp-sub-actions {
+      justify-content: flex-start;
+      min-width: 0;
+    }
+    .mp-legal-links {
+      justify-content: flex-start;
+      min-width: 0;
+    }
   }
 
   /* ── Countdown strip ────────────────────────────────────────── */

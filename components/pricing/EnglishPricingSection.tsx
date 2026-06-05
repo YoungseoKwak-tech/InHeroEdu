@@ -7,18 +7,14 @@ import { courses } from '@/lib/data/courses'
 import { usd } from '@/lib/pricing'
 
 const AP_BIO_FIRST_LESSON = '/courses/ap-biology/ap-biology-u1-l1'
-const oneSubjectCheckoutOptions = courses
+const oneSubjectOptions = courses
   .filter((course) => course.category === 'AP' || course.category === 'Test Prep')
   .map((course) => ({
     id: course.id,
     label: course.subjectEn,
+    icon: course.icon,
     returnTo: course.firstLessonId ? `/courses/${course.id}/${course.firstLessonId}` : `/courses/${course.id}`,
   }))
-const defaultOneSubjectCheckoutOption = {
-  id: 'ap-biology',
-  label: 'AP Biology',
-  returnTo: AP_BIO_FIRST_LESSON,
-}
 
 const planShell: CSSProperties = {
   position: 'relative',
@@ -239,6 +235,234 @@ function LiveNowBanner() {
   )
 }
 
+function OneSubjectCartCheckout() {
+  const [open, setOpen] = useState(false)
+  const [selectedSubjectId, setSelectedSubjectId] = useState('')
+  const selectedSubject = oneSubjectOptions.find((subject) => subject.id === selectedSubjectId)
+
+  return (
+    <div style={{ marginTop: 18 }}>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        style={{
+          width: '100%',
+          padding: '15px 18px',
+          borderRadius: 14,
+          fontSize: 13,
+          fontWeight: 900,
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase',
+          background: '#C9A84C',
+          color: '#000',
+          border: 'none',
+          cursor: 'pointer',
+        }}
+      >
+        Choose subject + review cart
+      </button>
+      <p style={{ margin: '10px 0 0', color: 'rgba(255,255,255,0.42)', fontSize: 12, lineHeight: 1.5 }}>
+        One Subject Elite asks which AP/SAT subject you want before checkout opens.
+      </p>
+
+      {open && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="one-subject-cart-title"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 80,
+            display: 'grid',
+            placeItems: 'center',
+            padding: 20,
+            background: 'rgba(0,0,0,0.72)',
+            backdropFilter: 'blur(12px)',
+          }}
+        >
+          <div
+            style={{
+              width: 'min(620px, 100%)',
+              borderRadius: 24,
+              border: '1px solid rgba(201,168,76,0.42)',
+              background: 'linear-gradient(180deg, rgba(23,21,10,0.98), rgba(4,5,9,0.98))',
+              boxShadow: '0 28px 80px rgba(0,0,0,0.58)',
+              padding: 26,
+              color: '#fff',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: 18, alignItems: 'flex-start' }}>
+              <div>
+                <p
+                  style={{
+                    margin: '0 0 8px',
+                    color: '#C9A84C',
+                    fontSize: 11,
+                    fontWeight: 900,
+                    letterSpacing: '0.18em',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  One Subject Cart
+                </p>
+                <h3 id="one-subject-cart-title" style={{ margin: 0, fontSize: 26, letterSpacing: '-0.04em' }}>
+                  Which subject do you want to unlock?
+                </h3>
+                <p style={{ margin: '10px 0 0', color: 'rgba(255,255,255,0.55)', fontSize: 14, lineHeight: 1.6 }}>
+                  Pick one AP/SAT subject first. Checkout will unlock lessons, textbook, and question bank for that subject only.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                aria-label="Close subject cart"
+                style={{
+                  width: 42,
+                  height: 42,
+                  borderRadius: 999,
+                  border: '1px solid rgba(255,255,255,0.18)',
+                  background: 'rgba(255,255,255,0.04)',
+                  color: '#fff',
+                  fontSize: 24,
+                  cursor: 'pointer',
+                  lineHeight: 1,
+                }}
+              >
+                ×
+              </button>
+            </div>
+
+            <label
+              htmlFor="one-subject-cart-select"
+              style={{
+                display: 'block',
+                marginTop: 22,
+                fontSize: 11,
+                fontWeight: 900,
+                letterSpacing: '0.16em',
+                textTransform: 'uppercase',
+                color: 'rgba(201,168,76,0.92)',
+              }}
+            >
+              Subject to unlock
+            </label>
+            <select
+              id="one-subject-cart-select"
+              value={selectedSubjectId}
+              onChange={(event) => setSelectedSubjectId(event.target.value)}
+              style={{
+                width: '100%',
+                marginTop: 8,
+                padding: '14px 15px',
+                borderRadius: 14,
+                border: '1px solid rgba(201,168,76,0.36)',
+                background: 'rgba(0,0,0,0.45)',
+                color: '#fff',
+                fontSize: 14,
+                fontWeight: 800,
+                outline: 'none',
+              }}
+            >
+              <option value="">Select one AP/SAT subject</option>
+              {oneSubjectOptions.map((subject) => (
+                <option key={subject.id} value={subject.id}>
+                  {subject.icon} {subject.label}
+                </option>
+              ))}
+            </select>
+
+            <div
+              style={{
+                marginTop: 18,
+                padding: 16,
+                borderRadius: 18,
+                border: '1px solid rgba(255,255,255,0.12)',
+                background: 'rgba(255,255,255,0.035)',
+                display: 'grid',
+                gap: 8,
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16, alignItems: 'baseline' }}>
+                <strong style={{ fontSize: 16 }}>
+                  {selectedSubject ? `${selectedSubject.icon} ${selectedSubject.label} Elite` : 'Choose a subject first'}
+                </strong>
+                <span style={{ color: '#C9A84C', fontWeight: 900 }}>₩75,000/mo</span>
+              </div>
+              <p style={{ margin: 0, color: 'rgba(255,255,255,0.54)', fontSize: 13, lineHeight: 1.55 }}>
+                Unlocks that subject&apos;s lessons, textbook, question bank, and every paid lounge.
+              </p>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 12, marginTop: 18 }}>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                style={{
+                  padding: '14px 16px',
+                  borderRadius: 14,
+                  border: '1px solid rgba(255,255,255,0.16)',
+                  background: 'rgba(255,255,255,0.04)',
+                  color: 'rgba(255,255,255,0.78)',
+                  fontSize: 12,
+                  fontWeight: 900,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  cursor: 'pointer',
+                }}
+              >
+                Cancel
+              </button>
+              {selectedSubject ? (
+                <PaymentButton
+                  serviceId="one_subject"
+                  subjectId={selectedSubject.id}
+                  amount={75000}
+                  orderName={`${selectedSubject.label} Elite Pass`}
+                  returnTo={selectedSubject.returnTo}
+                  label={`Continue to checkout — ${selectedSubject.label}`}
+                  showPayPalBackup={false}
+                  style={{
+                    width: '100%',
+                    padding: '14px 16px',
+                    borderRadius: 14,
+                    fontSize: 12,
+                    fontWeight: 900,
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    background: '#C9A84C',
+                    color: '#000',
+                    border: 'none',
+                  }}
+                />
+              ) : (
+                <button
+                  type="button"
+                  disabled
+                  style={{
+                    padding: '14px 16px',
+                    borderRadius: 14,
+                    border: '1px solid rgba(201,168,76,0.16)',
+                    background: 'rgba(201,168,76,0.14)',
+                    color: 'rgba(255,255,255,0.34)',
+                    fontSize: 12,
+                    fontWeight: 900,
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    cursor: 'not-allowed',
+                  }}
+                >
+                  Choose subject first
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 function FreeForAllSection() {
   return (
     <div style={{ background: '#000', minHeight: '100vh', padding: '88px 24px', fontFamily: 'Inter, sans-serif' }}>
@@ -331,12 +555,6 @@ function FreeForAllSection() {
 }
 
 export default function EnglishPricingSection() {
-  const [selectedSubjectId, setSelectedSubjectId] = useState('ap-biology')
-  const selectedSubject =
-    oneSubjectCheckoutOptions.find((course) => course.id === selectedSubjectId) ??
-    oneSubjectCheckoutOptions[0] ??
-    defaultOneSubjectCheckoutOption
-
   if (FREE_FOR_ALL) {
     return <FreeForAllSection />
   }
@@ -444,41 +662,6 @@ export default function EnglishPricingSection() {
             <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.42)', margin: 0 }}>
               Choose one subject before checkout · Korea checkout ₩75,000/mo
             </p>
-            <label
-              style={{
-                display: 'block',
-                marginTop: 18,
-                fontSize: 11,
-                fontWeight: 900,
-                letterSpacing: '0.16em',
-                textTransform: 'uppercase',
-                color: 'rgba(201,168,76,0.92)',
-              }}
-            >
-              Subject to unlock
-            </label>
-            <select
-              value={selectedSubjectId}
-              onChange={(event) => setSelectedSubjectId(event.target.value)}
-              style={{
-                width: '100%',
-                marginTop: 8,
-                padding: '13px 14px',
-                borderRadius: 14,
-                border: '1px solid rgba(201,168,76,0.36)',
-                background: 'rgba(0,0,0,0.35)',
-                color: '#fff',
-                fontSize: 14,
-                fontWeight: 800,
-                outline: 'none',
-              }}
-            >
-              {oneSubjectCheckoutOptions.map((course) => (
-                <option key={course.id} value={course.id}>
-                  {course.label}
-                </option>
-              ))}
-            </select>
             <FeatureList
               color="#C9A84C"
               items={[
@@ -488,27 +671,7 @@ export default function EnglishPricingSection() {
                 'Unit 1 guided lessons now · new units monthly',
               ]}
             />
-            <PaymentButton
-              serviceId="one_subject"
-              subjectId={selectedSubject.id}
-              amount={75000}
-              orderName={`${selectedSubject.label} Elite Pass`}
-              returnTo={selectedSubject.returnTo}
-              label={`Checkout ${selectedSubject.label} — $49/mo`}
-              showPayPalBackup={false}
-              style={{
-                width: '100%',
-                padding: '15px 18px',
-                borderRadius: 14,
-                fontSize: 13,
-                fontWeight: 900,
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                background: '#C9A84C',
-                color: '#000',
-                border: 'none',
-              }}
-            />
+            <OneSubjectCartCheckout />
           </PlanCard>
 
           <PlanCard

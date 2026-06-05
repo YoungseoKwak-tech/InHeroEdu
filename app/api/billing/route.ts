@@ -4,6 +4,19 @@ import { listStoredOrdersForUser } from "@/lib/orderStore";
 import { createAdminClient } from "@/lib/supabase";
 import { TEXTBOOK_PRICE_USD } from "@/lib/textbookPricing";
 
+interface NicePayBillingKeyRow {
+  id: string;
+  provider: string | null;
+  service_id: string;
+  subject_id: string | null;
+  status: string;
+  next_billing_at: string | null;
+  last_billed_at: string | null;
+  last_order_id: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+}
+
 export async function GET(req: NextRequest) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
@@ -11,7 +24,7 @@ export async function GET(req: NextRequest) {
   try {
     const supabase = createAdminClient();
 
-    const [orders, purchasesRes, productsRes] = await Promise.all([
+    const [orders, purchasesRes, productsRes, billingKeysRes] = await Promise.all([
       listStoredOrdersForUser(supabase, user.id),
       supabase
         .from("textbook_purchases")
@@ -20,6 +33,13 @@ export async function GET(req: NextRequest) {
       supabase
         .from("textbook_products")
         .select("subject_id, title, pdf_url, price_krw, status"),
+      supabase
+        .from("nicepay_billing_keys")
+        .select(
+          "id, provider, service_id, subject_id, status, next_billing_at, last_billed_at, last_order_id, created_at, updated_at"
+        )
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false }),
     ]);
 
     if (purchasesRes.error) {
@@ -28,6 +48,10 @@ export async function GET(req: NextRequest) {
 
     if (productsRes.error) {
       return NextResponse.json({ error: productsRes.error.message }, { status: 500 });
+    }
+
+    if (billingKeysRes.error) {
+      return NextResponse.json({ error: billingKeysRes.error.message }, { status: 500 });
     }
 
     const productMap = new Map(
@@ -60,9 +84,24 @@ export async function GET(req: NextRequest) {
       })
       .sort((a, b) => a.title.localeCompare(b.title, "en"));
 
+    const subscriptions = ((billingKeysRes.data ?? []) as NicePayBillingKeyRow[]).map((subscription) => ({
+      id: subscription.id,
+      provider: subscription.provider ?? "nicepay",
+      service_id: subscription.service_id,
+      subject_id: subscription.subject_id,
+      status: subscription.status,
+      next_billing_at: subscription.next_billing_at,
+      last_billed_at: subscription.last_billed_at,
+      last_order_id: subscription.last_order_id,
+      created_at: subscription.created_at,
+      updated_at: subscription.updated_at,
+      can_cancel: subscription.status === "active",
+    }));
+
     return NextResponse.json({
       orders: normalizedOrders,
       manuals,
+      subscriptions,
     });
   } catch (error) {
     return NextResponse.json(
