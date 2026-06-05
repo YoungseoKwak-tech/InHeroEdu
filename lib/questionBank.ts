@@ -268,10 +268,18 @@ function fromAdminRow(row: AdminQuestionRow): BankQuestion | null {
 }
 
 /**
- * Build the full normalized bank. `subject` filters by course id
- * (e.g. "ap-biology"); omit for everything.
+ * The full aggregation is expensive (parses every lesson's chapter_json),
+ * but the data only changes when admin regenerates scripts. Cache the
+ * built array in-module with a TTL. On Vercel Fluid Compute instances are
+ * reused across requests, so after the first build every subsequent
+ * request — countOnly AND every subject filter — is served from memory
+ * instead of re-querying + re-parsing.
  */
-export async function buildBankQuestions(subject?: string): Promise<BankQuestion[]> {
+const BANK_TTL_MS = 10 * 60 * 1000; // 10 minutes
+let bankCache: { at: number; data: BankQuestion[] } | null = null;
+let bankInFlight: Promise<BankQuestion[]> | null = null;
+
+async function rebuildBank(): Promise<BankQuestion[]> {
   const supabase = createAdminClient();
 
   const [scriptRes, overlayRes, adminRes] = await Promise.all([
@@ -308,22 +316,47 @@ export async function buildBankQuestions(subject?: string): Promise<BankQuestion
     if (q) out.push(q);
   }
 
-  // Filter by course id, tolerant of id variants (course pages may pass
-  // "ap-physics-c-mech" while bank questions are tagged the data-layer
-  // form "ap-physics-c-mechanics").
-  const subjectVariants = subject ? getCourseIdVariants(subject) : null;
-  const filtered = subjectVariants
-    ? out.filter((q) => q.courseId && subjectVariants.includes(q.courseId))
-    : out;
-
   // Stable-ish ordering: subject, then unit, then prompt.
-  filtered.sort((a, b) => {
+  out.sort((a, b) => {
     if (a.subjectLabel !== b.subjectLabel) return a.subjectLabel.localeCompare(b.subjectLabel);
     if ((a.unit ?? 99) !== (b.unit ?? 99)) return (a.unit ?? 99) - (b.unit ?? 99);
     return a.prompt.localeCompare(b.prompt);
   });
 
-  return filtered;
+  return out;
+}
+
+/** Full normalized bank, cached. Concurrent callers share one rebuild. */
+export async function getAllBankQuestions(): Promise<BankQuestion[]> {
+  if (bankCache && Date.now() - bankCache.at < BANK_TTL_MS) {
+    return bankCache.data;
+  }
+  if (bankInFlight) return bankInFlight;
+  bankInFlight = rebuildBank()
+    .then((data) => {
+      bankCache = { at: Date.now(), data };
+      return data;
+    })
+    .finally(() => {
+      bankInFlight = null;
+    });
+  return bankInFlight;
+}
+
+/**
+ * Build the normalized bank. `subject` filters by course id
+ * (e.g. "ap-biology"); omit for everything. Reads from the cached
+ * aggregation — no per-call DB work once warm.
+ */
+export async function buildBankQuestions(subject?: string): Promise<BankQuestion[]> {
+  const all = await getAllBankQuestions();
+
+  // Filter by course id, tolerant of id variants (course pages may pass
+  // "ap-physics-c-mech" while bank questions are tagged the data-layer
+  // form "ap-physics-c-mechanics").
+  if (!subject) return all;
+  const subjectVariants = getCourseIdVariants(subject);
+  return all.filter((q) => q.courseId && subjectVariants.includes(q.courseId));
 }
 
 /** Per-course counts for the landing chips. */

@@ -9,7 +9,7 @@
  * near-variant (the in-lesson followup), mirroring how the lessons teach.
  */
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface BankOption {
   label: string;
@@ -58,17 +58,26 @@ export default function QuestionBankPage() {
       .catch(() => {});
   }, []);
 
+  const [filteredTotal, setFilteredTotal] = useState(0);
+
   useEffect(() => {
     setLoading(true);
     const q = active ? `?subject=${encodeURIComponent(active)}` : "";
     fetch(`/api/question-bank/bank${q}`)
       .then((r) => r.json())
-      .then((d) => setQuestions(d.questions ?? []))
-      .catch(() => setQuestions([]))
+      .then((d) => {
+        setQuestions(d.questions ?? []);
+        setFilteredTotal(d.total ?? (d.questions?.length ?? 0));
+      })
+      .catch(() => {
+        setQuestions([]);
+        setFilteredTotal(0);
+      })
       .finally(() => setLoading(false));
   }, [active]);
 
-  const shown = useMemo(() => questions.slice(0, 150), [questions]);
+  // API already caps the payload; render what it sent.
+  const shown = questions;
 
   return (
     <div style={{ background: "#000", minHeight: "100vh", padding: "72px 24px 120px", fontFamily: "Inter, sans-serif" }}>
@@ -110,9 +119,9 @@ export default function QuestionBankPage() {
             {shown.map((q, i) => (
               <QuestionCard key={q.id} q={q} index={i} />
             ))}
-            {questions.length > shown.length && (
+            {filteredTotal > shown.length && (
               <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, textAlign: "center", marginTop: 8 }}>
-                Showing first {shown.length} of {questions.length.toLocaleString()} — filter by subject to narrow.
+                Showing first {shown.length} of {filteredTotal.toLocaleString()} — filter by subject to narrow.
               </p>
             )}
           </div>
