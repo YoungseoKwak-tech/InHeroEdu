@@ -22,6 +22,7 @@ const NAV_LINKS = [
   { href: "/clubs",           label: "Clubs" },
   // { href: "/trajectory",      label: "TRAJECTORY" }, // hidden — restore when /trajectory is demo-ready
   { href: "/command-center",  label: "Dashboard" },
+  { href: "/study-type",      label: "Study Type" },
   { href: "/pricing",         label: "Pricing" },
 ];
 

@@ -10,12 +10,14 @@ import Features from "@/components/landing/Features";
 import SubjectGrid from "@/components/landing/SubjectGrid";
 import Testimonials from "@/components/landing/Testimonials";
 import SignedInRedirector from "@/components/landing/SignedInRedirector";
+import WelcomePopup from "@/components/landing/WelcomePopup";
 import Link from "next/link";
 
 export default function HomePage() {
   return (
     <>
       <SignedInRedirector />
+      <WelcomePopup />
       <HomeHeroDualPath locale="en" />
       <FacultyLineup />
       <AcademyCampus />
