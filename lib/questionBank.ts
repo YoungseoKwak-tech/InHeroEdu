@@ -23,6 +23,7 @@
  */
 import { createAdminClient } from "@/lib/supabase";
 import { inferCourseIdFromLessonId } from "@/lib/learning-tracking";
+import { getCourseIdVariants } from "@/lib/courseAliases";
 import { courses } from "@/lib/data/courses";
 
 export interface BankOption {
@@ -307,8 +308,12 @@ export async function buildBankQuestions(subject?: string): Promise<BankQuestion
     if (q) out.push(q);
   }
 
-  const filtered = subject
-    ? out.filter((q) => q.courseId === subject)
+  // Filter by course id, tolerant of id variants (course pages may pass
+  // "ap-physics-c-mech" while bank questions are tagged the data-layer
+  // form "ap-physics-c-mechanics").
+  const subjectVariants = subject ? getCourseIdVariants(subject) : null;
+  const filtered = subjectVariants
+    ? out.filter((q) => q.courseId && subjectVariants.includes(q.courseId))
     : out;
 
   // Stable-ish ordering: subject, then unit, then prompt.

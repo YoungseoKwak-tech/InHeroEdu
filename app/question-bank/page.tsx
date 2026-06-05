@@ -39,7 +39,12 @@ interface SubjectCount {
 export default function QuestionBankPage() {
   const [subjects, setSubjects] = useState<SubjectCount[]>([]);
   const [total, setTotal] = useState(0);
-  const [active, setActive] = useState<string | null>(null); // courseId or null = all
+  // Pre-select from ?subject= so course "Practice questions →" rows deep-link
+  // straight into that subject's bank.
+  const [active, setActive] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    return new URLSearchParams(window.location.search).get("subject") || null;
+  });
   const [questions, setQuestions] = useState<BankQuestion[]>([]);
   const [loading, setLoading] = useState(true);
 

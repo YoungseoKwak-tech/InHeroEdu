@@ -105,10 +105,18 @@ export default function UnitsLessonsWithProgress({
                   const hasClip = clipsSet.has(lesson.id);
                   const hasContent = contentSet.has(lesson.id);
                   const p = progress[lesson.id];
+                  // Roadmap lessons (no video, no overlay flow yet) aren't dead
+                  // ends — the Question Bank already has practice questions for
+                  // the subject, so send the student there instead of an empty
+                  // lesson page.
+                  const isRoadmap = !hasClip && !hasContent && !(p && p.percent > 0);
+                  const href = isRoadmap
+                    ? `/question-bank?subject=${encodeURIComponent(courseId)}`
+                    : `/courses/${courseId}/${lesson.id}`;
                   return (
                     <Link
                       key={lesson.id}
-                      href={`/courses/${courseId}/${lesson.id}`}
+                      href={href}
                       className="flex items-center gap-4 card p-4 hover:shadow-md hover:border-primary-200 dark:hover:border-primary-700 transition-all duration-200 group"
                     >
                       <div className="w-7 h-7 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 font-semibold text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-primary-500 group-hover:text-white transition-colors">
@@ -202,10 +210,11 @@ function ProgressBadge({
       </span>
     );
   }
-  // No content yet — honest roadmap framing instead of dead "Coming Soon".
+  // Video isn't cut yet, but the Question Bank has practice questions for
+  // this subject — make the row a live "go practice" CTA, not a dead end.
   return (
-    <span className="hidden sm:inline-flex rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-semibold text-amber-700 dark:bg-amber-900/20 dark:text-amber-400 flex-shrink-0">
-      On the roadmap
+    <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-semibold text-amber-700 dark:bg-amber-900/20 dark:text-amber-400 flex-shrink-0">
+      Practice questions →
     </span>
   );
 }
