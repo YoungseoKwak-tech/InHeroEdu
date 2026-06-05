@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { merchantInfo } from "@/lib/legal";
 
 const cols = [
   {
@@ -18,6 +19,7 @@ const cols = [
     links: [
       { label: "About",                 href: "#" },
       { label: "Pricing",               href: "/pricing" },
+      { label: "Legal / Refund Policy", href: "/legal" },
       { label: "Hero Codes",            href: "/hero-codes" },
       { label: "Admissions Consulting", href: "/pricing" },
     ],
@@ -110,7 +112,28 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div style={{
-          marginTop: "48px",
+          marginTop: "40px",
+          padding: "18px",
+          border: "1px solid rgba(255,255,255,0.05)",
+          borderRadius: "16px",
+          background: "rgba(255,255,255,0.018)",
+          color: "#3f3f55",
+          fontSize: "10px",
+          lineHeight: 1.8,
+          fontFamily: "'JetBrains Mono', monospace",
+        }}>
+          <strong style={{ color: "#666681" }}>Business disclosure</strong>
+          <span> · 상호 {merchantInfo.companyName}</span>
+          <span> · 대표자 {merchantInfo.representative}</span>
+          <span> · 사업자등록번호 {merchantInfo.businessRegistrationNumber}</span>
+          <span> · 통신판매업 {merchantInfo.ecommerceRegistrationNumber}</span>
+          <span> · 주소 {merchantInfo.address}</span>
+          <span> · 연락처 {merchantInfo.phone}</span>
+          <span> · 이메일 {merchantInfo.email}</span>
+        </div>
+
+        <div style={{
+          marginTop: "24px",
           paddingTop: "24px",
           borderTop: "1px solid rgba(255,255,255,0.04)",
           display: "flex",

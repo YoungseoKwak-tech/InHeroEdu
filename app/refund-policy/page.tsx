@@ -56,7 +56,7 @@ export default function RefundPolicyPage() {
           <a href="mailto:inheroedu@gmail.com" style={{ color: "rgba(0,255,178,0.85)" }}>
             inheroedu@gmail.com
           </a>{" "}
-          or manage the subscription from your PayPal account.
+          and we will stop the next billing cycle.
         </p>
       </LegalSection>
 

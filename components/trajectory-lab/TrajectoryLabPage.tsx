@@ -410,7 +410,7 @@ export default function TrajectoryLabPage() {
     setChatInput("");
     setChatMessages((current) => [...current, { role: "user", content: userMessage }]);
 
-    // Check free trial limit for trajectory chat
+    // Check free access limit for trajectory chat
     if (hasReachedEarlyAccessLimit("trajectory")) {
       await new Promise((resolve) => setTimeout(resolve, 600));
       setChatMessages((current) => [

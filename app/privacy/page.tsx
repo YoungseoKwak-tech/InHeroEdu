@@ -41,7 +41,7 @@ export default function PrivacyPolicyPage() {
         </p>
         <p style={{ margin: 0 }}>
           <strong style={{ color: "#fff" }}>Payment information.</strong> Payments are handled by
-          PayPal. We receive confirmation of payment and your plan details, but we never see or
+          our payment providers. We receive confirmation of payment and your plan details, but we never see or
           store your card or bank account numbers.
         </p>
       </LegalSection>
@@ -68,7 +68,7 @@ export default function PrivacyPolicyPage() {
       <LegalSection title="4. Service Providers">
         <p style={{ margin: 0 }}>
           We share data with a small set of providers only as needed to run InHero: payment
-          processing (PayPal), cloud hosting and infrastructure, and AI model providers that
+          processing, cloud hosting and infrastructure, and AI model providers that
           power our study tools. These providers process data on our behalf and are not permitted
           to use it for their own purposes.
         </p>

@@ -277,14 +277,14 @@ export default function LessonPlayerGate({
             You are signed in, but <strong>{courseName}</strong> requires an active pass to continue.
           </p>
           <div className="lpg-locked-actions">
-            {/* Inline PayPal checkout — serviceId "single" + subjectId courseId
-                produces server-side service_id "single:<courseId>" via
+            {/* Inline checkout — serviceId "one_subject" + subjectId courseId
+                produces server-side service_id "one_subject:<courseId>" via
                 bindCourseAccessServiceId(), which hasPaidEnglishCourseAccess()
-                matches on the ":<courseId>" pattern. After PayPal capture +
+                matches on the ":<courseId>" pattern. After provider capture +
                 markStoredOrderPaid, the same gate's next /api/course-access
                 check returns hasAccess: true and this lesson unlocks. */}
             <PaymentButton
-              serviceId="single"
+              serviceId="one_subject"
               subjectId={courseId}
               amount={75000}
               orderName={`${courseName} — One Subject Elite Pass`}

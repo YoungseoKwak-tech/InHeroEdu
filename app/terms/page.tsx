@@ -47,7 +47,7 @@ export default function TermsPage() {
         </p>
         <p style={{ margin: "0 0 12px" }}>
           Elite plans are monthly subscriptions that renew automatically until cancelled.
-          Payments are processed by PayPal; InHero does not store your card or bank details.
+          Payments are processed by our third-party payment providers; InHero does not store your card or bank details.
         </p>
         <p style={{ margin: 0 }}>
           Refunds and cancellations are governed by our{" "}

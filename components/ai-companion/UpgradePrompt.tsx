@@ -16,7 +16,7 @@ export default function UpgradePrompt({ kind, feature = "this feature", freeCoun
         <div className="flex-1 min-w-0">
           <p className="text-sm font-bold text-gray-900 dark:text-white">
             {isLimit
-              ? `Your free trial for ${feature} has ended`
+              ? `Your free access for ${feature} has ended`
               : `${feature} is opening to early users`}
           </p>
           <p className="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400">

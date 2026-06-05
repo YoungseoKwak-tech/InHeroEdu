@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import PaymentButton from "@/components/PaymentButton";
 import { authFetch } from "@/lib/client-auth";
-import { textbookPriceLabelUSD } from "@/lib/textbookPricing";
 
 type ReaderMeta = {
   ok: boolean;
@@ -1037,11 +1036,11 @@ export default function TextbookReaderShell({ subjectId }: { subjectId: string }
                       UNLOCK FULL E-BOOK
                     </div>
                     <PaymentButton
-                      serviceId="textbook"
+                      serviceId="one_subject"
                       subjectId={meta.product.subjectId}
-                      amount={meta.product.priceKrw}
-                      orderName={meta.product.title}
-                      label={`${textbookPriceLabelUSD()} · Open full e-book`}
+                      amount={49}
+                      orderName={`${meta.product.title} — One Subject Elite Pass`}
+                      label="$49/mo · Unlock course + e-book"
                       returnTo={meta.product.readerHref}
                       style={{
                         width: "100%",

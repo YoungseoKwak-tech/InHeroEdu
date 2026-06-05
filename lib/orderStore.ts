@@ -29,16 +29,20 @@ type PendingOrderInput = {
   amount: number;
   currency: PaymentCurrency;
   kind: PaymentKind;
+  provider?: "paypal" | "nicepay";
   customerName?: string;
   customerEmail?: string;
 };
 
 type PaidOrderInput = {
   userId?: string | null;
+  provider?: "paypal" | "nicepay";
   providerOrderId?: string | null;
   providerSubscriptionId?: string | null;
   rawResponse?: unknown;
 };
+
+type InactiveOrderStatus = "cancelled" | "expired" | "failed";
 
 function looksLikeMissingColumn(error: unknown) {
   const message =
@@ -117,7 +121,7 @@ export async function createPendingOrder(
     amount: input.amount,
     currency: input.currency,
     status: "pending",
-    provider: "paypal",
+    provider: input.provider ?? "paypal",
     kind: input.kind,
     customer_name: input.customerName ?? null,
     customer_email: input.customerEmail ?? null,
@@ -158,6 +162,7 @@ export async function createPendingOrder(
 }
 
 type ProviderAttachmentInput = {
+  provider?: "paypal" | "nicepay";
   providerOrderId?: string | null;
   providerSubscriptionId?: string | null;
   rawResponse?: unknown;
@@ -182,7 +187,7 @@ export async function attachStoredOrderProviderDetails(
   }
 
   const legacyPayload = {
-    provider: "paypal",
+    provider: input.provider ?? "paypal",
     provider_order_id: input.providerOrderId ?? null,
     provider_subscription_id: input.providerSubscriptionId ?? null,
     raw_provider_response: input.rawResponse ?? null,
@@ -203,6 +208,20 @@ export async function getStoredOrder(
   orderId: string
 ): Promise<StoredOrder | null> {
   const result = await supabase.from("orders").select("*").eq("id", orderId).single();
+  if (result.error || !result.data) return null;
+  return normalizeOrderRow(result.data as Record<string, unknown>);
+}
+
+export async function getStoredOrderByProviderSubscriptionId(
+  supabase: SupabaseClient,
+  providerSubscriptionId: string
+): Promise<StoredOrder | null> {
+  const result = await supabase
+    .from("orders")
+    .select("*")
+    .eq("provider_subscription_id", providerSubscriptionId)
+    .maybeSingle();
+
   if (result.error || !result.data) return null;
   return normalizeOrderRow(result.data as Record<string, unknown>);
 }
@@ -251,7 +270,7 @@ export async function markStoredOrderPaid(
   }
   if (input.rawResponse) {
     legacyUpdate.raw_toss_response = {
-      provider: "paypal",
+      provider: input.provider ?? "paypal",
       provider_order_id: input.providerOrderId ?? null,
       provider_subscription_id: input.providerSubscriptionId ?? null,
       raw_provider_response: input.rawResponse,
@@ -267,7 +286,8 @@ export async function markStoredOrderPaid(
 export async function markStoredOrderFailed(
   supabase: SupabaseClient,
   orderId: string,
-  rawResponse?: unknown
+  rawResponse?: unknown,
+  provider: "paypal" | "nicepay" = "paypal"
 ) {
   const modernUpdate = {
     status: "failed",
@@ -285,9 +305,45 @@ export async function markStoredOrderFailed(
     .from("orders")
     .update({
       status: "failed",
-      ...(rawResponse ? { raw_toss_response: { provider: "paypal", raw_provider_response: rawResponse } } : {}),
+      ...(rawResponse ? { raw_toss_response: { provider, raw_provider_response: rawResponse } } : {}),
     })
     .eq("id", orderId);
+  if (legacyResult.error) {
+    throw legacyResult.error;
+  }
+}
+
+export async function markStoredOrderInactive(
+  supabase: SupabaseClient,
+  orderId: string,
+  status: InactiveOrderStatus,
+  input: ProviderAttachmentInput = {}
+) {
+  const modernUpdate = {
+    status,
+    provider_order_id: input.providerOrderId ?? undefined,
+    provider_subscription_id: input.providerSubscriptionId ?? undefined,
+    raw_provider_response: input.rawResponse ?? undefined,
+  };
+
+  const modernResult = await supabase.from("orders").update(modernUpdate).eq("id", orderId);
+  if (!modernResult.error) return;
+
+  if (!looksLikeMissingColumn(modernResult.error)) {
+    throw modernResult.error;
+  }
+
+  const legacyUpdate: Record<string, unknown> = { status };
+  if (input.rawResponse) {
+    legacyUpdate.raw_toss_response = {
+      provider: input.provider ?? "paypal",
+      provider_order_id: input.providerOrderId ?? null,
+      provider_subscription_id: input.providerSubscriptionId ?? null,
+      raw_provider_response: input.rawResponse,
+    };
+  }
+
+  const legacyResult = await supabase.from("orders").update(legacyUpdate).eq("id", orderId);
   if (legacyResult.error) {
     throw legacyResult.error;
   }

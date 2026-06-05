@@ -29,7 +29,8 @@ export const lessonComingSoonCopy = {
 };
 
 export function bindCourseAccessServiceId(serviceId: string, subjectId?: string | null) {
-  if (!subjectId) return serviceId;
+  if (serviceId === "all_subjects") return serviceId;
+  if (serviceId !== "one_subject" || !subjectId) return serviceId;
   return `${serviceId}:${subjectId}`;
 }
 
@@ -62,9 +63,9 @@ export function hasPaidEnglishCourseAccess(
     if (serviceId.startsWith("textbook:")) return false;
 
     const [baseServiceId, boundCourseId] = serviceId.split(":");
-    if (baseServiceId === "novapass" || baseServiceId === "inhero-pass") return true;
+    if (baseServiceId === "all_subjects") return true;
     if (
-      ["single", "three"].includes(baseServiceId) &&
+      baseServiceId === "one_subject" &&
       boundCourseId === normalizedCourseId
     ) {
       return true;

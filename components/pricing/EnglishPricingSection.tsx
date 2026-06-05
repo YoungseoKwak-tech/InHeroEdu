@@ -334,7 +334,7 @@ export default function EnglishPricingSection() {
               color="#00FFB2"
               items={[
                 'First lesson free in every course',
-                'No timers or credit card required',
+                'No timed trial or credit card required',
                 'Explore courses, library, and lounges',
                 'Upgrade only when Elite is useful',
               ]}
@@ -386,12 +386,13 @@ export default function EnglishPricingSection() {
               ]}
             />
             <PaymentButton
-              serviceId="single"
+              serviceId="one_subject"
               subjectId="ap-biology"
               amount={75000}
               orderName="AP Biology Elite Pass"
               returnTo={AP_BIO_FIRST_LESSON}
               label="Checkout AP Bio — $49/mo"
+              showPayPalBackup={false}
               style={{
                 width: '100%',
                 padding: '15px 18px',
@@ -430,11 +431,12 @@ export default function EnglishPricingSection() {
               ]}
             />
             <PaymentButton
-              serviceId="novapass"
+              serviceId="all_subjects"
               amount={199}
               orderName="Elite All Subject Pass"
               returnTo="/courses"
               label="Checkout All Subjects — $199/mo"
+              showPayPalBackup={false}
               style={{
                 width: '100%',
                 padding: '15px 18px',

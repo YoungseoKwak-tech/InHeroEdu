@@ -15,16 +15,33 @@ function SuccessInner() {
     const provider = params.get("provider");
     const serviceId = params.get("serviceId");
     const subjectId = params.get("subjectId");
+    let cancelled = false;
 
     const isPayPal =
       provider === "paypal" ||
       params.has("localOrderId") ||
       params.has("token") ||
       params.has("subscription_id");
+    const isNicePay = provider === "nicepay";
 
     let body: Record<string, unknown> | null = null;
 
-    if (isPayPal) {
+    if (isNicePay) {
+      const localOrderId = params.get("localOrderId") ?? params.get("orderId");
+
+      if (!localOrderId) {
+        setStatus("error");
+        setErrorMsg("Payment info missing.");
+        return;
+      }
+
+      body = {
+        provider: "nicepay",
+        localOrderId,
+        serviceId,
+        subjectId,
+      };
+    } else if (isPayPal) {
       const localOrderId = params.get("localOrderId") ?? params.get("orderId");
       const paypalOrderId = params.get("token");
       const subscriptionId = params.get("subscription_id") ?? params.get("ba_token");
@@ -57,13 +74,21 @@ function SuccessInner() {
       body = { paymentKey, orderId, amount: Number(amount), serviceId, subjectId };
     }
 
-    authFetch("/api/payments/confirm", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    })
-      .then((r) => r.json())
-      .then((data) => {
+    async function confirmPayment(attempt = 0) {
+      const response = await authFetch("/api/payments/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const data = await response.json().catch(() => ({}));
+
+      if (cancelled) return;
+
+      if (response.status === 202 && attempt < 8) {
+        setTimeout(() => confirmPayment(attempt + 1), 1500);
+        return;
+      }
+
         if (data.success) {
           setStatus("success");
           // If the buyer came from a specific in-product page (e.g. the
@@ -92,11 +117,17 @@ function SuccessInner() {
           setStatus("error");
           setErrorMsg(data.error ?? "Payment confirmation failed.");
         }
-      })
-      .catch(() => {
+    }
+
+    confirmPayment().catch(() => {
+      if (cancelled) return;
         setStatus("error");
         setErrorMsg("Network error.");
-      });
+    });
+
+    return () => {
+      cancelled = true;
+    };
   }, [params, router]);
 
   if (status === "loading") {

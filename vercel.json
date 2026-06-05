@@ -28,6 +28,9 @@
     },
     "app/api/cron/process-attention-rollups/route.ts": {
       "maxDuration": 60
+    },
+    "app/api/cron/process-nicepay-billing/route.ts": {
+      "maxDuration": 60
     }
   },
   "crons": [
