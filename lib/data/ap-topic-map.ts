@@ -400,6 +400,176 @@ export const AP_TOPIC_MAP: CourseTopicInfo[] = [
   },
 
   {
+    id: "ap-physics-c-mechanics",
+    name: "AP Physics C: Mechanics",
+    units: [
+      {
+        slug: "kinematics", number: 1, title: "Kinematics", examWeight: "10–15%",
+        lessons: [
+          { number: 1, title: "Derivatives of Motion — Calculus-Based Kinematics" },
+          { number: 2, title: "Projectile Motion — Exact Calculus Treatment" },
+          { number: 3, title: "Relative Motion and Non-Inertial Reference Frames" },
+          { number: 4, title: "Circular Motion with Calculus" },
+          { number: 5, title: "Constraints and Coupled Systems" },
+          { number: 6, title: "Variable Acceleration Problems" },
+          { number: 7, title: "2D Motion with Variable Forces" },
+          { number: 8, title: "Parametric Equations and Motion Analysis" },
+        ],
+      },
+      {
+        slug: "newtons-laws-of-motion", number: 2, title: "Newton's Laws of Motion", examWeight: "15–20%",
+        lessons: [
+          { number: 1, title: "Newton's Laws with Calculus — Variable Forces" },
+          { number: 2, title: "Free Body Diagrams for Complex Systems" },
+          { number: 3, title: "Friction and Constraint Forces" },
+          { number: 4, title: "Circular Motion — Vertical and Banked Turns" },
+          { number: 5, title: "Drag Forces and Terminal Velocity" },
+          { number: 6, title: "Spring-Mass Systems with Calculus" },
+          { number: 7, title: "Fictitious Forces in Rotating Frames" },
+          { number: 8, title: "Numerical Methods for Newton's Laws" },
+        ],
+      },
+      {
+        slug: "work-energy-and-power", number: 3, title: "Work, Energy, and Power", examWeight: "15–25%",
+        lessons: [
+          { number: 1, title: "Work as a Line Integral" },
+          { number: 2, title: "Potential Energy Functions from Force" },
+          { number: 3, title: "Conservative vs. Non-Conservative Forces" },
+          { number: 4, title: "Power and Efficiency with Variable Forces" },
+          { number: 5, title: "Energy Methods for Complex Systems" },
+          { number: 6, title: "Gravitational PE Beyond Near-Earth Approximation" },
+          { number: 7, title: "Vibration Energy and Coupled Oscillators" },
+          { number: 8, title: "Energy in Variable-Force Particle Motion" },
+        ],
+      },
+      {
+        slug: "systems-of-particles-and-linear-momentum", number: 4, title: "Systems of Particles and Linear Momentum", examWeight: "10–15%",
+        lessons: [
+          { number: 1, title: "Center of Mass with Calculus — Continuous Distributions" },
+          { number: 2, title: "Momentum and Variable-Mass Systems" },
+          { number: 3, title: "Elastic Collisions — Full Calculus Treatment" },
+          { number: 4, title: "Angular Momentum of Systems" },
+          { number: 5, title: "Impulse and Variable Forces" },
+          { number: 6, title: "Collision Analysis in 2D with Calculus Methods" },
+          { number: 7, title: "Mechanical Waves from Particle Dynamics" },
+          { number: 8, title: "Inelastic Collisions and Deformation Energy" },
+        ],
+      },
+      {
+        slug: "rotation", number: 5, title: "Rotation", examWeight: "10–15%",
+        lessons: [
+          { number: 1, title: "Moment of Inertia by Integration" },
+          { number: 2, title: "Torque and Angular Acceleration with Calculus" },
+          { number: 3, title: "Rolling Motion and Rolling Constraints" },
+          { number: 4, title: "Angular Momentum — Vector Form and Conservation" },
+          { number: 5, title: "Rotational Energy and Work" },
+          { number: 6, title: "Gyroscopes and Precession — Full Treatment" },
+          { number: 7, title: "Lagrangian Mechanics Introduction" },
+          { number: 8, title: "Precession, Nutation, and Stability of Rotating Bodies" },
+        ],
+      },
+      {
+        slug: "oscillations", number: 6, title: "Oscillations", examWeight: "10–15%",
+        lessons: [
+          { number: 1, title: "Deriving SHM from the Differential Equation" },
+          { number: 2, title: "Energy Methods in SHM" },
+          { number: 3, title: "Damped Oscillations and Resonance" },
+          { number: 4, title: "Physical Pendulum and Torsional Oscillator" },
+          { number: 5, title: "Coupled Oscillators and Normal Modes" },
+          { number: 6, title: "Non-Linear Oscillations and Chaos" },
+          { number: 7, title: "Waves in Extended Media" },
+          { number: 8, title: "Anharmonic Oscillators and Perturbation Theory" },
+        ],
+      },
+      {
+        slug: "gravitation", number: 7, title: "Gravitation", examWeight: "10–15%",
+        lessons: [
+          { number: 1, title: "Gravitational Field as Vector Field — Calculus Treatment" },
+          { number: 2, title: "Gravitational Potential and Potential Energy" },
+          { number: 3, title: "Orbits — Derivation of Orbital Mechanics" },
+          { number: 4, title: "Extended Mass Distributions and Tidal Forces" },
+          { number: 5, title: "Energy Analysis of Gravitational Systems" },
+          { number: 6, title: "Gravity in Non-Spherically-Symmetric Distributions" },
+          { number: 7, title: "Relativistic Gravity — Conceptual Overview" },
+          { number: 8, title: "Three-Body Problem and Chaos in Orbital Mechanics" },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "ap-physics-c-em",
+    name: "AP Physics C: Electricity and Magnetism",
+    units: [
+      {
+        slug: "electrostatics", number: 1, title: "Electrostatics", examWeight: "26–34%",
+        lessons: [
+          { number: 1, title: "Coulomb's Law and Superposition — Vector Calculus" },
+          { number: 2, title: "Electric Field from Continuous Charge Distributions" },
+          { number: 3, title: "Gauss's Law — Derivation and Applications" },
+          { number: 4, title: "Electric Potential from Field — Integration" },
+          { number: 5, title: "Conductors in Electrostatic Equilibrium" },
+          { number: 6, title: "Capacitance and Energy Storage" },
+          { number: 7, title: "Dielectrics and Polarization" },
+          { number: 8, title: "Electrostatic Boundary Conditions and Uniqueness Theorem" },
+        ],
+      },
+      {
+        slug: "conductors-capacitors-dielectrics", number: 2, title: "Conductors, Capacitors, and Dielectrics", examWeight: "14–17%",
+        lessons: [
+          { number: 1, title: "Resistance and Ohm's Law from Microscopic View" },
+          { number: 2, title: "RC Circuits — Differential Equation Approach" },
+          { number: 3, title: "Capacitor Networks and Equivalent Circuits" },
+          { number: 4, title: "Steady-State and Transient Behavior in RC Circuits" },
+          { number: 5, title: "Stored Energy and Energy Density" },
+          { number: 6, title: "Multi-loop Circuits and Kirchhoff's Laws" },
+          { number: 7, title: "Nonlinear Circuit Elements" },
+          { number: 8, title: "Capacitor Applications and Real Dielectrics" },
+        ],
+      },
+      {
+        slug: "electric-circuits", number: 3, title: "Electric Circuits", examWeight: "17–23%",
+        lessons: [
+          { number: 1, title: "DC Circuit Analysis — Complete Methods" },
+          { number: 2, title: "Charge and Current Conservation in Complex Circuits" },
+          { number: 3, title: "Power Analysis in DC Circuits" },
+          { number: 4, title: "AC Circuits — Phasors and Impedance" },
+          { number: 5, title: "LC Circuits and Electrical Oscillations" },
+          { number: 6, title: "Filters and Signal Processing Basics" },
+          { number: 7, title: "Grounding, Shielding, and Practical Circuit Issues" },
+          { number: 8, title: "Measuring Instruments and Their Effect on Circuits" },
+        ],
+      },
+      {
+        slug: "magnetic-fields", number: 4, title: "Magnetic Fields", examWeight: "18–23%",
+        lessons: [
+          { number: 1, title: "Biot-Savart Law — Magnetic Field from Current" },
+          { number: 2, title: "Ampere's Law — Using Symmetry for B" },
+          { number: 3, title: "Magnetic Force on Moving Charges — Cyclotron Motion" },
+          { number: 4, title: "Magnetic Force on Current-Carrying Conductors" },
+          { number: 5, title: "Magnetic Materials and Permeability" },
+          { number: 6, title: "Maxwell's Addition to Ampere's Law" },
+          { number: 7, title: "Hall Effect and Charge Carrier Identification" },
+          { number: 8, title: "Magnetic Flux and Its Role in Induction" },
+        ],
+      },
+      {
+        slug: "electromagnetism", number: 5, title: "Electromagnetism", examWeight: "14–20%",
+        lessons: [
+          { number: 1, title: "Faraday's Law and Lenz's Law — Full Formulation" },
+          { number: 2, title: "Inductance — Self and Mutual" },
+          { number: 3, title: "RL Circuits — Differential Equation and Solution" },
+          { number: 4, title: "LC Oscillations and Energy Exchange" },
+          { number: 5, title: "RLC Circuits and Damped Oscillations" },
+          { number: 6, title: "Maxwell's Equations — The Complete Set" },
+          { number: 7, title: "Electromagnetic Waves — Derivation from Maxwell" },
+          { number: 8, title: "Electromagnetic Induction Applications — Generators and Motors" },
+        ],
+      },
+    ],
+  },
+
+  {
     id: "ap-calc-ab",
     name: "AP Calculus AB",
     units: [
@@ -1941,8 +2111,20 @@ export function getScriptContext(courseId: string, unitSlug: string): {
   const course = AP_TOPIC_MAP.find((c) => c.id === courseId);
   if (!course) return null;
 
-  // Try exact slug match first, then fuzzy title match
+  // Try exact slug match first.
   let unit = course.units.find((u) => u.slug === unitSlug);
+  // Then the lesson-id pattern: callers pass the full lessonId
+  // (e.g. "ap-physics-c-mechanics-u3-l5"), so pull the unit number
+  // out of "-u{N}-" and match on it. This is what actually resolves
+  // the unit for per-lesson script generation.
+  if (!unit) {
+    const m = unitSlug.match(/-u(\d+)(?:-l\d+)?/i);
+    if (m) {
+      const n = parseInt(m[1], 10);
+      unit = course.units.find((u) => u.number === n);
+    }
+  }
+  // Finally, fuzzy title match.
   if (!unit) {
     const normalized = unitSlug.toLowerCase().replace(/-/g, " ");
     unit = course.units.find((u) => u.title.toLowerCase().includes(normalized) || normalized.includes(u.title.toLowerCase()));
