@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { hasLoungeAccess, loungeLockedResponse } from "@/lib/loungeAccess";
 import { requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
 import { REACTION_KINDS, type ReactionKind } from "@/lib/lounges";
@@ -12,6 +13,11 @@ const KIND_SET = new Set<string>(REACTION_KINDS);
 export async function POST(req: NextRequest, { params }: { params: Promise<{ postId: string }> }) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
+
+  // Elite gate — posting/chatting in lounges requires One Subject Elite+.
+  if (!(await hasLoungeAccess(user.id, user.email))) {
+    return NextResponse.json(loungeLockedResponse, { status: 403 });
+  }
 
   const { postId: rawPostId } = await params;
   const postId = String(rawPostId ?? "").trim();

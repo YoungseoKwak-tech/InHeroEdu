@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { hasLoungeAccess, loungeLockedResponse } from "@/lib/loungeAccess";
 import { requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
 import {
@@ -17,6 +18,11 @@ export const dynamic = "force-dynamic";
 export async function POST(req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
+
+  // Elite gate — posting/chatting in lounges requires One Subject Elite+.
+  if (!(await hasLoungeAccess(user.id, user.email))) {
+    return NextResponse.json(loungeLockedResponse, { status: 403 });
+  }
 
   const { slug: rawSlug } = await params;
   const slug = String(rawSlug ?? "").trim();
