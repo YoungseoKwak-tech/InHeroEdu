@@ -179,6 +179,53 @@ function LegalLinksRow() {
   )
 }
 
+/**
+ * What you actually get the moment you pay — sets expectations honestly so
+ * the live value (textbooks + AI + lounges + Unit 1 lessons) reads as the
+ * deal, and the rolling video rollout reads as "on schedule," not "missing."
+ */
+function LiveNowBanner() {
+  return (
+    <div
+      style={{
+        maxWidth: 920,
+        margin: '0 auto 40px',
+        padding: '18px 22px',
+        borderRadius: 18,
+        border: '1px solid rgba(0,255,178,0.28)',
+        background: 'linear-gradient(180deg, rgba(0,255,178,0.07), rgba(255,255,255,0.015))',
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        gap: '14px 22px',
+        justifyContent: 'center',
+        textAlign: 'center',
+      }}
+    >
+      <span
+        style={{
+          fontSize: 11,
+          fontWeight: 900,
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          color: '#00FFB2',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 8,
+        }}
+      >
+        <span style={{ width: 8, height: 8, borderRadius: 999, background: '#00FFB2', boxShadow: '0 0 10px #00FFB2', display: 'inline-block' }} />
+        Live right now with Elite
+      </span>
+      <span style={{ color: 'rgba(255,255,255,0.72)', fontSize: 14, lineHeight: 1.6 }}>
+        Full AP textbook reader · Unlimited AI (Companion · Socratic · Reverse Tutor) ·
+        Lounge access to chat with Ivy League mentors · Unit&nbsp;1 guided lessons —
+        <strong style={{ color: '#fff' }}> new video units drop every month.</strong>
+      </span>
+    </div>
+  )
+}
+
 function FreeForAllSection() {
   return (
     <div style={{ background: '#000', minHeight: '100vh', padding: '88px 24px', fontFamily: 'Inter, sans-serif' }}>
@@ -312,9 +359,11 @@ export default function EnglishPricingSection() {
             }}
           >
             Compare the first-lesson free plan, one-subject Elite, and the all-subject pass at a glance.
-            Elite includes unlimited course access plus textbook access.
+            Elite includes the full AP textbook, unlimited AI, and lounge access — with new video units shipping every month.
           </p>
         </div>
+
+        <LiveNowBanner />
 
         <div className="pricing-grid">
           <PlanCard
@@ -335,7 +384,7 @@ export default function EnglishPricingSection() {
               items={[
                 'First lesson free in every course',
                 'No timed trial or credit card required',
-                'Explore courses, library, and lounges',
+                'Browse courses, library, and lounges',
                 'Upgrade only when Elite is useful',
               ]}
             />
@@ -367,7 +416,7 @@ export default function EnglishPricingSection() {
             badge="Founding price"
             eyebrow="Elite version"
             title="One Subject Elite"
-            description="For one AP/SAT subject. Unlimited course access plus the matching textbook, built for students who want one class locked in."
+            description="For one AP/SAT subject. The full textbook is live today, plus unlimited AI and lounge access — and you keep every new video unit as it ships."
             border="1px solid rgba(201,168,76,0.5)"
             background="linear-gradient(180deg, rgba(201,168,76,0.14), rgba(201,168,76,0.045))"
             accent="#C9A84C"
@@ -379,10 +428,10 @@ export default function EnglishPricingSection() {
             <FeatureList
               color="#C9A84C"
               items={[
-                'Unlimited course access for one subject',
-                'Textbook access for that subject',
-                'AI Companion · Socratic Mode · Reverse Tutor',
-                'TAP_QUICK checkpoints + progress tracking',
+                'Full AP textbook reader — live now',
+                'Unlimited AI: Companion · Socratic · Reverse Tutor',
+                'Lounge access — chat with Ivy League mentors',
+                'Unit 1 guided lessons now · new units monthly',
               ]}
             />
             <PaymentButton
@@ -412,7 +461,7 @@ export default function EnglishPricingSection() {
             badge="Best value"
             eyebrow="All subject pass"
             title="Elite All Subjects"
-            description="For students taking multiple AP/SAT tracks. One pass unlocks every published course and every published textbook."
+            description="For students taking multiple AP/SAT tracks. Every published textbook live today, unlimited AI, and lounge access — one pass, every subject."
             border="1px solid rgba(0,255,178,0.48)"
             background="linear-gradient(180deg, rgba(0,255,178,0.11), rgba(201,168,76,0.06))"
             accent="#00FFB2"
@@ -424,10 +473,10 @@ export default function EnglishPricingSection() {
             <FeatureList
               color="#00FFB2"
               items={[
-                'Unlimited course access across all subjects',
-                'Unlimited textbook access across all subjects',
-                'Every AI study layer included',
-                'Best fit for multi-AP and SAT students',
+                'Every published AP textbook — live now',
+                'Unlimited AI across all subjects',
+                'Lounge access — chat with Ivy League mentors',
+                'All video units as they ship, every month',
               ]}
             />
             <PaymentButton

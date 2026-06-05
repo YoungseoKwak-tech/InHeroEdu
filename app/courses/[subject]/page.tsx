@@ -38,11 +38,13 @@ export default async function CoursePage({ params }: Props) {
   // For unit-based (AP/Honors) courses, fetch real lessons from DB
   let dbLessons: Awaited<ReturnType<typeof getCourseLessonsWithClips>>["lessons"] = [];
   let lessonsWithClips = new Set<string>();
+  let lessonsWithContent = new Set<string>();
 
   if (hasUnits) {
     const result = await getCourseLessonsWithClips(course.id);
     dbLessons = result.lessons;
     lessonsWithClips = result.lessonsWithClips;
+    lessonsWithContent = result.lessonsWithContent;
   }
 
   return (
@@ -117,6 +119,7 @@ export default async function CoursePage({ params }: Props) {
                 lesson_number: l.lesson_number,
               }))}
               lessonsWithClips={Array.from(lessonsWithClips)}
+              lessonsWithContent={Array.from(lessonsWithContent)}
             />
           </div>
         ) : staticLessons.length === 0 ? (

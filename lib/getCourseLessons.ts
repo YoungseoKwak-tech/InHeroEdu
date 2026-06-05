@@ -55,6 +55,14 @@ export function getFallbackLessonMatch(
 export async function getCourseLessonsWithClips(courseId: string): Promise<{
   lessons: DBLesson[];
   lessonsWithClips: Set<string>;
+  /**
+   * Lessons that have real interactive overlay content but no video clip
+   * yet. These are genuinely playable (the lesson player renders the
+   * overlay flow), so the catalog shows "Start" instead of "Coming Soon".
+   * This is what lights up AP Biology's full 8-unit breadth — every unit
+   * already has built content even where the video isn't cut yet.
+   */
+  lessonsWithContent: Set<string>;
 }> {
   try {
     const supabase = createAdminClient();
@@ -74,10 +82,11 @@ export async function getCourseLessonsWithClips(courseId: string): Promise<{
     const lessons = Array.from(new Map(rawLessons.map((lesson) => [lesson.id, lesson])).values());
 
     const lessonsWithClips = new Set<string>();
+    const lessonsWithContent = new Set<string>();
     if (lessons.length > 0) {
       const lessonIds = lessons.flatMap((lesson) => getLessonIdVariants(lesson.id, courseId));
       const uniqueLessonIds = Array.from(new Set(lessonIds));
-      const [{ data: clips }, { data: scripts }] = await Promise.all([
+      const [{ data: clips }, { data: scripts }, { data: overlays }] = await Promise.all([
         supabase
           .from("lesson_clips")
           .select("lesson_id")
@@ -87,6 +96,10 @@ export async function getCourseLessonsWithClips(courseId: string): Promise<{
           .from("lesson_scripts")
           .select("lesson_id, video_url")
           .in("lesson_id", uniqueLessonIds),
+        supabase
+          .from("overlays")
+          .select("lesson_id")
+          .in("lesson_id", uniqueLessonIds),
       ]);
 
       const clipLessonIds = new Set((clips ?? []).map((c) => c.lesson_id));
@@ -95,6 +108,7 @@ export async function getCourseLessonsWithClips(courseId: string): Promise<{
           .filter((row) => Boolean((row as { video_url?: string | null }).video_url))
           .map((row) => row.lesson_id)
       );
+      const overlayLessonIds = new Set((overlays ?? []).map((o) => o.lesson_id));
 
       for (const lesson of lessons) {
         const candidates = getLessonIdVariants(lesson.id, courseId);
@@ -105,14 +119,18 @@ export async function getCourseLessonsWithClips(courseId: string): Promise<{
         ) {
           lessonsWithClips.add(lesson.id);
         }
+        if (candidates.some((candidate) => overlayLessonIds.has(candidate))) {
+          lessonsWithContent.add(lesson.id);
+        }
       }
     }
 
-    return { lessons, lessonsWithClips };
+    return { lessons, lessonsWithClips, lessonsWithContent };
   } catch {
     return {
       lessons: buildFallbackLessons(courseId),
       lessonsWithClips: new Set(),
+      lessonsWithContent: new Set(),
     };
   }
 }

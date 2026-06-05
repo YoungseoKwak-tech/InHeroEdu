@@ -46,18 +46,20 @@ const COVER_BY_SLUG: Record<string, { src: string; glyph: string }> = {
   "ap-physics-ultimate": { src: "/textbook-covers/ap-physics-1.jpg",   glyph: "⚛️" },
 };
 
+// Fallback roadmap entries — only render if their slug isn't already live
+// in /api/textbooks. Framed as a dated roadmap, not an open-ended "soon."
 const COMING_SOON = [
   {
     slug: "ap-chem-ultimate",
     title: "AP Chemistry",
     subtitle: "The Ultimate Guide",
-    hint: "In the queue — same pipeline as AP Bio.",
+    hint: "On the roadmap · 2026 — same pipeline as AP Bio.",
   },
   {
     slug: "ap-physics-ultimate",
     title: "AP Physics 1",
     subtitle: "The Ultimate Guide",
-    hint: "In the queue — same pipeline as AP Bio.",
+    hint: "On the roadmap · 2026 — same pipeline as AP Bio.",
   },
 ];
 

@@ -67,9 +67,9 @@ export default function CourseCard({ course, hrefBase = "/courses" }: CourseCard
             ) : (
               <span
                 aria-disabled="true"
-                className="w-full text-center text-sm py-2.5 block rounded-xl border border-slate-700/60 bg-slate-800/40 text-slate-500 font-semibold tracking-wide cursor-not-allowed select-none"
+                className="w-full text-center text-sm py-2.5 block rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-300/90 font-semibold tracking-wide cursor-not-allowed select-none"
               >
-                Coming Soon
+                On the roadmap · 2026
               </span>
             )}
           </div>

@@ -39,6 +39,8 @@ interface Props {
   units: UnitInput[];
   lessons: LessonInput[];
   lessonsWithClips: string[];
+  /** Lessons with real interactive content but no video yet → "Start". */
+  lessonsWithContent?: string[];
 }
 
 interface ProgressEntry {
@@ -53,6 +55,7 @@ export default function UnitsLessonsWithProgress({
   units,
   lessons,
   lessonsWithClips,
+  lessonsWithContent = [],
 }: Props) {
   const [progress, setProgress] = useState<Record<string, ProgressEntry>>({});
 
@@ -71,6 +74,7 @@ export default function UnitsLessonsWithProgress({
   }, [lessons]);
 
   const clipsSet = new Set(lessonsWithClips);
+  const contentSet = new Set(lessonsWithContent);
 
   return (
     <div className="space-y-6">
@@ -99,6 +103,7 @@ export default function UnitsLessonsWithProgress({
               <div className="space-y-1.5 ml-13 pl-1">
                 {unitLessons.map((lesson) => {
                   const hasClip = clipsSet.has(lesson.id);
+                  const hasContent = contentSet.has(lesson.id);
                   const p = progress[lesson.id];
                   return (
                     <Link
@@ -124,6 +129,7 @@ export default function UnitsLessonsWithProgress({
                       </div>
                       <ProgressBadge
                         hasClip={hasClip}
+                        hasContent={hasContent}
                         progress={p}
                       />
                       <svg
@@ -159,9 +165,11 @@ export default function UnitsLessonsWithProgress({
 
 function ProgressBadge({
   hasClip,
+  hasContent,
   progress,
 }: {
   hasClip: boolean;
+  hasContent: boolean;
   progress: ProgressEntry | undefined;
 }) {
   if (progress?.complete) {
@@ -185,9 +193,19 @@ function ProgressBadge({
       </span>
     );
   }
+  // Real interactive content exists (overlays) even without a cut video —
+  // genuinely playable, so invite the student in rather than gating.
+  if (hasContent) {
+    return (
+      <span className="hidden sm:inline-flex rounded-full bg-primary-50 dark:bg-primary-900/20 px-2.5 py-1 text-[11px] font-semibold text-primary-600 dark:text-primary-400 flex-shrink-0">
+        Start →
+      </span>
+    );
+  }
+  // No content yet — honest roadmap framing instead of dead "Coming Soon".
   return (
     <span className="hidden sm:inline-flex rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-semibold text-amber-700 dark:bg-amber-900/20 dark:text-amber-400 flex-shrink-0">
-      Coming Soon
+      On the roadmap
     </span>
   );
 }
