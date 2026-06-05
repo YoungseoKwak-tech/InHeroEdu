@@ -202,6 +202,28 @@ export default function OriginalsSidebar() {
         ))}
       </ul>
 
+      {/* Live-heat strip — every published Original, framed as selling
+          fast. Titles come from the live /api/textbooks list so a new
+          upload shows up here automatically. */}
+      {loaded && textbooks.length > 0 && (
+        <div className="orig-heat" aria-label="Originals selling fast">
+          <div className="orig-heat-head">
+            <span className="orig-heat-flame" aria-hidden="true">🔥</span>
+            SELLING FAST
+          </div>
+          <p className="orig-heat-line">
+            Students are unlocking{" "}
+            {textbooks.map((t, i) => (
+              <span key={t.slug}>
+                <strong>{t.title}</strong>
+                {i < textbooks.length - 2 ? ", " : i === textbooks.length - 2 ? " and " : ""}
+              </span>
+            ))}{" "}
+            right now — every Original ships with the full e-book reader.
+          </p>
+        </div>
+      )}
+
       <style jsx>{`
         .orig-sidebar {
           position: sticky;
@@ -405,6 +427,43 @@ export default function OriginalsSidebar() {
           border: 1px solid rgba(94, 234, 212, 0.38);
           border-radius: 999px;
         }
+
+        .orig-heat {
+          padding: 0.85rem 0.95rem;
+          border: 1px solid rgba(255, 122, 64, 0.32);
+          border-radius: 12px;
+          background:
+            radial-gradient(ellipse at 0% 0%, rgba(255, 122, 64, 0.08), transparent 60%),
+            rgba(20, 10, 8, 0.5);
+        }
+        .orig-heat-head {
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+          font-family: ui-monospace, 'JetBrains Mono', monospace;
+          font-size: 0.64rem;
+          font-weight: 800;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: #ff9a62;
+          text-shadow: 0 0 12px rgba(255, 122, 64, 0.35);
+          margin-bottom: 0.45rem;
+        }
+        .orig-heat-flame {
+          font-size: 0.85rem;
+          animation: orig-flame 1.4s ease-in-out infinite;
+        }
+        @keyframes orig-flame {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.22); }
+        }
+        .orig-heat-line {
+          margin: 0;
+          font-size: 0.78rem;
+          line-height: 1.55;
+          color: rgba(216, 217, 230, 0.85);
+        }
+        .orig-heat-line strong { color: #ffd9a8; font-weight: 700; }
 
         .orig-card-soon { cursor: default; opacity: 0.92; }
 
