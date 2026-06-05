@@ -36,6 +36,16 @@ interface Props {
   initial?: StudyProfileValue;
   onComplete: (profile: StudyProfileValue) => void;
   onCancel?: () => void;
+  /** Copy overrides — the post-login gate reuses this modal with its own framing. */
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  ctaLabel?: string;
+  cancelLabel?: string;
+  /** Replace the default subject suggestion chips (e.g. the live course catalog). */
+  suggestions?: string[];
+  /** Require BOTH grade and ≥1 subject (post-login gate), instead of "any one field". */
+  requireGradeAndSubject?: boolean;
 }
 
 /**
@@ -43,7 +53,18 @@ interface Props {
  * three fields (grade, subjects, goals) are what the brief generator
  * uses to write a section structure for this student.
  */
-export default function StudyProfileSetup({ initial, onComplete, onCancel }: Props) {
+export default function StudyProfileSetup({
+  initial,
+  onComplete,
+  onCancel,
+  eyebrow = "FOR YOU · SETUP",
+  title = "Tell us what you're studying.",
+  subtitle = "Three quick fields. We'll surface what matters this week, drawn from your saves and active lounges.",
+  ctaLabel = "Build my brief →",
+  cancelLabel = "Cancel",
+  suggestions = SUBJECT_SUGGESTIONS,
+  requireGradeAndSubject = false,
+}: Props) {
   const [grade, setGrade] = useState<string>(initial?.grade ?? "");
   const [subjects, setSubjects] = useState<string[]>(initial?.subjects ?? []);
   const [draftSubject, setDraftSubject] = useState("");
@@ -76,7 +97,12 @@ export default function StudyProfileSetup({ initial, onComplete, onCancel }: Pro
     if (busy) return;
     const cleanGrade = grade.trim() || null;
     const cleanGoals = goals.trim() || null;
-    if (!cleanGrade && subjects.length === 0 && !cleanGoals) {
+    if (requireGradeAndSubject) {
+      if (!cleanGrade || subjects.length === 0) {
+        setErr("Pick your grade and add at least one class you're taking.");
+        return;
+      }
+    } else if (!cleanGrade && subjects.length === 0 && !cleanGoals) {
       setErr("Pick a grade, add a subject, or describe a goal — anything to start from.");
       return;
     }
@@ -114,12 +140,9 @@ export default function StudyProfileSetup({ initial, onComplete, onCancel }: Pro
         onClick={(e) => e.stopPropagation()}
       >
         <div className="sp-head">
-          <div className="sp-eyebrow">FOR YOU · SETUP</div>
-          <div className="sp-title">Tell us what you&apos;re studying.</div>
-          <div className="sp-sub">
-            Three quick fields. We&apos;ll surface what matters this week, drawn from your
-            saves and active lounges.
-          </div>
+          <div className="sp-eyebrow">{eyebrow}</div>
+          <div className="sp-title">{title}</div>
+          <div className="sp-sub">{subtitle}</div>
         </div>
 
         {err && <div className="sp-err">{err}</div>}
@@ -175,7 +198,7 @@ export default function StudyProfileSetup({ initial, onComplete, onCancel }: Pro
             />
           </div>
           <div className="sp-suggestions">
-            {SUBJECT_SUGGESTIONS.filter((s) => !subjects.includes(s)).slice(0, 6).map((s) => (
+            {suggestions.filter((s) => !subjects.includes(s)).slice(0, 8).map((s) => (
               <button
                 key={s}
                 type="button"
@@ -210,7 +233,7 @@ export default function StudyProfileSetup({ initial, onComplete, onCancel }: Pro
               onClick={onCancel}
               disabled={busy}
             >
-              Cancel
+              {cancelLabel}
             </button>
           )}
           <button
@@ -219,7 +242,7 @@ export default function StudyProfileSetup({ initial, onComplete, onCancel }: Pro
             onClick={() => void submit()}
             disabled={busy}
           >
-            {busy ? "Saving…" : "Build my brief →"}
+            {busy ? "Saving…" : ctaLabel}
           </button>
         </div>
       </div>
