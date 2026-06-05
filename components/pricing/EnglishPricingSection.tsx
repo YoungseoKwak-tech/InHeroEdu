@@ -1,11 +1,24 @@
 'use client'
 
-import type { CSSProperties, ReactNode } from 'react'
+import { useState, type CSSProperties, type ReactNode } from 'react'
 import PaymentButton from '@/components/PaymentButton'
 import { FREE_FOR_ALL } from '@/lib/config'
+import { courses } from '@/lib/data/courses'
 import { usd } from '@/lib/pricing'
 
 const AP_BIO_FIRST_LESSON = '/courses/ap-biology/ap-biology-u1-l1'
+const oneSubjectCheckoutOptions = courses
+  .filter((course) => course.category === 'AP' || course.category === 'Test Prep')
+  .map((course) => ({
+    id: course.id,
+    label: course.subjectEn,
+    returnTo: course.firstLessonId ? `/courses/${course.id}/${course.firstLessonId}` : `/courses/${course.id}`,
+  }))
+const defaultOneSubjectCheckoutOption = {
+  id: 'ap-biology',
+  label: 'AP Biology',
+  returnTo: AP_BIO_FIRST_LESSON,
+}
 
 const planShell: CSSProperties = {
   position: 'relative',
@@ -318,6 +331,12 @@ function FreeForAllSection() {
 }
 
 export default function EnglishPricingSection() {
+  const [selectedSubjectId, setSelectedSubjectId] = useState('ap-biology')
+  const selectedSubject =
+    oneSubjectCheckoutOptions.find((course) => course.id === selectedSubjectId) ??
+    oneSubjectCheckoutOptions[0] ??
+    defaultOneSubjectCheckoutOption
+
   if (FREE_FOR_ALL) {
     return <FreeForAllSection />
   }
@@ -423,8 +442,43 @@ export default function EnglishPricingSection() {
           >
             <PriceLine original={99} current={49} suffix="per month" accent="#C9A84C" />
             <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.42)', margin: 0 }}>
-              AP Biology checkout shown first · Korea checkout ₩75,000/mo
+              Choose one subject before checkout · Korea checkout ₩75,000/mo
             </p>
+            <label
+              style={{
+                display: 'block',
+                marginTop: 18,
+                fontSize: 11,
+                fontWeight: 900,
+                letterSpacing: '0.16em',
+                textTransform: 'uppercase',
+                color: 'rgba(201,168,76,0.92)',
+              }}
+            >
+              Subject to unlock
+            </label>
+            <select
+              value={selectedSubjectId}
+              onChange={(event) => setSelectedSubjectId(event.target.value)}
+              style={{
+                width: '100%',
+                marginTop: 8,
+                padding: '13px 14px',
+                borderRadius: 14,
+                border: '1px solid rgba(201,168,76,0.36)',
+                background: 'rgba(0,0,0,0.35)',
+                color: '#fff',
+                fontSize: 14,
+                fontWeight: 800,
+                outline: 'none',
+              }}
+            >
+              {oneSubjectCheckoutOptions.map((course) => (
+                <option key={course.id} value={course.id}>
+                  {course.label}
+                </option>
+              ))}
+            </select>
             <FeatureList
               color="#C9A84C"
               items={[
@@ -436,11 +490,11 @@ export default function EnglishPricingSection() {
             />
             <PaymentButton
               serviceId="one_subject"
-              subjectId="ap-biology"
+              subjectId={selectedSubject.id}
               amount={75000}
-              orderName="AP Biology Elite Pass"
-              returnTo={AP_BIO_FIRST_LESSON}
-              label="Checkout AP Bio — $49/mo"
+              orderName={`${selectedSubject.label} Elite Pass`}
+              returnTo={selectedSubject.returnTo}
+              label={`Checkout ${selectedSubject.label} — $49/mo`}
               showPayPalBackup={false}
               style={{
                 width: '100%',

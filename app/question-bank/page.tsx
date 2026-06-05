@@ -10,6 +10,7 @@
  */
 
 import { useEffect, useMemo, useState } from "react";
+import { authFetch } from "@/lib/client-auth";
 
 interface BankOption {
   label: string;
@@ -47,24 +48,47 @@ export default function QuestionBankPage() {
   });
   const [questions, setQuestions] = useState<BankQuestion[]>([]);
   const [loading, setLoading] = useState(true);
+  const [accessMessage, setAccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/question-bank/bank?countOnly=true")
-      .then((r) => r.json())
+    authFetch("/api/question-bank/bank?countOnly=true")
+      .then(async (r) => {
+        const d = await r.json();
+        if (!r.ok) {
+          setAccessMessage(questionBankAccessMessage(d.reason));
+          setSubjects([]);
+          setTotal(0);
+          return null;
+        }
+        setAccessMessage(null);
+        return d;
+      })
       .then((d) => {
+        if (!d) return;
         setSubjects(d.subjects ?? []);
         setTotal(d.total ?? 0);
       })
-      .catch(() => {});
+      .catch(() => setAccessMessage("Could not load your question-bank access. Try again in a moment."));
   }, []);
 
   useEffect(() => {
     setLoading(true);
     const q = active ? `?subject=${encodeURIComponent(active)}` : "";
-    fetch(`/api/question-bank/bank${q}`)
-      .then((r) => r.json())
-      .then((d) => setQuestions(d.questions ?? []))
-      .catch(() => setQuestions([]))
+    authFetch(`/api/question-bank/bank${q}`)
+      .then(async (r) => {
+        const d = await r.json();
+        if (!r.ok) {
+          setAccessMessage(questionBankAccessMessage(d.reason));
+          return null;
+        }
+        setAccessMessage(null);
+        return d;
+      })
+      .then((d) => setQuestions(d?.questions ?? []))
+      .catch(() => {
+        setAccessMessage("Could not load your question-bank access. Try again in a moment.");
+        setQuestions([]);
+      })
       .finally(() => setLoading(false));
   }, [active]);
 
@@ -101,7 +125,24 @@ export default function QuestionBankPage() {
         </div>
 
         {/* Questions */}
-        {loading ? (
+        {accessMessage ? (
+          <div
+            style={{
+              borderRadius: 18,
+              border: "1px solid rgba(201,168,76,0.28)",
+              background: "rgba(201,168,76,0.07)",
+              padding: "22px 24px",
+              color: "rgba(255,255,255,0.72)",
+              fontSize: 14,
+              lineHeight: 1.7,
+            }}
+          >
+            <p style={{ color: "#C9A84C", fontWeight: 900, letterSpacing: "0.12em", fontSize: 11, marginBottom: 8, textTransform: "uppercase" }}>
+              Elite question bank
+            </p>
+            <p style={{ margin: 0 }}>{accessMessage}</p>
+          </div>
+        ) : loading ? (
           <QuestionLoader />
         ) : shown.length === 0 ? (
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14 }}>No questions here yet.</p>
@@ -159,6 +200,12 @@ function QuestionLoader() {
       `}</style>
     </div>
   );
+}
+
+function questionBankAccessMessage(reason?: string) {
+  if (reason === "sign_in_required") return "Sign in to see the question bank attached to your plan.";
+  if (reason === "subject_not_in_plan") return "This subject is not included in your One Subject Elite plan.";
+  return "Upgrade to One Subject Elite or All Subject Pass to unlock question banks.";
 }
 
 function Chip({ active, onClick, label, emoji, count }: { active: boolean; onClick: () => void; label: string; emoji: string; count: number }) {
