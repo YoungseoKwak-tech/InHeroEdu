@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAdminUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
 import breakdown from "@/lib/data/ap-lesson-breakdown.json";
+import { getCourseIdVariants } from "@/lib/courseAliases";
 
 const TEXTBOOKS_BUCKET = "textbooks";
 
@@ -41,7 +42,11 @@ function appendCacheBuster(url: string): string {
 }
 
 function buildFallbackLessons(courseId: string): LessonRow[] {
-  const course = breakdown.courses.find((c) => c.courseId === courseId);
+  // Resolve aliases (e.g. courses.ts "ap-physics-c-mech" → breakdown
+  // "ap-physics-c-mechanics") so batch generate finds lessons for every
+  // course, not just the ones whose id happens to match the JSON exactly.
+  const variants = getCourseIdVariants(courseId);
+  const course = breakdown.courses.find((c) => variants.includes(c.courseId));
   if (!course) return [];
   return course.units.flatMap((unit) =>
     unit.lessons.map((lesson) => ({
@@ -69,7 +74,7 @@ export async function GET(req: NextRequest) {
   const { data: lessons, error } = await supabase
     .from("lessons")
     .select("id, course_id, unit_number, unit_title, lesson_number, title")
-    .eq("course_id", courseId)
+    .in("course_id", getCourseIdVariants(courseId))
     .order("unit_number", { ascending: true })
     .order("lesson_number", { ascending: true });
 

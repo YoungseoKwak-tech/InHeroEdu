@@ -5,6 +5,8 @@ const COURSE_ID_VARIANT_GROUPS: string[][] = [
   ["ap-physics-1", "ap-physics"],
   ["ap-physics-2", "ap-phys2"],
   ["ap-physics-c-mech", "ap-physics-c-mechanics"],
+  ["ap-physics-c-em", "ap-physics-c-e-m"],
+  ["ap-computer-science-a", "ap-cs-a"],
   ["ap-us-history", "ap-history", "apush"],
 ];
 
