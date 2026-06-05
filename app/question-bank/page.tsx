@@ -102,7 +102,7 @@ export default function QuestionBankPage() {
 
         {/* Questions */}
         {loading ? (
-          <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14 }}>Loading questions…</p>
+          <QuestionLoader />
         ) : shown.length === 0 ? (
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14 }}>No questions here yet.</p>
         ) : (
@@ -118,6 +118,45 @@ export default function QuestionBankPage() {
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+function QuestionLoader() {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 22,
+        padding: "90px 0",
+        textAlign: "center",
+      }}
+    >
+      <div
+        style={{
+          width: 72,
+          height: 72,
+          borderRadius: "50%",
+          border: "5px solid rgba(0,255,178,0.15)",
+          borderTopColor: "#00FFB2",
+          animation: "qb-spin 0.8s linear infinite",
+          boxShadow: "0 0 32px rgba(0,255,178,0.25)",
+        }}
+      />
+      <div>
+        <p style={{ color: "#fff", fontSize: 17, fontWeight: 800, margin: "0 0 6px", letterSpacing: "-0.01em" }}>
+          Loading your questions…
+        </p>
+        <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 13.5, margin: 0 }}>
+          Pulling practice problems from every InHero lesson.
+        </p>
+      </div>
+      <style>{`
+        @keyframes qb-spin { to { transform: rotate(360deg); } }
+      `}</style>
     </div>
   );
 }
