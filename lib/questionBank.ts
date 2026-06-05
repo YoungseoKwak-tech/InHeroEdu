@@ -236,6 +236,19 @@ interface AdminQuestionRow {
   option_e: string | null;
   correct_answer: string | null;
   explanation: string | null;
+  tags: string[] | null;
+}
+
+/** Authored bank questions carry their AP unit as a `unit:N` tag (the
+ *  questions table has no unit column). Pull it back out as a number so
+ *  these sit alongside lesson-derived questions under the same unit. */
+function unitFromTags(tags: string[] | null): number | null {
+  if (!Array.isArray(tags)) return null;
+  for (const t of tags) {
+    const m = /^unit:(\d+)$/i.exec(String(t).trim());
+    if (m) return parseInt(m[1], 10);
+  }
+  return null;
 }
 
 function fromAdminRow(row: AdminQuestionRow): BankQuestion | null {
@@ -264,7 +277,7 @@ function fromAdminRow(row: AdminQuestionRow): BankQuestion | null {
     subjectLabel: courseId ? meta.label : row.subject ?? row.topic ?? "Question Bank",
     emoji: courseId ? meta.emoji : "🏦",
     lessonId: null,
-    unit: null,
+    unit: unitFromTags(row.tags),
     prompt,
     options,
     explanation: row.explanation,
@@ -296,7 +309,7 @@ async function rebuildBank(): Promise<BankQuestion[]> {
     supabase
       .from("questions")
       .select(
-        "id, subject, topic, question_text, option_a, option_b, option_c, option_d, option_e, correct_answer, explanation"
+        "id, subject, topic, question_text, option_a, option_b, option_c, option_d, option_e, correct_answer, explanation, tags"
       ),
   ]);
 

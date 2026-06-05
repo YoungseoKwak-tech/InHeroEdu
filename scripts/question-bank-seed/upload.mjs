@@ -4,9 +4,11 @@
  *   node --env-file=.env.local scripts/question-bank-seed/upload.mjs [subject ...]
  *
  * Each JSON file in this directory is { subject, questions: [...] } where a
- * question is { topic, difficulty, type, question_text, option_a..option_e?,
- * correct_answer, explanation }. Idempotent: skips rows whose question_text
- * already exists for that subject.
+ * question is { unit, topic, difficulty, type, question_text,
+ * option_a..option_e?, correct_answer, explanation }. The `unit` number is
+ * stored as a `unit:N` tag (the questions table has no unit column) so the
+ * bank can group authored questions by AP unit. Idempotent: skips rows whose
+ * question_text already exists for that subject.
  */
 import { createClient } from "@supabase/supabase-js";
 import { readdirSync, readFileSync } from "node:fs";
@@ -51,6 +53,7 @@ for (const file of files) {
       option_e: q.option_e ?? null,
       correct_answer: q.correct_answer,
       explanation: q.explanation,
+      tags: q.unit != null ? [`unit:${q.unit}`] : null,
     }));
 
   skipped += questions.length - rows.length;
