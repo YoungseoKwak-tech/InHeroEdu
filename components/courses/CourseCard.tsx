@@ -53,9 +53,8 @@ export default function CourseCard({ course, hrefBase = "/courses" }: CourseCard
             </span>
           </div>
 
-          {/* CTA — deep-link straight into the first lesson when the course
-              has content; otherwise show a disabled Coming Soon state so the
-              student knows the path exists but hasn't shipped yet. */}
+          {/* CTA opens the course table of contents first. The firstLessonId
+              only controls whether the course is live enough to enter. */}
           <div className="mt-5">
             {course.firstLessonId ? (
               <Link

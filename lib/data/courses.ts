@@ -40,10 +40,9 @@ export interface Course {
   // to /textbooks/<textbookSlug>. Today only AP Bio has a published
   // textbook; AP Chem / AP Physics will get slugs once they ship.
   textbookSlug?: string;
-  // Catalog card CTA target. When set, the course card on /courses
-  // surfaces a "Start lesson →" button that deep-links straight into
-  // this lesson (skipping the units page). When unset, the card shows
-  // a disabled "Coming Soon" state.
+  // Catalog card availability flag. When set, the course card on /courses
+  // surfaces a "Start lesson →" button that opens the course units page.
+  // When unset, the card shows a disabled "Coming Soon" state.
   firstLessonId?: string;
 }
 
