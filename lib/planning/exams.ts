@@ -68,6 +68,19 @@ export function findExam(slug: string): ExamCatalogEntry | undefined {
   return EXAM_CATALOG.find((e) => e.slug === slug);
 }
 
+/**
+ * Default target-finish-date for a freshly selected subject.
+ * "Today + 6 months", clamped to the next day boundary so it doesn't
+ * drift with timezone. Matches the confirmed UX default — students
+ * who don't touch the date input get a believable, AP-season-aligned
+ * window.
+ */
+export function defaultFinishDateISO(now: Date = new Date()): string {
+  const d = new Date(now);
+  d.setMonth(d.getMonth() + 6);
+  return d.toISOString().slice(0, 10);
+}
+
 export const EXAMS_BY_CATEGORY: Record<ExamCategory, ExamCatalogEntry[]> = {
   ap:             EXAM_CATALOG.filter((e) => e.category === "ap"),
   standardized:   EXAM_CATALOG.filter((e) => e.category === "standardized"),

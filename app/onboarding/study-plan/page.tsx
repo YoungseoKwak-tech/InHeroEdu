@@ -19,6 +19,7 @@ import {
   EXAMS_BY_CATEGORY,
   CATEGORY_LABELS,
   findExam,
+  defaultFinishDateISO,
   type ExamCategory,
 } from "@/lib/planning/exams";
 
@@ -47,7 +48,14 @@ export default function StudyPlanOnboardingPage() {
   const [step, setStep] = useState<Step>(0);
   const [grade, setGrade] = useState<Grade | null>(null);
   const [selected, setSelected] = useState<string[]>([]);
-  const [dates, setDates] = useState<Record<string, string>>({});
+  // Student-controlled "I want to finish by" date per subject. PRIMARY
+  // signal for the schedule generator.
+  const [finishDates, setFinishDates] = useState<Record<string, string>>({});
+  // Optional "I'm also taking the AP exam" toggle + date per subject.
+  // When the toggle is off, exam_date is null and the plan doesn't
+  // bake in any review-after-finish buffer.
+  const [examFlags, setExamFlags] = useState<Record<string, boolean>>({});
+  const [examDates, setExamDates] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loadingMsgIdx, setLoadingMsgIdx] = useState(0);
@@ -72,9 +80,20 @@ export default function StudyPlanOnboardingPage() {
     return () => clearInterval(t);
   }, [submitting]);
 
-  // Default the date inputs when an exam is first selected.
+  // Default the date inputs when a subject is first selected. Finish
+  // date defaults to today + 6 months (confirmed default). Exam date
+  // defaults to the catalog's official AP date but is hidden until
+  // the student toggles "I'm taking the AP exam".
   useEffect(() => {
-    setDates((prev) => {
+    const def = defaultFinishDateISO();
+    setFinishDates((prev) => {
+      const next = { ...prev };
+      for (const slug of selected) {
+        if (!next[slug]) next[slug] = def;
+      }
+      return next;
+    });
+    setExamDates((prev) => {
       const next = { ...prev };
       for (const slug of selected) {
         if (!next[slug]) {
@@ -92,7 +111,13 @@ export default function StudyPlanOnboardingPage() {
 
   const canAdvance0 = grade != null;
   const canAdvance1 = selected.length > 0;
-  const canSubmit = canAdvance1 && selected.every((s) => dates[s]);
+  // Each subject needs a finish date. Exam date is only required when
+  // the AP-exam toggle is on for that subject.
+  const canSubmit =
+    canAdvance1 &&
+    selected.every(
+      (s) => finishDates[s] && (!examFlags[s] || examDates[s])
+    );
 
   async function submit() {
     if (submitting || !canSubmit || !grade) return;
@@ -102,7 +127,11 @@ export default function StudyPlanOnboardingPage() {
 
     const payload = {
       grade,
-      exams: selected.map((slug) => ({ slug, exam_date: dates[slug] })),
+      exams: selected.map((slug) => ({
+        slug,
+        target_finish_date: finishDates[slug],
+        exam_date: examFlags[slug] ? examDates[slug] : null,
+      })),
     };
 
     try {
@@ -225,33 +254,68 @@ export default function StudyPlanOnboardingPage() {
               </section>
             )}
 
-            {/* ── Step 2: Dates ───────────────────────────────────────── */}
+            {/* ── Step 2: Finish-by date (+ optional AP exam date) ──── */}
             {step === 2 && (
               <section className="sp-section">
-                <label className="sp-label">When are your tests?</label>
-                <p className="sp-hint">Defaults to the 2026 calendar. Change any one if your date differs.</p>
+                <label className="sp-label">When do you want to finish?</label>
+                <p className="sp-hint">
+                  Pick the day you want to be done. We pace the plan to that
+                  date. If you're also taking the AP exam, flip the toggle so
+                  we leave a review buffer afterward.
+                </p>
 
                 <div className="sp-dates">
                   {selected.map((slug) => {
                     const c = findExam(slug);
                     if (!c) return null;
-                    const def = c.default_exam_date;
-                    const cur = dates[slug] ?? def;
-                    const isDefault = cur === def;
+                    const finishCur = finishDates[slug] ?? defaultFinishDateISO();
+                    const takingExam = !!examFlags[slug];
+                    const examCur = examDates[slug] ?? c.default_exam_date;
                     return (
-                      <div key={slug} className="sp-date-row">
-                        <span className="sp-date-emoji">{c.emoji}</span>
-                        <span className="sp-date-name">{c.name}</span>
-                        <input
-                          type="date"
-                          value={cur}
-                          min={todayISO}
-                          onChange={(ev) => setDates((d) => ({ ...d, [slug]: ev.target.value }))}
-                          className="sp-date-input"
-                        />
-                        <span className={`sp-date-tag ${isDefault ? "is-default" : "is-custom"}`}>
-                          {isDefault ? "default" : "custom"}
-                        </span>
+                      <div key={slug} className="sp-date-row sp-date-row-stack">
+                        <div className="sp-date-head">
+                          <span className="sp-date-emoji">{c.emoji}</span>
+                          <span className="sp-date-name">{c.name}</span>
+                        </div>
+
+                        <div className="sp-date-field">
+                          <span className="sp-date-tag-lbl">🎯 Finish by</span>
+                          <input
+                            type="date"
+                            value={finishCur}
+                            min={todayISO}
+                            onChange={(ev) =>
+                              setFinishDates((d) => ({ ...d, [slug]: ev.target.value }))
+                            }
+                            className="sp-date-input"
+                          />
+                        </div>
+
+                        <label className="sp-exam-toggle">
+                          <input
+                            type="checkbox"
+                            checked={takingExam}
+                            onChange={(ev) =>
+                              setExamFlags((f) => ({ ...f, [slug]: ev.target.checked }))
+                            }
+                          />
+                          <span>I'm also taking the AP exam</span>
+                        </label>
+
+                        {takingExam && (
+                          <div className="sp-date-field sp-date-field-sub">
+                            <span className="sp-date-tag-lbl">📅 Exam date</span>
+                            <input
+                              type="date"
+                              value={examCur}
+                              min={todayISO}
+                              onChange={(ev) =>
+                                setExamDates((d) => ({ ...d, [slug]: ev.target.value }))
+                              }
+                              className="sp-date-input"
+                            />
+                          </div>
+                        )}
                       </div>
                     );
                   })}
@@ -436,6 +500,51 @@ export default function StudyPlanOnboardingPage() {
         }
         .sp-date-tag.is-default { color: rgba(148,163,184,0.7); background: rgba(148,163,184,0.07); }
         .sp-date-tag.is-custom { color: #F4C95D; background: rgba(244,201,93,0.1); }
+
+        /* Stacked row variant for finish-date + exam toggle UX. */
+        .sp-date-row-stack {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0.45rem;
+        }
+        .sp-date-head {
+          display: flex;
+          align-items: center;
+          gap: 0.55rem;
+          font-weight: 600;
+        }
+        .sp-date-field {
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+        }
+        .sp-date-field-sub {
+          margin-left: 1.5rem;
+          padding-left: 0.5rem;
+          border-left: 2px solid rgba(94,234,212,0.25);
+        }
+        .sp-date-tag-lbl {
+          font-family: ui-monospace, monospace;
+          font-size: 0.7rem;
+          letter-spacing: 0.06em;
+          color: rgba(216,217,230,0.75);
+          min-width: 6rem;
+        }
+        .sp-exam-toggle {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.82rem;
+          color: rgba(216,217,230,0.85);
+          cursor: pointer;
+          user-select: none;
+        }
+        .sp-exam-toggle input[type="checkbox"] {
+          width: 1rem; height: 1rem;
+          accent-color: #5eead4;
+          cursor: pointer;
+        }
 
         /* ── Row buttons ────────────────────────────────────────────── */
         .sp-row { display: flex; gap: 0.5rem; justify-content: space-between; margin-top: 0.4rem; }

@@ -111,12 +111,12 @@ export default function VideoLessonGate({
   useEffect(() => {
     let cancelled = false;
     async function checkAccess() {
-      if (authState !== "authenticated") {
-        setAccessState("loading");
-        return;
-      }
       if (isFreePreviewLesson) {
         setAccessState("granted");
+        return;
+      }
+      if (authState !== "authenticated") {
+        setAccessState("loading");
         return;
       }
       setAccessState("loading");
@@ -166,7 +166,7 @@ export default function VideoLessonGate({
     );
   }
 
-  if (authState === "guest") {
+  if (authState === "guest" && !isFreePreviewLesson) {
     return (
       <div className="vlg-center">
         <div className="vlg-locked-card">

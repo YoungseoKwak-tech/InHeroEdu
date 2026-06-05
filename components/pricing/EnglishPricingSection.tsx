@@ -334,7 +334,7 @@ export default function EnglishPricingSection() {
               color="#00FFB2"
               items={[
                 'First lesson free in every course',
-                'No 3-day timer or credit card required',
+                'No timers or credit card required',
                 'Explore courses, library, and lounges',
                 'Upgrade only when Elite is useful',
               ]}
@@ -374,7 +374,7 @@ export default function EnglishPricingSection() {
           >
             <PriceLine original={99} current={49} suffix="per month" accent="#C9A84C" />
             <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.42)', margin: 0 }}>
-              AP Biology checkout shown first
+              AP Biology checkout shown first · Korea checkout ₩75,000/mo
             </p>
             <FeatureList
               color="#C9A84C"
@@ -388,7 +388,7 @@ export default function EnglishPricingSection() {
             <PaymentButton
               serviceId="single"
               subjectId="ap-biology"
-              amount={49}
+              amount={75000}
               orderName="AP Biology Elite Pass"
               returnTo={AP_BIO_FIRST_LESSON}
               label="Checkout AP Bio — $49/mo"

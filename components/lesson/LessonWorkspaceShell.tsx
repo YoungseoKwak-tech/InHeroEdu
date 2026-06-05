@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import LessonSupportPanel from "@/components/lesson/LessonSupportPanel";
+
+// LessonSupportPanel (MISSION CONTROL AI chat) was removed from the
+// workspace by request — students found it distracting next to the
+// player. Props that fed it (courseId / lessonScript / lessonLang) are
+// retained on the interface so existing callers don't break, but the
+// panel itself no longer renders. Re-add by importing and dropping
+// back inside the aside if we ever want to bring it back.
 
 interface LessonWorkspaceShellProps {
   courseId: string;
@@ -16,13 +22,9 @@ interface LessonWorkspaceShellProps {
 }
 
 export default function LessonWorkspaceShell({
-  courseId,
-  lessonId,
   title,
   courseName,
   courseHref,
-  lessonLang = "en",
-  lessonScript,
   children,
 }: LessonWorkspaceShellProps) {
   return (
@@ -42,18 +44,6 @@ export default function LessonWorkspaceShell({
           <div className="lws-main">
             <div className="lws-stage">{children}</div>
           </div>
-          <aside className="lws-side">
-            <div className="lws-side-sticky">
-              <LessonSupportPanel
-                courseId={courseId}
-                lessonId={lessonId}
-                courseName={courseName}
-                lessonTitle={title}
-                lessonScript={lessonScript}
-                lessonLang={lessonLang}
-              />
-            </div>
-          </aside>
         </div>
       </div>
 
@@ -109,21 +99,14 @@ export default function LessonWorkspaceShell({
           background: rgba(3, 5, 10, 0.96);
           box-shadow: 0 24px 90px rgba(0, 0, 0, 0.28);
         }
-        .lws-side {
-          min-width: 0;
-        }
         @media (min-width: 1180px) {
           .lws-root {
             padding: 1.2rem 1.25rem 2rem;
           }
           .lws-inner {
-            grid-template-columns: minmax(0, 1fr) 22rem;
+            grid-template-columns: minmax(0, 1fr);
             align-items: start;
             gap: 1.25rem;
-          }
-          .lws-side-sticky {
-            position: sticky;
-            top: 5rem;
           }
         }
       `}</style>

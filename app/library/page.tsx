@@ -807,12 +807,13 @@ export default function LibraryPage() {
         }
         .lib-head { margin-bottom: 1.5rem; }
 
-        /* 1:4 split — Originals is the narrow context sidebar, the
-           community feed gets the main content area. Stacks below
-           1024px so each panel keeps a usable width on tablet/phone. */
+        /* 50/50 split — left half is the textbook cover grid (InHero
+           Originals), right half is the community handwritten-note
+           feed. Stacks below 1024 px so each pane keeps a usable
+           width on tablet/phone. */
         .lib-with-sidebar {
           display: grid;
-          grid-template-columns: 1fr 4fr;
+          grid-template-columns: 1fr 1fr;
           gap: 2rem;
           align-items: start;
         }

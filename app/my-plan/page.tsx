@@ -20,7 +20,12 @@ import ResumeCard from "@/components/my-plan/ResumeCard";
 interface ExamSelection {
   slug: string;
   name: string;
-  exam_date: string;
+  // New shape — target_finish_date is primary. exam_date is optional
+  // (null for non-AP-takers). Legacy plans built before this change
+  // may not have target_finish_date; the render path falls back to
+  // exam_date in that case so old rows still display.
+  target_finish_date?: string;
+  exam_date?: string | null;
   textbook_id?: string | null;
   total_chapters?: number | null;
   next_chapter_id?: string | null;
@@ -85,6 +90,15 @@ const DAYS: { key: keyof StudyPlan["weekly_schedule"]; label: string; abbr: stri
   { key: "sat", label: "Saturday",  abbr: "Sat" },
   { key: "sun", label: "Sunday",    abbr: "Sun" },
 ];
+
+/**
+ * The exam selection's "primary" date — what the countdown card
+ * counts down to. Prefers target_finish_date (new shape) and falls
+ * back to exam_date for legacy plans built before the schema change.
+ */
+function primaryDate(e: ExamSelection): string {
+  return e.target_finish_date ?? e.exam_date ?? "";
+}
 
 function daysUntil(isoDate: string): number {
   // Signed delta — callers handle "past" (< 0) and "today" (=== 0)
@@ -172,7 +186,14 @@ export default function MyPlanPage() {
     try {
       const exams = plan.exam_selections.map((e) => {
         const catalog = findExam(e.slug);
-        return { slug: e.slug, exam_date: catalog?.default_exam_date ?? e.exam_date };
+        // Roll the AP exam date forward to the current cycle. Keep
+        // the student's chosen target_finish_date untouched so a
+        // rebuild doesn't silently extend their personal deadline.
+        return {
+          slug: e.slug,
+          target_finish_date: e.target_finish_date ?? primaryDate(e),
+          exam_date: e.exam_date ? catalog?.default_exam_date ?? e.exam_date : null,
+        };
       });
       const res = await authFetch("/api/generate-plan", {
         method: "POST",
@@ -318,13 +339,72 @@ export default function MyPlanPage() {
           </p>
         </section>
 
+        {/* ── TODAY block ────────────────────────────────────────
+            Today's sessions pulled out of the weekly grid so a student
+            landing here sees "what to do right now" at a glance —
+            larger cards, fuller activity text, explicit Start CTA per
+            session. The weekly grid below still shows the same TODAY
+            column for week-context, intentionally kept un-dimmed so
+            students can still compare today vs. the rest of the week. */}
+        {(() => {
+          const todayBlocks = plan.weekly_schedule[today] ?? [];
+          const todayLabel = DAYS.find((d) => d.key === today)?.abbr.toUpperCase() ?? "";
+          return (
+            <section className="mp-today-block">
+              <div className="mp-today-head">
+                <span className="mp-today-eyebrow">
+                  <span className="mp-pulse" aria-hidden="true" />
+                  TODAY · {todayLabel}
+                </span>
+                <span className="mp-today-count">
+                  {todayBlocks.length} session{todayBlocks.length === 1 ? "" : "s"}
+                </span>
+              </div>
+              {todayBlocks.length === 0 ? (
+                <div className="mp-today-empty">Rest day — no sessions scheduled.</div>
+              ) : (
+                <div className="mp-today-grid">
+                  {todayBlocks.map((b, i) => {
+                    const p = pal(b.subject_color);
+                    const catalog = findExam(b.subject_slug);
+                    const style = {
+                      background: p.chip,
+                      borderColor: p.glow.replace("0.28", "0.45"),
+                    } as React.CSSProperties;
+                    const blockHref = (() => {
+                      if (b.chapter_number && b.subject_slug === "ap-bio") {
+                        return `/textbooks/ap-bio-ultimate/${b.chapter_number}`;
+                      }
+                      if (catalog?.lounge_slug) return `/lounges/${catalog.lounge_slug}`;
+                      return null;
+                    })();
+                    return (
+                      <div key={i} className="mp-today-card" style={style}>
+                        <div className="mp-today-card-head">
+                          <span className="mp-today-card-emoji" aria-hidden="true">{b.subject_emoji}</span>
+                          <span className="mp-today-card-subj">{b.subject}</span>
+                          <span className="mp-today-card-time">{b.duration_min}m</span>
+                        </div>
+                        <div className="mp-today-card-act">{b.activity}</div>
+                        {blockHref ? (
+                          <Link href={blockHref} className="mp-today-card-cta">Start →</Link>
+                        ) : null}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </section>
+          );
+        })()}
+
         {/* ── Resume CTA ──────────────────────────────────────────
             Single primary action: continue the last lesson + streak handoff. */}
         <ResumeCard />
 
         {/* Past-cycle banner: any exam date in the past gets a one-tap
             "rebuild on this year's catalog dates" affordance. */}
-        {plan.exam_selections.some((e) => daysUntil(e.exam_date) < 0) && (
+        {plan.exam_selections.some((e) => daysUntil(primaryDate(e)) < 0) && (
           <section className="mp-banner">
             <div className="mp-banner-text">
               <strong>Looks like part of your plan is in the past.</strong>
@@ -346,8 +426,8 @@ export default function MyPlanPage() {
           {[...plan.exam_selections]
             .sort((a, b) => {
               // Future first (ascending by date), then past (most-recent past first).
-              const da = daysUntil(a.exam_date);
-              const db = daysUntil(b.exam_date);
+              const da = daysUntil(primaryDate(a));
+              const db = daysUntil(primaryDate(b));
               const pa = da < 0, pb = db < 0;
               if (pa && !pb) return 1;
               if (!pa && pb) return -1;
@@ -355,8 +435,10 @@ export default function MyPlanPage() {
             })
             .map((exam) => {
               const catalog = findExam(exam.slug);
-              const days = daysUntil(exam.exam_date);
+              const finishISO = primaryDate(exam);
+              const days = daysUntil(finishISO);
               const state = classifyCountdown(days);
+              const hasExamDate = !!exam.exam_date;
               const p = pal(catalog?.accent ?? "slate");
               const totalCh = exam.total_chapters ?? 0;
               const completedCh = 0; // TODO: real progress when student_chapter_progress is hot
@@ -394,7 +476,17 @@ export default function MyPlanPage() {
                       <div className="mp-count-meta">{pct}% · {totalCh} chapters</div>
                     </>
                   ) : (
-                    <div className="mp-count-meta">{new Date(exam.exam_date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</div>
+                    <div className="mp-count-meta">
+                      Finish by {new Date(finishISO).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                      {hasExamDate && exam.exam_date && (
+                        <>
+                          {" · "}
+                          <span className="mp-count-meta-sub">
+                            Exam {new Date(exam.exam_date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                          </span>
+                        </>
+                      )}
+                    </div>
                   )}
                 </>
               );
@@ -767,6 +859,91 @@ const pageCss = `
     font-size: 0.7rem;
     color: rgba(148,163,184,0.7);
     letter-spacing: 0.04em;
+  }
+  .mp-count-meta-sub {
+    color: rgba(148,163,184,0.5);
+    font-size: 0.65rem;
+  }
+
+  /* ── TODAY block (prominent, above the weekly grid) ────────── */
+  .mp-today-block {
+    padding: 1.15rem 1.2rem 1.3rem;
+    border-radius: 0.85rem;
+    border: 1px solid rgba(94,234,212,0.32);
+    background: linear-gradient(180deg, rgba(94,234,212,0.07), rgba(94,234,212,0.015));
+    box-shadow: 0 0 0 1px rgba(94,234,212,0.05) inset;
+  }
+  .mp-today-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  .mp-today-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: #5eead4;
+    text-shadow: 0 0 10px rgba(94,234,212,0.4);
+  }
+  .mp-today-count {
+    font-family: ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: rgba(94,234,212,0.7);
+  }
+  .mp-today-empty {
+    font-size: 0.92rem;
+    color: rgba(148,163,184,0.65);
+    padding: 1.5rem 0;
+    text-align: center;
+    font-family: ui-monospace, monospace;
+    letter-spacing: 0.04em;
+  }
+  .mp-today-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+    gap: 0.75rem;
+  }
+  .mp-today-card {
+    display: flex; flex-direction: column;
+    padding: 1rem 1.05rem 1.05rem;
+    border: 1px solid;
+    border-radius: 0.65rem;
+    gap: 0.55rem;
+  }
+  .mp-today-card-head {
+    display: flex; align-items: center; gap: 0.55rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem; font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .mp-today-card-emoji { font-size: 1.15rem; line-height: 1; }
+  .mp-today-card-subj { flex: 1; color: rgba(216,217,230,0.96); }
+  .mp-today-card-time { color: rgba(148,163,184,0.78); font-weight: 500; }
+  .mp-today-card-act {
+    font-size: 1rem;
+    line-height: 1.45;
+    color: rgba(216,217,230,0.95);
+  }
+  .mp-today-card-cta {
+    align-self: flex-start;
+    margin-top: 0.4rem;
+    padding: 0.45rem 0.95rem;
+    border-radius: 0.4rem;
+    background: rgba(94,234,212,0.18);
+    border: 1px solid rgba(94,234,212,0.45);
+    color: #5eead4;
+    font-family: ui-monospace, monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+  }
+  .mp-today-card-cta:hover {
+    background: rgba(94,234,212,0.32);
+    border-color: rgba(94,234,212,0.65);
+    transform: translateY(-1px);
   }
 
   /* ── Weekly calendar ────────────────────────────────────────── */

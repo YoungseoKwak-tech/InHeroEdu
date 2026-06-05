@@ -284,6 +284,21 @@ export default async function LessonPage({ params }: Props) {
       }
 
       const playlist = buildPlaylist(clipMatch.clips, overlayRows, sections);
+
+      // Textbook deep-link — derive chapter_number from the lesson id
+      // (ap-{course}-u{N}-l{M} → "0N.0M"). Only emitted when the course
+      // actually ships a textbook (today: AP Bio).
+      const tbMatch = activeLessonId.match(/u(\d+)-l(\d+)/i);
+      // Deep-link straight to the in-browser PDF reader (the /read route)
+      // so the split-pane iframe lands inside the page spread + zoom
+      // controls rather than the chapter's metadata landing page.
+      const textbookHref = course.textbookSlug && tbMatch
+        ? `/textbooks/${course.textbookSlug}/${tbMatch[1].padStart(2, "0")}.${tbMatch[2].padStart(2, "0")}/read`
+        : undefined;
+      const textbookLabel = tbMatch
+        ? `Read in textbook · Ch ${parseInt(tbMatch[1], 10)} · Lesson ${parseInt(tbMatch[2], 10)}`
+        : undefined;
+
       return (
         <SectionLessonGate
           playlist={playlist}
@@ -298,6 +313,8 @@ export default async function LessonPage({ params }: Props) {
           lessonLang="en"
           nextLessonId={lessonInfo.nextLessonId ?? undefined}
           isFreePreviewLesson={isFreePreviewLesson}
+          textbookHref={textbookHref}
+          textbookLabel={textbookLabel}
         />
       );
     }

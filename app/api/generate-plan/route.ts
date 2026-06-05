@@ -13,7 +13,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
-import { findExam } from "@/lib/planning/exams";
+import { findExam, defaultFinishDateISO } from "@/lib/planning/exams";
 import { generateWeeklySchedule, type ExamSelection } from "@/lib/planning/generate-schedule";
 import { matchRecommendations } from "@/lib/planning/match-recommendations";
 
@@ -22,8 +22,15 @@ export const dynamic = "force-dynamic";
 
 interface RequestBody {
   grade?: string;
-  exams?: Array<{ slug?: string; exam_date?: string }>;
+  exams?: Array<{
+    slug?: string;
+    target_finish_date?: string;
+    // Optional: present only when the student is taking the AP exam.
+    exam_date?: string | null;
+  }>;
 }
+
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 export async function POST(req: NextRequest) {
   const user = await requireAuthenticatedUser(req);
@@ -36,18 +43,33 @@ export async function POST(req: NextRequest) {
   const grade = typeof body.grade === "string" ? body.grade : null;
 
   // Validate + normalize exams against the canonical catalog.
+  // New schema: target_finish_date is required, exam_date is optional.
+  // Legacy schema (only exam_date sent) is still accepted — we treat
+  // the old exam_date as the target_finish_date so existing clients
+  // and one-off scripts don't break.
   const cleanedExams: ExamSelection[] = [];
-  for (const e of body.exams) {
-    if (typeof e?.slug !== "string") continue;
-    const catalog = findExam(e.slug);
+  for (const raw of body.exams) {
+    if (typeof raw?.slug !== "string") continue;
+    const catalog = findExam(raw.slug);
     if (!catalog) continue;
+
+    const rawFinish = raw.target_finish_date;
+    const rawExam = raw.exam_date;
+
+    const finishDate =
+      typeof rawFinish === "string" && ISO_DATE.test(rawFinish)
+        ? rawFinish
+        : typeof rawExam === "string" && ISO_DATE.test(rawExam)
+        ? rawExam // legacy fallback
+        : defaultFinishDateISO();
+
     const examDate =
-      typeof e.exam_date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(e.exam_date)
-        ? e.exam_date
-        : catalog.default_exam_date;
+      typeof rawExam === "string" && ISO_DATE.test(rawExam) ? rawExam : null;
+
     cleanedExams.push({
       slug: catalog.slug,
       name: catalog.name,
+      target_finish_date: finishDate,
       exam_date: examDate,
     });
   }
@@ -58,9 +80,12 @@ export async function POST(req: NextRequest) {
   const sb = createAdminClient();
 
   // ── 1. Mirror grade + exam list into the existing user_study_profile
-  //       (keeps For You / brief generator in sync).
+  //       (keeps For You / brief generator in sync). The mirror stores
+  //       target_finish_date under the same exam_dates key because
+  //       downstream consumers (brief generator, recommendations) only
+  //       care about "when does this user want to be done".
   const examDatesMap: Record<string, string> = {};
-  for (const e of cleanedExams) examDatesMap[e.slug] = e.exam_date;
+  for (const e of cleanedExams) examDatesMap[e.slug] = e.target_finish_date;
   await sb.from("user_study_profile").upsert({
     user_id: user.id,
     grade,

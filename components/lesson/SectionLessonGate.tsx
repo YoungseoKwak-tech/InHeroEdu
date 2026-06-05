@@ -30,6 +30,11 @@ interface Props {
   lessonScript?: string;
   lessonLang?: "en" | "ko";
   isFreePreviewLesson?: boolean;
+  /** Deep-link to the matching textbook chapter, rendered as a single
+   *  link strip right under the player. Omit when the course has no
+   *  textbook (only AP Bio has one in the catalog today). */
+  textbookHref?: string;
+  textbookLabel?: string;
 }
 
 type AuthState = "loading" | "authenticated" | "guest";
@@ -48,10 +53,20 @@ export default function SectionLessonGate({
   lessonScript,
   lessonLang,
   isFreePreviewLesson,
+  textbookHref,
+  textbookLabel,
 }: Props) {
   const [authState, setAuthState] = useState<AuthState>("loading");
   const [accessState, setAccessState] = useState<AccessState>("loading");
   const [completed, setCompleted] = useState(false);
+  // Split view defaults to OFF on every lesson load — the student starts
+  // with the lesson player at full width and explicitly opts in by
+  // clicking the "Read in textbook" button below the player. No
+  // localStorage persistence: the prior sticky behavior surprised
+  // students who landed on a new lesson already split.
+  const [splitView, setSplitView] = useState(false);
+  function openSplit() { setSplitView(true); }
+  function closeSplit() { setSplitView(false); }
   const resolvedCourseHref = courseHref ?? `/courses/${courseId}`;
   const resolvedRedirectHref = redirectHref ?? `${resolvedCourseHref}/${lessonId}`;
   const resolvedNextLessonHref = nextLessonHref ?? (nextLessonId ? `${resolvedCourseHref}/${nextLessonId}` : null);
@@ -94,12 +109,12 @@ export default function SectionLessonGate({
   useEffect(() => {
     let cancelled = false;
     async function checkAccess() {
-      if (authState !== "authenticated") {
-        setAccessState("loading");
-        return;
-      }
       if (isFreePreviewLesson) {
         setAccessState("granted");
+        return;
+      }
+      if (authState !== "authenticated") {
+        setAccessState("loading");
         return;
       }
       setAccessState("loading");
@@ -129,7 +144,7 @@ export default function SectionLessonGate({
     );
   }
 
-  if (authState === "guest") {
+  if (authState === "guest" && !isFreePreviewLesson) {
     return (
       <div className="slg-center">
         <div className="slg-card">
@@ -204,21 +219,195 @@ export default function SectionLessonGate({
   }
 
   return (
-    <LessonWorkspaceShell
-      courseId={courseId}
-      lessonId={lessonId}
-      title={title}
-      courseName={courseName}
-      courseHref={resolvedCourseHref}
-      lessonScript={lessonScript}
-      lessonLang={lessonLang}
-    >
-      <SectionLessonPlayer
-        playlist={playlist}
-        lessonId={lessonId}
-        onComplete={() => setCompleted(true)}
-      />
-    </LessonWorkspaceShell>
+    <div className={`slg-layout ${splitView && textbookHref ? "is-split" : ""}`}>
+      <div className="slg-pane-lesson">
+        <LessonWorkspaceShell
+          courseId={courseId}
+          lessonId={lessonId}
+          title={title}
+          courseName={courseName}
+          courseHref={resolvedCourseHref}
+          lessonScript={lessonScript}
+          lessonLang={lessonLang}
+        >
+          <SectionLessonPlayer
+            playlist={playlist}
+            lessonId={lessonId}
+            onComplete={() => setCompleted(true)}
+          />
+          {textbookHref && !splitView && (
+            <button
+              type="button"
+              onClick={openSplit}
+              className="slg-textbook-link"
+              aria-label="Open the matching textbook alongside this lesson"
+            >
+              <span className="slg-textbook-icon" aria-hidden="true">📖</span>
+              <span className="slg-textbook-label">
+                {textbookLabel ?? "Read in textbook"}
+              </span>
+              <span className="slg-textbook-arrow" aria-hidden="true">↔</span>
+            </button>
+          )}
+        </LessonWorkspaceShell>
+      </div>
+
+      {splitView && textbookHref && (
+        <aside className="slg-pane-textbook" aria-label="Textbook">
+          <header className="slg-pane-textbook-head">
+            <div className="slg-pane-textbook-title">
+              <span aria-hidden="true">📖</span>
+              <span>{textbookLabel ?? "Textbook"}</span>
+            </div>
+            <div className="slg-pane-textbook-actions">
+              <Link
+                href={textbookHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="slg-pane-textbook-pop"
+                aria-label="Open textbook in a full page"
+              >
+                Full view ↗
+              </Link>
+              <button
+                type="button"
+                onClick={closeSplit}
+                className="slg-pane-textbook-exit"
+                aria-label="Exit split view"
+              >
+                Exit split view ×
+              </button>
+            </div>
+          </header>
+          <iframe
+            src={textbookHref}
+            className="slg-pane-textbook-frame"
+            title="Textbook chapter"
+          />
+        </aside>
+      )}
+
+      <style>{`
+        /* Layout — single column by default, two columns when split is on. */
+        .slg-layout { display: flex; min-height: calc(100vh - 4rem); }
+        .slg-layout.is-split { gap: 0; }
+        .slg-pane-lesson { flex: 1 1 100%; min-width: 0; }
+        .slg-layout.is-split .slg-pane-lesson { flex: 1 1 55%; }
+
+        /* Textbook side pane — sticky so it stays in view while the
+           lesson column scrolls. */
+        .slg-pane-textbook {
+          flex: 1 1 45%;
+          min-width: 0;
+          position: sticky;
+          top: 4rem;
+          height: calc(100vh - 4rem);
+          display: flex;
+          flex-direction: column;
+          border-left: 1px solid rgba(255,255,255,0.08);
+          background: #0a0a14;
+        }
+        .slg-pane-textbook-head {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.55rem 0.85rem;
+          background: rgba(8,10,18,0.7);
+          border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .slg-pane-textbook-title {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          color: rgba(216,217,230,0.85);
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: 0.82rem;
+          font-weight: 600;
+          letter-spacing: 0.01em;
+        }
+        .slg-pane-textbook-actions {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6rem;
+        }
+        .slg-pane-textbook-pop {
+          color: #5eead4;
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: 0.78rem;
+          font-weight: 600;
+          text-decoration: none;
+          letter-spacing: 0.01em;
+          padding: 0.25rem 0.55rem;
+          border-radius: 0.35rem;
+          transition: background 0.15s ease;
+        }
+        .slg-pane-textbook-pop:hover { background: rgba(94,234,212,0.12); }
+        .slg-pane-textbook-exit {
+          background: rgba(255,255,255,0.06);
+          border: 1px solid rgba(255,255,255,0.12);
+          color: rgba(216,217,230,0.88);
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: 0.78rem;
+          font-weight: 600;
+          letter-spacing: 0.02em;
+          cursor: pointer;
+          padding: 0.32rem 0.65rem;
+          border-radius: 0.4rem;
+          transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+        }
+        .slg-pane-textbook-exit:hover {
+          color: #ffffff;
+          background: rgba(255,59,59,0.18);
+          border-color: rgba(255,59,59,0.4);
+        }
+        .slg-pane-textbook-frame {
+          flex: 1;
+          width: 100%;
+          border: 0;
+          background: #06070d;
+        }
+
+        /* Textbook CTA button (lives in lesson pane when split is off) */
+        .slg-textbook-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6rem;
+          margin: 1.25rem auto 0;
+          padding: 0.7rem 1.1rem;
+          border-radius: 0.6rem;
+          background: rgba(94, 234, 212, 0.08);
+          border: 1px solid rgba(94, 234, 212, 0.32);
+          color: #5eead4;
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: 0.92rem;
+          font-weight: 600;
+          letter-spacing: 0.01em;
+          text-decoration: none;
+          cursor: pointer;
+          transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+          align-self: center;
+        }
+        .slg-textbook-link:hover {
+          background: rgba(94, 234, 212, 0.18);
+          border-color: rgba(94, 234, 212, 0.6);
+          transform: translateY(-1px);
+        }
+        .slg-textbook-icon { font-size: 1.05rem; line-height: 1; }
+        .slg-textbook-arrow { color: rgba(94,234,212,0.85); }
+
+        /* Mobile: stack the panes vertically so the lesson stays usable. */
+        @media (max-width: 900px) {
+          .slg-layout.is-split { flex-direction: column; }
+          .slg-layout.is-split .slg-pane-lesson { flex: 0 0 auto; }
+          .slg-pane-textbook {
+            position: static;
+            height: 70vh;
+            border-left: none;
+            border-top: 1px solid rgba(255,255,255,0.08);
+          }
+        }
+      `}</style>
+    </div>
   );
 }
 

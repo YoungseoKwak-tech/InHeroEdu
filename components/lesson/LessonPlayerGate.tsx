@@ -93,12 +93,12 @@ export default function LessonPlayerGate({
   useEffect(() => {
     let cancelled = false;
     async function checkAccess() {
-      if (authState !== "authenticated") {
-        setAccessState("loading");
-        return;
-      }
       if (isFreePreviewLesson) {
         setAccessState("granted");
+        return;
+      }
+      if (authState !== "authenticated") {
+        setAccessState("loading");
         return;
       }
       setAccessState("loading");
@@ -158,7 +158,7 @@ export default function LessonPlayerGate({
   }
 
   // ── Guest: preview locked ────────────────────────────────────────────────
-  if (authState === "guest") {
+  if (authState === "guest" && !isFreePreviewLesson) {
     return (
       <div className="lpg-root lpg-center">
         <div className="lpg-locked-card">
@@ -286,7 +286,7 @@ export default function LessonPlayerGate({
             <PaymentButton
               serviceId="single"
               subjectId={courseId}
-              amount={49}
+              amount={75000}
               orderName={`${courseName} — One Subject Elite Pass`}
               returnTo={resolvedRedirectHref}
               label={`Unlock ${courseName} — $49/mo`}

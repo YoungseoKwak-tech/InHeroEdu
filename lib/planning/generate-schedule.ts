@@ -19,7 +19,15 @@ export type DayKey = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
 export interface ExamSelection {
   slug: string;
   name: string;
-  exam_date: string;
+  // PRIMARY date — when the student wants to be done. Drives the
+  // schedule (pacing, end-of-plan, my-plan countdown). Required.
+  target_finish_date: string;
+  // OPTIONAL — only set when the student is also taking the AP exam.
+  // When present, the gap between target_finish_date and exam_date is
+  // available for review / mock tests. When null/undefined, the plan
+  // ends at target_finish_date and the countdown card only shows the
+  // finish date (no "Exam" sub-label).
+  exam_date?: string | null;
   textbook_id?: string | null;
   total_chapters?: number | null;
   next_chapter_id?: string | null;

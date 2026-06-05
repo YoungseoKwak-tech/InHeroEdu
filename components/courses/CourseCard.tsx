@@ -59,7 +59,7 @@ export default function CourseCard({ course, hrefBase = "/courses" }: CourseCard
           <div className="mt-5">
             {course.firstLessonId ? (
               <Link
-                href={`${hrefBase}/${course.id}/${course.firstLessonId}`}
+                href={`${hrefBase}/${course.id}`}
                 className="w-full text-center text-sm py-2.5 block rounded-xl border border-emerald-400/40 bg-emerald-400/10 text-emerald-300 font-semibold tracking-wide transition-colors duration-150 hover:bg-emerald-400 hover:text-slate-900 hover:border-emerald-400"
               >
                 Start lesson →

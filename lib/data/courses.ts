@@ -98,6 +98,7 @@ export const courses: Course[] = [
     description: "Build from atomic structure and periodic trends to thermodynamics with a crisp, step-by-step AP Chemistry path.",
     topicCount: 52, difficulty: "Advanced", color: "from-blue-500 to-cyan-600", icon: "⚗️",
     lessonIds: [],
+    textbookSlug: "ap-chem-ultimate",
     units: [
       {
         number: 1, title: "Atomic Structure and Properties", slug: "atomic-structure-and-properties", examWeight: "7–9%",
@@ -188,6 +189,7 @@ export const courses: Course[] = [
     description: "Master algebra-based mechanics through kinematics, forces, energy, momentum, rotation, oscillations, and gravitation.",
     topicCount: 42, difficulty: "Intermediate", color: "from-sky-500 to-blue-600", icon: "🔭",
     lessonIds: [],
+    textbookSlug: "ap-physics-ultimate",
     units: [
       {
         number: 1, title: "Kinematics", slug: "kinematics", examWeight: "12–18%",

@@ -2,10 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 
 const AUTH_USER_TIMEOUT_MS = 5_000;
-const LOCAL_ADMIN_EMAIL_FALLBACK =
-  process.env.NODE_ENV === "development" ? "yk777@cornell.edu,hyeonjei@gmail.com" : "";
 
-const ADMIN_EMAILS = (process.env.ADMIN_EMAILS ?? LOCAL_ADMIN_EMAIL_FALLBACK)
+// Owner-email fallback — these two accounts are always treated as
+// admin, regardless of environment. The Vercel ADMIN_EMAILS env var
+// can still extend the list for other team members without touching
+// code.
+const OWNER_EMAIL_FALLBACK = "yk777@cornell.edu,hyeonjei@gmail.com";
+
+const ADMIN_EMAILS = (
+  [process.env.ADMIN_EMAILS ?? "", OWNER_EMAIL_FALLBACK].join(",")
+)
   .split(",")
   .map((email) => email.trim().toLowerCase())
   .filter(Boolean);
