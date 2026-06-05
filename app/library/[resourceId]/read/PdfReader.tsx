@@ -107,6 +107,24 @@ export default function PdfReader({ source }: Props = {}) {
   const [pdfLoading, setPdfLoading] = useState(false);
   const [rendering, setRendering] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Purchase gate: the textbook /file proxy answers 403
+  // { error: "elite_required" } when the signed-in student hasn't
+  // bought this subject's Elite pass. Render an upgrade screen
+  // instead of the generic error.
+  const [eliteRequired, setEliteRequired] = useState(false);
+  // PDF zoom — multiplier on top of the auto-fit base scale so + / −
+  // actually grow / shrink the rendered canvas. Defaults to 1 (100%).
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const ZOOM_MIN = 0.6;
+  const ZOOM_MAX = 2.5;
+  const ZOOM_STEP = 0.15;
+  const zoomIn = useCallback(() => {
+    setZoomLevel((z) => Math.min(ZOOM_MAX, +(z + ZOOM_STEP).toFixed(2)));
+  }, []);
+  const zoomOut = useCallback(() => {
+    setZoomLevel((z) => Math.max(ZOOM_MIN, +(z - ZOOM_STEP).toFixed(2)));
+  }, []);
+  const zoomReset = useCallback(() => setZoomLevel(1), []);
 
   // Detect mobile + force single-page mode there.
   useEffect(() => {
@@ -210,6 +228,10 @@ export default function PdfReader({ source }: Props = {}) {
         });
         if (!response.ok) {
           const text = await response.text().catch(() => "");
+          if (response.status === 403 && text.includes("elite_required")) {
+            if (!cancelled) setEliteRequired(true);
+            return;
+          }
           throw new Error(`Failed to load PDF (${response.status}) ${text.slice(0, 200)}`);
         }
         const bytes = new Uint8Array(await response.arrayBuffer());
@@ -274,7 +296,8 @@ export default function PdfReader({ source }: Props = {}) {
       if (!pdf) return;
       const page = await pdf.getPage(pageNum);
       const baseViewport = page.getViewport({ scale: 1 });
-      const scale = Math.min(2.0, maxWidth / baseViewport.width);
+      // Apply the user-controlled zoom on top of the auto-fit scale.
+      const scale = Math.min(2.0, maxWidth / baseViewport.width) * zoomLevel;
       const viewport = page.getViewport({ scale });
       canvas.width = viewport.width;
       canvas.height = viewport.height;
@@ -309,7 +332,7 @@ export default function PdfReader({ source }: Props = {}) {
       }
     })();
     return () => { cancelled = true; };
-  }, [leftPage, rightPage, viewMode, pageCount]);
+  }, [leftPage, rightPage, viewMode, pageCount, zoomLevel]);
 
   // Step forwards/backwards in the current viewMode's unit.
   const goPrev = useCallback(() => {
@@ -374,6 +397,13 @@ export default function PdfReader({ source }: Props = {}) {
   }, [goPrev, goNext, toggleFullscreen]);
 
   if (metaLoading) return <ReaderSkeleton />;
+  if (eliteRequired)
+    return (
+      <ReaderLocked
+        title={source?.title ?? resource?.title ?? "This textbook"}
+        backHref={source?.backHref ?? "/library"}
+      />
+    );
   if (error || !resource) return <ReaderError message={error} resourceId={resourceId ?? undefined} />;
 
   // Back arrow + close × destinations. Source mode (textbook
@@ -435,6 +465,38 @@ export default function PdfReader({ source }: Props = {}) {
           </div>
         </div>
         <div className="rd-actions">
+          {/* Zoom controls — inline with the existing top toolbar so they
+              are always visible (works inside the lesson-page split-view
+              iframe too). */}
+          <button
+            type="button"
+            onClick={zoomOut}
+            disabled={zoomLevel <= ZOOM_MIN}
+            className="rd-icon-btn"
+            title="Zoom out (−)"
+            aria-label="Zoom out"
+          >
+            −
+          </button>
+          <button
+            type="button"
+            onClick={zoomReset}
+            className="rd-icon-btn rd-zoom-pct"
+            title="Reset zoom (100%)"
+            aria-label="Reset zoom"
+          >
+            {Math.round(zoomLevel * 100)}%
+          </button>
+          <button
+            type="button"
+            onClick={zoomIn}
+            disabled={zoomLevel >= ZOOM_MAX}
+            className="rd-icon-btn"
+            title="Zoom in (+)"
+            aria-label="Zoom in"
+          >
+            +
+          </button>
           <button
             type="button"
             onClick={toggleFullscreen}
@@ -624,6 +686,15 @@ export default function PdfReader({ source }: Props = {}) {
         }
         .rd-icon-disabled { opacity: 0.35; cursor: not-allowed; }
         .rd-back { font-size: 1.15rem; }
+        /* Zoom %, wider than a square icon so "100%" fits. */
+        .rd-zoom-pct {
+          width: auto;
+          padding: 0 0.6rem;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 0.78rem;
+          font-weight: 600;
+          letter-spacing: 0.04em;
+        }
 
         .rd-titleblock { flex: 1; min-width: 0; }
         .rd-title {
@@ -910,6 +981,87 @@ function ReaderSkeleton() {
           0%   { background-position: 220% 0; }
           100% { background-position: 0 0; }
         }
+      `}</style>
+    </main>
+  );
+}
+
+function ReaderLocked({ title, backHref }: { title: string; backHref: string }) {
+  return (
+    <main className="rlock-root">
+      <div className="rlock-badge">ELITE PASS REQUIRED</div>
+      <h1>Unlock {title}</h1>
+      <p>
+        Reading InHero Original textbooks is part of the Elite pass.
+        One Subject Elite (<strong>$49/mo</strong>) unlocks this subject&apos;s
+        textbook and course — All Subject Elite (<strong>$199/mo</strong>)
+        unlocks every textbook and every course.
+      </p>
+      <div className="rlock-actions">
+        <Link href="/pricing" className="rlock-cta">See Elite plans →</Link>
+        <Link href={backHref} className="rlock-back">← Back</Link>
+      </div>
+      <style jsx>{`
+        .rlock-root {
+          max-width: 560px;
+          margin: 5rem auto;
+          padding: 0 1.5rem;
+          text-align: center;
+          color: #d8d9e6;
+          font-family: 'Inter', system-ui, sans-serif;
+        }
+        .rlock-badge {
+          display: inline-block;
+          font-family: ui-monospace, monospace;
+          font-size: 0.62rem; font-weight: 800; letter-spacing: 0.22em;
+          color: #C9A84C;
+          border: 1px solid rgba(201,168,76,0.45);
+          border-radius: 999px;
+          padding: 0.4rem 0.9rem;
+          margin-bottom: 1.1rem;
+        }
+        h1 {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 1.8rem; font-weight: 600;
+          color: #f3f3fb;
+          margin: 0 0 0.8rem;
+        }
+        p {
+          color: rgba(148,163,184,0.8);
+          margin: 0 0 1.8rem;
+          font-size: 0.93rem;
+          line-height: 1.7;
+        }
+        p strong { color: #e8d9a8; }
+        .rlock-actions {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 0.9rem;
+          flex-wrap: wrap;
+        }
+        .rlock-cta {
+          display: inline-block;
+          font-family: ui-monospace, monospace;
+          font-size: 0.74rem; font-weight: 800; letter-spacing: 0.12em;
+          color: #001;
+          background: #C9A84C;
+          padding: 0.7rem 1.3rem;
+          border-radius: 999px;
+          text-decoration: none;
+          box-shadow: 0 0 26px rgba(201,168,76,0.25);
+        }
+        .rlock-back {
+          display: inline-block;
+          font-family: ui-monospace, monospace;
+          font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em;
+          color: rgba(148,163,184,0.85);
+          padding: 0.65rem 1rem;
+          border-radius: 999px;
+          border: 1px solid rgba(255,255,255,0.1);
+          text-decoration: none;
+        }
+        .rlock-back:hover { color: #5eead4; border-color: rgba(94,234,212,0.4); }
       `}</style>
     </main>
   );

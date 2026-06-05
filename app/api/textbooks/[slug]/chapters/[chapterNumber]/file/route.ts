@@ -6,13 +6,21 @@
 // fetch to Supabase Storage from the browser fails when the
 // bucket doesn't send Access-Control-Allow-Origin.
 //
-// Auth-gated (same as the library proxy). Streams the PDF inline
-// with no-store cache so a watermark/personalization layer can
-// slot in later without browser caching.
+// Auth-gated AND purchase-gated: reading a chapter requires the
+// subject's Elite pass ($49/mo single subject via "single:<subjectId>"
+// orders, or the $199/mo all-subject "novapass") — enforced through
+// hasTextbookAccess(), which also honors comp emails and the
+// FREE_FOR_ALL flag. Denied requests get 403 { error: "elite_required" }
+// so the reader can render an upgrade screen instead of a raw error.
+//
+// Streams the PDF inline with no-store cache so a watermark/
+// personalization layer can slot in later without browser caching.
 
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
+import { hasTextbookAccess } from "@/lib/textbookAccess";
+import { subjectIdForTextbookSlug } from "@/lib/textbookCatalog";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -36,6 +44,20 @@ export async function GET(
     .eq("is_published", true)
     .maybeSingle();
   if (!textbook) return NextResponse.json({ error: "textbook not found" }, { status: 404 });
+
+  // Purchase gate. Unknown slugs fail closed (locked for everyone) so a
+  // new title can't ship accidentally free — add its mapping to
+  // lib/textbookCatalog.ts when publishing.
+  const subjectId = subjectIdForTextbookSlug(textbook.slug as string);
+  const access = subjectId
+    ? await hasTextbookAccess({ userId: user.id, email: user.email, subjectId })
+    : { allowed: false as const, reason: "denied" as const };
+  if (!access.allowed) {
+    return NextResponse.json(
+      { error: "elite_required", subjectId },
+      { status: 403 }
+    );
+  }
 
   const { data: chapter } = await sb
     .from("textbook_chapters")

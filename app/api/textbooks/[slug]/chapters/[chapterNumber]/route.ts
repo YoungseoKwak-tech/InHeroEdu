@@ -74,9 +74,14 @@ export async function GET(
         }
       : null;
 
+  // Project pdf_url down to a has_pdf boolean — the raw Storage URL
+  // must never reach the client (it would bypass the purchase gate on
+  // the /file proxy).
+  const { pdf_url, ...chapterPublic } = chapter;
+
   return NextResponse.json({
     ok: true,
-    chapter,
+    chapter: { ...chapterPublic, has_pdf: !!pdf_url },
     navigation: {
       previous: navProject(prev),
       next: navProject(next),

@@ -82,10 +82,14 @@ export async function GET(
   }
 
   // Bucket chapters under their unit so the client doesn't have to.
-  const chaptersByUnit = new Map<string, ChapterRow[]>();
+  // pdf_url is projected down to a has_pdf boolean — the raw Supabase
+  // Storage URL must never reach the client (it would bypass the
+  // purchase gate on the /file proxy).
+  const chaptersByUnit = new Map<string, Array<Omit<ChapterRow, "pdf_url"> & { has_pdf: boolean }>>();
   for (const c of (chaptersRes.data ?? []) as ChapterRow[]) {
+    const { pdf_url, ...rest } = c;
     const list = chaptersByUnit.get(c.unit_id) ?? [];
-    list.push(c);
+    list.push({ ...rest, has_pdf: !!pdf_url });
     chaptersByUnit.set(c.unit_id, list);
   }
   const units = (unitsRes.data ?? []).map((u) => ({
