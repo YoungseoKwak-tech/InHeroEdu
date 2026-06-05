@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
 
     const quote = assertRequestedNicePayPrice({
       serviceId,
-      requestedAmountUSD: amount,
+      requestedChargeAmount: amount,
     });
 
     if (quote.plan === "one_subject" && !subjectId) {

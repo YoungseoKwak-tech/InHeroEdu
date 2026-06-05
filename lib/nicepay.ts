@@ -105,20 +105,20 @@ export function getNicePayQuote(serviceId: string): NicePayQuote | null {
 
 export function assertRequestedNicePayPrice({
   serviceId,
-  requestedAmountUSD,
+  requestedChargeAmount,
 }: {
   serviceId: string;
-  requestedAmountUSD?: unknown;
+  requestedChargeAmount?: unknown;
 }) {
   const quote = getNicePayQuote(serviceId);
   if (!quote) {
     throw new Error("invalid NICEPAY plan");
   }
 
-  if (requestedAmountUSD !== undefined && requestedAmountUSD !== null) {
-    const numeric = Number(requestedAmountUSD);
-    if (!Number.isFinite(numeric) || numeric !== quote.displayAmountUSD) {
-      throw new Error("NICEPAY display price mismatch");
+  if (requestedChargeAmount !== undefined && requestedChargeAmount !== null) {
+    const numeric = Number(requestedChargeAmount);
+    if (!Number.isFinite(numeric) || numeric !== quote.chargeAmount) {
+      throw new Error("NICEPAY charge amount mismatch");
     }
   }
 

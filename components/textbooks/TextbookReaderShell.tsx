@@ -1038,7 +1038,7 @@ export default function TextbookReaderShell({ subjectId }: { subjectId: string }
                     <PaymentButton
                       serviceId="one_subject"
                       subjectId={meta.product.subjectId}
-                      amount={49}
+                      amount={75000}
                       orderName={`${meta.product.title} — One Subject Elite Pass`}
                       label="$49/mo · Unlock course + e-book"
                       returnTo={meta.product.readerHref}
