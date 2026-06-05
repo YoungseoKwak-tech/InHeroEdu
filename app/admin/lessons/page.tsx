@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { courses } from "@/lib/data/courses";
 import { lessons as lessonDict } from "@/lib/data/lessons";
 import { authFetch } from "@/lib/client-auth";
-import { resolveCourseId } from "@/lib/courseAliases";
+import { resolveCourseId, getCourseIdVariants } from "@/lib/courseAliases";
 import ScriptGenerator from "@/components/admin/ScriptGenerator";
 import LessonScriptEditor from "@/components/admin/LessonScriptEditor";
 import OverlaysEditor from "@/components/admin/OverlaysEditor";
@@ -106,18 +106,32 @@ export default function AdminLessonsPage() {
   const retryCounts = useRef<Map<string, number>>(new Map());
 
   // ── Derived selection state ─────────────────────────────────────────────
+  // courses.ts ids and the data-layer ids can differ (e.g. courses.ts
+  // "ap-physics-c-mech" vs the lessons table "ap-physics-c-mechanics").
+  // /api/admin/lessons returns rows carrying the DB course_id, so a click
+  // can set selectedCourseId to the long form while loadedLessons is keyed
+  // by the short form. Resolve every selection lookup across id variants
+  // so the right panel never goes blank on an aliased course.
+  const selectedVariants = selectedCourseId ? getCourseIdVariants(selectedCourseId) : [];
+  const variantMatch = (id: string | null | undefined) =>
+    !!id && selectedVariants.includes(id);
+
   const selectedCourse = selectedCourseId
-    ? courses.find((c) => c.id === selectedCourseId) ?? null
+    ? courses.find((c) => variantMatch(c.id)) ?? null
     : null;
+
+  const selectedLessonsList: LessonRow[] = selectedCourseId
+    ? (selectedVariants.map((v) => loadedLessons.get(v)).find((arr) => arr && arr.length) ?? [])
+    : [];
 
   const selectedLesson: LessonRow | null =
     selectedItemId && selectedCourseId
-      ? (loadedLessons.get(selectedCourseId)?.find((l) => l.id === selectedItemId) ?? null)
+      ? (selectedLessonsList.find((l) => l.id === selectedItemId) ?? null)
       : null;
 
   const selectedStaticItem: AdminItem | null =
     selectedItemId && selectedCourseId
-      ? (ALL_COURSES.find((c) => c.courseId === selectedCourseId)
+      ? (ALL_COURSES.find((c) => variantMatch(c.courseId))
           ?.items.find((i) => i.id === selectedItemId) ?? null)
       : null;
 
@@ -334,13 +348,17 @@ export default function AdminLessonsPage() {
       }
     }
 
-    // Refresh hasScript dot for this lesson
+    // Refresh hasScript dot for this lesson. Resolve the actual map key
+    // across id variants (loadedLessons may be keyed by a different course
+    // id form than selectedCourseId — see the derived-selection note above).
     if (selectedCourseId && selectedItemId) {
       setLoadedLessons((prev) => {
-        const lessons = prev.get(selectedCourseId);
+        const key =
+          getCourseIdVariants(selectedCourseId).find((v) => prev.has(v)) ?? selectedCourseId;
+        const lessons = prev.get(key);
         if (!lessons) return prev;
         return new Map(prev).set(
-          selectedCourseId,
+          key,
           lessons.map((l) => l.id === selectedItemId ? { ...l, hasScript: true } : l)
         );
       });
