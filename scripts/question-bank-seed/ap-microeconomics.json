@@ -1,0 +1,225 @@
+{
+  "subject": "ap-microeconomics",
+  "questions": [
+    {
+      "topic": "Supply and demand",
+      "difficulty": "easy",
+      "question_text": "A drought destroys half the coffee crop while a study praises coffee's health benefits. In the coffee market:",
+      "option_a": "Price rises; quantity change is indeterminate",
+      "option_b": "Price falls; quantity rises",
+      "option_c": "Both price and quantity must rise",
+      "option_d": "Both price and quantity must fall",
+      "correct_answer": "A",
+      "explanation": "Supply shifts left (drought) AND demand shifts right (study) — both push price UP, but they pull quantity in opposite directions, so quantity depends on shift magnitudes. Double-shift questions always leave one variable indeterminate."
+    },
+    {
+      "topic": "Elasticity",
+      "difficulty": "medium",
+      "question_text": "A 10% price increase causes quantity demanded to fall 25%. Total revenue will:",
+      "option_a": "Rise, because price is higher",
+      "option_b": "Fall, because demand is elastic (Ed = 2.5)",
+      "option_c": "Stay constant",
+      "option_d": "Rise, because demand is inelastic",
+      "correct_answer": "B",
+      "explanation": "|%ΔQ/%ΔP| = 25/10 = 2.5 > 1 → elastic. With elastic demand, the quantity loss outweighs the price gain, so revenue FALLS when price rises. The price-revenue link runs through elasticity, never through price alone."
+    },
+    {
+      "topic": "Elasticity",
+      "difficulty": "medium",
+      "question_text": "The cross-price elasticity between goods X and Y is +1.8. The goods are:",
+      "option_a": "Complements",
+      "option_b": "Substitutes",
+      "option_c": "Inferior goods",
+      "option_d": "Unrelated",
+      "correct_answer": "B",
+      "explanation": "Positive cross-price elasticity: Y's price rises → X's demand rises → consumers switch TO X = substitutes. Negative would mean complements (consumed together). The SIGN carries the relationship; the magnitude only measures its strength."
+    },
+    {
+      "topic": "Consumer theory",
+      "difficulty": "medium",
+      "question_text": "Pizza costs $4/slice and gives you 40 utils of marginal utility; soda costs $2/can and gives 24 utils. To maximize utility you should:",
+      "option_a": "Buy more pizza — it has higher marginal utility",
+      "option_b": "Buy more soda — its marginal utility per dollar (12) exceeds pizza's (10)",
+      "option_c": "Buy equal amounts of both",
+      "option_d": "Buy neither",
+      "correct_answer": "B",
+      "explanation": "Compare MU per DOLLAR: pizza 40/4 = 10, soda 24/2 = 12. Reallocate toward soda until MU/P equalizes. Comparing raw marginal utilities (option A) ignores that pizza costs twice as much — the per-dollar normalization IS the consumer optimum rule."
+    },
+    {
+      "topic": "Production costs",
+      "difficulty": "medium",
+      "question_text": "When marginal cost is below average total cost, ATC must be:",
+      "option_a": "Rising",
+      "option_b": "Falling",
+      "option_c": "At its minimum",
+      "option_d": "Equal to average variable cost",
+      "correct_answer": "B",
+      "explanation": "The average falls whenever the marginal addition is below it — like a test score below your average dragging the average down. MC intersects ATC exactly at ATC's minimum; that geometric fact anchors half the cost-curve questions on the exam."
+    },
+    {
+      "topic": "Perfect competition",
+      "difficulty": "medium",
+      "question_text": "A perfectly competitive firm is producing where P = $12 and MC = $9. To maximize profit it should:",
+      "option_a": "Decrease output",
+      "option_b": "Increase output until MC rises to $12",
+      "option_c": "Shut down",
+      "option_d": "Keep output constant — it is already maximizing",
+      "correct_answer": "B",
+      "explanation": "Each additional unit adds $12 of revenue but only ~$9 of cost — leaving profit on the table. Expand until MR (= P in perfect competition) = MC. Profit maximization is a marginal condition, not about producing 'as much as possible.'"
+    },
+    {
+      "topic": "Perfect competition",
+      "difficulty": "hard",
+      "question_text": "A competitive firm's price is $8, minimum ATC is $10, and minimum AVC is $6. In the short run the firm should:",
+      "option_a": "Shut down immediately",
+      "option_b": "Operate at a loss, since P covers variable costs and contributes to fixed costs",
+      "option_c": "Raise its price to $10",
+      "option_d": "Earn an economic profit",
+      "correct_answer": "B",
+      "explanation": "Shutdown rule: produce if P ≥ min AVC. Here $8 > $6, so operating loses LESS than shutting down (which loses all fixed costs). It can't raise price — it's a price taker. Loss-minimizing production is the concept students most often get backwards."
+    },
+    {
+      "topic": "Monopoly",
+      "difficulty": "medium",
+      "question_text": "Compared with a perfectly competitive industry, a single-price monopoly produces:",
+      "option_a": "More output at a lower price",
+      "option_b": "Less output at a higher price, creating deadweight loss",
+      "option_c": "The same output at a higher price",
+      "option_d": "More output at a higher price",
+      "correct_answer": "B",
+      "explanation": "The monopolist restricts output to where MR = MC (MR < P because lowering price applies to all units), then charges off the demand curve. Units valued above MC go unproduced — that forgone surplus is the deadweight loss triangle."
+    },
+    {
+      "topic": "Monopoly",
+      "difficulty": "hard",
+      "question_text": "A perfectly price-discriminating monopolist differs from a single-price monopolist in that it:",
+      "option_a": "Produces less output",
+      "option_b": "Produces the efficient quantity but captures all consumer surplus as profit",
+      "option_c": "Creates more deadweight loss",
+      "option_d": "Charges every customer the same price",
+      "correct_answer": "B",
+      "explanation": "Charging each buyer their willingness to pay makes MR = demand, so output expands to the competitive quantity — deadweight loss vanishes, but ALL surplus goes to the producer. Efficient yet maximally inequitable: efficiency and fairness are separate questions."
+    },
+    {
+      "topic": "Monopolistic competition",
+      "difficulty": "medium",
+      "question_text": "In long-run equilibrium, a monopolistically competitive firm earns:",
+      "option_a": "Positive economic profit due to differentiation",
+      "option_b": "Zero economic profit, with price above minimum ATC (excess capacity)",
+      "option_c": "Zero economic profit at minimum ATC",
+      "option_d": "Negative economic profit",
+      "correct_answer": "B",
+      "explanation": "Free entry erodes profit to zero — but the downward-sloping demand curve means tangency with ATC happens LEFT of the minimum: price exceeds min ATC and capacity sits idle. Zero profit without productive efficiency distinguishes this from perfect competition."
+    },
+    {
+      "topic": "Oligopoly and game theory",
+      "difficulty": "hard",
+      "question_text": "Two firms can each set High or Low prices. Payoffs (A, B): both High (10, 10); A High/B Low (2, 12); A Low/B High (12, 2); both Low (5, 5). The Nash equilibrium is:",
+      "option_a": "Both High",
+      "option_b": "Both Low",
+      "option_c": "A High, B Low",
+      "option_d": "No equilibrium exists",
+      "correct_answer": "B",
+      "explanation": "Low is each firm's dominant strategy: whatever the rival does, Low pays more (12>10 if rival High; 5>2 if rival Low). Both end up at (5,5) even though (10,10) was available — the prisoner's dilemma. Nash = no one gains by deviating ALONE, not the best joint outcome."
+    },
+    {
+      "topic": "Factor markets",
+      "difficulty": "medium",
+      "question_text": "A firm sells output at $5 in a competitive market. Hiring a 4th worker raises output from 100 to 112 units. The marginal revenue product of that worker is:",
+      "option_a": "$12",
+      "option_b": "$60",
+      "option_c": "$560",
+      "option_d": "$5",
+      "correct_answer": "B",
+      "explanation": "MRP = marginal product × price = 12 × $5 = $60 — hire if the wage is below $60. Option A is just MP (units, not dollars); option C is total revenue at 112 units. Factor demand runs on the marginal unit, not totals."
+    },
+    {
+      "topic": "Factor markets",
+      "difficulty": "hard",
+      "question_text": "Compared with a competitive labor market, a monopsonist employer hires:",
+      "option_a": "More workers at a higher wage",
+      "option_b": "Fewer workers at a lower wage",
+      "option_c": "The same number at a lower wage",
+      "option_d": "Fewer workers at a higher wage",
+      "correct_answer": "B",
+      "explanation": "The sole buyer of labor faces an upward-sloping supply curve, so the marginal cost of one more hire exceeds the wage (raising wages applies to everyone). It hires where MFC = MRP, then pays the lower supply-curve wage. The monopsony graph is monopoly's mirror image in the input market."
+    },
+    {
+      "topic": "Market failure",
+      "difficulty": "easy",
+      "question_text": "A factory's pollution harms a downstream town that isn't part of any transaction. Without intervention, the market for the factory's product will feature:",
+      "option_a": "Underproduction relative to the social optimum",
+      "option_b": "Overproduction, because the firm ignores the external cost",
+      "option_c": "The efficient quantity",
+      "option_d": "Zero production",
+      "correct_answer": "B",
+      "explanation": "A negative externality drives a wedge: marginal SOCIAL cost > marginal private cost. The market equilibrates on private cost → too much output. A corrective (Pigouvian) tax equal to the marginal external cost shifts supply to internalize it."
+    },
+    {
+      "topic": "Market failure",
+      "difficulty": "medium",
+      "question_text": "National defense is a public good because it is:",
+      "option_a": "Provided by the government",
+      "option_b": "Non-rival and non-excludable, creating a free-rider problem",
+      "option_c": "Expensive to produce",
+      "option_d": "Valuable to all citizens",
+      "correct_answer": "B",
+      "explanation": "The DEFINITION is the two properties: my protection doesn't reduce yours (non-rival), and no one can be excluded (non-excludable) — so private markets undersupply it because everyone waits to free-ride. 'Government provides it' is the consequence, not the definition."
+    },
+    {
+      "topic": "Price controls",
+      "difficulty": "medium",
+      "question_text": "A binding price ceiling set below equilibrium in the apartment market causes:",
+      "option_a": "A surplus of apartments",
+      "option_b": "A shortage, with quantity demanded exceeding quantity supplied",
+      "option_c": "No change if landlords are profitable",
+      "option_d": "Higher rents in the legal market",
+      "correct_answer": "B",
+      "explanation": "Below-equilibrium ceiling → Qd rises, Qs falls → shortage (plus non-price rationing: waitlists, black markets, quality decay). Ceilings below equilibrium bind; the mirror rule for floors (like minimum wage) is ABOVE equilibrium → surplus."
+    },
+    {
+      "topic": "Taxes and surplus",
+      "difficulty": "hard",
+      "question_text": "A per-unit tax is imposed on a good with perfectly inelastic demand. The tax burden falls:",
+      "option_a": "Entirely on sellers",
+      "option_b": "Entirely on buyers, with no deadweight loss",
+      "option_c": "Equally on both, with large deadweight loss",
+      "option_d": "Entirely on buyers, with maximum deadweight loss",
+      "correct_answer": "B",
+      "explanation": "With vertical demand, quantity doesn't change — buyers absorb the full price increase, and since no transactions are lost, deadweight loss is zero. Incidence follows relative elasticity (the more INELASTIC side bears more), and DWL requires a quantity change."
+    },
+    {
+      "topic": "Comparative advantage",
+      "difficulty": "medium",
+      "question_text": "In one hour, Ana can bake 12 loaves or make 4 pies; Ben can bake 6 loaves or make 3 pies. Who has comparative advantage in pies?",
+      "option_a": "Ana, because she makes more pies per hour",
+      "option_b": "Ben, because his opportunity cost of a pie (2 loaves) is lower than Ana's (3 loaves)",
+      "option_c": "Ana, because she has absolute advantage in both",
+      "option_d": "Neither — they are equally efficient",
+      "correct_answer": "B",
+      "explanation": "Opportunity cost per pie: Ana gives up 12/4 = 3 loaves; Ben gives up 6/3 = 2 loaves. Ben sacrifices less → comparative advantage in pies, despite Ana's absolute advantage in both goods. Comparative advantage is about RATIOS, never raw output."
+    },
+    {
+      "topic": "Income distribution",
+      "difficulty": "easy",
+      "question_text": "A Lorenz curve that bows farther away from the 45-degree line indicates:",
+      "option_a": "Greater income equality",
+      "option_b": "Greater income inequality",
+      "option_c": "Higher total income",
+      "option_d": "A lower Gini coefficient",
+      "correct_answer": "B",
+      "explanation": "The 45° line is perfect equality; more bow = the bottom share of households earns a smaller share of income = more inequality = HIGHER Gini (D contradicts B). The Lorenz curve shows distribution, not the level of income."
+    },
+    {
+      "topic": "Production costs",
+      "difficulty": "easy",
+      "question_text": "Fixed cost is $100. Producing 10 units costs $300 total. Average variable cost at 10 units is:",
+      "option_a": "$30",
+      "option_b": "$20",
+      "option_c": "$10",
+      "option_d": "$200",
+      "correct_answer": "B",
+      "explanation": "TVC = TC − TFC = 300 − 100 = 200; AVC = 200/10 = $20. Option A is ATC (forgot to remove fixed cost); option D is total variable cost, not the average. Always strip fixed cost before averaging variable cost."
+    }
+  ]
+}

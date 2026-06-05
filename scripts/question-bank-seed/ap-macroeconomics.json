@@ -1,0 +1,225 @@
+{
+  "subject": "ap-macroeconomics",
+  "questions": [
+    {
+      "topic": "Basic concepts",
+      "difficulty": "easy",
+      "question_text": "An economy produces only guns and butter. If it is operating ON its production possibilities curve, producing more guns requires:",
+      "option_a": "Producing more butter too",
+      "option_b": "Giving up some butter — an opportunity cost",
+      "option_c": "No trade-off, since resources are unlimited",
+      "option_d": "A rightward shift of the curve",
+      "correct_answer": "B",
+      "explanation": "On the PPC, all resources are employed — more of one good means less of the other. A point INSIDE the curve allows more of both (unemployed resources); shifting the curve requires growth in resources or technology, not a production choice."
+    },
+    {
+      "topic": "GDP",
+      "difficulty": "easy",
+      "question_text": "Which transaction is included in this year's U.S. GDP?",
+      "option_a": "Buying a used 2019 car from a dealer",
+      "option_b": "A new car produced and sold this year",
+      "option_c": "Purchasing 100 shares of stock",
+      "option_d": "A Social Security payment to a retiree",
+      "correct_answer": "B",
+      "explanation": "GDP counts NEW final goods and services produced this year. Used goods were counted when new; stocks are asset swaps, not production; transfer payments produce nothing. (The used-car dealer's markup — the service — does count, but not the car itself.)"
+    },
+    {
+      "topic": "GDP",
+      "difficulty": "medium",
+      "question_text": "Nominal GDP rose 6% while the GDP deflator rose 4%. Real GDP grew approximately:",
+      "option_a": "10%",
+      "option_b": "6%",
+      "option_c": "2%",
+      "option_d": "−2%",
+      "correct_answer": "C",
+      "explanation": "Real growth ≈ nominal growth − inflation = 6% − 4% = 2%. Nominal GDP conflates production with prices; the deflator strips out the price change. Adding instead of subtracting (option A) reverses the logic."
+    },
+    {
+      "topic": "Unemployment",
+      "difficulty": "medium",
+      "question_text": "A discouraged worker who stopped searching for jobs last month causes the official unemployment rate to:",
+      "option_a": "Rise, because he is jobless",
+      "option_b": "Fall, because he leaves the labor force and is no longer counted as unemployed",
+      "option_c": "Stay constant",
+      "option_d": "Double-count him",
+      "correct_answer": "B",
+      "explanation": "Unemployment = (jobless AND actively searching) ÷ labor force. Quitting the search removes him from both the numerator and the labor force — mechanically LOWERING the rate even though the economy didn't improve. This is why falling unemployment can mask labor-market weakness."
+    },
+    {
+      "topic": "Unemployment",
+      "difficulty": "easy",
+      "question_text": "A software engineer laid off because her skills were replaced by AI tools experiences which type of unemployment?",
+      "option_a": "Frictional",
+      "option_b": "Cyclical",
+      "option_c": "Structural",
+      "option_d": "Seasonal",
+      "correct_answer": "C",
+      "explanation": "A mismatch between workers' skills and what the economy demands = structural. Frictional is ordinary between-jobs searching; cyclical follows the business cycle. Structural unemployment persists even in expansions — that's the distinguishing test."
+    },
+    {
+      "topic": "Inflation",
+      "difficulty": "medium",
+      "question_text": "Unexpected inflation generally benefits:",
+      "option_a": "Lenders with fixed-rate loans",
+      "option_b": "Borrowers with fixed-rate loans",
+      "option_c": "Savers holding cash",
+      "option_d": "Workers with fixed wages",
+      "correct_answer": "B",
+      "explanation": "Borrowers repay in dollars worth LESS than expected — the real burden of fixed-rate debt shrinks. Lenders, cash-holders, and fixed-wage workers all lose purchasing power. Key word: UNEXPECTED; anticipated inflation gets priced into interest rates."
+    },
+    {
+      "topic": "Aggregate demand and supply",
+      "difficulty": "medium",
+      "question_text": "A sharp rise in oil prices shifts short-run aggregate supply left. The result is:",
+      "option_a": "Higher price level and higher real GDP",
+      "option_b": "Lower price level and lower real GDP",
+      "option_c": "Higher price level and lower real GDP — stagflation",
+      "option_d": "Lower price level and higher real GDP",
+      "correct_answer": "C",
+      "explanation": "Supply shocks move price level and output in OPPOSITE directions — the stagflation case (1970s). This is also the policy dilemma: fighting inflation deepens the recession; fighting unemployment fuels inflation. Demand shifts move them in the same direction."
+    },
+    {
+      "topic": "Fiscal policy",
+      "difficulty": "medium",
+      "question_text": "With MPC = 0.8, a $100 billion increase in government spending raises real GDP by at most:",
+      "option_a": "$100 billion",
+      "option_b": "$80 billion",
+      "option_c": "$500 billion",
+      "option_d": "$400 billion",
+      "correct_answer": "C",
+      "explanation": "Spending multiplier = 1/(1−MPC) = 1/0.2 = 5 → $500B. Note the TAX-cut multiplier is smaller (MPC/(1−MPC) = 4 → $400B, option D) because the first round of a tax cut is partly saved. Knowing which multiplier applies is the real question."
+    },
+    {
+      "topic": "Fiscal policy",
+      "difficulty": "hard",
+      "question_text": "Crowding out occurs when expansionary fiscal policy financed by borrowing:",
+      "option_a": "Raises interest rates, reducing private investment",
+      "option_b": "Lowers interest rates, boosting consumption",
+      "option_c": "Increases the money supply",
+      "option_d": "Reduces the government deficit",
+      "correct_answer": "A",
+      "explanation": "Government borrowing increases demand for loanable funds → real interest rates rise → some private investment is priced out. Part of the fiscal stimulus is offset. Graph it in the loanable funds market: demand shifts right, equilibrium r rises."
+    },
+    {
+      "topic": "Money and banking",
+      "difficulty": "medium",
+      "question_text": "With a required reserve ratio of 10%, a new $1,000 deposit can expand the money supply by a MAXIMUM of:",
+      "option_a": "$1,000",
+      "option_b": "$9,000 in new loans, $10,000 total including the deposit",
+      "option_c": "$100",
+      "option_d": "$10,000 in new loans on top of the deposit",
+      "correct_answer": "B",
+      "explanation": "Money multiplier = 1/0.10 = 10 → total money $10,000, of which $9,000 is NEWLY CREATED through lending ($1,000 already existed as the deposit). The exam asks both versions — read whether it wants 'new money created' or 'total.'"
+    },
+    {
+      "topic": "Monetary policy",
+      "difficulty": "medium",
+      "question_text": "To fight a recession, the Federal Reserve would most likely:",
+      "option_a": "Sell government bonds to banks",
+      "option_b": "Buy government bonds, increasing bank reserves and lowering interest rates",
+      "option_c": "Raise the discount rate",
+      "option_d": "Increase the required reserve ratio",
+      "correct_answer": "B",
+      "explanation": "Open-market PURCHASES inject reserves → more lending → lower interest rates → more investment and consumption. The other three all CONTRACT the money supply. Mnemonic: the Fed BUYS bonds to BOOST the economy."
+    },
+    {
+      "topic": "Monetary policy",
+      "difficulty": "hard",
+      "question_text": "In the long run, an increase in the money supply primarily causes:",
+      "option_a": "Permanently higher real GDP",
+      "option_b": "Permanently lower unemployment",
+      "option_c": "A proportionally higher price level with real output back at potential",
+      "option_d": "A permanent fall in nominal interest rates",
+      "correct_answer": "C",
+      "explanation": "Money neutrality: long-run output is pinned by resources and technology, so money growth ends up in prices (and via the Fisher effect, HIGHER nominal rates, not lower). The short-run boost evaporates as wages and expectations adjust — that's the whole point of the LRAS being vertical."
+    },
+    {
+      "topic": "Phillips curve",
+      "difficulty": "hard",
+      "question_text": "The short-run Phillips curve shows a trade-off between inflation and unemployment, but the long-run Phillips curve is vertical because:",
+      "option_a": "Inflation and unemployment always move together",
+      "option_b": "In the long run, expectations adjust and unemployment returns to its natural rate at any inflation level",
+      "option_c": "Monetary policy is ineffective in the short run",
+      "option_d": "The natural rate of unemployment is zero",
+      "correct_answer": "B",
+      "explanation": "Workers and firms build expected inflation into wages, undoing the short-run trade-off — leaving unemployment at the natural rate regardless of the inflation rate. A supply shock shifts the SRPC; expectations shifts move it back. The LRPC sits at the natural rate, never zero."
+    },
+    {
+      "topic": "Loanable funds",
+      "difficulty": "medium",
+      "question_text": "An increase in household saving shifts the loanable funds supply curve right. The equilibrium result is:",
+      "option_a": "Higher real interest rate, less investment",
+      "option_b": "Lower real interest rate, more investment",
+      "option_c": "Higher interest rate, more investment",
+      "option_d": "No change in the interest rate",
+      "correct_answer": "B",
+      "explanation": "More saving = more funds supplied → the price of borrowing (real interest rate) falls → firms invest more. This is the market mechanism connecting thrift today to capital formation and growth tomorrow."
+    },
+    {
+      "topic": "International trade",
+      "difficulty": "medium",
+      "question_text": "If U.S. interest rates rise relative to Europe's, the U.S. dollar will most likely:",
+      "option_a": "Depreciate, as imports fall",
+      "option_b": "Appreciate, as foreign investors demand dollars to buy U.S. assets",
+      "option_c": "Be unaffected",
+      "option_d": "Be devalued by the Federal Reserve",
+      "correct_answer": "B",
+      "explanation": "Higher returns attract foreign financial capital → investors must BUY dollars → dollar appreciates. Chain: interest rates → capital flows → currency demand. A stronger dollar then makes U.S. exports pricier — the follow-up the FRQ usually asks."
+    },
+    {
+      "topic": "International trade",
+      "difficulty": "hard",
+      "question_text": "A country runs a current account deficit. Its capital and financial account must be:",
+      "option_a": "Also in deficit",
+      "option_b": "In surplus of roughly the same magnitude",
+      "option_c": "Exactly zero",
+      "option_d": "Unrelated to the current account",
+      "correct_answer": "B",
+      "explanation": "The balance of payments balances: importing more than you export means foreigners end up holding your currency/assets — recorded as financial account inflows. CA deficit ≡ KA surplus. They're two sides of one ledger, not independent quantities."
+    },
+    {
+      "topic": "Economic growth",
+      "difficulty": "easy",
+      "question_text": "Which policy most directly increases an economy's long-run aggregate supply?",
+      "option_a": "A one-time tax rebate to consumers",
+      "option_b": "Investment in education and infrastructure",
+      "option_c": "An increase in the money supply",
+      "option_d": "Higher tariffs on imports",
+      "correct_answer": "B",
+      "explanation": "LRAS shifts with productive capacity: human capital, physical capital, technology. Rebates and money growth move DEMAND (short-run); tariffs reallocate rather than expand capacity. Growth policy = supply-side capacity building."
+    },
+    {
+      "topic": "Aggregate demand and supply",
+      "difficulty": "medium",
+      "question_text": "The economy is in a recessionary gap. With NO policy action, the classical self-correction mechanism predicts:",
+      "option_a": "Wages eventually fall, shifting SRAS right until output returns to potential",
+      "option_b": "Aggregate demand automatically rises",
+      "option_c": "The gap persists forever",
+      "option_d": "LRAS shifts left to meet current output",
+      "correct_answer": "A",
+      "explanation": "High unemployment puts downward pressure on nominal wages → lower production costs → SRAS shifts right → price level falls, output recovers. Keynes's objection was the SPEED ('in the long run we are all dead') — not the mechanism's existence."
+    },
+    {
+      "topic": "Money and banking",
+      "difficulty": "easy",
+      "question_text": "Which function of money does inflation most directly erode?",
+      "option_a": "Medium of exchange",
+      "option_b": "Store of value",
+      "option_c": "Unit of account",
+      "option_d": "Legal tender status",
+      "correct_answer": "B",
+      "explanation": "Inflation shrinks what saved money will buy later — attacking its ability to STORE value over time. Money may still circulate fine as a medium of exchange in moderate inflation; hyperinflation eventually destroys all three functions."
+    },
+    {
+      "topic": "Fiscal policy",
+      "difficulty": "medium",
+      "question_text": "Which is an automatic stabilizer?",
+      "option_a": "Congress passing an emergency stimulus bill",
+      "option_b": "Unemployment insurance payouts rising as layoffs increase during a recession",
+      "option_c": "The Fed cutting interest rates",
+      "option_d": "A new infrastructure program",
+      "correct_answer": "B",
+      "explanation": "Automatic stabilizers kick in WITHOUT new legislation — UI payouts and progressive taxes expand deficits in downturns by design. Options A and D are discretionary fiscal policy (require action); C is monetary policy. 'No vote needed' is the test."
+    }
+  ]
+}

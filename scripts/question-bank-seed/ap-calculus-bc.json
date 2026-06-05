@@ -1,0 +1,225 @@
+{
+  "subject": "ap-calculus-bc",
+  "questions": [
+    {
+      "topic": "Series convergence",
+      "difficulty": "easy",
+      "question_text": "Which test is most direct for determining whether the series Σ (n=1 to ∞) 1/n² converges?",
+      "option_a": "Ratio test",
+      "option_b": "p-series test",
+      "option_c": "Alternating series test",
+      "option_d": "Root test",
+      "correct_answer": "B",
+      "explanation": "This is a p-series with p = 2 > 1, so it converges immediately by the p-series test. The ratio test is inconclusive here (limit equals 1) — a classic trap: the ratio test fails on every p-series."
+    },
+    {
+      "topic": "Series convergence",
+      "difficulty": "medium",
+      "question_text": "The series Σ (-1)ⁿ/√n converges conditionally. What does \"conditionally\" mean here?",
+      "option_a": "It converges only for certain values of n",
+      "option_b": "It converges, but the series of absolute values Σ 1/√n diverges",
+      "option_c": "It converges to a value that depends on the order of terms only if p > 1",
+      "option_d": "It diverges unless grouped in pairs",
+      "correct_answer": "B",
+      "explanation": "Conditional convergence = the alternating series converges (by AST) while Σ|aₙ| = Σ 1/n^(1/2) is a divergent p-series (p = 1/2 ≤ 1). The exam tests whether you check BOTH the series and its absolute version."
+    },
+    {
+      "topic": "Taylor series",
+      "difficulty": "medium",
+      "question_text": "The Maclaurin series for eˣ is Σ xⁿ/n!. What is the coefficient of x³ in the Maclaurin series for x·e^(2x)?",
+      "option_a": "8/6",
+      "option_b": "2",
+      "option_c": "4/2",
+      "option_d": "8/3",
+      "correct_answer": "C",
+      "explanation": "x·e^(2x) = x·Σ (2x)ⁿ/n! — the x³ term comes from x times the (2x)²/2! term: x · 4x²/2 = 2x³, so the coefficient is 4/2 = 2. The trap is substituting 2x but forgetting the extra factor of x shifts every power up by one."
+    },
+    {
+      "topic": "Parametric and polar",
+      "difficulty": "medium",
+      "question_text": "A curve is defined by x(t) = t², y(t) = t³ − 3t. What is dy/dx at t = 1?",
+      "option_a": "0",
+      "option_b": "1",
+      "option_c": "−3/2",
+      "option_d": "Undefined",
+      "correct_answer": "A",
+      "explanation": "dy/dx = (dy/dt)/(dx/dt) = (3t² − 3)/(2t). At t = 1: (3 − 3)/2 = 0. Students who differentiate y with respect to x directly, or invert the quotient, get C. Parametric slopes are always a quotient of t-derivatives."
+    },
+    {
+      "topic": "Parametric and polar",
+      "difficulty": "hard",
+      "question_text": "What is the total area enclosed by the polar curve r = 2cos(3θ)?",
+      "option_a": "π",
+      "option_b": "2π",
+      "option_c": "π/2",
+      "option_d": "4π",
+      "correct_answer": "A",
+      "explanation": "A rose r = a·cos(3θ) has 3 petals. One petal spans θ ∈ [−π/6, π/6]: area = ½∫4cos²(3θ)dθ = π/3. Three petals → π. The trap: integrating 0 to 2π double-counts because the curve traces each petal twice over a full revolution."
+    },
+    {
+      "topic": "Integration techniques",
+      "difficulty": "easy",
+      "question_text": "Which technique most directly evaluates ∫ x·eˣ dx?",
+      "option_a": "u-substitution with u = eˣ",
+      "option_b": "Integration by parts",
+      "option_c": "Partial fractions",
+      "option_d": "Trigonometric substitution",
+      "correct_answer": "B",
+      "explanation": "A polynomial times an exponential is the signature setup for integration by parts: u = x, dv = eˣdx gives xeˣ − eˣ + C. u-substitution fails because the derivative of eˣ doesn't produce the lone x factor."
+    },
+    {
+      "topic": "Integration techniques",
+      "difficulty": "medium",
+      "question_text": "∫ dx/(x² − x) is best evaluated by rewriting the integrand as:",
+      "option_a": "1/x − 1/(x−1)",
+      "option_b": "1/(x−1) − 1/x",
+      "option_c": "1/x + 1/(x−1)",
+      "option_d": "x⁻² − x⁻¹",
+      "correct_answer": "B",
+      "explanation": "x² − x = x(x − 1), and partial fractions gives 1/(x(x−1)) = A/x + B/(x−1) with A = −1, B = 1. Check by recombining: [−(x−1) + x]/(x(x−1)) = 1/(x(x−1)) ✓. Option A has the signs flipped — always verify by recombining."
+    },
+    {
+      "topic": "Improper integrals",
+      "difficulty": "medium",
+      "question_text": "For which value of p does ∫ (1 to ∞) 1/xᵖ dx converge?",
+      "option_a": "p = 1",
+      "option_b": "p = 1/2",
+      "option_c": "p = 2",
+      "option_d": "p = −1",
+      "correct_answer": "C",
+      "explanation": "∫₁∞ x⁻ᵖ dx converges exactly when p > 1. Note the mirror-image rule: ∫₀¹ x⁻ᵖ dx converges when p < 1. Mixing up which side needs p > 1 is one of the most common BC errors."
+    },
+    {
+      "topic": "Euler's method",
+      "difficulty": "medium",
+      "question_text": "Given dy/dx = x + y with y(0) = 1, what is the Euler's method estimate of y(0.2) using step size 0.1?",
+      "option_a": "1.20",
+      "option_b": "1.21",
+      "option_c": "1.22",
+      "option_d": "1.10",
+      "correct_answer": "C",
+      "explanation": "Step 1: slope at (0, 1) is 0 + 1 = 1, so y(0.1) ≈ 1 + 0.1(1) = 1.1. Step 2: slope at (0.1, 1.1) is 0.1 + 1.1 = 1.2, so y(0.2) ≈ 1.1 + 0.1(1.2) = 1.22. The trap is reusing the old slope for the second step — Euler's method re-evaluates dy/dx at each new point."
+    },
+    {
+      "topic": "Logistic growth",
+      "difficulty": "easy",
+      "question_text": "A population follows dP/dt = 0.4P(1 − P/600). What is the population when it is growing fastest?",
+      "option_a": "600",
+      "option_b": "300",
+      "option_c": "150",
+      "option_d": "0",
+      "correct_answer": "B",
+      "explanation": "Logistic growth is fastest at half the carrying capacity: L/2 = 300. The carrying capacity (600) is where growth approaches zero — choosing it confuses 'largest population' with 'fastest growth.'"
+    },
+    {
+      "topic": "Arc length",
+      "difficulty": "medium",
+      "question_text": "Which integral gives the arc length of y = x² from x = 0 to x = 1?",
+      "option_a": "∫₀¹ √(1 + x⁴) dx",
+      "option_b": "∫₀¹ √(1 + 2x) dx",
+      "option_c": "∫₀¹ √(1 + 4x²) dx",
+      "option_d": "∫₀¹ (1 + 2x) dx",
+      "correct_answer": "C",
+      "explanation": "Arc length = ∫√(1 + (dy/dx)²)dx with dy/dx = 2x, so the integrand is √(1 + 4x²). Option A squares the function instead of its derivative; option B forgets to square 2x."
+    },
+    {
+      "topic": "Series convergence",
+      "difficulty": "hard",
+      "question_text": "The series Σ (n=1 to ∞) n!/nⁿ converges. Which statement best explains why the ratio test proves this?",
+      "option_a": "The limit of aₙ₊₁/aₙ is (n/(n+1))ⁿ → 1/e < 1",
+      "option_b": "The limit of aₙ₊₁/aₙ is 0",
+      "option_c": "n! grows slower than nⁿ for all n, so terms go to 0",
+      "option_d": "The limit of aₙ₊₁/aₙ is e > 1",
+      "correct_answer": "A",
+      "explanation": "aₙ₊₁/aₙ = (n+1)!·nⁿ / (n!·(n+1)ⁿ⁺¹) = (n/(n+1))ⁿ = 1/(1+1/n)ⁿ → 1/e ≈ 0.37 < 1. Note C is true but insufficient — terms going to 0 never proves convergence (harmonic series!)."
+    },
+    {
+      "topic": "Vector-valued functions",
+      "difficulty": "easy",
+      "question_text": "A particle's position is r(t) = ⟨t², sin t⟩. What is its speed at t = 0?",
+      "option_a": "0",
+      "option_b": "1",
+      "option_c": "2",
+      "option_d": "√2",
+      "correct_answer": "B",
+      "explanation": "Velocity = ⟨2t, cos t⟩ = ⟨0, 1⟩ at t = 0; speed = √(0² + 1²) = 1. Speed is the magnitude of velocity — answering 0 comes from looking only at the x-component."
+    },
+    {
+      "topic": "Taylor series",
+      "difficulty": "hard",
+      "question_text": "Using the Lagrange error bound, the maximum error when approximating sin(0.1) by the first-degree Maclaurin polynomial P₁(x) = x is at most:",
+      "option_a": "(0.1)²/2",
+      "option_b": "(0.1)³/6",
+      "option_c": "0.1/2",
+      "option_d": "(0.1)²",
+      "correct_answer": "A",
+      "explanation": "|R₁| ≤ M·|x|²/2! where M bounds |f''| = |−sin| ≤ 1, giving (0.1)²/2 = 0.005. The sharper bound (0.1)³/6 applies because P₁ = P₂ for sine — but the question asks for the standard first-degree Lagrange bound, n+1 = 2. Read which n the bound uses."
+    },
+    {
+      "topic": "Integration by parts",
+      "difficulty": "medium",
+      "question_text": "∫ ln x dx equals:",
+      "option_a": "1/x + C",
+      "option_b": "x ln x − x + C",
+      "option_c": "x ln x + x + C",
+      "option_d": "(ln x)²/2 + C",
+      "correct_answer": "B",
+      "explanation": "Parts with u = ln x, dv = dx: x ln x − ∫x·(1/x)dx = x ln x − x + C. Option A confuses integration with differentiation; option D incorrectly treats ln x like a power of x."
+    },
+    {
+      "topic": "Polar area",
+      "difficulty": "medium",
+      "question_text": "The area inside the cardioid r = 1 + cosθ is:",
+      "option_a": "π",
+      "option_b": "3π/2",
+      "option_c": "2π",
+      "option_d": "3π/4",
+      "correct_answer": "B",
+      "explanation": "A = ½∫₀²π (1+cosθ)² dθ = ½∫(1 + 2cosθ + cos²θ)dθ = ½(2π + 0 + π) = 3π/2. The cos² term contributes π (average value ½ over a full period) — dropping it gives the wrong answer π."
+    },
+    {
+      "topic": "Differential equations",
+      "difficulty": "medium",
+      "question_text": "The general solution to dy/dx = ky is y = Ceᵏˣ. If y(0) = 5 and y(2) = 20, then k =",
+      "option_a": "ln 2",
+      "option_b": "2 ln 2",
+      "option_c": "(ln 4)/2",
+      "option_d": "Both A and C",
+      "correct_answer": "D",
+      "explanation": "C = 5, then 20 = 5e²ᵏ → e²ᵏ = 4 → k = (ln 4)/2 = ln 2. Both expressions are equal: (ln 4)/2 = (2 ln 2)/2 = ln 2. The exam loves equivalent log forms — simplify before eliminating."
+    },
+    {
+      "topic": "Improper integrals",
+      "difficulty": "hard",
+      "question_text": "∫₀¹ 1/√(1−x) dx is:",
+      "option_a": "Divergent",
+      "option_b": "Convergent with value 2",
+      "option_c": "Convergent with value 1",
+      "option_d": "Convergent with value π/2",
+      "correct_answer": "B",
+      "explanation": "The integrand blows up at x = 1, making this improper. lim(b→1⁻) [−2√(1−x)]₀ᵇ = 0 − (−2) = 2. This is the p < 1 case at a finite endpoint, which converges. Don't confuse it with π/2, which belongs to ∫1/√(1−x²)."
+    },
+    {
+      "topic": "Power series interval",
+      "difficulty": "medium",
+      "question_text": "The power series Σ (x−3)ⁿ/(n·2ⁿ) has radius of convergence 2. Its interval of convergence is:",
+      "option_a": "(1, 5)",
+      "option_b": "[1, 5)",
+      "option_c": "(1, 5]",
+      "option_d": "[1, 5]",
+      "correct_answer": "B",
+      "explanation": "Center 3, radius 2 → endpoints 1 and 5. At x = 5: Σ 1/n diverges (harmonic). At x = 1: Σ (−1)ⁿ/n converges (alternating harmonic). Always test endpoints separately — the ratio test says nothing there."
+    },
+    {
+      "topic": "Arc length (parametric)",
+      "difficulty": "hard",
+      "question_text": "The length of the curve x = cos t, y = sin t for 0 ≤ t ≤ π/2 computed by the parametric arc length formula is:",
+      "option_a": "π/2",
+      "option_b": "1",
+      "option_c": "π",
+      "option_d": "√2",
+      "correct_answer": "A",
+      "explanation": "L = ∫√((dx/dt)²+(dy/dt)²)dt = ∫₀^(π/2) √(sin²t + cos²t) dt = ∫₀^(π/2) 1 dt = π/2 — a quarter of the unit circle, as geometry confirms. When the integrand simplifies to 1, trust it; students often second-guess clean results."
+    }
+  ]
+}

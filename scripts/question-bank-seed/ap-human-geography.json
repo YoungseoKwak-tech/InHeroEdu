@@ -1,0 +1,225 @@
+{
+  "subject": "ap-human-geography",
+  "questions": [
+    {
+      "topic": "Thinking geographically",
+      "difficulty": "easy",
+      "question_text": "A map showing COVID vaccination rates by county uses darker shades for higher rates. This is a:",
+      "option_a": "Dot density map",
+      "option_b": "Choropleth map",
+      "option_c": "Cartogram",
+      "option_d": "Isoline map",
+      "correct_answer": "B",
+      "explanation": "Shading predefined areas (counties) by data intensity = choropleth. Dot density places individual dots; cartograms distort area by data value; isolines connect equal values (like elevation). Map-type identification opens nearly every exam."
+    },
+    {
+      "topic": "Thinking geographically",
+      "difficulty": "medium",
+      "question_text": "A coffee shop chain analyzes neighborhood income, foot traffic, and competitor locations before opening a store. This decision-making relies primarily on:",
+      "option_a": "Remote sensing",
+      "option_b": "GIS — layering multiple spatial data sets for analysis",
+      "option_c": "GPS alone",
+      "option_d": "Mental maps",
+      "correct_answer": "B",
+      "explanation": "Overlaying multiple spatial data layers to answer a locational question is the defining function of a Geographic Information System. GPS just gives coordinates; remote sensing collects imagery — both can feed INTO a GIS, which does the analysis."
+    },
+    {
+      "topic": "Population",
+      "difficulty": "medium",
+      "question_text": "A country with a wide-based population pyramid most likely has:",
+      "option_a": "Low birth rates and an aging population",
+      "option_b": "High birth rates, a young population, and high dependency ratio",
+      "option_c": "Zero population growth",
+      "option_d": "More elderly than children",
+      "correct_answer": "B",
+      "explanation": "A wide base = many children = high CBR, typical of stage 2 countries. Read pyramids bottom-up: base width is fertility, top width is longevity, and asymmetries flag migration or conflict. Option A describes the inverted/constrictive shape."
+    },
+    {
+      "topic": "Population",
+      "difficulty": "medium",
+      "question_text": "In the Demographic Transition Model, the population 'explosion' of stage 2 occurs because:",
+      "option_a": "Birth rates rise sharply",
+      "option_b": "Death rates fall (sanitation, medicine) while birth rates remain high",
+      "option_c": "Both rates fall together",
+      "option_d": "Immigration increases",
+      "correct_answer": "B",
+      "explanation": "Stage 2 growth comes from the GAP: mortality drops fast with public health gains, but fertility norms change a generation later. Birth rates don't rise — they just haven't fallen yet. The model is about the lag between the two declines."
+    },
+    {
+      "topic": "Migration",
+      "difficulty": "easy",
+      "question_text": "A family leaves Venezuela due to economic collapse (push) and chooses Miami for its established Venezuelan community (pull). The pull factor illustrates:",
+      "option_a": "Forced migration",
+      "option_b": "Chain migration to an existing ethnic enclave",
+      "option_c": "Counter-urbanization",
+      "option_d": "Brain drain",
+      "correct_answer": "B",
+      "explanation": "Migrants follow networks — family and community ties lower the costs and risks of relocation, channeling flows to specific destinations (chain migration). That's why immigrant populations cluster rather than spread evenly."
+    },
+    {
+      "topic": "Migration",
+      "difficulty": "hard",
+      "question_text": "Ravenstein's laws predict that most migration is:",
+      "option_a": "International and permanent",
+      "option_b": "Short-distance, step-wise, and toward economic opportunity",
+      "option_c": "Rural-to-rural",
+      "option_d": "Driven primarily by climate",
+      "correct_answer": "B",
+      "explanation": "Distance decay governs migration: most moves are short, proceed in steps (village → town → city), and follow economic gradients; each stream also generates a counter-stream. International migration is the visible exception, not the rule."
+    },
+    {
+      "topic": "Culture",
+      "difficulty": "medium",
+      "question_text": "K-pop spreading globally through social media, adopted first in cosmopolitan cities worldwide rather than spreading evenly outward, exemplifies:",
+      "option_a": "Contagious diffusion",
+      "option_b": "Hierarchical diffusion",
+      "option_c": "Relocation diffusion",
+      "option_d": "Stimulus diffusion",
+      "correct_answer": "B",
+      "explanation": "Jumping between major nodes (global cities, connected demographics) before filling in = hierarchical. Contagious spreads like a wave to adjacent areas regardless of hierarchy; relocation requires migrants physically carrying the trait. Trace the PATH, not just the speed."
+    },
+    {
+      "topic": "Culture",
+      "difficulty": "medium",
+      "question_text": "American fast-food chains in India serving paneer burgers instead of beef illustrate:",
+      "option_a": "Cultural imperialism unchanged by location",
+      "option_b": "Glocalization — global brands adapting to local cultural preferences",
+      "option_c": "Ethnocentrism",
+      "option_d": "Cultural divergence",
+      "correct_answer": "B",
+      "explanation": "Global standardization meets local religious and dietary norms (Hindu beef avoidance) → hybrid adaptation. Globalization rarely produces pure homogenization; the exam rewards recognizing the LOCAL modification of global flows."
+    },
+    {
+      "topic": "Political geography",
+      "difficulty": "medium",
+      "question_text": "Belgium, with distinct Flemish and Walloon regions under one government, is best described as a:",
+      "option_a": "Nation-state",
+      "option_b": "Multinational state",
+      "option_c": "Stateless nation",
+      "option_d": "Multistate nation",
+      "correct_answer": "B",
+      "explanation": "One sovereign state containing multiple nations (cultural groups) = multinational state. The Kurds are the reverse — a stateless nation spread across several states. Nation = people; state = sovereign territory; every distractor recombines those two terms."
+    },
+    {
+      "topic": "Political geography",
+      "difficulty": "hard",
+      "question_text": "Devolution differs from disintegration in that devolution:",
+      "option_a": "Always leads to new independent states",
+      "option_b": "Transfers some central powers to regional governments while the state remains intact (e.g., Scotland's parliament)",
+      "option_c": "Eliminates regional identities",
+      "option_d": "Only occurs in unitary states",
+      "correct_answer": "B",
+      "explanation": "Devolution is power-sharing downward — often a pressure valve AGAINST breakup (Scotland, Catalonia). It can precede disintegration if demands escalate, but the two aren't the same. The exam tests devolution's centrifugal-force management role."
+    },
+    {
+      "topic": "Agriculture",
+      "difficulty": "medium",
+      "question_text": "In the Von Thünen model, dairy and market gardening locate nearest the city because:",
+      "option_a": "They require the most land",
+      "option_b": "Their products are perishable and transport costs dominate",
+      "option_c": "City dwellers prefer fresh vegetables",
+      "option_d": "Land is cheapest near the center",
+      "correct_answer": "B",
+      "explanation": "The model trades off land rent against transport cost: perishables that spoil (pre-refrigeration) must minimize distance, so they outbid other uses for expensive close-in land. Land is most EXPENSIVE near the center — option D inverts the model."
+    },
+    {
+      "topic": "Agriculture",
+      "difficulty": "medium",
+      "question_text": "The Green Revolution increased food production in Asia and Latin America primarily through:",
+      "option_a": "Expanding farmland into rainforests",
+      "option_b": "High-yield seed varieties, chemical fertilizers, and irrigation",
+      "option_c": "Organic farming techniques",
+      "option_d": "Collectivizing agriculture",
+      "correct_answer": "B",
+      "explanation": "HYV wheat and rice plus the chemical-irrigation package multiplied yields on EXISTING land (averting predicted famines), at the cost of water depletion, chemical runoff, and debt burdens on small farmers who couldn't afford inputs. Know both sides for the FRQ."
+    },
+    {
+      "topic": "Cities and urban land use",
+      "difficulty": "medium",
+      "question_text": "The concentric zone, sector, and multiple nuclei models all attempt to explain:",
+      "option_a": "International trade patterns",
+      "option_b": "The internal spatial structure of cities and where social groups and land uses locate",
+      "option_c": "Why cities exist where they do",
+      "option_d": "Rural settlement patterns",
+      "correct_answer": "B",
+      "explanation": "All three are INTRA-urban models: Burgess's rings, Hoyt's transport-corridor sectors, Harris-Ullman's multiple centers. Where cities locate relative to each other is a different question (central place theory). Internal versus inter-urban is the key sort."
+    },
+    {
+      "topic": "Cities and urban land use",
+      "difficulty": "hard",
+      "question_text": "A bid-rent curve explains why:",
+      "option_a": "Land values and building density decline with distance from the CBD",
+      "option_b": "All urban land costs the same",
+      "option_c": "Suburbs have taller buildings than downtowns",
+      "option_d": "Agricultural land is most expensive",
+      "correct_answer": "A",
+      "explanation": "Accessibility premium: businesses outbid others for central locations, so land price falls with distance — and expensive central land gets built UP (skyscrapers) to substitute capital for land. Density gradients are the visible signature of the curve."
+    },
+    {
+      "topic": "Cities and urban land use",
+      "difficulty": "medium",
+      "question_text": "Rising rents in a renovated downtown district displace long-term low-income residents as wealthier newcomers arrive. This process is:",
+      "option_a": "Suburbanization",
+      "option_b": "Gentrification",
+      "option_c": "Urban sprawl",
+      "option_d": "Redlining",
+      "correct_answer": "B",
+      "explanation": "Reinvestment + class turnover in central neighborhoods = gentrification — revitalization and displacement are the same process seen from different sides. Redlining is the OPPOSITE-era policy of denying loans to minority neighborhoods; don't conflate cause-eras."
+    },
+    {
+      "topic": "Development",
+      "difficulty": "medium",
+      "question_text": "Which best explains why GNI per capita can be a misleading measure of development?",
+      "option_a": "It is too difficult to calculate",
+      "option_b": "It hides internal inequality and ignores non-market factors like health, education, and gender gaps",
+      "option_c": "It always overstates poverty",
+      "option_d": "It only counts agricultural output",
+      "correct_answer": "B",
+      "explanation": "An average can mask extremes (oil states with high GNI and high inequality), and money metrics miss wellbeing dimensions — which is why HDI bundles income with life expectancy and schooling, and GII adds gender. Composite indices exist BECAUSE single metrics mislead."
+    },
+    {
+      "topic": "Development",
+      "difficulty": "hard",
+      "question_text": "Wallerstein's world-systems theory differs from Rostow's stages of growth by arguing that:",
+      "option_a": "All countries pass through identical stages independently",
+      "option_b": "Development and underdevelopment are linked — core countries prosper partly by extracting value from the periphery",
+      "option_c": "Geography has no effect on development",
+      "option_d": "The periphery cannot industrialize under any circumstances",
+      "correct_answer": "B",
+      "explanation": "Rostow: every country climbs the same ladder alone. Wallerstein: the ladder IS the relationship — core wealth and peripheral poverty are co-produced through unequal exchange. Semi-periphery (Brazil, India) shows mobility is possible, killing option D's absolute."
+    },
+    {
+      "topic": "Industry and economic development",
+      "difficulty": "medium",
+      "question_text": "A clothing brand designs in Paris, manufactures in Bangladesh, and handles customer service from the Philippines. This arrangement illustrates:",
+      "option_a": "Autarky",
+      "option_b": "The new international division of labor",
+      "option_c": "Import substitution",
+      "option_d": "Bulk-gaining production",
+      "correct_answer": "B",
+      "explanation": "High-value functions (design, marketing) stay in the core; labor-intensive production moves to low-wage periphery; services offshore to English-speaking middle countries. The NIDL is the spatial signature of globalized supply chains."
+    },
+    {
+      "topic": "Culture and language",
+      "difficulty": "medium",
+      "question_text": "A government bans minority-language instruction in schools to forge a single national identity. This policy is an example of:",
+      "option_a": "Multiculturalism",
+      "option_b": "A centripetal strategy that may backfire into a centrifugal force",
+      "option_c": "Devolution",
+      "option_d": "Supranationalism",
+      "correct_answer": "B",
+      "explanation": "Forced assimilation aims to unify (centripetal intent) but suppressing identity often deepens resentment and separatism (centrifugal outcome) — e.g., Kurdish language bans in Turkey. The exam loves policies whose intent and effect diverge."
+    },
+    {
+      "topic": "Population",
+      "difficulty": "hard",
+      "question_text": "Several East Asian and European countries now offer baby bonuses and parental leave expansions. These pronatalist policies respond to:",
+      "option_a": "Overpopulation fears",
+      "option_b": "Below-replacement fertility and looming workforce/dependency crises",
+      "option_c": "Rising infant mortality",
+      "option_d": "Excessive immigration",
+      "correct_answer": "B",
+      "explanation": "TFR below ~2.1 means each generation shrinks — fewer workers supporting more retirees (stage 4/5 problem). Pronatalist incentives rarely restore replacement fertility, which is why immigration policy becomes the other lever. Antinatalist policies (China's former one-child) are the mirror case."
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "subject": "ap-statistics",
+  "questions": [
+    {
+      "topic": "Describing distributions",
+      "difficulty": "easy",
+      "question_text": "A distribution of household incomes is strongly skewed right. Which is the best measure of center?",
+      "option_a": "Mean, because it uses every data value",
+      "option_b": "Median, because it resists the pull of extreme values",
+      "option_c": "Mode, because incomes cluster",
+      "option_d": "Range, because it shows spread",
+      "correct_answer": "B",
+      "explanation": "Right skew drags the mean above the typical value; the median resists outliers. 'Uses every value' is exactly why the mean fails here — high earners inflate it. Range isn't even a measure of center."
+    },
+    {
+      "topic": "Standard deviation",
+      "difficulty": "easy",
+      "question_text": "If every value in a data set is increased by 10, what happens to the mean and standard deviation?",
+      "option_a": "Both increase by 10",
+      "option_b": "Mean increases by 10; standard deviation is unchanged",
+      "option_c": "Mean is unchanged; standard deviation increases by 10",
+      "option_d": "Both are unchanged",
+      "correct_answer": "B",
+      "explanation": "Adding a constant shifts location (mean, median) but doesn't change spread — every point moves together, so distances between points are identical. Multiplying is what changes the SD."
+    },
+    {
+      "topic": "Correlation and regression",
+      "difficulty": "medium",
+      "question_text": "A study finds r = 0.92 between ice cream sales and drowning deaths. The best interpretation is:",
+      "option_a": "Ice cream consumption causes drowning",
+      "option_b": "There is a strong positive linear association, likely explained by a lurking variable such as temperature",
+      "option_c": "The correlation is too high to be real",
+      "option_d": "92% of drownings are explained by ice cream sales",
+      "correct_answer": "B",
+      "explanation": "Correlation ≠ causation; hot weather drives both variables. Option D confuses r with r² — and even r² = 0.85 means 'variation explained,' never 'caused.' This lurking-variable setup appears on nearly every exam."
+    },
+    {
+      "topic": "Correlation and regression",
+      "difficulty": "medium",
+      "question_text": "A least-squares regression line is ŷ = 12 + 3.5x. The residual for a point (2, 21) is:",
+      "option_a": "2",
+      "option_b": "−2",
+      "option_c": "19",
+      "option_d": "21",
+      "correct_answer": "A",
+      "explanation": "Predicted: ŷ = 12 + 3.5(2) = 19. Residual = actual − predicted = 21 − 19 = 2. The sign convention matters: positive residual means the point sits above the line. Reversing the subtraction gives −2."
+    },
+    {
+      "topic": "Sampling and bias",
+      "difficulty": "easy",
+      "question_text": "A radio host asks listeners to call in about a tax proposal. This sampling method suffers most from:",
+      "option_a": "Undercoverage",
+      "option_b": "Nonresponse bias",
+      "option_c": "Voluntary response bias",
+      "option_d": "Response bias from question wording",
+      "correct_answer": "C",
+      "explanation": "Call-in polls attract people with strong opinions — the sample selects itself. Nonresponse bias is different: it happens when people chosen for a sample fail to respond. The distinction between these two is a frequent multiple-choice trap."
+    },
+    {
+      "topic": "Experimental design",
+      "difficulty": "medium",
+      "question_text": "Why does random assignment in an experiment allow cause-and-effect conclusions?",
+      "option_a": "It guarantees the sample represents the population",
+      "option_b": "It balances lurking variables across treatment groups on average",
+      "option_c": "It eliminates all variability in responses",
+      "option_d": "It ensures the placebo effect is removed",
+      "correct_answer": "B",
+      "explanation": "Random assignment spreads confounders evenly between groups, so treatment is the only systematic difference. Representing the population is random SELECTION's job (generalization), not random assignment's — keep the two random's separate."
+    },
+    {
+      "topic": "Probability",
+      "difficulty": "medium",
+      "question_text": "Events A and B have P(A) = 0.5, P(B) = 0.4, and P(A and B) = 0.2. Are A and B independent?",
+      "option_a": "Yes, because P(A and B) = P(A)·P(B)",
+      "option_b": "No, because P(A and B) ≠ 0",
+      "option_c": "No, because A and B can occur together",
+      "option_d": "Cannot be determined",
+      "correct_answer": "A",
+      "explanation": "Independence check: P(A)·P(B) = 0.5 × 0.4 = 0.2 = P(A and B) ✓. Options B and C confuse independent with mutually exclusive — mutually exclusive events (with nonzero probabilities) are never independent."
+    },
+    {
+      "topic": "Random variables",
+      "difficulty": "medium",
+      "question_text": "X has mean 10 and SD 2; Y has mean 5 and SD 1.5. If X and Y are independent, the standard deviation of X − Y is:",
+      "option_a": "0.5",
+      "option_b": "2.5",
+      "option_c": "3.5",
+      "option_d": "6.25",
+      "correct_answer": "B",
+      "explanation": "Variances ADD even when subtracting: Var(X−Y) = 4 + 2.25 = 6.25, so SD = 2.5. Subtracting SDs (0.5) is the classic error — spread increases whenever you combine independent sources of variability. D is the variance, not the SD."
+    },
+    {
+      "topic": "Binomial distribution",
+      "difficulty": "easy",
+      "question_text": "Which scenario satisfies all conditions of a binomial setting?",
+      "option_a": "Drawing 5 cards from a deck without replacement and counting hearts",
+      "option_b": "Flipping a fair coin 20 times and counting heads",
+      "option_c": "Rolling a die until the first 6 appears",
+      "option_d": "Measuring the height of 30 random students",
+      "correct_answer": "B",
+      "explanation": "Binomial = fixed n, independent trials, same p, counting successes (BINS). Drawing without replacement breaks independence; 'until first success' is geometric; height is continuous, not a count."
+    },
+    {
+      "topic": "Sampling distributions",
+      "difficulty": "medium",
+      "question_text": "A population is strongly skewed with mean 50 and SD 12. For random samples of size 36, the sampling distribution of x̄ is approximately:",
+      "option_a": "Skewed with mean 50 and SD 12",
+      "option_b": "Normal with mean 50 and SD 12",
+      "option_c": "Normal with mean 50 and SD 2",
+      "option_d": "Skewed with mean 50 and SD 2",
+      "correct_answer": "C",
+      "explanation": "CLT: n = 36 ≥ 30, so x̄ is approximately normal regardless of population shape, with SD = σ/√n = 12/6 = 2. Forgetting to divide by √n (option B) is the most common error on this topic."
+    },
+    {
+      "topic": "Confidence intervals",
+      "difficulty": "medium",
+      "question_text": "A 95% confidence interval for a mean is (24.3, 28.7). Which interpretation is correct?",
+      "option_a": "95% of the data lie between 24.3 and 28.7",
+      "option_b": "There is a 95% probability the true mean is between 24.3 and 28.7",
+      "option_c": "We are 95% confident the interval (24.3, 28.7) captures the true population mean",
+      "option_d": "95% of sample means fall in this interval",
+      "correct_answer": "C",
+      "explanation": "Confidence is in the METHOD: 95% of intervals built this way capture μ. Option B treats μ as random — but μ is fixed; the interval is what varies. This wording distinction is worth a point on nearly every FRQ."
+    },
+    {
+      "topic": "Hypothesis testing",
+      "difficulty": "medium",
+      "question_text": "A test of H₀: p = 0.5 vs Hₐ: p > 0.5 yields P-value 0.03. At α = 0.05, the correct conclusion is:",
+      "option_a": "Accept H₀ — the coin is fair",
+      "option_b": "Reject H₀ — there is convincing evidence that p > 0.5",
+      "option_c": "Reject Hₐ — the result is due to chance",
+      "option_d": "The probability H₀ is true is 0.03",
+      "correct_answer": "B",
+      "explanation": "P-value 0.03 < α = 0.05 → reject H₀ in favor of Hₐ. We never 'accept' H₀ (only fail to reject), and the P-value is P(data this extreme | H₀ true) — not the probability H₀ is true. Both phrasings in A and D lose credit."
+    },
+    {
+      "topic": "Errors and power",
+      "difficulty": "hard",
+      "question_text": "A medical test screens for a disease with H₀: patient is healthy. A Type II error means:",
+      "option_a": "Telling a healthy patient they have the disease",
+      "option_b": "Telling a sick patient they are healthy",
+      "option_c": "Correctly diagnosing the disease",
+      "option_d": "Running the test at too small an α",
+      "correct_answer": "B",
+      "explanation": "Type II = failing to reject H₀ when it's false = missing the disease. Type I (option A) is the false alarm. Mnemonic: Type I = crying wolf, Type II = missing the wolf. Consequences differ — here a Type II is far more dangerous."
+    },
+    {
+      "topic": "Errors and power",
+      "difficulty": "hard",
+      "question_text": "Which change increases the power of a significance test?",
+      "option_a": "Decreasing the sample size",
+      "option_b": "Decreasing α from 0.05 to 0.01",
+      "option_c": "Increasing the sample size",
+      "option_d": "Using a two-sided test instead of one-sided",
+      "correct_answer": "C",
+      "explanation": "Larger n shrinks sampling variability, making real effects easier to detect. Lowering α makes rejecting harder (less power); two-sided tests split α across tails (less power for a given direction). Power ↑ with n, α, and effect size."
+    },
+    {
+      "topic": "Chi-square tests",
+      "difficulty": "medium",
+      "question_text": "A chi-square test of independence on a 3×4 two-way table has how many degrees of freedom?",
+      "option_a": "12",
+      "option_b": "11",
+      "option_c": "6",
+      "option_d": "7",
+      "correct_answer": "C",
+      "explanation": "df = (rows − 1)(columns − 1) = 2 × 3 = 6. Option A is the cell count, option B is cells − 1 (which is the df for a goodness-of-fit test with 12 categories — a different test)."
+    },
+    {
+      "topic": "Inference for means",
+      "difficulty": "medium",
+      "question_text": "When should you use a t-distribution instead of z for inference about a mean?",
+      "option_a": "When the sample size is large",
+      "option_b": "When the population standard deviation is unknown",
+      "option_c": "When the population is not normal",
+      "option_d": "When the data are paired",
+      "correct_answer": "B",
+      "explanation": "t replaces z whenever σ is estimated by s — which is nearly always in practice. The extra uncertainty from estimating σ is exactly what t's heavier tails account for. Sample size affects degrees of freedom, not the z-vs-t choice."
+    },
+    {
+      "topic": "Two-sample inference",
+      "difficulty": "hard",
+      "question_text": "Researchers measure cholesterol before and after a diet on the same 40 subjects. The appropriate test is:",
+      "option_a": "Two-sample t-test",
+      "option_b": "Paired t-test on the differences",
+      "option_c": "Two-proportion z-test",
+      "option_d": "Chi-square test of homogeneity",
+      "correct_answer": "B",
+      "explanation": "Before/after on the same subjects = paired data — analyze the 40 differences as one sample. A two-sample t-test wrongly assumes the groups are independent, throwing away the pairing and inflating variability."
+    },
+    {
+      "topic": "Normal distribution",
+      "difficulty": "easy",
+      "question_text": "SAT scores are N(1050, 200). Approximately what proportion of students score above 1250?",
+      "option_a": "0.32",
+      "option_b": "0.16",
+      "option_c": "0.05",
+      "option_d": "0.68",
+      "correct_answer": "B",
+      "explanation": "1250 is one SD above the mean. By the empirical rule, 68% lie within ±1 SD, leaving 32% in the two tails — 16% in the upper tail. Option A forgets to halve; option D reads the middle instead of the tail."
+    },
+    {
+      "topic": "Regression inference",
+      "difficulty": "hard",
+      "question_text": "Computer output for a regression shows slope b = 2.8 with SE = 0.9 based on n = 25 points. The t-statistic for testing H₀: β = 0 is approximately:",
+      "option_a": "3.11",
+      "option_b": "2.8",
+      "option_c": "0.32",
+      "option_d": "1.96",
+      "correct_answer": "A",
+      "explanation": "t = (b − 0)/SE = 2.8/0.9 ≈ 3.11 with df = n − 2 = 23. Option C inverts the ratio; option D is a critical value, not a test statistic. Reading regression output is a guaranteed exam item — know which number is which."
+    },
+    {
+      "topic": "Geometric distribution",
+      "difficulty": "medium",
+      "question_text": "A basketball player makes 80% of free throws. The probability that her first miss occurs on the 3rd attempt is:",
+      "option_a": "(0.8)²(0.2)",
+      "option_b": "(0.2)²(0.8)",
+      "option_c": "(0.8)³",
+      "option_d": "3(0.8)²(0.2)",
+      "correct_answer": "A",
+      "explanation": "First miss on attempt 3 = make, make, miss = (0.8)(0.8)(0.2). This is geometric — exact sequence, no counting coefficient. Option D adds a binomial coefficient, which belongs to 'exactly one miss in 3 attempts,' a different question."
+    }
+  ]
+}
