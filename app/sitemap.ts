@@ -69,6 +69,24 @@ export default function sitemap() {
       priority: 0.6,
     },
     {
+      url: `${baseUrl}/library`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/my-plan`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/brain`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
       url: `${baseUrl}/refund-policy`,
       lastModified: new Date(),
       changeFrequency: 'yearly',
