@@ -59,9 +59,10 @@ interface ProgressEntry {
 }
 
 const EMOJI_BY_SLUG: Record<string, string> = {
-  "ap-bio-ultimate":     "🧬",
-  "ap-chem-ultimate":    "⚗️",
-  "ap-physics-ultimate": "⚛️",
+  "ap-bio-ultimate":       "🧬",
+  "ap-chem-ultimate":      "⚗️",
+  "ap-physics-ultimate":   "⚛️",
+  "ap-physics-2-ultimate": "🧲",
 };
 
 function StatusIcon({ status }: { status: string }) {
@@ -160,7 +161,7 @@ export default function TextbookTOC({ slug }: { slug: string }) {
             <h1 className="toc-title">{textbook.title}</h1>
             {textbook.subtitle && <p className="toc-subtitle">{textbook.subtitle}</p>}
             <p className="toc-byline">
-              By <em>{textbook.author_name}</em>
+              By <em>InHero Originals</em>
             </p>
             <div className="toc-stats">
               <span>{textbook.total_chapters} chapters</span>

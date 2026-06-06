@@ -44,6 +44,7 @@ const COVER_BY_SLUG: Record<string, { src: string; glyph: string }> = {
   "ap-bio-ultimate":     { src: "/textbook-covers/ap-bio.jpg",         glyph: "🧬" },
   "ap-chem-ultimate":    { src: "/textbook-covers/ap-chem.jpg",        glyph: "⚗️" },
   "ap-physics-ultimate": { src: "/textbook-covers/ap-physics-1.jpg",   glyph: "⚛️" },
+  "ap-physics-2-ultimate": { src: "/textbook-covers/ap-physics-2.jpg", glyph: "🧲" },
   "ap-calc-ab-ultimate": { src: "/textbook-covers/ap-calc-ab.jpg",     glyph: "∫" },
 };
 

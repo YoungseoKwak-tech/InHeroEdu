@@ -25,9 +25,10 @@ interface Textbook {
 }
 
 const EMOJI_BY_SLUG: Record<string, string> = {
-  "ap-bio-ultimate":     "🧬",
-  "ap-chem-ultimate":    "⚗️",
-  "ap-physics-ultimate": "⚛️",
+  "ap-bio-ultimate":       "🧬",
+  "ap-chem-ultimate":      "⚗️",
+  "ap-physics-ultimate":   "⚛️",
+  "ap-physics-2-ultimate": "🧲",
 };
 
 export default function FeaturedTextbooks() {

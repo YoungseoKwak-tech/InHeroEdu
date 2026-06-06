@@ -226,6 +226,7 @@ export const courses: Course[] = [
     description: "Algebra-based physics covering fluids, thermodynamics, electricity, magnetism, optics, and modern physics.",
     topicCount: 40, difficulty: "Intermediate", color: "from-blue-500 to-indigo-600", icon: "⚡",
     lessonIds: [],
+    textbookSlug: "ap-physics-2-ultimate",
     units: [
       {
         number: 1, title: "Fluids", slug: "fluids", examWeight: "15–18%",

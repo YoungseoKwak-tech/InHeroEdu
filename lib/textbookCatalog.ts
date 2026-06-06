@@ -18,6 +18,7 @@ const SUBJECT_BY_TEXTBOOK_SLUG: Record<string, string> = {
   "ap-bio-ultimate": "ap-biology",
   "ap-chem-ultimate": "ap-chemistry",
   "ap-physics-ultimate": "ap-physics-1",
+  "ap-physics-2-ultimate": "ap-physics-2",
   "ap-calc-ab-ultimate": "ap-calculus-ab",
 };
 
