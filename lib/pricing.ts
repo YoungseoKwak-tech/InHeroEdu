@@ -209,6 +209,7 @@ export const PRICING = {
 type PricedItem = {
   id: string;
   name: string;
+  nameEn?: string;
   priceKRW?: number;
   price?: number;
 };
@@ -230,7 +231,7 @@ export function findPricingItem(serviceId: string): { amount: number; orderName:
   const amount = item.priceKRW ?? item.price;
   if (typeof amount !== "number") return null;
 
-  return { amount, orderName: item.name };
+  return { amount, orderName: item.nameEn ?? item.name };
 }
 
 export function krw(amount: number) {
