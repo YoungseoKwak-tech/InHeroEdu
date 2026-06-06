@@ -13,6 +13,7 @@
 import { createAdminClient } from "@/lib/supabase";
 import { inferCourseIdFromLessonId } from "@/lib/learning-tracking";
 import { courses } from "@/lib/data/courses";
+import coreNotesSeed from "@/lib/data/coreNotesSeed.json";
 
 export interface NoteTerm {
   term: string;
@@ -182,9 +183,47 @@ const TTL_MS = 10 * 60 * 1000;
 let cache: { at: number; data: CoreNote[] } | null = null;
 let inFlight: Promise<CoreNote[]> | null = null;
 
+// Authored Core Notes for subjects without lesson scripts (content subjects
+// distilled from the term banks; quant subjects authored by hand). Same card
+// shape, merged into the same pipeline.
+interface SeedNote {
+  courseId: string;
+  unit: number;
+  lessonNum?: number;
+  unitName?: string;
+  title: string;
+  subtitle?: string;
+  objectives?: string[];
+  sections?: { title: string; subtitle?: string | null; terms?: NoteTerm[]; traps?: string[]; example?: string | null }[];
+}
+function seedToNote(s: SeedNote): CoreNote {
+  const meta = metaFor(s.courseId);
+  const lessonNum = s.lessonNum ?? 1;
+  return {
+    lessonId: `${s.courseId}-u${s.unit}-l${lessonNum}`,
+    courseId: s.courseId,
+    subjectLabel: meta.label,
+    emoji: meta.emoji,
+    unit: s.unit,
+    lessonNum,
+    unitName: s.unitName ?? null,
+    title: s.title,
+    subtitle: s.subtitle ?? null,
+    objectives: s.objectives ?? [],
+    sections: (s.sections ?? []).map((sec) => ({
+      title: sec.title,
+      subtitle: sec.subtitle ?? null,
+      terms: sec.terms ?? [],
+      traps: sec.traps ?? [],
+      example: sec.example ?? null,
+    })),
+  };
+}
+
 async function rebuild(): Promise<CoreNote[]> {
   const rows = await selectAllScripts();
   let notes = rows.map(noteFromScript).filter((n): n is CoreNote => n !== null);
+  notes = notes.concat((coreNotesSeed as SeedNote[]).map(seedToNote));
 
   // Some scripts carry the same title in two units (data error, e.g. "Carbon:
   // The Backbone of Life" in both u1 and u7). Keep the earliest unit/lesson.
