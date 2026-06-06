@@ -17,6 +17,7 @@ export const DEFAULT_PAYMENT_CURRENCY = "USD" as const;
 type CatalogEntry = {
   id: string;
   name: string;
+  nameEn?: string;
   priceUSD?: number;
   priceKRW?: number;
 };
@@ -25,43 +26,43 @@ function getCatalogEntries(): CatalogEntry[] {
   return [
     ...PRICING.free.map((item) => ({
       id: item.id,
-      name: item.name,
+      name: item.nameEn ?? item.name,
       priceUSD: item.price,
       priceKRW: item.price,
     })),
     ...PRICING.aiPlans.map((item) => ({
       id: item.id,
-      name: item.name,
+      name: item.nameEn ?? item.name,
       priceUSD: item.priceUSD,
       priceKRW: item.priceKRW,
     })),
     ...PRICING.subscriptions.map((item) => ({
       id: item.id,
-      name: item.name,
+      name: item.nameEn ?? item.name,
       priceUSD: item.priceUSD,
       priceKRW: item.priceKRW,
     })),
     ...PRICING.gradePackages.map((item) => ({
       id: item.id,
-      name: item.name,
+      name: item.nameEn ?? item.name,
       priceUSD: item.priceUSD,
       priceKRW: item.priceKRW,
     })),
     ...PRICING.competitionPackages.map((item) => ({
       id: item.id,
-      name: item.name,
+      name: item.nameEn ?? item.name,
       priceUSD: item.priceUSD,
       priceKRW: item.priceKRW,
     })),
     ...PRICING.tutoring.map((item) => ({
       id: item.id,
-      name: item.name,
+      name: item.nameEn ?? item.name,
       priceUSD: item.priceUSD,
       priceKRW: item.priceKRW,
     })),
     ...PRICING.consulting.map((item) => ({
       id: item.id,
-      name: item.name,
+      name: item.nameEn ?? item.name,
       priceUSD: item.priceUSD,
       priceKRW: item.priceKRW,
     })),

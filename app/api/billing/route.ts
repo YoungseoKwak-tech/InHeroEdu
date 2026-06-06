@@ -3,6 +3,8 @@ import { requireAuthenticatedUser } from "@/lib/auth";
 import { listStoredOrdersForUser } from "@/lib/orderStore";
 import { createAdminClient } from "@/lib/supabase";
 import { TEXTBOOK_PRICE_USD } from "@/lib/textbookPricing";
+import { normalizeCourseAccessSubjectId } from "@/lib/course-access";
+import { courses } from "@/lib/data/courses";
 
 interface NicePayBillingKeyRow {
   id: string;
@@ -15,6 +17,39 @@ interface NicePayBillingKeyRow {
   last_order_id: string | null;
   created_at: string | null;
   updated_at: string | null;
+}
+
+const courseNameById = new Map(courses.map((course) => [course.id, course.subjectEn]));
+
+function subjectNameFromServiceId(serviceId: string) {
+  const [, rawSubjectId] = serviceId.split(":");
+  const subjectId = normalizeCourseAccessSubjectId(rawSubjectId);
+  return subjectId ? courseNameById.get(subjectId) ?? subjectId : null;
+}
+
+function englishOrderName(serviceId: string, fallback: string) {
+  const normalizedServiceId = serviceId.toLowerCase();
+
+  if (normalizedServiceId === "all_subjects" || normalizedServiceId === "novapass") {
+    return "All Subject Elite Pass";
+  }
+
+  if (normalizedServiceId === "one_subject") {
+    return "One Subject Elite Pass";
+  }
+
+  if (normalizedServiceId.startsWith("one_subject:") || normalizedServiceId.startsWith("single:")) {
+    const subjectName = subjectNameFromServiceId(normalizedServiceId.replace(/^single:/, "one_subject:"));
+    return subjectName ? `One Subject Elite Pass — ${subjectName}` : "One Subject Elite Pass";
+  }
+
+  if (normalizedServiceId.startsWith("textbook:")) {
+    const subjectId = normalizedServiceId.slice("textbook:".length);
+    const subjectName = courseNameById.get(subjectId) ?? subjectId;
+    return `${subjectName} Textbook`;
+  }
+
+  return /[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(fallback) ? "InHero purchase" : fallback;
 }
 
 export async function GET(req: NextRequest) {
@@ -58,15 +93,17 @@ export async function GET(req: NextRequest) {
       (productsRes.data ?? []).map((product) => [product.subject_id, product])
     );
 
-    const normalizedOrders = orders.map((order) => ({
-      id: order.id,
-      service_id: order.serviceId,
-      order_name: order.orderName,
-      amount: Number(order.amount ?? 0),
-      currency: order.currency,
-      status: order.status,
-      created_at: order.createdAt,
-    }));
+    const normalizedOrders = orders
+      .filter((order) => order.status === "paid")
+      .map((order) => ({
+        id: order.id,
+        service_id: order.serviceId,
+        order_name: englishOrderName(order.serviceId, order.orderName),
+        amount: Number(order.amount ?? 0),
+        currency: order.currency,
+        status: order.status,
+        created_at: order.createdAt,
+      }));
 
     const manuals = (purchasesRes.data ?? [])
       .map((purchase) => {

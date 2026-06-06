@@ -63,6 +63,10 @@ function BillingPageInner() {
   const [needsAuth, setNeedsAuth] = useState(false);
   const [error, setError] = useState("");
   const [data, setData] = useState<BillingResponse>({ orders: [], manuals: [] });
+  const paidOrders = useMemo(
+    () => data.orders.filter((order) => order.status === "paid"),
+    [data.orders]
+  );
 
   useEffect(() => {
     (async () => {
@@ -93,9 +97,7 @@ function BillingPageInner() {
   }, []);
 
   const totals = useMemo(() => {
-    return data.orders
-      .filter((order) => order.status === "paid")
-      .reduce(
+    return paidOrders.reduce(
         (summary, order) => {
           if (order.currency === "USD") {
             summary.usd += Number(order.amount ?? 0);
@@ -106,7 +108,7 @@ function BillingPageInner() {
         },
         { usd: 0, krw: 0 }
       );
-  }, [data.orders]);
+  }, [paidOrders]);
 
   const paymentSuccess = searchParams.get("payment") === "success";
 
@@ -118,10 +120,10 @@ function BillingPageInner() {
             MY PROFILE · BILLING
           </p>
           <h1 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", lineHeight: 1.05, fontWeight: 800, marginBottom: "10px" }}>
-            Purchases, receipts, and manual access in one place.
+            Billing, receipts, and access in one place.
           </h1>
           <p style={{ color: "rgba(245,247,250,0.6)", maxWidth: "720px", lineHeight: 1.7 }}>
-            Students can review what they bought, what is active, and which manuals are ready to open.
+            Review paid receipts, active access, and unlocked textbooks. Pending checkout attempts stay hidden here.
           </p>
         </div>
 
@@ -163,10 +165,10 @@ function BillingPageInner() {
           <>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "16px", marginBottom: "28px" }}>
               {[
-                { label: "Paid orders", value: String(data.orders.filter((order) => order.status === "paid").length) },
+                { label: "Paid receipts", value: String(paidOrders.length) },
                 { label: "USD paid", value: usd(totals.usd) },
-                { label: "Legacy KRW", value: totals.krw > 0 ? krw(totals.krw) : "None" },
-                { label: "Manuals unlocked", value: String(data.manuals.length) },
+                { label: "KRW paid", value: totals.krw > 0 ? krw(totals.krw) : "None" },
+                { label: "Textbooks unlocked", value: String(data.manuals.length) },
               ].map((item) => (
                 <div key={item.label} style={{ padding: "20px", borderRadius: "20px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
                   <div style={{ fontSize: "11px", letterSpacing: "0.14em", color: "rgba(245,247,250,0.45)", textTransform: "uppercase", marginBottom: "10px" }}>
@@ -180,19 +182,19 @@ function BillingPageInner() {
             <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.4fr) minmax(0, 1fr)", gap: "20px" }}>
               <section style={{ padding: "24px", borderRadius: "24px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", marginBottom: "18px" }}>
-                  <h2 style={{ fontSize: "22px", fontWeight: 700 }}>Transactions</h2>
+                  <h2 style={{ fontSize: "22px", fontWeight: 700 }}>Paid receipts</h2>
                   <Link href="/pricing" style={{ color: "#00FF88", textDecoration: "none", fontSize: "14px" }}>
                     View pricing
                   </Link>
                 </div>
 
-                {data.orders.length === 0 ? (
+                {paidOrders.length === 0 ? (
                   <div style={{ color: "rgba(245,247,250,0.52)", lineHeight: 1.7 }}>
-                    No purchases yet.
+                    No paid receipts yet. If you just opened checkout but did not complete payment, it will not appear here.
                   </div>
                 ) : (
                   <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                    {data.orders.map((order) => (
+                    {paidOrders.map((order) => (
                       <div
                         key={order.id}
                         style={{
