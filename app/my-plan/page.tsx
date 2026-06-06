@@ -191,6 +191,15 @@ async function loadBillingResponse(): Promise<BillingSummary> {
   }
 }
 
+function isRecoverableBillingError(error: string | null) {
+  return Boolean(
+    error &&
+      (error.includes("nicepay_billing_keys") ||
+        error.includes("schema cache") ||
+        error.includes("Could not find the table"))
+  );
+}
+
 // Subject color palette — desaturated ~40% vs. the original
 // tailwind-bright values so the countdown strip and weekly
 // calendar feel cosmic-watercolor instead of rainbow-neon. Each
@@ -458,6 +467,8 @@ export default function MyPlanPage() {
   });
   const startHere = plan.recommended_materials[0];
   const subscriptions = billing?.subscriptions ?? [];
+  const showBillingEmptyState =
+    subscriptions.length === 0 || isRecoverableBillingError(billingError);
 
   return (
     <main className="mp-root">
@@ -554,12 +565,12 @@ export default function MyPlanPage() {
 
           {billingLoading ? (
             <div className="mp-billing-muted">Loading billing status…</div>
-          ) : billingError ? (
+          ) : billingError && !isRecoverableBillingError(billingError) ? (
             <div className="mp-billing-error">
               {billingError}
               <span>If this persists, email inheroedu@gmail.com and we’ll handle cancellation manually.</span>
             </div>
-          ) : subscriptions.length === 0 ? (
+          ) : showBillingEmptyState ? (
             <div className="mp-billing-empty">
               <strong>No active subscription on this account yet.</strong>
               <span>You can still use the free first lesson for each course. Upgrade only when you want the full subject unlocked.</span>

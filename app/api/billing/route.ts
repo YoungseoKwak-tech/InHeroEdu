@@ -154,8 +154,21 @@ export async function GET(req: NextRequest) {
       subscriptions,
     });
   } catch (error) {
+    const message = error instanceof Error ? error.message : "Failed to load billing.";
+    if (
+      message.includes("nicepay_billing_keys") ||
+      message.includes("schema cache")
+    ) {
+      console.warn("[billing] nicepay_billing_keys table is missing during billing load; returning empty subscriptions.");
+      return NextResponse.json({
+        orders: [],
+        manuals: [],
+        subscriptions: [],
+      });
+    }
+
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Failed to load billing." },
+      { error: message },
       { status: 500 }
     );
   }
