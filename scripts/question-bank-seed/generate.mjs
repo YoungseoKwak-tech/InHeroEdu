@@ -283,9 +283,13 @@ function micro() {
     qs.push(mc(6, "Market Failure and Government", "medium", `A $${tax} per-unit tax on a good with ${q} units sold raises tax revenue of:`, `$${v}`,
       [`$${tax + q}`, `$${q}`, `$${tax}`], `Tax revenue = per-unit tax × quantity = $${tax} × ${q} = $${v}.`)); }
   // MRP = MP * price
-  for (const mp of [5, 8, 10, 12]) for (const price of [2, 3, 5, 10]) { const v = mp * price;
+  for (let mp = 3; mp <= 14; mp++) for (const price of [2, 3, 4, 5, 6, 8, 10]) { const v = mp * price;
     qs.push(mc(5, "Factor Markets", "medium", `If a worker's marginal product is ${mp} units and the output sells for $${price}, the marginal revenue product is:`, `$${v}`,
       [`$${mp + price}`, `$${mp}`, `$${price}`], `MRP = marginal product × price = ${mp} × $${price} = $${v}.`)); }
+  // average total cost widened
+  for (const tc of [200, 300, 400, 500, 600, 800, 1000, 1200, 1500]) for (const q of [10, 20, 25, 40, 50, 100]) { const v = +(tc / q).toFixed(2);
+    qs.push(mc(3, "Production, Cost, and Perfect Competition", "medium", `If total cost is $${tc} for ${q} units, average total cost is:`, `$${v}`,
+      [`$${tc}`, `$${(q / tc).toFixed(2)}`, `$${(tc * q).toFixed(0)}`], `ATC = TC/Q = $${tc}/${q} = $${v}.`)); }
   return uniq(qs);
 }
 
