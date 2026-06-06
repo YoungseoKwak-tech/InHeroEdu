@@ -162,7 +162,7 @@ export default function QuestionBankPage() {
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {unlockedShown.map((q, i) => (
-              <QuestionCard key={q.id} q={q} index={i} />
+              <QuestionCard key={q.id} q={q} index={i} free={lockedShown.length > 0} />
             ))}
             {lockedShown.length > 0 && (
               <LockedStack
@@ -334,13 +334,13 @@ function Chip({ active, onClick, label, emoji, count }: { active: boolean; onCli
   );
 }
 
-function QuestionCard({ q, index }: { q: BankQuestion; index: number }) {
+function QuestionCard({ q, index, free = false }: { q: BankQuestion; index: number; free?: boolean }) {
   return (
     <div
       style={{
         borderRadius: 16,
-        border: "1px solid rgba(255,255,255,0.08)",
-        background: "rgba(255,255,255,0.02)",
+        border: free ? "1px solid rgba(0,255,178,0.32)" : "1px solid rgba(255,255,255,0.08)",
+        background: free ? "rgba(0,255,178,0.04)" : "rgba(255,255,255,0.02)",
         padding: "20px 22px",
       }}
     >
@@ -351,6 +351,11 @@ function QuestionCard({ q, index }: { q: BankQuestion; index: number }) {
         {q.unit != null && (
           <span style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.4)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 999, padding: "2px 8px" }}>
             Unit {q.unit}
+          </span>
+        )}
+        {free && (
+          <span style={{ fontSize: 10, fontWeight: 900, letterSpacing: "0.1em", color: "#0a0a0a", background: "#00FFB2", borderRadius: 999, padding: "2px 9px" }}>
+            FREE · SOLVE IT
           </span>
         )}
         <span style={{ marginLeft: "auto", fontSize: 11, color: "rgba(255,255,255,0.28)" }}>#{index + 1}</span>
