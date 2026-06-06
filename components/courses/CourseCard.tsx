@@ -64,12 +64,12 @@ export default function CourseCard({ course, hrefBase = "/courses" }: CourseCard
                 Start lesson →
               </Link>
             ) : (
-              <span
-                aria-disabled="true"
-                className="w-full text-center text-sm py-2.5 block rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-300/90 font-semibold tracking-wide cursor-not-allowed select-none"
+              <Link
+                href={`/question-bank?subject=${course.id}`}
+                className="w-full text-center text-sm py-2.5 block rounded-xl border border-emerald-400/40 bg-emerald-400/10 text-emerald-300 font-semibold tracking-wide transition-colors duration-150 hover:bg-emerald-400 hover:text-slate-900 hover:border-emerald-400"
               >
-                On the roadmap · 2026
-              </span>
+                Proceed to questions →
+              </Link>
             )}
           </div>
         </div>
