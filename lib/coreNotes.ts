@@ -227,7 +227,7 @@ function seedToNote(s: SeedNote): CoreNote {
 async function rebuild(): Promise<CoreNote[]> {
   const rows = await selectAllScripts();
   let notes = rows.map(noteFromScript).filter((n): n is CoreNote => n !== null);
-  notes = notes.concat((coreNotesSeed as SeedNote[]).map(seedToNote));
+  notes = notes.concat((coreNotesSeed as unknown as SeedNote[]).map(seedToNote));
 
   // Some scripts carry the same title in two units (data error, e.g. "Carbon:
   // The Backbone of Life" in both u1 and u7). Keep the earliest unit/lesson.
