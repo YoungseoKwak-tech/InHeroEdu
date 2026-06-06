@@ -31,6 +31,7 @@ interface CoreNote {
   title: string;
   subtitle?: string | null;
   objectives: string[];
+  formulas?: string[];
   sections: NoteSection[];
 }
 interface SubjectCount { courseId: string | null; label: string; emoji: string; count: number }
@@ -233,6 +234,34 @@ function NoteView({ note }: { note: CoreNote }) {
               </li>
             ))}
           </ul>
+        </div>
+      )}
+
+      {note.formulas && note.formulas.length > 0 && (
+        <div
+          style={{
+            marginTop: 22, padding: "16px 18px", borderRadius: 14,
+            background: "#070b12", border: `1px solid rgba(0,255,178,0.28)`,
+          }}
+        >
+          <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: MINT, marginBottom: 10 }}>
+            ƒ KEY FORMULAS
+          </div>
+          <div style={{ display: "grid", gap: 9 }}>
+            {note.formulas.map((f, i) => (
+              <code
+                key={i}
+                style={{
+                  display: "block", fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+                  fontSize: 14, lineHeight: 1.5, color: "#dbe7f0",
+                  background: "rgba(255,255,255,0.03)", padding: "8px 12px", borderRadius: 8,
+                  borderLeft: `2px solid ${MINT}`, whiteSpace: "pre-wrap",
+                }}
+              >
+                {f}
+              </code>
+            ))}
+          </div>
         </div>
       )}
 

@@ -400,6 +400,47 @@ const NOTES = [
      example: "Consumer surplus = ½ × base × height of the triangle below demand, above price." }]),
 ];
 
+// Key formulas per (courseId | unit) — rendered as a monospace panel.
+const FORMULAS = {
+  "ap-calculus-bc|1": ["lim(x→a) f(x) = L", "Removable hole: factor & cancel", "∞ end behavior: compare leading degrees"],
+  "ap-calculus-bc|2": ["f'(x) = lim(h→0) [f(x+h) − f(x)]/h", "d/dx[xⁿ] = n·xⁿ⁻¹", "(fg)' = f'g + fg'", "(f/g)' = (f'g − fg')/g²"],
+  "ap-calculus-bc|3": ["d/dx[f(g(x))] = f'(g(x))·g'(x)", "d/dx[eˣ] = eˣ,  d/dx[ln x] = 1/x", "(f⁻¹)'(x) = 1 / f'(f⁻¹(x))"],
+  "ap-calculus-bc|5": ["Critical pt: f'(x) = 0 or undefined", "f'' > 0 ⇒ concave up", "MVT: f'(c) = (f(b)−f(a))/(b−a)"],
+  "ap-calculus-bc|6": ["FTC: ∫ₐᵇ f(x)dx = F(b) − F(a)", "d/dx ∫ₐˣ f(t)dt = f(x)", "∫(1/x)dx = ln|x| + C"],
+  "ap-calculus-bc|7": ["Separable: ∫g(y)dy = ∫f(x)dx", "Exponential: y = y₀eᵏᵗ", "Logistic: dP/dt = kP(1 − P/M)"],
+  "ap-calculus-bc|8": ["Area = ∫ₐᵇ (top − bottom) dx", "Disk: V = π∫ₐᵇ [R(x)]² dx", "Avg value = (1/(b−a))∫ₐᵇ f dx", "Distance = ∫ₐᵇ |v(t)| dt"],
+  "ap-calculus-bc|10": ["Geometric: Σarⁿ = a/(1−r), |r|<1", "p-series: Σ1/nᵖ converges iff p>1", "eˣ = Σ xⁿ/n!"],
+  "ap-statistics|1": ["z = (x − μ) / σ", "IQR = Q3 − Q1", "Outlier: < Q1 − 1.5·IQR or > Q3 + 1.5·IQR"],
+  "ap-statistics|2": ["ŷ = a + bx", "r² = % variation explained", "residual = y − ŷ"],
+  "ap-statistics|5": ["CLT: x̄ ≈ Normal for large n", "SE(x̄) = σ/√n", "SE(p̂) = √(p(1−p)/n)"],
+  "ap-statistics|6": ["CI = estimate ± (crit)·(SE)", "ME = ½ · interval width", "large counts: np̂≥10, n(1−p̂)≥10"],
+  "ap-statistics|7": ["t-test: df = n − 1", "matched pairs → 1-sample t on differences", "power = 1 − β"],
+  "ap-statistics|8": ["χ² = Σ (O − E)² / E", "GOF df = categories − 1", "indep. df = (r−1)(c−1)"],
+  "ap-statistics|9": ["slope test H₀: β = 0", "LINE conditions", "s = SD of residuals"],
+  "ap-computer-science-a|1": ["7 / 2 == 3   (int division)", "13 % 4 == 1   (remainder)", "(double) 5 / 2 == 2.5"],
+  "ap-computer-science-a|3": ["!(a && b) == !a || !b", "short-circuit: && stops on false", "else-if: first true branch only"],
+  "ap-computer-science-a|4": ["sum(1..n) = n(n+1)/2", "while: checks before each pass", "s += i  on String → concatenation"],
+  "ap-computer-science-a|6": ["valid index: 0 .. length−1", "last element: arr[arr.length−1]", "for (int v : arr)  // read each"],
+  "ap-computer-science-a|9": ["Animal a = new Dog(); → Dog's override runs", "super.method() / super(...)", "is-a → inheritance, has-a → composition"],
+  "ap-computer-science-a|10": ["base case stops recursion", "f(n) = n · f(n−1), f(0)=1", "print before call → top-down"],
+  "ap-macroeconomics|1": ["opportunity cost = next-best forgone", "comparative advantage = lower opp. cost", "GDP frontier = PPC"],
+  "ap-macroeconomics|2": ["GDP = C + I + G + Xn", "unemployment = unemployed / labor force", "real ≈ nominal − inflation"],
+  "ap-macroeconomics|3": ["spending multiplier = 1/(1 − MPC)", "tax multiplier = −MPC/(1 − MPC)", "ΔGDP = multiplier × Δspending"],
+  "ap-macroeconomics|4": ["money multiplier = 1 / reserve ratio", "buy bonds → MS↑, rates↓", "bond price ↔ interest rate (inverse)"],
+  "ap-macroeconomics|5": ["expansionary: cut T / raise G / buy bonds", "contractionary: raise T / cut G / sell bonds", "LRAS shifts only with growth"],
+  "ap-macroeconomics|6": ["net exports = exports − imports", "rates↑ → capital inflow → currency↑", "currency↑ → net exports↓"],
+  "ap-microeconomics|1": ["act while MB ≥ MC", "opportunity cost = next-best forgone", "ignore sunk costs"],
+  "ap-microeconomics|2": ["E = %ΔQ / %ΔP", "|E|<1 inelastic, >1 elastic", "ceiling<eq → shortage; floor>eq → surplus"],
+  "ap-microeconomics|3": ["profit-max: MR = MC (P=MR if price taker)", "shutdown if P < min AVC", "profit = (P − ATC) × Q"],
+  "ap-microeconomics|4": ["monopoly: MR < P", "monopoly → higher P, lower Q, DWL", "competition: P = MR"],
+  "ap-microeconomics|5": ["MRP = MP × price", "hire while MRP ≥ wage", "least-cost: MP/$ equal across inputs"],
+  "ap-microeconomics|6": ["neg. externality → Pigouvian tax", "pos. externality → subsidy", "CS = ½ · base · height"],
+};
+for (const n of NOTES) {
+  const f = FORMULAS[`${n.courseId}|${n.unit}`];
+  if (f) n.formulas = f;
+}
+
 let arr = [];
 try { arr = JSON.parse(readFileSync(outFile, "utf8")); } catch {}
 const quantIds = new Set(NOTES.map((n) => n.courseId));

@@ -37,6 +37,8 @@ export interface CoreNote {
   title: string;
   subtitle?: string | null;
   objectives: string[];
+  /** Key formulas rendered as a monospace panel (quant subjects). */
+  formulas?: string[];
   sections: NoteSection[];
 }
 export interface NoteSubjectCount {
@@ -194,6 +196,7 @@ interface SeedNote {
   title: string;
   subtitle?: string;
   objectives?: string[];
+  formulas?: string[];
   sections?: { title: string; subtitle?: string | null; terms?: NoteTerm[]; traps?: string[]; example?: string | null }[];
 }
 function seedToNote(s: SeedNote): CoreNote {
@@ -210,6 +213,7 @@ function seedToNote(s: SeedNote): CoreNote {
     title: s.title,
     subtitle: s.subtitle ?? null,
     objectives: s.objectives ?? [],
+    formulas: s.formulas ?? [],
     sections: (s.sections ?? []).map((sec) => ({
       title: sec.title,
       subtitle: sec.subtitle ?? null,

@@ -6166,6 +6166,11 @@
     ],
     "example": "lim(x→2) (x²−4)/(x−2): factor to (x−2)(x+2)/(x−2) = x+2 → 4. The (x−2) cancels (removable hole)."
    }
+  ],
+  "formulas": [
+   "lim(x→a) f(x) = L",
+   "Removable hole: factor & cancel",
+   "∞ end behavior: compare leading degrees"
   ]
  },
  {
@@ -6206,6 +6211,12 @@
     ],
     "example": "d/dx[x²·eˣ] = 2x·eˣ + x²·eˣ = x·eˣ(2 + x)."
    }
+  ],
+  "formulas": [
+   "f'(x) = lim(h→0) [f(x+h) − f(x)]/h",
+   "d/dx[xⁿ] = n·xⁿ⁻¹",
+   "(fg)' = f'g + fg'",
+   "(f/g)' = (f'g − fg')/g²"
   ]
  },
  {
@@ -6246,6 +6257,11 @@
     ],
     "example": "x² + y² = 25 → 2x + 2y·y' = 0 → y' = −x/y."
    }
+  ],
+  "formulas": [
+   "d/dx[f(g(x))] = f'(g(x))·g'(x)",
+   "d/dx[eˣ] = eˣ,  d/dx[ln x] = 1/x",
+   "(f⁻¹)'(x) = 1 / f'(f⁻¹(x))"
   ]
  },
  {
@@ -6286,6 +6302,11 @@
     ],
     "example": "f(x)=x³−3x → f'=3x²−3=0 → x=±1; f''=6x, so x=1 is a min, x=−1 is a max."
    }
+  ],
+  "formulas": [
+   "Critical pt: f'(x) = 0 or undefined",
+   "f'' > 0 ⇒ concave up",
+   "MVT: f'(c) = (f(b)−f(a))/(b−a)"
   ]
  },
  {
@@ -6326,6 +6347,11 @@
     ],
     "example": "∫₀^π sin x dx = [−cos x]₀^π = −cos π + cos 0 = 1 + 1 = 2."
    }
+  ],
+  "formulas": [
+   "FTC: ∫ₐᵇ f(x)dx = F(b) − F(a)",
+   "d/dx ∫ₐˣ f(t)dt = f(x)",
+   "∫(1/x)dx = ln|x| + C"
   ]
  },
  {
@@ -6366,6 +6392,11 @@
     ],
     "example": "dy/dx = xy → (1/y)dy = x dx → ln|y| = x²/2 + C → y = Ae^(x²/2)."
    }
+  ],
+  "formulas": [
+   "Separable: ∫g(y)dy = ∫f(x)dx",
+   "Exponential: y = y₀eᵏᵗ",
+   "Logistic: dP/dt = kP(1 − P/M)"
   ]
  },
  {
@@ -6406,6 +6437,12 @@
     ],
     "example": "Average value of x² on [0,6] = (1/6)∫₀⁶ x² dx = (1/6)(72) = 12."
    }
+  ],
+  "formulas": [
+   "Area = ∫ₐᵇ (top − bottom) dx",
+   "Disk: V = π∫ₐᵇ [R(x)]² dx",
+   "Avg value = (1/(b−a))∫ₐᵇ f dx",
+   "Distance = ∫ₐᵇ |v(t)| dt"
   ]
  },
  {
@@ -6450,6 +6487,11 @@
     ],
     "example": "Σ(2/3)ⁿ from n=1: a=2/3, r=2/3 → sum = (2/3)/(1−2/3) = 2."
    }
+  ],
+  "formulas": [
+   "Geometric: Σarⁿ = a/(1−r), |r|<1",
+   "p-series: Σ1/nᵖ converges iff p>1",
+   "eˣ = Σ xⁿ/n!"
   ]
  },
  {
@@ -6490,6 +6532,11 @@
     ],
     "example": "A value of 80 with mean 70, SD 5 has z = (80−70)/5 = 2 (two SDs above the mean)."
    }
+  ],
+  "formulas": [
+   "z = (x − μ) / σ",
+   "IQR = Q3 − Q1",
+   "Outlier: < Q1 − 1.5·IQR or > Q3 + 1.5·IQR"
   ]
  },
  {
@@ -6530,6 +6577,11 @@
     ],
     "example": "ŷ = 3 + 2x predicts y = 13 when x = 5."
    }
+  ],
+  "formulas": [
+   "ŷ = a + bx",
+   "r² = % variation explained",
+   "residual = y − ŷ"
   ]
  },
  {
@@ -6610,6 +6662,11 @@
     ],
     "example": "σ = 20, n = 25 → SE = 20/√25 = 4."
    }
+  ],
+  "formulas": [
+   "CLT: x̄ ≈ Normal for large n",
+   "SE(x̄) = σ/√n",
+   "SE(p̂) = √(p(1−p)/n)"
   ]
  },
  {
@@ -6650,6 +6707,11 @@
     ],
     "example": "Interval (0.30, 0.40): point estimate 0.35, margin of error 0.05."
    }
+  ],
+  "formulas": [
+   "CI = estimate ± (crit)·(SE)",
+   "ME = ½ · interval width",
+   "large counts: np̂≥10, n(1−p̂)≥10"
   ]
  },
  {
@@ -6690,6 +6752,11 @@
     ],
     "example": "One-sample t-test, n = 25 → df = 24."
    }
+  ],
+  "formulas": [
+   "t-test: df = n − 1",
+   "matched pairs → 1-sample t on differences",
+   "power = 1 − β"
   ]
  },
  {
@@ -6730,6 +6797,11 @@
     ],
     "example": "5 categories → goodness-of-fit df = 5 − 1 = 4."
    }
+  ],
+  "formulas": [
+   "χ² = Σ (O − E)² / E",
+   "GOF df = categories − 1",
+   "indep. df = (r−1)(c−1)"
   ]
  },
  {
@@ -6770,6 +6842,11 @@
     ],
     "example": "P-value 0.001 for the slope → strong evidence of a linear relationship."
    }
+  ],
+  "formulas": [
+   "slope test H₀: β = 0",
+   "LINE conditions",
+   "s = SD of residuals"
   ]
  },
  {
@@ -6810,6 +6887,11 @@
     ],
     "example": "(double) 5 / 2 = 2.5, but 5 / 2 = 2."
    }
+  ],
+  "formulas": [
+   "7 / 2 == 3   (int division)",
+   "13 % 4 == 1   (remainder)",
+   "(double) 5 / 2 == 2.5"
   ]
  },
  {
@@ -6850,6 +6932,11 @@
     ],
     "example": "!(x < 0) is equivalent to x >= 0."
    }
+  ],
+  "formulas": [
+   "!(a && b) == !a || !b",
+   "short-circuit: && stops on false",
+   "else-if: first true branch only"
   ]
  },
  {
@@ -6890,6 +6977,11 @@
     ],
     "example": "int x=1; while(x<100) x*=2; → x ends at 128 (1,2,4,...,64,128)."
    }
+  ],
+  "formulas": [
+   "sum(1..n) = n(n+1)/2",
+   "while: checks before each pass",
+   "s += i  on String → concatenation"
   ]
  },
  {
@@ -6930,6 +7022,11 @@
     ],
     "example": "int[] a={2,5,8}; int s=0; for(int v:a) s+=v; → s = 15."
    }
+  ],
+  "formulas": [
+   "valid index: 0 .. length−1",
+   "last element: arr[arr.length−1]",
+   "for (int v : arr)  // read each"
   ]
  },
  {
@@ -6970,6 +7067,11 @@
     ],
     "example": "Animal a = new Dog(); a.makeSound(); → executes Dog.makeSound()."
    }
+  ],
+  "formulas": [
+   "Animal a = new Dog(); → Dog's override runs",
+   "super.method() / super(...)",
+   "is-a → inheritance, has-a → composition"
   ]
  },
  {
@@ -7010,6 +7112,11 @@
     ],
     "example": "f(n){if(n<=0)return; print(n); f(n-1);} f(3) prints 3 2 1."
    }
+  ],
+  "formulas": [
+   "base case stops recursion",
+   "f(n) = n · f(n−1), f(0)=1",
+   "print before call → top-down"
   ]
  },
  {
@@ -7050,6 +7157,11 @@
     ],
     "example": "If a worker earning $30/hr takes an hour off, the opportunity cost is $30."
    }
+  ],
+  "formulas": [
+   "opportunity cost = next-best forgone",
+   "comparative advantage = lower opp. cost",
+   "GDP frontier = PPC"
   ]
  },
  {
@@ -7090,6 +7202,11 @@
     ],
     "example": "Labor force 150M, 9M unemployed → 9/150 = 6%."
    }
+  ],
+  "formulas": [
+   "GDP = C + I + G + Xn",
+   "unemployment = unemployed / labor force",
+   "real ≈ nominal − inflation"
   ]
  },
  {
@@ -7130,6 +7247,11 @@
     ],
     "example": "MPC 0.8 → multiplier 1/(1−0.8) = 5; a $50B spending rise can raise GDP up to $250B."
    }
+  ],
+  "formulas": [
+   "spending multiplier = 1/(1 − MPC)",
+   "tax multiplier = −MPC/(1 − MPC)",
+   "ΔGDP = multiplier × Δspending"
   ]
  },
  {
@@ -7170,6 +7292,11 @@
     ],
     "example": "Reserve requirement 25% → money multiplier = 1/0.25 = 4."
    }
+  ],
+  "formulas": [
+   "money multiplier = 1 / reserve ratio",
+   "buy bonds → MS↑, rates↓",
+   "bond price ↔ interest rate (inverse)"
   ]
  },
  {
@@ -7210,6 +7337,11 @@
     ],
     "example": "To fight a recession: cut taxes / increase G (fiscal) or buy bonds / lower rates (monetary)."
    }
+  ],
+  "formulas": [
+   "expansionary: cut T / raise G / buy bonds",
+   "contractionary: raise T / cut G / sell bonds",
+   "LRAS shifts only with growth"
   ]
  },
  {
@@ -7250,6 +7382,11 @@
     ],
     "example": "Rising exports raise demand for the currency → it appreciates."
    }
+  ],
+  "formulas": [
+   "net exports = exports − imports",
+   "rates↑ → capital inflow → currency↑",
+   "currency↑ → net exports↓"
   ]
  },
  {
@@ -7290,6 +7427,11 @@
     ],
     "example": "Diminishing marginal utility is why demand curves slope downward."
    }
+  ],
+  "formulas": [
+   "act while MB ≥ MC",
+   "opportunity cost = next-best forgone",
+   "ignore sunk costs"
   ]
  },
  {
@@ -7330,6 +7472,11 @@
     ],
     "example": "Elasticity 0.5 (inelastic): raising price increases total revenue."
    }
+  ],
+  "formulas": [
+   "E = %ΔQ / %ΔP",
+   "|E|<1 inelastic, >1 elastic",
+   "ceiling<eq → shortage; floor>eq → surplus"
   ]
  },
  {
@@ -7370,6 +7517,11 @@
     ],
     "example": "Profit = (P − ATC)×Q: 100 units at $15 with ATC $10 → $500."
    }
+  ],
+  "formulas": [
+   "profit-max: MR = MC (P=MR if price taker)",
+   "shutdown if P < min AVC",
+   "profit = (P − ATC) × Q"
   ]
  },
  {
@@ -7410,6 +7562,11 @@
     ],
     "example": "Perfect price discrimination captures all consumer surplus and removes deadweight loss."
    }
+  ],
+  "formulas": [
+   "monopoly: MR < P",
+   "monopoly → higher P, lower Q, DWL",
+   "competition: P = MR"
   ]
  },
  {
@@ -7450,6 +7607,11 @@
     ],
     "example": "Marginal product 10, output price $5 → MRP = $50; hire while wage ≤ $50."
    }
+  ],
+  "formulas": [
+   "MRP = MP × price",
+   "hire while MRP ≥ wage",
+   "least-cost: MP/$ equal across inputs"
   ]
  },
  {
@@ -7490,6 +7652,11 @@
     ],
     "example": "Consumer surplus = ½ × base × height of the triangle below demand, above price."
    }
+  ],
+  "formulas": [
+   "neg. externality → Pigouvian tax",
+   "pos. externality → subsidy",
+   "CS = ½ · base · height"
   ]
  }
 ]
