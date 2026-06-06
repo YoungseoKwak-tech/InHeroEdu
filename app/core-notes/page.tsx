@@ -26,6 +26,7 @@ interface CoreNote {
   subjectLabel: string;
   emoji: string;
   unit: number | null;
+  lessonNum: number | null;
   unitName?: string | null;
   title: string;
   subtitle?: string | null;
@@ -147,19 +148,25 @@ export default function CoreNotesPage() {
                 </div>
                 {u.notes.map((n) => {
                   const on = n.lessonId === activeLesson;
+                  const num = n.unit != null && n.lessonNum != null ? `${n.unit}.${n.lessonNum}` : null;
                   return (
                     <button
                       key={n.lessonId}
                       onClick={() => setActiveLesson(n.lessonId)}
                       style={{
-                        display: "block", width: "100%", textAlign: "left", cursor: "pointer",
-                        padding: "9px 20px 9px 20px", fontSize: 13.5, lineHeight: 1.35,
+                        display: "flex", gap: 10, width: "100%", textAlign: "left", cursor: "pointer",
+                        padding: "10px 20px", fontSize: 13.5, lineHeight: 1.4,
                         border: "none", borderLeft: `3px solid ${on ? MINT : "transparent"}`,
                         background: on ? "rgba(0,255,178,0.08)" : "transparent",
                         color: on ? "#eafff8" : "#aeb8c6", fontWeight: on ? 600 : 400,
                       }}
                     >
-                      {n.title}
+                      {num && (
+                        <span style={{ color: on ? MINT : "#5f6b7d", fontWeight: 700, flexShrink: 0, fontVariantNumeric: "tabular-nums" }}>
+                          {num}
+                        </span>
+                      )}
+                      <span>{n.title}</span>
                     </button>
                   );
                 })}
@@ -193,7 +200,12 @@ function NoteView({ note }: { note: CoreNote }) {
         {note.unit != null && (
           <>
             <span style={{ opacity: 0.4 }}>·</span>
-            <span>Unit {note.unit}{note.unitName ? ` — ${note.unitName}` : ""}</span>
+            <span>
+              {note.lessonNum != null && (
+                <strong style={{ color: "#cdd6e2" }}>{note.unit}.{note.lessonNum} </strong>
+              )}
+              Unit {note.unit}{note.unitName ? ` — ${note.unitName}` : ""}
+            </span>
           </>
         )}
       </div>

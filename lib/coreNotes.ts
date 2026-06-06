@@ -31,6 +31,7 @@ export interface CoreNote {
   subjectLabel: string;
   emoji: string;
   unit: number | null;
+  lessonNum: number | null;
   unitName?: string | null;
   title: string;
   subtitle?: string | null;
@@ -49,9 +50,16 @@ function metaFor(courseId: string | null): { label: string; emoji: string } {
   if (courseId && courseMeta.has(courseId)) return courseMeta.get(courseId)!;
   return { label: courseId ?? "General", emoji: "📘" };
 }
+// The lesson_id (e.g. "ap-biology-u7-l2") is the authoritative source of unit
+// and order — chapter_json.unit_number is wrong on many rows.
 function unitFromLessonId(lessonId: string | null): number | null {
   if (!lessonId) return null;
   const m = lessonId.match(/-u(\d+)-l\d+/i);
+  return m ? parseInt(m[1], 10) : null;
+}
+function lessonNumFromLessonId(lessonId: string | null): number | null {
+  if (!lessonId) return null;
+  const m = lessonId.match(/-u\d+-l(\d+)/i);
   return m ? parseInt(m[1], 10) : null;
 }
 
@@ -141,7 +149,8 @@ function noteFromScript(row: ScriptRow): CoreNote | null {
     courseId,
     subjectLabel: meta.label,
     emoji: meta.emoji,
-    unit: typeof c.unit_number === "number" ? c.unit_number : unitFromLessonId(row.lesson_id),
+    unit: unitFromLessonId(row.lesson_id) ?? (typeof c.unit_number === "number" ? c.unit_number : null),
+    lessonNum: lessonNumFromLessonId(row.lesson_id),
     unitName: str(c.unit_name) || null,
     title,
     subtitle: str(c.subtitle) || null,
@@ -175,10 +184,41 @@ let inFlight: Promise<CoreNote[]> | null = null;
 
 async function rebuild(): Promise<CoreNote[]> {
   const rows = await selectAllScripts();
-  const notes = rows.map(noteFromScript).filter((n): n is CoreNote => n !== null);
+  let notes = rows.map(noteFromScript).filter((n): n is CoreNote => n !== null);
+
+  // Some scripts carry the same title in two units (data error, e.g. "Carbon:
+  // The Backbone of Life" in both u1 and u7). Keep the earliest unit/lesson.
+  const ordVal = (n: CoreNote) => (n.unit ?? 99) * 1000 + (n.lessonNum ?? 99);
+  const byKey = new Map<string, CoreNote>();
+  for (const n of notes) {
+    const key = `${n.courseId ?? "?"}::${n.title.toLowerCase()}`;
+    const cur = byKey.get(key);
+    if (!cur || ordVal(n) < ordVal(cur)) byKey.set(key, n);
+  }
+  notes = [...byKey.values()];
+
+  // chapter_json.unit_name is wrong on the same rows whose unit_number is wrong,
+  // so derive each (course, unit)'s name from the most common value in that group.
+  const nameVotes = new Map<string, Map<string, number>>();
+  for (const n of notes) {
+    if (n.unit == null || !n.unitName) continue;
+    const k = `${n.courseId}::${n.unit}`;
+    if (!nameVotes.has(k)) nameVotes.set(k, new Map());
+    const m = nameVotes.get(k)!;
+    m.set(n.unitName, (m.get(n.unitName) ?? 0) + 1);
+  }
+  const bestName = new Map<string, string>();
+  for (const [k, m] of nameVotes) {
+    bestName.set(k, [...m.entries()].sort((a, b) => b[1] - a[1])[0][0]);
+  }
+  for (const n of notes) {
+    if (n.unit != null) n.unitName = bestName.get(`${n.courseId}::${n.unit}`) ?? n.unitName ?? null;
+  }
+
   notes.sort((a, b) => {
     if (a.subjectLabel !== b.subjectLabel) return a.subjectLabel.localeCompare(b.subjectLabel);
     if ((a.unit ?? 99) !== (b.unit ?? 99)) return (a.unit ?? 99) - (b.unit ?? 99);
+    if ((a.lessonNum ?? 99) !== (b.lessonNum ?? 99)) return (a.lessonNum ?? 99) - (b.lessonNum ?? 99);
     return a.title.localeCompare(b.title);
   });
   return notes;
