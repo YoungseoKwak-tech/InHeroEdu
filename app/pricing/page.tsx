@@ -193,6 +193,30 @@ const paidStructuredData = {
             text: "The All Subject Elite Pass includes unlimited course access, unlimited textbook access, and InHero AI study layers across all published subjects.",
           },
         },
+        {
+          "@type": "Question",
+          name: "Can I cancel InHero Elite anytime?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes. Elite plans renew monthly until cancelled. Cancel before the next renewal date to stop future billing; current paid access stays active through the paid billing period.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How does the InHero refund policy work?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Your first Elite payment is covered by a 7-day money-back guarantee. Renewal payments are non-refundable, except for billing errors, duplicate charges, applicable consumer protection rights, or case-by-case review.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What does One Subject Elite unlock?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "One Subject Elite unlocks the selected subject only, including that subject's lessons, textbook, question bank, and paid lounge access. All Subject Elite unlocks every published subject.",
+          },
+        },
       ],
     },
   ],

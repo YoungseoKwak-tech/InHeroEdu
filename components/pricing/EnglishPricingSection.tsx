@@ -158,6 +158,30 @@ const legalLinks = [
   { label: 'Refund Policy', href: '/refund-policy' },
   { label: 'Terms of Service', href: '/terms' },
   { label: 'Privacy Policy', href: '/privacy' },
+  { label: 'Merchant / Legal Info', href: '/legal' },
+]
+
+const billingPolicyCards = [
+  {
+    title: 'First payment refund window',
+    body:
+      'Your first Elite payment is covered by a 7-day money-back guarantee. Email inheroedu@gmail.com from your account email with “Refund Request.” Approved refunds return to the original payment method and usually appear within 5–10 business days.',
+  },
+  {
+    title: 'Monthly renewal cancellation',
+    body:
+      'Elite plans renew monthly until cancelled. Cancel before the next renewal date to stop future billing. Renewal payments are non-refundable, and current paid access stays active through the paid billing period.',
+  },
+  {
+    title: 'What each purchase unlocks',
+    body:
+      'One Subject Elite unlocks the selected subject only: lessons, textbook, question bank, and paid lounges. All Subject Elite unlocks every published subject. A textbook-only purchase unlocks only the selected e-book/manual.',
+  },
+  {
+    title: 'Billing records + legal terms',
+    body:
+      'The Billing page shows your current plan, selected subject/manual purchases, payment status, and cancellation controls. Statutory consumer rights, duplicate-charge reviews, and payment-provider rules still apply.',
+  },
 ]
 
 function LegalLinksRow() {
@@ -185,6 +209,104 @@ function LegalLinksRow() {
         </a>
       ))}
     </div>
+  )
+}
+
+function PricingPolicyPanel() {
+  return (
+    <section
+      aria-labelledby="pricing-policy-title"
+      style={{
+        marginTop: 34,
+        padding: '28px clamp(18px, 3vw, 32px)',
+        borderRadius: 24,
+        border: '1px solid rgba(255,255,255,0.14)',
+        background:
+          'linear-gradient(135deg, rgba(0,255,178,0.075), rgba(201,168,76,0.07) 48%, rgba(255,255,255,0.018))',
+        boxShadow: '0 0 42px rgba(0,255,178,0.07)',
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+          gap: 22,
+          flexWrap: 'wrap',
+          marginBottom: 20,
+        }}
+      >
+        <div>
+          <p
+            style={{
+              margin: '0 0 8px',
+              color: '#00FFB2',
+              fontSize: 11,
+              fontWeight: 900,
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+            }}
+          >
+            Refunds, cancellation, and access
+          </p>
+          <h2
+            id="pricing-policy-title"
+            style={{
+              margin: 0,
+              color: '#fff',
+              fontSize: 'clamp(1.55rem, 3vw, 2.2rem)',
+              letterSpacing: '-0.045em',
+            }}
+          >
+            Clear rules before checkout.
+          </h2>
+        </div>
+        <p
+          style={{
+            maxWidth: 440,
+            margin: 0,
+            color: 'rgba(255,255,255,0.58)',
+            fontSize: 13,
+            lineHeight: 1.65,
+          }}
+        >
+          No hidden timed trial: first lessons stay free, Elite is monthly, and every paid plan shows exactly what it unlocks before payment.
+        </p>
+      </div>
+
+      <div className="pricing-policy-grid">
+        {billingPolicyCards.map((card) => (
+          <article
+            key={card.title}
+            style={{
+              borderRadius: 18,
+              border: '1px solid rgba(255,255,255,0.1)',
+              background: 'rgba(0,0,0,0.28)',
+              padding: 18,
+            }}
+          >
+            <h3
+              style={{
+                margin: '0 0 9px',
+                color: '#fff',
+                fontSize: 15,
+                letterSpacing: '-0.02em',
+              }}
+            >
+              {card.title}
+            </h3>
+            <p style={{ margin: 0, color: 'rgba(255,255,255,0.58)', fontSize: 13, lineHeight: 1.65 }}>
+              {card.body}
+            </p>
+          </article>
+        ))}
+      </div>
+
+      <p style={{ margin: '18px 0 14px', color: 'rgba(255,255,255,0.42)', fontSize: 12, lineHeight: 1.6 }}>
+        For the complete policy, including exceptional circumstances and support contact details, review the official policy pages below before checkout.
+      </p>
+      <LegalLinksRow />
+    </section>
   )
 }
 
@@ -720,6 +842,8 @@ export default function EnglishPricingSection() {
           </PlanCard>
         </div>
 
+        <PricingPolicyPanel />
+
         <div style={{ textAlign: 'center', marginTop: 44 }}>
           <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', margin: '0 0 14px' }}>
             7-day money-back guarantee on your first Elite purchase. Cancel anytime.
@@ -737,6 +861,21 @@ export default function EnglishPricingSection() {
         }
         @media (max-width: 980px) {
           .pricing-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+        .pricing-policy-grid {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 12px;
+        }
+        @media (max-width: 980px) {
+          .pricing-policy-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+        @media (max-width: 640px) {
+          .pricing-policy-grid {
             grid-template-columns: 1fr;
           }
         }
