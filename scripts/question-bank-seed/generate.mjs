@@ -48,7 +48,7 @@ const uniq = (qs) => { const seen = new Set(); return qs.filter((q) => { if (!q 
 
 function calculus() {
   const qs = [];
-  for (let a = 2; a <= 9; a++) for (let n = 2; n <= 9; n++)
+  for (let a = 2; a <= 16; a++) for (let n = 2; n <= 12; n++)
     qs.push(mc(2, "Differentiation: Definition and Properties", "easy", `d/dx[${term(a, n)}] =`, term(a * n, n - 1),
       [term(a * n, n), term(a, n - 1), term(n, n - 1)], `Power rule: ${a}·${n}x${sup(n - 1)} = ${term(a * n, n - 1)}.`));
   for (let a = 1; a <= 8; a++) for (let b = 2; b <= 9; b++) { const v = a * b * b / 2; if (!Number.isInteger(v)) continue;
@@ -61,7 +61,7 @@ function calculus() {
     const frac = (a / g === 1 && c / g === 1) ? "1" : `${a / g}/${c / g}`;
     qs.push(mc(1, "Limits and Continuity", "hard", `lim(x→∞) (${a}x² + 1)/(${c}x² + x) =`, frac, [`${a}/${c + 1}`, `${c}/${a}`, "∞"],
       `Same degree: ratio of leading coefficients ${a}/${c} = ${frac}.`)); }
-  for (let k = 1; k <= 9; k++) for (let t = 1; t <= 6; t++) { const v = 2 * t - k;
+  for (let k = 1; k <= 15; k++) for (let t = 1; t <= 9; t++) { const v = 2 * t - k;
     qs.push(mc(4, "Contextual Applications", "medium", `If position is s(t) = t² − ${k}t, the velocity at t = ${t} is:`, v,
       [v + 1, v - 1, 2 * t + k], `v(t) = 2t − ${k}; at t = ${t}: ${v}.`)); }
   // trig/exp/log derivatives
@@ -74,7 +74,7 @@ function calculus() {
       [`e^(${k}x)`, `${k}x·e^(${k}x)`, `e^(${k})`], `Chain rule: e^(${k}x)·${k} = ${k}e^(${k}x).`));
   }
   // evaluate derivative of polynomial at a point: f=ax^2+bx, f'=2ax+b
-  for (let a = 1; a <= 6; a++) for (let b = 1; b <= 6; b++) for (const x of [1, 2, 3]) { const v = 2 * a * x + b;
+  for (let a = 1; a <= 9; a++) for (let b = 1; b <= 9; b++) for (const x of [1, 2, 3, 4, 5]) { const v = 2 * a * x + b;
     qs.push(mc(2, "Differentiation: Definition and Properties", "medium", `If f(x) = ${a}x² + ${b}x, then f'(${x}) =`, v,
       [a * x * x + b * x, 2 * a + b, v + b], `f'(x) = ${2 * a}x + ${b}; at x = ${x}: ${2 * a}·${x} + ${b} = ${v}.`)); }
   // geometric series sum a/(1-r)
@@ -98,7 +98,7 @@ function statistics() {
     const v = +(pa * pb).toFixed(2);
     qs.push(mc(4, "Probability and Random Variables", "medium", `If A and B are independent with P(A) = ${pa} and P(B) = ${pb}, then P(A and B) =`, v,
       [+(pa + pb).toFixed(2), +(pa + pb - v).toFixed(2), pa], `Independent: P(A and B) = ${pa} × ${pb} = ${v}.`)); }
-  for (let a = 1; a <= 6; a++) for (let b = 2; b <= 5; b++) for (const x of [4, 5, 6, 10, 8]) { const v = a + b * x;
+  for (let a = 1; a <= 9; a++) for (let b = 2; b <= 7; b++) for (const x of [3, 4, 5, 6, 7, 8, 10, 12]) { const v = a + b * x;
     qs.push(mc(9, "Inference for Slopes", "medium", `For the regression line ŷ = ${a} + ${b}x, the predicted value when x = ${x} is:`, v,
       [a * b * x, a + x, b * x], `ŷ = ${a} + ${b}(${x}) = ${v}.`)); }
   for (let lo = 10; lo <= 45; lo += 5) for (const w of [4, 6, 10, 8]) { const hi = lo + w;
@@ -127,13 +127,13 @@ function statistics() {
 
 function csa() {
   const qs = [];
-  for (let a = 7; a <= 45; a++) for (const b of [2, 3, 4, 5, 6])
+  for (let a = 7; a <= 95; a++) for (const b of [2, 3, 4, 5, 6, 7, 8, 9])
     qs.push(mc(1, "Primitive Types", "easy", `What is ${a} % ${b} in Java?`, a % b, [Math.floor(a / b), (a % b) + 1, b],
       `${a} ÷ ${b} = ${Math.floor(a / b)} remainder ${a % b}, so ${a} % ${b} = ${a % b}.`));
-  for (let a = 8; a <= 45; a++) for (const b of [2, 3, 4, 5, 6])
+  for (let a = 8; a <= 95; a++) for (const b of [2, 3, 4, 5, 6, 7, 8, 9])
     qs.push(mc(1, "Primitive Types", "medium", `What is ${a} / ${b} (integer division) in Java?`, Math.floor(a / b),
       [+(a / b).toFixed(1), Math.ceil(a / b), a % b], `Integer division truncates: ${a} / ${b} = ${Math.floor(a / b)}.`));
-  for (let n = 3; n <= 30; n++) { const v = n * (n + 1) / 2;
+  for (let n = 3; n <= 60; n++) { const v = n * (n + 1) / 2;
     qs.push(mc(4, "Iteration", "medium", `What does total hold? int total=0; for(int i=1;i<=${n};i++) total+=i;`, v, [n, v - n, n * n],
       `Sum 1..${n} = n(n+1)/2 = ${v}.`)); }
   for (const w of ["cat", "java", "hello", "program", "compiler", "variable", "iteration", "recursion", "boolean", "array", "method", "object", "class", "static", "public", "integer", "double", "string"])
@@ -147,16 +147,21 @@ function csa() {
     qs.push(mc(10, "Recursion", "medium", `What does factorial(${n}) return? int factorial(int n){ if(n<=1) return 1; return n*factorial(n-1);}`, f,
       [f - 1, n * n, n * (n - 1)], `factorial(${n}) = ${n}! = ${f}.`)); }
   // Math.max/min/pow
-  for (let a = 1; a <= 9; a++) for (let b = 1; b <= 9; b++) { if (a === b) continue;
+  for (let a = 1; a <= 14; a++) for (let b = 1; b <= 14; b++) { if (a === b) continue;
     qs.push(mc(2, "Using Objects", "easy", `Math.max(${a}, ${b}) returns:`, Math.max(a, b), [Math.min(a, b), a + b, a * b],
-      `Math.max returns the larger value: ${Math.max(a, b)}.`)); }
+      `Math.max returns the larger value: ${Math.max(a, b)}.`));
+    qs.push(mc(2, "Using Objects", "easy", `Math.min(${a}, ${b}) returns:`, Math.min(a, b), [Math.max(a, b), a + b, Math.abs(a - b)],
+      `Math.min returns the smaller value: ${Math.min(a, b)}.`)); }
   for (let base = 2; base <= 5; base++) for (let exp = 2; exp <= 5; exp++) { const v = Math.pow(base, exp);
     qs.push(mc(2, "Using Objects", "medium", `What is (int) Math.pow(${base}, ${exp})?`, v, [base * exp, v + base, base + exp],
       `Math.pow(${base}, ${exp}) = ${base}^${exp} = ${v}.`)); }
   // string concatenation number + number after string
-  for (let a = 1; a <= 9; a++) for (let b = 1; b <= 9; b++)
+  for (let a = 1; a <= 12; a++) for (let b = 1; b <= 12; b++)
     qs.push(mc(1, "Primitive Types", "medium", `What is "X=" + ${a} + ${b}?`, `"X=${a}${b}"`, [`"X=${a + b}"`, `${a}${b}`, `"X=${a * b}"`],
       `Once a String appears, + concatenates left to right: "X=" + ${a} = "X=${a}", then + ${b} = "X=${a}${b}".`));
+  for (let a = 1; a <= 12; a++) for (let b = 1; b <= 12; b++)
+    qs.push(mc(1, "Primitive Types", "medium", `What is ${a} + ${b} + "!"?`, `"${a + b}!"`, [`"${a}${b}!"`, `${a + b}`, `"${a * b}!"`],
+      `Left to right: ${a} + ${b} = ${a + b} (both ints), then + "!" concatenates: "${a + b}!".`));
   return uniq(qs);
 }
 
