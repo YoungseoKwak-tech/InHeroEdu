@@ -7,6 +7,7 @@ import {
 } from "crypto";
 import { PRICING } from "@/lib/pricing";
 import type { PaymentCurrency, PaymentKind } from "@/lib/paymentCatalog";
+import { TEXTBOOK_PRICE_KRW, TEXTBOOK_PRICE_USD } from "@/lib/textbookPricing";
 
 export const NICEPAY_JS_SDK_URL = "https://pay.nicepay.co.kr/v1/js/";
 export const NICEPAY_APPROVAL_TIMEOUT_MS = 15_000;
@@ -15,7 +16,7 @@ const NICEPAY_API_BASE =
   process.env.NICEPAY_API_BASE_URL?.replace(/\/+$/, "") ??
   "https://api.nicepay.co.kr";
 
-type NicePayPlan = "one_subject" | "all_subjects";
+export type NicePayPlan = "one_subject" | "all_subjects" | "textbook";
 
 export type NicePayQuote = {
   plan: NicePayPlan;
@@ -100,6 +101,31 @@ export function getNicePayQuote(serviceId: string): NicePayQuote | null {
     chargeCurrency: currency,
     kind: "subscription",
     orderName: entry.nameEn,
+  };
+}
+
+export function getNicePayTextbookQuote({
+  title,
+  priceKrw,
+}: {
+  title: string;
+  priceKrw?: number | null;
+}): NicePayQuote {
+  const currency = getNicePayCurrency();
+  const chargeAmount =
+    currency === "USD"
+      ? TEXTBOOK_PRICE_USD
+      : Number.isFinite(Number(priceKrw)) && Number(priceKrw) > 0
+        ? Number(priceKrw)
+        : TEXTBOOK_PRICE_KRW;
+
+  return {
+    plan: "textbook",
+    displayAmountUSD: TEXTBOOK_PRICE_USD,
+    chargeAmount,
+    chargeCurrency: currency,
+    kind: "one_time",
+    orderName: title,
   };
 }
 

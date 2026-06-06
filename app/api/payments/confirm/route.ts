@@ -167,12 +167,16 @@ async function unlockTextbookIfNeeded({
   if (!userId || !serviceId.startsWith("textbook:")) return;
 
   const subjectId = serviceId.replace("textbook:", "");
-  await supabase
+  const { error } = await supabase
     .from("textbook_purchases")
     .upsert(
       { user_id: userId, subject_id: subjectId, order_id: orderId },
       { onConflict: "user_id,subject_id" }
     );
+
+  if (error) {
+    throw new Error(error.message);
+  }
 }
 
 async function confirmPayPalPayment({
@@ -394,6 +398,13 @@ async function confirmNicePayPayment({
   if (ownershipError) return ownershipError;
 
   if (storedOrder.status === "paid") {
+    await unlockTextbookIfNeeded({
+      supabase,
+      userId: storedOrder.userId ?? userId,
+      serviceId: storedOrder.serviceId,
+      orderId: localOrderId,
+    });
+
     return NextResponse.json({
       success: true,
       provider: "nicepay",

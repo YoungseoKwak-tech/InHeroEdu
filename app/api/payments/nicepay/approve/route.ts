@@ -72,6 +72,34 @@ function buildFailUrl(req: NextRequest, input: {
   return url;
 }
 
+async function unlockTextbookIfNeeded({
+  supabase,
+  userId,
+  serviceId,
+  orderId,
+}: {
+  supabase: ReturnType<typeof createAdminClient>;
+  userId: string | null;
+  serviceId: string;
+  orderId: string;
+}) {
+  if (!userId || !serviceId.startsWith("textbook:")) return;
+
+  const subjectId = serviceId.slice("textbook:".length);
+  if (!subjectId) return;
+
+  const { error } = await supabase
+    .from("textbook_purchases")
+    .upsert(
+      { user_id: userId, subject_id: subjectId, order_id: orderId },
+      { onConflict: "user_id,subject_id" }
+    );
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
 async function parseNicePayCallback(req: NextRequest) {
   const payload: Record<string, unknown> = {};
   req.nextUrl.searchParams.forEach((value, key) => {
@@ -287,6 +315,30 @@ async function handleNicePayApproval(req: NextRequest) {
       approval,
     },
   });
+
+  try {
+    await unlockTextbookIfNeeded({
+      supabase,
+      userId: storedOrder.userId,
+      serviceId: storedOrder.serviceId,
+      orderId: localOrderId,
+    });
+  } catch (error) {
+    console.error("[api/payments/nicepay/approve] textbook access grant failed", {
+      localOrderId,
+      serviceId: storedOrder.serviceId,
+      error: error instanceof Error ? error.message : "textbook access grant failed",
+    });
+    return NextResponse.redirect(
+      buildFailUrl(req, {
+        serviceId: storedOrder.serviceId,
+        code: "access_grant_failed",
+        message: "Payment succeeded, but textbook access could not be granted. Contact support.",
+        returnTo: safeReturnTo,
+      }),
+      303
+    );
+  }
 
   return NextResponse.redirect(
     buildSuccessUrl(req, {

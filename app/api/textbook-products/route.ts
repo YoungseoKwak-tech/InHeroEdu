@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
 import { isPublicTextbookProduct } from "@/lib/textbookProducts";
 import { hasComplimentaryTextbookAccess } from "@/lib/textbookAccess";
@@ -6,7 +7,8 @@ import { hasComplimentaryTextbookAccess } from "@/lib/textbookAccess";
 // Public: list available textbook products + check purchase for current user
 export async function GET(req: NextRequest) {
   const supabase = createAdminClient();
-  const userId = req.nextUrl.searchParams.get("userId");
+  const authedUser = await getAuthenticatedUser(req);
+  const userId = authedUser?.id ?? null;
 
   const { data: products, error } = await supabase
     .from("textbook_products")
@@ -24,11 +26,7 @@ export async function GET(req: NextRequest) {
   let complimentary = false;
 
   if (userId) {
-    // Look up the user's email so we can apply the complimentary allowlist
-    // (env-driven COMP_TEXTBOOK_EMAILS + ADMIN_EMAILS) without trusting any
-    // client-supplied value.
-    const { data: authUser } = await supabase.auth.admin.getUserById(userId);
-    const email = authUser?.user?.email ?? null;
+    const email = authedUser?.email ?? null;
     complimentary = await hasComplimentaryTextbookAccess(email);
 
     if (complimentary) {

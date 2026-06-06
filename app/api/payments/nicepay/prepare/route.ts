@@ -13,8 +13,11 @@ import {
   buildNicePayReservedData,
   getNicePayClientId,
   getNicePayMethod,
+  getNicePayTextbookQuote,
   isNicePayConfigured,
+  type NicePayQuote,
 } from "@/lib/nicepay";
+import { isPublicTextbookProduct } from "@/lib/textbookProducts";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -63,32 +66,82 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "serviceId required" }, { status: 400 });
     }
 
-    const quote = assertRequestedNicePayPrice({
-      serviceId,
-      requestedChargeAmount: amount,
-    });
+    const supabase = createAdminClient();
+    const requestedSubjectId =
+      typeof subjectId === "string" && subjectId.trim() ? subjectId.trim() : null;
+    const textbookSubjectId = serviceId.startsWith("textbook:")
+      ? serviceId.slice("textbook:".length).trim()
+      : null;
 
-    if (quote.plan === "one_subject" && !subjectId) {
-      return NextResponse.json(
-        { error: "subjectId required for one_subject" },
-        { status: 400 }
-      );
+    let quote: NicePayQuote;
+    let boundServiceId: string;
+    let orderName: string;
+    let reservedSubjectId: string | null = requestedSubjectId;
+
+    if (textbookSubjectId) {
+      if (requestedSubjectId && requestedSubjectId !== textbookSubjectId) {
+        return NextResponse.json(
+          { error: "subjectId mismatch for textbook checkout" },
+          { status: 400 }
+        );
+      }
+
+      const { data: product, error: productError } = await supabase
+        .from("textbook_products")
+        .select("subject_id, title, pdf_url, price_krw, status")
+        .eq("subject_id", textbookSubjectId)
+        .maybeSingle();
+
+      if (productError) {
+        return NextResponse.json({ error: productError.message }, { status: 500 });
+      }
+
+      if (!product || !isPublicTextbookProduct(product)) {
+        return NextResponse.json({ error: "textbook not available" }, { status: 404 });
+      }
+
+      quote = getNicePayTextbookQuote({
+        title: `${product.title} e-book`,
+        priceKrw: product.price_krw,
+      });
+
+      if (amount !== undefined && amount !== null) {
+        const numericAmount = Number(amount);
+        if (!Number.isFinite(numericAmount) || numericAmount !== quote.chargeAmount) {
+          return NextResponse.json(
+            { error: "NICEPAY charge amount mismatch" },
+            { status: 400 }
+          );
+        }
+      }
+
+      boundServiceId = `textbook:${product.subject_id}`;
+      orderName = quote.orderName;
+      reservedSubjectId = product.subject_id;
+    } else {
+      quote = assertRequestedNicePayPrice({
+        serviceId,
+        requestedChargeAmount: amount,
+      });
+
+      if (quote.plan === "one_subject" && !requestedSubjectId) {
+        return NextResponse.json(
+          { error: "subjectId required for one_subject" },
+          { status: 400 }
+        );
+      }
+
+      boundServiceId = bindCourseAccessServiceId(serviceId, requestedSubjectId);
+      const courseName = requestedSubjectId
+        ? courses.find((course) => course.id === requestedSubjectId)?.subjectEn ??
+          requestedSubjectId
+        : null;
+      orderName = buildCourseBoundOrderName(quote.orderName, serviceId, courseName);
     }
 
-    const boundServiceId = bindCourseAccessServiceId(serviceId, subjectId);
-    const courseName =
-      typeof subjectId === "string"
-        ? courses.find((course) => course.id === subjectId)?.subjectEn ?? subjectId
-        : null;
-    const orderName = buildCourseBoundOrderName(
-      quote.orderName,
-      serviceId,
-      courseName
-    );
     const localOrderId = randomUUID();
     const safeReturnTo = getSafeReturnTo(returnTo);
 
-    const supabase = createAdminClient();
     await createPendingOrder(supabase, {
       id: localOrderId,
       userId: user.id,
@@ -121,7 +174,7 @@ export async function POST(req: NextRequest) {
         localOrderId,
         userId: user.id,
         serviceId: boundServiceId,
-        subjectId: typeof subjectId === "string" ? subjectId : null,
+        subjectId: reservedSubjectId,
         plan: quote.plan,
         returnTo: safeReturnTo,
       }),

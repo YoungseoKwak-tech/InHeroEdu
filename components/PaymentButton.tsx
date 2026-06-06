@@ -37,7 +37,7 @@ type PayPalCheckoutResponse = {
 
 const NICEPAY_SDK_URL = "https://pay.nicepay.co.kr/v1/js/";
 const nicePayPrimary = process.env.NEXT_PUBLIC_NICEPAY_ENABLED !== "false";
-const nicePaySupportedServices = new Set(["one_subject", "all_subjects"]);
+const nicePaySupportedServices = new Set(["one_subject", "all_subjects", "textbook"]);
 
 declare global {
   interface Window {
