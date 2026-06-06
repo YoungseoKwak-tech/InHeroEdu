@@ -297,21 +297,54 @@ const BANK_TTL_MS = 10 * 60 * 1000; // 10 minutes
 let bankCache: { at: number; data: BankQuestion[] } | null = null;
 let bankInFlight: Promise<BankQuestion[]> | null = null;
 
+// PostgREST caps a single select at 1000 rows, so every table that can exceed
+// that (the questions bank especially) must be read in pages or the bank
+// silently sees only the first 1000 rows.
+async function selectAllPaged<T>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  build: () => any
+): Promise<T[]> {
+  const PAGE = 1000;
+  const rows: T[] = [];
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = await build().range(from, from + PAGE - 1);
+    if (error) throw error;
+    const batch = (data ?? []) as T[];
+    rows.push(...batch);
+    if (batch.length < PAGE) break;
+  }
+  return rows;
+}
+
 async function rebuildBank(): Promise<BankQuestion[]> {
   const supabase = createAdminClient();
 
-  const [scriptRes, overlayRes, adminRes] = await Promise.all([
-    supabase.from("lesson_scripts").select("lesson_id, chapter_json"),
-    supabase
-      .from("overlays")
-      .select("id, lesson_id, type, data")
-      .in("type", ["tap_quick", "question_sprint"]),
-    supabase
-      .from("questions")
-      .select(
-        "id, subject, topic, question_text, option_a, option_b, option_c, option_d, option_e, correct_answer, explanation, tags"
-      ),
+  const [scriptRows, overlayRows, adminRows] = await Promise.all([
+    selectAllPaged<ScriptRow>(() =>
+      supabase
+        .from("lesson_scripts")
+        .select("lesson_id, chapter_json")
+        .order("lesson_id", { ascending: true })
+    ),
+    selectAllPaged<OverlayRow>(() =>
+      supabase
+        .from("overlays")
+        .select("id, lesson_id, type, data")
+        .in("type", ["tap_quick", "question_sprint"])
+        .order("id", { ascending: true })
+    ),
+    selectAllPaged<AdminQuestionRow>(() =>
+      supabase
+        .from("questions")
+        .select(
+          "id, subject, topic, question_text, option_a, option_b, option_c, option_d, option_e, correct_answer, explanation, tags"
+        )
+        .order("id", { ascending: true })
+    ),
   ]);
+  const scriptRes = { data: scriptRows };
+  const overlayRes = { data: overlayRows };
+  const adminRes = { data: adminRows };
 
   const out: BankQuestion[] = [];
 

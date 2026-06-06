@@ -31,12 +31,21 @@ for (const file of files) {
   const { subject, questions } = JSON.parse(readFileSync(join(dir, file), "utf8"));
   if (only.size && !only.has(subject)) continue;
 
-  const { data: existing, error: exErr } = await sb
-    .from("questions")
-    .select("question_text")
-    .eq("subject", subject);
-  if (exErr) throw new Error(`${subject}: ${exErr.message}`);
-  const seen = new Set((existing ?? []).map((r) => r.question_text));
+  // PostgREST caps a select at 1000 rows, so page through every existing
+  // question_text for this subject — otherwise rows beyond the first 1000
+  // aren't recognized as duplicates and get re-inserted on every run.
+  const seen = new Set();
+  for (let from = 0; ; from += 1000) {
+    const { data, error: exErr } = await sb
+      .from("questions")
+      .select("question_text")
+      .eq("subject", subject)
+      .order("question_text", { ascending: true })
+      .range(from, from + 999);
+    if (exErr) throw new Error(`${subject}: ${exErr.message}`);
+    for (const r of data) seen.add(r.question_text);
+    if (data.length < 1000) break;
+  }
 
   const rows = questions
     .filter((q) => !seen.has(q.question_text))
