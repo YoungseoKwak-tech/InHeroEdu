@@ -2,9 +2,9 @@
 
 /**
  * Core Notes — condensed, exam-focused study cards distilled from the lesson
- * scripts (see /api/core-notes). Khan-Academy principle: one screen, one
- * concept, generous whitespace, an unbroken top-to-bottom eye path. InHero
- * brand: deep space dark + mint (#00FFB2), traps flagged in red.
+ * scripts (see /api/core-notes). Two-pane reader: a left rail of units →
+ * lessons you click through, and one focused note in the main panel (Khan
+ * principle: one screen, one concept). InHero brand: deep space + mint.
  */
 
 import { useEffect, useMemo, useState } from "react";
@@ -12,9 +12,10 @@ import { useEffect, useMemo, useState } from "react";
 const MINT = "#00FFB2";
 const RED = "#ff6b6b";
 const BG = "#05070d";
-const CARD = "#0c1119";
-const BORDER = "#1b2230";
-const SUBTLE = "#8a96a8";
+const PANEL = "#0b1018";
+const CARD = "#0e141d";
+const BORDER = "#1a2230";
+const SUBTLE = "#8793a4";
 
 interface NoteTerm { term: string; def: string }
 interface NoteSection { title: string; subtitle?: string | null; terms: NoteTerm[]; traps: string[] }
@@ -37,9 +38,9 @@ export default function CoreNotesPage() {
   const [total, setTotal] = useState(0);
   const [active, setActive] = useState<string | null>(null);
   const [notes, setNotes] = useState<CoreNote[]>([]);
+  const [activeLesson, setActiveLesson] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Load subject chips once.
   useEffect(() => {
     fetch("/api/core-notes?countOnly=true")
       .then((r) => r.json())
@@ -51,38 +52,53 @@ export default function CoreNotesPage() {
       .catch(() => {});
   }, []);
 
-  // Load notes for the active subject.
   useEffect(() => {
-    if (!active) return;
+    if (active === null) return;
     setLoading(true);
     fetch(`/api/core-notes?subject=${encodeURIComponent(active)}`)
       .then((r) => r.json())
-      .then((d) => setNotes(d.notes ?? []))
+      .then((d) => {
+        const list: CoreNote[] = d.notes ?? [];
+        setNotes(list);
+        setActiveLesson(list[0]?.lessonId ?? null);
+      })
       .catch(() => setNotes([]))
       .finally(() => setLoading(false));
   }, [active]);
 
-  const activeLabel = useMemo(
-    () => subjects.find((s) => s.courseId === active)?.label ?? "",
-    [subjects, active]
+  // Group the subject's notes by unit for the left rail.
+  const units = useMemo(() => {
+    const m = new Map<number, { unit: number; name: string; notes: CoreNote[] }>();
+    for (const n of notes) {
+      const u = n.unit ?? 0;
+      if (!m.has(u)) m.set(u, { unit: u, name: n.unitName ?? (u ? `Unit ${u}` : "Other"), notes: [] });
+      m.get(u)!.notes.push(n);
+    }
+    return [...m.values()].sort((a, b) => a.unit - b.unit);
+  }, [notes]);
+
+  const current = useMemo(
+    () => notes.find((n) => n.lessonId === activeLesson) ?? null,
+    [notes, activeLesson]
   );
+  const activeLabel = subjects.find((s) => s.courseId === active)?.label ?? "";
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: "#e8edf4", padding: "0 0 120px" }}>
-      <div style={{ maxWidth: 880, margin: "0 auto", padding: "56px 24px 0" }}>
-        <p style={{ letterSpacing: "0.28em", fontSize: 12, color: MINT, fontWeight: 700, margin: 0 }}>
-          INHERO · CORE NOTES
+    <div style={{ minHeight: "100vh", background: BG, color: "#e8edf4" }}>
+      {/* Header */}
+      <div style={{ borderBottom: `1px solid ${BORDER}`, padding: "30px 28px 22px" }}>
+        <p style={{ letterSpacing: "0.26em", fontSize: 11, color: MINT, fontWeight: 700, margin: 0 }}>
+          CORE NOTES
         </p>
-        <h1 style={{ fontSize: 52, lineHeight: 1.04, fontWeight: 800, margin: "14px 0 0", letterSpacing: "-0.02em" }}>
-          One screen.<br />One concept.
+        <h1 style={{ fontSize: 30, fontWeight: 800, margin: "8px 0 0", letterSpacing: "-0.02em" }}>
+          One screen. One concept.
         </h1>
-        <p style={{ fontSize: 17, color: SUBTLE, maxWidth: 560, marginTop: 18, lineHeight: 1.5 }}>
-          {total.toLocaleString()} distilled notes pulled straight from InHero lessons — only what
-          you need to remember in the exam room. The traps are in red.
+        <p style={{ fontSize: 14.5, color: SUBTLE, marginTop: 8 }}>
+          {total.toLocaleString()} distilled notes from InHero lessons — only what to remember in the
+          exam room. <span style={{ color: RED }}>Traps in red.</span>
         </p>
-
-        {/* Subject chips */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 32 }}>
+        {/* Subject selector */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 18 }}>
           {subjects.map((s) => {
             const on = s.courseId === active;
             return (
@@ -90,16 +106,14 @@ export default function CoreNotesPage() {
                 key={s.courseId ?? "general"}
                 onClick={() => setActive(s.courseId)}
                 style={{
-                  display: "inline-flex", alignItems: "center", gap: 8,
-                  padding: "9px 16px", borderRadius: 999, cursor: "pointer",
+                  display: "inline-flex", alignItems: "center", gap: 7, padding: "7px 13px",
+                  borderRadius: 999, cursor: "pointer", fontSize: 13, fontWeight: 600,
                   border: `1px solid ${on ? MINT : BORDER}`,
                   background: on ? "rgba(0,255,178,0.12)" : "transparent",
-                  color: on ? MINT : "#cdd6e2", fontSize: 14, fontWeight: 600,
-                  transition: "all .15s",
+                  color: on ? MINT : "#c3ccd9",
                 }}
               >
-                <span>{s.emoji}</span>
-                <span>{s.label}</span>
+                <span>{s.emoji}</span><span>{s.label}</span>
                 <span style={{ color: on ? MINT : SUBTLE, fontWeight: 700 }}>{s.count}</span>
               </button>
             );
@@ -107,30 +121,73 @@ export default function CoreNotesPage() {
         </div>
       </div>
 
-      {/* Note feed */}
-      <div style={{ maxWidth: 880, margin: "0 auto", padding: "40px 24px 0" }}>
-        {loading ? (
-          <p style={{ color: SUBTLE, fontSize: 16 }}>Loading {activeLabel} notes…</p>
-        ) : notes.length === 0 ? (
-          <p style={{ color: SUBTLE, fontSize: 16 }}>No notes yet for {activeLabel}.</p>
-        ) : (
-          notes.map((n) => <NoteCard key={n.lessonId} note={n} />)
-        )}
+      {/* Two-pane reader */}
+      <div style={{ display: "flex", alignItems: "flex-start" }}>
+        {/* Left rail: units → lessons */}
+        <aside
+          style={{
+            width: 300, flexShrink: 0, borderRight: `1px solid ${BORDER}`, background: PANEL,
+            position: "sticky", top: 0, maxHeight: "100vh", overflowY: "auto", padding: "18px 0 80px",
+          }}
+        >
+          {loading ? (
+            <p style={{ color: SUBTLE, fontSize: 13, padding: "0 20px" }}>Loading…</p>
+          ) : (
+            units.map((u) => (
+              <div key={u.unit} style={{ marginBottom: 14 }}>
+                <div
+                  style={{
+                    padding: "6px 20px", fontSize: 11, letterSpacing: "0.08em", fontWeight: 700,
+                    color: SUBTLE, textTransform: "uppercase",
+                  }}
+                >
+                  {u.unit ? `Unit ${u.unit}` : "Other"}
+                  {u.name && u.name !== `Unit ${u.unit}` ? ` · ${u.name}` : ""}
+                </div>
+                {u.notes.map((n) => {
+                  const on = n.lessonId === activeLesson;
+                  return (
+                    <button
+                      key={n.lessonId}
+                      onClick={() => setActiveLesson(n.lessonId)}
+                      style={{
+                        display: "block", width: "100%", textAlign: "left", cursor: "pointer",
+                        padding: "9px 20px 9px 20px", fontSize: 13.5, lineHeight: 1.35,
+                        border: "none", borderLeft: `3px solid ${on ? MINT : "transparent"}`,
+                        background: on ? "rgba(0,255,178,0.08)" : "transparent",
+                        color: on ? "#eafff8" : "#aeb8c6", fontWeight: on ? 600 : 400,
+                      }}
+                    >
+                      {n.title}
+                    </button>
+                  );
+                })}
+              </div>
+            ))
+          )}
+        </aside>
+
+        {/* Main: one focused note */}
+        <main style={{ flex: 1, minWidth: 0, padding: "34px 40px 120px", display: "flex", justifyContent: "center" }}>
+          <div style={{ width: "100%", maxWidth: 720 }}>
+            {loading ? (
+              <p style={{ color: SUBTLE }}>Loading {activeLabel} notes…</p>
+            ) : current ? (
+              <NoteView note={current} />
+            ) : (
+              <p style={{ color: SUBTLE }}>No notes yet for {activeLabel}.</p>
+            )}
+          </div>
+        </main>
       </div>
     </div>
   );
 }
 
-function NoteCard({ note }: { note: CoreNote }) {
+function NoteView({ note }: { note: CoreNote }) {
   return (
-    <article
-      style={{
-        background: CARD, border: `1px solid ${BORDER}`, borderRadius: 20,
-        padding: "34px 34px 30px", marginBottom: 28,
-      }}
-    >
-      {/* unit / subject tag */}
-      <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 12.5, color: SUBTLE, fontWeight: 600 }}>
+    <article>
+      <div style={{ display: "flex", alignItems: "center", gap: 9, fontSize: 12.5, color: SUBTLE, fontWeight: 600 }}>
         <span style={{ color: MINT }}>{note.emoji} {note.subjectLabel}</span>
         {note.unit != null && (
           <>
@@ -140,20 +197,24 @@ function NoteCard({ note }: { note: CoreNote }) {
         )}
       </div>
 
-      <h2 style={{ fontSize: 27, fontWeight: 800, lineHeight: 1.15, margin: "12px 0 0", letterSpacing: "-0.01em" }}>
+      <h2 style={{ fontSize: 32, fontWeight: 800, lineHeight: 1.12, margin: "12px 0 0", letterSpacing: "-0.02em" }}>
         {note.title}
       </h2>
       {note.subtitle && (
-        <p style={{ fontSize: 15.5, color: "#b8c2d0", lineHeight: 1.5, marginTop: 10 }}>{note.subtitle}</p>
+        <p style={{ fontSize: 16, color: "#aab4c2", lineHeight: 1.5, marginTop: 12 }}>{note.subtitle}</p>
       )}
 
-      {/* Remember — key points */}
       {note.objectives.length > 0 && (
-        <div style={{ marginTop: 26 }}>
-          <SectionLabel>Remember</SectionLabel>
-          <ul style={{ listStyle: "none", padding: 0, margin: "12px 0 0", display: "grid", gap: 10 }}>
+        <div
+          style={{
+            marginTop: 26, padding: "20px 22px", borderRadius: 16,
+            background: "rgba(0,255,178,0.05)", border: `1px solid rgba(0,255,178,0.22)`,
+          }}
+        >
+          <div style={{ fontSize: 11.5, letterSpacing: "0.18em", fontWeight: 800, color: MINT }}>REMEMBER</div>
+          <ul style={{ listStyle: "none", padding: 0, margin: "14px 0 0", display: "grid", gap: 11 }}>
             {note.objectives.map((o, i) => (
-              <li key={i} style={{ display: "flex", gap: 12, fontSize: 15, lineHeight: 1.5, color: "#dde4ee" }}>
+              <li key={i} style={{ display: "flex", gap: 12, fontSize: 15, lineHeight: 1.5, color: "#e3e9f1" }}>
                 <span style={{ color: MINT, flexShrink: 0, fontWeight: 800 }}>◆</span>
                 <span>{o}</span>
               </li>
@@ -162,16 +223,17 @@ function NoteCard({ note }: { note: CoreNote }) {
         </div>
       )}
 
-      {/* Concept sections: key terms + traps */}
       {note.sections.map((s, i) => (
-        <div key={i} style={{ marginTop: 28, paddingTop: 24, borderTop: `1px solid ${BORDER}` }}>
-          <h3 style={{ fontSize: 17, fontWeight: 700, margin: 0, color: "#f0f4fa" }}>{s.title}</h3>
+        <section key={i} style={{ marginTop: 30 }}>
+          <h3 style={{ fontSize: 19, fontWeight: 700, margin: 0, color: "#f2f6fb", letterSpacing: "-0.01em" }}>
+            {s.title}
+          </h3>
           {s.terms.length > 0 && (
-            <dl style={{ margin: "16px 0 0", display: "grid", gap: 14 }}>
+            <dl style={{ margin: "16px 0 0", display: "grid", gap: 16 }}>
               {s.terms.map((t, j) => (
-                <div key={j}>
-                  <dt style={{ fontSize: 14.5, fontWeight: 700, color: MINT }}>{t.term}</dt>
-                  <dd style={{ margin: "3px 0 0", fontSize: 14.5, lineHeight: 1.5, color: "#c4cdda" }}>{t.def}</dd>
+                <div key={j} style={{ borderLeft: `2px solid ${BORDER}`, paddingLeft: 16 }}>
+                  <dt style={{ fontSize: 15, fontWeight: 700, color: MINT }}>{t.term}</dt>
+                  <dd style={{ margin: "4px 0 0", fontSize: 15, lineHeight: 1.55, color: "#c2cbd9" }}>{t.def}</dd>
                 </div>
               ))}
             </dl>
@@ -180,24 +242,16 @@ function NoteCard({ note }: { note: CoreNote }) {
             <div
               key={k}
               style={{
-                marginTop: 16, padding: "14px 16px", borderRadius: 12,
-                background: "rgba(255,107,107,0.08)", border: `1px solid rgba(255,107,107,0.35)`,
+                marginTop: 16, padding: "14px 18px", borderRadius: 12,
+                background: "rgba(255,107,107,0.07)", border: `1px solid rgba(255,107,107,0.32)`,
               }}
             >
-              <div style={{ fontSize: 11.5, letterSpacing: "0.16em", fontWeight: 800, color: RED }}>⚠ TRAP</div>
-              <p style={{ margin: "6px 0 0", fontSize: 14, lineHeight: 1.55, color: "#f0d9d9" }}>{trap}</p>
+              <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: RED }}>⚠ TRAP</div>
+              <p style={{ margin: "6px 0 0", fontSize: 14.5, lineHeight: 1.55, color: "#f1dada" }}>{trap}</p>
             </div>
           ))}
-        </div>
+        </section>
       ))}
     </article>
-  );
-}
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <span style={{ fontSize: 11.5, letterSpacing: "0.18em", fontWeight: 800, color: "#00FFB2" }}>
-      {children}
-    </span>
   );
 }
