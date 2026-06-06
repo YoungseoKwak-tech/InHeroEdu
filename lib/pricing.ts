@@ -214,6 +214,10 @@ type PricedItem = {
   price?: number;
 };
 
+function englishPricingName(item: PricedItem) {
+  return item.nameEn && item.nameEn.trim() ? item.nameEn : item.name;
+}
+
 export function findPricingItem(serviceId: string): { amount: number; orderName: string } | null {
   const groups = [
     ...PRICING.free,
@@ -231,7 +235,7 @@ export function findPricingItem(serviceId: string): { amount: number; orderName:
   const amount = item.priceKRW ?? item.price;
   if (typeof amount !== "number") return null;
 
-  return { amount, orderName: item.nameEn ?? item.name };
+  return { amount, orderName: englishPricingName(item) };
 }
 
 export function krw(amount: number) {
