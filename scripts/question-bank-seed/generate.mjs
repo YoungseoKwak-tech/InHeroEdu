@@ -180,20 +180,50 @@ function macro() {
   for (const rr of [0.1, 0.2, 0.25, 0.05, 0.5]) { const m = +(1 / rr).toFixed(2);
     qs.push(mc(4, "Financial Sector", "medium", `If the reserve requirement is ${rr * 100}%, the maximum money multiplier is:`, m,
       [rr, +(rr * 100).toFixed(0), +(1 - rr).toFixed(2)], `Money multiplier = 1/reserve ratio = 1/${rr} = ${m}.`)); }
-  for (const lf of [100, 150, 200, 120, 250, 160]) for (const u of [6, 9, 12, 15, 20, 8]) { if (u >= lf) continue; const rate = +((u / lf) * 100).toFixed(1);
+  for (let lf = 100; lf <= 260; lf += 10) for (const u of [6, 8, 9, 10, 12, 15, 16, 18, 20, 24]) { if (u >= lf) continue; const rate = +((u / lf) * 100).toFixed(1);
     qs.push(mc(2, "Economic Indicators and Business Cycle", "medium", `If the labor force is ${lf} million and ${u} million are unemployed, the unemployment rate is:`, `${rate}%`,
       [`${(u / (lf + u) * 100).toFixed(1)}%`, `${u}%`, `${(lf / u).toFixed(1)}%`], `Rate = ${u}/${lf} = ${rate}%.`)); }
   for (const nom of [3, 4, 5, 6, 7, 8]) for (const inf of [2, 3, 1, 4]) { const r = nom - inf;
     qs.push(mc(2, "Economic Indicators and Business Cycle", "medium", `If nominal wages rise ${nom}% and inflation is ${inf}%, the real wage change is approximately:`, `${r}%`,
       [`${nom + inf}%`, `${inf - nom}%`, `${nom}%`], `Real ≈ nominal − inflation = ${nom}% − ${inf}% = ${r}%.`)); }
   // GDP = C + I + G + Xn
-  for (const C of [60, 70, 80]) for (const I of [15, 20, 25]) for (const G of [20, 30]) for (const Xn of [-5, 5, 10]) { const v = C + I + G + Xn;
+  for (const C of [60, 70, 80, 90, 100]) for (const I of [15, 20, 25, 30]) for (const G of [20, 25, 30, 35]) for (const Xn of [-10, -5, 5, 10, 15]) { const v = C + I + G + Xn;
     qs.push(mc(2, "Economic Indicators and Business Cycle", "medium", `Given C = ${C}, I = ${I}, G = ${G}, and net exports = ${Xn}, GDP equals:`, v,
       [C + I + G, C + I + G - Xn, C + I], `GDP = C + I + G + Xn = ${C} + ${I} + ${G} + (${Xn}) = ${v}.`)); }
   // real GDP growth approx
   for (const nom of [5, 6, 7, 8]) for (const inf of [2, 3, 4]) { const v = nom - inf;
     qs.push(mc(2, "Economic Indicators and Business Cycle", "hard", `If nominal GDP grows ${nom}% and inflation is ${inf}%, real GDP grows approximately:`, `${v}%`,
       [`${nom + inf}%`, `${nom}%`, `${inf}%`], `Real growth ≈ nominal growth − inflation = ${nom}% − ${inf}% = ${v}%.`)); }
+  // CPI inflation rate
+  for (const c1 of [100, 110, 120, 125, 150, 200]) for (const c2add of [5, 10, 15, 20, 25]) { const c2 = c1 + c2add; const v = +(((c2 - c1) / c1) * 100).toFixed(1);
+    qs.push(mc(2, "Economic Indicators and Business Cycle", "medium", `If the CPI rose from ${c1} to ${c2}, the inflation rate is approximately:`, `${v}%`,
+      [`${c2add}%`, `${(c2add / c2 * 100).toFixed(1)}%`, `${c2}%`], `Inflation = (CPI₂ − CPI₁)/CPI₁ × 100 = (${c2} − ${c1})/${c1} × 100 = ${v}%.`)); }
+  // real GDP from nominal and deflator
+  for (const nom of [1000, 1200, 1500, 2000]) for (const defl of [100, 120, 125, 150, 200]) { const v = +(nom / defl * 100).toFixed(0);
+    qs.push(mc(2, "Economic Indicators and Business Cycle", "hard", `If nominal GDP is $${nom} billion and the GDP deflator is ${defl}, real GDP is:`, `$${v} billion`,
+      [`$${nom} billion`, `$${(nom * defl / 100).toFixed(0)} billion`, `$${defl} billion`], `Real GDP = nominal/deflator × 100 = ${nom}/${defl} × 100 = $${v} billion.`)); }
+  // GDP per capita
+  for (const gdp of [600, 1200, 2400, 5000]) for (const pop of [10, 20, 50, 100]) { const v = +(gdp * 1000 / pop).toFixed(0);
+    qs.push(mc(2, "Economic Indicators and Business Cycle", "medium", `If GDP is $${gdp} billion and population is ${pop} million, GDP per capita is:`, `$${v}`,
+      [`$${gdp}`, `$${pop}`, `$${(gdp / pop).toFixed(0)}`], `GDP per capita = GDP/population = $${gdp}b / ${pop}m = $${v}.`)); }
+  // policy direction
+  for (const goal of ["recession", "high inflation"]) {
+    const exp = goal === "recession";
+    qs.push(mc(5, "Long-Run Stabilization Policy", "medium", `To address ${goal}, appropriate fiscal policy would be:`, exp ? "expansionary (cut taxes / increase spending)" : "contractionary (raise taxes / cut spending)",
+      [exp ? "contractionary (raise taxes / cut spending)" : "expansionary (cut taxes / increase spending)", "no change to policy", "raising the reserve requirement"], `For ${goal}, use ${exp ? "expansionary" : "contractionary"} fiscal policy to ${exp ? "boost" : "reduce"} aggregate demand.`));
+    qs.push(mc(4, "Financial Sector", "medium", `To address ${goal}, appropriate monetary policy would be:`, exp ? "expansionary (buy bonds, lower rates)" : "contractionary (sell bonds, raise rates)",
+      [exp ? "contractionary (sell bonds, raise rates)" : "expansionary (buy bonds, lower rates)", "raise taxes", "cut government spending"], `For ${goal}, the Fed uses ${exp ? "expansionary" : "contractionary"} monetary policy.`));
+  }
+  // open market operations effect
+  for (const act of ["buys", "sells"]) {
+    const buy = act === "buys";
+    qs.push(mc(4, "Financial Sector", "hard", `When the Fed ${act} government bonds, the money supply:`, buy ? "increases and interest rates fall" : "decreases and interest rates rise",
+      [buy ? "decreases and interest rates rise" : "increases and interest rates fall", "stays the same", "becomes zero"], `Buying bonds injects money (expansionary); selling bonds withdraws it (contractionary). The Fed ${act}, so money supply ${buy ? "rises, rates fall" : "falls, rates rise"}.`));
+  }
+  // balance of trade
+  for (let ex = 100; ex <= 300; ex += 20) for (let im = 80; im <= 280; im += 20) { const v = ex - im;
+    qs.push(mc(6, "Open Economy: Trade and Finance", "medium", `If exports are $${ex} billion and imports are $${im} billion, net exports equal:`, `$${v} billion`,
+      [`$${ex + im} billion`, `$${im - ex} billion`, `$${ex} billion`], `Net exports = exports − imports = ${ex} − ${im} = $${v} billion.`)); }
   return uniq(qs);
 }
 
@@ -217,9 +247,45 @@ function micro() {
     qs.push(mc(2, "Supply and Demand", "hard", `If quantity demanded falls ${dq}% when price rises ${dp}%, the price elasticity of demand is ${e}, meaning demand is:`, ans,
       [ans === "inelastic" ? "elastic" : "inelastic", "unit elastic", "perfectly inelastic"], `Elasticity = %ΔQ/%ΔP = ${dq}/${dp} = ${e}, which is ${ans}.`)); }
   // profit = (P-ATC)*Q
-  for (const p of [12, 15, 20]) for (const atc of [8, 10, 14]) for (const q of [100, 200]) { const v = (p - atc) * q;
+  for (let p = 10; p <= 26; p++) for (const atc of [6, 8, 10, 12, 14, 16]) for (const q of [50, 100, 150, 200]) { const v = (p - atc) * q;
     qs.push(mc(3, "Production, Cost, and Perfect Competition", "medium", `A firm sells ${q} units at $${p} each with average total cost $${atc}. Its profit is:`, `$${v}`,
       [`$${p * q}`, `$${(p + atc) * q}`, `$${atc * q}`], `Profit = (P − ATC) × Q = ($${p} − $${atc}) × ${q} = $${v}.`)); }
+  // total revenue P*Q
+  for (let p = 4; p <= 25; p++) for (const q of [10, 20, 25, 40, 50, 80, 100, 150, 200]) { const v = p * q;
+    qs.push(mc(2, "Supply and Demand", "easy", `If a firm sells ${q} units at $${p} each, total revenue is:`, `$${v}`,
+      [`$${p + q}`, `$${q}`, `$${p * q + p}`], `Total revenue = price × quantity = $${p} × ${q} = $${v}.`)); }
+  // average total cost = TC/Q
+  for (const tc of [200, 400, 600, 1000, 1200]) for (const q of [10, 20, 40, 50, 100]) { const v = +(tc / q).toFixed(2);
+    qs.push(mc(3, "Production, Cost, and Perfect Competition", "medium", `If total cost is $${tc} to produce ${q} units, average total cost is:`, `$${v}`,
+      [`$${tc}`, `$${(tc * q).toFixed(0)}`, `$${(q / tc).toFixed(2)}`], `ATC = total cost / quantity = $${tc}/${q} = $${v}.`)); }
+  // marginal cost = ΔTC/ΔQ
+  for (const dtc of [20, 30, 50, 80]) for (const dq of [2, 5, 10]) { const v = +(dtc / dq).toFixed(2);
+    qs.push(mc(3, "Production, Cost, and Perfect Competition", "medium", `If producing ${dq} more units raises total cost by $${dtc}, the marginal cost per unit is:`, `$${v}`,
+      [`$${dtc}`, `$${dq}`, `$${(dq / dtc).toFixed(2)}`], `Marginal cost = ΔTC/ΔQ = $${dtc}/${dq} = $${v}.`)); }
+  // cross-price elasticity sign
+  for (const sign of ["positive", "negative"]) {
+    const sub = sign === "positive";
+    qs.push(mc(2, "Supply and Demand", "hard", `If the cross-price elasticity of demand between two goods is ${sign}, the goods are:`, sub ? "substitutes" : "complements",
+      [sub ? "complements" : "substitutes", "unrelated", "inferior goods"], `Positive cross-price elasticity → substitutes; negative → complements. ${sign} means ${sub ? "substitutes" : "complements"}.`));
+  }
+  // price control outcome
+  for (const ctrl of ["ceiling below equilibrium", "floor above equilibrium"]) {
+    const ceil = ctrl.includes("ceiling");
+    qs.push(mc(2, "Supply and Demand", "medium", `A binding price ${ctrl} results in a:`, ceil ? "shortage" : "surplus",
+      [ceil ? "surplus" : "shortage", "equilibrium", "no effect"], `A binding ceiling (below equilibrium) causes a shortage; a binding floor (above equilibrium) causes a surplus. This is a ${ceil ? "shortage" : "surplus"}.`));
+  }
+  // consumer surplus triangle = 0.5*base*height
+  for (const maxp of [20, 30, 40, 50]) for (const eqp of [10, 15, 20]) for (const q of [10, 20, 40]) { if (eqp >= maxp) continue; const v = 0.5 * (maxp - eqp) * q;
+    qs.push(mc(6, "Market Failure and Government", "hard", `If the highest price a consumer would pay is $${maxp}, the market price is $${eqp}, and quantity is ${q}, consumer surplus (triangle) is:`, `$${v}`,
+      [`$${(maxp - eqp) * q}`, `$${eqp * q}`, `$${maxp * q}`], `Consumer surplus = ½ × base × height = ½ × ${q} × ($${maxp} − $${eqp}) = $${v}.`)); }
+  // per-unit tax revenue
+  for (const tax of [2, 3, 5, 10]) for (const q of [50, 100, 200]) { const v = tax * q;
+    qs.push(mc(6, "Market Failure and Government", "medium", `A $${tax} per-unit tax on a good with ${q} units sold raises tax revenue of:`, `$${v}`,
+      [`$${tax + q}`, `$${q}`, `$${tax}`], `Tax revenue = per-unit tax × quantity = $${tax} × ${q} = $${v}.`)); }
+  // MRP = MP * price
+  for (const mp of [5, 8, 10, 12]) for (const price of [2, 3, 5, 10]) { const v = mp * price;
+    qs.push(mc(5, "Factor Markets", "medium", `If a worker's marginal product is ${mp} units and the output sells for $${price}, the marginal revenue product is:`, `$${v}`,
+      [`$${mp + price}`, `$${mp}`, `$${price}`], `MRP = marginal product × price = ${mp} × $${price} = $${v}.`)); }
   return uniq(qs);
 }
 
