@@ -475,7 +475,7 @@ export default function MyPlanPage() {
             {plan.grade ? `${gradeLabel(plan.grade)} · ` : ""}
             {plan.exam_selections.length} exam{plan.exam_selections.length !== 1 ? "s" : ""} ·
             {" "}Started {startedDate}
-            {" · "}<Link href="/onboarding/study-plan" className="mp-edit">edit plan</Link>
+            {" "}<Link href="/onboarding/study-plan" className="mp-edit">✏️ Edit plan</Link>
           </p>
         </section>
 
@@ -936,8 +936,16 @@ const pageCss = `
   }
   .mp-greeting em { font-style: italic; color: #5eead4; text-shadow: 0 0 20px rgba(94,234,212,0.4); }
   .mp-sub { font-size: 0.92rem; color: rgba(148,163,184,0.85); margin: 0; }
-  .mp-edit { color: #5eead4; text-decoration: none; }
-  .mp-edit:hover { text-decoration: underline; }
+  .mp-edit {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-left: 6px; vertical-align: middle;
+    padding: 8px 18px; border-radius: 999px;
+    font-size: 0.95rem; font-weight: 800; letter-spacing: 0.01em;
+    color: #0a0a0a; background: #5eead4;
+    text-decoration: none; transition: all .12s;
+    box-shadow: 0 4px 16px rgba(94,234,212,0.25);
+  }
+  .mp-edit:hover { background: #6ff0d9; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(94,234,212,0.4); }
 
   /* ── Section block ──────────────────────────────────────────── */
   .mp-block { display: flex; flex-direction: column; gap: 0.85rem; }

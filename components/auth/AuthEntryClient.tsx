@@ -14,7 +14,7 @@ interface Props {
 export default function AuthEntryClient({ defaultMode, redirectTo }: Props) {
   const router = useRouter();
   const safeRedirect = useMemo(() => {
-    return getSafeRedirectPath(redirectTo, "/dashboard");
+    return getSafeRedirectPath(redirectTo, "/my-plan");
   }, [redirectTo]);
 
   useEffect(() => {

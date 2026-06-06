@@ -29,7 +29,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
-  const [authRedirectTo, setAuthRedirectTo] = useState("/dashboard");
+  const [authRedirectTo, setAuthRedirectTo] = useState("/my-plan");
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const supabase = createBrowserClient();

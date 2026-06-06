@@ -1,4 +1,4 @@
-export const DEFAULT_AUTH_REDIRECT = "/dashboard";
+export const DEFAULT_AUTH_REDIRECT = "/my-plan";
 
 export function getSafeRedirectPath(
   value: unknown,
