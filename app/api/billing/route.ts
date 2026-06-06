@@ -21,6 +21,15 @@ interface NicePayBillingKeyRow {
 
 const courseNameById = new Map(courses.map((course) => [course.id, course.subjectEn]));
 
+function isMissingNicePayBillingTable(error: { code?: string; message?: string } | null | undefined) {
+  return Boolean(
+    error &&
+      (error.code === "PGRST205" ||
+        error.message?.includes("nicepay_billing_keys") ||
+        error.message?.includes("schema cache"))
+  );
+}
+
 function subjectNameFromServiceId(serviceId: string) {
   const [, rawSubjectId] = serviceId.split(":");
   const subjectId = normalizeCourseAccessSubjectId(rawSubjectId);
@@ -85,7 +94,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: productsRes.error.message }, { status: 500 });
     }
 
-    if (billingKeysRes.error) {
+    if (billingKeysRes.error && !isMissingNicePayBillingTable(billingKeysRes.error)) {
       return NextResponse.json({ error: billingKeysRes.error.message }, { status: 500 });
     }
 
@@ -120,6 +129,10 @@ export async function GET(req: NextRequest) {
         };
       })
       .sort((a, b) => a.title.localeCompare(b.title, "en"));
+
+    if (isMissingNicePayBillingTable(billingKeysRes.error)) {
+      console.warn("[billing] nicepay_billing_keys table is missing; returning empty subscriptions.");
+    }
 
     const subscriptions = ((billingKeysRes.data ?? []) as NicePayBillingKeyRow[]).map((subscription) => ({
       id: subscription.id,

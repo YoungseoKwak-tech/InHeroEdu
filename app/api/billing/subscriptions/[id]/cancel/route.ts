@@ -14,6 +14,15 @@ interface BillingKeyRow {
   next_billing_at: string | null;
 }
 
+function isMissingNicePayBillingTable(error: { code?: string; message?: string } | null | undefined) {
+  return Boolean(
+    error &&
+      (error.code === "PGRST205" ||
+        error.message?.includes("nicepay_billing_keys") ||
+        error.message?.includes("schema cache"))
+  );
+}
+
 export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -33,6 +42,9 @@ export async function POST(
     .maybeSingle();
 
   if (error) {
+    if (isMissingNicePayBillingTable(error)) {
+      return NextResponse.json({ error: "Subscription management is not available yet." }, { status: 503 });
+    }
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
@@ -69,6 +81,9 @@ export async function POST(
     .single();
 
   if (updateError) {
+    if (isMissingNicePayBillingTable(updateError)) {
+      return NextResponse.json({ error: "Subscription management is not available yet." }, { status: 503 });
+    }
     return NextResponse.json({ error: updateError.message }, { status: 500 });
   }
 
