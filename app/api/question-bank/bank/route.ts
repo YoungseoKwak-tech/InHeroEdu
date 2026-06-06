@@ -51,16 +51,11 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const subject = searchParams.get("subject")?.trim() || undefined;
     const countOnly = searchParams.get("countOnly") === "true";
+    // Anonymous visitors can browse: every subject's counts plus a couple of
+    // free questions each. Signed-in students additionally unlock the subjects
+    // in their paid plan. No auth → no paid access (empty set), not a 401.
     const user = await getAuthenticatedUser(req);
-
-    if (!user) {
-      return NextResponse.json(
-        { error: "sign in required", reason: "sign_in_required" },
-        { status: 401 }
-      );
-    }
-
-    const accessIds = await getPaidSubjectAccessIds(user);
+    const accessIds = user ? await getPaidSubjectAccessIds(user) : new Set<string>();
     const normalizedSubject = normalizeCourseAccessSubjectId(subject);
 
     if (countOnly) {
