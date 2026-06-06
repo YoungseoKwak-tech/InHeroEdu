@@ -23,6 +23,7 @@ export interface NoteSection {
   subtitle?: string | null;
   terms: NoteTerm[];
   traps: string[];
+  example?: string | null;
 }
 export interface CoreNote {
   lessonId: string;
@@ -93,6 +94,22 @@ function termsFromKeyTerms(kt: unknown): NoteTerm[] {
   return out;
 }
 
+// Worked examples live in the section prose, introduced by cue phrases.
+// Pull the first paragraph that reads like an example (so notes get a concrete
+// "here's how it works", not just definitions).
+function exampleFromBody(body: unknown): string | null {
+  const text = str(body);
+  if (!text) return null;
+  const cue = /\b(for example|for instance|consider|suppose|imagine|let'?s|let us|worked example|to illustrate|calculate|say that|picture)\b/i;
+  const paras = text.split(/\n\n+/).map((p) => p.trim()).filter(Boolean);
+  for (const p of paras) {
+    if (cue.test(p) && p.length > 60) {
+      return p.length > 720 ? p.slice(0, 720).replace(/\s+\S*$/, "") + "…" : p;
+    }
+  }
+  return null;
+}
+
 function noteFromScript(row: ScriptRow): CoreNote | null {
   const cj = row.chapter_json;
   if (!cj || typeof cj !== "object") return null;
@@ -105,8 +122,9 @@ function noteFromScript(row: ScriptRow): CoreNote | null {
       subtitle: str(s.subtitle) || null,
       terms: termsFromKeyTerms(s.key_terms),
       traps: trapsFromBoxes(s.boxes),
+      example: exampleFromBody(s.body),
     }))
-    .filter((s) => s.title && (s.terms.length > 0 || s.traps.length > 0));
+    .filter((s) => s.title && (s.terms.length > 0 || s.traps.length > 0 || s.example));
 
   const objectives = Array.isArray(c.learning_objectives)
     ? (c.learning_objectives as unknown[]).map(str).filter(Boolean)

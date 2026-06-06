@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 
 const MINT = "#00FFB2";
 const RED = "#ff6b6b";
+const INDIGO = "#8fa2ff";
 const BG = "#05070d";
 const PANEL = "#0b1018";
 const CARD = "#0e141d";
@@ -18,7 +19,7 @@ const BORDER = "#1a2230";
 const SUBTLE = "#8793a4";
 
 interface NoteTerm { term: string; def: string }
-interface NoteSection { title: string; subtitle?: string | null; terms: NoteTerm[]; traps: string[] }
+interface NoteSection { title: string; subtitle?: string | null; terms: NoteTerm[]; traps: string[]; example?: string | null }
 interface CoreNote {
   lessonId: string;
   courseId: string | null;
@@ -224,30 +225,44 @@ function NoteView({ note }: { note: CoreNote }) {
       )}
 
       {note.sections.map((s, i) => (
-        <section key={i} style={{ marginTop: 30 }}>
-          <h3 style={{ fontSize: 19, fontWeight: 700, margin: 0, color: "#f2f6fb", letterSpacing: "-0.01em" }}>
-            {s.title}
-          </h3>
+        <section key={i} style={{ marginTop: 40 }}>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
+            <span style={{ fontSize: 13, fontWeight: 800, color: MINT, opacity: 0.7 }}>{String(i + 1).padStart(2, "0")}</span>
+            <h3 style={{ fontSize: 20, fontWeight: 700, margin: 0, color: "#f4f7fb", letterSpacing: "-0.01em", lineHeight: 1.3 }}>
+              {s.title}
+            </h3>
+          </div>
           {s.terms.length > 0 && (
-            <dl style={{ margin: "16px 0 0", display: "grid", gap: 16 }}>
+            <dl style={{ margin: "18px 0 0", display: "grid", gap: 18 }}>
               {s.terms.map((t, j) => (
-                <div key={j} style={{ borderLeft: `2px solid ${BORDER}`, paddingLeft: 16 }}>
-                  <dt style={{ fontSize: 15, fontWeight: 700, color: MINT }}>{t.term}</dt>
-                  <dd style={{ margin: "4px 0 0", fontSize: 15, lineHeight: 1.55, color: "#c2cbd9" }}>{t.def}</dd>
+                <div key={j} style={{ borderLeft: `2px solid rgba(0,255,178,0.35)`, paddingLeft: 16 }}>
+                  <dt style={{ fontSize: 15.5, fontWeight: 700, color: MINT, letterSpacing: "-0.005em" }}>{t.term}</dt>
+                  <dd style={{ margin: "5px 0 0", fontSize: 15.5, lineHeight: 1.65, color: "#cdd6e2" }}>{t.def}</dd>
                 </div>
               ))}
             </dl>
+          )}
+          {s.example && (
+            <div
+              style={{
+                marginTop: 20, padding: "16px 20px", borderRadius: 14,
+                background: "rgba(143,162,255,0.07)", border: `1px solid rgba(143,162,255,0.3)`,
+              }}
+            >
+              <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: INDIGO }}>✎ WORKED EXAMPLE</div>
+              <p style={{ margin: "8px 0 0", fontSize: 15, lineHeight: 1.7, color: "#dfe5f1", whiteSpace: "pre-line" }}>{s.example}</p>
+            </div>
           )}
           {s.traps.map((trap, k) => (
             <div
               key={k}
               style={{
-                marginTop: 16, padding: "14px 18px", borderRadius: 12,
+                marginTop: 16, padding: "16px 20px", borderRadius: 14,
                 background: "rgba(255,107,107,0.07)", border: `1px solid rgba(255,107,107,0.32)`,
               }}
             >
               <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: RED }}>⚠ TRAP</div>
-              <p style={{ margin: "6px 0 0", fontSize: 14.5, lineHeight: 1.55, color: "#f1dada" }}>{trap}</p>
+              <p style={{ margin: "8px 0 0", fontSize: 15, lineHeight: 1.7, color: "#f3dede" }}>{trap}</p>
             </div>
           ))}
         </section>
