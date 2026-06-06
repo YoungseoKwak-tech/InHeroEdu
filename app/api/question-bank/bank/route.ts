@@ -4,9 +4,9 @@
  *   ?countOnly=true       return per-subject counts only
  *
  * Serves the aggregated bank built from lesson overlays + the admin
- * questions table (see lib/questionBank). Every signed-in student sees all
- * subjects with counts and gets a couple of free questions per subject to
- * try; beyond that, unpaid subjects come back locked — prompt/options only,
+ * questions table (see lib/questionBank). Every visitor sees all subjects
+ * with counts and gets a couple of free questions per subject to try; beyond
+ * that, unpaid subjects come back locked — prompt/options only,
  * with correct flags, feedback, explanations, and the similar-variant
  * stripped server-side so the paywall can't be read out of devtools.
  */
@@ -53,14 +53,7 @@ export async function GET(req: NextRequest) {
     const countOnly = searchParams.get("countOnly") === "true";
     const user = await getAuthenticatedUser(req);
 
-    if (!user) {
-      return NextResponse.json(
-        { error: "sign in required", reason: "sign_in_required" },
-        { status: 401 }
-      );
-    }
-
-    const accessIds = await getPaidSubjectAccessIds(user);
+    const accessIds = user ? await getPaidSubjectAccessIds(user) : new Set<string>();
     const normalizedSubject = normalizeCourseAccessSubjectId(subject);
 
     if (countOnly) {
