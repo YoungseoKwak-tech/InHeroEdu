@@ -5183,4 +5183,115 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 7, lessonNum: 4,
+    unitName: "Atmospheric Pollution",
+    title: "Stratospheric Ozone Depletion",
+    subtitle: "Human-made chemicals tore a hole in Earth's UV shield — and a global treaty is healing it.",
+    overview:
+      "The stratospheric ozone layer absorbs harmful UV radiation. CFCs and related chemicals released by humans destroy ozone, thinning the layer (the Antarctic 'ozone hole'). The Montreal Protocol phased out these chemicals — the great success story of international environmental action.",
+    objectives: [
+      "Explain how CFCs deplete stratospheric ozone.",
+      "Describe the consequences of ozone depletion.",
+      "Explain the Montreal Protocol's success.",
+    ],
+    sections: [
+      {
+        title: "How the ozone layer is destroyed",
+        body:
+          "Chlorofluorocarbons (CFCs), once used in refrigerants, aerosols, and foams, drift up to the stratosphere. There, UV light frees chlorine atoms, and each chlorine atom catalytically destroys thousands of ozone molecules. This thins the protective layer — most dramatically over Antarctica each spring.",
+        keyIdea: "One chlorine atom from a CFC destroys THOUSANDS of ozone molecules — that catalytic effect is why CFCs were so damaging.",
+        terms: [
+          { term: "CFCs", def: "Chlorofluorocarbons — chemicals that release ozone-destroying chlorine in the stratosphere." },
+          { term: "Ozone hole", def: "Severe seasonal thinning of stratospheric ozone, especially over Antarctica." },
+        ],
+      },
+      {
+        title: "Consequences and the fix",
+        body:
+          "A thinner ozone layer lets more UV reach the surface, increasing skin cancer, cataracts, and harm to crops and plankton. The Montreal Protocol (1987) phased out CFCs worldwide, and the ozone layer is slowly recovering — proof that global cooperation can solve an environmental crisis.",
+        terms: [
+          { term: "Montreal Protocol", def: "1987 treaty that phased out CFCs; the ozone layer is now recovering." },
+          { term: "UV radiation", def: "Ultraviolet light blocked by ozone; more reaches us when ozone thins, raising cancer risk." },
+        ],
+        traps: ["Don't confuse the two ozone problems: STRATOSPHERIC depletion (CFCs, less UV protection) vs. GROUND-LEVEL ozone (smog pollutant)."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 7, lessonNum: 5,
+    unitName: "Atmospheric Pollution",
+    title: "Indoor Air Pollution",
+    subtitle: "The air inside can be more dangerous than outside — and it kills millions, mostly the poor.",
+    overview:
+      "Indoor air pollution is a major, often overlooked health threat. In developing nations it's mainly smoke from burning biomass for cooking; in developed nations it's chemicals from building materials and products like radon, asbestos, VOCs, and CO.",
+    objectives: [
+      "Identify major indoor air pollutants.",
+      "Contrast indoor pollution in developing vs. developed nations.",
+      "Explain why indoor pollution is so harmful.",
+    ],
+    sections: [
+      {
+        title: "Two different indoor problems",
+        body:
+          "In developing countries, the biggest indoor pollutant is smoke from burning wood, dung, or charcoal indoors for cooking and heat — causing massive respiratory illness, especially in women and children. In developed countries, the culprits are built-environment chemicals.",
+        table: {
+          headers: ["Pollutant", "Source / risk"],
+          rows: [
+            ["Radon", "Radioactive gas from soil/rock → lung cancer"],
+            ["Asbestos", "Old insulation → lung disease when fibers inhaled"],
+            ["VOCs / formaldehyde", "Paints, furniture, carpets"],
+            ["Carbon monoxide", "Faulty heaters/stoves → silent killer"],
+            ["Biomass smoke", "Cooking fires (developing nations)"],
+          ],
+        },
+        keyIdea: "Developing nations: biomass cooking SMOKE is the #1 indoor pollutant. Developed nations: radon, asbestos, VOCs, CO.",
+      },
+      {
+        title: "Why indoor air is dangerous",
+        body:
+          "People spend most of their time indoors, and enclosed spaces concentrate pollutants. Radon is the second-leading cause of lung cancer (after smoking); CO is deadly and odorless. Better ventilation, radon testing, and cleaner cookstoves are the main solutions.",
+        terms: [
+          { term: "Radon", def: "A radioactive gas seeping from the ground; a leading cause of lung cancer indoors." },
+          { term: "Sick building syndrome", def: "Illness from poor indoor air quality in a building." },
+        ],
+        traps: ["Radon is the SECOND-leading cause of lung cancer overall — a top indoor-air danger that's invisible and odorless."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 7, lessonNum: 6,
+    unitName: "Atmospheric Pollution",
+    title: "The Clean Air Act and Pollution Reduction",
+    subtitle: "Regulation works: US air got dramatically cleaner even as the economy grew.",
+    overview:
+      "The Clean Air Act is the cornerstone US law for air quality. It sets standards for major pollutants, drives control technologies, and is a proven success — pollution fell sharply while GDP rose, disproving the idea that clean air must cost growth.",
+    objectives: [
+      "Describe what the Clean Air Act regulates.",
+      "Identify key pollution-control technologies.",
+      "Explain the act's measurable success.",
+    ],
+    sections: [
+      {
+        title: "What the law does",
+        body:
+          "The Clean Air Act sets National Ambient Air Quality Standards for criteria pollutants (like ozone, particulates, SO₂, NOx, CO, lead) and requires sources to control emissions. It also addressed acid rain with a cap-and-trade program for SO₂ — a famous, effective market-based success.",
+        keyIdea: "The Clean Air Act's SO₂ cap-and-trade slashed acid rain cheaply — a model market-based environmental policy.",
+        terms: [
+          { term: "Clean Air Act", def: "US law setting and enforcing air-quality standards for major pollutants." },
+          { term: "Criteria pollutants", def: "The major air pollutants the EPA sets health-based standards for." },
+        ],
+      },
+      {
+        title: "Control technologies and results",
+        body:
+          "Technologies cut emissions at the source: catalytic converters (cars) reduce CO, NOx, and VOCs; scrubbers remove SO₂ from smokestacks; electrostatic precipitators capture particulates. Since 1970, US emissions of major pollutants have fallen sharply even as population and the economy grew.",
+        terms: [
+          { term: "Catalytic converter", def: "Car device that converts exhaust pollutants (CO, NOx, VOCs) to less harmful gases." },
+          { term: "Scrubber", def: "Smokestack device that removes SO₂ and particulates from emissions." },
+        ],
+        traps: ["The Clean Air Act shows pollution control and economic growth CAN coexist — emissions dropped while GDP rose."],
+      },
+    ],
+  },
 ];
