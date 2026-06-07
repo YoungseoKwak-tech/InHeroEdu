@@ -1565,4 +1565,112 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 3, lessonNum: 4,
+    unitName: "Land-Based Empires (c. 1450–1750)",
+    title: "Qing Dynasty — Manchu Rule and Han Chinese Continuity",
+    subtitle: "Foreign conquerors who ran China by keeping the Confucian system — while guarding their own Manchu identity.",
+    overview:
+      "The Qing were Manchus — outsiders from the north who conquered China. Like the Mongols before them, they ruled a Han Chinese majority by adopting the existing Confucian bureaucracy, even as they preserved a separate Manchu identity and expanded the empire to its greatest size.",
+    objectives: [
+      "Explain how the Manchu Qing legitimized rule over Han Chinese.",
+      "Describe Qing expansion and restricted foreign trade.",
+      "Compare Qing rule to other foreign-led dynasties.",
+    ],
+    sections: [
+      {
+        title: "Manchu rulers, Chinese system",
+        body:
+          "To govern the Han majority, the Qing kept the civil service exam and Confucian bureaucracy — continuity that legitimized foreign rule. Yet they also enforced Manchu identity, requiring Han men to wear the queue (a Manchu hairstyle) as a sign of submission and reserving top posts for Manchus.",
+        keyIdea: "Like the Mongol Yuan, the Qing were FOREIGN rulers who kept the LOCAL Confucian system to legitimize their rule.",
+        terms: [
+          { term: "Manchu", def: "The northern people who conquered China and founded the Qing dynasty." },
+          { term: "Queue", def: "The Manchu-imposed hairstyle Han men had to wear as a sign of submission." },
+        ],
+      },
+      {
+        title: "Expansion and limited trade",
+        body:
+          "The Qing expanded China to its largest territorial extent. Confident and largely self-sufficient, they restricted European traders to the single port of Canton (the Canton system), limiting foreign influence — a stance that would later collide with industrializing Europe.",
+        terms: [
+          { term: "Canton system", def: "Qing policy restricting European trade to the single port of Canton." },
+        ],
+        traps: ["The Qing weren't simply 'anti-trade' — they tightly CONTROLLED it (one port) because they felt little need for European goods."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 3, lessonNum: 5,
+    unitName: "Land-Based Empires (c. 1450–1750)",
+    title: "Russian Empire — Expansion East and Westernization",
+    subtitle: "An empire that swallowed Siberia, bound its peasants in serfdom, and then deliberately remade itself on a Western model.",
+    overview:
+      "The Russian Empire under the Romanovs expanded eastward across Siberia to the Pacific while its economy rested on serfdom. Then Peter the Great forced a top-down westernization to compete with Europe — a defining theme of Russian history.",
+    objectives: [
+      "Describe Russian eastward expansion and the role of serfdom.",
+      "Explain Peter the Great's westernizing reforms.",
+      "Compare Russian serfdom to labor systems elsewhere.",
+    ],
+    sections: [
+      {
+        title: "Expansion and serfdom",
+        body:
+          "Russia expanded east across Siberia, gaining furs and territory all the way to the Pacific. Its agrarian economy depended on serfdom, which bound peasants to the land and their lords. Tsars worked to control the boyars (nobility) and centralize power.",
+        keyIdea: "Russian serfdom lasted FAR longer than Western Europe's — it wasn't abolished until 1861.",
+        terms: [
+          { term: "Serfdom", def: "A system binding peasants to the land and their lord; central to Russia's economy." },
+          { term: "Boyars", def: "The Russian nobility, whose power the tsars sought to limit." },
+        ],
+      },
+      {
+        title: "Peter the Great westernizes",
+        body:
+          "Peter the Great traveled to Western Europe and returned determined to modernize. He reformed the army and bureaucracy, imposed Western customs (famously taxing beards), and built a new capital, St. Petersburg, as a 'window to the West.'",
+        terms: [
+          { term: "Peter the Great", def: "Tsar who modernized and westernized Russia and built St. Petersburg." },
+        ],
+        traps: ["Westernization was TOP-DOWN and forced by the tsar — not a grassroots cultural shift."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 3, lessonNum: 6,
+    unitName: "Land-Based Empires (c. 1450–1750)",
+    title: "Gunpowder Empires — Common Patterns and Differences",
+    subtitle: "Five land empires, one playbook: conquer with gunpowder, legitimize with religion, govern with bureaucracy.",
+    overview:
+      "Step back and the land-based empires share a striking pattern. Each used gunpowder weapons to expand, a belief system to legitimize rule, and a centralized bureaucracy funded by taxes to hold it together. Their differences lie mostly in WHICH religion and HOW they handled diversity.",
+    objectives: [
+      "Identify the common features of the gunpowder empires.",
+      "Compare how each legitimized and funded its rule.",
+      "Analyze differences in religious policy.",
+    ],
+    sections: [
+      {
+        title: "Five empires, side by side",
+        body:
+          "Compare them and the shared toolkit is obvious — only the details change.",
+        table: {
+          headers: ["Empire", "Religion", "Distinctive feature"],
+          rows: [
+            ["Ottoman", "Sunni Islam", "Devshirme/Janissaries; millet system"],
+            ["Safavid", "Shi'a Islam", "Religion as state identity → Sunni rivalry"],
+            ["Mughal", "Islam (Hindu majority)", "Akbar's tolerance, then Aurangzeb's reversal"],
+            ["Qing", "Confucianism", "Foreign Manchu rulers keep Chinese system"],
+            ["Russia", "Orthodox Christianity", "Serfdom; forced westernization"],
+          ],
+        },
+        keyIdea: "Common recipe: gunpowder armies + religion to legitimize + centralized bureaucracy funded by taxes/land.",
+      },
+      {
+        title: "Patterns and differences",
+        body:
+          "All centralized power, patronized art and architecture (Isfahan, the Taj Mahal, St. Petersburg), and relied on tax/land revenue systems. The biggest differences were religious: the Sunni–Shia split set Ottomans against Safavids, and rulers differed in tolerance (Akbar) vs. enforcement (Aurangzeb, the Qing queue).",
+        keyIdea: "When comparing empires, the SAME structures repeat — focus your answer on the religious and tolerance DIFFERENCES.",
+        terms: [
+          { term: "Gunpowder empires", def: "Land empires (Ottoman, Safavid, Mughal — sometimes Qing/Russia) that expanded using firearms." },
+        ],
+      },
+    ],
+  },
 ];
