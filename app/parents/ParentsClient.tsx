@@ -36,7 +36,7 @@ function timeAgo(iso: string): string {
 const dateShort = (iso: string) => new Date(iso).toLocaleDateString("ko-KR", { month: "2-digit", day: "2-digit" });
 
 const SLIDES = [
-  { bg: "linear-gradient(120deg,#064e3b,#0b8a5b)", emoji: "📝", title: "AP 문제 11,975개 · 무료", sub: "College Board 스타일 실전 문제 · 틀리면 비슷한 문제로 복습", route: "/question-bank", gated: true },
+  { bg: "linear-gradient(120deg,#064e3b,#0b8a5b)", emoji: "📝", title: "AP 문제 11,975개 · 무료", sub: "College Board 스타일 실전 문제 · 틀리면 비슷한 문제로 복습", route: "/parents/question-bank", gated: false },
   { bg: "linear-gradient(120deg,#3b1d6e,#6d28d9)", emoji: "📚", title: "AP 디지털 교재 6권", sub: "Bio · Chem · Physics · Calc — 풀 커리큘럼 디지털 교재", route: "/library", gated: true },
   { bg: "linear-gradient(120deg,#831843,#be185d)", emoji: "🎯", title: `STEM 대회 ${COMPETITIONS.length}개 총정리`, sub: "USABO · USACO · ISEF · Conrad — 학년·난이도·시기·전공별", route: "/parents/competitions", gated: false },
 ];
@@ -46,7 +46,7 @@ const NAV = [
   { label: "STEM 대회", route: "/parents/competitions", gated: false },
   { label: "학년별 로드맵", route: "/parents/roadmap", gated: false },
   { label: "AP 과목 가이드", route: "/parents/ap-guide", gated: false },
-  { label: "AP 문제은행", route: "/question-bank", gated: true },
+  { label: "AP 문제은행", route: "/parents/question-bank", gated: false },
   { label: "핵심노트", route: "/core-notes", gated: true },
   { label: "디지털 교재", route: "/library", gated: true },
 ];
@@ -56,7 +56,7 @@ const QUICK = [
   { emoji: "🎯", label: "STEM 대회", route: "/parents/competitions", gated: false },
   { emoji: "🗺️", label: "학년별 로드맵", route: "/parents/roadmap", gated: false },
   { emoji: "📘", label: "AP 과목 가이드", route: "/parents/ap-guide", gated: false },
-  { emoji: "📝", label: "AP 문제은행", route: "/question-bank", gated: true },
+  { emoji: "📝", label: "AP 문제은행", route: "/parents/question-bank", gated: false },
   { emoji: "📚", label: "디지털 교재", route: "/library", gated: true },
 ];
 
@@ -68,7 +68,7 @@ const RESOURCES = [
 
 const NOTICES = [
   { title: "InHero 학부모 자료실 오픈 안내", route: "/parents" },
-  { title: "AP 문제은행 11,975개 무료 공개", route: "/question-bank", gated: true },
+  { title: "AP 문제은행 11,975개 무료 공개", route: "/parents/question-bank", gated: false },
   { title: "AP 디지털 교재 6권 추가 (Calc BC 포함)", route: "/library", gated: true },
 ];
 
