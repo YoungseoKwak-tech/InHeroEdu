@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useT } from "@/app/contexts/LanguageContext";
 
 /* Each subject is a planet to explore */
 const subjects = [
@@ -93,6 +94,7 @@ function PlanetOrb({ bg, glow, size = 56 }: { bg: string; glow: string; size?: n
 }
 
 export default function SubjectGrid() {
+  const t = useT();
   return (
     <section style={{ background: "transparent", padding: "100px 24px", position: "relative", zIndex: 10 }}>
       <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
@@ -100,7 +102,7 @@ export default function SubjectGrid() {
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "56px" }}>
           <p className="section-label" style={{ marginBottom: "16px" }}>
-            EXPLORE THE UNIVERSE
+            {t("EXPLORE THE UNIVERSE")}
           </p>
           <h2 style={{
             fontFamily: "'Space Grotesk', sans-serif",
@@ -110,10 +112,10 @@ export default function SubjectGrid() {
             letterSpacing: "-0.025em",
             marginBottom: "12px",
           }}>
-            Select Your Mission
+            {t("Select Your Mission")}
           </h2>
           <p style={{ fontSize: "15px", color: "#8888AA" }}>
-            Every course designed around what AP actually tests
+            {t("Every course designed around what AP actually tests")}
           </p>
         </div>
 

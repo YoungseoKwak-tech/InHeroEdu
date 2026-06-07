@@ -1,5 +1,7 @@
 "use client";
 
+import { useT } from "@/app/contexts/LanguageContext";
+
 const features = [
   {
     icon: "◈",
@@ -34,6 +36,7 @@ const features = [
 ];
 
 export default function Features() {
+  const t = useT();
   return (
     <section style={{ background: "transparent", padding: "100px 24px", position: "relative", zIndex: 10 }}>
       <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
@@ -41,7 +44,7 @@ export default function Features() {
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "64px" }}>
           <p className="section-label" style={{ marginBottom: "16px" }}>
-            MISSION BRIEFING
+            {t("MISSION BRIEFING")}
           </p>
           <h2 style={{
             fontFamily: "'Space Grotesk', sans-serif",
@@ -51,7 +54,7 @@ export default function Features() {
             letterSpacing: "-0.025em",
             marginBottom: "16px",
           }}>
-            Why InHero?
+            {t("Why InHero?")}
           </h2>
           <p style={{
             fontSize: "16px",
@@ -60,7 +63,7 @@ export default function Features() {
             margin: "0 auto",
             lineHeight: 1.7,
           }}>
-            A new paradigm for the AI era — AI as a thinking trainer, not just an answer machine.
+            {t("A new paradigm for the AI era — AI as a thinking trainer, not just an answer machine.")}
           </p>
         </div>
 
@@ -127,7 +130,7 @@ export default function Features() {
 
                 {/* Badge */}
                 <span className={`signal-badge ${f.badgeVariant}`} style={{ marginBottom: "16px", display: "inline-flex" }}>
-                  {f.badge}
+                  {t(f.badge)}
                 </span>
 
                 {/* Title */}
@@ -140,7 +143,7 @@ export default function Features() {
                   marginBottom: "12px",
                   marginTop: "12px",
                 }}>
-                  {f.title}
+                  {t(f.title)}
                 </h3>
 
                 {/* Body */}
@@ -149,7 +152,7 @@ export default function Features() {
                   color: "#8888AA",
                   lineHeight: 1.75,
                 }}>
-                  {f.body}
+                  {t(f.body)}
                 </p>
               </div>
             );

@@ -59,6 +59,40 @@ export const KO: Record<string, string> = {
   Monthly: "월간",
   Yearly: "연간",
 
+  // ── Landing · Features ("Why InHero") ────────────────────────────────
+  "MISSION BRIEFING": "미션 브리핑",
+  "Why InHero?": "왜 인히어로인가?",
+  "A new paradigm for the AI era — AI as a thinking trainer, not just an answer machine.":
+    "AI 시대의 새로운 패러다임 — 정답 기계가 아니라, 사고력을 길러주는 AI 트레이너.",
+  "World First": "세계 최초",
+  "Thinking Evolution Memory": "사고 성장 메모리",
+  "AI remembers every question, mistake, and reasoning shift from 9th through 12th grade. Four years of guided intellectual growth that no single teacher or counselor can replicate.":
+    "9학년부터 12학년까지 모든 문제, 실수, 사고의 변화를 AI가 기억합니다. 어떤 교사나 카운슬러도 대신할 수 없는 4년간의 지적 성장을 함께합니다.",
+  "47 Lessons Live": "47개 레슨 운영 중",
+  "Hero Instructor Story": "히어로 강사 스토리",
+  "Lessons built by a teacher who has lived inside both elite prep culture and real university classrooms. The story behind why this teacher teaches becomes part of the learning itself.":
+    "엘리트 입시 문화와 실제 대학 강의실을 모두 경험한 선생님이 만든 강의. 왜 이 선생님이 가르치는가, 그 이야기 자체가 배움의 일부가 됩니다.",
+  "AI Powered": "AI 기반",
+  "Thinking Analyzer": "사고 분석기",
+  "When you get stuck, AI pinpoints whether it's a concept gap, a reasoning gap, or a knowledge gap — and routes you to exactly the right fix. Not a hint. A diagnosis.":
+    "막혔을 때, AI가 개념의 빈틈인지·추론의 빈틈인지·지식의 빈틈인지 정확히 짚어내고 딱 맞는 처방으로 안내합니다. 단순한 힌트가 아니라, 진단입니다.",
+
+  // ── Landing · Subjects / Testimonials / CTA ──────────────────────────
+  "EXPLORE THE UNIVERSE": "유니버스 탐험하기",
+  "Select Your Mission": "당신의 미션을 선택하세요",
+  "Every course designed around what AP actually tests":
+    "AP가 실제로 평가하는 것에 맞춰 설계된 모든 강의",
+  "MISSION REPORTS": "미션 리포트",
+  "Signals From Early Learners": "초기 학습자들의 신호",
+  "Not identity theater. The shift in thinking is what matters.":
+    "보여주기식이 아닙니다. 중요한 건 사고방식의 변화입니다.",
+  "FIRST COHORT — BOARDING NOW": "첫 기수 — 지금 탑승 중",
+  "Master Every Mission.": "모든 미션을 정복하세요.",
+  "The platform opens in measured rollout for the first cohort. Early pilots unlock learning logs, AI memory, and hero faculty access first.":
+    "플랫폼은 첫 기수를 대상으로 단계적으로 오픈됩니다. 초기 파일럿은 학습 기록, AI 메모리, 히어로 강사진 이용 권한을 먼저 받습니다.",
+  "Join the waitlist →": "대기자 명단 등록 →",
+  "See pricing": "요금제 보기",
+
   // ── Common actions / chrome ──────────────────────────────────────────
   Continue: "계속",
   Cancel: "취소",

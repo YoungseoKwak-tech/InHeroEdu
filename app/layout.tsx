@@ -29,6 +29,12 @@ export const metadata: Metadata = {
   icons: { icon: "/favicon.ico", apple: "/apple-touch-icon.png" },
 };
 
+// The cookie-driven language switch must reach page segments too — otherwise
+// Next statically prerenders the page with the context default ("en") while
+// only the dynamic layout (navbar) honors the cookie. Forcing the route tree
+// dynamic makes every segment render with the live locale.
+export const dynamic = "force-dynamic";
+
 export default async function RootLayout({
   children,
 }: Readonly<{

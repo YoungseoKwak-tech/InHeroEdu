@@ -1,5 +1,7 @@
 "use client";
 
+import { useT } from "@/app/contexts/LanguageContext";
+
 const testimonials = [
   {
     label: "PATTERN RECALL",
@@ -34,6 +36,7 @@ const testimonials = [
 ];
 
 export default function Testimonials() {
+  const t = useT();
   return (
     <section style={{ background: "transparent", padding: "100px 24px", position: "relative", zIndex: 10 }}>
       <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
@@ -41,7 +44,7 @@ export default function Testimonials() {
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "64px" }}>
           <p className="section-label" style={{ marginBottom: "16px" }}>
-            MISSION REPORTS
+            {t("MISSION REPORTS")}
           </p>
           <h2 style={{
             fontFamily: "'Space Grotesk', sans-serif",
@@ -51,10 +54,10 @@ export default function Testimonials() {
             letterSpacing: "-0.025em",
             marginBottom: "12px",
           }}>
-            Signals From Early Learners
+            {t("Signals From Early Learners")}
           </h2>
           <p style={{ fontSize: "15px", color: "#8888AA" }}>
-            Not identity theater. The shift in thinking is what matters.
+            {t("Not identity theater. The shift in thinking is what matters.")}
           </p>
         </div>
 

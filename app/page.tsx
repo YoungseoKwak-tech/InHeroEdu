@@ -12,13 +12,15 @@ import Testimonials from "@/components/landing/Testimonials";
 import SignedInRedirector from "@/components/landing/SignedInRedirector";
 import WelcomePopup from "@/components/landing/WelcomePopup";
 import Link from "next/link";
+import { useLang } from "@/app/contexts/LanguageContext";
 
 export default function HomePage() {
+  const { lang, t } = useLang();
   return (
     <>
       <SignedInRedirector />
       <WelcomePopup />
-      <HomeHeroDualPath locale="en" />
+      <HomeHeroDualPath locale={lang} />
       <FacultyLineup />
       <AcademyCampus />
       <DropFeaturedCard />
@@ -85,7 +87,7 @@ export default function HomePage() {
                   width: "6px", height: "6px", borderRadius: "50%",
                   background: "#00FF88", display: "inline-block",
                 }} />
-                FIRST COHORT — BOARDING NOW
+                {t("FIRST COHORT — BOARDING NOW")}
               </span>
             </div>
 
@@ -100,7 +102,7 @@ export default function HomePage() {
               lineHeight: 1.1,
               textShadow: "0 0 40px rgba(0,255,136,0.12)",
             }}>
-              Master Every Mission.
+              {t("Master Every Mission.")}
             </h2>
 
             {/* Body */}
@@ -111,8 +113,7 @@ export default function HomePage() {
               maxWidth: "520px",
               margin: "0 auto 40px",
             }}>
-              The platform opens in measured rollout for the first cohort.
-              Early pilots unlock learning logs, AI memory, and hero faculty access first.
+              {t("The platform opens in measured rollout for the first cohort. Early pilots unlock learning logs, AI memory, and hero faculty access first.")}
             </p>
 
             {/* CTAs */}
@@ -135,7 +136,7 @@ export default function HomePage() {
                   transition: "all 250ms cubic-bezier(0.16,1,0.3,1)",
                 }}
               >
-                Join the waitlist →
+                {t("Join the waitlist →")}
               </Link>
               <Link
                 href="/pricing"
@@ -164,7 +165,7 @@ export default function HomePage() {
                   el.style.color = "#8888AA";
                 }}
               >
-                See pricing
+                {t("See pricing")}
               </Link>
             </div>
           </div>

@@ -120,35 +120,34 @@ const COPY = {
     rightHref: "/lounges",
     statsLine: "▸ FIRST COHORT BOARDING",
   },
-  // Platform is English-only — `ko` mirror kept identical to `en` so any
-  // upstream caller passing locale="ko" still renders the English copy.
   ko: {
-    badge: "MISSION CONTROL — ACTIVE",
-    headline: "The smartest",
-    headlineEm: "classroom ever built.",
-    tagline: <>AI tutors that remember how you learn.<br />Find friends just like you.</>,
-    trustLine: "Trusted and built by Ivy League engineers",
+    badge: "미션 컨트롤 — 가동 중",
+    headline: "빠르게 배우고,",
+    headlineEm: "깊게 생각하라.",
+    tagline: <>야망 있는 학생들이 함께 깊이 사고하고<br />— 서로를 발견하는 곳.</>,
+    trustLine: "아이비리그 엔지니어가 만들고 검증했습니다",
     leftIcon: "🛸",
-    leftTitle: "Start a class",
+    leftTitle: "강의실 입장하기",
     leftBody: (
       <>
-        AI tutors trained on top-scorer thinking.<br />
-        Memory that remembers how you learn.
+        만점자의 사고를 학습한 AI 튜터.<br />
+        당신의 약점을 기억하는 메모리.<br />
+        당신의 패턴, 당신의 미션.
       </>
     ),
-    leftStat: "2 courses live · 7 lessons",
-    leftHref: "/courses",
+    leftStat: "2개 강좌 운영 중 · 7개 레슨",
+    leftHref: "/academy",
     rightIcon: "◉◉◉",
-    rightTitle: "Meet your peers",
+    rightTitle: "내 사람들을 찾기",
     rightBody: (
       <>
-        Connect with ambitious students<br />
-        chasing the same dreams.<br />
-        Research, study, compete — together.
+        같은 꿈을 준비하는<br />
+        야망 있는 학생들과 대화하세요.<br />
+        함께 연구하고, 공부하고, 대회에서 이기세요.
       </>
     ),
     rightHref: "/lounges",
-    statsLine: "▸ FIRST COHORT BOARDING",
+    statsLine: "▸ 첫 기수 탑승 중",
   },
 } as const;
 
