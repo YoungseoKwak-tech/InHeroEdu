@@ -2578,4 +2578,114 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 7, lessonNum: 2,
+    unitName: "Global Conflict (c. 1900–present)",
+    title: "World War I — Total War and Its Effects",
+    subtitle: "Industrial weapons created deadlock and mass death — and the war's end remade the world map.",
+    overview:
+      "WWI was the first total war: entire economies and populations were mobilized for the fight. Industrial weapons turned the Western Front into a grinding stalemate of trenches, and the war's aftermath toppled empires and imposed a punishing peace that sowed the seeds of the next war.",
+    objectives: [
+      "Define total war and describe trench warfare.",
+      "Explain the home-front mobilization and propaganda.",
+      "Analyze the war's major effects, including the Treaty of Versailles.",
+    ],
+    diagram: "cause-effect",
+    sections: [
+      {
+        title: "Total war and the trenches",
+        body:
+          "New weapons — machine guns, poison gas, tanks, artillery — made offensives suicidal, producing years of trench-warfare stalemate and massive casualties. As 'total war,' it mobilized whole societies: governments directed economies, used propaganda, and women entered the workforce in huge numbers to replace men at the front.",
+        keyIdea: "Industrial weapons + total mobilization = unprecedented casualties and a war that consumed entire societies, not just armies.",
+        terms: [
+          { term: "Total war", def: "War mobilizing a nation's entire economy and population." },
+          { term: "Trench warfare", def: "Entrenched defensive fighting that produced stalemate and mass casualties." },
+        ],
+      },
+      {
+        title: "Effects: empires fall, a harsh peace",
+        body:
+          "The war shattered four empires (German, Austro-Hungarian, Ottoman, Russian). The Treaty of Versailles blamed Germany, imposed heavy reparations and territorial losses, and created the League of Nations (which the U.S. never joined). The resentment Versailles bred would help fuel WWII.",
+        terms: [
+          { term: "Treaty of Versailles", def: "The 1919 settlement that punished Germany with blame, reparations, and losses." },
+          { term: "League of Nations", def: "The postwar body meant to keep peace; weak and unable to prevent WWII." },
+        ],
+        traps: ["The harshness of Versailles is a key CAUSE of WWII — German resentment of it fed the rise of the Nazis."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 7, lessonNum: 3,
+    unitName: "Global Conflict (c. 1900–present)",
+    title: "The Russian Revolution — Two Revolutions, One Year",
+    subtitle: "In 1917 Russia overthrew its tsar, then its new government — and became the world's first communist state.",
+    overview:
+      "1917 actually held two revolutions. The February Revolution toppled the tsar and created a weak provisional government; the October Revolution let Lenin's Bolsheviks seize power, promising 'peace, land, and bread' and founding the first Marxist state.",
+    objectives: [
+      "Distinguish the February and October revolutions of 1917.",
+      "Explain the Bolsheviks' appeal and Lenin's role.",
+      "Connect WWI's strain to the revolution.",
+    ],
+    sections: [
+      {
+        title: "Two revolutions in one year",
+        body:
+          "WWI's catastrophic losses and food shortages broke the Russian monarchy. The result was two upheavals in 1917.",
+        table: {
+          headers: ["Revolution", "What happened"],
+          rows: [
+            ["February 1917", "Tsar Nicholas II abdicates; weak provisional government forms"],
+            ["October 1917", "Lenin's Bolsheviks seize power, promising peace, land, and bread"],
+          ],
+        },
+        keyIdea: "Two revolutions, one year: February ended the TSAR; October brought the BOLSHEVIKS (communists) to power.",
+      },
+      {
+        title: "Lenin and the first communist state",
+        body:
+          "Lenin's Bolsheviks rallied a war-weary, hungry population with the slogan 'peace, land, and bread,' pulled Russia out of WWI, and established the world's first Marxist government — eventually the Soviet Union.",
+        terms: [
+          { term: "Bolsheviks", def: "Lenin's communist party that seized power in October 1917." },
+          { term: "Lenin", def: "Bolshevik leader who founded the first communist state." },
+        ],
+        traps: ["The provisional government fell partly because it kept Russia in WWI — the Bolsheviks won by promising to LEAVE the war."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 7, lessonNum: 4,
+    unitName: "Global Conflict (c. 1900–present)",
+    title: "Rise of Fascism — Italy and Germany",
+    subtitle: "Economic ruin and wounded national pride let authoritarian movements promising order and revenge seize power.",
+    overview:
+      "Between the world wars, fascism rose in Italy (Mussolini) and Germany (Hitler). Born from WWI resentment and the Great Depression's despair, fascism preached extreme nationalism, total obedience to a strong leader, and the crushing of dissent.",
+    objectives: [
+      "Define fascism and its core features.",
+      "Explain the conditions that enabled fascism's rise.",
+      "Compare fascism in Italy and Germany.",
+    ],
+    diagram: "cause-effect",
+    sections: [
+      {
+        title: "What fascism is",
+        body:
+          "Fascism is an ideology of extreme nationalism and authoritarian rule: a single party and leader, suppression of opposition, militarism, and often scapegoating of minorities. It defined itself against both liberal democracy and communism.",
+        keyIdea: "Fascism = extreme nationalism + a strongman leader + crushing dissent — anti-democratic and anti-communist.",
+        terms: [
+          { term: "Fascism", def: "An ideology of extreme nationalism and authoritarian, anti-democratic rule." },
+          { term: "Totalitarianism", def: "A system where the state seeks total control over public and private life." },
+        ],
+      },
+      {
+        title: "Why it rose: Italy and Germany",
+        body:
+          "The conditions made the difference. Postwar instability brought Mussolini's Fascists to power in Italy. In Germany, resentment of the Treaty of Versailles plus the Great Depression's mass unemployment let Hitler's Nazis win support — promising national revival and a scapegoat.",
+        terms: [
+          { term: "Mussolini", def: "Fascist dictator of Italy." },
+          { term: "Hitler / Nazism", def: "Leader of Germany's fascist Nazi party, which exploited Depression and Versailles resentment." },
+        ],
+        traps: ["Cause chain: WWI resentment + Great Depression → fascism. Economic despair was the key enabler of Hitler's rise."],
+      },
+    ],
+  },
 ];
