@@ -1340,4 +1340,124 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 2, lessonNum: 4,
+    unitName: "Networks of Exchange (c. 1200–1450)",
+    title: "Trans-Saharan Trade — Gold, Salt, and Slaves",
+    subtitle: "How a 'desert highway' of camel caravans linked West Africa to the Mediterranean and grew a string of wealthy empires.",
+    overview:
+      "The Sahara was not a barrier but a highway, crossed by camel caravans carrying gold north and salt south. As this trade intensified, it funded a succession of powerful West African empires and carried Islam deep into the region.",
+    objectives: [
+      "Explain how camel technology and caravans made trans-Saharan trade possible.",
+      "Trace the succession of West African trading empires.",
+      "Describe how the trade spread Islam.",
+    ],
+    sections: [
+      {
+        title: "The desert highway",
+        body:
+          "Two technologies opened the Sahara: the camel (which endures heat and thirst) and the camel saddle, which let traders load heavy cargo. Caravans linked oases across the desert, exchanging the two things each side lacked — West African gold for Saharan/North African salt — plus enslaved people, ivory, textiles, and books.",
+        keyIdea: "Gold went north, salt came south. Whoever controlled the middle (the empires) grew rich taxing the exchange.",
+        terms: [
+          { term: "Camel saddle", def: "Technology that let camels carry heavy loads across the Sahara, expanding trade." },
+          { term: "Caravan", def: "A group of traders and pack animals crossing the desert together for safety." },
+        ],
+      },
+      {
+        title: "Empires and Islam",
+        body:
+          "A line of empires rose on this trade, each larger than the last, while Islam spread along the routes — first among rulers and merchants, blending with traditional beliefs among the people.",
+        table: {
+          headers: ["Empire", "Note"],
+          rows: [
+            ["Ghana", "Early empire built on the gold-salt trade"],
+            ["Mali", "Peak wealth; Mansa Musa, Timbuktu scholarship"],
+            ["Songhai", "Later, even larger successor empire"],
+          ],
+        },
+        keyIdea: "Ghana → Mali → Songhai: a chain of ever-larger empires all funded by the same trans-Saharan trade.",
+        traps: ["Islam took hold mainly among elites/merchants; common people often kept traditional practices (syncretism)."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 2, lessonNum: 5,
+    unitName: "Networks of Exchange (c. 1200–1450)",
+    title: "The Role of Technology in Expanding Trade Networks",
+    subtitle: "Trade exploded because the tools did — better ships, navigation, and money made distance cheaper.",
+    overview:
+      "The growth of trade in this era wasn't magic — it rode on technology. Innovations in sailing, navigation, and finance (much of it spread BY trade itself) let merchants travel farther, carry more, and move value safely.",
+    objectives: [
+      "Identify the maritime technologies that expanded sea trade.",
+      "Explain commercial innovations like credit and paper money.",
+      "Connect technological diffusion to the growth of trade networks.",
+    ],
+    sections: [
+      {
+        title: "Sailing and navigation tech",
+        body:
+          "Sea trade leapt forward with better ships and ways to find your way. Crucially, many of these technologies spread between cultures along the very trade routes they powered.",
+        table: {
+          headers: ["Technology", "What it did"],
+          rows: [
+            ["Lateen sail", "Triangular sail — lets ships sail against the wind"],
+            ["Magnetic compass (China)", "Find direction at open sea"],
+            ["Astrolabe", "Determine latitude from the stars"],
+            ["Dhow / Junk", "Larger cargo ships (Arab dhow; Chinese junk)"],
+          ],
+        },
+        keyIdea: "The compass and astrolabe (spread along trade routes) freed ships from hugging the coast — distance got cheaper.",
+      },
+      {
+        title: "Commercial and overland tech",
+        body:
+          "On land, the camel saddle and caravanserais sustained desert routes. In finance, Chinese paper money and credit instruments ('flying cash'), plus banking houses, let merchants move value without carrying risky loads of coin — the financial plumbing of long-distance trade.",
+        terms: [
+          { term: "Compass", def: "Chinese navigational tool showing direction; spread along trade routes." },
+          { term: "Banking / credit", def: "Financial tools (paper money, bills of exchange) that let traders move value safely." },
+        ],
+        traps: ["Many trade technologies were DIFFUSED along the routes (e.g., the compass from China) — they spread the same way goods did."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 2, lessonNum: 6,
+    unitName: "Networks of Exchange (c. 1200–1450)",
+    title: "Cultural Consequences of Exchange — Diffusion and Resistance",
+    subtitle: "The deepest legacy of trade wasn't the goods — it was the religions, crops, ideas, and diseases that traveled with them.",
+    overview:
+      "Trade networks moved far more than merchandise. Religions, languages, crops, technologies, and diseases all diffused along the routes, reshaping societies. Some changes were embraced and blended (syncretism); some were resisted.",
+    objectives: [
+      "Identify the religions, crops, and ideas that diffused along trade routes.",
+      "Explain the demographic impact of disease diffusion.",
+      "Describe cultural blending (syncretism) and resistance.",
+    ],
+    sections: [
+      {
+        title: "What spread along the routes",
+        body:
+          "Cultural diffusion was the routes' lasting effect. Religions spread (Islam across Africa and Asia, Buddhism across East Asia), languages blended (Swahili), and crops moved (fast-growing Champa rice to China; bananas and citrus across the Indian Ocean), boosting populations.",
+        table: {
+          headers: ["What diffused", "Examples"],
+          rows: [
+            ["Religion", "Islam (Africa, S/SE Asia), Buddhism (East Asia)"],
+            ["Language", "Swahili (Bantu + Arabic) on the East African coast"],
+            ["Crops", "Champa rice → China; bananas, citrus spread by trade"],
+            ["Technology", "Compass, papermaking, gunpowder"],
+          ],
+        },
+        keyIdea: "New crops like Champa rice didn't just feed people — they triggered population BOOMS that reshaped whole societies.",
+      },
+      {
+        title: "Disease, syncretism, and resistance",
+        body:
+          "The same connectivity carried the Black Death along trade routes, killing a huge share of affected populations. Culturally, contact usually produced syncretism — blending, as when Sufism merged with local traditions or Angkor Wat shifted from Hindu to Buddhist — though some groups resisted foreign influences.",
+        terms: [
+          { term: "Cultural diffusion", def: "The spread of cultural traits (religion, language, crops, tech) along contact networks." },
+          { term: "Syncretism", def: "The blending of two cultural or religious traditions into something new." },
+        ],
+        traps: ["Connectivity's costs ride along with its benefits — the routes that spread crops and faiths also spread the plague."],
+      },
+    ],
+  },
 ];
