@@ -4502,4 +4502,124 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 5, lessonNum: 2,
+    unitName: "Land and Water Use",
+    title: "Soil Degradation — Erosion, Salinization, Desertification",
+    subtitle: "Farming the wrong way strips, salts, or dries out the soil — turning farmland into wasteland.",
+    overview:
+      "Soil is a slowly-renewable resource, and poor land use degrades it faster than it forms. Three big culprits — erosion, salinization, and desertification — reduce fertility and can permanently damage land.",
+    objectives: [
+      "Explain the main causes and effects of soil erosion.",
+      "Define salinization and desertification.",
+      "Connect agricultural practices to soil degradation.",
+    ],
+    sections: [
+      {
+        title: "Three ways soil degrades",
+        body:
+          "Each form of degradation has a distinct cause. Erosion is the loss of topsoil to wind and water, worsened by removing plant cover (tilling, overgrazing). Salinization is salt buildup from evaporating irrigation water. Desertification is productive land turning desert-like from drought plus overuse.",
+        table: {
+          headers: ["Process", "Cause", "Result"],
+          rows: [
+            ["Erosion", "Tilling, deforestation, overgrazing", "Loss of fertile topsoil"],
+            ["Salinization", "Irrigation water evaporates, leaving salt", "Soil too salty for crops"],
+            ["Desertification", "Drought + overgrazing/overfarming", "Land becomes desert-like"],
+          ],
+        },
+        keyIdea: "All three trace back to removing plant cover or overusing land — vegetation is what holds and protects soil.",
+      },
+      {
+        title: "Why it matters",
+        body:
+          "Topsoil takes centuries to form but can erode in years, so degradation is effectively permanent on human timescales. It threatens food security and, through desertification, can displace entire populations. The Dust Bowl is the classic erosion case.",
+        terms: [
+          { term: "Erosion", def: "The wearing away and removal of topsoil by wind and water." },
+          { term: "Salinization", def: "Accumulation of salts in soil from evaporating irrigation water." },
+          { term: "Desertification", def: "Productive land degrading into desert from drought and overuse." },
+        ],
+        traps: ["Salinization is caused by IRRIGATION (evaporation leaves salt behind) — a key downside of irrigated agriculture."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 5, lessonNum: 3,
+    unitName: "Land and Water Use",
+    title: "Sustainable Agriculture — Conservation Practices",
+    subtitle: "Farming methods that grow food while protecting soil, water, and biodiversity for the long haul.",
+    overview:
+      "Sustainable agriculture aims to produce food without degrading the resources it depends on. A toolkit of conservation practices protects soil, reduces chemical inputs, and maintains productivity over time.",
+    objectives: [
+      "Identify key sustainable farming practices.",
+      "Explain how each protects soil or reduces inputs.",
+      "Contrast sustainable with industrial agriculture.",
+    ],
+    sections: [
+      {
+        title: "Conservation practices",
+        body:
+          "Sustainable agriculture combines several techniques, most aimed at keeping soil in place and reducing chemical dependence.",
+        table: {
+          headers: ["Practice", "Benefit"],
+          rows: [
+            ["Contour plowing / terracing", "Slows water runoff, reduces erosion on slopes"],
+            ["Cover crops & no-till", "Keep soil covered, add nutrients, prevent erosion"],
+            ["Crop rotation", "Restores nutrients, breaks pest cycles"],
+            ["Integrated pest management (IPM)", "Minimizes pesticide use via mixed methods"],
+          ],
+        },
+        keyIdea: "The common thread: keep soil COVERED and DIVERSE — bare, single-crop soil is what erodes and breeds pests.",
+      },
+      {
+        title: "Reducing inputs",
+        body:
+          "Beyond soil care, sustainable farming reduces synthetic inputs: IPM uses natural predators and monitoring before pesticides; crop rotation and cover crops cut fertilizer needs by fixing nitrogen naturally. The goal is long-term productivity, not just maximum short-term yield.",
+        terms: [
+          { term: "Crop rotation", def: "Alternating crops to restore nutrients and disrupt pests." },
+          { term: "No-till farming", def: "Planting without plowing, leaving residue to protect soil from erosion." },
+          { term: "Integrated pest management", def: "Combining biological, mechanical, and minimal chemical controls for pests." },
+        ],
+        traps: ["IPM doesn't ban pesticides — it uses them as a LAST resort after biological/mechanical controls."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 5, lessonNum: 4,
+    unitName: "Land and Water Use",
+    title: "Forestry — Logging Methods and Their Impacts",
+    subtitle: "How we cut forests determines whether they recover — or wash away.",
+    overview:
+      "Forests provide timber, habitat, and ecosystem services, so how we harvest them matters. Logging methods range from total clear-cutting to selective cutting, with very different environmental impacts.",
+    objectives: [
+      "Compare clear-cutting and selective cutting.",
+      "Explain the impacts of deforestation.",
+      "Describe sustainable forestry practices.",
+    ],
+    sections: [
+      {
+        title: "Logging methods",
+        body:
+          "The two main approaches sit at opposite extremes. Clear-cutting removes all trees in an area — cheap and efficient but devastating to soil and habitat. Selective cutting removes only some trees, preserving forest structure at higher cost.",
+        table: {
+          headers: ["Method", "Trade-off"],
+          rows: [
+            ["Clear-cutting", "Cheap/efficient BUT erosion, habitat loss, runoff"],
+            ["Selective cutting", "Less damage BUT costlier, less timber per area"],
+          ],
+        },
+        keyIdea: "Clear-cutting maximizes short-term timber but causes erosion, habitat loss, and lost ecosystem services.",
+      },
+      {
+        title: "Impacts and sustainability",
+        body:
+          "Deforestation reduces biodiversity, releases stored carbon (worsening climate change), increases erosion and flooding, and disrupts the water cycle. Sustainable forestry uses selective cutting, replanting, and harvesting at or below the regrowth rate to keep forests as a renewable resource.",
+        terms: [
+          { term: "Clear-cutting", def: "Removing all trees in an area; high impact (erosion, habitat loss)." },
+          { term: "Selective cutting", def: "Harvesting only some trees to preserve forest structure." },
+          { term: "Deforestation", def: "Permanent removal of forest, releasing carbon and reducing biodiversity." },
+        ],
+        traps: ["Deforestation worsens CLIMATE CHANGE — cutting/burning forests releases stored carbon AND removes a carbon sink."],
+      },
+    ],
+  },
 ];
