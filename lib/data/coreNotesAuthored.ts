@@ -6074,4 +6074,124 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-us-government", unit: 1, lessonNum: 4,
+    unitName: "Foundations of American Democracy",
+    title: "Civil Rights — Equal Protection and Its Evolution",
+    subtitle: "Civil liberties protect you FROM government; civil rights demand government protect you EQUALLY.",
+    overview:
+      "Civil rights are about equal treatment — the government's obligation to protect groups from discrimination, anchored in the 14th Amendment's equal protection clause. The struggle for civil rights (for Black Americans, women, and others) reshaped law through court rulings, legislation, and mass movements.",
+    objectives: [
+      "Distinguish civil rights from civil liberties.",
+      "Explain the equal protection clause and key cases.",
+      "Identify landmark civil rights laws.",
+    ],
+    sections: [
+      {
+        title: "Liberties vs. rights",
+        body:
+          "Civil liberties are freedoms FROM government interference (speech, religion). Civil rights are protections from discrimination — guarantees of equal treatment BY government. The 14th Amendment's equal protection clause is the foundation, requiring states to treat people equally under the law.",
+        keyIdea: "Civil LIBERTIES = freedom from government (speech). Civil RIGHTS = equal treatment by government (no discrimination).",
+        terms: [
+          { term: "Equal protection clause", def: "14th Amendment guarantee that states treat people equally under the law." },
+          { term: "Civil rights", def: "Protections against discrimination and guarantees of equal treatment." },
+        ],
+      },
+      {
+        title: "Landmark cases and laws",
+        body:
+          "Brown v. Board of Education (1954) overturned 'separate but equal,' ruling segregated schools unconstitutional. The movement won the Civil Rights Act of 1964 (banning discrimination in public accommodations and employment) and the Voting Rights Act of 1965 (protecting Black voting). Later struggles extended equal protection to women and other groups.",
+        table: {
+          headers: ["Milestone", "Effect"],
+          rows: [
+            ["Brown v. Board (1954)", "Ended legal school segregation ('separate but equal' struck down)"],
+            ["Civil Rights Act of 1964", "Banned discrimination in jobs & public places"],
+            ["Voting Rights Act of 1965", "Protected minority voting rights"],
+          ],
+        },
+        keyIdea: "Brown v. Board overturned Plessy v. Ferguson's 'separate but equal' — the legal turning point against segregation.",
+        traps: ["Civil rights advanced through ALL THREE: court rulings (Brown), laws (Civil Rights Act), AND mass movements — not just one."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-us-government", unit: 2, lessonNum: 1,
+    unitName: "Interactions Among Branches of Government",
+    title: "Congress — Structure, Powers, and Lawmaking",
+    subtitle: "The legislative branch: two chambers, the power of the purse, and a deliberately slow path from bill to law.",
+    overview:
+      "Congress makes the laws. It's bicameral — a House based on population and a Senate with equal state representation — each with distinct rules and powers. The lawmaking process is intentionally difficult, requiring agreement across both chambers and the president.",
+    objectives: [
+      "Compare the House and Senate.",
+      "Identify Congress's key powers.",
+      "Outline how a bill becomes a law.",
+    ],
+    diagram: "bill-to-law",
+    sections: [
+      {
+        title: "Two chambers, different rules",
+        body:
+          "The House (435 members, 2-year terms) is larger, more rule-bound, and closer to the people. The Senate (100 members, 6-year terms) is smaller, with looser debate rules — including the filibuster, which lets a minority block a vote unless 60 senators invoke cloture.",
+        table: {
+          headers: ["", "House", "Senate"],
+          rows: [
+            ["Size / term", "435 / 2 years", "100 / 6 years"],
+            ["Basis", "Population", "Equal (2 per state)"],
+            ["Distinctive tool", "Rules Committee controls debate", "Filibuster (needs 60 to end via cloture)"],
+          ],
+        },
+        keyIdea: "The filibuster is a SENATE tool — a minority can block action unless 60 senators vote for cloture to end debate.",
+      },
+      {
+        title: "Powers and lawmaking",
+        body:
+          "Congress holds the 'power of the purse' (taxing and spending), declares war, regulates commerce, and oversees the executive. A bill must pass BOTH chambers in identical form, then go to the president, who can sign or veto (Congress can override with a 2/3 vote in each chamber). The many veto points make passing laws hard.",
+        terms: [
+          { term: "Power of the purse", def: "Congress's control over taxing and spending." },
+          { term: "Filibuster / cloture", def: "Senate delay tactic; cloture (60 votes) ends it." },
+          { term: "Veto override", def: "Congress can override a presidential veto with a 2/3 vote in both chambers." },
+        ],
+        traps: ["A bill must pass BOTH chambers in IDENTICAL form before going to the president — differences are resolved in conference."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-us-government", unit: 2, lessonNum: 2,
+    unitName: "Interactions Among Branches of Government",
+    title: "The Presidency — Formal and Informal Powers",
+    subtitle: "The president's written powers are limited — but informal tools have made the office far more powerful.",
+    overview:
+      "The president heads the executive branch. The Constitution grants formal powers (veto, commander-in-chief, appointments, treaties), but presidents have expanded their influence through informal powers like executive orders, the bully pulpit, and agenda-setting.",
+    objectives: [
+      "Distinguish formal from informal presidential powers.",
+      "Explain checks on the president.",
+      "Describe how presidential power has grown.",
+    ],
+    sections: [
+      {
+        title: "Formal vs. informal powers",
+        body:
+          "Formal powers are written in the Constitution: veto legislation, command the military, make appointments and treaties (with Senate approval), and grant pardons. Informal powers aren't explicitly listed but are hugely important: executive orders (directives with the force of law), the bully pulpit (using public influence), and setting the national agenda.",
+        table: {
+          headers: ["Type", "Examples"],
+          rows: [
+            ["Formal (in Constitution)", "Veto, commander-in-chief, appointments, treaties, pardons"],
+            ["Informal (developed over time)", "Executive orders, bully pulpit, agenda-setting"],
+          ],
+        },
+        keyIdea: "Executive orders and the 'bully pulpit' are INFORMAL powers — not in the Constitution, but they've greatly expanded the presidency.",
+      },
+      {
+        title: "Checks on the president",
+        body:
+          "Presidential power is checked: the Senate confirms appointments and ratifies treaties (2/3), Congress can override vetoes and controls funding, and the courts can rule actions unconstitutional. Congress can also impeach (House) and remove (Senate) a president. These checks embody separation of powers.",
+        terms: [
+          { term: "Executive order", def: "A presidential directive with the force of law (an informal power)." },
+          { term: "Bully pulpit", def: "The president's use of public visibility to influence policy." },
+          { term: "Senate confirmation", def: "Senate approval required for appointments and (2/3) treaties — a check on the president." },
+        ],
+        traps: ["Treaties need 2/3 SENATE ratification, but presidents can use executive AGREEMENTS to bypass that — a key informal workaround."],
+      },
+    ],
+  },
 ];
