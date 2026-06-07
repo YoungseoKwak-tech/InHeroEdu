@@ -25,6 +25,37 @@ const NAV_LINKS = [
   { href: "/pricing",         label: "Pricing" },
 ];
 
+function getLanguageSwitch(pathname: string | null) {
+  const currentPath = pathname || "/";
+
+  if (currentPath === "/kr") {
+    return { href: "/", label: "EN", title: "View the English site" };
+  }
+
+  if (currentPath.startsWith("/kr/")) {
+    const englishPath = currentPath.replace(/^\/kr/, "") || "/";
+    return { href: englishPath, label: "EN", title: "View the English site" };
+  }
+
+  if (currentPath === "/") {
+    return { href: "/kr", label: "한국어", title: "한국어로 보기" };
+  }
+
+  if (currentPath === "/academy" || currentPath === "/courses") {
+    return { href: "/kr/courses", label: "한국어", title: "한국어 강의 트랙 보기" };
+  }
+
+  if (currentPath.startsWith("/courses/")) {
+    return {
+      href: `/kr${currentPath}`,
+      label: "한국어",
+      title: "한국어 강의 트랙 보기",
+    };
+  }
+
+  return { href: "/kr", label: "한국어", title: "한국어 안내 보기" };
+}
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
@@ -32,6 +63,7 @@ export default function Navbar() {
   const [authRedirectTo, setAuthRedirectTo] = useState("/dashboard");
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const languageSwitch = getLanguageSwitch(pathname);
   const supabase = createBrowserClient();
   const [user, setUser] = useState<{ email: string | undefined } | null>(null);
   // Defense-in-depth against React #418/#423 hydration mismatch — defer
@@ -41,9 +73,6 @@ export default function Navbar() {
   // from cookie before paint, the auth UI would diverge.
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
-  // Korean toggle dropped — site is English-only. /kr routes remain
-  // accessible by direct URL but aren't promoted in nav.
-  void pathname;
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -221,6 +250,25 @@ export default function Navbar() {
 
         {/* Desktop CTA */}
         <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 }} className="hidden md:flex">
+          <Link
+            href={languageSwitch.href}
+            title={languageSwitch.title}
+            style={{
+              padding: "7px 10px",
+              borderRadius: "999px",
+              border: "1px solid rgba(0,255,136,0.18)",
+              background: "rgba(0,255,136,0.045)",
+              color: "#00FF88",
+              textDecoration: "none",
+              fontSize: "10.5px",
+              fontWeight: 800,
+              fontFamily: "'JetBrains Mono', monospace",
+              letterSpacing: "0.08em",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {languageSwitch.label}
+          </Link>
           {!mounted ? (
             <div aria-hidden="true" style={{ width: 120, height: 32 }} />
           ) : user ? (
@@ -375,6 +423,21 @@ export default function Navbar() {
           ))}
 
           <div style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "8px" }}>
+            <Link
+              href={languageSwitch.href}
+              style={{
+                color: "#00FF88",
+                textDecoration: "none",
+                fontSize: "12px",
+                fontFamily: "'JetBrains Mono', monospace",
+                textAlign: "left",
+                padding: "10px 4px",
+                borderBottom: "1px solid rgba(255,255,255,0.04)",
+              }}
+              onClick={() => setMenuOpen(false)}
+            >
+              {languageSwitch.label}
+            </Link>
             {!mounted ? (
               <div aria-hidden="true" style={{ height: 32 }} />
             ) : user ? (
