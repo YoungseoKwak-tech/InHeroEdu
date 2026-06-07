@@ -5733,4 +5733,108 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 9, lessonNum: 3,
+    unitName: "Global Change",
+    title: "Climate Change Impacts — Ecological and Human",
+    subtitle: "Warming reshapes ecosystems and human life — from shifting habitats to rising seas and stronger storms.",
+    overview:
+      "Climate change isn't a single event but a cascade of impacts. Ecologically, it shifts species ranges, disrupts timing, and bleaches coral. For humans, it brings sea-level rise, extreme weather, food and water stress, and climate refugees — hitting vulnerable populations hardest.",
+    objectives: [
+      "Describe ecological impacts of climate change.",
+      "Describe human impacts.",
+      "Explain why impacts are unevenly distributed.",
+    ],
+    sections: [
+      {
+        title: "Ecological impacts",
+        body:
+          "As temperatures rise, species shift their ranges poleward and upslope; some can't move fast enough and decline. Timing mismatches occur (flowers bloom before pollinators arrive). Warmer, more acidic oceans cause coral bleaching, and melting habitats threaten polar species. Overall, climate change accelerates biodiversity loss.",
+        keyIdea: "Species respond by MOVING (poleward/uphill) or shifting TIMING — those that can't keep pace face extinction.",
+        terms: [
+          { term: "Range shift", def: "Movement of a species' habitat (poleward/upslope) as the climate warms." },
+          { term: "Coral bleaching", def: "Loss of coral's symbiotic algae from heat stress, often leading to death." },
+        ],
+      },
+      {
+        title: "Human impacts",
+        body:
+          "Sea-level rise (from melting ice and thermal expansion) floods coasts and islands. Extreme weather — stronger hurricanes, heat waves, droughts, floods — grows more frequent. These threaten food and water security and displace people (climate refugees). The poorest nations, least responsible for emissions, often suffer the worst — an environmental-justice dimension.",
+        terms: [
+          { term: "Sea-level rise", def: "Rising oceans from melting ice and thermal expansion of warming water." },
+          { term: "Climate refugee", def: "A person displaced by climate impacts (flooding, drought)." },
+        ],
+        traps: ["Sea-level rise comes from BOTH melting land ice AND thermal expansion (water expands as it warms) — don't forget the second cause."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 9, lessonNum: 4,
+    unitName: "Global Change",
+    title: "Ocean Acidification",
+    subtitle: "The ocean absorbs much of our CO₂ — and pays for it by turning more acidic, threatening shelled life.",
+    overview:
+      "Ocean acidification is climate change's 'other CO₂ problem.' As the ocean absorbs atmospheric CO₂, it forms carbonic acid, lowering seawater pH. This makes it harder for corals, shellfish, and plankton to build their calcium carbonate shells and skeletons.",
+    objectives: [
+      "Explain the chemistry of ocean acidification.",
+      "Describe its effects on marine organisms.",
+      "Connect it to atmospheric CO₂.",
+    ],
+    sections: [
+      {
+        title: "The chemistry",
+        body:
+          "The ocean absorbs roughly a third of human CO₂ emissions. Dissolved CO₂ reacts with seawater to form carbonic acid, releasing hydrogen ions that lower pH (more acidic). Crucially, this also reduces carbonate ions — the building blocks organisms need for shells and skeletons.",
+        keyIdea: "More atmospheric CO₂ → more dissolves in the ocean → carbonic acid → lower pH AND fewer carbonate ions for shells.",
+        terms: [
+          { term: "Ocean acidification", def: "Decreasing ocean pH as it absorbs CO₂ and forms carbonic acid." },
+          { term: "Carbonic acid", def: "Formed when CO₂ dissolves in water; lowers seawater pH." },
+        ],
+      },
+      {
+        title: "Effects on marine life",
+        body:
+          "Acidification dissolves and weakens the calcium carbonate shells/skeletons of corals, oysters, clams, and plankton — including species at the base of the marine food web. Combined with warming-driven bleaching, it puts coral reefs (and the biodiversity and fisheries they support) at severe risk.",
+        terms: [
+          { term: "Calcium carbonate", def: "The mineral shellfish/corals use for shells/skeletons; harder to form in acidic water." },
+        ],
+        traps: ["Ocean acidification is a DIRECT chemical effect of CO₂ — separate from warming. Cutting CO₂ addresses both; reducing only temperature wouldn't fix acidification."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 9, lessonNum: 5,
+    unitName: "Global Change",
+    title: "Mitigation Strategies — Reducing Emissions",
+    subtitle: "Mitigation tackles the cause: cut the greenhouse gases we put into the air.",
+    overview:
+      "Mitigation means reducing the severity of climate change by cutting greenhouse-gas emissions or removing CO₂ from the air. It's the 'prevention' side (vs. adaptation, which copes with impacts). Key strategies span energy, transport, land use, and technology.",
+    objectives: [
+      "Define mitigation and contrast it with adaptation.",
+      "Identify major mitigation strategies.",
+      "Explain carbon sequestration.",
+    ],
+    sections: [
+      {
+        title: "Cutting emissions at the source",
+        body:
+          "Mitigation reduces emissions by shifting to renewable/nuclear energy, improving efficiency and conservation, electrifying transport, reducing deforestation, and changing agriculture (less methane). The goal is to slow warming by addressing its root cause — the greenhouse gases themselves.",
+        keyIdea: "Mitigation = attack the CAUSE (cut emissions). Adaptation = cope with the EFFECTS. This lesson is about prevention.",
+        terms: [
+          { term: "Mitigation", def: "Reducing climate change by cutting greenhouse-gas emissions or removing CO₂." },
+          { term: "Renewable transition", def: "Shifting energy from fossil fuels to renewables/nuclear to cut emissions." },
+        ],
+      },
+      {
+        title: "Removing carbon",
+        body:
+          "Beyond cutting emissions, we can remove CO₂. Carbon sequestration stores carbon — naturally by protecting and planting forests and restoring wetlands/soils (carbon sinks), or technologically via carbon capture and storage (CCS) that traps CO₂ from smokestacks and buries it. Reforestation is among the cheapest, most effective options.",
+        terms: [
+          { term: "Carbon sequestration", def: "Capturing and storing carbon (in forests, soils, or underground)." },
+          { term: "Carbon sink", def: "A reservoir (forest, ocean, soil) that absorbs more carbon than it releases." },
+        ],
+        traps: ["Mitigation (cut emissions) ≠ adaptation (cope with impacts). A sea wall is ADAPTATION; switching to solar is MITIGATION."],
+      },
+    ],
+  },
 ];
