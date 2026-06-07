@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useLang } from "@/app/contexts/LanguageContext";
 import AuthModal from "@/components/auth/AuthModal";
 import AdminNotificationBell from "@/components/admin/AdminNotificationBell";
@@ -32,6 +33,7 @@ export default function Navbar() {
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [authRedirectTo, setAuthRedirectTo] = useState("/my-plan");
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
   const { lang, toggle, t } = useLang();
   const supabase = createBrowserClient();
   const [user, setUser] = useState<{ email: string | undefined } | null>(null);
@@ -123,6 +125,20 @@ export default function Navbar() {
     // location.replace avoids leaving the signed-in page in history.
     window.location.replace("/");
   };
+
+  // The parent hub (/parents/*) is a self-contained white community portal
+  // with its own header — hide the cosmic site chrome there, but keep the
+  // AuthModal mounted so the signup gate (inhero:open-auth) still works.
+  if (pathname?.startsWith("/parents")) {
+    return (
+      <AuthModal
+        isOpen={authOpen}
+        onClose={() => setAuthOpen(false)}
+        defaultMode={authMode}
+        redirectTo={authRedirectTo}
+      />
+    );
+  }
 
   return (
     <header

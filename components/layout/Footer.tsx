@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { merchantInfo } from "@/lib/legal";
 
 const cols = [
@@ -34,6 +35,9 @@ const cols = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
+  // Parent hub has its own self-contained portal footer.
+  if (pathname?.startsWith("/parents")) return null;
   return (
     <footer style={{ background: "#05050F", borderTop: "1px solid rgba(0,255,136,0.06)", position: "relative", zIndex: 10 }}>
       {/* Scanline */}
