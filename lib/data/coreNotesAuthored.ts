@@ -3235,4 +3235,122 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 1, lessonNum: 1,
+    unitName: "The Living World: Ecosystems",
+    title: "Ecosystem Structure — Who Eats Whom and Why It Matters",
+    subtitle: "Ecosystems are built from feeding relationships — trace the energy and you understand the whole system.",
+    overview:
+      "An ecosystem is all the living organisms in an area plus their nonliving environment, interacting. The backbone of its structure is who eats whom: producers capture energy, consumers pass it along, and decomposers recycle it. Map those feeding relationships and the system's logic appears.",
+    objectives: [
+      "Define ecosystem, biotic, and abiotic factors.",
+      "Identify trophic levels: producers, consumers, decomposers.",
+      "Explain food chains and food webs.",
+    ],
+    sections: [
+      {
+        title: "Biotic, abiotic, and trophic levels",
+        body:
+          "Ecosystems combine biotic (living) and abiotic (nonliving — sunlight, water, soil, temperature) factors. Energy enters through producers (autotrophs) that photosynthesize, then flows to consumers (herbivores, carnivores, omnivores) and finally to decomposers that break down dead matter and recycle nutrients.",
+        table: {
+          headers: ["Trophic level", "Role"],
+          rows: [
+            ["Producers (autotrophs)", "Make energy via photosynthesis (plants, algae)"],
+            ["Primary consumers", "Herbivores that eat producers"],
+            ["Secondary/tertiary consumers", "Carnivores that eat other consumers"],
+            ["Decomposers", "Break down dead matter, recycle nutrients"],
+          ],
+        },
+        keyIdea: "Energy FLOWS one way (sun → producers → consumers), but nutrients CYCLE (decomposers return them to the soil).",
+      },
+      {
+        title: "Food chains and webs",
+        body:
+          "A food chain is a single path of energy (grass → rabbit → fox). A food web is the realistic, interconnected network of many overlapping chains. Webs are more stable than chains because if one species declines, others can fill the gap.",
+        terms: [
+          { term: "Biotic / abiotic", def: "Living factors vs. nonliving factors (sunlight, water, soil) in an ecosystem." },
+          { term: "Food web", def: "An interconnected network of feeding relationships; more stable than a single chain." },
+          { term: "Decomposer", def: "Organism that breaks down dead matter and recycles nutrients." },
+        ],
+        traps: ["Energy FLOWS through and is lost as heat; matter/nutrients CYCLE. Don't say energy is 'recycled.'"],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 1, lessonNum: 2,
+    unitName: "The Living World: Ecosystems",
+    title: "Energy Flow and the 10% Rule",
+    subtitle: "Only about a tenth of the energy at one level reaches the next — which is why food chains are short.",
+    overview:
+      "Energy moves up trophic levels, but most is lost at each step. The 10% rule states that only roughly 10% of the energy stored in one trophic level is passed to the next; the other ~90% is lost mostly as heat through metabolism. This single rule explains the shape of ecosystems.",
+    objectives: [
+      "State and apply the 10% rule.",
+      "Explain why energy is lost between trophic levels.",
+      "Explain why food chains are short and top predators rare.",
+    ],
+    diagram: "energy-pyramid",
+    sections: [
+      {
+        title: "The 10% rule",
+        body:
+          "At each trophic level, organisms use most of their energy to live (movement, respiration, heat), so only about 10% gets stored as biomass available to the next level. An energy pyramid shows this: each level is roughly a tenth of the one below.",
+        keyIdea: "~90% of energy is LOST as heat at each step — only ~10% moves up. That's why pyramids narrow sharply toward the top.",
+        terms: [
+          { term: "10% rule", def: "Only ~10% of energy in one trophic level transfers to the next." },
+          { term: "Biomass", def: "The total mass of living matter at a trophic level." },
+          { term: "Energy pyramid", def: "A diagram showing energy decreasing up the trophic levels." },
+        ],
+      },
+      {
+        title: "Why it shapes ecosystems",
+        body:
+          "Because so much energy is lost, there isn't enough to support many trophic levels — food chains rarely exceed 4–5 links, and top predators are few. It also explains why eating lower on the food chain (plants) feeds more people than eating meat: less energy is wasted.",
+        example:
+          "If producers store 10,000 units of energy, primary consumers get ~1,000, secondary ~100, and tertiary ~10. After a few levels there's almost nothing left — so there's no room for a 6th level.",
+        traps: ["The ~90% loss is mostly heat from RESPIRATION/metabolism — not 'eaten by decomposers.'"],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 1, lessonNum: 3,
+    unitName: "The Living World: Ecosystems",
+    title: "Biogeochemical Cycles — Carbon, Nitrogen, Phosphorus, Water",
+    subtitle: "Matter isn't created or destroyed — it cycles endlessly between living things and the environment.",
+    overview:
+      "Unlike energy, which flows through and is lost, matter cycles. Biogeochemical cycles move key elements — carbon, nitrogen, phosphorus — and water between organisms, the atmosphere, water, and rock. Human activity has disrupted each of these cycles.",
+    objectives: [
+      "Describe the carbon, nitrogen, phosphorus, and water cycles.",
+      "Identify reservoirs and fluxes in each cycle.",
+      "Explain how humans alter these cycles.",
+    ],
+    diagram: "carbon-cycle",
+    sections: [
+      {
+        title: "The major cycles",
+        body:
+          "Each cycle moves an element between reservoirs (storage places). Know the basics and the human disruption for each.",
+        table: {
+          headers: ["Cycle", "Key idea", "Human disruption"],
+          rows: [
+            ["Carbon", "Photosynthesis ↔ respiration; stored in fossil fuels", "Burning fossil fuels → CO₂ ↑ (warming)"],
+            ["Nitrogen", "Fixation makes N usable; needs bacteria", "Fertilizers add excess N → dead zones"],
+            ["Phosphorus", "No gas phase; from rock; limits growth", "Mining/fertilizer → runoff, algal blooms"],
+            ["Water", "Evaporation, condensation, precipitation", "Damming, groundwater depletion, paving"],
+          ],
+        },
+        keyIdea: "Carbon and nitrogen have atmospheric (gas) phases; PHOSPHORUS does not — it comes from rock and moves slowly.",
+      },
+      {
+        title: "Why disruption matters",
+        body:
+          "Humans have overloaded these cycles: extra carbon drives climate change; excess nitrogen and phosphorus from fertilizer run into water and cause eutrophication (algal blooms that deplete oxygen and create dead zones). Nitrogen fixation by bacteria is the key step that makes atmospheric N usable by plants.",
+        terms: [
+          { term: "Reservoir", def: "A place where a large amount of an element is stored (e.g., fossil fuels store carbon)." },
+          { term: "Nitrogen fixation", def: "Bacteria converting atmospheric N₂ into a form plants can use." },
+          { term: "Eutrophication", def: "Nutrient overload (N, P) causing algal blooms and oxygen-depleted dead zones." },
+        ],
+        traps: ["Phosphorus has NO atmospheric/gas phase — a favorite exam distinction from carbon and nitrogen."],
+      },
+    ],
+  },
 ];
