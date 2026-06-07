@@ -39,6 +39,8 @@ interface CoreNote {
 }
 interface SubjectCount { courseId: string | null; label: string; emoji: string; count: number }
 
+type Lang = "en" | "ko";
+
 export default function CoreNotesPage() {
   const [subjects, setSubjects] = useState<SubjectCount[]>([]);
   const [total, setTotal] = useState(0);
@@ -46,6 +48,11 @@ export default function CoreNotesPage() {
   const [notes, setNotes] = useState<CoreNote[]>([]);
   const [activeLesson, setActiveLesson] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  // Korean storytelling mode — fetched per lesson on demand, kept in a map so
+  // toggling EN ↔ 한국어 and revisiting lessons is instant.
+  const [lang, setLang] = useState<Lang>("en");
+  const [koNotes, setKoNotes] = useState<Record<string, CoreNote>>({});
+  const [koErrors, setKoErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     fetch("/api/core-notes?countOnly=true")
@@ -71,6 +78,26 @@ export default function CoreNotesPage() {
       .catch(() => setNotes([]))
       .finally(() => setLoading(false));
   }, [active]);
+
+  // Fetch the Korean storytelling version when 한국어 is on and not cached yet.
+  // First request per note generates it (slow once); after that it's instant.
+  useEffect(() => {
+    if (lang !== "ko" || !activeLesson || koNotes[activeLesson] || koErrors[activeLesson]) return;
+    let cancelled = false;
+    fetch(`/api/core-notes/korean?lessonId=${encodeURIComponent(activeLesson)}`)
+      .then((r) => r.json())
+      .then((d) => {
+        if (cancelled) return;
+        if (d.note) setKoNotes((m) => ({ ...m, [activeLesson]: d.note }));
+        else setKoErrors((m) => ({ ...m, [activeLesson]: d.error ?? "failed" }));
+      })
+      .catch(() => {
+        if (!cancelled) setKoErrors((m) => ({ ...m, [activeLesson]: "network" }));
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [lang, activeLesson, koNotes, koErrors]);
 
   // Group the subject's notes by unit for the left rail.
   const units = useMemo(() => {
@@ -100,11 +127,12 @@ export default function CoreNotesPage() {
           One screen. One concept.
         </h1>
         <p style={{ fontSize: 14.5, color: SUBTLE, marginTop: 8 }}>
-          {total.toLocaleString()} distilled notes from InHero lessons — only what to remember in the
-          exam room. <span style={{ color: RED }}>Traps in red.</span>
+          {total > 0 ? `${total.toLocaleString()} ` : ""}distilled notes from InHero lessons — only
+          what to remember in the exam room. <span style={{ color: RED }}>Traps in red.</span>
         </p>
         {/* Subject selector */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 18 }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 18, minHeight: 36, alignItems: "center" }}>
+          {subjects.length === 0 && <Spinner size={22} />}
           {subjects.map((s) => {
             const on = s.courseId === active;
             return (
@@ -137,7 +165,9 @@ export default function CoreNotesPage() {
           }}
         >
           {loading ? (
-            <p style={{ color: SUBTLE, fontSize: 13, padding: "0 20px" }}>Loading…</p>
+            <div style={{ display: "flex", justifyContent: "center", padding: "40px 0" }}>
+              <Spinner size={24} />
+            </div>
           ) : (
             units.map((u) => (
               <div key={u.unit} style={{ marginBottom: 14 }}>
@@ -183,9 +213,53 @@ export default function CoreNotesPage() {
         <main style={{ flex: 1, minWidth: 0, padding: "34px 40px 120px", display: "flex", justifyContent: "center" }}>
           <div style={{ width: "100%", maxWidth: 720 }}>
             {loading ? (
-              <p style={{ color: SUBTLE }}>Loading {activeLabel} notes…</p>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, paddingTop: 80 }}>
+                <Spinner size={36} />
+                <p style={{ color: SUBTLE, margin: 0, fontSize: 14 }}>Loading {activeLabel} notes…</p>
+              </div>
             ) : current ? (
-              <NoteView note={current} />
+              (() => {
+                const koNote = lang === "ko" ? koNotes[current.lessonId] : undefined;
+                const koError = lang === "ko" ? koErrors[current.lessonId] : undefined;
+                return (
+                  <>
+                    <LangToggle lang={lang} onChange={setLang} />
+                    {lang === "ko" && !koNote ? (
+                      !koError ? (
+                        <KoLoadingPanel />
+                      ) : koError === "not-ready" ? (
+                        <>
+                          <div style={{ margin: "0 0 22px", padding: "16px 20px", borderRadius: 14, border: `1px solid rgba(0,255,178,0.25)`, background: "rgba(0,255,178,0.05)" }}>
+                            <p style={{ margin: 0, fontSize: 14, color: "#cfe9df", lineHeight: 1.6 }}>
+                              🎙️ 이 노트의 한국어 스토리 버전은 아직 준비 중이에요 — 순차적으로 추가되고 있습니다. 아래는 영어 원본입니다.
+                            </p>
+                          </div>
+                          <NoteView note={current} lang="en" />
+                        </>
+                      ) : (
+                        <div style={{ marginTop: 24, padding: "18px 22px", borderRadius: 14, border: `1px solid rgba(255,107,107,0.32)`, background: "rgba(255,107,107,0.06)" }}>
+                          <p style={{ margin: 0, fontSize: 14.5, color: "#f3dede", lineHeight: 1.6 }}>
+                            한국어 버전을 불러오지 못했어요. 네트워크를 확인해 주세요.
+                          </p>
+                          <button
+                            onClick={() =>
+                              setKoErrors((m) => {
+                                const { [current.lessonId]: _drop, ...rest } = m;
+                                return rest;
+                              })
+                            }
+                            style={{ marginTop: 10, padding: "7px 14px", borderRadius: 999, border: `1px solid ${MINT}`, background: "transparent", color: MINT, fontSize: 13, fontWeight: 600, cursor: "pointer" }}
+                          >
+                            다시 시도
+                          </button>
+                        </div>
+                      )
+                    ) : (
+                      <NoteView note={koNote ?? current} lang={koNote ? "ko" : "en"} />
+                    )}
+                  </>
+                );
+              })()
             ) : (
               <p style={{ color: SUBTLE }}>No notes yet for {activeLabel}.</p>
             )}
@@ -196,7 +270,77 @@ export default function CoreNotesPage() {
   );
 }
 
-function NoteView({ note }: { note: CoreNote }) {
+function LangToggle({ lang, onChange }: { lang: Lang; onChange: (l: Lang) => void }) {
+  const opts: { value: Lang; label: string }[] = [
+    { value: "en", label: "EN" },
+    { value: "ko", label: "🇰🇷 한국어 스토리" },
+  ];
+  return (
+    <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 14 }}>
+      <div style={{ display: "inline-flex", padding: 3, gap: 2, borderRadius: 999, border: `1px solid ${BORDER}`, background: PANEL }}>
+        {opts.map((o) => {
+          const on = o.value === lang;
+          return (
+            <button
+              key={o.value}
+              onClick={() => onChange(o.value)}
+              style={{
+                padding: "6px 14px", borderRadius: 999, border: "none", cursor: "pointer",
+                fontSize: 12.5, fontWeight: 700, letterSpacing: "0.02em",
+                background: on ? "rgba(0,255,178,0.14)" : "transparent",
+                color: on ? MINT : SUBTLE,
+              }}
+            >
+              {o.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function Spinner({ size = 28 }: { size?: number }) {
+  return (
+    <>
+      <style>{`@keyframes cnSpin { to { transform: rotate(360deg) } }`}</style>
+      <div
+        aria-label="Loading"
+        role="status"
+        style={{
+          width: size, height: size, borderRadius: "50%", flexShrink: 0,
+          border: `${Math.max(2.5, size / 9)}px solid rgba(0,255,178,0.15)`,
+          borderTopColor: MINT, animation: "cnSpin 0.8s linear infinite",
+        }}
+      />
+    </>
+  );
+}
+
+function KoLoadingPanel() {
+  return (
+    <div
+      style={{
+        marginTop: 24, padding: "36px 32px", borderRadius: 18,
+        display: "flex", flexDirection: "column", alignItems: "center", gap: 14,
+        border: `1px solid rgba(0,255,178,0.25)`, background: "rgba(0,255,178,0.04)",
+      }}
+    >
+      <Spinner size={32} />
+      <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#eafff8" }}>
+        🎙️ 한국어 스토리 버전 불러오는 중…
+      </p>
+    </div>
+  );
+}
+
+const NOTE_LABELS: Record<Lang, { remember: string; formulas: string; diagram: string; keyIdea: string; example: string; trap: string }> = {
+  en: { remember: "REMEMBER", formulas: "ƒ KEY FORMULAS", diagram: "▦ DIAGRAM", keyIdea: "KEY IDEA", example: "✎ WORKED EXAMPLE", trap: "⚠ TRAP" },
+  ko: { remember: "꼭 기억하기", formulas: "ƒ 핵심 공식", diagram: "▦ 도식으로 보기", keyIdea: "핵심 아이디어", example: "✎ 예제로 풀어보기", trap: "⚠ 함정 주의 — 여기서 틀립니다" },
+};
+
+function NoteView({ note, lang = "en" }: { note: CoreNote; lang?: Lang }) {
+  const L = NOTE_LABELS[lang];
   return (
     <article>
       <div style={{ display: "flex", alignItems: "center", gap: 9, fontSize: 12.5, color: SUBTLE, fontWeight: 600 }}>
@@ -236,7 +380,7 @@ function NoteView({ note }: { note: CoreNote }) {
             background: "rgba(0,255,178,0.05)", border: `1px solid rgba(0,255,178,0.22)`,
           }}
         >
-          <div style={{ fontSize: 11.5, letterSpacing: "0.18em", fontWeight: 800, color: MINT }}>REMEMBER</div>
+          <div style={{ fontSize: 11.5, letterSpacing: lang === "ko" ? "0.06em" : "0.18em", fontWeight: 800, color: MINT }}>{L.remember}</div>
           <ul style={{ listStyle: "none", padding: 0, margin: "14px 0 0", display: "grid", gap: 11 }}>
             {note.objectives.map((o, i) => (
               <li key={i} style={{ display: "flex", gap: 12, fontSize: 15, lineHeight: 1.5, color: "#e3e9f1" }}>
@@ -255,8 +399,8 @@ function NoteView({ note }: { note: CoreNote }) {
             background: "#070b12", border: `1px solid rgba(0,255,178,0.28)`,
           }}
         >
-          <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: MINT, marginBottom: 10 }}>
-            ƒ KEY FORMULAS
+          <div style={{ fontSize: 11, letterSpacing: lang === "ko" ? "0.05em" : "0.16em", fontWeight: 800, color: MINT, marginBottom: 10 }}>
+            {L.formulas}
           </div>
           <div style={{ display: "grid", gap: 9 }}>
             {note.formulas.map((f, i) => (
@@ -276,7 +420,7 @@ function NoteView({ note }: { note: CoreNote }) {
         </div>
       )}
 
-      {note.diagram && <Diagram kind={note.diagram} />}
+      {note.diagram && <Diagram kind={note.diagram} label={L.diagram} ko={lang === "ko"} />}
 
       {note.sections.map((s, i) => (
         <section key={i} style={{ marginTop: 40 }}>
@@ -297,7 +441,7 @@ function NoteView({ note }: { note: CoreNote }) {
             <div style={{ marginTop: 16, display: "flex", gap: 12, alignItems: "flex-start", padding: "14px 18px", borderRadius: 12, background: "rgba(0,255,178,0.07)", border: `1px solid rgba(0,255,178,0.3)` }}>
               <span style={{ fontSize: 16, flexShrink: 0 }}>💡</span>
               <div>
-                <div style={{ fontSize: 10.5, letterSpacing: "0.16em", fontWeight: 800, color: MINT, marginBottom: 3 }}>KEY IDEA</div>
+                <div style={{ fontSize: 10.5, letterSpacing: lang === "ko" ? "0.05em" : "0.16em", fontWeight: 800, color: MINT, marginBottom: 3 }}>{L.keyIdea}</div>
                 <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: "#e6f0ea" }}>{s.keyIdea}</p>
               </div>
             </div>
@@ -320,7 +464,7 @@ function NoteView({ note }: { note: CoreNote }) {
                 background: "rgba(143,162,255,0.07)", border: `1px solid rgba(143,162,255,0.3)`,
               }}
             >
-              <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: INDIGO }}>✎ WORKED EXAMPLE</div>
+              <div style={{ fontSize: 11, letterSpacing: lang === "ko" ? "0.05em" : "0.16em", fontWeight: 800, color: INDIGO }}>{L.example}</div>
               <p style={{ margin: "8px 0 0", fontSize: 15, lineHeight: 1.7, color: "#dfe5f1", whiteSpace: "pre-line" }}>{s.example}</p>
             </div>
           )}
@@ -332,7 +476,7 @@ function NoteView({ note }: { note: CoreNote }) {
                 background: "rgba(255,107,107,0.07)", border: `1px solid rgba(255,107,107,0.32)`,
               }}
             >
-              <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: RED }}>⚠ TRAP</div>
+              <div style={{ fontSize: 11, letterSpacing: lang === "ko" ? "0.05em" : "0.16em", fontWeight: 800, color: RED }}>{L.trap}</div>
               <p style={{ margin: "8px 0 0", fontSize: 15, lineHeight: 1.7, color: "#f3dede" }}>{trap}</p>
             </div>
           ))}
@@ -381,14 +525,27 @@ const DIAGRAM_TITLES: Record<string, string> = {
   "cause-effect": "Cause → Event → Effect",
 };
 
-function Diagram({ kind }: { kind: string }) {
+const DIAGRAM_TITLES_KO: Record<string, string> = {
+  "supply-demand": "수요와 공급 (Supply & Demand)", "ad-as": "AD–AS 모형", "ppc": "생산가능곡선 (PPC)",
+  "bell-curve": "정규분포 (68–95–99.7 법칙)", "scatter-regression": "산점도와 회귀직선",
+  "boxplot": "상자 수염 그림 (Boxplot)", "tangent": "접선 — 미분의 기하학", "area-under-curve": "곡선 아래 넓이 — 적분",
+  "neuron": "뉴런의 구조", "brain-lobes": "대뇌 피질의 4개 엽",
+  "carbon-cycle": "탄소 순환 (Carbon Cycle)", "energy-pyramid": "에너지 피라미드 (영양 단계)",
+  "dtm": "인구변천모형 (DTM)", "population-pyramid": "인구 피라미드",
+  "three-branches": "삼권분립 (Separation of Powers)", "bill-to-law": "법률 제정 과정",
+  "rhetorical-triangle": "수사학의 삼각형 (Rhetorical Triangle)", "argument-structure": "논증의 구조",
+  "cause-effect": "원인 → 사건 → 결과",
+};
+
+function Diagram({ kind, label = "▦ DIAGRAM", ko = false }: { kind: string; label?: string; ko?: boolean }) {
   const body = diagramBody(kind);
   if (!body) return null;
+  const caption = (ko ? DIAGRAM_TITLES_KO[kind] : undefined) ?? DIAGRAM_TITLES[kind] ?? "";
   return (
     <figure style={{ margin: "22px 0 0", padding: "18px 18px 12px", borderRadius: 14, background: "#070b12", border: `1px solid ${BORDER}` }}>
-      <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: INDIGO, marginBottom: 8 }}>▦ DIAGRAM</div>
+      <div style={{ fontSize: 11, letterSpacing: ko ? "0.05em" : "0.16em", fontWeight: 800, color: INDIGO, marginBottom: 8 }}>{label}</div>
       <svg viewBox="0 0 280 170" width="100%" style={{ maxWidth: 360, display: "block", margin: "0 auto" }}>{body}</svg>
-      <figcaption style={{ textAlign: "center", fontSize: 12, color: DLABEL, marginTop: 6 }}>{DIAGRAM_TITLES[kind] ?? ""}</figcaption>
+      <figcaption style={{ textAlign: "center", fontSize: 12, color: DLABEL, marginTop: 6 }}>{caption}</figcaption>
     </figure>
   );
 }

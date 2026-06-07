@@ -323,3 +323,8 @@ export async function getCoreNotes(subject?: string): Promise<CoreNote[]> {
   if (!subject) return all;
   return all.filter((n) => n.courseId === subject);
 }
+
+export async function getCoreNoteByLessonId(lessonId: string): Promise<CoreNote | null> {
+  const all = await getAllCoreNotes();
+  return all.find((n) => n.lessonId === lessonId) ?? null;
+}
