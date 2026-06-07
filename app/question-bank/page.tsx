@@ -456,6 +456,31 @@ function Askable({
 }) {
   const [picked, setPicked] = useState<number | null>(null);
   const [showSimilar, setShowSimilar] = useState(false);
+  // 풀이만 한국어로 — translate the explanation (never the prompt/options) on demand.
+  const [ko, setKo] = useState<{ loading: boolean; text: string | null; error: string | null }>(
+    { loading: false, text: null, error: null }
+  );
+
+  async function translateExplanation() {
+    if (!explanation || ko.loading || ko.text) return;
+    setKo({ loading: true, text: null, error: null });
+    try {
+      const r = await authFetch("/api/question-bank/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: explanation }),
+      });
+      const d = await r.json();
+      if (d?.korean) {
+        setKo({ loading: false, text: d.korean, error: null });
+      } else {
+        setKo({ loading: false, text: null, error: "지금은 번역을 불러올 수 없어요. 잠시 후 다시 시도해주세요." });
+      }
+    } catch {
+      setKo({ loading: false, text: null, error: "지금은 번역을 불러올 수 없어요. 잠시 후 다시 시도해주세요." });
+    }
+  }
+
   const answered = picked !== null;
   const pickedOpt = answered ? options[picked!] : null;
   const isWrong = answered && !pickedOpt?.correct;
@@ -522,6 +547,45 @@ function Askable({
             <p style={{ fontSize: 13.5, lineHeight: 1.6, color: "rgba(255,255,255,0.6)", margin: 0, borderLeft: "2px solid rgba(255,255,255,0.15)", paddingLeft: 12 }}>
               {explanation}
             </p>
+          )}
+
+          {/* 풀이만 한국어로 — translates the explanation, not the question. */}
+          {explanation && !ko.text && (
+            <button
+              onClick={translateExplanation}
+              disabled={ko.loading}
+              style={{
+                marginTop: 10,
+                padding: "7px 13px",
+                borderRadius: 9,
+                border: "1px solid rgba(94,234,212,0.4)",
+                background: "rgba(0,255,178,0.08)",
+                color: "#5eead4",
+                fontSize: 12,
+                fontWeight: 800,
+                letterSpacing: "0.02em",
+                cursor: ko.loading ? "default" : "pointer",
+              }}
+            >
+              {ko.loading ? "번역 중…" : "🇰🇷 풀이 한국어로 보기"}
+            </button>
+          )}
+
+          {ko.error && (
+            <p style={{ fontSize: 12.5, lineHeight: 1.6, color: "#ffb3b3", margin: "10px 0 0" }}>
+              {ko.error}
+            </p>
+          )}
+
+          {ko.text && (
+            <div style={{ marginTop: 12, borderLeft: "2px solid rgba(0,255,178,0.4)", paddingLeft: 12 }}>
+              <p style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(0,255,178,0.7)", margin: "0 0 6px" }}>
+                한국어 풀이
+              </p>
+              <p style={{ fontSize: 13.5, lineHeight: 1.7, color: "rgba(255,255,255,0.72)", margin: 0, whiteSpace: "pre-wrap" }}>
+                {ko.text}
+              </p>
+            </div>
           )}
 
           {isWrong && similar && !showSimilar && (

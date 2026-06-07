@@ -118,6 +118,13 @@ export default function CoreNotesPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: BG, color: "#e8edf4" }}>
+      <style>{`
+        @keyframes cnShimmer { 0% { background-position: -480px 0 } 100% { background-position: 480px 0 } }
+        .cn-skel {
+          background: linear-gradient(90deg, rgba(255,255,255,0.035) 25%, rgba(255,255,255,0.085) 37%, rgba(255,255,255,0.035) 63%);
+          background-size: 960px 100%; animation: cnShimmer 1.4s ease-in-out infinite; border-radius: 8px;
+        }
+      `}</style>
       {/* Header */}
       <div style={{ borderBottom: `1px solid ${BORDER}`, padding: "30px 28px 22px" }}>
         <p style={{ letterSpacing: "0.26em", fontSize: 11, color: MINT, fontWeight: 700, margin: 0 }}>
@@ -132,7 +139,10 @@ export default function CoreNotesPage() {
         </p>
         {/* Subject selector */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 18, minHeight: 36, alignItems: "center" }}>
-          {subjects.length === 0 && <Spinner size={22} />}
+          {subjects.length === 0 &&
+            [96, 132, 110, 144, 88, 120].map((w, i) => (
+              <div key={i} className="cn-skel" style={{ width: w, height: 32, borderRadius: 999 }} />
+            ))}
           {subjects.map((s) => {
             const on = s.courseId === active;
             return (
@@ -165,9 +175,7 @@ export default function CoreNotesPage() {
           }}
         >
           {loading ? (
-            <div style={{ display: "flex", justifyContent: "center", padding: "40px 0" }}>
-              <Spinner size={24} />
-            </div>
+            <RailSkeleton />
           ) : (
             units.map((u) => (
               <div key={u.unit} style={{ marginBottom: 14 }}>
@@ -213,10 +221,7 @@ export default function CoreNotesPage() {
         <main style={{ flex: 1, minWidth: 0, padding: "34px 40px 120px", display: "flex", justifyContent: "center" }}>
           <div style={{ width: "100%", maxWidth: 720 }}>
             {loading ? (
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, paddingTop: 80 }}>
-                <Spinner size={36} />
-                <p style={{ color: SUBTLE, margin: 0, fontSize: 14 }}>Loading {activeLabel} notes…</p>
-              </div>
+              <NoteSkeleton />
             ) : current ? (
               (() => {
                 const koNote = lang === "ko" ? koNotes[current.lessonId] : undefined;
@@ -314,6 +319,43 @@ function Spinner({ size = 28 }: { size?: number }) {
         }}
       />
     </>
+  );
+}
+
+/** Left-rail placeholder: a couple of unit groups with lesson lines, shimmering. */
+function RailSkeleton() {
+  return (
+    <div style={{ padding: "0 20px" }} aria-label="Loading" role="status">
+      {[0, 1].map((g) => (
+        <div key={g} style={{ marginBottom: 22 }}>
+          <div className="cn-skel" style={{ width: 90, height: 11, margin: "6px 0 14px" }} />
+          {[0, 1, 2, 3].map((r) => (
+            <div key={r} style={{ display: "flex", gap: 10, alignItems: "center", padding: "9px 0" }}>
+              <div className="cn-skel" style={{ width: 22, height: 12, flexShrink: 0 }} />
+              <div className="cn-skel" style={{ width: `${62 + ((r * 11) % 30)}%`, height: 12 }} />
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** Main-panel placeholder mirroring a note's title + REMEMBER block + body. */
+function NoteSkeleton() {
+  return (
+    <div aria-label="Loading" role="status">
+      <div className="cn-skel" style={{ width: 160, height: 12, marginBottom: 16 }} />
+      <div className="cn-skel" style={{ width: "70%", height: 30, marginBottom: 14 }} />
+      <div className="cn-skel" style={{ width: "90%", height: 15, marginBottom: 8 }} />
+      <div className="cn-skel" style={{ width: "82%", height: 15, marginBottom: 26 }} />
+      <div className="cn-skel" style={{ width: "100%", height: 118, borderRadius: 16, marginBottom: 24 }} />
+      {[0, 1, 2].map((i) => (
+        <div key={i} style={{ marginBottom: 10 }}>
+          <div className="cn-skel" style={{ width: i === 1 ? "76%" : "94%", height: 14 }} />
+        </div>
+      ))}
+    </div>
   );
 }
 
