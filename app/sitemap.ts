@@ -53,6 +53,13 @@ export default function sitemap() {
       priority: 0.9,
     },
     {
+      // Bilingual subject 단어장 — grows with the Korean Core Notes loop.
+      url: `${baseUrl}/vocab`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/ai-companion`,
       lastModified: new Date(),
       changeFrequency: 'monthly',

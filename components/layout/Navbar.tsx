@@ -19,6 +19,7 @@ const NAV_LINKS = [
   { href: "/academy",         label: "Courses" },
   { href: "/core-notes",      label: "Core Notes" },
   { href: "/question-bank",   label: "Question Bank" },
+  { href: "/vocab",           label: "Vocab" },
   { href: "/lounges",         label: "Lounges" },
   { href: "/library",         label: "Library" },
   { href: "/clubs",           label: "Clubs" },
