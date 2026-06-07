@@ -3126,4 +3126,113 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 9, lessonNum: 3,
+    unitName: "Globalization (c. 1900–present)",
+    title: "Climate Change and Environmental Globalization",
+    subtitle: "Industrialization's greatest side effect is global — and demands cooperation no single nation can provide alone.",
+    overview:
+      "The fossil-fueled growth of the modern era has warmed the planet, making climate change the defining environmental challenge of globalization. Because emissions anywhere affect everyone, it's a shared problem requiring international cooperation — which has proven hard to achieve.",
+    objectives: [
+      "Explain the causes and effects of human-driven climate change.",
+      "Describe environmental problems as global, shared challenges.",
+      "Identify international efforts to respond.",
+    ],
+    sections: [
+      {
+        title: "A global, shared problem",
+        body:
+          "Burning fossil fuels since the Industrial Revolution has released greenhouse gases that trap heat, raising global temperatures. Effects — rising seas, extreme weather, ecosystem disruption — cross every border, so one country's emissions become everyone's problem.",
+        keyIdea: "Climate change is the ultimate globalization issue: emissions anywhere cause harm everywhere, so no nation can solve it alone.",
+        terms: [
+          { term: "Greenhouse gases", def: "Gases (like CO₂) that trap heat in the atmosphere, driving warming." },
+          { term: "Climate change", def: "Long-term shifts in temperature and weather driven largely by human emissions." },
+        ],
+      },
+      {
+        title: "Responding together",
+        body:
+          "Nations have tried to coordinate through agreements like the Paris Agreement, pledging to cut emissions. But tensions persist between developed nations (historically the biggest emitters) and developing ones (which want to grow), making binding global action difficult.",
+        terms: [
+          { term: "Paris Agreement", def: "International accord in which nations pledge to limit greenhouse-gas emissions." },
+          { term: "Sustainable development", def: "Growth that meets present needs without compromising future generations." },
+        ],
+        traps: ["The core tension: developed nations caused most past emissions, but developing nations need to grow — fueling disputes over who must cut."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 9, lessonNum: 4,
+    unitName: "Globalization (c. 1900–present)",
+    title: "Disease, Migration, and Global Health",
+    subtitle: "The connections that move goods and people also move germs — making health a global concern.",
+    overview:
+      "Globalization moves people and pathogens as fast as products. Pandemics spread along the same networks as trade and migration, while mass migration reshapes societies. Global health has become a shared responsibility requiring international coordination.",
+    objectives: [
+      "Explain how globalization accelerates disease spread.",
+      "Describe modern migration patterns and their effects.",
+      "Identify global responses to health challenges.",
+    ],
+    sections: [
+      {
+        title: "Connected world, connected disease",
+        body:
+          "Just as the Silk Roads once spread the plague, modern air travel can carry a virus worldwide in days — as COVID-19 showed. The same interconnection that powers the global economy makes pandemics a built-in risk, prompting bodies like the WHO to coordinate responses.",
+        keyIdea: "The historical pattern repeats: the networks that spread trade and people also spread disease — only faster now.",
+        terms: [
+          { term: "Pandemic", def: "A disease outbreak spread across countries or continents." },
+          { term: "WHO", def: "World Health Organization — coordinates international responses to health crises." },
+        ],
+      },
+      {
+        title: "Migration in the global age",
+        body:
+          "People migrate for work, safety, and opportunity, creating large diasporas, remittance flows, and multicultural cities — but also nativist backlash and refugee crises driven by war and, increasingly, climate. Migration remains one of globalization's most contested issues.",
+        terms: [
+          { term: "Diaspora", def: "A dispersed population living outside its homeland." },
+          { term: "Refugee", def: "A person forced to flee their country due to war, persecution, or disaster." },
+        ],
+        traps: ["Modern migration echoes the industrial age — remittances and enclaves at one end, nativism and backlash at the other."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 9, lessonNum: 5,
+    unitName: "Globalization (c. 1900–present)",
+    title: "Continuity and Change in the 21st Century",
+    subtitle: "The big-picture synthesis: what endures across all of world history, and what has transformed.",
+    overview:
+      "This capstone lesson zooms all the way out. Across the whole course, certain patterns persist — trade networks, belief systems, the use of power — while others transform: the scale of connection, the pace of change, and the technologies that drive it. The skill is arguing continuity AND change over time.",
+    objectives: [
+      "Identify long-term continuities across world history.",
+      "Identify major changes culminating in the 21st century.",
+      "Practice continuity-and-change-over-time analysis.",
+    ],
+    sections: [
+      {
+        title: "What endures, what transforms",
+        body:
+          "The exam rewards seeing both sides of the ledger. Trade, cultural exchange, and the contest for power run through every era — but their scale and speed have exploded in the modern age.",
+        table: {
+          headers: ["Continuity", "Change"],
+          rows: [
+            ["Trade networks connect distant peoples", "From Silk Roads to instant global digital trade"],
+            ["Belief systems & culture spread", "Now spread instantly via mass media/internet"],
+            ["States seek power and legitimacy", "From empires to nation-states and global institutions"],
+            ["Disease & people move along networks", "Now planet-wide in days"],
+          ],
+        },
+        keyIdea: "Continuity-and-change isn't either/or — the BEST answers show the same patterns persisting while their SCALE and SPEED transform.",
+      },
+      {
+        title: "Thinking like a historian",
+        body:
+          "The 21st century intensifies trends you've tracked all year: deeper economic integration, faster cultural exchange, shared global problems (climate, pandemics), and ongoing tension between global forces and local identities. The course's payoff is the habit of asking, for any development, 'what here is continuous with the past, and what is genuinely new?'",
+        terms: [
+          { term: "Continuity and change over time", def: "A core historical-reasoning skill: tracing what persists and what transforms across periods." },
+        ],
+        traps: ["Avoid all-or-nothing claims — almost nothing is purely 'new' or purely 'unchanged.' Argue degrees of both."],
+      },
+    ],
+  },
 ];
