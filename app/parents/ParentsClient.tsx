@@ -27,6 +27,13 @@ import { COMPETITIONS } from "./competitions/data";
 
 const GREEN = "#00FF88";
 
+/** "#22D3EE" → "34,211,238" for rgba() glows tied to each card's accent. */
+function hexToRgb(hex: string): string {
+  const h = hex.replace("#", "");
+  const n = parseInt(h, 16);
+  return `${(n >> 16) & 255},${(n >> 8) & 255},${n & 255}`;
+}
+
 interface Asset {
   emoji: string;
   title: string;
@@ -55,6 +62,16 @@ const ASSETS: Asset[] = [
     emoji: "🎯", title: "STEM 대회 데이터베이스", count: COMPETITIONS.length, unit: "개 대회", accent: "#FF5C8A", gated: false,
     route: "/parents/competitions",
     desc: "USABO·USACO·ISEF·Conrad… 학부모가 가장 많이 묻는 STEM 대회를 학년·난이도·신청 시기·추천 전공별로 정리.",
+  },
+  {
+    emoji: "🗺️", title: "학년별 로드맵", count: 4, unit: "개 학년", accent: "#22D3EE", gated: false,
+    route: "/parents/roadmap",
+    desc: "9~12학년 학업·시험·활동·에세이를 학년별로 정리. 지금 자녀 학년에 무엇을 해야 하는지 한눈에.",
+  },
+  {
+    emoji: "📘", title: "AP 과목 선택 가이드", count: 8, unit: "개 전공", accent: "#34D399", gated: false,
+    route: "/parents/ap-guide",
+    desc: "'○○ 전공이면 AP 뭘 들어야 하나요?' — 전공별 추천 AP 조합을 정리. 가장 많이 받는 질문의 답.",
   },
   {
     emoji: "📚", title: "AP 디지털 교재", count: "tb", unit: "권 교재", accent: "#FFB800", gated: true,
@@ -131,7 +148,7 @@ export default function ParentsClient() {
         {/* Asset cards */}
         <div style={{ display: "flex", flexDirection: "column", gap: 16, marginBottom: 40 }}>
           {ASSETS.map((a) => {
-            const rgb = a.accent === "#00FF88" ? "0,255,136" : a.accent === "#7B61FF" ? "123,97,255" : a.accent === "#FF5C8A" ? "255,92,138" : "255,184,0";
+            const rgb = hexToRgb(a.accent);
             return (
               <button
                 key={a.route}
