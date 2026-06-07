@@ -72,6 +72,7 @@ import { AP_BIO_U6A_KO } from "./ap-bio-u6a";
 import { AP_BIO_U6B_KO } from "./ap-bio-u6b";
 import { AP_BIO_U7A_KO } from "./ap-bio-u7a";
 import { AP_BIO_U8A_KO } from "./ap-bio-u8a";
+import { AP_BIO_U8B_KO } from "./ap-bio-u8b";
 
 export const REGISTRY_A: CoreNote[] = [
   ...AP_CHEM_U1A_KO,
@@ -140,4 +141,5 @@ export const REGISTRY_A: CoreNote[] = [
   ...AP_BIO_U6B_KO,
   ...AP_BIO_U7A_KO,
   ...AP_BIO_U8A_KO,
+  ...AP_BIO_U8B_KO,
 ];
