@@ -18,6 +18,7 @@
  */
 
 import { useEffect, useState } from "react";
+import { useT } from "@/app/contexts/LanguageContext";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -82,6 +83,7 @@ function formatPages(total: number | null | undefined): string {
 }
 
 export default function OriginalsSidebar() {
+  const tr = useT();
   const [textbooks, setTextbooks] = useState<Textbook[]>([]);
   const [loaded, setLoaded] = useState(false);
 
@@ -109,7 +111,7 @@ export default function OriginalsSidebar() {
     <aside className="orig-sidebar" aria-label="InHero Originals">
       <div className="orig-eyebrow">
         <span className="orig-eyebrow-dot" aria-hidden="true" />
-        📘 INHERO ORIGINALS
+        📘 {tr("INHERO ORIGINALS")}
       </div>
 
       <div className="orig-list">
@@ -150,7 +152,7 @@ export default function OriginalsSidebar() {
                       {cover.glyph}
                     </span>
                   )}
-                  <span className="orig-cover-badge">✨ ORIGINAL</span>
+                  <span className="orig-cover-badge">✨ {tr("ORIGINAL")}</span>
                 </div>
                 <div className="orig-card-body">
                   <h3 className="orig-card-title">{t.title}</h3>
@@ -198,11 +200,11 @@ export default function OriginalsSidebar() {
       {/* What's inside — shown ONCE under the grid, applies to every
           original since the pipeline is identical across titles. */}
       <ul className="orig-features-shared" aria-label="What's inside every InHero Original">
-        <li className="orig-features-head">What's inside every Original:</li>
+        <li className="orig-features-head">{tr("What's inside every Original:")}</li>
         {WHATS_INSIDE.map((line) => (
           <li key={line} className="orig-features-item">
             <span className="orig-feat-check" aria-hidden="true">✓</span>
-            <span>{line}</span>
+            <span>{tr(line)}</span>
           </li>
         ))}
       </ul>

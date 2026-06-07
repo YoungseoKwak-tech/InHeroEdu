@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useT } from "@/app/contexts/LanguageContext";
 import { authFetch, getClientSession } from "@/lib/client-auth";
 import { createBrowserClient } from "@/lib/supabase";
 import PdfThumbnailBackfill from "@/components/library/PdfThumbnailBackfill";
@@ -99,6 +100,7 @@ async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T | null
 }
 
 export default function LibraryPage() {
+  const t = useT();
   const [sort, setSort] = useState<Sort>("new");
   const [folder, setFolder] = useState<DocGroup | "all">("all");
   const [official, setOfficial] = useState<OfficialFilter>("all");
@@ -540,8 +542,8 @@ export default function LibraryPage() {
     <main className="lib-root">
       <div className="lib-shell">
       <header className="lib-head">
-        <div className="lib-eyebrow">LIBRARY</div>
-        <h1 className="lib-title">Every resource. Every Lounge. One feed.</h1>
+        <div className="lib-eyebrow">{t("LIBRARY")}</div>
+        <h1 className="lib-title">{t("Every resource. Every Lounge. One feed.")}</h1>
       </header>
 
       <div className="lib-with-sidebar">

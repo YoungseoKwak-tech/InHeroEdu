@@ -1,5 +1,7 @@
 'use client'
 
+import { useT } from '@/app/contexts/LanguageContext';
+
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 
@@ -220,6 +222,7 @@ const CARDS = [
 
 
 export default function ClickSeries() {
+  const t = useT();
   const sectionRef = useRef<HTMLElement>(null)
   const refs = [
     useRef<HTMLCanvasElement>(null),
@@ -282,7 +285,7 @@ export default function ClickSeries() {
         {/* ── Header ── */}
         <div style={{ textAlign: 'center', marginBottom: '64px' }}>
           <p className="section-label" style={{ marginBottom: '16px' }}>
-            KNOWLEDGE UNIVERSE SERIES
+            {t("KNOWLEDGE UNIVERSE SERIES")}
           </p>
           <h2 style={{
             fontFamily: "'Space Grotesk', sans-serif",
@@ -292,10 +295,10 @@ export default function ClickSeries() {
             letterSpacing: '-0.025em',
             marginBottom: '12px',
           }}>
-            Click Series
+            {t("Click Series")}
           </h2>
           <p style={{ fontSize: '15px', color: '#8888AA' }}>
-            Exploring the universe of knowledge
+            {t("Exploring the universe of knowledge")}
           </p>
         </div>
 

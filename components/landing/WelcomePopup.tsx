@@ -16,11 +16,13 @@
 
 import { useEffect, useState } from "react";
 import { getClientSession } from "@/lib/client-auth";
+import { useT } from "@/app/contexts/LanguageContext";
 
 const SEEN_KEY = "inhero_welcome_seen";
 const SHOW_DELAY_MS = 1200;
 
 export default function WelcomePopup() {
+  const t = useT();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -163,7 +165,7 @@ export default function WelcomePopup() {
               boxShadow: "0 0 8px rgba(0,255,136,0.8)",
             }}
           />
-          First cohort · boarding
+          {t("First cohort · boarding")}
         </div>
 
         <h2
@@ -177,7 +179,7 @@ export default function WelcomePopup() {
             color: "#ffffff",
           }}
         >
-          All Subject Pass
+          {t("All Subject Pass")}
         </h2>
 
         {/* Pricing block — strike-through full price, mint zero-price below. */}
@@ -231,7 +233,7 @@ export default function WelcomePopup() {
               textShadow: "0 0 22px rgba(0,255,136,0.35)",
             }}
           >
-            $0 <span style={{ fontSize: 18, color: "#94a3b8", fontWeight: 600, letterSpacing: "0.01em" }}>to start</span>
+            $0 <span style={{ fontSize: 18, color: "#94a3b8", fontWeight: 600, letterSpacing: "0.01em" }}>{t("to start")}</span>
           </span>
           <span
             style={{
@@ -241,7 +243,7 @@ export default function WelcomePopup() {
               lineHeight: 1.5,
             }}
           >
-            No card required — just an email.
+            {t("No card required — just an email.")}
           </span>
         </div>
 
@@ -270,7 +272,7 @@ export default function WelcomePopup() {
             (e.currentTarget as HTMLElement).style.boxShadow = "";
           }}
         >
-          SIGN UP FREE →
+          {t("SIGN UP FREE →")}
         </button>
 
         <button
@@ -285,7 +287,7 @@ export default function WelcomePopup() {
             padding: "6px 8px",
           }}
         >
-          Maybe later
+          {t("Maybe later")}
         </button>
       </div>
 

@@ -1,5 +1,7 @@
 "use client";
 
+import { useT } from "@/app/contexts/LanguageContext";
+
 /**
  * FacultyLineup — landing-page teaser.
  * Cards show the illustration as a static thumbnail (or a styled
@@ -47,6 +49,7 @@ const CLASSROOM: Record<string, { slug: string; label: string }> = {
 };
 
 export default function FacultyLineup() {
+  const t = useT();
   const [rows, setRows] = useState<FacultyRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [playing, setPlaying] = useState<FacultyRow | null>(null);
@@ -81,9 +84,9 @@ export default function FacultyLineup() {
             <span className="fl-pulse" />
             <span>THE FACULTY · WAVE 01 / VI</span>
           </div>
-          <h2 className="fl-title">Meet the <em>instructors</em>.</h2>
+          <h2 className="fl-title">{t("Meet the instructors.")}</h2>
           <p className="fl-sub">
-            Six personas. Each one would die on their subject's hill. New instructor joining the roster every week.
+            {t("Six personas. Each one would die on their subject's hill. New instructors join the roster every week.")}
           </p>
         </header>
 

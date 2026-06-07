@@ -93,6 +93,34 @@ export const KO: Record<string, string> = {
   "Join the waitlist →": "대기자 명단 등록 →",
   "See pricing": "요금제 보기",
 
+  // ── Landing · Faculty / Campus / Click Series ────────────────────────
+  "Meet the instructors.": "강사진을 만나보세요.",
+  "Six personas. Each one would die on their subject's hill. New instructors join the roster every week.":
+    "여섯 명의 캐릭터. 저마다 자기 과목에 진심입니다. 매주 새로운 강사가 합류합니다.",
+  "When the professors are too proud, ask the intern.":
+    "교수님이 너무 도도할 땐, 인턴에게 물어보세요.",
+  "Faculty are stars. The TA does the actual grading — hooded, caffeinated, slightly disillusioned, and on the way to graduating from the same department.":
+    "교수는 스타지만, 실제 채점은 조교(TA)가 합니다. 후드를 뒤집어쓰고, 카페인에 절어, 약간 지쳐 있지만, 같은 과를 졸업하는 길목에 선 사람.",
+  "KNOWLEDGE UNIVERSE SERIES": "지식 유니버스 시리즈",
+  "Click Series": "클릭 시리즈",
+  "Exploring the universe of knowledge": "지식의 우주를 탐험하다",
+
+  // ── Welcome popup (first-visit modal) ────────────────────────────────
+  "First cohort · boarding": "첫 기수 · 탑승 중",
+  "All Subject Pass": "전 과목 패스",
+  "to start": "로 시작",
+  "No card required — just an email.": "카드 필요 없습니다 — 이메일만 있으면 됩니다.",
+  "SIGN UP FREE →": "무료로 가입하기 →",
+  "Maybe later": "나중에 할게요",
+
+  // ── Library ──────────────────────────────────────────────────────────
+  LIBRARY: "라이브러리",
+  "What's inside every Original:": "모든 오리지널에 담긴 것:",
+  "Real College Board problems, adapted": "실제 College Board 기출을 재구성",
+  "AP exam alerts on every concept": "모든 개념마다 AP 시험 포인트 알림",
+  "FRQ + MCQ walkthroughs with how-to": "FRQ + MCQ 풀이 과정과 접근법까지",
+  "Concept deep-dives, not summaries": "요약이 아니라 개념 심층 파고들기",
+
   // ── Common actions / chrome ──────────────────────────────────────────
   Continue: "계속",
   Cancel: "취소",

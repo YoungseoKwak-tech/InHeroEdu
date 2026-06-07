@@ -1,5 +1,7 @@
 "use client";
 
+import { useT } from "@/app/contexts/LanguageContext";
+
 /**
  * AcademyCampus — landing-page "campus walk-through" sections below Faculty.
  * Sections in order:
@@ -25,6 +27,7 @@ export default function AcademyCampus() {
 
 // ── TA's Desk ("The Unpaid Intern") ────────────────────────────────────
 function TADesk() {
+  const t = useT();
   return (
     <section className="td-root">
       <div className="td-inner">
@@ -33,9 +36,9 @@ function TADesk() {
             <span className="td-pulse" />
             <span>THE TA · ASSISTANT 01</span>
           </div>
-          <h2 className="td-title">When the professors are too proud, <em>ask the intern</em>.</h2>
+          <h2 className="td-title">{t("When the professors are too proud, ask the intern.")}</h2>
           <p className="td-sub">
-            Faculty are stars. The TA does the actual grading. Hooded, caffeinated, slightly disillusioned, and on the way to graduating from the same department.
+            {t("Faculty are stars. The TA does the actual grading — hooded, caffeinated, slightly disillusioned, and on the way to graduating from the same department.")}
           </p>
         </header>
 

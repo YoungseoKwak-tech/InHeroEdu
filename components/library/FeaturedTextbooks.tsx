@@ -12,6 +12,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useT } from "@/app/contexts/LanguageContext";
 
 interface Textbook {
   slug: string;
@@ -33,6 +34,7 @@ const EMOJI_BY_SLUG: Record<string, string> = {
 };
 
 export default function FeaturedTextbooks() {
+  const t = useT();
   const [textbooks, setTextbooks] = useState<Textbook[]>([]);
 
   useEffect(() => {
@@ -56,23 +58,23 @@ export default function FeaturedTextbooks() {
     <section className="ft-wrap" aria-label="Featured textbooks">
       <div className="ft-eyebrow">
         <span className="ft-eyebrow-dot" aria-hidden="true" />
-        FEATURED TEXTBOOKS
+        {t("FEATURED TEXTBOOKS")}
       </div>
       <div className={`ft-strip ft-count-${Math.min(textbooks.length, 3)}`}>
-        {textbooks.map((t) => {
-          const emoji = EMOJI_BY_SLUG[t.slug] ?? "📚";
+        {textbooks.map((book) => {
+          const emoji = EMOJI_BY_SLUG[book.slug] ?? "📚";
           const metaParts = [
-            t.total_chapters ? `${t.total_chapters} chapters` : null,
-            t.total_pages ? `${t.total_pages} pages` : null,
+            book.total_chapters ? `${book.total_chapters} ${t("chapters")}` : null,
+            book.total_pages ? `${book.total_pages} ${t("pages")}` : null,
           ].filter(Boolean);
           return (
-            <Link key={t.slug} href={`/textbooks/${t.slug}`} className="ft-card">
+            <Link key={book.slug} href={`/textbooks/${book.slug}`} className="ft-card">
               <div className="ft-card-glyph">{emoji}</div>
               <div className="ft-card-body">
                 <div className="ft-card-title">
-                  {t.title}
-                  {t.subtitle && (
-                    <span className="ft-card-subtitle"> — {t.subtitle}</span>
+                  {book.title}
+                  {book.subtitle && (
+                    <span className="ft-card-subtitle"> — {t(book.subtitle)}</span>
                   )}
                 </div>
                 {metaParts.length > 0 && (
@@ -80,7 +82,7 @@ export default function FeaturedTextbooks() {
                 )}
               </div>
               <div className="ft-card-cta">
-                <span>Open textbook</span>
+                <span>{t("Open textbook")}</span>
                 <span className="ft-card-arrow" aria-hidden="true">→</span>
               </div>
             </Link>
