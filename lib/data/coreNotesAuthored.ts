@@ -3706,4 +3706,114 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 2, lessonNum: 5,
+    unitName: "The Living World: Biodiversity",
+    title: "Keystone Species and Trophic Cascades",
+    subtitle: "Some species hold an entire ecosystem together — remove them and the whole web unravels.",
+    overview:
+      "A keystone species has an effect on its ecosystem far larger than its numbers would suggest. Remove it and the community can collapse through a trophic cascade — a chain reaction rippling up or down the food web. Predators are often keystones.",
+    objectives: [
+      "Define keystone species and explain their outsized role.",
+      "Explain trophic cascades with examples.",
+      "Distinguish keystone species from dominant species.",
+    ],
+    diagram: "energy-pyramid",
+    sections: [
+      {
+        title: "Keystone species",
+        body:
+          "Like the keystone in an arch, a keystone species is small in number but holds the structure together. Sea otters are the classic example: they eat sea urchins, which would otherwise devour kelp forests. Remove the otters and urchins explode, kelp vanishes, and dozens of species lose their habitat.",
+        keyIdea: "Keystone ≠ most abundant. Its IMPACT is huge relative to its biomass — that's the whole point.",
+        terms: [
+          { term: "Keystone species", def: "A species with a disproportionately large effect on its ecosystem." },
+          { term: "Dominant species", def: "The most ABUNDANT species — different from a keystone (defined by impact, not numbers)." },
+        ],
+      },
+      {
+        title: "Trophic cascades",
+        body:
+          "A trophic cascade is a chain of effects through the food web when a top species is added or removed. The reintroduction of wolves to Yellowstone is famous: wolves reduced elk overgrazing, letting vegetation (and the species depending on it) recover — effects cascading all the way to rivers.",
+        terms: [
+          { term: "Trophic cascade", def: "A chain reaction through a food web triggered by changing a top species." },
+        ],
+        traps: ["Removing a keystone PREDATOR often lets its prey explode and overconsume the next level — cascading collapse, not stability."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 2, lessonNum: 6,
+    unitName: "The Living World: Biodiversity",
+    title: "Conservation Strategies — Protected Areas and Corridors",
+    subtitle: "Saving biodiversity means protecting habitat at scale — big, connected, and well-managed.",
+    overview:
+      "Because habitat loss is the top threat, conservation focuses on protecting habitat: establishing protected areas, connecting them with corridors, and managing both whole ecosystems and individual species. Island biogeography guides the design.",
+    objectives: [
+      "Describe major conservation strategies.",
+      "Explain why corridors and reserve size matter.",
+      "Distinguish in-situ from ex-situ conservation.",
+    ],
+    sections: [
+      {
+        title: "Protect, connect, manage",
+        body:
+          "Conservation works at several scales. Protected areas (parks, reserves) preserve habitat in place; habitat corridors connect fragmented patches so animals can move, breed, and recolonize — directly applying island biogeography (bigger, less isolated = more species).",
+        table: {
+          headers: ["Strategy", "What it does"],
+          rows: [
+            ["Protected areas", "Set aside habitat from development"],
+            ["Habitat corridors", "Connect patches so species can move/breed"],
+            ["In-situ conservation", "Protect species in their natural habitat (best)"],
+            ["Ex-situ conservation", "Protect off-site (zoos, seed banks) as backup"],
+          ],
+        },
+        keyIdea: "Corridors fight fragmentation: connecting reserves turns small 'islands' back into one larger, more viable habitat.",
+      },
+      {
+        title: "In-situ vs. ex-situ",
+        body:
+          "In-situ ('in place') conservation — protecting species in their natural habitat — is generally most effective because it preserves whole ecosystems. Ex-situ ('off-site') methods like zoos, captive breeding, and seed banks are important backups, especially for species on the brink.",
+        terms: [
+          { term: "Habitat corridor", def: "A strip of habitat connecting separated patches, enabling movement and gene flow." },
+          { term: "In-situ / ex-situ", def: "Conservation in the natural habitat vs. off-site (zoos, seed banks)." },
+        ],
+        traps: ["In-situ (whole-habitat) protection is usually preferred; ex-situ is a backup, not a replacement."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 2, lessonNum: 7,
+    unitName: "The Living World: Biodiversity",
+    title: "Invasive Species — Mechanisms and Case Studies",
+    subtitle: "Move a species to a new place with no natural enemies, and it can take over — devastating native life.",
+    overview:
+      "An invasive species is a non-native organism that spreads and causes harm in a new ecosystem. Freed from the predators, competitors, and diseases that kept it in check back home, it can outcompete natives and disrupt entire ecosystems — a leading cause of biodiversity loss.",
+    objectives: [
+      "Define invasive species and why they succeed.",
+      "Explain their ecological and economic harm.",
+      "Identify pathways of introduction and control methods.",
+    ],
+    sections: [
+      {
+        title: "Why invasives win",
+        body:
+          "Invasive species thrive because in the new ecosystem they often have no natural predators or diseases, reproduce fast, and outcompete natives for resources. Humans spread them — intentionally (ornamental plants) or accidentally (ballast water, cargo). Examples: zebra mussels, kudzu, cane toads.",
+        keyIdea: "The secret to an invasive's success: it left its natural enemies behind, so nothing keeps its population in check.",
+        terms: [
+          { term: "Invasive species", def: "A non-native species that spreads and harms its new ecosystem." },
+          { term: "Native species", def: "A species that naturally occurs in an area, with co-evolved checks on it." },
+        ],
+      },
+      {
+        title: "Harm and control",
+        body:
+          "Invasives cause huge ecological damage (outcompeting or preying on natives, sometimes causing extinctions) and economic costs (clogging pipes, ruining crops). Control is hard once established: methods include physical removal, chemical treatment, and biological control (introducing a natural enemy — itself risky).",
+        terms: [
+          { term: "Ballast water", def: "Water carried by ships that often transports invasive aquatic species." },
+          { term: "Biological control", def: "Using a natural predator/disease to control a pest — risky if it becomes invasive too." },
+        ],
+        traps: ["Not every non-native is 'invasive' — the term requires that it spreads AND causes harm."],
+      },
+    ],
+  },
 ];
