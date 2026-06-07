@@ -1,4 +1,8 @@
 import type { SatForm, SatQuestion } from "./types";
+import {
+  RW_M1_X, RW_M2_EASY_X, RW_M2_HARD_X,
+  MATH_M1_X, MATH_M2_EASY_X, MATH_M2_HARD_X,
+} from "./form1-extra";
 
 /**
  * Practice Test 1 — original Digital-SAT-format items. Each section has a
@@ -248,6 +252,16 @@ const MATH_M2_HARD: SatQuestion[] = [
 export const SAT_FORM_1: SatForm = {
   id: "practice-1",
   title: "InHero SAT Practice Test 1",
-  rw: { m1: RW_M1, m2easy: RW_M2_EASY, m2hard: RW_M2_HARD, timeSec: 600 },
-  math: { m1: MATH_M1, m2easy: MATH_M2_EASY, m2hard: MATH_M2_HARD, timeSec: 600 },
+  rw: {
+    m1: [...RW_M1, ...RW_M1_X],
+    m2easy: [...RW_M2_EASY, ...RW_M2_EASY_X],
+    m2hard: [...RW_M2_HARD, ...RW_M2_HARD_X],
+    timeSec: 780,
+  },
+  math: {
+    m1: [...MATH_M1, ...MATH_M1_X],
+    m2easy: [...MATH_M2_EASY, ...MATH_M2_EASY_X],
+    m2hard: [...MATH_M2_HARD, ...MATH_M2_HARD_X],
+    timeSec: 900,
+  },
 };
