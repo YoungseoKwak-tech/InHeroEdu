@@ -30,6 +30,16 @@ const TEXTBOOK_GLYPH: Record<string, string> = {
   "ap-bio-ultimate": "🧬", "ap-chem-ultimate": "⚗️", "ap-physics-ultimate": "⚛️",
   "ap-physics-2-ultimate": "🧲", "ap-calc-ab-ultimate": "∫", "ap-calc-bc-ultimate": "∫",
 };
+// Real cover art in /public/textbook-covers (640w portrait JPGs). Missing files
+// (e.g. Calc BC) fall back to the glyph via onError.
+const TEXTBOOK_COVER: Record<string, string> = {
+  "ap-bio-ultimate": "/textbook-covers/ap-bio.jpg",
+  "ap-chem-ultimate": "/textbook-covers/ap-chem.jpg",
+  "ap-physics-ultimate": "/textbook-covers/ap-physics-1.jpg",
+  "ap-physics-2-ultimate": "/textbook-covers/ap-physics-2.jpg",
+  "ap-calc-ab-ultimate": "/textbook-covers/ap-calc-ab.jpg",
+  "ap-calc-bc-ultimate": "/textbook-covers/ap-calculus-bc.jpg",
+};
 
 function timeAgo(iso: string): string {
   const d = (Date.now() - new Date(iso).getTime()) / 1000;
@@ -265,8 +275,14 @@ export default function ParentsClient() {
                 style={{ textAlign: "left", background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, overflow: "hidden", cursor: "pointer", padding: 0, boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 180ms, box-shadow 200ms" }}
                 onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 36px rgba(16,24,40,0.12)"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 1px 2px rgba(16,24,40,0.04)"; }}>
-                <div style={{ height: 130, background: "linear-gradient(135deg,#0a0a14,#1e1e2e)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 52 }}>
-                  {TEXTBOOK_GLYPH[b.slug] ?? "📘"}
+                <div style={{ position: "relative", height: 218, background: "linear-gradient(135deg,#0a0a14,#1e1e2e)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 56, overflow: "hidden" }}>
+                  <span aria-hidden="true">{TEXTBOOK_GLYPH[b.slug] ?? "📘"}</span>
+                  {TEXTBOOK_COVER[b.slug] && (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img src={TEXTBOOK_COVER[b.slug]} alt={`${b.title} 표지`} loading="lazy"
+                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+                  )}
                 </div>
                 <div style={{ padding: "13px 14px 15px" }}>
                   <div style={{ fontSize: 14.5, fontWeight: 800, color: "#1a1a1f", letterSpacing: "-0.01em", lineHeight: 1.3 }}>{b.title}</div>

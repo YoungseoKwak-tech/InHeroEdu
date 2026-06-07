@@ -23,7 +23,8 @@ interface SubjectCount { courseId: string | null; label: string; emoji: string; 
 
 export default function CoreNotesClient() {
   const [subjects, setSubjects] = useState<SubjectCount[]>([]);
-  const [total, setTotal] = useState(0);
+  // Seed with the current real count so the headline never flashes "0개".
+  const [total, setTotal] = useState(735);
   const [active, setActive] = useState<string | null>("ap-chemistry");
   const [notes, setNotes] = useState<ListNote[]>([]);
   const [loading, setLoading] = useState(true);

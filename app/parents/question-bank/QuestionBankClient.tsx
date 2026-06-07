@@ -26,7 +26,10 @@ interface SubjectCount { courseId: string | null; label: string; emoji: string; 
 
 export default function QuestionBankClient() {
   const [subjects, setSubjects] = useState<SubjectCount[]>([]);
-  const [total, setTotal] = useState(0);
+  // Seed with the current real count so the headline never flashes "0개" while
+  // loading (that read as "0 questions" and made parents bounce). Live value
+  // overwrites on fetch.
+  const [total, setTotal] = useState(11975);
   const [active, setActive] = useState<string | null>(null);
   const [questions, setQuestions] = useState<BankQuestion[]>([]);
   const [filteredTotal, setFilteredTotal] = useState(0);
