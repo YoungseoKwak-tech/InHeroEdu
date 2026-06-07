@@ -3591,4 +3591,119 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 2, lessonNum: 2,
+    unitName: "The Living World: Biodiversity",
+    title: "Evolution and Natural Selection as Biodiversity Engine",
+    subtitle: "Natural selection, acting on genetic variation over time, is what creates the diversity of life.",
+    overview:
+      "Biodiversity exists because of evolution by natural selection. Genetic variation arises (mutation), the environment favors some variants over others (selection), and over many generations populations change and new species form. This is the engine that fills ecosystems with diverse, adapted organisms.",
+    objectives: [
+      "Explain natural selection and its requirements.",
+      "Connect genetic variation to adaptation.",
+      "Explain how selection drives biodiversity and speciation.",
+    ],
+    sections: [
+      {
+        title: "How natural selection works",
+        body:
+          "Natural selection needs three ingredients: variation among individuals (from mutation and sexual reproduction), heritability (traits passed to offspring), and differential survival/reproduction (some variants do better in the current environment). Over generations, favorable traits become more common — adaptation.",
+        keyIdea: "Selection doesn't create variation — MUTATION does. Selection just FILTERS existing variation by the environment.",
+        terms: [
+          { term: "Natural selection", def: "Differential survival and reproduction based on heritable traits." },
+          { term: "Genetic variation", def: "Differences in genes within a population; raw material for selection." },
+          { term: "Adaptation", def: "A heritable trait that improves survival/reproduction in an environment." },
+        ],
+      },
+      {
+        title: "Selection builds biodiversity",
+        body:
+          "As populations adapt to different environments, they diverge — eventually forming new species (speciation). The more varied the environments and the more genetic variation available, the more biodiversity selection can generate. This also means biodiversity loss removes future adaptive potential.",
+        terms: [
+          { term: "Speciation", def: "The formation of new species as populations diverge." },
+          { term: "Mutation", def: "A random change in DNA; the ultimate source of new genetic variation." },
+        ],
+        traps: ["Individuals don't 'evolve' or adapt within their lifetime — POPULATIONS evolve across generations."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 2, lessonNum: 3,
+    unitName: "The Living World: Biodiversity",
+    title: "Island Biogeography — A Model for Habitat Patches",
+    subtitle: "Island size and distance predict how many species live there — and the same logic applies to fragmented habitats.",
+    overview:
+      "Island biogeography theory explains why some islands hold more species than others: it's a balance of immigration and extinction set by island SIZE and DISTANCE from the mainland. Crucially, fragmented habitats act like islands, making this a key conservation tool.",
+    objectives: [
+      "Explain how island size and distance affect species number.",
+      "Describe the immigration–extinction balance.",
+      "Apply the model to habitat fragmentation.",
+    ],
+    sections: [
+      {
+        title: "Size and distance",
+        body:
+          "Two factors set an island's species count. Larger islands hold more species (more habitat, lower extinction). Islands closer to the mainland get more species (easier immigration). So the most species-rich islands are large and near; the poorest are small and remote.",
+        table: {
+          headers: ["Factor", "More species when…"],
+          rows: [
+            ["Island size", "LARGER (more habitat, less extinction)"],
+            ["Distance to mainland", "CLOSER (more immigration)"],
+          ],
+        },
+        keyIdea: "Big + near = most species; small + remote = fewest. It's a balance of immigration (distance) and extinction (size).",
+      },
+      {
+        title: "Why it matters for conservation",
+        body:
+          "Habitat fragmentation turns continuous habitat into 'islands' of green surrounded by development. Smaller, more isolated patches lose species — which is why conservationists favor large reserves connected by corridors. The theory turns abstract math into real protected-area design.",
+        terms: [
+          { term: "Island biogeography", def: "Theory predicting species number from island size and isolation." },
+          { term: "Habitat fragmentation", def: "Breaking continuous habitat into isolated patches, lowering biodiversity." },
+        ],
+        traps: ["The model applies to ANY isolated habitat patch (a forest fragment, a park) — not just literal ocean islands."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 2, lessonNum: 4,
+    unitName: "The Living World: Biodiversity",
+    title: "Threats to Biodiversity — HIPPO",
+    subtitle: "Five human-caused threats drive most biodiversity loss — remember them with HIPPO.",
+    overview:
+      "Most biodiversity loss comes from human activity, summarized by the acronym HIPPO: Habitat destruction, Invasive species, Pollution, Population (human), and Overharvesting. Habitat destruction is the single biggest driver.",
+    objectives: [
+      "List the five HIPPO threats to biodiversity.",
+      "Identify the largest driver of biodiversity loss.",
+      "Give an example of each threat.",
+    ],
+    sections: [
+      {
+        title: "The HIPPO threats",
+        body:
+          "Each letter is a major human-driven cause of species decline. Habitat destruction tops the list.",
+        table: {
+          headers: ["Letter", "Threat", "Example"],
+          rows: [
+            ["H", "Habitat destruction", "Deforestation, urban sprawl (the BIGGEST driver)"],
+            ["I", "Invasive species", "Non-natives outcompeting locals"],
+            ["P", "Pollution", "Pesticides, plastics, nutrient runoff"],
+            ["P", "Population (human)", "Growing demand multiplies every other threat"],
+            ["O", "Overharvesting", "Overfishing, poaching"],
+          ],
+        },
+        keyIdea: "HIPPO = Habitat, Invasive, Pollution, Population, Overharvesting. Habitat destruction is #1.",
+      },
+      {
+        title: "Why it adds up",
+        body:
+          "These threats interact and compound: a growing human population (P) drives more habitat destruction (H), pollution (P), and overharvesting (O). Climate change increasingly multiplies all of them. The result is an extinction rate far above the natural background level.",
+        terms: [
+          { term: "HIPPO", def: "Habitat destruction, Invasive species, Pollution, Population, Overharvesting." },
+          { term: "Background extinction rate", def: "The natural rate of extinction; today's rate is far higher (human-driven)." },
+        ],
+        traps: ["If asked for the BIGGEST threat, it's HABITAT destruction — not invasive species or overharvesting."],
+      },
+    ],
+  },
 ];
