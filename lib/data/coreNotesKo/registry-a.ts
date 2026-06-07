@@ -77,6 +77,7 @@ import { AP_BIO_U8B_KO } from "./ap-bio-u8b";
 import { AP_CALC_AB_U1A_KO } from "./ap-calc-ab-u1a";
 import { AP_CALC_AB_U1B_KO } from "./ap-calc-ab-u1b";
 import { AP_CALC_AB_U2A_KO } from "./ap-calc-ab-u2a";
+import { AP_CALC_AB_U2B_KO } from "./ap-calc-ab-u2b";
 
 export const REGISTRY_A: CoreNote[] = [
   ...AP_CHEM_U1A_KO,
@@ -150,4 +151,5 @@ export const REGISTRY_A: CoreNote[] = [
   ...AP_CALC_AB_U1A_KO,
   ...AP_CALC_AB_U1B_KO,
   ...AP_CALC_AB_U2A_KO,
+  ...AP_CALC_AB_U2B_KO,
 ];
