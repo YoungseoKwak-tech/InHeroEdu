@@ -377,8 +377,8 @@ export default function ParentsClient() {
             <EmptyRow text="아직 댓글이 없습니다." />
           </SideCard>
 
-          {/* Ivy mentor CTA */}
-          <button onClick={() => go("/mentors", true)}
+          {/* Ivy mentor CTA → 1:1 DM with the lead mentor */}
+          <button onClick={() => go("/dm/yng0802", true)}
             style={{ textAlign: "left", border: "none", cursor: "pointer", borderRadius: 14, padding: "20px 18px", background: "linear-gradient(135deg,#1e1b4b,#4c1d95)", color: "#fff", boxShadow: "0 8px 24px rgba(76,29,149,0.28)" }}>
             <div style={{ fontSize: 26, marginBottom: 8 }}>🎓</div>
             <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: "-0.01em", lineHeight: 1.35, marginBottom: 6 }}>아이비리그 멘토와<br />소통해보세요!</div>
