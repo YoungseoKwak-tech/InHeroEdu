@@ -2130,4 +2130,123 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 5, lessonNum: 5,
+    unitName: "Revolutions (c. 1750–1900)",
+    title: "Industrial Revolution — Britain First, Why?",
+    subtitle: "Why did the machine age ignite in Britain and not somewhere else? It was a convergence of advantages.",
+    overview:
+      "The Industrial Revolution shifted production from hand labor to machines and factories, beginning in Britain around 1750. It wasn't luck — Britain had a rare combination of resources, capital, labor, and stability that no rival matched all at once.",
+    objectives: [
+      "Explain the factors that made Britain the first to industrialize.",
+      "Identify the key innovations of the Industrial Revolution.",
+      "Describe the factory system.",
+    ],
+    sections: [
+      {
+        title: "Why Britain first?",
+        body:
+          "Several advantages converged in Britain. The exam wants you to be able to list them.",
+        table: {
+          headers: ["Factor", "Why it mattered"],
+          rows: [
+            ["Coal & iron", "Cheap energy and material for machines"],
+            ["Capital & banks", "Money to invest in factories"],
+            ["Colonies & navy", "Raw materials in, markets for goods out"],
+            ["Agricultural revolution", "Fewer farmers needed → labor freed for factories"],
+            ["Rivers, ports, canals", "Cheap transport of goods"],
+            ["Stable government", "Protected property and investment"],
+          ],
+        },
+        keyIdea: "No single cause — it was the CONVERGENCE of coal, capital, colonies, labor, and stability that put Britain first.",
+      },
+      {
+        title: "The innovations",
+        body:
+          "The breakthrough was harnessing new power. The steam engine (improved by James Watt) powered factories, railroads, and ships. The factory system gathered workers under one roof with machines and a strict division of labor, while textile inventions like the spinning jenny mechanized cloth-making.",
+        terms: [
+          { term: "Steam engine", def: "Machine converting coal-fired heat into power for factories, trains, and ships." },
+          { term: "Factory system", def: "Concentrating workers and machines under one roof with division of labor and set schedules." },
+        ],
+        traps: ["The Agricultural Revolution was a PRECONDITION — by freeing up rural labor, it supplied the factory workforce."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 5, lessonNum: 6,
+    unitName: "Revolutions (c. 1750–1900)",
+    title: "Social Effects of Industrialization",
+    subtitle: "Factories didn't just change how things were made — they remade cities, classes, families, and politics.",
+    overview:
+      "Industrialization transformed society. People poured into cities, new social classes formed, working conditions were often brutal, and the backlash produced labor unions, reform laws, and radical ideologies like socialism.",
+    objectives: [
+      "Describe urbanization and the new class structure.",
+      "Explain industrial working conditions and the responses to them.",
+      "Connect industrialization to socialism and reform.",
+    ],
+    sections: [
+      {
+        title: "A new society",
+        body:
+          "Workers crowded into rapidly growing industrial cities (urbanization). A new middle class (the bourgeoisie — factory owners, professionals) rose, while a large industrial working class (the proletariat) labored for wages. Women and children worked long hours in factories and mines.",
+        keyIdea: "Industrialization created two defining new classes: the middle-class bourgeoisie and the working-class proletariat.",
+        terms: [
+          { term: "Urbanization", def: "The rapid growth of cities as people moved to industrial work." },
+          { term: "Bourgeoisie", def: "The industrial/commercial middle class of owners and professionals." },
+          { term: "Proletariat", def: "The industrial working class who sold their labor for wages." },
+        ],
+      },
+      {
+        title: "Conditions and responses",
+        body:
+          "Early factories were dangerous, with long hours, low pay, and child labor. The response reshaped politics: workers formed labor unions to bargain collectively, governments passed reform laws (limiting child labor, hours), and Karl Marx's socialism/communism called for workers to overthrow the capitalist class.",
+        terms: [
+          { term: "Labor union", def: "A worker organization that bargains collectively for better conditions." },
+          { term: "Marxism", def: "Marx's theory framing history as class struggle and calling for proletarian revolution." },
+        ],
+        traps: ["Industrialization's harms PRODUCED their own opposition — unions, reform laws, and socialism were all responses to it."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 5, lessonNum: 7,
+    unitName: "Revolutions (c. 1750–1900)",
+    title: "Nationalism — Unification and Fragmentation",
+    subtitle: "The same force that built new nations also tore old empires apart.",
+    overview:
+      "Nationalism — strong identification with one's nation — was the era's most powerful political force. It had two opposite effects: it UNIFIED divided peoples into new nation-states (Germany, Italy) and FRAGMENTED multiethnic empires whose minorities demanded their own states.",
+    objectives: [
+      "Define nationalism and its role in 19th-century politics.",
+      "Give examples of nationalist unification and fragmentation.",
+      "Explain why nationalism cut both ways.",
+    ],
+    sections: [
+      {
+        title: "Two faces of nationalism",
+        body:
+          "Nationalism could be centripetal (unifying) or centrifugal (fragmenting), depending on the situation.",
+        table: {
+          headers: ["Effect", "Example"],
+          rows: [
+            ["Unification", "Germany (unified by Bismarck) and Italy become nation-states"],
+            ["Fragmentation", "Minorities in multiethnic empires (Ottoman, Austria-Hungary) seek independence"],
+          ],
+        },
+        keyIdea: "Nationalism is a double-edged sword: it BUILT Germany and Italy while it BROKE apart multiethnic empires.",
+        terms: [
+          { term: "Nationalism", def: "Strong identification with and devotion to one's nation." },
+          { term: "Otto von Bismarck", def: "Statesman who unified Germany through 'blood and iron' diplomacy and war." },
+        ],
+      },
+      {
+        title: "Why it cut both ways",
+        body:
+          "Where a people shared identity but were politically divided, nationalism pulled them together (unification). Where one state ruled many nationalities, nationalism pulled it apart, as each group sought self-rule. Both Italian/German unification and the slow breakup of the Ottoman Empire flowed from the same idea.",
+        terms: [
+          { term: "Self-determination", def: "The principle that a people should govern themselves and form their own state." },
+        ],
+        traps: ["Don't think of nationalism as only unifying — for multiethnic empires it was a force of FRAGMENTATION."],
+      },
+    ],
+  },
 ];
