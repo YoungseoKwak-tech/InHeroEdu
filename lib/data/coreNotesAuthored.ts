@@ -5948,4 +5948,130 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-us-government", unit: 1, lessonNum: 1,
+    unitName: "Foundations of American Democracy",
+    title: "Constitutional Foundations — Compromises and Design",
+    subtitle: "The Constitution was a bundle of deals — and its design deliberately makes power hard to concentrate.",
+    overview:
+      "The U.S. Constitution replaced the failed Articles of Confederation, which had a too-weak central government. To get it ratified, the framers struck compromises between large and small states and free and slave states, and built in structures — separation of powers, checks and balances, federalism — to prevent any one group from dominating.",
+    objectives: [
+      "Explain why the Articles of Confederation failed.",
+      "Identify the key constitutional compromises.",
+      "Explain separation of powers and checks and balances.",
+    ],
+    diagram: "three-branches",
+    sections: [
+      {
+        title: "From the Articles to the Constitution",
+        body:
+          "The Articles of Confederation created a weak national government that couldn't tax, regulate trade, or maintain order (Shays' Rebellion exposed this). The Constitutional Convention scrapped it for a stronger federal system — but one carefully limited so it couldn't become tyrannical.",
+        keyIdea: "The Articles were too WEAK (no taxing power, no army); the Constitution fixed that while still LIMITING federal power.",
+        terms: [
+          { term: "Articles of Confederation", def: "The first U.S. government; too weak (no power to tax or regulate trade)." },
+          { term: "Shays' Rebellion", def: "An uprising that exposed the Articles' weakness, spurring the Constitution." },
+        ],
+      },
+      {
+        title: "The great compromises",
+        body:
+          "Ratification required deals. The Great (Connecticut) Compromise created a bicameral Congress: the House by population (pleasing big states) and the Senate with equal seats (pleasing small states). The Three-Fifths Compromise counted enslaved people as 3/5 of a person for representation and taxation.",
+        table: {
+          headers: ["Compromise", "Resolved"],
+          rows: [
+            ["Great Compromise", "Big vs. small states → bicameral Congress (House + Senate)"],
+            ["Three-Fifths Compromise", "How to count enslaved people for representation"],
+            ["Electoral College", "How to elect the president (not direct popular vote)"],
+          ],
+        },
+        keyIdea: "The Great Compromise gave us a TWO-house Congress: House = by population, Senate = equal (2 per state).",
+      },
+      {
+        title: "Limiting power: separation & checks",
+        body:
+          "To prevent tyranny, the Constitution splits power. Separation of powers gives distinct jobs to three branches (legislative makes laws, executive enforces, judicial interprets). Checks and balances let each branch limit the others (e.g., president vetoes laws; Congress overrides vetoes and confirms judges; courts rule laws unconstitutional). Federalism further divides power between national and state governments.",
+        terms: [
+          { term: "Separation of powers", def: "Dividing government into legislative, executive, and judicial branches." },
+          { term: "Checks and balances", def: "Each branch can limit the others (veto, override, judicial review)." },
+          { term: "Federalism", def: "Dividing power between the national and state governments." },
+        ],
+        traps: ["Separation of powers = three SEPARATE branches with distinct jobs; checks and balances = how they LIMIT each other. They work together but aren't the same thing."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-us-government", unit: 1, lessonNum: 2,
+    unitName: "Foundations of American Democracy",
+    title: "Federalism — Division and Evolution",
+    subtitle: "Power is split between the nation and the states — and that line has shifted toward Washington over time.",
+    overview:
+      "Federalism divides power between the national and state governments. The Constitution assigns some powers exclusively, shares others, and reserves the rest to states. Over time, federal power has grown — driven by court rulings, the commerce clause, and federal money with strings attached.",
+    objectives: [
+      "Distinguish enumerated, reserved, and concurrent powers.",
+      "Explain how federal power has expanded.",
+      "Describe fiscal federalism (grants and mandates).",
+    ],
+    sections: [
+      {
+        title: "How power is divided",
+        body:
+          "The Constitution sorts powers three ways: enumerated (delegated) powers belong to the national government (coin money, declare war); reserved powers belong to states via the 10th Amendment (run elections, public schools); and concurrent powers are shared (taxing, building roads). The supremacy clause makes federal law win in conflicts.",
+        table: {
+          headers: ["Power type", "Who", "Example"],
+          rows: [
+            ["Enumerated", "National only", "Declare war, coin money, regulate interstate trade"],
+            ["Reserved", "States only", "Run elections, education, marriage laws"],
+            ["Concurrent", "Both", "Taxing, building roads, courts"],
+          ],
+        },
+        keyIdea: "10th Amendment RESERVES un-delegated powers to the states; the supremacy clause means federal law beats state law in a conflict.",
+      },
+      {
+        title: "Federal power has grown",
+        body:
+          "The balance has tilted national. The necessary and proper (elastic) clause and a broad reading of the commerce clause (McCulloch v. Maryland, etc.) let Congress do much more than the literal enumerated list. Fiscal federalism is the modern lever: the federal government attaches conditions to grants (e.g., highway money tied to a drinking age), pressuring states to follow national policy.",
+        terms: [
+          { term: "Necessary and proper (elastic) clause", def: "Lets Congress make laws needed to carry out its powers — expands federal reach." },
+          { term: "Commerce clause", def: "Congress's power to regulate interstate commerce; broadly interpreted to grow federal power." },
+          { term: "Categorical grant / mandate", def: "Federal funds with strict conditions; mandates require state action." },
+        ],
+        traps: ["Federalism isn't fixed — the elastic and commerce clauses plus federal grant money have steadily EXPANDED national power over the states."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-us-government", unit: 1, lessonNum: 3,
+    unitName: "Foundations of American Democracy",
+    title: "Civil Liberties — First Amendment and Its Limits",
+    subtitle: "The Bill of Rights protects your freedoms FROM the government — but no liberty is absolute.",
+    overview:
+      "Civil liberties are constitutional protections from government overreach, mostly in the Bill of Rights. The First Amendment protects religion, speech, press, assembly, and petition — but courts have set limits where these rights collide with other interests.",
+    objectives: [
+      "Identify the five First Amendment freedoms.",
+      "Explain the limits on speech and religion.",
+      "Define selective incorporation.",
+    ],
+    sections: [
+      {
+        title: "The First Amendment freedoms",
+        body:
+          "The First Amendment protects five freedoms: religion, speech, press, assembly, and petition. Religion has two clauses — the establishment clause (government can't set up an official religion) and the free exercise clause (you can practice your faith). These often tension with each other.",
+        keyIdea: "First Amendment = Religion, Speech, Press, Assembly, Petition. Religion splits into 'establishment' (no state church) + 'free exercise' (practice freely).",
+        terms: [
+          { term: "Establishment clause", def: "Government may not establish an official religion." },
+          { term: "Free exercise clause", def: "Government may not stop you from practicing your religion." },
+        ],
+      },
+      {
+        title: "Limits and incorporation",
+        body:
+          "No liberty is absolute. Speech that incites imminent lawless action, true threats, or obscenity isn't protected; the classic test traces to Schenck v. United States ('clear and present danger'). Crucially, selective incorporation uses the 14th Amendment's due process clause to apply most Bill of Rights protections to STATE governments too — not just the federal government.",
+        terms: [
+          { term: "Selective incorporation", def: "Applying Bill of Rights protections to the states via the 14th Amendment." },
+          { term: "Clear and present danger", def: "Standard (Schenck) allowing limits on dangerous speech." },
+        ],
+        traps: ["Selective incorporation is why STATES (not just the federal government) must respect your free speech, religion, etc. — via the 14th Amendment."],
+      },
+    ],
+  },
 ];
