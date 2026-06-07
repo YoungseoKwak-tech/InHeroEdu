@@ -3477,4 +3477,118 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 1, lessonNum: 7,
+    unitName: "The Living World: Ecosystems",
+    title: "Ecosystem Services — What Nature Provides",
+    subtitle: "Healthy ecosystems do enormous, free work for humans — until we degrade them and have to pay.",
+    overview:
+      "Ecosystem services are the benefits humans get from nature, often for free: clean water, pollination, climate regulation, and more. Putting these into categories — and recognizing their economic value — helps explain why conservation is also self-interest.",
+    objectives: [
+      "Define ecosystem services and their four categories.",
+      "Give examples of each category.",
+      "Explain why ecosystem services have economic value.",
+    ],
+    sections: [
+      {
+        title: "Four categories of services",
+        body:
+          "Ecosystem services are usually grouped into four types. Knowing an example of each is enough for the exam.",
+        table: {
+          headers: ["Category", "Example"],
+          rows: [
+            ["Provisioning", "Food, water, timber, medicine"],
+            ["Regulating", "Climate regulation, water filtration, pollination"],
+            ["Supporting", "Nutrient cycling, soil formation, photosynthesis"],
+            ["Cultural", "Recreation, beauty, spiritual value"],
+          ],
+        },
+        keyIdea: "Nature does trillions of dollars of 'free' work — pollination, water filtering, flood control — that's costly to replace artificially.",
+      },
+      {
+        title: "Why it matters economically",
+        body:
+          "When ecosystems are degraded, these free services fail and humans must pay to replace them — building water-treatment plants when wetlands are lost, or hand-pollinating crops when bees decline. Valuing ecosystem services reframes conservation as a smart economic choice, not just an environmental one.",
+        terms: [
+          { term: "Ecosystem services", def: "The benefits humans receive from functioning ecosystems." },
+          { term: "Provisioning vs. regulating", def: "Goods nature provides (food, water) vs. processes it regulates (climate, pollination)." },
+        ],
+        traps: ["Don't forget SUPPORTING services (nutrient cycling, soil formation) — they make all the others possible."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 1, lessonNum: 8,
+    unitName: "The Living World: Ecosystems",
+    title: "Primary and Secondary Productivity Calculations",
+    subtitle: "How much energy an ecosystem captures and stores — and the formula the exam wants you to use.",
+    overview:
+      "Productivity measures how much energy an ecosystem captures and makes available. The key distinction — and a common FRQ — is between gross and net primary productivity. Get the formula GPP − respiration = NPP and you've got the lesson.",
+    objectives: [
+      "Define GPP, NPP, and the relationship between them.",
+      "Calculate NPP from GPP and respiration.",
+      "Compare productivity across ecosystems.",
+    ],
+    sections: [
+      {
+        title: "GPP, NPP, and respiration",
+        body:
+          "Gross primary productivity (GPP) is the total energy producers capture through photosynthesis. But plants use some of it just to live (respiration). What's left — stored as biomass and available to consumers — is net primary productivity (NPP).",
+        keyIdea: "NPP = GPP − Respiration. NPP is what's actually AVAILABLE to the next trophic level.",
+        terms: [
+          { term: "Gross primary productivity (GPP)", def: "Total energy captured by producers via photosynthesis." },
+          { term: "Net primary productivity (NPP)", def: "Energy stored after respiration; available to consumers (GPP − R)." },
+          { term: "Respiration", def: "Energy producers use for their own life processes." },
+        ],
+      },
+      {
+        title: "Calculating and comparing",
+        body:
+          "If an ecosystem has a GPP of 1,000 kcal/m²/yr and respiration of 400, then NPP = 1,000 − 400 = 600 kcal/m²/yr. Productivity is highest in tropical rainforests and estuaries/wetlands, lowest in deserts and the open ocean (per area).",
+        example:
+          "GPP = 20,000 kcal/m²/yr, plant respiration = 12,000. NPP = 20,000 − 12,000 = 8,000 kcal/m²/yr. That 8,000 is what herbivores can actually eat.",
+        traps: ["Watch the units (e.g., kcal/m²/yr) and remember NPP — not GPP — is the energy available to consumers."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 2, lessonNum: 1,
+    unitName: "The Living World: Biodiversity",
+    title: "Biodiversity — Three Levels and Why Each Matters",
+    subtitle: "Biodiversity isn't just 'number of species' — it operates at three levels, and more diversity means more stability.",
+    overview:
+      "Biodiversity is the variety of life, and it exists at three levels: genetic, species, and ecosystem. The central idea: greater biodiversity makes ecosystems more resilient — better able to withstand disease, disturbance, and change.",
+    objectives: [
+      "Identify the three levels of biodiversity.",
+      "Explain how biodiversity increases resilience.",
+      "Define species richness and evenness.",
+    ],
+    sections: [
+      {
+        title: "Three levels of biodiversity",
+        body:
+          "Biodiversity is measured at three nested scales, each important for survival.",
+        table: {
+          headers: ["Level", "What it varies", "Why it matters"],
+          rows: [
+            ["Genetic", "Variety of genes within a species", "Raw material for adapting to change/disease"],
+            ["Species", "Variety of species in an area", "More roles filled; more stable food webs"],
+            ["Ecosystem", "Variety of habitats/ecosystems", "Range of services and conditions"],
+          ],
+        },
+        keyIdea: "Genetic diversity is the insurance policy: a varied gene pool lets a species adapt to disease and change.",
+      },
+      {
+        title: "Diversity and resilience",
+        body:
+          "Higher biodiversity generally means higher resilience — the ability to recover from disturbance. Species diversity has two parts: richness (how many species) and evenness (how balanced their numbers are). A community dominated by one species is less stable than a balanced one.",
+        terms: [
+          { term: "Species richness", def: "The number of different species in a community." },
+          { term: "Species evenness", def: "How balanced the relative abundances of species are." },
+          { term: "Resilience", def: "An ecosystem's ability to recover from disturbance." },
+        ],
+        traps: ["Biodiversity ≠ just species count. Genetic and ecosystem diversity matter too, and evenness matters alongside richness."],
+      },
+    ],
+  },
 ];
