@@ -266,7 +266,18 @@ function NoteView({ note }: { note: CoreNote }) {
         </div>
       )}
 
-      {note.diagram && <Diagram kind={note.diagram} />}
+      {note.diagram ? (
+        <Diagram kind={note.diagram} />
+      ) : (
+        <ConceptMap
+          title={note.title}
+          nodes={
+            note.sections.flatMap((s) => s.terms.map((t) => t.term)).length
+              ? note.sections.flatMap((s) => s.terms.map((t) => t.term))
+              : note.objectives
+          }
+        />
+      )}
 
       {note.sections.map((s, i) => (
         <section key={i} style={{ marginTop: 40 }}>
@@ -331,6 +342,36 @@ function Diagram({ kind }: { kind: string }) {
       <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: INDIGO, marginBottom: 8 }}>▦ DIAGRAM</div>
       <svg viewBox="0 0 280 170" width="100%" style={{ maxWidth: 360, display: "block", margin: "0 auto" }}>{body}</svg>
       <figcaption style={{ textAlign: "center", fontSize: 12, color: DLABEL, marginTop: 6 }}>{DIAGRAM_TITLES[kind] ?? ""}</figcaption>
+    </figure>
+  );
+}
+
+// Universal fallback diagram: a hub-and-spoke concept map from the note's own
+// key terms (or objectives) — so every note gets a visual, not just quant ones.
+function ConceptMap({ title, nodes }: { title: string; nodes: string[] }) {
+  const clean = nodes.map((n) => n.split(/[:(]/)[0].trim()).filter(Boolean);
+  const picked = clean.slice(0, 6);
+  if (picked.length === 0) return null;
+  const trunc = (s: string, n: number) => (s.length > n ? s.slice(0, n - 1) + "…" : s);
+  const slots = [[58, 34], [58, 90], [58, 146], [222, 34], [222, 90], [222, 146]];
+  return (
+    <figure style={{ margin: "22px 0 0", padding: "18px 18px 12px", borderRadius: 14, background: "#070b12", border: `1px solid ${BORDER}` }}>
+      <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: INDIGO, marginBottom: 8 }}>▦ CONCEPT MAP</div>
+      <svg viewBox="0 0 280 180" width="100%" style={{ maxWidth: 420, display: "block", margin: "0 auto" }}>
+        {picked.map((_, i) => (
+          <line key={"l" + i} x1="140" y1="90" x2={slots[i][0]} y2={slots[i][1]} stroke={AXIS} strokeWidth="1.4" />
+        ))}
+        {picked.map((t, i) => (
+          <g key={"n" + i}>
+            <rect x={slots[i][0] - 50} y={slots[i][1] - 13} width="100" height="26" rx="7"
+              fill="rgba(143,162,255,0.10)" stroke="rgba(143,162,255,0.5)" strokeWidth="1" />
+            <text x={slots[i][0]} y={slots[i][1] + 3.5} textAnchor="middle" fill="#dfe5f1" fontSize="9">{trunc(t, 18)}</text>
+          </g>
+        ))}
+        <rect x="92" y="74" width="96" height="32" rx="9" fill="rgba(0,255,178,0.12)" stroke={MINT} strokeWidth="1.6" />
+        <text x="140" y="93.5" textAnchor="middle" fill="#eafff8" fontSize="10" fontWeight="700">{trunc(title, 17)}</text>
+      </svg>
+      <figcaption style={{ textAlign: "center", fontSize: 12, color: DLABEL, marginTop: 6 }}>How the key ideas connect</figcaption>
     </figure>
   );
 }
