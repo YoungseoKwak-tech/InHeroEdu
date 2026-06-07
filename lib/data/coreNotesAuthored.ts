@@ -5837,4 +5837,115 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 9, lessonNum: 6,
+    unitName: "Global Change",
+    title: "Adaptation Strategies — Living With Climate Change",
+    subtitle: "Since some warming is already locked in, we also have to adapt — building resilience to impacts we can't prevent.",
+    overview:
+      "Adaptation means adjusting to the impacts of climate change that are already happening or unavoidable. While mitigation reduces future warming, adaptation protects people and ecosystems from the changes underway — both are necessary.",
+    objectives: [
+      "Define adaptation and distinguish it from mitigation.",
+      "Give examples of adaptation strategies.",
+      "Explain why both adaptation and mitigation are needed.",
+    ],
+    sections: [
+      {
+        title: "Adjusting to impacts",
+        body:
+          "Adaptation strategies build resilience: sea walls and managed retreat for rising seas, drought-resistant crops and better irrigation for agriculture, improved storm warning systems and infrastructure, and restoring natural buffers like wetlands and mangroves that absorb floods and storm surge.",
+        table: {
+          headers: ["Impact", "Adaptation"],
+          rows: [
+            ["Sea-level rise", "Sea walls, managed retreat, restore wetlands"],
+            ["Drought", "Drought-resistant crops, efficient irrigation"],
+            ["Extreme storms", "Stronger infrastructure, early-warning systems"],
+          ],
+        },
+        keyIdea: "Adaptation copes with impacts already locked in; mitigation limits FUTURE warming. We need BOTH — they're complements, not alternatives.",
+      },
+      {
+        title: "Why both matter",
+        body:
+          "Even if all emissions stopped today, past emissions commit us to further warming — so adaptation is unavoidable. But adaptation alone can't keep up with unchecked warming, so mitigation is essential to keep impacts manageable. Poorer nations often need the most adaptation help despite emitting the least.",
+        terms: [
+          { term: "Adaptation", def: "Adjusting to climate impacts to reduce harm (e.g., sea walls, resilient crops)." },
+          { term: "Resilience", def: "The capacity to absorb and recover from climate disturbances." },
+        ],
+        traps: ["Adaptation does NOT reduce greenhouse gases — it manages the consequences. Only mitigation addresses the root cause."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 9, lessonNum: 7,
+    unitName: "Global Change",
+    title: "International Climate Policy — UNFCCC, Paris Agreement",
+    subtitle: "Climate change is global, so the response must be too — a series of treaties trying to coordinate nearly every nation.",
+    overview:
+      "Because greenhouse gases mix globally, no country can solve climate change alone. International agreements — from the UNFCCC and Kyoto Protocol to the Paris Agreement — attempt to coordinate emission cuts, though enforcement and fairness remain challenges.",
+    objectives: [
+      "Summarize the major international climate agreements.",
+      "Explain the Paris Agreement's approach.",
+      "Identify the equity tension between developed and developing nations.",
+    ],
+    sections: [
+      {
+        title: "The major agreements",
+        body:
+          "The UNFCCC (1992) set the framework for cooperation. The Kyoto Protocol (1997) bound developed nations to cuts but excluded developing ones and the US never ratified it. The Paris Agreement (2015) is the current framework: nearly all nations set their own voluntary targets (NDCs) aiming to keep warming well below 2°C.",
+        table: {
+          headers: ["Agreement", "Key feature"],
+          rows: [
+            ["UNFCCC (1992)", "Framework for global climate cooperation"],
+            ["Kyoto Protocol (1997)", "Binding cuts for developed nations only"],
+            ["Paris Agreement (2015)", "Voluntary national targets; goal <2°C warming"],
+          ],
+        },
+        keyIdea: "Paris's approach is BOTTOM-UP — each nation sets its own voluntary pledge — which boosts participation but weakens enforcement.",
+      },
+      {
+        title: "The equity tension",
+        body:
+          "A core debate: developed nations caused most historical emissions, but developing nations' emissions are rising as they grow. Who should cut, and who should pay? The principle of 'common but differentiated responsibilities' tries to balance this, with wealthier nations expected to lead and fund help for poorer ones.",
+        terms: [
+          { term: "Paris Agreement", def: "2015 accord where nations set voluntary emission targets to limit warming." },
+          { term: "Common but differentiated responsibilities", def: "Principle that all nations must act, but richer/higher-emitting ones should do more." },
+        ],
+        traps: ["Paris targets are VOLUNTARY (nationally set) — its strength is broad participation, its weakness is the lack of binding enforcement."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 9, lessonNum: 8,
+    unitName: "Global Change",
+    title: "Ozone Recovery and Environmental Policy Lessons",
+    subtitle: "The ozone success shows global environmental problems CAN be solved — and what made it work.",
+    overview:
+      "The recovery of the ozone layer after the Montreal Protocol is the great success story of international environmental policy. Comparing it to the harder climate fight reveals what makes environmental cooperation succeed — and why climate is tougher.",
+    objectives: [
+      "Explain why the Montreal Protocol succeeded.",
+      "Contrast ozone with the climate challenge.",
+      "Draw general lessons for environmental policy.",
+    ],
+    sections: [
+      {
+        title: "Why ozone policy worked",
+        body:
+          "The Montreal Protocol (1987) phased out CFCs and the ozone layer is now healing. It succeeded because there were affordable substitutes for CFCs, a small number of producers to regulate, clear scientific consensus, and visible, scary stakes (the ozone hole). Nearly every nation signed and complied.",
+        keyIdea: "Ozone was 'easy' to fix: cheap substitutes existed, few industries were involved, and the threat was clear — conditions climate lacks.",
+        terms: [
+          { term: "Montreal Protocol", def: "1987 treaty phasing out CFCs; the model environmental-policy success." },
+        ],
+      },
+      {
+        title: "Lessons — and why climate is harder",
+        body:
+          "Climate change is tougher than ozone: fossil fuels are woven into the entire economy (not a few products), substitutes are improving but disruptive, and the costs hit now while benefits are diffuse and future. The ozone story still teaches that with science, substitutes, and global cooperation, environmental problems are solvable.",
+        terms: [
+          { term: "Precautionary principle", def: "Act to prevent harm even amid scientific uncertainty — applied in ozone policy." },
+        ],
+        traps: ["Don't assume climate will be as 'easy' as ozone — fossil fuels are far more embedded in the economy than CFCs ever were."],
+      },
+    ],
+  },
 ];
