@@ -1794,4 +1794,120 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 4, lessonNum: 4,
+    unitName: "Transoceanic Interconnections (c. 1450–1750)",
+    title: "Atlantic Slave Trade — Scale, Causes, and Effects",
+    subtitle: "The forced migration of roughly 12 million Africans — and the brutal Atlantic economy that demanded them.",
+    overview:
+      "To work the plantations and mines of the Americas after indigenous populations collapsed, Europeans turned to enslaved Africans. Over centuries, around 12 million were forcibly shipped across the Atlantic in the deadly Middle Passage, devastating African societies and powering a triangular trade.",
+    objectives: [
+      "Explain the causes of the Atlantic slave trade.",
+      "Describe the triangular trade and the Middle Passage.",
+      "Analyze the demographic and political effects on Africa.",
+    ],
+    diagram: "cause-effect",
+    sections: [
+      {
+        title: "The triangular trade",
+        body:
+          "The Atlantic ran on a three-legged exchange. European manufactured goods went to Africa; enslaved Africans were shipped to the Americas via the horrific Middle Passage; and American raw materials (sugar, tobacco, silver) flowed back to Europe.",
+        table: {
+          headers: ["Leg", "From → To", "Cargo"],
+          rows: [
+            ["1", "Europe → Africa", "Guns, textiles, rum"],
+            ["2 (Middle Passage)", "Africa → Americas", "Enslaved people (brutal, deadly)"],
+            ["3", "Americas → Europe", "Sugar, tobacco, silver"],
+          ],
+        },
+        keyIdea: "Root cause: demand for plantation cash-crop and mining labor + indigenous population collapse → enslaved African labor.",
+      },
+      {
+        title: "Effects on Africa",
+        body:
+          "Removing millions of mostly young men distorted African demographics, skewing gender ratios and disrupting families and economies. Some coastal African states grew powerful by capturing and selling captives, while the broader continent suffered lasting harm.",
+        terms: [
+          { term: "Middle Passage", def: "The brutal transatlantic voyage transporting enslaved Africans to the Americas." },
+          { term: "Triangular trade", def: "The three-legged Atlantic exchange of goods and enslaved people among Europe, Africa, and the Americas." },
+        ],
+        traps: ["The trade reshaped AFRICA too — gender imbalance, depopulation, and the rise of slave-trading states — not only the Americas."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 4, lessonNum: 5,
+    unitName: "Transoceanic Interconnections (c. 1450–1750)",
+    title: "Silver Trade — Global Economy Begins",
+    subtitle: "American silver flowed all the way to China — creating the first truly global economy.",
+    overview:
+      "Vast silver deposits in Spanish America (especially Potosí) were mined and shipped worldwide. Because China demanded silver for its economy, the metal circled the globe — linking the Americas, Europe, and Asia into the first genuinely global trade network.",
+    objectives: [
+      "Trace the global flow of American silver.",
+      "Explain why China was a silver 'sink.'",
+      "Analyze the silver trade's economic effects.",
+    ],
+    sections: [
+      {
+        title: "Silver circles the globe",
+        body:
+          "Mined at Potosí (Bolivia) and in Mexico, silver flowed two ways: east across the Atlantic to Europe, and west across the Pacific on the Manila galleons to Asia. China, which had shifted to a silver-based economy and demand for it, absorbed enormous amounts in exchange for silk, porcelain, and tea.",
+        keyIdea: "American silver → Europe AND across the Pacific to China = the first time trade truly circled the whole globe.",
+        terms: [
+          { term: "Potosí", def: "The massive silver mine in Spanish America (Bolivia) that fueled global trade." },
+          { term: "Manila galleons", def: "Ships carrying American silver across the Pacific to Asia in exchange for Asian goods." },
+        ],
+      },
+      {
+        title: "Economic effects",
+        body:
+          "Silver made Spain temporarily rich but also caused inflation (the 'price revolution') as money flooded Europe. China became a silver sink, deepening its role in global trade. The result was a connected world economy where a mine in the Andes affected prices in Ming China.",
+        terms: [
+          { term: "Price revolution", def: "European inflation caused by the influx of American silver." },
+          { term: "Silver sink", def: "China's absorption of huge quantities of the world's silver." },
+        ],
+        traps: ["Spain's silver wealth was double-edged — it funded the empire but caused inflation and didn't build a lasting productive economy."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 4, lessonNum: 6,
+    unitName: "Transoceanic Interconnections (c. 1450–1750)",
+    title: "Coercive Labor Systems Compared",
+    subtitle: "Across the early-modern world, empires extracted labor by force — but the forms differed in who, where, and how harsh.",
+    overview:
+      "This synthesis lesson compares the era's coerced labor systems. All were driven by demand for cash crops and minerals, but they varied: chattel slavery was hereditary and race-based, while others (encomienda, mita, serfdom, indentured servitude) bound labor in different ways.",
+    objectives: [
+      "Compare the major coerced labor systems.",
+      "Explain the common economic driver behind them.",
+      "Distinguish chattel slavery from other coerced labor.",
+    ],
+    sections: [
+      {
+        title: "Forms of coerced labor",
+        body:
+          "Each system extracted labor under compulsion, but the terms and targets differed.",
+        table: {
+          headers: ["System", "Where", "Nature"],
+          rows: [
+            ["Chattel slavery", "Atlantic / Americas", "Hereditary, race-based, people as property"],
+            ["Encomienda", "Spanish America", "Forced indigenous labor/tribute to colonists"],
+            ["Mit'a", "Andes (Inca→Spanish)", "Rotational labor draft, used in silver mines"],
+            ["Indentured servitude", "Various colonies", "Bound labor for a fixed term, then freedom"],
+            ["Serfdom", "Russia / Eastern Europe", "Peasants bound to the land and lord"],
+          ],
+        },
+        keyIdea: "All were driven by demand for cash crops and mining — but only chattel slavery was hereditary and race-based.",
+      },
+      {
+        title: "Patterns",
+        body:
+          "The common thread was economic: Europe's plantations and mines needed cheap, controllable labor. The Atlantic system's defining feature was tying enslavement to RACE and making it inheritable — a break from older forms of bondage.",
+        terms: [
+          { term: "Chattel slavery", def: "Slavery in which people are property, hereditary and (in the Atlantic) race-based." },
+          { term: "Indentured servitude", def: "Labor bound for a fixed term in exchange for passage, then freedom." },
+        ],
+        traps: ["Indentured servitude was temporary (then free); chattel slavery was permanent and inherited — don't equate them."],
+      },
+    ],
+  },
 ];
