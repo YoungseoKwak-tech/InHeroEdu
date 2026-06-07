@@ -22,47 +22,51 @@ type CatalogEntry = {
   priceKRW?: number;
 };
 
+function englishCatalogName(item: { name: string; nameEn?: string }) {
+  return item.nameEn && item.nameEn.trim() ? item.nameEn : item.name;
+}
+
 function getCatalogEntries(): CatalogEntry[] {
   return [
     ...PRICING.free.map((item) => ({
       id: item.id,
-      name: item.nameEn ?? item.name,
+      name: englishCatalogName(item),
       priceUSD: item.price,
       priceKRW: item.price,
     })),
     ...PRICING.aiPlans.map((item) => ({
       id: item.id,
-      name: item.nameEn ?? item.name,
+      name: englishCatalogName(item),
       priceUSD: item.priceUSD,
       priceKRW: item.priceKRW,
     })),
     ...PRICING.subscriptions.map((item) => ({
       id: item.id,
-      name: item.nameEn ?? item.name,
+      name: englishCatalogName(item),
       priceUSD: item.priceUSD,
       priceKRW: item.priceKRW,
     })),
     ...PRICING.gradePackages.map((item) => ({
       id: item.id,
-      name: item.nameEn ?? item.name,
+      name: englishCatalogName(item),
       priceUSD: item.priceUSD,
       priceKRW: item.priceKRW,
     })),
     ...PRICING.competitionPackages.map((item) => ({
       id: item.id,
-      name: item.nameEn ?? item.name,
+      name: englishCatalogName(item),
       priceUSD: item.priceUSD,
       priceKRW: item.priceKRW,
     })),
     ...PRICING.tutoring.map((item) => ({
       id: item.id,
-      name: item.nameEn ?? item.name,
+      name: englishCatalogName(item),
       priceUSD: item.priceUSD,
       priceKRW: item.priceKRW,
     })),
     ...PRICING.consulting.map((item) => ({
       id: item.id,
-      name: item.nameEn ?? item.name,
+      name: englishCatalogName(item),
       priceUSD: item.priceUSD,
       priceKRW: item.priceKRW,
     })),
