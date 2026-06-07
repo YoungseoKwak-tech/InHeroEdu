@@ -24,6 +24,12 @@ interface Question {
   id: string; nickname: string; title: string; content: string;
   view_count: number; answer_count: number; created_at: string;
 }
+interface Textbook { slug: string; title: string; subtitle: string | null; total_chapters: number | null; total_pages: number | null; }
+
+const TEXTBOOK_GLYPH: Record<string, string> = {
+  "ap-bio-ultimate": "🧬", "ap-chem-ultimate": "⚗️", "ap-physics-ultimate": "⚛️",
+  "ap-physics-2-ultimate": "🧲", "ap-calc-ab-ultimate": "∫", "ap-calc-bc-ultimate": "∫",
+};
 
 function timeAgo(iso: string): string {
   const d = (Date.now() - new Date(iso).getTime()) / 1000;
@@ -37,7 +43,7 @@ const dateShort = (iso: string) => new Date(iso).toLocaleDateString("ko-KR", { m
 
 const SLIDES = [
   { bg: "linear-gradient(120deg,#064e3b,#0b8a5b)", emoji: "📝", title: "AP 문제 11,975개 · 무료", sub: "College Board 스타일 실전 문제 · 틀리면 비슷한 문제로 복습", route: "/parents/question-bank", gated: false },
-  { bg: "linear-gradient(120deg,#3b1d6e,#6d28d9)", emoji: "📚", title: "AP 디지털 교재 6권", sub: "Bio · Chem · Physics · Calc — 풀 커리큘럼 디지털 교재", route: "/library", gated: true },
+  { bg: "linear-gradient(120deg,#3b1d6e,#6d28d9)", emoji: "📚", title: "AP 디지털 교재 6권", sub: "Bio · Chem · Physics · Calc — 풀 커리큘럼 디지털 교재", route: "#textbooks", gated: false },
   { bg: "linear-gradient(120deg,#831843,#be185d)", emoji: "🎯", title: `STEM 대회 ${COMPETITIONS.length}개 총정리`, sub: "USABO · USACO · ISEF · Conrad — 학년·난이도·시기·전공별", route: "/parents/competitions", gated: false },
 ];
 
@@ -47,8 +53,8 @@ const NAV = [
   { label: "학년별 로드맵", route: "/parents/roadmap", gated: false },
   { label: "AP 과목 가이드", route: "/parents/ap-guide", gated: false },
   { label: "AP 문제은행", route: "/parents/question-bank", gated: false },
-  { label: "핵심노트", route: "/core-notes", gated: true },
-  { label: "디지털 교재", route: "/library", gated: true },
+  { label: "핵심노트", route: "/parents/core-notes", gated: false },
+  { label: "디지털 교재", route: "#textbooks", gated: false },
 ];
 
 const QUICK = [
@@ -57,7 +63,8 @@ const QUICK = [
   { emoji: "🗺️", label: "학년별 로드맵", route: "/parents/roadmap", gated: false },
   { emoji: "📘", label: "AP 과목 가이드", route: "/parents/ap-guide", gated: false },
   { emoji: "📝", label: "AP 문제은행", route: "/parents/question-bank", gated: false },
-  { emoji: "📚", label: "디지털 교재", route: "/library", gated: true },
+  { emoji: "📘", label: "핵심노트", route: "/parents/core-notes", gated: false },
+  { emoji: "📚", label: "디지털 교재", route: "#textbooks", gated: false },
 ];
 
 const RESOURCES = [
@@ -69,7 +76,7 @@ const RESOURCES = [
 const NOTICES = [
   { title: "InHero 학부모 자료실 오픈 안내", route: "/parents" },
   { title: "AP 문제은행 11,975개 무료 공개", route: "/parents/question-bank", gated: false },
-  { title: "AP 디지털 교재 6권 추가 (Calc BC 포함)", route: "/library", gated: true },
+  { title: "AP 디지털 교재 6권 추가 (Calc BC 포함)", route: "#textbooks", gated: false },
 ];
 
 export default function ParentsClient() {
@@ -78,12 +85,15 @@ export default function ParentsClient() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [query, setQuery] = useState("");
   const [slide, setSlide] = useState(0);
+  const [textbooks, setTextbooks] = useState<Textbook[]>([]);
   const slideTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     getClientSession().then((s) => setLoggedIn(!!s?.user)).catch(() => {});
     fetch("/api/qa/questions?subject=parent-lounge&sort=latest")
       .then((r) => r.json()).then((d) => setQuestions(d?.questions ?? [])).catch(() => {});
+    fetch("/api/textbooks")
+      .then((r) => r.json()).then((d) => setTextbooks(d?.textbooks ?? [])).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -92,6 +102,10 @@ export default function ParentsClient() {
   }, []);
 
   const go = (route: string, gated: boolean) => {
+    if (route.startsWith("#")) {
+      document.getElementById(route.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
     if (!gated || loggedIn) router.push(route);
     else window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: route } }));
   };
@@ -151,7 +165,7 @@ export default function ParentsClient() {
           </div>
 
           {/* Quick icons */}
-          <div style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "20px 16px", display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 8 }} className="quick-grid">
+          <div style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "20px 16px", display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 8 }} className="quick-grid">
             {QUICK.map((q) => (
               <button key={q.label} onClick={() => go(q.route, q.gated)} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, padding: "6px 2px" }}>
                 <span style={{ fontSize: 30 }}>{q.emoji}</span>
@@ -235,11 +249,41 @@ export default function ParentsClient() {
         </aside>
       </div>
 
+      {/* ── Digital textbooks section (bottom of the portal) ── */}
+      <section id="textbooks" style={{ background: "#fff", borderTop: "1px solid #e2e6ea", scrollMarginTop: 70 }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto", padding: "44px 20px 56px" }}>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 6, flexWrap: "wrap" }}>
+            <h2 style={{ fontSize: 22, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>📚 AP 디지털 교재</h2>
+            <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 600 }}>{textbooks.length}권 · 풀 커리큘럼</span>
+          </div>
+          <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.7, marginBottom: 22 }}>
+            Limits부터 무한급수까지, AP 전 범위를 담은 디지털 교재입니다. 표지를 눌러 바로 읽어보세요.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(168px, 1fr))", gap: 16 }}>
+            {textbooks.map((b) => (
+              <button key={b.slug} onClick={() => go(`/textbooks/${b.slug}`, true)}
+                style={{ textAlign: "left", background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, overflow: "hidden", cursor: "pointer", padding: 0, boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 180ms, box-shadow 200ms" }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 36px rgba(16,24,40,0.12)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 1px 2px rgba(16,24,40,0.04)"; }}>
+                <div style={{ height: 130, background: "linear-gradient(135deg,#0a0a14,#1e1e2e)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 52 }}>
+                  {TEXTBOOK_GLYPH[b.slug] ?? "📘"}
+                </div>
+                <div style={{ padding: "13px 14px 15px" }}>
+                  <div style={{ fontSize: 14.5, fontWeight: 800, color: "#1a1a1f", letterSpacing: "-0.01em", lineHeight: 1.3 }}>{b.title}</div>
+                  {b.subtitle && <div style={{ fontSize: 11.5, color: "#94a3b8", marginTop: 2 }}>{b.subtitle}</div>}
+                  <div style={{ fontSize: 12, color: "#64748b", marginTop: 8, fontWeight: 600 }}>{b.total_chapters ? `${b.total_chapters}개 챕터` : "디지털 교재"}</div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <style>{`
         @media (max-width: 880px) {
           .parents-grid { grid-template-columns: 1fr !important; }
           .board-grid { grid-template-columns: 1fr !important; }
-          .quick-grid { grid-template-columns: repeat(3, 1fr) !important; }
+          .quick-grid { grid-template-columns: repeat(4, 1fr) !important; }
         }
       `}</style>
     </div>
