@@ -219,6 +219,14 @@ function NoteView({ note }: { note: CoreNote }) {
         <p style={{ fontSize: 16, color: "#aab4c2", lineHeight: 1.5, marginTop: 12 }}>{note.subtitle}</p>
       )}
 
+      {note.overview && (
+        <div style={{ marginTop: 18 }}>
+          {note.overview.split(/\n\n+/).map((p, i) => (
+            <p key={i} style={{ fontSize: 16, lineHeight: 1.75, color: "#d4dce8", margin: i ? "14px 0 0" : 0 }}>{p}</p>
+          ))}
+        </div>
+      )}
+
       {note.objectives.length > 0 && (
         <div
           style={{
@@ -276,6 +284,13 @@ function NoteView({ note }: { note: CoreNote }) {
               {s.title}
             </h3>
           </div>
+          {s.body && (
+            <div style={{ marginTop: 12 }}>
+              {s.body.split(/\n\n+/).map((p, k) => (
+                <p key={k} style={{ fontSize: 15.5, lineHeight: 1.75, color: "#cdd6e2", margin: k ? "12px 0 0" : 0 }}>{p}</p>
+              ))}
+            </div>
+          )}
           {s.terms.length > 0 && (
             <dl style={{ margin: "18px 0 0", display: "grid", gap: 18 }}>
               {s.terms.map((t, j) => (

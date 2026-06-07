@@ -14,6 +14,7 @@ import { createAdminClient } from "@/lib/supabase";
 import { inferCourseIdFromLessonId } from "@/lib/learning-tracking";
 import { courses } from "@/lib/data/courses";
 import coreNotesSeed from "@/lib/data/coreNotesSeed.json";
+import { CORE_NOTES_AUTHORED } from "@/lib/data/coreNotesAuthored";
 
 export interface NoteTerm {
   term: string;
@@ -22,6 +23,8 @@ export interface NoteTerm {
 export interface NoteSection {
   title: string;
   subtitle?: string | null;
+  /** Narrative explanation (Khan-style prose), rendered as paragraphs. */
+  body?: string | null;
   terms: NoteTerm[];
   traps: string[];
   example?: string | null;
@@ -36,6 +39,8 @@ export interface CoreNote {
   unitName?: string | null;
   title: string;
   subtitle?: string | null;
+  /** Narrative intro to the whole lesson (Khan-style), rendered before REMEMBER. */
+  overview?: string | null;
   objectives: string[];
   /** Key formulas rendered as a monospace panel (quant subjects). */
   formulas?: string[];
@@ -197,10 +202,11 @@ interface SeedNote {
   unitName?: string;
   title: string;
   subtitle?: string;
+  overview?: string;
   objectives?: string[];
   formulas?: string[];
   diagram?: string | null;
-  sections?: { title: string; subtitle?: string | null; terms?: NoteTerm[]; traps?: string[]; example?: string | null }[];
+  sections?: { title: string; subtitle?: string | null; body?: string | null; terms?: NoteTerm[]; traps?: string[]; example?: string | null }[];
 }
 function seedToNote(s: SeedNote): CoreNote {
   const meta = metaFor(s.courseId);
@@ -215,12 +221,14 @@ function seedToNote(s: SeedNote): CoreNote {
     unitName: s.unitName ?? null,
     title: s.title,
     subtitle: s.subtitle ?? null,
+    overview: s.overview ?? null,
     objectives: s.objectives ?? [],
     formulas: s.formulas ?? [],
     diagram: s.diagram ?? null,
     sections: (s.sections ?? []).map((sec) => ({
       title: sec.title,
       subtitle: sec.subtitle ?? null,
+      body: sec.body ?? null,
       terms: sec.terms ?? [],
       traps: sec.traps ?? [],
       example: sec.example ?? null,
@@ -232,6 +240,10 @@ async function rebuild(): Promise<CoreNote[]> {
   const rows = await selectAllScripts();
   let notes = rows.map(noteFromScript).filter((n): n is CoreNote => n !== null);
   notes = notes.concat((coreNotesSeed as unknown as SeedNote[]).map(seedToNote));
+  // Hand-authored rich notes override the auto-generated ones for the same lesson.
+  const authored = (CORE_NOTES_AUTHORED as unknown as SeedNote[]).map(seedToNote);
+  const authoredKeys = new Set(authored.map((n) => `${n.courseId}|${n.unit}|${n.lessonNum}`));
+  notes = notes.filter((n) => !authoredKeys.has(`${n.courseId}|${n.unit}|${n.lessonNum}`)).concat(authored);
 
   // Some scripts carry the same title in two units (data error, e.g. "Carbon:
   // The Backbone of Life" in both u1 and u7). Keep the earliest unit/lesson.
