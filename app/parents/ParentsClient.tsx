@@ -25,7 +25,13 @@ interface Question {
   view_count: number; answer_count: number; created_at: string;
 }
 interface Textbook { slug: string; title: string; subtitle: string | null; total_chapters: number | null; total_pages: number | null; }
-interface Material { id: string; title: string; previewPage1Url: string | null; totalPages: number | null; lounge: { slug: string; name: string } | null; author: { handle: string } | null; }
+interface Material { id: string; title: string; attachmentUrl: string; fileSize: number | null; previewPage1Url: string | null; totalPages: number | null; lounge: { slug: string; name: string } | null; author: { handle: string } | null; }
+
+// Files bigger than this open as a download instead of the in-browser reader
+// (the reader chokes on huge scans like the 343MB AP Biology Note).
+const LARGE_FILE_BYTES = 50 * 1024 * 1024;
+const isLargeFile = (b: number | null | undefined) => !!b && b > LARGE_FILE_BYTES;
+const downloadHref = (url: string, title: string) => `${url}${url.includes("?") ? "&" : "?"}download=${encodeURIComponent(title)}`;
 interface KoNote { lessonId: string; subjectLabel: string; emoji: string; unit: number | null; lessonNum: number | null; title: string; subtitle: string | null; overview: string | null; }
 
 // Korean 일타강사 notes to feature on the homepage — the killer content. These
@@ -83,6 +89,7 @@ const NAV = [
   { label: "단어장", route: "/parents/vocab", gated: false },
   { label: "디지털 교재", route: "#textbooks", gated: false },
   { label: "미국 대학 분석", route: "/parents/colleges", gated: false },
+  { label: "합격 활동 분석", route: "/parents/activities", gated: false },
 ];
 
 const QUICK = [
@@ -95,11 +102,13 @@ const QUICK = [
   { emoji: "📒", label: "단어장", route: "/parents/vocab", gated: false },
   { emoji: "📚", label: "디지털 교재", route: "#textbooks", gated: false },
   { emoji: "🏛️", label: "미국 대학 분석", route: "/parents/colleges", gated: false },
+  { emoji: "🏆", label: "합격 활동 분석", route: "/parents/activities", gated: false },
 ];
 
 // Sorted by views (trending) — the board renders this order as-is.
 const RESOURCES = [
   { title: "코넬 공대 합격 에세이 분석", desc: "실제 합격 에세이를 한 문단씩 — 무엇이 왜 잘 됐는지", route: "/parents/essay", tag: "합격에세이", views: 1000 },
+  { title: "아이비리그 합격 엑스트라 활동 분석", desc: "합격생 활동 10개 + 직접 만드는 법 (책 출간·논문·웹)", route: "/parents/activities", tag: "합격활동", views: 942 },
   { title: "미국 대학 분석 — 인재상·입시·인턴십", desc: "하버드부터 UC까지, 학교별 인재상·합격률·취업 파이프라인", route: "/parents/colleges", tag: "대학분석", views: 874 },
   { title: "미국 입시 STEM 대회 데이터베이스", desc: `USABO·USACO·ISEF 등 ${COMPETITIONS.length}개 대회 총정리`, route: "/parents/competitions", tag: "자료", views: 731 },
   { title: "학년별 로드맵 (G6–G12)", desc: "학업·시험·활동·에세이를 학년별로", route: "/parents/roadmap", tag: "가이드", views: 562 },
@@ -111,6 +120,7 @@ const NOTICES = [
   { title: "AP 문제은행 11,975개 무료 공개", route: "/parents/question-bank", gated: false },
   { title: "AP 디지털 교재 6권 추가 (Calc BC 포함)", route: "#textbooks", gated: false },
   { title: "미국 대학 분석 데이터베이스 오픈 (인재상·인턴십)", route: "/parents/colleges", gated: false },
+  { title: "아이비리그 합격 엑스트라 활동 분석 공개 (실행 가이드)", route: "/parents/activities", gated: false },
 ];
 
 export default function ParentsClient() {
@@ -284,7 +294,7 @@ export default function ParentsClient() {
           </div>
 
           {/* Quick icons */}
-          <div style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "20px 16px", display: "grid", gridTemplateColumns: "repeat(8, 1fr)", gap: 8 }} className="quick-grid">
+          <div style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "20px 16px", display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 8 }} className="quick-grid">
             {QUICK.map((q) => (
               <button key={q.label} onClick={() => go(q.route, q.gated)} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, padding: "6px 2px" }}>
                 <span style={{ fontSize: 30 }}>{q.emoji}</span>
