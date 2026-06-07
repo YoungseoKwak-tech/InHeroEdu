@@ -78,6 +78,11 @@ const ASSETS: Asset[] = [
     route: "/library",
     desc: "Limits부터 무한급수까지, AP 풀 커리큘럼을 담은 디지털 교재. Bio·Chem·Physics·Calc까지.",
   },
+  {
+    emoji: "💬", title: "학부모 라운지", count: -1, unit: "", accent: "#F472B6", gated: false,
+    route: "/parents/lounge",
+    desc: "'G10인데 AP 몇 개?', 'Conrad 해보신 분?' — 미국 입시를 준비하는 학부모들이 묻고 답하는 정보 나눔방.",
+  },
 ];
 
 export default function ParentsClient() {
@@ -167,9 +172,11 @@ export default function ParentsClient() {
                 <div style={{ minWidth: 0 }}>
                   <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap", marginBottom: 6 }}>
                     <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 19, fontWeight: 700, color: "#fff" }}>{a.title}</span>
-                    <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, fontWeight: 700, color: a.accent }}>
-                      {countFor(a).toLocaleString()}{a.unit}
-                    </span>
+                    {countFor(a) >= 0 && (
+                      <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, fontWeight: 700, color: a.accent }}>
+                        {countFor(a).toLocaleString()}{a.unit}
+                      </span>
+                    )}
                     {!a.gated && (
                       <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", color: "rgba(255,255,255,0.55)", border: "1px solid rgba(255,255,255,0.18)", borderRadius: 4, padding: "2px 7px" }}>무료 열람</span>
                     )}
