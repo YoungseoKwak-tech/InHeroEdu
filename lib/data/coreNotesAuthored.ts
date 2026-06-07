@@ -834,4 +834,143 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-psychology", unit: 7, lessonNum: 2,
+    unitName: "Clinical Psychology",
+    title: "Biomedical Treatments",
+    subtitle: "Treating disorders at the level of the brain — mostly with drugs that adjust neurotransmitters.",
+    overview:
+      "Biomedical treatments target the biology of disorders, most often by changing neurotransmitter activity with medication. They're frequently combined with therapy, and they connect directly back to the neurotransmitters you learned in Unit 1–2.",
+    objectives: [
+      "Match each drug class to the disorder it treats and the neurotransmitter it targets.",
+      "Describe ECT and when it is used.",
+      "Recognize side effects like tardive dyskinesia.",
+    ],
+    sections: [
+      {
+        title: "Drug therapies",
+        body:
+          "Most psychiatric drugs work at the synapse, raising or lowering a neurotransmitter's effect. Know the class, what it treats, and its mechanism in one line each.",
+        table: {
+          headers: ["Drug class", "Treats", "Mechanism"],
+          rows: [
+            ["Antidepressants (SSRIs)", "Depression, anxiety", "Block serotonin reuptake → more serotonin"],
+            ["Anti-anxiety", "Anxiety", "Boost GABA → calms neural activity"],
+            ["Antipsychotics", "Schizophrenia", "Block dopamine → reduce hallucinations/delusions"],
+            ["Mood stabilizers (lithium)", "Bipolar disorder", "Levels out mania and depression"],
+          ],
+        },
+        keyIdea: "SSRIs take WEEKS to work because the brain slowly adapts to the higher serotonin — not an instant fix.",
+        terms: [
+          { term: "SSRI", def: "Selective serotonin reuptake inhibitor; raises serotonin to treat depression/anxiety." },
+          { term: "Tardive dyskinesia", def: "Involuntary movements that can result from long-term antipsychotic use." },
+        ],
+      },
+      {
+        title: "Beyond drugs",
+        body:
+          "Electroconvulsive therapy (ECT) sends a brief, controlled electrical current through the brain to trigger a seizure; despite its scary reputation, it's an effective last resort for severe, treatment-resistant depression. Newer options like transcranial magnetic stimulation (TMS) are less invasive. Psychosurgery (e.g., lobotomy) is essentially obsolete.",
+        terms: [
+          { term: "Electroconvulsive therapy (ECT)", def: "Brief electrical stimulation inducing a seizure; used for severe, drug-resistant depression." },
+          { term: "TMS", def: "Transcranial magnetic stimulation; a non-invasive alternative for depression." },
+        ],
+      },
+    ],
+  },
+  {
+    courseId: "ap-psychology", unit: 7, lessonNum: 3,
+    unitName: "Clinical Psychology",
+    title: "Psychological Therapies — CBT and Beyond",
+    subtitle: "Talk-based treatments, each flowing from a perspective you already know — and the one (CBT) with the most evidence.",
+    overview:
+      "Each major therapy descends from a perspective from Unit 1. Psychoanalysis digs into the unconscious; humanistic therapy nurtures growth; behavioral therapy retrains responses; cognitive therapy fixes distorted thinking; and CBT combines the last two — today's most evidence-based approach.",
+    objectives: [
+      "Match each therapy to its parent perspective and core method.",
+      "Explain key behavioral and cognitive techniques.",
+      "Identify why CBT is widely used.",
+    ],
+    sections: [
+      {
+        title: "Therapies by school",
+        body:
+          "The exam loves to match a described technique to its therapy. Anchor each to its perspective.",
+        table: {
+          headers: ["Therapy", "From perspective", "Core method"],
+          rows: [
+            ["Psychoanalysis", "Psychodynamic", "Surface unconscious conflict (free association, dreams)"],
+            ["Person-centered", "Humanistic", "Empathy & unconditional positive regard (Rogers)"],
+            ["Behavioral", "Behavioral", "Recondition responses (exposure, desensitization)"],
+            ["Cognitive", "Cognitive", "Challenge and change distorted thoughts"],
+            ["CBT", "Cognitive + Behavioral", "Change both thoughts AND behaviors — most evidence-based"],
+          ],
+        },
+        keyIdea: "CBT = cognitive (fix the thoughts) + behavioral (change the actions). It's the most strongly supported talk therapy.",
+      },
+      {
+        title: "Key techniques",
+        body:
+          "Behavioral therapies use systematic desensitization — pairing gradual exposure to a feared thing with relaxation — and exposure therapy to extinguish conditioned fears. Cognitive therapy uses cognitive restructuring to replace catastrophic thoughts ('I'll fail everything') with realistic ones.",
+        terms: [
+          { term: "Systematic desensitization", def: "Gradual exposure to a fear paired with relaxation; a behavioral technique." },
+          { term: "Cognitive restructuring", def: "Identifying and replacing distorted, maladaptive thoughts." },
+          { term: "Unconditional positive regard", def: "Rogers's nonjudgmental acceptance that fosters growth in person-centered therapy." },
+        ],
+        traps: ["Match the technique to its school: free association → psychoanalysis; desensitization → behavioral; restructuring → cognitive."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-psychology", unit: 8, lessonNum: 1,
+    unitName: "Social Psychology",
+    title: "Social Influence — Conformity and Obedience",
+    subtitle: "The classic studies showing that the situation — not just personality — drives much of human behavior.",
+    overview:
+      "Social psychology's big lesson is the power of the situation: ordinary people do surprising things under social pressure. Asch revealed conformity, Milgram revealed obedience, and a cluster of group effects shows how being around others changes us.",
+    objectives: [
+      "Distinguish normative from informational social influence.",
+      "Summarize Asch's and Milgram's findings and what raises conformity/obedience.",
+      "Define the major group effects (groupthink, bystander effect, social loafing).",
+    ],
+    sections: [
+      {
+        title: "Conformity — the Asch studies",
+        body:
+          "Asch had people judge obvious line lengths; when confederates gave wrong answers aloud, many participants conformed to the group's wrong answer. We conform for two reasons, and the exam tests the difference.",
+        table: {
+          headers: ["Type of influence", "We conform because…", "Result"],
+          rows: [
+            ["Normative", "We want acceptance / to avoid rejection", "Go along even when we privately disagree"],
+            ["Informational", "We believe others know better", "Genuinely change our view"],
+          ],
+        },
+        keyIdea: "Normative = fit in (social approval). Informational = be right (others as a source of truth).",
+      },
+      {
+        title: "Obedience — the Milgram studies",
+        body:
+          "Milgram found ordinary people would deliver what they believed were dangerous shocks because an authority figure told them to. Obedience rose when the authority was nearby and legitimate, the victim was distant, and no one else disobeyed first.",
+        terms: [
+          { term: "Obedience", def: "Following the direct commands of an authority figure (Milgram)." },
+          { term: "Foot-in-the-door", def: "Agreeing to a small request makes a larger one more likely later — a route to obedience." },
+        ],
+        traps: ["Conformity = matching peers/group; obedience = following an AUTHORITY's command. Don't mix them up."],
+      },
+      {
+        title: "Group effects",
+        body:
+          "Being in a group changes behavior in predictable ways the exam pairs to scenarios.",
+        table: {
+          headers: ["Effect", "What happens"],
+          rows: [
+            ["Groupthink", "Desire for harmony suppresses dissent → bad decisions"],
+            ["Group polarization", "Group discussion strengthens members' initial leanings"],
+            ["Social facilitation", "Others' presence boosts performance on EASY tasks"],
+            ["Social loafing", "People exert less effort in a group than alone"],
+            ["Bystander effect", "Less likely to help when others are present (diffusion of responsibility)"],
+          ],
+        },
+        keyIdea: "Fundamental attribution error: we blame others' behavior on their character and underrate the situation — the theme of the whole unit.",
+      },
+    ],
+  },
 ];
