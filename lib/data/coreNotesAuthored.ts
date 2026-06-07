@@ -5517,4 +5517,110 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 8, lessonNum: 5,
+    unitName: "Aquatic and Terrestrial Pollution",
+    title: "Hazardous Waste — Classification and Superfund",
+    subtitle: "Toxic, corrosive, flammable, or reactive waste needs special handling — and a law to clean up the messes left behind.",
+    overview:
+      "Hazardous waste is waste that's dangerous to health or the environment. It requires strict tracking and disposal, and in the US the Superfund law funds cleanup of abandoned toxic sites — assigning liability to polluters.",
+    objectives: [
+      "Define hazardous waste and its categories.",
+      "Describe safe disposal methods.",
+      "Explain Superfund and RCRA.",
+    ],
+    sections: [
+      {
+        title: "What makes waste hazardous",
+        body:
+          "Waste is legally hazardous if it's ignitable (flammable), corrosive (acids/bases), reactive (explosive/unstable), or toxic. Sources include industry, hospitals, labs, and households (batteries, paint, cleaners). It must be tracked 'cradle to grave' and disposed of in secure, lined facilities or deep-well injection.",
+        keyIdea: "The four hazard traits: ignitable, corrosive, reactive, toxic. Hazardous waste is tracked from creation to disposal ('cradle to grave').",
+        terms: [
+          { term: "Hazardous waste", def: "Waste that is ignitable, corrosive, reactive, or toxic." },
+          { term: "RCRA", def: "Law regulating hazardous waste from 'cradle to grave' (creation to disposal)." },
+        ],
+      },
+      {
+        title: "Cleaning up the past: Superfund",
+        body:
+          "Many toxic sites were abandoned before regulation (e.g., Love Canal). The Superfund law (CERCLA) created a fund and legal authority to clean up these sites and hold responsible parties financially liable — embodying the 'polluter pays' principle, though cleanups are slow and costly.",
+        terms: [
+          { term: "Superfund (CERCLA)", def: "US law funding cleanup of abandoned hazardous-waste sites; polluters can be held liable." },
+          { term: "Polluter pays principle", def: "Those who cause pollution should bear the cost of cleaning it up." },
+        ],
+        traps: ["Superfund (CERCLA) cleans up ABANDONED past sites; RCRA regulates CURRENT hazardous waste — different laws for different jobs."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 8, lessonNum: 6,
+    unitName: "Aquatic and Terrestrial Pollution",
+    title: "Oil Spills — Impacts and Remediation",
+    subtitle: "A single spill can devastate coastlines for years — and cleanup is slow, partial, and sometimes harmful itself.",
+    overview:
+      "Oil spills from tankers, pipelines, and offshore rigs release crude oil into water, coating wildlife, smothering habitats, and poisoning ecosystems. Cleanup methods all have limits, so prevention is far cheaper than remediation.",
+    objectives: [
+      "Describe the ecological impacts of oil spills.",
+      "Compare cleanup methods.",
+      "Explain why prevention beats remediation.",
+    ],
+    sections: [
+      {
+        title: "Ecological impacts",
+        body:
+          "Spilled oil coats birds and mammals (destroying insulation/buoyancy so they die of cold or drowning), smothers shorelines and shellfish, and toxic components poison fish and eggs. Major spills like the Exxon Valdez and Deepwater Horizon caused damage lasting years to decades.",
+        keyIdea: "Oil kills birds/mammals by ruining the INSULATION of feathers/fur (hypothermia) — not just by poisoning them.",
+        terms: [
+          { term: "Crude oil", def: "Unrefined petroleum that, when spilled, coats and poisons marine life." },
+          { term: "Deepwater Horizon", def: "2010 Gulf of Mexico spill, the largest US marine oil spill." },
+        ],
+      },
+      {
+        title: "Cleanup methods",
+        body:
+          "Responders use containment booms (float to corral oil), skimmers (scoop it off the surface), chemical dispersants (break oil into droplets — but they're toxic themselves), and bioremediation (microbes that eat oil). None fully removes the oil, and cleanup can stress ecosystems further — so spill prevention (double-hulled tankers, regulation) is key.",
+        terms: [
+          { term: "Containment boom", def: "A floating barrier used to corral spilled oil." },
+          { term: "Bioremediation", def: "Using microorganisms to break down pollutants like oil." },
+          { term: "Dispersant", def: "Chemical that breaks oil into droplets; effective but itself toxic." },
+        ],
+        traps: ["Cleanup never fully recovers a spill, and dispersants are toxic too — PREVENTION (e.g., double hulls) is the real solution."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 8, lessonNum: 7,
+    unitName: "Aquatic and Terrestrial Pollution",
+    title: "Soil Contamination and Remediation",
+    subtitle: "Polluted soil threatens crops, groundwater, and health — and it's hard and slow to clean.",
+    overview:
+      "Soil contamination comes from industrial chemicals, pesticides, heavy metals, leaking tanks, and improper waste disposal. Contaminated soil can poison crops, leach into groundwater, and harm people. Remediation techniques exist but are costly and incomplete.",
+    objectives: [
+      "Identify sources of soil contamination.",
+      "Explain the risks contaminated soil poses.",
+      "Compare remediation methods.",
+    ],
+    sections: [
+      {
+        title: "Sources and risks",
+        body:
+          "Soil is contaminated by heavy metals (lead, arsenic), pesticides, petroleum, and industrial solvents — from factories, mining, landfills, and leaking underground storage tanks. The danger is multi-path: toxins enter crops (and our food), leach down into groundwater, and expose people directly (especially children via lead).",
+        keyIdea: "Contaminated soil is dangerous on multiple fronts: it taints CROPS, leaches into GROUNDWATER, and directly exposes people.",
+        terms: [
+          { term: "Heavy metals", def: "Toxic metals (lead, mercury, arsenic) that persist in soil and accumulate in organisms." },
+          { term: "Leaking underground storage tank", def: "A common source of soil and groundwater contamination (e.g., gas stations)." },
+        ],
+      },
+      {
+        title: "Remediation",
+        body:
+          "Cleanup options include excavation (dig out and haul away contaminated soil), bioremediation (microbes break down contaminants), and phytoremediation (plants absorb toxins from soil). These are slow and expensive, and phytoremediation only works for certain contaminants — reinforcing that preventing contamination is cheaper.",
+        terms: [
+          { term: "Phytoremediation", def: "Using plants to absorb/remove contaminants from soil." },
+          { term: "Excavation", def: "Physically removing contaminated soil for disposal or treatment." },
+        ],
+        traps: ["Phytoremediation (plants) and bioremediation (microbes) are slow and contaminant-specific — not quick fixes for any pollutant."],
+      },
+    ],
+  },
 ];
