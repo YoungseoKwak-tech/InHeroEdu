@@ -311,7 +311,7 @@ export default function ParentsClient() {
                   아이비리그 재학생 멘토가 공유하는 <strong>합격 에세이 · 활동 리스트 · 학년별 플랜 · 1:1 Q&A</strong>.
                   자녀에게 실제 합격생의 길을 그대로 보여주세요.
                 </p>
-                <button onClick={() => go("/mentors", true)}
+                <button onClick={() => go("/parents/materials", false)}
                   style={{ background: "#1a1a1f", color: "#fff", border: "none", borderRadius: 10, padding: "14px 26px", fontSize: 14.5, fontWeight: 800, cursor: "pointer" }}>
                   🔒 아이비리그 학생 자료 보기 →
                 </button>
@@ -319,7 +319,7 @@ export default function ParentsClient() {
               </div>
 
               {/* flip preview — 4 cards cycling */}
-              <button onClick={() => go("/mentors", true)} aria-label="아이비리그 학생 자료 보기"
+              <button onClick={() => go("/parents/materials", false)} aria-label="아이비리그 학생 자료 보기"
                 style={{ position: "relative", border: "none", cursor: "pointer", padding: 22, background: "#0a0a14", perspective: "1000px", minHeight: 220 }}>
                 <div key={ivyFlip} style={{ animation: "ivyFlip 0.7s cubic-bezier(0.16,1,0.3,1)", transformStyle: "preserve-3d", height: "100%" }}>
                   <div style={{ background: IVY_CARDS[ivyFlip].bg, borderRadius: 12, padding: "20px 20px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", boxShadow: "0 12px 30px rgba(0,0,0,0.35)" }}>
