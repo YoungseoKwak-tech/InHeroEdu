@@ -15,7 +15,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getClientSession } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import { COMPETITIONS } from "./competitions/data";
 
 const GREEN = "#00b85f";
@@ -25,6 +25,7 @@ interface Question {
   view_count: number; answer_count: number; created_at: string;
 }
 interface Textbook { slug: string; title: string; subtitle: string | null; total_chapters: number | null; total_pages: number | null; }
+interface Material { id: string; title: string; previewPage1Url: string | null; lounge: { slug: string; name: string } | null; author: { handle: string } | null; }
 interface KoNote { lessonId: string; subjectLabel: string; emoji: string; unit: number | null; lessonNum: number | null; title: string; subtitle: string | null; overview: string | null; }
 
 // Korean 일타강사 notes to feature on the homepage — the killer content. These
@@ -113,6 +114,7 @@ export default function ParentsClient() {
   const [slide, setSlide] = useState(0);
   const [textbooks, setTextbooks] = useState<Textbook[]>([]);
   const [koNotes, setKoNotes] = useState<KoNote[]>([]);
+  const [materials, setMaterials] = useState<Material[]>([]);
   const [ivyFlip, setIvyFlip] = useState(0);
   const slideTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -126,6 +128,11 @@ export default function ParentsClient() {
     Promise.all(FEATURED_KO_NOTES.map((id) =>
       fetch(`/api/core-notes/korean?lessonId=${id}`).then((r) => r.json()).then((d) => d?.note as KoNote).catch(() => null)
     )).then((notes) => setKoNotes(notes.filter(Boolean) as KoNote[]));
+    // Ivy student materials preview (auth-gated feed; empty when logged out).
+    authFetch("/api/library/feed?official=official")
+      .then((r) => r.json())
+      .then((d) => setMaterials(Array.isArray(d?.items) ? d.items.slice(0, 5) : []))
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -392,6 +399,51 @@ export default function ParentsClient() {
           </p>
         </aside>
       </div>
+
+      {/* ── Ivy student materials preview (above the textbooks section) ── */}
+      <section style={{ background: "#fff", borderTop: "1px solid #e2e6ea" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto", padding: "44px 20px 8px" }}>
+          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, flexWrap: "wrap", marginBottom: 6 }}>
+            <h2 style={{ fontSize: 22, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>🎓 아이비리그 학생 자료</h2>
+            <Link href="/parents/materials" style={{ color: GREEN, fontSize: 14, fontWeight: 800, textDecoration: "none", whiteSpace: "nowrap" }}>더 많은 자료 보러가기 →</Link>
+          </div>
+          <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.7, marginBottom: 22 }}>
+            Cornell 등 아이비리그 재학생이 손으로 정리한 실제 AP 학습 노트입니다.
+          </p>
+          {materials.length > 0 ? (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16 }}>
+              {materials.map((m) => (
+                <Link key={m.id} href={`/library/${m.id}/read`} style={{ textDecoration: "none", color: "inherit" }}>
+                  <article style={{ background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, overflow: "hidden", boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 180ms, box-shadow 200ms" }}
+                    onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 36px rgba(16,24,40,0.12)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 1px 2px rgba(16,24,40,0.04)"; }}>
+                    <div style={{ position: "relative", height: 200, background: "#f1f3f5", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+                      {m.previewPage1Url ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img src={m.previewPage1Url} alt={m.title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }} />
+                      ) : (
+                        <div style={{ textAlign: "center", color: "#94a3b8" }}><div style={{ fontSize: 34 }}>📕</div><div style={{ fontSize: 11, marginTop: 5 }}>미리보기 생성 중…</div></div>
+                      )}
+                      <span style={{ position: "absolute", top: 9, left: 9, fontSize: 9, fontWeight: 900, letterSpacing: "0.05em", color: "#7c5500", background: "#fde68a", borderRadius: 5, padding: "3px 7px" }}>⭐ INHERO ORIGINAL</span>
+                    </div>
+                    <div style={{ padding: "12px 14px 14px" }}>
+                      <div style={{ fontSize: 13.5, fontWeight: 800, color: "#1a1a1f", lineHeight: 1.35, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", minHeight: 37 }}>{m.title}</div>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 8 }}>
+                        {m.lounge && <span style={{ fontSize: 11, color: "#94a3b8" }}>📕 {m.lounge.name}</span>}
+                        {m.author && <span style={{ fontSize: 11, color: "#64748b", fontStyle: "italic", fontWeight: 600 }}>by {m.author.handle}</span>}
+                      </div>
+                    </div>
+                  </article>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <Link href="/parents/materials" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, textDecoration: "none", background: "linear-gradient(135deg,#0a0a14,#13131f)", color: "#fff", borderRadius: 14, padding: "28px 22px", fontSize: 15, fontWeight: 800 }}>
+              🔒 아이비리그 학생이 직접 쓴 실제 AP 노트 보기 →
+            </Link>
+          )}
+        </div>
+      </section>
 
       {/* ── Digital textbooks section (bottom of the portal) ── */}
       <section id="textbooks" style={{ background: "#fff", borderTop: "1px solid #e2e6ea", scrollMarginTop: 70 }}>
