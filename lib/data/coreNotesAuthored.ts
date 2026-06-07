@@ -4056,4 +4056,113 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 3, lessonNum: 6,
+    unitName: "Populations",
+    title: "Resource Consumption and Ecological Footprint",
+    subtitle: "It's not just how many people — it's how much each one consumes.",
+    overview:
+      "An ecological footprint measures the land and resources a person or population needs to support its consumption and absorb its waste. The key insight: a few high-consuming people can have a bigger environmental impact than many low-consuming ones.",
+    objectives: [
+      "Define ecological footprint.",
+      "Explain how consumption (not just population) drives impact.",
+      "Compare footprints of developed vs. developing nations.",
+    ],
+    sections: [
+      {
+        title: "Footprint = population × consumption",
+        body:
+          "Environmental impact isn't just headcount — it's how much each person uses. The ecological footprint captures total demand on nature. Wealthy nations have far larger per-capita footprints (more energy, meat, goods, waste) than poorer ones, even with smaller populations.",
+        keyIdea: "A wealthy nation's small population can out-impact a poor nation's huge one — consumption per person matters as much as numbers.",
+        terms: [
+          { term: "Ecological footprint", def: "The land/resources needed to support a person's or population's consumption and absorb its waste." },
+          { term: "Per-capita consumption", def: "Resource use per person; much higher in developed nations." },
+        ],
+      },
+      {
+        title: "The IPAT idea",
+        body:
+          "Impact is often summarized as I = P × A × T: Population × Affluence (consumption) × Technology. Rising affluence in developing nations and high consumption in developed ones both increase global impact — which is why sustainability targets consumption, not just population.",
+        terms: [
+          { term: "IPAT", def: "Impact = Population × Affluence × Technology — a framework for environmental impact." },
+          { term: "Overconsumption", def: "Resource use beyond sustainable levels, common in wealthy nations." },
+        ],
+        traps: ["Don't equate 'big population' with 'big impact' — high per-capita consumption can outweigh sheer numbers."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 3, lessonNum: 7,
+    unitName: "Populations",
+    title: "Sustainable Yield and Fisheries Management",
+    subtitle: "Harvest at the rate nature replenishes, and you can take forever; take more, and you collapse the resource.",
+    overview:
+      "A sustainable yield is the amount of a renewable resource you can harvest without depleting it — matching harvest to natural regrowth. Fisheries are the classic case: overfishing beyond the sustainable yield causes population collapse.",
+    objectives: [
+      "Define sustainable yield and maximum sustainable yield.",
+      "Explain how overharvesting collapses a resource.",
+      "Describe fisheries management strategies.",
+    ],
+    sections: [
+      {
+        title: "Harvest vs. regrowth",
+        body:
+          "A renewable resource regrows, but only so fast. The sustainable yield is the harvest rate that matches that regrowth, so the stock stays stable. The maximum sustainable yield (MSY) is the largest catch you can take indefinitely — usually when the population is at about half its carrying capacity, where growth is fastest.",
+        keyIdea: "Take ≤ the regrowth rate and the resource lasts forever; take more and you're spending the 'principal,' not the 'interest.'",
+        terms: [
+          { term: "Sustainable yield", def: "Harvest rate that matches natural regrowth, keeping the resource stable." },
+          { term: "Maximum sustainable yield", def: "The largest catch sustainable long-term (~half carrying capacity)." },
+        ],
+      },
+      {
+        title: "Managing fisheries",
+        body:
+          "Overfishing — taking more than the sustainable yield — has collapsed major fisheries (e.g., Atlantic cod). Management tools include catch quotas, size/gear limits, no-take marine protected areas, and seasonal closures to let stocks recover. Bycatch (unintended catch) is a major side problem.",
+        terms: [
+          { term: "Overfishing", def: "Harvesting fish faster than they can reproduce, collapsing the stock." },
+          { term: "Bycatch", def: "Non-target species caught unintentionally during fishing." },
+        ],
+        traps: ["MSY is highest near HALF the carrying capacity (fastest growth) — not at maximum population."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 3, lessonNum: 8,
+    unitName: "Populations",
+    title: "Human Population Policies and Ethics",
+    subtitle: "How — and whether — governments should shape population raises hard ethical questions.",
+    overview:
+      "Faced with rapid growth (or decline), governments adopt population policies — some to reduce births, others to encourage them. These range from voluntary (education, family planning) to coercive (China's former one-child policy), each raising ethical debate.",
+    objectives: [
+      "Distinguish anti-natalist from pro-natalist policies.",
+      "Give examples and evaluate their effects.",
+      "Identify ethical concerns with population control.",
+    ],
+    sections: [
+      {
+        title: "Two directions of policy",
+        body:
+          "Policies push either way. Anti-natalist policies aim to lower birth rates (China's one-child policy, family-planning programs); pro-natalist policies encourage births where populations are shrinking and aging (incentives in countries like Japan or France).",
+        table: {
+          headers: ["Policy type", "Goal", "Example"],
+          rows: [
+            ["Anti-natalist", "Reduce births", "China's former one-child policy"],
+            ["Pro-natalist", "Increase births", "Baby bonuses in low-fertility nations"],
+            ["Empowerment (most effective)", "Lower births voluntarily", "Educating & employing women"],
+          ],
+        },
+        keyIdea: "The most effective AND ethical way to slow growth is educating and empowering women — it lowers fertility voluntarily.",
+      },
+      {
+        title: "Effects and ethics",
+        body:
+          "China's one-child policy slowed growth but caused a skewed sex ratio and an aging population. Coercive policies raise serious ethical concerns about human rights and bodily autonomy. Most experts favor voluntary approaches — education, healthcare, and family planning — which reduce fertility while respecting rights.",
+        terms: [
+          { term: "Anti-natalist / pro-natalist", def: "Policies that discourage vs. encourage childbearing." },
+          { term: "Family planning", def: "Voluntary access to contraception and reproductive education; lowers fertility ethically." },
+        ],
+        traps: ["China's one-child policy had unintended effects: a skewed male:female ratio and a rapidly aging population."],
+      },
+    ],
+  },
 ];
