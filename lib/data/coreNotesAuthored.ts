@@ -6194,4 +6194,110 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-us-government", unit: 2, lessonNum: 3,
+    unitName: "Interactions Among Branches of Government",
+    title: "The Federal Bureaucracy — Implementation and Accountability",
+    subtitle: "The unelected agencies that actually carry out the laws — and the tug-of-war to control them.",
+    overview:
+      "The federal bureaucracy is the network of agencies and departments that implement and enforce laws. Though unelected, it wields real power through rulemaking. All three branches try to hold it accountable, making it a key arena of inter-branch interaction.",
+    objectives: [
+      "Explain what the bureaucracy does (implementation, rulemaking).",
+      "Describe how Congress, the president, and courts check it.",
+      "Define discretionary and rulemaking authority.",
+    ],
+    sections: [
+      {
+        title: "What the bureaucracy does",
+        body:
+          "Congress passes broad laws; the bureaucracy fills in the details. Agencies use discretionary authority and rulemaking authority to write specific regulations that carry the force of law (e.g., the EPA setting pollution limits). This makes unelected bureaucrats genuinely powerful policymakers.",
+        keyIdea: "Congress writes laws in broad strokes; the bureaucracy's RULEMAKING fills in the binding details — real lawmaking power for unelected agencies.",
+        terms: [
+          { term: "Bureaucracy", def: "Agencies/departments that implement and enforce federal laws." },
+          { term: "Rulemaking authority", def: "Agencies' power to write regulations with the force of law." },
+          { term: "Discretionary authority", def: "Latitude agencies have in deciding how to implement laws." },
+        ],
+      },
+      {
+        title: "Keeping it accountable",
+        body:
+          "Because the bureaucracy is unelected, all three branches check it. Congress controls its funding, holds oversight hearings, and can rewrite its authorizing laws. The president appoints agency heads and issues executive orders. Courts review agency actions for legality. This shared control creates constant tension over who steers the agencies.",
+        terms: [
+          { term: "Congressional oversight", def: "Congress monitoring the bureaucracy via hearings and budget control." },
+          { term: "Iron triangle", def: "Stable alliance among an agency, a congressional committee, and an interest group." },
+        ],
+        traps: ["The bureaucracy is checked by ALL THREE branches (funding, appointments, judicial review) — not controlled by the president alone."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-us-government", unit: 2, lessonNum: 4,
+    unitName: "Interactions Among Branches of Government",
+    title: "Federal Courts — Structure, Selection, and Judicial Review",
+    subtitle: "The judiciary's great power is judicial review — the ability to strike down laws as unconstitutional.",
+    overview:
+      "The federal courts interpret the law, topped by the Supreme Court. Their defining power, judicial review, lets them declare laws and executive actions unconstitutional — established in Marbury v. Madison. Judges are appointed for life, insulating them from politics.",
+    objectives: [
+      "Explain judicial review and its origin.",
+      "Describe how federal judges are selected.",
+      "Identify checks on the judiciary.",
+    ],
+    diagram: "three-branches",
+    sections: [
+      {
+        title: "Judicial review",
+        body:
+          "Judicial review — the power to declare laws or executive actions unconstitutional — was established in Marbury v. Madison (1803), not written explicitly in the Constitution. It makes the courts a co-equal branch and the final word on what the Constitution means.",
+        keyIdea: "Judicial review came from Marbury v. Madison (1803) — the Court GAVE ITSELF this power; it's not spelled out in the Constitution.",
+        terms: [
+          { term: "Judicial review", def: "Courts' power to strike down laws/actions that violate the Constitution." },
+          { term: "Marbury v. Madison (1803)", def: "Case that established judicial review." },
+        ],
+      },
+      {
+        title: "Selection and checks",
+        body:
+          "Federal judges are nominated by the president and confirmed by the Senate, serving for life ('during good behavior') to insulate them from political pressure. But the judiciary is still checked: presidents pick judges, the Senate can reject them, Congress can pass new laws or propose amendments to counter rulings, and courts depend on the other branches to enforce decisions.",
+        terms: [
+          { term: "Life tenure", def: "Federal judges serve indefinitely, insulating them from politics." },
+          { term: "Stare decisis", def: "The principle of deciding cases based on precedent." },
+        ],
+        traps: ["Judges have LIFE tenure (insulation), but the judiciary is still checked — appointments, new legislation, and reliance on others to ENFORCE rulings."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-us-government", unit: 3, lessonNum: 1,
+    unitName: "Civil Liberties and Civil Rights",
+    title: "Selective Incorporation — Applying Rights to States",
+    subtitle: "The mechanism that forces state governments — not just Washington — to honor the Bill of Rights.",
+    overview:
+      "Originally, the Bill of Rights limited only the FEDERAL government. Through selective incorporation, the Supreme Court has used the 14th Amendment's due process clause to apply most of those protections to the STATES too, case by case.",
+    objectives: [
+      "Explain selective incorporation and its constitutional basis.",
+      "Explain why it was necessary.",
+      "Give examples of incorporated rights.",
+    ],
+    sections: [
+      {
+        title: "How rights reached the states",
+        body:
+          "The Bill of Rights (1791) originally restrained only the national government — states could, and did, violate these freedoms. After the 14th Amendment (1868) guaranteed 'due process' from the states, the Court began incorporating specific protections one at a time, applying them to state and local governments.",
+        keyIdea: "Selective incorporation uses the 14th Amendment's DUE PROCESS clause to apply Bill of Rights protections to the STATES — one right at a time.",
+        terms: [
+          { term: "Selective incorporation", def: "Case-by-case application of Bill of Rights protections to states via the 14th Amendment." },
+          { term: "Due process clause", def: "14th Amendment clause used as the vehicle for incorporation." },
+        ],
+      },
+      {
+        title: "Why it matters",
+        body:
+          "Incorporation transformed the reach of the Constitution: today a state or city can't violate your free speech, free exercise of religion, or right to an attorney, because those rights have been incorporated. It's 'selective' because the Court applied rights individually, not all at once — a few obscure ones remain unincorporated.",
+        terms: [
+          { term: "14th Amendment", def: "Post-Civil War amendment guaranteeing due process and equal protection from the states." },
+        ],
+        traps: ["It's SELECTIVE — rights were incorporated one at a time through cases, not all at once. The 14th Amendment is the vehicle."],
+      },
+    ],
+  },
 ];
