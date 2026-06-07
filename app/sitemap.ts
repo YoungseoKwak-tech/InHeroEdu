@@ -60,6 +60,12 @@ export default function sitemap() {
       priority: 0.9,
     },
     {
+      url: `${baseUrl}/sat`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/ai-companion`,
       lastModified: new Date(),
       changeFrequency: 'monthly',

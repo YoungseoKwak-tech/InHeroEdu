@@ -16,6 +16,7 @@ export const KO: Record<string, string> = {
   "Core Notes": "핵심 노트",
   "Question Bank": "문제 은행",
   Vocab: "단어장",
+  SAT: "SAT 모의고사",
   Lounges: "라운지",
   Library: "라이브러리",
   Clubs: "클럽",
