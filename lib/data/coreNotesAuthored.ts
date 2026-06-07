@@ -1113,4 +1113,121 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 1, lessonNum: 4,
+    unitName: "The Global Tapestry (c. 1200–1450)",
+    title: "Mali Empire — Trans-Saharan Trade and Islam",
+    subtitle: "A West African empire so rich on gold and salt that one king's pilgrimage disrupted economies a continent away.",
+    overview:
+      "Mali rose in West Africa by controlling the trans-Saharan trade, where camel caravans carried gold north and salt south across the desert. Taxing that trade made Mali's rulers fabulously wealthy and helped spread Islam through the region's elite.",
+    objectives: [
+      "Explain how the trans-Saharan gold-salt trade powered Mali.",
+      "Describe Mansa Musa's role and the spread of Islam in West Africa.",
+      "Recognize the blend of Islam and traditional beliefs.",
+    ],
+    sections: [
+      {
+        title: "Wealth from gold and salt",
+        body:
+          "The Sahara was a sea of sand crossed by camel caravans — camels and the camel saddle made the routes possible. West Africa had abundant gold but needed salt (for preservation and health); North Africa had salt and craved gold. Mali sat astride the exchange and taxed it.",
+        table: {
+          headers: ["Flowed north", "Flowed south"],
+          rows: [
+            ["Gold", "Salt"],
+            ["Enslaved people, ivory", "Textiles, horses, books"],
+            ["", "Islam (carried by merchants)"],
+          ],
+        },
+        keyIdea: "Mali didn't need to PRODUCE everything — it grew rich by CONTROLLING and taxing the trade that passed through.",
+      },
+      {
+        title: "Mansa Musa and Islam",
+        body:
+          "Mali's most famous ruler, Mansa Musa, made a pilgrimage (hajj) to Mecca in 1324, distributing so much gold along the way that he reportedly caused inflation in Egypt. He brought back scholars and architects, turning Timbuktu into a renowned center of Islamic learning. Islam unified the elite and connected Mali to the wider Dar al-Islam.",
+        terms: [
+          { term: "Trans-Saharan trade", def: "Camel-caravan trade across the Sahara exchanging West African gold for salt and goods." },
+          { term: "Mansa Musa", def: "Mali ruler whose 1324 hajj displayed the empire's enormous wealth." },
+          { term: "Timbuktu", def: "Mali city that became a famous center of Islamic scholarship." },
+        ],
+        traps: ["Islam spread mainly among RULERS and merchants; many common people kept traditional beliefs (a syncretic blend)."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 1, lessonNum: 5,
+    unitName: "The Global Tapestry (c. 1200–1450)",
+    title: "The Americas Before European Contact — Aztec and Inca",
+    subtitle: "Two powerful empires that, cut off from Afro-Eurasia, solved the problems of ruling millions in strikingly different ways.",
+    overview:
+      "While Afro-Eurasia traded across oceans, the Americas developed separately. Two empires dominated: the Aztec in Mesoamerica and the Inca in the Andes. Both ruled millions through systems of labor and tribute — but their methods differed.",
+    objectives: [
+      "Describe Aztec political, economic, and religious organization.",
+      "Describe Inca administration (roads, mit'a, quipu).",
+      "Compare how each empire extracted resources and labor.",
+    ],
+    sections: [
+      {
+        title: "Aztec and Inca side by side",
+        body:
+          "The Aztec built their capital Tenochtitlan on a lake, farming with chinampas (floating gardens) and funding the state through a tribute system imposed on conquered peoples. The Inca stretched along the Andes, bound together by a vast road network, a labor tax called the mit'a, and record-keeping with knotted cords (quipu) — all without a writing system.",
+        table: {
+          headers: ["Feature", "Aztec", "Inca"],
+          rows: [
+            ["Region", "Mesoamerica (Mexico)", "Andes (South America)"],
+            ["Capital", "Tenochtitlan (on a lake)", "Cusco"],
+            ["Funding the state", "Tribute from conquered peoples", "Mit'a (labor tax)"],
+            ["Records", "Pictographic writing", "Quipu (knotted cords)"],
+            ["Farming feat", "Chinampas (floating gardens)", "Terraced mountainsides"],
+          ],
+        },
+        keyIdea: "Both empires sustained huge populations by extracting LABOR and TRIBUTE — the Aztec via goods, the Inca via required work.",
+        terms: [
+          { term: "Chinampas", def: "Aztec floating garden plots enabling intensive agriculture." },
+          { term: "Mit'a", def: "Inca mandatory public labor tax used for roads, terraces, and building." },
+          { term: "Quipu", def: "Inca system of knotted cords for record-keeping (no writing system)." },
+        ],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 1, lessonNum: 6,
+    unitName: "The Global Tapestry (c. 1200–1450)",
+    title: "Comparing Postclassical States — Patterns of Continuity",
+    subtitle: "Across China, the Islamic world, India, Africa, and the Americas, rulers reached for the same three tools of power.",
+    overview:
+      "This synthesis lesson steps back from individual states to see the patterns. Despite huge differences, states from Song China to Mali to the Inca legitimized and funded their rule using a common toolkit: bureaucracy, religion, and trade/tribute.",
+    objectives: [
+      "Identify shared methods states used to legitimize and consolidate power.",
+      "Explain how belief systems reinforced political order across regions.",
+      "Analyze continuity and change across the postclassical world.",
+    ],
+    sections: [
+      {
+        title: "The shared toolkit of power",
+        body:
+          "Compare the states and a pattern jumps out: each used administration to govern, a belief system to justify rule, and trade or tribute to pay for it. The specifics differed; the strategy didn't.",
+        table: {
+          headers: ["State", "Legitimized rule with", "Funded rule with"],
+          rows: [
+            ["Song China", "Neo-Confucianism, exam-based bureaucracy", "Commerce, taxes"],
+            ["Dar al-Islam states", "Islam", "Trans-regional trade"],
+            ["Delhi Sultanate", "Islam over a Hindu majority", "Land taxes"],
+            ["Mali", "Islam + traditional authority", "Trans-Saharan trade tolls"],
+            ["Aztec / Inca", "State religion", "Tribute / mit'a labor"],
+          ],
+        },
+        keyIdea: "Bureaucracy + religion + trade/tribute = the universal recipe for holding a large state together in this era.",
+      },
+      {
+        title: "Continuity and change",
+        body:
+          "Continuity: major belief systems (Confucianism, Islam, Hinduism, Buddhism) and long-distance trade networks persisted and deepened. Change: WHO ruled shifted — new groups (Turkic peoples, the Mongols soon after) seized power, and states grew larger and more commercially connected.",
+        keyIdea: "When a synthesis question asks 'continuity vs. change,' belief systems & trade = continuity; ruling groups & scale = change.",
+        terms: [
+          { term: "Legitimacy", def: "The accepted right to rule, often granted by religion or tradition." },
+          { term: "Tribute system", def: "Extracting goods/labor from subject peoples to fund the state." },
+        ],
+      },
+    ],
+  },
 ];
