@@ -3020,4 +3020,110 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 8, lessonNum: 8,
+    unitName: "Cold War and Decolonization (c. 1900–present)",
+    title: "Women and Decolonization — Promises and Limits",
+    subtitle: "Women fought for independence and gained new rights — but the revolutions often stopped short of full equality.",
+    overview:
+      "Women played central roles in independence and revolutionary movements, and many newly independent states expanded women's legal rights and access to education and work. Yet the promises of equality were frequently unfulfilled, as traditional and patriarchal structures persisted.",
+    objectives: [
+      "Describe women's roles in decolonization and revolutionary movements.",
+      "Identify gains women made in new and revolutionary states.",
+      "Explain the limits of those gains.",
+    ],
+    sections: [
+      {
+        title: "Promises: participation and rights",
+        body:
+          "Women joined and sometimes led independence struggles and revolutions (e.g., in Algeria, China, and Vietnam). In return, many new and communist states granted suffrage, expanded education, and brought women into the workforce, framing equality as part of national progress.",
+        keyIdea: "Revolutions and independence movements needed women's participation — and often rewarded it with new legal rights.",
+        terms: [
+          { term: "Suffrage", def: "The right to vote, extended to women in many newly independent states." },
+        ],
+      },
+      {
+        title: "Limits: equality deferred",
+        body:
+          "Legal gains often outran social reality. Patriarchal traditions, religious norms, and male-dominated leadership meant women's equality was frequently incomplete — they gained rights on paper but still faced discrimination in politics, work, and the home.",
+        terms: [
+          { term: "Patriarchy", def: "A social system in which men hold most power, limiting women's equality despite legal reforms." },
+        ],
+        traps: ["Note the GAP: legal/formal gains for women often outpaced real social and political equality."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 9, lessonNum: 1,
+    unitName: "Globalization (c. 1900–present)",
+    title: "Economic Globalization — Free Trade and Its Critics",
+    subtitle: "The post-WWII world knit national economies into one — lifting billions, while sparking fierce debate over winners and losers.",
+    overview:
+      "Economic globalization is the growing integration of the world's economies through trade, investment, and multinational corporations. Backed by institutions promoting free trade, it generated enormous wealth and lifted many out of poverty — but critics point to inequality, exploitation, and lost sovereignty.",
+    objectives: [
+      "Define economic globalization and its key institutions.",
+      "Explain the role of multinational corporations and free trade.",
+      "Summarize the main criticisms of globalization.",
+    ],
+    sections: [
+      {
+        title: "The integrated economy",
+        body:
+          "After WWII, institutions and agreements lowered trade barriers and encouraged the free flow of goods and capital. Multinational corporations spread production across borders (global supply chains), and bodies like the WTO, IMF, and World Bank shaped the rules.",
+        table: {
+          headers: ["Force", "Role"],
+          rows: [
+            ["Free trade agreements", "Lower tariffs/barriers between countries"],
+            ["Multinational corporations", "Spread production across borders (supply chains)"],
+            ["WTO / IMF / World Bank", "Set rules and lend to shape the global economy"],
+          ],
+        },
+        keyIdea: "Globalization links economies so tightly that a factory in one country and a shopper in another depend on each other.",
+      },
+      {
+        title: "Critics and trade-offs",
+        body:
+          "Supporters credit globalization with growth and falling poverty (especially in Asia). Critics argue it widens inequality, exploits low-wage workers, harms the environment, and erodes national sovereignty and local cultures. The debate over its winners and losers defines modern politics.",
+        terms: [
+          { term: "Multinational corporation", def: "A company operating across multiple countries; a key driver of globalization." },
+          { term: "Free trade", def: "Trade with minimal tariffs/barriers between nations." },
+        ],
+        traps: ["Globalization has BOTH lifted billions from poverty AND widened inequality — the exam wants the trade-offs, not one side."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 9, lessonNum: 2,
+    unitName: "Globalization (c. 1900–present)",
+    title: "Technology and Cultural Globalization",
+    subtitle: "Jets, satellites, and the internet shrank the world — spreading culture, and provoking backlash.",
+    overview:
+      "Communication and transportation technology accelerated globalization, moving people, ideas, and culture faster than ever. The result is a more connected — and more culturally blended — world, alongside fears of homogenization and movements to defend local identity.",
+    objectives: [
+      "Explain how technology accelerated globalization.",
+      "Describe cultural globalization and syncretism.",
+      "Identify backlash against cultural homogenization.",
+    ],
+    sections: [
+      {
+        title: "The technology that shrank the world",
+        body:
+          "Jet travel, container shipping, satellites, and especially the internet and mobile phones let information, money, and people move instantly across the globe. This connectivity is the engine of modern cultural exchange.",
+        keyIdea: "The internet did for the late 20th century what the printing press did earlier — collapsed the cost of spreading ideas.",
+        terms: [
+          { term: "Cultural globalization", def: "The worldwide spread and blending of ideas, media, and customs." },
+        ],
+      },
+      {
+        title: "Blending and backlash",
+        body:
+          "Global media spread products and pop culture worldwide, often creating syncretism (blended local-global culture). But many fear cultural homogenization — the erosion of local cultures by dominant (often Western) ones — fueling movements to protect language, religion, and tradition.",
+        terms: [
+          { term: "Cultural homogenization", def: "The fear that local cultures are erased by a dominant global culture." },
+          { term: "Syncretism", def: "Blending of global and local cultural elements into something new." },
+        ],
+        traps: ["Cultural globalization isn't one-way erasure — it often produces BLENDING (syncretism) and active local resistance."],
+      },
+    ],
+  },
 ];
