@@ -2249,4 +2249,119 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 5, lessonNum: 8,
+    unitName: "Revolutions (c. 1750–1900)",
+    title: "Abolitionism and the End of the Slave Trade",
+    subtitle: "The same Enlightenment ideals that fueled revolutions turned against slavery itself.",
+    overview:
+      "The age of revolutions carried a moral logic that was hard to contain: if all people have natural rights, how can slavery be justified? Abolitionism — the movement to end the slave trade and slavery — grew from Enlightenment ideals, religious conviction, and the testimony of formerly enslaved people, and gradually won.",
+    objectives: [
+      "Explain the ideological and religious roots of abolitionism.",
+      "Identify key milestones in ending the slave trade and slavery.",
+      "Analyze what replaced enslaved labor.",
+    ],
+    sections: [
+      {
+        title: "The movement",
+        body:
+          "Abolitionism drew on Enlightenment ideas of equality, Christian (especially Quaker) moral arguments, and the powerful voices of formerly enslaved people. Britain banned the slave TRADE in 1807 and abolished SLAVERY itself in its empire in 1833; other nations followed over the century.",
+        keyIdea: "Britain ended the slave TRADE (1807) before ending slavery itself (1833) — two separate milestones, often confused.",
+        terms: [
+          { term: "Abolitionism", def: "The movement to end the slave trade and slavery." },
+        ],
+      },
+      {
+        title: "What replaced enslaved labor",
+        body:
+          "Ending slavery didn't end the demand for cheap labor. Plantations and mines increasingly turned to indentured servitude — workers (often from India and China) bound for a fixed term — driving a new wave of global migration.",
+        terms: [
+          { term: "Indentured servitude", def: "Bound labor for a fixed term; expanded after abolition to replace enslaved workers." },
+        ],
+        traps: ["Abolition shifted the labor system (to indentured servants) rather than ending coerced/cheap labor outright."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 6, lessonNum: 1,
+    unitName: "Consequences of Industrialization (c. 1750–1900)",
+    title: "New Imperialism — Causes and the Scramble for Africa",
+    subtitle: "Industrial powers raced to carve up Africa in a single generation — driven by raw materials, rivalry, and racist ideology.",
+    overview:
+      "In the late 1800s, industrialized nations seized colonies at breakneck speed, especially in Africa — the 'Scramble for Africa.' Industrialization created new hungers (raw materials, markets) and new tools (machine guns, steamships, quinine) that made rapid conquest possible.",
+    objectives: [
+      "Explain the economic, political, and ideological causes of New Imperialism.",
+      "Describe the Scramble for Africa and the Berlin Conference.",
+      "Identify the technologies that enabled imperial conquest.",
+    ],
+    diagram: "cause-effect",
+    sections: [
+      {
+        title: "Why the new imperialism?",
+        body:
+          "Industrial economies drove the land grab, justified by racist ideology.",
+        table: {
+          headers: ["Cause", "Drive"],
+          rows: [
+            ["Economic", "Raw materials (rubber, minerals) + markets for goods"],
+            ["Political", "National prestige and strategic rivalry"],
+            ["Ideological", "Social Darwinism & the 'civilizing mission'"],
+            ["Technological", "Machine guns, steamships, quinine made conquest feasible"],
+          ],
+        },
+        keyIdea: "Industrialization created both the MOTIVE (resources/markets) and the MEANS (machine guns, quinine) for rapid conquest.",
+      },
+      {
+        title: "Carving up a continent",
+        body:
+          "At the Berlin Conference (1884–85), European powers divided Africa among themselves — drawing borders with no African representation and little regard for existing ethnic groups, a source of conflict to this day. Quinine let Europeans survive malaria, and machine guns made resistance costly.",
+        terms: [
+          { term: "Scramble for Africa", def: "The rapid late-1800s European colonization of nearly all of Africa." },
+          { term: "Berlin Conference", def: "1884–85 meeting where Europeans partitioned Africa among themselves." },
+          { term: "Social Darwinism", def: "Misapplied 'survival of the fittest' used to justify imperialism and racism." },
+        ],
+        traps: ["Berlin Conference borders ignored African ethnic realities — a root of many later conflicts."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 6, lessonNum: 2,
+    unitName: "Consequences of Industrialization (c. 1750–1900)",
+    title: "Imperialism in Asia — India and China Compared",
+    subtitle: "Two giants, two models of domination: India became a direct colony; China was carved into spheres without being formally conquered.",
+    overview:
+      "Industrial powers dominated Asia in different ways. Britain ruled India directly as a colony (the Raj). China was never fully colonized but was forced open and divided into spheres of influence after military defeats — a semi-colonial status.",
+    objectives: [
+      "Describe how Britain came to rule India directly.",
+      "Explain China's semi-colonial domination (Opium Wars, unequal treaties).",
+      "Compare the two models of imperialism.",
+    ],
+    sections: [
+      {
+        title: "India vs. China — two models",
+        body:
+          "India shows DIRECT colonial rule; China shows INFORMAL/economic imperialism. Compare them.",
+        table: {
+          headers: ["", "India", "China"],
+          rows: [
+            ["Controlled by", "British East India Company → British Crown (Raj)", "Multiple powers via spheres of influence"],
+            ["Turning point", "Sepoy Rebellion (1857) → direct Crown rule", "Opium Wars → unequal treaties"],
+            ["Status", "Formal colony", "Semi-colonial (kept nominal sovereignty)"],
+          ],
+        },
+        keyIdea: "India = a formal COLONY (the Raj). China = SEMI-colonial — defeated and carved into spheres, but never fully conquered.",
+      },
+      {
+        title: "How it happened",
+        body:
+          "In India, the British East India Company ruled commercially until the Sepoy Rebellion (1857) prompted the British Crown to take direct control. In China, defeat in the Opium Wars forced 'unequal treaties' opening ports and ceding Hong Kong, after which foreign powers claimed exclusive spheres of influence.",
+        terms: [
+          { term: "British Raj", def: "Direct British Crown rule over India after 1858." },
+          { term: "Opium Wars", def: "Conflicts that forced China open via unequal treaties." },
+          { term: "Spheres of influence", def: "Regions where a foreign power held exclusive trading/economic rights in China." },
+        ],
+        traps: ["China was NOT a formal colony — it kept nominal sovereignty but lost real control to spheres of influence ('semi-colonial')."],
+      },
+    ],
+  },
 ];
