@@ -4284,4 +4284,112 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 4, lessonNum: 4,
+    unitName: "Earth Systems and Resources",
+    title: "Solar Radiation, Albedo, and Earth's Energy Budget",
+    subtitle: "The sun powers everything — and how much energy Earth keeps vs. reflects sets the climate.",
+    overview:
+      "Nearly all of Earth's energy comes from the sun. The planet's temperature depends on its energy budget: incoming solar radiation vs. energy reflected and radiated back to space. Albedo — surface reflectivity — is a key control, and it sets up powerful feedback loops.",
+    objectives: [
+      "Explain the Earth's energy budget.",
+      "Define albedo and give high/low examples.",
+      "Describe the ice-albedo feedback loop.",
+    ],
+    sections: [
+      {
+        title: "Energy in vs. energy out",
+        body:
+          "Earth stays roughly stable when incoming solar energy equals outgoing energy. Some sunlight is reflected (by clouds, ice, light surfaces), some absorbed and re-radiated as heat. Greenhouse gases trap some outgoing heat, warming the planet — the natural greenhouse effect.",
+        keyIdea: "Climate is an energy BALANCE: change how much is reflected or trapped, and the temperature shifts.",
+        terms: [
+          { term: "Energy budget", def: "The balance of incoming solar vs. outgoing reflected/radiated energy." },
+          { term: "Albedo", def: "The reflectivity of a surface; high for ice/snow, low for dark land/ocean." },
+        ],
+      },
+      {
+        title: "Albedo and feedback",
+        body:
+          "Light surfaces (ice, snow, clouds) have HIGH albedo — they reflect sunlight and cool the planet. Dark surfaces (ocean, forest, asphalt) have LOW albedo — they absorb and warm. This drives the ice-albedo feedback: warming melts reflective ice, exposing dark ocean, which absorbs more heat, causing more melting — a positive (amplifying) feedback loop.",
+        terms: [
+          { term: "Ice-albedo feedback", def: "Melting ice exposes dark surfaces that absorb more heat, accelerating warming." },
+          { term: "Positive feedback loop", def: "A self-amplifying cycle (a change causes more of the same change)." },
+        ],
+        traps: ["High albedo = reflective/cooling (ice); low albedo = absorbing/warming (ocean). The ice-albedo loop is POSITIVE (amplifying)."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 4, lessonNum: 5,
+    unitName: "Earth Systems and Resources",
+    title: "Global Wind Patterns and Ocean Currents",
+    subtitle: "Uneven heating plus Earth's spin set up the winds and currents that move heat around the planet.",
+    overview:
+      "The equator gets more direct sunlight than the poles, and that uneven heating — combined with Earth's rotation (the Coriolis effect) — drives global wind patterns and ocean currents. Together they redistribute heat and shape climate worldwide.",
+    objectives: [
+      "Explain how uneven heating drives circulation.",
+      "Describe the Coriolis effect and convection cells.",
+      "Explain how currents redistribute heat.",
+    ],
+    sections: [
+      {
+        title: "Convection and the Coriolis effect",
+        body:
+          "Intense heating at the equator makes warm air rise, creating convection cells (like the Hadley cell) that circulate air toward the poles and back. Earth's rotation deflects this moving air via the Coriolis effect, producing the prevailing wind belts (trade winds, westerlies).",
+        keyIdea: "Uneven heating (equator vs. poles) + Earth's rotation (Coriolis) = the global pattern of winds and currents.",
+        terms: [
+          { term: "Convection cell", def: "A loop of rising warm air and sinking cool air (e.g., Hadley cell)." },
+          { term: "Coriolis effect", def: "The deflection of moving air/water due to Earth's rotation." },
+        ],
+      },
+      {
+        title: "Currents move heat",
+        body:
+          "Winds drive surface ocean currents that carry warm water from the equator toward the poles and cold water back (e.g., the Gulf Stream warms Europe). This global conveyor redistributes enormous amounts of heat, moderating coastal climates and driving rainfall patterns.",
+        terms: [
+          { term: "Ocean currents", def: "Large-scale water movements that redistribute heat around the globe." },
+          { term: "Upwelling", def: "Wind-driven rise of cold, nutrient-rich deep water, supporting rich fisheries." },
+        ],
+        traps: ["Upwelling brings NUTRIENTS to the surface, fueling productive fisheries — disrupted during El Niño."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 4, lessonNum: 6,
+    unitName: "Earth Systems and Resources",
+    title: "El Niño/La Niña and Climate Variability",
+    subtitle: "A periodic shift in Pacific winds and currents that reshuffles weather across the globe.",
+    overview:
+      "El Niño and La Niña (the ENSO cycle) are periodic changes in Pacific Ocean temperatures and winds that disrupt normal patterns, causing droughts, floods, and fishery collapses far beyond the Pacific. They're natural climate variability, separate from long-term climate change.",
+    objectives: [
+      "Describe El Niño and La Niña conditions.",
+      "Explain their effects on weather and fisheries.",
+      "Distinguish ENSO from long-term climate change.",
+    ],
+    sections: [
+      {
+        title: "El Niño vs. La Niña",
+        body:
+          "Normally, trade winds push warm water west across the Pacific, allowing cold, nutrient-rich upwelling off South America. In El Niño, those winds weaken, warm water sloshes back east, and upwelling shuts down — collapsing fisheries and shifting rainfall worldwide. La Niña is the intensified opposite.",
+        table: {
+          headers: ["Phase", "Pacific conditions", "Effects"],
+          rows: [
+            ["El Niño", "Weak trade winds; warm water east", "Less upwelling, fishery decline, altered global weather"],
+            ["La Niña", "Strong trade winds; cold water east", "Strong upwelling; opposite weather shifts"],
+          ],
+        },
+        keyIdea: "El Niño shuts down nutrient upwelling off South America → fisheries collapse and weather patterns scramble worldwide.",
+      },
+      {
+        title: "Variability vs. change",
+        body:
+          "ENSO is natural, short-term variability — a cycle every few years — not the same as human-driven, long-term climate change. The exam wants you to keep them separate, though climate change may affect ENSO's intensity.",
+        terms: [
+          { term: "El Niño / ENSO", def: "Periodic Pacific warming that disrupts upwelling and global weather." },
+          { term: "Climate variability vs. change", def: "Short-term natural cycles (ENSO) vs. long-term human-driven warming." },
+        ],
+        traps: ["El Niño/La Niña is natural, cyclical VARIABILITY — don't confuse it with long-term, human-caused climate CHANGE."],
+      },
+    ],
+  },
 ];
