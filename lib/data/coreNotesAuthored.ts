@@ -4622,4 +4622,113 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 5, lessonNum: 5,
+    unitName: "Land and Water Use",
+    title: "Mining — Extraction Methods and Remediation",
+    subtitle: "Getting minerals out of the ground is destructive — the question is how much, and whether we clean up after.",
+    overview:
+      "Mining extracts the minerals and fuels modern life depends on, but it disturbs land, water, and air. Methods range from surface mining (cheap, hugely destructive) to subsurface mining (costlier, more dangerous to workers), and laws increasingly require reclamation afterward.",
+    objectives: [
+      "Compare surface and subsurface mining.",
+      "Explain the environmental impacts of mining.",
+      "Describe reclamation and acid mine drainage.",
+    ],
+    sections: [
+      {
+        title: "Surface vs. subsurface mining",
+        body:
+          "When ore is near the surface, companies use surface mining (strip mining, open-pit, mountaintop removal) — efficient but it scrapes away whole landscapes. When ore is deep, subsurface (underground) mining is used: less surface damage but expensive and dangerous (collapse, toxic gas) for miners.",
+        table: {
+          headers: ["Method", "Trade-off"],
+          rows: [
+            ["Surface (strip, open-pit)", "Cheap, high yield BUT massive habitat/land destruction"],
+            ["Subsurface (underground)", "Less surface damage BUT costly and dangerous to workers"],
+          ],
+        },
+        keyIdea: "Surface mining is cheaper and gets more ore, but it's far more destructive to the land than underground mining.",
+      },
+      {
+        title: "Impacts and cleanup",
+        body:
+          "Mining causes erosion, habitat loss, and a notorious water problem: acid mine drainage, where exposed sulfide minerals react with water and air to form sulfuric acid that poisons streams. Tailings (waste rock) can leach toxic metals. Many laws now require reclamation — restoring mined land — though it rarely fully recovers.",
+        terms: [
+          { term: "Reclamation", def: "Restoring mined land toward a natural or usable state after extraction." },
+          { term: "Acid mine drainage", def: "Sulfuric acid runoff from exposed mine minerals that contaminates water." },
+          { term: "Tailings", def: "Leftover waste rock from mining that can leach toxins." },
+        ],
+        traps: ["Acid mine drainage is a major LONG-TERM water pollution problem — it continues long after a mine closes."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 5, lessonNum: 6,
+    unitName: "Land and Water Use",
+    title: "Fisheries and Aquaculture",
+    subtitle: "We're catching wild fish faster than they reproduce — and fish farming brings its own trade-offs.",
+    overview:
+      "Fish are a vital protein source, but wild fisheries are overexploited and many have collapsed. Aquaculture (fish farming) helps meet demand but creates pollution and disease problems of its own. Sustainable management is the goal.",
+    objectives: [
+      "Explain overfishing and its causes (bycatch, destructive gear).",
+      "Describe aquaculture and its trade-offs.",
+      "Identify sustainable fisheries practices.",
+    ],
+    sections: [
+      {
+        title: "Overfishing wild stocks",
+        body:
+          "Demand and efficient technology have pushed catches beyond the sustainable yield, collapsing fisheries like Atlantic cod. Destructive methods make it worse: bottom trawling scrapes the seafloor, and bycatch (unwanted species caught and discarded) kills turtles, dolphins, and juveniles.",
+        keyIdea: "Catching fish faster than they reproduce collapses the stock — overfishing is exceeding the sustainable yield.",
+        terms: [
+          { term: "Bycatch", def: "Non-target species caught and usually discarded during fishing." },
+          { term: "Bottom trawling", def: "Dragging nets across the seafloor; destroys habitat and causes bycatch." },
+        ],
+      },
+      {
+        title: "Aquaculture: solution and problem",
+        body:
+          "Aquaculture is the fastest-growing food sector and eases pressure on wild stocks. But dense fish pens concentrate waste and disease, require wild-caught fish as feed, and can let farmed fish or parasites escape into wild populations. Sustainable approaches include catch limits, no-take marine protected areas, and responsible farming.",
+        terms: [
+          { term: "Aquaculture", def: "Farming aquatic organisms; supplements wild catch but causes waste/disease issues." },
+          { term: "Marine protected area", def: "A no-take ocean zone where stocks can recover." },
+        ],
+        traps: ["Aquaculture relieves wild-stock pressure BUT adds pollution, disease, and (often) demand for wild fish as feed."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 5, lessonNum: 7,
+    unitName: "Land and Water Use",
+    title: "Urban Land Use and Sprawl",
+    subtitle: "How cities grow — sprawling outward or building up — shapes their environmental footprint.",
+    overview:
+      "As populations urbanize, how cities expand matters. Urban sprawl — low-density spread into surrounding land — drives car dependence, habitat loss, and impervious surfaces, while smart growth and dense development reduce those impacts.",
+    objectives: [
+      "Define urban sprawl and its environmental effects.",
+      "Explain impervious surfaces and runoff.",
+      "Describe smart-growth alternatives.",
+    ],
+    sections: [
+      {
+        title: "Sprawl and its impacts",
+        body:
+          "Urban sprawl spreads low-density development outward, consuming farmland and habitat and forcing reliance on cars (more emissions). It also creates impervious surfaces (roads, parking lots) that prevent water from soaking in, increasing runoff, flooding, and water pollution while reducing groundwater recharge.",
+        keyIdea: "Sprawl's hidden cost is impervious surfaces — pavement that turns rainfall into polluted runoff instead of recharge.",
+        terms: [
+          { term: "Urban sprawl", def: "Low-density outward spread of cities into surrounding land." },
+          { term: "Impervious surface", def: "Pavement/roofing that blocks infiltration, increasing runoff." },
+        ],
+      },
+      {
+        title: "Smart growth",
+        body:
+          "Smart growth counters sprawl with higher-density, mixed-use development, public transit, and preserved green space. The urban heat island effect — cities being hotter than surroundings due to pavement and lost vegetation — is eased by green roofs, trees, and parks.",
+        terms: [
+          { term: "Smart growth", def: "Compact, transit-oriented, mixed-use planning that limits sprawl." },
+          { term: "Urban heat island", def: "Cities running hotter than rural areas due to pavement and lack of vegetation." },
+        ],
+        traps: ["Impervious surfaces cause BOTH more runoff/flooding AND less groundwater recharge — a double water problem."],
+      },
+    ],
+  },
 ];
