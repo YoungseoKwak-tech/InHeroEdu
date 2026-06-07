@@ -4846,4 +4846,118 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 6, lessonNum: 3,
+    unitName: "Energy Resources and Consumption",
+    title: "Solar Energy — Photovoltaic and Passive Systems",
+    subtitle: "The sun delivers more energy in an hour than humanity uses in a year — the trick is capturing it.",
+    overview:
+      "Solar energy is renewable, clean, and abundant. We harness it two main ways: photovoltaic (PV) cells that convert sunlight directly to electricity, and passive solar design that captures heat through building orientation. Its main limit is intermittency — no sun, no power.",
+    objectives: [
+      "Distinguish photovoltaic, active, and passive solar.",
+      "Explain solar's benefits and limitations.",
+      "Connect intermittency to the need for storage.",
+    ],
+    sections: [
+      {
+        title: "Ways to capture the sun",
+        body:
+          "Photovoltaic (PV) cells turn sunlight directly into electricity. Active solar uses pumps/fans to move solar-heated water or air. Passive solar needs no machinery — it's smart building design (south-facing windows, thermal mass) that captures and stores heat naturally.",
+        table: {
+          headers: ["Type", "How it works"],
+          rows: [
+            ["Photovoltaic (PV)", "Cells convert sunlight directly to electricity"],
+            ["Active solar", "Pumps/fans circulate solar-heated water or air"],
+            ["Passive solar", "Building design captures heat — no machinery"],
+          ],
+        },
+        keyIdea: "Passive solar uses NO mechanical equipment — just orientation and materials. PV makes electricity; passive makes heat.",
+      },
+      {
+        title: "Benefits and the intermittency problem",
+        body:
+          "Solar is renewable, emits no pollution while operating, and works off-grid. Its drawbacks: it's intermittent (only generates when the sun shines), needs lots of space, and manufacturing PV panels has its own footprint. Intermittency is why solar pairs with battery storage or a backup grid.",
+        terms: [
+          { term: "Photovoltaic cell", def: "A device that converts sunlight directly into electricity." },
+          { term: "Passive solar", def: "Building design that captures/stores solar heat without machinery." },
+          { term: "Intermittent", def: "Energy available only at times (sun/wind) — requires storage or backup." },
+        ],
+        traps: ["Solar's main weakness is INTERMITTENCY (no sun = no power), which is why energy STORAGE matters — not that it pollutes while running."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 6, lessonNum: 4,
+    unitName: "Energy Resources and Consumption",
+    title: "Wind, Hydro, and Geothermal Energy",
+    subtitle: "Three more renewables — each clean and powerful, each tied to the right geography.",
+    overview:
+      "Beyond solar, three major renewables generate electricity cleanly: wind (turbines), hydroelectric (flowing water), and geothermal (Earth's heat). All avoid combustion emissions but depend on location and carry their own ecological trade-offs.",
+    objectives: [
+      "Explain how wind, hydro, and geothermal generate power.",
+      "Identify each one's benefits and drawbacks.",
+      "Connect each to suitable geography.",
+    ],
+    sections: [
+      {
+        title: "Three renewables compared",
+        body:
+          "Each converts a natural energy flow into electricity, and each is location-dependent.",
+        table: {
+          headers: ["Source", "Power from", "Drawback"],
+          rows: [
+            ["Wind", "Turbines spun by wind", "Intermittent; bird/bat kills; needs windy sites"],
+            ["Hydroelectric", "Falling/flowing water (dams)", "Dams harm rivers, fish, sediment flow"],
+            ["Geothermal", "Earth's internal heat", "Limited to geologically active areas"],
+          ],
+        },
+        keyIdea: "All three are clean but GEOGRAPHY-bound — wind needs wind, hydro needs rivers, geothermal needs hot crust.",
+      },
+      {
+        title: "Trade-offs",
+        body:
+          "Wind is one of the fastest-growing, cheapest renewables but is intermittent and can harm birds/bats. Hydroelectric is reliable and large-scale but its dams carry the ecological costs you saw earlier (blocked fish, trapped sediment). Geothermal is steady and low-emission but practical only where Earth's heat is near the surface (e.g., Iceland).",
+        terms: [
+          { term: "Hydroelectric power", def: "Electricity from flowing/falling water, usually via dams." },
+          { term: "Geothermal energy", def: "Energy from Earth's internal heat; location-limited but steady." },
+        ],
+        traps: ["Unlike solar/wind, hydro and geothermal are NOT intermittent — they provide steady 'baseload' power."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 6, lessonNum: 5,
+    unitName: "Energy Resources and Consumption",
+    title: "Biofuels and Biomass Energy",
+    subtitle: "Energy from living matter — renewable in principle, but with a complicated carbon and food story.",
+    overview:
+      "Biomass (wood, crops, waste) and biofuels (like ethanol and biodiesel) are energy from recently living material. They're renewable and can be carbon-neutral in theory, but burning them pollutes, and fuel crops compete with food and land.",
+    objectives: [
+      "Define biomass and biofuels.",
+      "Explain the 'carbon-neutral' claim and its limits.",
+      "Identify the food-vs-fuel and pollution issues.",
+    ],
+    sections: [
+      {
+        title: "Energy from living matter",
+        body:
+          "Biomass is organic material burned for energy — firewood, crop residue, animal waste — still the main fuel for cooking/heating for billions. Biofuels are liquid fuels refined from crops: ethanol (from corn/sugarcane) and biodiesel. They're renewable because crops regrow.",
+        keyIdea: "Biofuels/biomass are RENEWABLE (crops regrow) — but burning them still releases CO₂ and air pollutants.",
+        terms: [
+          { term: "Biomass", def: "Organic matter (wood, crops, waste) burned for energy." },
+          { term: "Ethanol", def: "A biofuel made from crops like corn or sugarcane, blended into gasoline." },
+        ],
+      },
+      {
+        title: "Carbon neutrality and the catches",
+        body:
+          "Biofuels are called carbon-neutral because the CO₂ released when burned roughly equals what the plants absorbed while growing — but this ignores fossil fuels used to grow, harvest, and refine them. Bigger problems: the food-vs-fuel debate (cropland and corn diverted from food to fuel raise food prices), plus deforestation to plant fuel crops, and indoor air pollution from burning biomass.",
+        terms: [
+          { term: "Carbon-neutral", def: "Releasing only as much CO₂ as was absorbed during growth (an idealized claim)." },
+          { term: "Food vs. fuel", def: "The conflict between using crops/land for food or for biofuel." },
+        ],
+        traps: ["'Carbon-neutral' is only approximate — growing and processing biofuels still burns fossil fuels, and fuel crops compete with FOOD."],
+      },
+    ],
+  },
 ];
