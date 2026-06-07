@@ -6845,4 +6845,114 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-english-language", unit: 4, lessonNum: 1,
+    unitName: "Rhetorical Devices and Style",
+    title: "Syntax and Sentence Structure",
+    subtitle: "HOW a sentence is built — its length, rhythm, and order — is itself a persuasive choice.",
+    overview:
+      "Syntax is the arrangement of words and sentences. Writers vary sentence length and structure deliberately to create emphasis, pace, and tone. Analyzing syntax means explaining the EFFECT of these choices, not just naming them.",
+    objectives: [
+      "Define syntax and identify sentence types.",
+      "Explain the effects of sentence length and order.",
+      "Analyze syntactic devices like parallelism.",
+    ],
+    sections: [
+      {
+        title: "Sentence structure as a tool",
+        body:
+          "Short sentences punch and create urgency; long, complex sentences build detail or slow the pace. Writers control rhythm with sentence variety. Parallelism (repeating grammatical structure) creates balance and emphasis, as in 'of the people, by the people, for the people.'",
+        keyIdea: "Short sentences = emphasis/urgency; long sentences = detail/flow. The EFFECT of the structure is what you analyze.",
+        terms: [
+          { term: "Syntax", def: "The arrangement of words and sentence structure." },
+          { term: "Parallelism", def: "Repeating grammatical structure for balance and emphasis." },
+        ],
+      },
+      {
+        title: "Punctuation and order",
+        body:
+          "Punctuation shapes meaning and pace — a dash interrupts for emphasis, a semicolon links related ideas, a colon introduces. Word order (e.g., placing a key idea last for emphasis) and devices like the rhetorical question or anaphora (repeating opening words) all guide the reader's attention.",
+        terms: [
+          { term: "Anaphora", def: "Repetition of the same word(s) at the start of successive clauses." },
+          { term: "Juxtaposition", def: "Placing ideas side by side to highlight contrast." },
+        ],
+        traps: ["Never just NAME a syntactic device — always explain its EFFECT on meaning, tone, or the reader. That's what earns points."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-english-language", unit: 4, lessonNum: 2,
+    unitName: "Rhetorical Devices and Style",
+    title: "Diction and Tone",
+    subtitle: "Word choice carries attitude — diction is how a writer's feelings sneak into every sentence.",
+    overview:
+      "Diction is word choice, and it's the main driver of tone (the author's attitude). The connotations of words — their emotional shades — reveal how a writer feels about the subject and shape how the audience responds.",
+    objectives: [
+      "Define diction and tone.",
+      "Explain how connotation shapes tone.",
+      "Analyze diction to identify an author's attitude.",
+    ],
+    sections: [
+      {
+        title: "Diction creates tone",
+        body:
+          "Compare 'thrifty' vs. 'cheap' — same denotation, opposite connotation. Diction can be formal/informal, abstract/concrete, or emotionally charged. The pattern of word choices reveals tone: the author's attitude toward the subject (e.g., admiring, sarcastic, mournful).",
+        keyIdea: "Tone is REVEALED by diction. To find tone, look at the CONNOTATIONS of an author's word choices.",
+        terms: [
+          { term: "Diction", def: "An author's word choice." },
+          { term: "Connotation vs. denotation", def: "A word's emotional associations vs. its literal definition." },
+          { term: "Tone", def: "The author's attitude toward the subject, conveyed by diction." },
+        ],
+      },
+      {
+        title: "Analyzing for attitude",
+        body:
+          "Strong analysis quotes specific loaded words and explains the attitude they reveal. Watch for shifts in diction (and thus tone) within a text — a move from neutral to charged language often marks a key turn in the argument.",
+        terms: [
+          { term: "Tone shift", def: "A change in attitude signaled by changing diction; often marks a pivot." },
+        ],
+        traps: ["Tone ≠ mood. TONE is the author's attitude; MOOD is the feeling created in the reader. AP asks mostly about tone."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-english-language", unit: 4, lessonNum: 3,
+    unitName: "Rhetorical Devices and Style",
+    title: "Figurative Language",
+    subtitle: "Comparisons and imagery that make abstract ideas vivid — and do real persuasive work.",
+    overview:
+      "Figurative language uses words beyond their literal meaning — metaphors, similes, imagery, personification — to create vivid pictures and emotional resonance. In rhetoric, figures aren't decoration; they shape how an audience understands and feels about an idea.",
+    objectives: [
+      "Identify common figures of speech.",
+      "Explain the rhetorical effect of figurative language.",
+      "Analyze imagery and metaphor in arguments.",
+    ],
+    sections: [
+      {
+        title: "Common figures",
+        body:
+          "Know the key devices and, more importantly, their effects. A metaphor or simile frames the unfamiliar in familiar terms; imagery appeals to the senses; personification gives human qualities to ideas; hyperbole exaggerates for emphasis.",
+        table: {
+          headers: ["Device", "What it does"],
+          rows: [
+            ["Metaphor / simile", "Compares two things (simile uses 'like'/'as')"],
+            ["Imagery", "Appeals to the senses to create a vivid picture"],
+            ["Personification", "Gives human traits to non-human things"],
+            ["Hyperbole", "Deliberate exaggeration for emphasis/effect"],
+          ],
+        },
+        keyIdea: "Figurative language isn't decoration — a good metaphor can carry an argument by reframing how the audience SEES the issue.",
+      },
+      {
+        title: "Effect in argument",
+        body:
+          "A well-chosen metaphor can persuade by shaping the audience's mental model (calling a policy a 'war' versus a 'journey' implies different things). Analyze figurative language by explaining how the comparison or image advances the author's purpose.",
+        terms: [
+          { term: "Figurative language", def: "Non-literal language (metaphor, imagery, etc.) used for effect." },
+          { term: "Metaphor", def: "An implied comparison framing one thing as another." },
+        ],
+        traps: ["Explain the EFFECT of a figure — how a metaphor shapes the audience's view — not just 'the author uses a metaphor.'"],
+      },
+    ],
+  },
 ];
