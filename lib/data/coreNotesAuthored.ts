@@ -4960,4 +4960,118 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 6, lessonNum: 6,
+    unitName: "Energy Resources and Consumption",
+    title: "Energy Conservation and Efficiency",
+    subtitle: "The cheapest, cleanest energy is the energy you never use.",
+    overview:
+      "Before generating more power, we can use less of it. Energy conservation (using less) and efficiency (getting more work per unit of energy) cut costs and pollution with no new power plants — often the smartest first step in energy policy.",
+    objectives: [
+      "Distinguish conservation from efficiency.",
+      "Give examples of efficiency improvements.",
+      "Explain why efficiency is cost-effective.",
+    ],
+    sections: [
+      {
+        title: "Conservation vs. efficiency",
+        body:
+          "Conservation means using less energy by changing behavior (turning off lights, driving less). Efficiency means doing the same task with less energy through better technology (LED bulbs, hybrid cars, insulation). Both reduce demand — and reduced demand means less fuel burned and less pollution.",
+        table: {
+          headers: ["Approach", "Example"],
+          rows: [
+            ["Conservation (behavior)", "Turning off lights, lowering the thermostat"],
+            ["Efficiency (technology)", "LED bulbs, hybrid cars, better insulation"],
+            ["Cogeneration", "Capturing waste heat from power plants for use"],
+          ],
+        },
+        keyIdea: "Efficiency = same result, less energy (LEDs). Conservation = simply using less. Both are 'negawatts' — power you don't have to make.",
+      },
+      {
+        title: "Why it's the smart first move",
+        body:
+          "Saving energy is usually cheaper than producing it and has no emissions. Cogeneration (combined heat and power) reuses waste heat that would otherwise be lost. Higher fuel-economy standards (CAFE) and efficient appliances (Energy Star) deliver big, cheap reductions in energy use and pollution.",
+        terms: [
+          { term: "Energy efficiency", def: "Getting more useful output per unit of energy input." },
+          { term: "Cogeneration", def: "Capturing and using waste heat from electricity generation (combined heat and power)." },
+        ],
+        traps: ["Conservation (use less) ≠ efficiency (use it better). LED bulbs are EFFICIENCY; turning the light off is CONSERVATION."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 6, lessonNum: 7,
+    unitName: "Energy Resources and Consumption",
+    title: "The Energy Mix — Global and US Patterns",
+    subtitle: "What actually powers the world today is still mostly fossil fuels — and that's the crux of the climate problem.",
+    overview:
+      "The 'energy mix' is the combination of sources a country uses. Despite renewables' growth, fossil fuels still dominate globally and in the US. Understanding the mix — and how it's slowly shifting — frames every energy and climate debate.",
+    objectives: [
+      "Describe the current global and US energy mix.",
+      "Explain why fossil fuels still dominate.",
+      "Identify trends toward renewables.",
+    ],
+    sections: [
+      {
+        title: "What powers us now",
+        body:
+          "Worldwide and in the US, fossil fuels (oil, coal, natural gas) still supply the large majority of energy. Oil dominates transportation; coal and natural gas dominate electricity (though gas is overtaking coal). Nuclear and renewables (hydro, wind, solar) are growing but still a minority share.",
+        keyIdea: "Fossil fuels STILL dominate the energy mix — that's exactly why cutting carbon emissions is so hard.",
+        terms: [
+          { term: "Energy mix", def: "The combination of energy sources a country or world uses." },
+          { term: "Nonrenewable share", def: "The dominant fossil-fuel portion of today's energy mix." },
+        ],
+      },
+      {
+        title: "Why fossil fuels persist — and the shift",
+        body:
+          "Fossil fuels stay dominant because of existing infrastructure, energy density, low (unpriced) cost, and reliability versus intermittent renewables. But the mix is shifting: natural gas is replacing coal, and wind and solar are the fastest-growing sources as costs fall. Developing nations' rising demand shapes the global picture.",
+        terms: [
+          { term: "Energy density", def: "Energy stored per unit mass/volume — high for fossil fuels, aiding their dominance." },
+        ],
+        traps: ["Renewables are growing FAST but are still a SMALL share — don't overstate how much of today's mix they supply."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 6, lessonNum: 8,
+    unitName: "Energy Resources and Consumption",
+    title: "Energy Policy — Economics, Subsidies, and Incentives",
+    subtitle: "Markets don't price pollution on their own — so policy is the tool that steers the energy transition.",
+    overview:
+      "Which energy sources we use depends heavily on policy: subsidies, taxes, and regulations that change their relative cost. Because burning fossil fuels creates pollution costs not paid by the buyer (an externality), economists argue policy must correct the market.",
+    objectives: [
+      "Explain externalities and why they justify energy policy.",
+      "Compare subsidies, carbon taxes, and cap-and-trade.",
+      "Connect policy to shifting the energy mix.",
+    ],
+    sections: [
+      {
+        title: "The externality problem",
+        body:
+          "When you burn gasoline, the health and climate damage from the pollution is paid by society, not the buyer — a negative externality. Because that cost is 'external' to the price, the market overuses fossil fuels. Policy exists to internalize that cost and level the field for cleaner energy.",
+        keyIdea: "Pollution is a NEGATIVE EXTERNALITY — its cost isn't in the price, so the market burns too much fossil fuel without policy.",
+        terms: [
+          { term: "Externality", def: "A cost (or benefit) of an activity borne by people not involved in it — e.g., pollution." },
+          { term: "Subsidy", def: "Government financial support that lowers a source's cost (given to both fossil fuels and renewables)." },
+        ],
+      },
+      {
+        title: "Policy tools",
+        body:
+          "Governments use several levers. Subsidies lower a source's cost (historically favoring fossil fuels, increasingly clean energy). A carbon tax charges per ton of CO₂ emitted. Cap-and-trade sets an emissions ceiling and lets firms trade allowances. Regulations (efficiency standards, emissions limits) mandate cleaner technology directly.",
+        table: {
+          headers: ["Tool", "How it works"],
+          rows: [
+            ["Carbon tax", "Charge per ton of CO₂ → makes polluting cost more"],
+            ["Cap-and-trade", "Set a total emissions cap; firms buy/sell allowances"],
+            ["Subsidies", "Lower the cost of favored energy sources"],
+            ["Regulations/standards", "Mandate efficiency or emission limits"],
+          ],
+        },
+        keyIdea: "Carbon taxes and cap-and-trade both put a PRICE on carbon — the core market fix for the pollution externality.",
+        traps: ["Subsidies flow to BOTH fossil fuels and renewables — whichever a government subsidizes gets a market advantage."],
+      },
+    ],
+  },
 ];
