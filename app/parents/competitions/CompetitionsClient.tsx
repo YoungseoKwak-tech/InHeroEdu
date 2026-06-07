@@ -23,8 +23,9 @@ const DIFF_COLOR: Record<Competition["difficulty"], string> = {
 };
 
 const CATEGORY_ORDER: CompetitionCategory[] = [
-  "수학", "컴퓨터과학", "생물·의학", "화학", "물리",
-  "연구 프로젝트", "종합 과학", "로봇·공학", "비즈니스·혁신", "기타",
+  "수학", "컴퓨터과학", "생물·의학", "화학", "물리", "종합 과학",
+  "연구 프로젝트", "로봇·공학", "비즈니스·경제",
+  "인문·글쓰기", "토론·스피치", "사회·역사", "언어", "예술", "기타",
 ];
 
 export default function CompetitionsClient() {
@@ -61,13 +62,13 @@ export default function CompetitionsClient() {
 
       <div style={{ maxWidth: 880, margin: "0 auto", padding: "40px 20px 100px" }}>
         {/* Header */}
-        <p style={{ fontSize: 13, fontWeight: 700, color: "#dc2680", letterSpacing: "0.04em", marginBottom: 10 }}>🎯 STEM 대회 데이터베이스</p>
+        <p style={{ fontSize: 13, fontWeight: 700, color: "#dc2680", letterSpacing: "0.04em", marginBottom: 10 }}>🏆 미국 입시 대회 데이터베이스</p>
         <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
-          미국 입시 STEM 대회, 한눈에
+          미국 입시 대회, 전 분야 한눈에
         </h1>
         <p style={{ fontSize: 15.5, color: "#475569", lineHeight: 1.8, marginBottom: 8 }}>
-          학부모가 가장 많이 묻는 {COMPETITIONS.length}개 주요 대회를 <strong>학년 · 난이도 · 신청 시기 · 추천 전공</strong>으로 정리했습니다.
-          자녀의 관심 분야와 학년에 맞는 활동을 찾아보세요.
+          STEM뿐 아니라 <strong>인문·글쓰기 · 토론·스피치 · 비즈니스·경제 · 사회·역사 · 예술 · 언어</strong>까지,
+          학부모가 가장 많이 묻는 {COMPETITIONS.length}개 주요 대회를 <strong>분야 · 학년 · 난이도 · 신청 시기 · 추천 전공</strong>으로 정리했습니다.
         </p>
         <p style={{ fontSize: 12.5, color: "#94a3b8", lineHeight: 1.7, marginBottom: 28 }}>
           ※ 신청·대회 시기는 해마다 조금씩 달라질 수 있으니 각 대회 공식 사이트에서 최신 일정을 확인하세요.
