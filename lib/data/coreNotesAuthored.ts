@@ -3936,4 +3936,124 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 3, lessonNum: 3,
+    unitName: "Populations",
+    title: "Age Structure Diagrams — Predicting the Future",
+    subtitle: "The shape of a population's age pyramid tells you whether it will grow, hold steady, or shrink.",
+    overview:
+      "An age structure diagram (population pyramid) shows the proportion of a population in each age group by sex. Its SHAPE predicts future growth: a wide base means lots of young people and rapid growth ahead; a narrow base means a shrinking population.",
+    objectives: [
+      "Read an age structure diagram.",
+      "Connect pyramid shape to future growth.",
+      "Explain population momentum.",
+    ],
+    diagram: "population-pyramid",
+    sections: [
+      {
+        title: "Shape predicts growth",
+        body:
+          "The width of each bar shows how many people are in that age group. A wide base (many children) signals rapid future growth; straight sides signal stability; a narrow base (few children) signals decline.",
+        table: {
+          headers: ["Shape", "Base", "Future"],
+          rows: [
+            ["Pyramid (wide base)", "Many young", "Rapid growth (developing nations)"],
+            ["Column (straight)", "Even", "Stable (developed nations)"],
+            ["Inverted (narrow base)", "Few young", "Shrinking population"],
+          ],
+        },
+        keyIdea: "Wide base = future growth; narrow base = future decline. The youngest cohort predicts the next generation.",
+      },
+      {
+        title: "Population momentum",
+        body:
+          "Even if birth rates drop to replacement level, a population with a wide base keeps growing for decades — because that huge young cohort still has to reach reproductive age. This lag is population momentum, and it's why fast-growing countries can't stabilize instantly.",
+        terms: [
+          { term: "Age structure diagram", def: "A graph of a population's age and sex composition; predicts growth." },
+          { term: "Population momentum", def: "Continued growth after birth rates fall, due to a large young cohort." },
+        ],
+        traps: ["A wide base means growth will continue even if birth rates drop NOW — that's population momentum."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 3, lessonNum: 4,
+    unitName: "Populations",
+    title: "Human Population Growth — Demographic Transition",
+    subtitle: "As countries develop, their birth and death rates fall in a predictable four-stage sequence.",
+    overview:
+      "The demographic transition model (DTM) describes how a country's birth and death rates change as it develops, moving through four (sometimes five) stages — from high birth/high death, through a population boom, to low birth/low death. It links development to population growth.",
+    objectives: [
+      "Describe the stages of the demographic transition model.",
+      "Explain why the population booms in the middle stages.",
+      "Connect development to falling birth rates.",
+    ],
+    diagram: "dtm",
+    sections: [
+      {
+        title: "The four stages",
+        body:
+          "The DTM tracks birth and death rates as a society industrializes. The key insight: death rates fall FIRST (better medicine, food, sanitation), while birth rates stay high — causing a population explosion — until birth rates eventually fall too.",
+        table: {
+          headers: ["Stage", "Birth / Death rates", "Population"],
+          rows: [
+            ["1 Pre-industrial", "High birth, high death", "Stable, low"],
+            ["2 Transitional", "High birth, FALLING death", "Rapid growth (boom)"],
+            ["3 Industrial", "Falling birth, low death", "Growth slows"],
+            ["4 Post-industrial", "Low birth, low death", "Stable / declining"],
+          ],
+        },
+        keyIdea: "Death rates drop BEFORE birth rates — that gap (Stage 2) is what causes the population explosion.",
+      },
+      {
+        title: "Why birth rates fall",
+        body:
+          "As countries develop, birth rates decline because of education (especially of women), access to family planning, urbanization, and children shifting from economic assets (farm labor) to economic costs. Higher development → lower fertility is one of the most reliable patterns in the course.",
+        terms: [
+          { term: "Demographic transition model", def: "Four-stage model of how birth/death rates change with development." },
+          { term: "Total fertility rate", def: "Average children per woman; ~2.1 is replacement level." },
+        ],
+        traps: ["The population boom is from the LAG: death rates fall fast, birth rates fall slowly — Stage 2 growth."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 3, lessonNum: 5,
+    unitName: "Populations",
+    title: "Survivorship Curves — Who Dies When",
+    subtitle: "Three curve shapes capture an organism's life strategy — care for few young, or flood the world with many.",
+    overview:
+      "A survivorship curve plots how many individuals of a species survive at each age. The three types (I, II, III) reveal a species' reproductive strategy — from few well-cared-for offspring to many neglected ones.",
+    objectives: [
+      "Describe the three survivorship curve types.",
+      "Connect each to a reproductive strategy.",
+      "Give example organisms for each.",
+    ],
+    sections: [
+      {
+        title: "Three curve types",
+        body:
+          "Each curve shows survival across the lifespan. Type I species invest heavily in few offspring (most survive to old age); Type III produce huge numbers with little care (most die young); Type II have a constant death rate at all ages.",
+        table: {
+          headers: ["Type", "Pattern", "Example"],
+          rows: [
+            ["Type I", "Most survive to old age, die late", "Humans, large mammals"],
+            ["Type II", "Constant death rate at all ages", "Birds, rodents"],
+            ["Type III", "Most die young, few survive", "Fish, insects, plants"],
+          ],
+        },
+        keyIdea: "Type I = few offspring, lots of care (K-strategists). Type III = many offspring, no care (r-strategists).",
+      },
+      {
+        title: "Linking to strategy",
+        body:
+          "Survivorship reflects the r/K trade-off. K-strategists (Type I) have few offspring, invest heavily, and live near carrying capacity. r-strategists (Type III) reproduce fast with many offspring, betting that a few survive — typical of unstable environments.",
+        terms: [
+          { term: "Survivorship curve", def: "A graph of the proportion of individuals surviving at each age." },
+          { term: "r vs. K strategist", def: "Many cheap offspring (r, Type III) vs. few well-cared-for offspring (K, Type I)." },
+        ],
+        traps: ["Type III (most die young) belongs to r-strategists (fish, insects) — don't confuse it with Type I (humans)."],
+      },
+    ],
+  },
 ];
