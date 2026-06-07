@@ -2799,4 +2799,115 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 8, lessonNum: 2,
+    unitName: "Cold War and Decolonization (c. 1900–present)",
+    title: "Decolonization — Africa and Asia",
+    subtitle: "Weakened by two world wars, Europe's empires came apart as colonized peoples claimed independence.",
+    overview:
+      "After WWII, the European empires rapidly collapsed as colonies across Africa and Asia won independence. Some transitions were negotiated, others won through violent struggle — and many new nations inherited borders and economies designed to serve their former rulers.",
+    objectives: [
+      "Explain why decolonization accelerated after WWII.",
+      "Compare negotiated vs. violent paths to independence.",
+      "Identify the challenges new nations inherited.",
+    ],
+    sections: [
+      {
+        title: "Why empires fell",
+        body:
+          "Two world wars drained European power and moral authority, while colonized peoples — many of whom had fought for their rulers — demanded the self-determination the Allies had championed. Independence came in different ways.",
+        table: {
+          headers: ["Path", "Example"],
+          rows: [
+            ["Largely negotiated", "India (1947) — mass nonviolent movement (Gandhi)"],
+            ["Violent struggle", "Algeria — long war of independence against France"],
+            ["Partition", "India/Pakistan split along religious lines (massive displacement)"],
+          ],
+        },
+        keyIdea: "WWII shattered Europe's ability AND right to rule — 'self-determination' became impossible to deny.",
+        terms: [
+          { term: "Decolonization", def: "The process by which colonies gained independence from imperial powers." },
+          { term: "Self-determination", def: "A people's right to govern themselves — a rallying cry for independence." },
+        ],
+      },
+      {
+        title: "Inherited challenges",
+        body:
+          "Independence rarely meant a clean slate. New nations often inherited arbitrary colonial borders (ignoring ethnic groups), economies built around exporting a few raw materials, and weak institutions — setting up later instability and conflict.",
+        terms: [
+          { term: "Partition", def: "Dividing a colony into separate states (e.g., India and Pakistan, 1947)." },
+        ],
+        traps: ["Political independence didn't erase colonial economic dependence — many states stayed tied to export economies."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 8, lessonNum: 3,
+    unitName: "Cold War and Decolonization (c. 1900–present)",
+    title: "Non-Aligned Movement and the Third World",
+    subtitle: "Newly independent nations that refused to pick a Cold War side — and tried to chart their own course.",
+    overview:
+      "As the Cold War split the world into US and Soviet blocs, many newly independent nations chose neither. The Non-Aligned Movement sought independence from both superpowers, while leveraging Cold War rivalry to gain aid and bargaining power.",
+    objectives: [
+      "Define non-alignment and its goals.",
+      "Explain how non-aligned states navigated the Cold War.",
+      "Identify key leaders and the Bandung Conference.",
+    ],
+    sections: [
+      {
+        title: "A third path",
+        body:
+          "Leaders of newly independent states — like India's Nehru, Egypt's Nasser, and Yugoslavia's Tito — formed the Non-Aligned Movement at and after the Bandung Conference (1955). They refused formal alliance with either superpower, prioritizing their own development and sovereignty.",
+        keyIdea: "Non-aligned didn't mean neutral or passive — states played the superpowers off each other to extract aid.",
+        terms: [
+          { term: "Non-Aligned Movement", def: "Bloc of states refusing to formally side with the US or USSR." },
+          { term: "Bandung Conference", def: "1955 meeting of Asian and African states that launched non-alignment." },
+        ],
+      },
+      {
+        title: "The 'Third World'",
+        body:
+          "These nations were often called the Third World (the First being the capitalist West, the Second the communist bloc). Many were poor, postcolonial, and focused on economic development — and both superpowers competed to win their loyalty with aid and influence.",
+        terms: [
+          { term: "Third World", def: "Cold War term for developing, often newly independent, non-aligned nations." },
+        ],
+        traps: ["'Third World' originally meant non-aligned in the Cold War — not simply 'poor,' though the meaning later shifted."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 8, lessonNum: 4,
+    unitName: "Cold War and Decolonization (c. 1900–present)",
+    title: "China's Communist Revolution and Mao",
+    subtitle: "A peasant-based communist revolution remade the world's most populous nation — then convulsed it.",
+    overview:
+      "In 1949, Mao Zedong's communists won China's civil war and founded the People's Republic. Unlike Soviet Marxism's focus on industrial workers, Mao built his revolution on the peasantry. His later campaigns — the Great Leap Forward and Cultural Revolution — brought catastrophe.",
+    objectives: [
+      "Explain how the communists won China's civil war.",
+      "Describe how Maoism adapted Marxism to a peasant society.",
+      "Assess the Great Leap Forward and Cultural Revolution.",
+    ],
+    sections: [
+      {
+        title: "Revolution and Maoism",
+        body:
+          "After defeating the Nationalists in a long civil war, Mao founded the People's Republic of China in 1949. His key innovation was basing revolution on the PEASANTRY rather than urban industrial workers — a major adaptation of Marxist theory to a rural society.",
+        keyIdea: "Mao adapted Marxism for a peasant nation — revolution from the countryside, not the factory floor.",
+        terms: [
+          { term: "Mao Zedong", def: "Leader of China's communist revolution; founded the PRC in 1949." },
+          { term: "Maoism", def: "Mao's adaptation of Marxism centering revolution on the peasantry." },
+        ],
+      },
+      {
+        title: "Catastrophic campaigns",
+        body:
+          "Mao's drives to transform China backfired terribly. The Great Leap Forward (1958) forced rapid collectivization and industrialization, causing a famine that killed tens of millions. The Cultural Revolution (1966) unleashed youth (Red Guards) against 'bourgeois' elements, causing years of chaos, persecution, and lost development.",
+        terms: [
+          { term: "Great Leap Forward", def: "Mao's failed forced industrialization/collectivization; caused mass famine." },
+          { term: "Cultural Revolution", def: "Mao's violent 1966 campaign against perceived enemies; caused widespread chaos." },
+        ],
+        traps: ["Both campaigns were DISASTERS — the Great Leap caused famine; the Cultural Revolution caused chaos and persecution."],
+      },
+    ],
+  },
 ];
