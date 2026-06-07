@@ -20,11 +20,19 @@ export interface NoteTerm {
   term: string;
   def: string;
 }
+export interface NoteTable {
+  headers: string[];
+  rows: string[][];
+}
 export interface NoteSection {
   title: string;
   subtitle?: string | null;
   /** Narrative explanation (Khan-style prose), rendered as paragraphs. */
   body?: string | null;
+  /** A one-line highlighted takeaway (mint callout). */
+  keyIdea?: string | null;
+  /** A comparison table rendered with a colored header. */
+  table?: NoteTable | null;
   terms: NoteTerm[];
   traps: string[];
   example?: string | null;
@@ -206,7 +214,7 @@ interface SeedNote {
   objectives?: string[];
   formulas?: string[];
   diagram?: string | null;
-  sections?: { title: string; subtitle?: string | null; body?: string | null; terms?: NoteTerm[]; traps?: string[]; example?: string | null }[];
+  sections?: { title: string; subtitle?: string | null; body?: string | null; keyIdea?: string | null; table?: NoteTable | null; terms?: NoteTerm[]; traps?: string[]; example?: string | null }[];
 }
 function seedToNote(s: SeedNote): CoreNote {
   const meta = metaFor(s.courseId);
@@ -229,6 +237,8 @@ function seedToNote(s: SeedNote): CoreNote {
       title: sec.title,
       subtitle: sec.subtitle ?? null,
       body: sec.body ?? null,
+      keyIdea: sec.keyIdea ?? null,
+      table: sec.table ?? null,
       terms: sec.terms ?? [],
       traps: sec.traps ?? [],
       example: sec.example ?? null,

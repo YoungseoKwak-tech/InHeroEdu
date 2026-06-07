@@ -19,7 +19,8 @@ const BORDER = "#1a2230";
 const SUBTLE = "#8793a4";
 
 interface NoteTerm { term: string; def: string }
-interface NoteSection { title: string; subtitle?: string | null; body?: string | null; terms: NoteTerm[]; traps: string[]; example?: string | null }
+interface NoteTable { headers: string[]; rows: string[][] }
+interface NoteSection { title: string; subtitle?: string | null; body?: string | null; keyIdea?: string | null; table?: NoteTable | null; terms: NoteTerm[]; traps: string[]; example?: string | null }
 interface CoreNote {
   lessonId: string;
   courseId: string | null;
@@ -288,19 +289,29 @@ function NoteView({ note }: { note: CoreNote }) {
           {s.body && (
             <div style={{ marginTop: 12 }}>
               {s.body.split(/\n\n+/).map((p, k) => (
-                <p key={k} style={{ fontSize: 15.5, lineHeight: 1.75, color: "#cdd6e2", margin: k ? "12px 0 0" : 0 }}>{p}</p>
+                <p key={k} style={{ fontSize: 15.5, lineHeight: 1.7, color: "#cdd6e2", margin: k ? "12px 0 0" : 0 }}>{p}</p>
               ))}
             </div>
           )}
+          {s.keyIdea && (
+            <div style={{ marginTop: 16, display: "flex", gap: 12, alignItems: "flex-start", padding: "14px 18px", borderRadius: 12, background: "rgba(0,255,178,0.07)", border: `1px solid rgba(0,255,178,0.3)` }}>
+              <span style={{ fontSize: 16, flexShrink: 0 }}>💡</span>
+              <div>
+                <div style={{ fontSize: 10.5, letterSpacing: "0.16em", fontWeight: 800, color: MINT, marginBottom: 3 }}>KEY IDEA</div>
+                <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: "#e6f0ea" }}>{s.keyIdea}</p>
+              </div>
+            </div>
+          )}
+          {s.table && <NoteTableView table={s.table} />}
           {s.terms.length > 0 && (
-            <dl style={{ margin: "18px 0 0", display: "grid", gap: 18 }}>
+            <div style={{ margin: "18px 0 0", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
               {s.terms.map((t, j) => (
-                <div key={j} style={{ borderLeft: `2px solid rgba(0,255,178,0.35)`, paddingLeft: 16 }}>
-                  <dt style={{ fontSize: 15.5, fontWeight: 700, color: MINT, letterSpacing: "-0.005em" }}>{t.term}</dt>
-                  <dd style={{ margin: "5px 0 0", fontSize: 15.5, lineHeight: 1.65, color: "#cdd6e2" }}>{t.def}</dd>
+                <div key={j} style={{ padding: "12px 14px", borderRadius: 12, background: "#0d141d", border: `1px solid ${BORDER}`, borderTop: `2px solid rgba(0,255,178,0.5)` }}>
+                  <div style={{ fontSize: 14.5, fontWeight: 700, color: MINT, letterSpacing: "-0.005em" }}>{t.term}</div>
+                  <div style={{ margin: "5px 0 0", fontSize: 14, lineHeight: 1.55, color: "#c2cbd9" }}>{t.def}</div>
                 </div>
               ))}
-            </dl>
+            </div>
           )}
           {s.example && (
             <div
@@ -328,6 +339,31 @@ function NoteView({ note }: { note: CoreNote }) {
         </section>
       ))}
     </article>
+  );
+}
+
+function NoteTableView({ table }: { table: NoteTable }) {
+  return (
+    <div style={{ margin: "18px 0 0", overflowX: "auto", borderRadius: 12, border: `1px solid ${BORDER}` }}>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+        <thead>
+          <tr>
+            {table.headers.map((h, i) => (
+              <th key={i} style={{ textAlign: "left", padding: "10px 14px", background: "rgba(0,255,178,0.10)", color: MINT, fontWeight: 700, fontSize: 12.5, letterSpacing: "0.02em", borderBottom: `1px solid ${BORDER}` }}>{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {table.rows.map((row, r) => (
+            <tr key={r} style={{ background: r % 2 ? "rgba(255,255,255,0.02)" : "transparent" }}>
+              {row.map((cell, c) => (
+                <td key={c} style={{ padding: "10px 14px", color: c === 0 ? "#e6edf5" : "#c2cbd9", fontWeight: c === 0 ? 600 : 400, lineHeight: 1.5, borderBottom: r < table.rows.length - 1 ? `1px solid ${BORDER}` : "none", verticalAlign: "top" }}>{cell}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
