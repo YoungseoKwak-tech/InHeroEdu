@@ -4392,4 +4392,114 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 4, lessonNum: 7,
+    unitName: "Earth Systems and Resources",
+    title: "Water Systems — Hydrological Cycle and Freshwater",
+    subtitle: "Almost all of Earth's water is salty or frozen — the tiny sliver of accessible freshwater is what we fight over.",
+    overview:
+      "Water cycles continuously through evaporation, condensation, precipitation, and runoff. But of all Earth's water, only a tiny fraction is fresh and accessible. Understanding where freshwater is — and how we tap groundwater — is central to water-resource issues.",
+    objectives: [
+      "Describe the hydrological cycle.",
+      "Explain the distribution of Earth's water.",
+      "Describe aquifers and groundwater depletion.",
+    ],
+    sections: [
+      {
+        title: "The water cycle and where water is",
+        body:
+          "The hydrologic cycle moves water via evaporation (and transpiration from plants), condensation into clouds, precipitation, and runoff/infiltration. But ~97% of Earth's water is salty ocean; most freshwater is locked in ice. Only a tiny percentage is accessible liquid freshwater (rivers, lakes, groundwater).",
+        keyIdea: "~97% salt water, most of the rest frozen — humanity depends on a TINY sliver of accessible freshwater.",
+        terms: [
+          { term: "Hydrologic cycle", def: "The continuous movement of water through evaporation, condensation, precipitation, runoff." },
+          { term: "Transpiration", def: "Water released to the air by plants; part of the water cycle." },
+        ],
+      },
+      {
+        title: "Groundwater and aquifers",
+        body:
+          "Much freshwater is stored underground in aquifers (porous rock layers). We pump it from wells, but in many places extraction exceeds recharge, causing groundwater depletion, sinking land (subsidence), and saltwater intrusion in coastal areas. The Ogallala Aquifer is a classic over-tapped example.",
+        terms: [
+          { term: "Aquifer", def: "An underground layer of rock/sediment that stores groundwater." },
+          { term: "Groundwater depletion", def: "Withdrawing groundwater faster than it recharges." },
+          { term: "Saltwater intrusion", def: "Seawater seeping into a depleted coastal aquifer." },
+        ],
+        traps: ["Aquifers recharge SLOWLY — over-pumping (e.g., Ogallala) effectively mines a nonrenewable resource on human timescales."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 4, lessonNum: 8,
+    unitName: "Earth Systems and Resources",
+    title: "Natural Disasters — Frequency, Magnitude, Prediction",
+    subtitle: "Natural hazards become disasters when they hit people — and human choices often make them worse.",
+    overview:
+      "Earthquakes, volcanoes, hurricanes, floods, and droughts are natural hazards. They become disasters when they affect humans, and human actions (building in floodplains, removing wetlands) often raise the toll. Understanding their causes aids prediction and preparation.",
+    objectives: [
+      "Distinguish natural hazards from disasters.",
+      "Connect hazards to Earth systems.",
+      "Explain how human choices affect disaster impact.",
+    ],
+    sections: [
+      {
+        title: "Types and causes",
+        body:
+          "Many disasters trace back to Earth systems you've studied. Geologic hazards (earthquakes, volcanoes, tsunamis) come from plate tectonics; weather/climate hazards (hurricanes, floods, droughts, wildfires) come from atmospheric and ocean processes.",
+        table: {
+          headers: ["Hazard", "Driven by"],
+          rows: [
+            ["Earthquakes, volcanoes, tsunamis", "Plate tectonics"],
+            ["Hurricanes", "Warm ocean water + atmosphere"],
+            ["Floods, droughts", "Precipitation extremes / climate"],
+          ],
+        },
+        keyIdea: "A 'natural disaster' = a natural hazard + vulnerable people. The hazard is natural; much of the damage is a human choice.",
+      },
+      {
+        title: "Human impact and prediction",
+        body:
+          "Human decisions amplify disasters: building on floodplains or fault lines, removing mangroves/wetlands that buffer storms, and deforesting slopes that then landslide. Better prediction (seismographs, weather models) and preparation (zoning, early warning) reduce the toll, but can't eliminate it.",
+        terms: [
+          { term: "Natural hazard vs. disaster", def: "A natural event vs. one that causes human harm/loss." },
+          { term: "Floodplain", def: "Low land near rivers prone to flooding; risky to build on." },
+        ],
+        traps: ["Human choices (where we build, removing natural buffers) often turn a manageable hazard into a deadly disaster."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 5, lessonNum: 1,
+    unitName: "Land and Water Use",
+    title: "Agriculture — Green Revolution and Its Consequences",
+    subtitle: "New seeds and chemicals fed billions — but with serious environmental costs.",
+    overview:
+      "The Green Revolution dramatically raised food production using high-yield crop varieties, irrigation, synthetic fertilizers, and pesticides. It prevented famine for billions, but its industrial methods carry heavy environmental and social costs.",
+    objectives: [
+      "Describe the Green Revolution and its methods.",
+      "Explain its benefits and environmental costs.",
+      "Distinguish industrial from subsistence agriculture.",
+    ],
+    sections: [
+      {
+        title: "What the Green Revolution did",
+        body:
+          "Beginning mid-20th century, the Green Revolution introduced high-yield variety (HYV) crops plus heavy inputs — irrigation, synthetic fertilizer, and pesticides — and mechanization. Yields soared, dramatically increasing the food supply and averting mass famine, especially in Asia.",
+        keyIdea: "The Green Revolution traded huge yield gains for heavy dependence on water, fertilizer, pesticides, and fossil fuels.",
+        terms: [
+          { term: "Green Revolution", def: "Mid-1900s rise in crop yields via HYV seeds, irrigation, fertilizers, and pesticides." },
+          { term: "Monoculture", def: "Growing a single crop over a large area; high yield but vulnerable to pests/disease." },
+        ],
+      },
+      {
+        title: "The environmental costs",
+        body:
+          "Industrial agriculture's costs are large: fertilizer runoff causes eutrophication; pesticides harm non-target species and breed resistance; irrigation depletes water and salinizes soil; monocultures erode biodiversity; and the whole system is fossil-fuel intensive. Contrast it with low-input subsistence farming.",
+        terms: [
+          { term: "Industrial agriculture", def: "High-input, high-yield farming reliant on chemicals, machinery, and irrigation." },
+          { term: "Subsistence agriculture", def: "Small-scale farming to feed one's own family, with low inputs." },
+        ],
+        traps: ["The Green Revolution boosted YIELDS but increased reliance on irrigation, fertilizer, pesticides, and fossil fuels — its core trade-off."],
+      },
+    ],
+  },
 ];
