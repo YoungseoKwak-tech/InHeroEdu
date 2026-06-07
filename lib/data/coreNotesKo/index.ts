@@ -6,8 +6,9 @@
 import type { CoreNote } from "@/lib/coreNotes";
 import { AP_CHEM_U1A_KO } from "./ap-chemistry-u1a";
 import { AP_CHEM_U1B_KO } from "./ap-chemistry-u1b";
+import { AP_CHEM_U2A_KO } from "./ap-chemistry-u2a";
 
-const ALL_KO: CoreNote[] = [...AP_CHEM_U1A_KO, ...AP_CHEM_U1B_KO];
+const ALL_KO: CoreNote[] = [...AP_CHEM_U1A_KO, ...AP_CHEM_U1B_KO, ...AP_CHEM_U2A_KO];
 
 export const CORE_NOTES_KO: ReadonlyMap<string, CoreNote> = new Map(
   ALL_KO.map((n) => [n.lessonId, n])
