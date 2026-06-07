@@ -684,4 +684,154 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-psychology", unit: 6, lessonNum: 1,
+    unitName: "Motivation and Emotion",
+    title: "Motivation — Theories and Hunger",
+    subtitle: "What pushes us to act — and what the body's hunger system reveals about motivation in general.",
+    overview:
+      "Motivation is the 'why' behind behavior. Several theories each capture part of it, and hunger is the textbook case study because it shows biology and environment driving a single motivated behavior.",
+    objectives: [
+      "Compare the major theories of motivation.",
+      "Sequence Maslow's hierarchy of needs.",
+      "Explain the biology of hunger (hypothalamus, hormones, set point).",
+    ],
+    sections: [
+      {
+        title: "Theories of motivation",
+        body:
+          "No single theory explains all motivation, so know what each emphasizes. The exam often gives a scenario and asks which theory fits.",
+        table: {
+          headers: ["Theory", "Core idea"],
+          rows: [
+            ["Drive-reduction", "We act to reduce internal tension and restore balance (homeostasis)"],
+            ["Arousal theory", "We seek an OPTIMAL level of arousal — not too low, not too high"],
+            ["Incentive theory", "External rewards (incentives) pull behavior"],
+            ["Maslow's hierarchy", "Needs are met in order, from basic survival up to self-actualization"],
+          ],
+        },
+        keyIdea: "Yerkes-Dodson law: performance peaks at MODERATE arousal — too little and you're flat, too much and you choke.",
+        terms: [
+          { term: "Drive-reduction theory", def: "Motivation to reduce a physiological need and restore homeostasis." },
+          { term: "Yerkes-Dodson law", def: "Performance is best at an optimal (moderate) level of arousal." },
+        ],
+      },
+      {
+        title: "Maslow's hierarchy of needs",
+        body:
+          "Maslow arranged needs in a pyramid: lower needs must be reasonably met before higher ones drive behavior. From the base up: physiological (food, water) → safety → love/belonging → esteem → self-actualization (reaching one's full potential).",
+        keyIdea: "You can't focus on esteem or self-actualization while starving — basic needs come first.",
+      },
+      {
+        title: "The biology of hunger",
+        body:
+          "The hypothalamus is the brain's hunger control center. The hormone ghrelin (from the stomach) signals hunger; leptin (from fat cells) signals fullness. The body also defends a set point — a weight it tends to return to, which is why dieting is hard.",
+        terms: [
+          { term: "Hypothalamus", def: "Brain region regulating hunger, thirst, and body temperature." },
+          { term: "Ghrelin / Leptin", def: "Ghrelin signals hunger; leptin signals satiety (fullness)." },
+          { term: "Set point", def: "The weight the body tends to defend, resisting change." },
+        ],
+      },
+    ],
+  },
+  {
+    courseId: "ap-psychology", unit: 6, lessonNum: 2,
+    unitName: "Motivation and Emotion",
+    title: "Emotion — Theories and Expression",
+    subtitle: "Does your heart race because you're afraid, or are you afraid because your heart races? The theories disagree — on purpose.",
+    overview:
+      "An emotion blends three ingredients: physical arousal, a cognitive label, and expressive behavior. The famous theories disagree about the ORDER in which these happen — which is exactly what the exam tests.",
+    objectives: [
+      "Distinguish the major theories of emotion by the order of arousal, cognition, and feeling.",
+      "Identify the brain and body systems involved in emotion.",
+      "Explain universal expressions and the facial feedback hypothesis.",
+    ],
+    sections: [
+      {
+        title: "Theories of emotion — it's all about order",
+        body:
+          "Each theory arranges arousal, thinking, and feeling differently. Use a single scenario (you see a bear) to keep them straight.",
+        table: {
+          headers: ["Theory", "Order of events (you see a bear)"],
+          rows: [
+            ["James-Lange", "Body reacts first → you interpret the arousal as fear"],
+            ["Cannon-Bard", "Arousal AND fear happen at the same time, independently"],
+            ["Schachter-Singer (two-factor)", "Arousal + a cognitive LABEL together = emotion"],
+            ["Lazarus", "Appraisal (even unconscious) comes first, then emotion"],
+          ],
+        },
+        keyIdea: "James-Lange = body THEN feeling. Cannon-Bard = body AND feeling together. Two-factor = body + a label.",
+        traps: ["The two-factor theory's key claim: the SAME arousal can become different emotions depending on how you label it."],
+      },
+      {
+        title: "The body and brain of emotion",
+        body:
+          "Emotion runs on the autonomic nervous system — the sympathetic branch fires you up (fight-or-flight), the parasympathetic calms you down. The amygdala is central to fear and can trigger a response via a fast 'low road' before the thinking cortex is even involved.",
+        terms: [
+          { term: "Amygdala", def: "Limbic structure central to fear and rapid emotional response." },
+          { term: "Sympathetic nervous system", def: "Arouses the body for fight-or-flight." },
+        ],
+      },
+      {
+        title: "Expressing emotion",
+        body:
+          "Paul Ekman found a set of basic emotions whose facial expressions are recognized across cultures — evidence they're biologically universal. The facial feedback hypothesis adds a twist: expressions feed back into feeling, so forcing a smile can actually nudge your mood upward.",
+        terms: [
+          { term: "Universal emotions", def: "Basic expressions (e.g., happiness, fear, anger) recognized across cultures (Ekman)." },
+          { term: "Facial feedback hypothesis", def: "Facial expressions influence the emotions we feel, not just reflect them." },
+        ],
+      },
+    ],
+  },
+  {
+    courseId: "ap-psychology", unit: 7, lessonNum: 1,
+    unitName: "Clinical Psychology",
+    title: "Psychological Disorders — Classification and Diagnosis",
+    subtitle: "When does behavior become a disorder — and how do clinicians decide which one?",
+    overview:
+      "A psychological disorder is a pattern of thoughts, feelings, or behaviors that is dysfunctional, distressing, and/or deviant. Clinicians classify disorders with the DSM and increasingly explain them through the interaction of biology, psychology, and environment.",
+    objectives: [
+      "Explain the criteria used to define a disorder and the role of the DSM.",
+      "Compare the medical, biopsychosocial, and diathesis-stress models.",
+      "Recognize the major categories of disorders and their hallmark symptoms.",
+    ],
+    sections: [
+      {
+        title: "Defining and diagnosing",
+        body:
+          "Psychologists weigh several criteria: is the behavior dysfunctional (interferes with daily life), distressing (to the person), and/or deviant (far from cultural norms)? The DSM is the standard manual that lists disorders and their diagnostic criteria so clinicians can agree on labels.",
+        keyIdea: "Deviance alone isn't a disorder — context matters. Distress + dysfunction are the heavier criteria.",
+        terms: [
+          { term: "DSM", def: "The Diagnostic and Statistical Manual — the standard system for classifying disorders." },
+          { term: "Dysfunction", def: "Interference with everyday functioning — a core criterion for a disorder." },
+        ],
+      },
+      {
+        title: "Models of disorder",
+        body:
+          "The medical model treats disorders as illnesses with physical causes and treatments. The broader biopsychosocial model says biology, psychology, and social environment all contribute. The diathesis-stress model is especially testable: a predisposition (diathesis) becomes a disorder only when triggered by enough stress.",
+        keyIdea: "Diathesis-stress: vulnerability + stress = disorder. Neither alone is usually enough.",
+        terms: [
+          { term: "Biopsychosocial model", def: "Disorders arise from interacting biological, psychological, and social factors." },
+          { term: "Diathesis-stress model", def: "A predisposition is activated into a disorder by environmental stress." },
+        ],
+      },
+      {
+        title: "Major categories at a glance",
+        body:
+          "Know the hallmark of each big category — the exam pairs symptoms to labels.",
+        table: {
+          headers: ["Category", "Hallmark"],
+          rows: [
+            ["Anxiety disorders", "Excessive fear/worry (phobias, GAD, panic)"],
+            ["OCD", "Intrusive obsessions + repetitive compulsions"],
+            ["Depressive disorders", "Prolonged sadness, loss of interest"],
+            ["Bipolar disorder", "Mania alternating with depression"],
+            ["Schizophrenia", "Hallucinations, delusions (positive); flat affect, withdrawal (negative)"],
+          ],
+        },
+        traps: ["Schizophrenia 'positive' symptoms ADD something abnormal (hallucinations); 'negative' symptoms are the ABSENCE of normal function (flat affect)."],
+      },
+    ],
+  },
 ];
