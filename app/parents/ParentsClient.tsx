@@ -442,8 +442,9 @@ export default function ParentsClient() {
           </p>
           {materials.length > 0 ? (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16 }}>
-              {materials.map((m) => (
-                <Link key={m.id} href={`/library/${m.id}/read`} style={{ textDecoration: "none", color: "inherit" }}>
+              {materials.map((m) => {
+                const large = isLargeFile(m.fileSize);
+                const inner = (
                   <article style={{ background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, overflow: "hidden", boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 180ms, box-shadow 200ms" }}
                     onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 36px rgba(16,24,40,0.12)"; }}
                     onMouseLeave={(e) => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 1px 2px rgba(16,24,40,0.04)"; }}>
@@ -461,14 +462,20 @@ export default function ParentsClient() {
                     </div>
                     <div style={{ padding: "12px 14px 14px" }}>
                       <div style={{ fontSize: 13.5, fontWeight: 800, color: "#1a1a1f", lineHeight: 1.35, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", minHeight: 37 }}>{m.title}</div>
+                      {large && <div style={{ fontSize: 11.5, fontWeight: 800, color: "#2563eb", marginTop: 6 }}>⬇ 다운로드 (용량 큼)</div>}
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 8 }}>
                         {m.lounge && <span style={{ fontSize: 11, color: "#94a3b8" }}>📕 {m.lounge.name}</span>}
                         {m.author && <span style={{ fontSize: 11, color: "#64748b", fontStyle: "italic", fontWeight: 600 }}>by {m.author.handle}</span>}
                       </div>
                     </div>
                   </article>
-                </Link>
-              ))}
+                );
+                return large ? (
+                  <a key={m.id} href={downloadHref(m.attachmentUrl, m.title)} style={{ textDecoration: "none", color: "inherit" }}>{inner}</a>
+                ) : (
+                  <Link key={m.id} href={`/library/${m.id}/read`} style={{ textDecoration: "none", color: "inherit" }}>{inner}</Link>
+                );
+              })}
             </div>
           ) : (
             <Link href="/parents/materials" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, textDecoration: "none", background: "linear-gradient(135deg,#0a0a14,#13131f)", color: "#fff", borderRadius: 14, padding: "28px 22px", fontSize: 15, fontWeight: 800 }}>

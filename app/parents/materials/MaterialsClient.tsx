@@ -18,6 +18,8 @@ const GREEN = "#00b85f";
 interface FeedItem {
   id: string;
   title: string;
+  attachmentUrl: string;
+  fileSize: number | null;
   isInheroOfficial: boolean;
   previewPage1Url: string | null;
   previewStatus: string | null;
@@ -28,6 +30,12 @@ interface FeedItem {
   lounge: { slug: string; name: string } | null;
   author: { handle: string } | null;
 }
+
+// Huge files (e.g. the 343MB AP Biology Note) download instead of opening the
+// in-browser reader, which chokes on them.
+const LARGE_FILE_BYTES = 50 * 1024 * 1024;
+const isLargeFile = (b: number | null | undefined) => !!b && b > LARGE_FILE_BYTES;
+const downloadHref = (url: string, title: string) => `${url}${url.includes("?") ? "&" : "?"}download=${encodeURIComponent(title)}`;
 
 export default function MaterialsClient() {
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
@@ -73,8 +81,9 @@ export default function MaterialsClient() {
           <GateCard loggedIn={loggedIn} onSignup={gateSignup} />
         ) : (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 18 }}>
-            {items.map((it) => (
-              <Link key={it.id} href={`/library/${it.id}/read`} style={{ textDecoration: "none", color: "inherit" }}>
+            {items.map((it) => {
+              const large = isLargeFile(it.fileSize);
+              const inner = (
                 <article style={{ background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, overflow: "hidden", boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 180ms, box-shadow 200ms" }}
                   onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 36px rgba(16,24,40,0.12)"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 1px 2px rgba(16,24,40,0.04)"; }}>
@@ -98,7 +107,7 @@ export default function MaterialsClient() {
                   <div style={{ padding: "13px 15px 15px" }}>
                     <div style={{ fontSize: 14.5, fontWeight: 800, color: "#1a1a1f", lineHeight: 1.35, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", minHeight: 40 }}>{it.title}</div>
                     {!!it.totalPages && it.totalPages > 1 && (
-                      <div style={{ fontSize: 12.5, fontWeight: 800, color: "#dc2626", marginTop: 6 }}>📄 총 {it.totalPages}페이지</div>
+                      <div style={{ fontSize: 12.5, fontWeight: 800, color: "#dc2626", marginTop: 6 }}>📄 총 {it.totalPages}페이지{large ? " · ⬇ 다운로드 (용량 큼)" : ""}</div>
                     )}
                     {it.lounge && <div style={{ fontSize: 11.5, color: "#94a3b8", marginTop: 6 }}>📕 {it.lounge.name}</div>}
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 10 }}>
@@ -109,8 +118,13 @@ export default function MaterialsClient() {
                     </div>
                   </div>
                 </article>
-              </Link>
-            ))}
+              );
+              return large ? (
+                <a key={it.id} href={downloadHref(it.attachmentUrl, it.title)} style={{ textDecoration: "none", color: "inherit" }}>{inner}</a>
+              ) : (
+                <Link key={it.id} href={`/library/${it.id}/read`} style={{ textDecoration: "none", color: "inherit" }}>{inner}</Link>
+              );
+            })}
           </div>
         )}
       </div>

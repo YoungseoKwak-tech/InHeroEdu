@@ -218,6 +218,7 @@ export async function GET(req: NextRequest) {
       title: r.title,
       folder: r.folder_type,
       attachmentUrl: r.attachment_url,
+      fileSize: r.file_size,
       mimeType: r.mime_type,
       isImage: typeof r.mime_type === "string" && r.mime_type.startsWith("image/"),
       isInheroOfficial: r.is_inhero_official,
