@@ -12,6 +12,7 @@ import { AP_CHEM_U2C_U3A_KO } from "./ap-chemistry-u2c-u3a";
 import { AP_CHEM_U3B_KO } from "./ap-chemistry-u3b";
 import { AP_CHEM_U3C_KO } from "./ap-chemistry-u3c";
 import { AP_CHEM_U3D_U4A_KO } from "./ap-chemistry-u3d-u4a";
+import { AP_CHEM_U4B_KO } from "./ap-chemistry-u4b";
 
 const ALL_KO: CoreNote[] = [
   ...AP_CHEM_U1A_KO,
@@ -22,6 +23,7 @@ const ALL_KO: CoreNote[] = [
   ...AP_CHEM_U3B_KO,
   ...AP_CHEM_U3C_KO,
   ...AP_CHEM_U3D_U4A_KO,
+  ...AP_CHEM_U4B_KO,
 ];
 
 export const CORE_NOTES_KO: ReadonlyMap<string, CoreNote> = new Map(
