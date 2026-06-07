@@ -6955,4 +6955,106 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-english-language", unit: 4, lessonNum: 4,
+    unitName: "Rhetorical Devices and Style",
+    title: "Voice and Persona",
+    subtitle: "The constructed 'self' a writer projects — voice is a deliberate rhetorical mask, not just personality.",
+    overview:
+      "Voice is the distinctive style and personality that comes through in writing; persona is the specific character or role a writer adopts for a rhetorical purpose. Writers craft a persona to connect with an audience and serve their argument.",
+    objectives: [
+      "Distinguish voice from persona.",
+      "Explain how persona serves rhetorical purpose.",
+      "Analyze how style creates voice.",
+    ],
+    sections: [
+      {
+        title: "Voice vs. persona",
+        body:
+          "Voice emerges from the sum of an author's stylistic choices — diction, syntax, tone. Persona is a deliberately constructed identity the author projects (the wise elder, the outraged citizen, the humble everyman). A satirist may adopt a naive persona to expose folly; the persona is chosen to fit the audience and purpose.",
+        keyIdea: "Persona is a deliberate MASK chosen for effect — analyze WHY the author adopts it, not just that a 'voice' exists.",
+        terms: [
+          { term: "Voice", def: "The distinctive style/personality conveyed through an author's choices." },
+          { term: "Persona", def: "A constructed identity or role an author adopts for a rhetorical purpose." },
+        ],
+      },
+      {
+        title: "Persona and purpose",
+        body:
+          "The persona shapes how an audience receives the message: an authoritative persona builds ethos; a relatable one builds connection; an ironic persona (common in satire) lets a writer criticize indirectly. Analyzing persona means linking the projected identity to the author's goal.",
+        terms: [
+          { term: "Satirical persona", def: "An adopted, often ironic voice used to critique indirectly." },
+        ],
+        traps: ["Don't confuse the PERSONA (constructed role) with the real author — writers adopt voices strategically, especially in satire."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-english-language", unit: 5, lessonNum: 1,
+    unitName: "Synthesis",
+    title: "Reading and Annotating Sources",
+    subtitle: "Synthesis starts with active reading — pulling each source's claim, bias, and usefulness before you write.",
+    overview:
+      "The synthesis task asks you to combine multiple sources into your own argument. The first step is reading critically: identifying each source's claim, perspective, and bias, and noting how sources relate to each other and to your developing position.",
+    objectives: [
+      "Explain the purpose of the synthesis task.",
+      "Annotate sources for claim, bias, and usefulness.",
+      "Identify relationships among sources.",
+    ],
+    sections: [
+      {
+        title: "Reading sources critically",
+        body:
+          "For each source, identify its main claim, the author's perspective/bias, the type of evidence, and how it could support or complicate YOUR argument. Sources will disagree — note the tensions, because using sources in conversation (not just listing them) is the goal.",
+        keyIdea: "Read each source for its CLAIM and BIAS — and for how it could serve YOUR argument. You're a participant, not a reporter.",
+        terms: [
+          { term: "Synthesis", def: "Combining multiple sources into your own coherent argument." },
+          { term: "Bias / perspective", def: "A source's slant, which you must account for when using it." },
+        ],
+      },
+      {
+        title: "Sources in conversation",
+        body:
+          "Map how sources agree, disagree, qualify, or extend each other. Strong synthesis treats sources as voices in a debate you're moderating and contributing to — not a string of summaries. Annotation now makes building the argument far easier later.",
+        terms: [
+          { term: "Annotation", def: "Marking up sources for claims, evidence, bias, and connections." },
+        ],
+        traps: ["Synthesis isn't summarizing each source in turn — it's weaving them to support YOUR original argument."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-english-language", unit: 5, lessonNum: 2,
+    unitName: "Synthesis",
+    title: "Building a Synthesis Argument",
+    subtitle: "Your thesis leads; the sources are evidence you command — never the other way around.",
+    overview:
+      "A synthesis essay presents YOUR defensible thesis, supported by evidence drawn from multiple sources. The sources serve your line of reasoning; your commentary explains how each piece advances your claim. The argument must be yours, not a patchwork of others'.",
+    objectives: [
+      "Write a defensible synthesis thesis.",
+      "Integrate sources to support a claim.",
+      "Maintain your own argument as the spine.",
+    ],
+    sections: [
+      {
+        title: "Your argument leads",
+        body:
+          "Start with a clear, defensible thesis that takes a position on the prompt. Then bring in sources as evidence — each one introduced, quoted/paraphrased, and explained with commentary linking it to your claim. The reader should always know it's YOUR argument; sources are support.",
+        keyIdea: "The thesis is the SPINE; sources are the muscle. If the sources are driving the essay, you've inverted it — your claim must lead.",
+        terms: [
+          { term: "Synthesis thesis", def: "Your defensible position on the prompt, supported by multiple sources." },
+          { term: "Line of reasoning", def: "The logical sequence connecting your claim, source evidence, and commentary." },
+        ],
+      },
+      {
+        title: "Integrating, not listing",
+        body:
+          "Use enough sources to meet the prompt (usually a minimum), but integrate them: weave a source into each point with your own analysis. Address tensions between sources to show sophistication. Avoid the 'source dump' where quotes appear without explanation.",
+        terms: [
+          { term: "Source integration", def: "Weaving evidence into your reasoning with commentary, not just inserting quotes." },
+        ],
+        traps: ["Meeting the source minimum isn't enough — each source needs YOUR commentary tying it to the thesis, or it's a 'source dump.'"],
+      },
+    ],
+  },
 ];
