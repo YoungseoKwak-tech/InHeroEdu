@@ -19,7 +19,7 @@ const BORDER = "#1a2230";
 const SUBTLE = "#8793a4";
 
 interface NoteTerm { term: string; def: string }
-interface NoteSection { title: string; subtitle?: string | null; terms: NoteTerm[]; traps: string[]; example?: string | null }
+interface NoteSection { title: string; subtitle?: string | null; body?: string | null; terms: NoteTerm[]; traps: string[]; example?: string | null }
 interface CoreNote {
   lessonId: string;
   courseId: string | null;
@@ -30,6 +30,7 @@ interface CoreNote {
   unitName?: string | null;
   title: string;
   subtitle?: string | null;
+  overview?: string | null;
   objectives: string[];
   formulas?: string[];
   diagram?: string | null;
