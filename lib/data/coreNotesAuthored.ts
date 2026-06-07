@@ -1910,4 +1910,114 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 4, lessonNum: 7,
+    unitName: "Transoceanic Interconnections (c. 1450–1750)",
+    title: "Resistance to Colonial Rule",
+    subtitle: "The conquered and enslaved were never passive — resistance ran from open revolt to quietly preserving culture.",
+    overview:
+      "Wherever there was colonial domination and slavery, there was resistance. It took many forms: armed rebellions, escape and self-governing communities, religious syncretism, and everyday acts of defiance that preserved identity and dignity.",
+    objectives: [
+      "Identify the varied forms of resistance to colonial rule and slavery.",
+      "Give examples of indigenous and enslaved resistance.",
+      "Explain how culture and religion served as resistance.",
+    ],
+    sections: [
+      {
+        title: "Many forms of resistance",
+        body:
+          "Resistance ranged from dramatic to subtle. Enslaved people staged revolts, escaped to form self-governing maroon communities, slowed work, and preserved African traditions. Indigenous peoples rebelled too — the Pueblo Revolt temporarily expelled the Spanish from New Mexico.",
+        table: {
+          headers: ["Form", "Example"],
+          rows: [
+            ["Open rebellion", "Pueblo Revolt; slave uprisings"],
+            ["Escape / autonomy", "Maroon communities of escaped enslaved people"],
+            ["Cultural preservation", "Keeping African languages, music, foodways"],
+            ["Religious syncretism", "Vodou — blending African beliefs with Catholicism"],
+          ],
+        },
+        keyIdea: "Preserving one's religion and culture under domination was itself a powerful, lasting form of resistance.",
+        terms: [
+          { term: "Maroon communities", def: "Settlements of escaped enslaved people who governed themselves." },
+          { term: "Syncretism", def: "Blending traditions (e.g., Vodou) — a way to preserve identity under colonial rule." },
+        ],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 4, lessonNum: 8,
+    unitName: "Transoceanic Interconnections (c. 1450–1750)",
+    title: "The Fur Trade and Northern Colonialism",
+    subtitle: "In the cold north, colonization meant trade and alliances with Native nations — not plantations.",
+    overview:
+      "French, Dutch, and English colonies in northern North America followed a different model from Spain's. Instead of conquering dense populations for plantation labor, they built the fur trade, relying on partnerships and alliances with Native American nations.",
+    objectives: [
+      "Describe the fur trade and Native–European partnerships.",
+      "Contrast northern colonialism with the Spanish plantation model.",
+      "Explain why the models differed.",
+    ],
+    sections: [
+      {
+        title: "Trade, not plantations",
+        body:
+          "The French built their North American presence around the fur trade: traders (coureurs de bois) partnered with Native nations who trapped and supplied beaver pelts prized in Europe. This required cooperation and alliances rather than mass enslavement, though it still disrupted Native societies and drew them into European rivalries.",
+        table: {
+          headers: ["Model", "Spanish (south)", "French/Dutch (north)"],
+          rows: [
+            ["Economy", "Plantations & silver mining", "Fur trade"],
+            ["Labor", "Coerced indigenous/African", "Native trapping partners"],
+            ["Settlement", "Large settler society", "Fewer settlers, trade posts"],
+            ["Relations", "Conquest & domination", "Alliances & exchange"],
+          ],
+        },
+        keyIdea: "Northern colonialism ran on TRADE and ALLIANCE; Spanish colonialism ran on CONQUEST and forced LABOR.",
+        terms: [
+          { term: "Fur trade", def: "The North American trade in animal pelts that structured French/Dutch colonization." },
+        ],
+        traps: ["'Alliance-based' didn't mean harmless — the fur trade still devastated Native populations and pulled them into colonial wars."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 5, lessonNum: 1,
+    unitName: "Revolutions (c. 1750–1900)",
+    title: "The Enlightenment and Atlantic Revolutions",
+    subtitle: "A set of radical ideas about rights and government lit a chain of revolutions across the Atlantic world.",
+    overview:
+      "The Enlightenment was an intellectual movement that applied reason to politics and society, producing powerful new ideas: natural rights, the social contract, and popular sovereignty. These ideas directly inspired a wave of Atlantic revolutions.",
+    objectives: [
+      "Identify key Enlightenment thinkers and their core ideas.",
+      "Explain how Enlightenment ideas challenged absolute rule.",
+      "Connect the Enlightenment to the Atlantic revolutions.",
+    ],
+    diagram: "cause-effect",
+    sections: [
+      {
+        title: "The ideas",
+        body:
+          "Enlightenment thinkers argued that government should rest on reason and the consent of the governed, not divine right. Their ideas became the vocabulary of revolution.",
+        table: {
+          headers: ["Thinker", "Big idea"],
+          rows: [
+            ["John Locke", "Natural rights (life, liberty, property); government by consent"],
+            ["Rousseau", "Social contract; popular sovereignty"],
+            ["Montesquieu", "Separation of powers (checks and balances)"],
+            ["Voltaire", "Free speech, religious tolerance"],
+          ],
+        },
+        keyIdea: "Locke's natural rights + Rousseau's popular sovereignty = the toolkit revolutionaries used to reject kings.",
+        terms: [
+          { term: "Natural rights", def: "Rights (life, liberty, property) that exist before government (Locke)." },
+          { term: "Popular sovereignty", def: "The idea that government's authority comes from the people (Rousseau)." },
+        ],
+      },
+      {
+        title: "Ideas become revolutions",
+        body:
+          "These principles spread across the Atlantic and inspired revolution after revolution: the American (1776), French (1789), Haitian (1791), and Latin American independence movements all drew on Enlightenment ideals — though each applied them differently and unevenly.",
+        keyIdea: "One body of ideas → a CHAIN of revolutions across the Atlantic — a textbook case of cause and effect.",
+        traps: ["The same ideals produced very different outcomes (and hypocrisies) — e.g., 'all men are equal' alongside continued slavery."],
+      },
+    ],
+  },
 ];
