@@ -3353,4 +3353,128 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 1, lessonNum: 4,
+    unitName: "The Living World: Ecosystems",
+    title: "Terrestrial Biomes — Climate Determines Structure",
+    subtitle: "Temperature and precipitation are the two dials that decide which biome you get.",
+    overview:
+      "A biome is a large region defined by its climate and the communities of plants and animals adapted to it. The master idea: two abiotic factors — temperature and precipitation — largely determine which biome forms where, from desert to rainforest.",
+    objectives: [
+      "Define biome and explain what determines biome type.",
+      "Identify major terrestrial biomes and their climates.",
+      "Connect climate to plant/animal adaptations.",
+    ],
+    sections: [
+      {
+        title: "Climate sets the biome",
+        body:
+          "Plot temperature against precipitation and you can predict the biome. Hot and wet gives tropical rainforest; hot and dry gives desert; cold gives tundra. Organisms then adapt to those conditions (e.g., desert plants store water; tundra plants grow low).",
+        table: {
+          headers: ["Biome", "Climate"],
+          rows: [
+            ["Tropical rainforest", "Hot, very wet — highest biodiversity"],
+            ["Desert", "Hot/cold, very dry"],
+            ["Grassland/savanna", "Seasonal rain, fire-adapted"],
+            ["Temperate forest", "Moderate temp, four seasons"],
+            ["Taiga (boreal forest)", "Cold, coniferous"],
+            ["Tundra", "Coldest, permafrost, treeless"],
+          ],
+        },
+        keyIdea: "Two dials — TEMPERATURE and PRECIPITATION — set the biome. Everything else follows from climate.",
+      },
+      {
+        title: "Adaptation and productivity",
+        body:
+          "Warm, wet biomes (tropical rainforest) have the highest net primary productivity and biodiversity; cold or dry biomes (tundra, desert) the lowest. Organisms show clear adaptations to their biome — thick fur in tundra, deep roots in deserts.",
+        terms: [
+          { term: "Biome", def: "A large region defined by climate and its characteristic communities." },
+          { term: "Permafrost", def: "Permanently frozen ground characteristic of the tundra." },
+          { term: "Net primary productivity (NPP)", def: "The energy producers store and make available; highest in tropical rainforests." },
+        ],
+        traps: ["Climate determines biome — NOT the other way around. Latitude/altitude matter because they affect temp and rainfall."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 1, lessonNum: 5,
+    unitName: "The Living World: Ecosystems",
+    title: "Aquatic Biomes and Zones",
+    subtitle: "Salt vs. fresh, and how deep the light reaches — that's what structures life in water.",
+    overview:
+      "Aquatic biomes are divided first by salinity (freshwater vs. marine) and then by zones based on depth and light. Where sunlight can reach determines where photosynthesis — and thus most life — can happen.",
+    objectives: [
+      "Distinguish freshwater and marine biomes.",
+      "Explain aquatic zones by light and depth.",
+      "Identify high-productivity aquatic areas.",
+    ],
+    sections: [
+      {
+        title: "Salinity and light zones",
+        body:
+          "The first split is salinity: freshwater (lakes, rivers, wetlands) vs. marine (oceans, estuaries, coral reefs). Within water bodies, the photic zone is where light penetrates and photosynthesis occurs; below it, the aphotic zone is dark.",
+        table: {
+          headers: ["Zone / area", "Feature"],
+          rows: [
+            ["Photic zone", "Sunlit; photosynthesis happens here"],
+            ["Aphotic zone", "Dark, deep; no photosynthesis"],
+            ["Estuary", "Where river meets sea — very productive nursery"],
+            ["Coral reef", "High biodiversity; sensitive to temp/pH"],
+          ],
+        },
+        keyIdea: "Estuaries and coral reefs are among the MOST productive/biodiverse aquatic systems — and the most vulnerable.",
+      },
+      {
+        title: "Why productivity varies",
+        body:
+          "Productivity is highest where there's light AND nutrients — shallow coastal waters, estuaries, and reefs. The open deep ocean is vast but relatively low in productivity (a 'marine desert') because nutrients sink away from the sunlit surface.",
+        terms: [
+          { term: "Photic zone", def: "The sunlit upper water layer where photosynthesis occurs." },
+          { term: "Estuary", def: "A nutrient-rich zone where freshwater and saltwater mix; a key nursery habitat." },
+        ],
+        traps: ["The open ocean is huge but LOW in productivity per area — coastal/estuary zones are the productive hotspots."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 1, lessonNum: 6,
+    unitName: "The Living World: Ecosystems",
+    title: "Ecological Niches and Species Interactions",
+    subtitle: "Every species has a 'job,' and how those jobs overlap drives competition, predation, and partnership.",
+    overview:
+      "A niche is a species' role in its ecosystem — what it eats, where it lives, how it interacts. How niches overlap shapes species interactions: competition, predation, and the three kinds of symbiosis. These interactions structure communities.",
+    objectives: [
+      "Distinguish a species' niche from its habitat.",
+      "Explain competition and the competitive exclusion principle.",
+      "Classify symbiotic relationships.",
+    ],
+    sections: [
+      {
+        title: "Niche vs. habitat, and competition",
+        body:
+          "A habitat is the address (where a species lives); a niche is the profession (its role and resource use). When two species need the same limited resource, the competitive exclusion principle says they can't coexist indefinitely — one outcompetes the other, or they partition resources (resource partitioning).",
+        keyIdea: "Habitat = address, niche = job. Two species with identical niches can't coexist (competitive exclusion).",
+        terms: [
+          { term: "Niche", def: "A species' role: what it eats, where, and how it interacts." },
+          { term: "Competitive exclusion", def: "Two species with the same niche can't coexist indefinitely." },
+          { term: "Resource partitioning", def: "Species dividing a resource to reduce competition and coexist." },
+        ],
+      },
+      {
+        title: "Symbiosis",
+        body:
+          "Symbiosis is a close, long-term interaction between species. The three types differ by who benefits.",
+        table: {
+          headers: ["Type", "Species A", "Species B"],
+          rows: [
+            ["Mutualism", "Benefits (+)", "Benefits (+)"],
+            ["Commensalism", "Benefits (+)", "Unaffected (0)"],
+            ["Parasitism", "Benefits (+)", "Harmed (−)"],
+          ],
+        },
+        keyIdea: "Mutualism = +/+, commensalism = +/0, parasitism = +/−. Predation differs: it's a quick kill, not a long-term relationship.",
+        traps: ["A keystone species has an outsized effect on its ecosystem relative to its abundance — remove it and the community collapses."],
+      },
+    ],
+  },
 ];
