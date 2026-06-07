@@ -97,6 +97,8 @@ const COPY = {
     headlineEm: "Deep.",
     tagline: <>Where ambitious students think deep together<br />— and find each other.</>,
     trustLine: "Trusted and built by Ivy League engineers",
+    koCtaLabel: "🇰🇷 한국어 자료 페이지 바로가기",
+    koCtaHref: "/parents",
     leftIcon: "🛸",
     leftTitle: "Enter the Classroom",
     leftBody: (
@@ -126,6 +128,8 @@ const COPY = {
     headlineEm: "깊게 생각하라.",
     tagline: <>야망 있는 학생들이 함께 깊이 사고하고<br />— 서로를 발견하는 곳.</>,
     trustLine: "아이비리그 엔지니어가 만들고 검증했습니다",
+    koCtaLabel: "🇰🇷 한국어 자료 페이지 바로가기",
+    koCtaHref: "/parents",
     leftIcon: "🛸",
     leftTitle: "강의실 입장하기",
     leftBody: (
@@ -195,6 +199,14 @@ export default function HomeHeroDualPath({ locale = "en" }: Props) {
         {/* Tagline — smaller / lighter than the headline */}
         <p className={styles.hhTag}>{copy.tagline}</p>
         <p className={styles.hhTrust}>{copy.trustLine}</p>
+
+        {/* Korean materials page — prominent shortcut to /parents */}
+        <div className={styles.hhKoCtaWrap}>
+          <Link href={copy.koCtaHref} className={styles.hhKoCta}>
+            {copy.koCtaLabel}
+            <span className={styles.hhKoCtaArrow} aria-hidden="true">→</span>
+          </Link>
+        </div>
 
         {/* Dual-path card grid */}
         <div className={styles.hhGrid}>
