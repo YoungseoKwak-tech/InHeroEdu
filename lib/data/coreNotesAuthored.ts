@@ -6633,4 +6633,115 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-english-language", unit: 2, lessonNum: 3,
+    unitName: "Claims, Evidence, and Commentary",
+    title: "Counterargument and Concession",
+    subtitle: "Strong arguments don't ignore the other side — they engage it, which makes them more persuasive.",
+    overview:
+      "Acknowledging opposing views (counterargument) and granting their partial validity (concession) before refuting them (rebuttal) strengthens an argument. It shows fairness, builds credibility, and preempts objections — a hallmark of sophisticated writing.",
+    objectives: [
+      "Define counterargument, concession, and rebuttal.",
+      "Explain why addressing opposition strengthens an argument.",
+      "Recognize the concede-then-refute move.",
+    ],
+    sections: [
+      {
+        title: "Engaging the other side",
+        body:
+          "A counterargument is an opposing viewpoint. A concession admits part of it has merit. A rebuttal then explains why your position still holds. The classic move is 'concede-then-refute': 'While critics argue X (concession), this overlooks Y (rebuttal).'",
+        keyIdea: "Concede-then-refute: granting a valid point, THEN explaining why your claim still stands, makes you look fair AND strengthens your case.",
+        terms: [
+          { term: "Counterargument", def: "An opposing viewpoint the writer addresses." },
+          { term: "Concession", def: "Admitting an opposing point has some validity." },
+          { term: "Rebuttal", def: "The response showing why your position still holds." },
+        ],
+      },
+      {
+        title: "Why it works",
+        body:
+          "Addressing opposition builds ethos (you seem fair and informed), preempts the reader's objections, and demonstrates the complexity AP rewards as 'sophistication.' Ignoring obvious counterarguments makes an argument look one-sided and weak.",
+        terms: [
+          { term: "Sophistication", def: "Nuanced argument (e.g., engaging complexity/counterarguments) rewarded on the AP rubric." },
+        ],
+        traps: ["A concession isn't surrender — you grant a small point to WIN the larger argument. Always follow it with a rebuttal."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-english-language", unit: 2, lessonNum: 4,
+    unitName: "Claims, Evidence, and Commentary",
+    title: "Logical Fallacies",
+    subtitle: "Flaws in reasoning that can sneak past readers — spot them to evaluate (and avoid) weak arguments.",
+    overview:
+      "Logical fallacies are errors in reasoning that weaken an argument, even if they sound convincing. Recognizing common fallacies lets you critique others' arguments and strengthen your own by avoiding them.",
+    objectives: [
+      "Define logical fallacy.",
+      "Identify common fallacies.",
+      "Explain why fallacies weaken arguments.",
+    ],
+    sections: [
+      {
+        title: "Common fallacies",
+        body:
+          "Each fallacy is a shortcut that breaks logical reasoning. Know the most-tested ones.",
+        table: {
+          headers: ["Fallacy", "What it does"],
+          rows: [
+            ["Ad hominem", "Attacks the person, not the argument"],
+            ["Straw man", "Distorts an opponent's view to attack it easily"],
+            ["Slippery slope", "Claims one step leads inevitably to disaster"],
+            ["False dilemma", "Presents only two options when more exist"],
+            ["Hasty generalization", "Draws a broad conclusion from too little evidence"],
+          ],
+        },
+        keyIdea: "Fallacies often SOUND persuasive — that's why they're dangerous. Naming the fallacy is how you dismantle a weak argument.",
+      },
+      {
+        title: "Why they matter",
+        body:
+          "A single glaring fallacy can collapse an argument's credibility. In analysis, identifying an author's fallacy is powerful critique; in your own writing, avoiding fallacies keeps your reasoning sound. Note that appeals (pathos) aren't fallacies unless they REPLACE logic.",
+        terms: [
+          { term: "Logical fallacy", def: "An error in reasoning that undermines an argument's validity." },
+          { term: "Ad hominem / straw man", def: "Attacking the person / distorting their argument instead of engaging it." },
+        ],
+        traps: ["An emotional appeal (pathos) is NOT automatically a fallacy — it's only fallacious if it replaces sound reasoning."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-english-language", unit: 3, lessonNum: 1,
+    unitName: "Rhetorical Appeals",
+    title: "Ethos: Credibility and Trust",
+    subtitle: "Before an audience believes your argument, they have to believe in YOU — that's ethos.",
+    overview:
+      "Ethos is the rhetorical appeal to the speaker's credibility and character. Audiences are more persuaded by sources they trust, so writers build ethos through expertise, fairness, shared values, and a credible tone. It's one of Aristotle's three appeals, alongside logos and pathos.",
+    objectives: [
+      "Define ethos and how it's established.",
+      "Distinguish ethos from logos and pathos.",
+      "Analyze how authors build credibility.",
+    ],
+    diagram: "rhetorical-triangle",
+    sections: [
+      {
+        title: "Building credibility",
+        body:
+          "Writers establish ethos by demonstrating expertise (citing credentials/knowledge), showing fairness (acknowledging other views), sharing the audience's values, and using an appropriate, confident tone. A trustworthy speaker earns the benefit of the doubt before the evidence is even weighed.",
+        keyIdea: "Ethos = the audience trusting the SPEAKER. Acknowledging counterarguments and citing expertise both build it.",
+        terms: [
+          { term: "Ethos", def: "An appeal based on the speaker's credibility and character." },
+          { term: "Credibility", def: "The audience's perception that a speaker is trustworthy and knowledgeable." },
+        ],
+      },
+      {
+        title: "The three appeals together",
+        body:
+          "Aristotle's rhetorical triangle has three appeals: ethos (credibility), logos (logic/evidence), and pathos (emotion). Effective persuasion usually blends all three. Ethos is the foundation — without trust, even strong logic and emotion fall flat.",
+        terms: [
+          { term: "Rhetorical appeals", def: "Ethos, logos, and pathos — the three persuasive strategies (Aristotle)." },
+        ],
+        traps: ["Ethos is about the SPEAKER's credibility — don't confuse it with pathos (audience emotion) or logos (logic of the argument)."],
+      },
+    ],
+  },
 ];
