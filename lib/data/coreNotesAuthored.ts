@@ -4165,4 +4165,123 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 4, lessonNum: 1,
+    unitName: "Earth Systems and Resources",
+    title: "Plate Tectonics and Earth's Interior",
+    subtitle: "Earth's crust floats on a moving mantle — and where the plates meet, geology happens.",
+    overview:
+      "Earth's outer shell is broken into tectonic plates that slowly move atop the hot, flowing mantle. Where plates interact, you get earthquakes, volcanoes, and mountains. The type of boundary determines what forms.",
+    objectives: [
+      "Describe Earth's layered interior.",
+      "Identify the three plate boundary types and their features.",
+      "Connect plate tectonics to natural hazards.",
+    ],
+    sections: [
+      {
+        title: "Earth's layers and plate boundaries",
+        body:
+          "Earth has a core, a thick mantle, and a thin crust. Heat from the core drives convection currents in the mantle that move the plates. Where plates meet, three boundary types produce different geology.",
+        table: {
+          headers: ["Boundary", "Motion", "Result"],
+          rows: [
+            ["Divergent", "Plates move apart", "New crust; mid-ocean ridges, rift valleys"],
+            ["Convergent", "Plates collide", "Mountains, volcanoes, subduction, earthquakes"],
+            ["Transform", "Plates slide past", "Earthquakes (e.g., San Andreas Fault)"],
+          ],
+        },
+        keyIdea: "Mantle convection is the ENGINE that moves the plates — and plate boundaries are where most geologic hazards happen.",
+      },
+      {
+        title: "Hazards and resources",
+        body:
+          "Convergent boundaries (subduction zones) create the most dramatic features: volcanoes, the deepest earthquakes, and mountain ranges. Plate activity also concentrates resources (minerals, geothermal energy) and shapes hazard maps — most volcanoes and big quakes ring the Pacific 'Ring of Fire.'",
+        terms: [
+          { term: "Tectonic plates", def: "Large sections of Earth's crust that move over the mantle." },
+          { term: "Convection currents", def: "Mantle heat flows that drive plate movement." },
+          { term: "Subduction", def: "One plate sliding beneath another at a convergent boundary." },
+        ],
+        traps: ["Divergent = plates APART (new crust); convergent = TOGETHER. Transform = sliding past (quakes, no new crust)."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 4, lessonNum: 2,
+    unitName: "Earth Systems and Resources",
+    title: "The Rock Cycle and Soil Formation",
+    subtitle: "Rocks endlessly transform into one another — and their breakdown builds the soil all land life depends on.",
+    overview:
+      "The rock cycle describes how the three rock types (igneous, sedimentary, metamorphic) transform into one another over time. The weathering of rock, combined with organic matter, forms soil — a critical, slowly renewable resource with distinct layers (horizons).",
+    objectives: [
+      "Describe the three rock types and the rock cycle.",
+      "Explain weathering and soil formation.",
+      "Identify soil horizons and properties.",
+    ],
+    sections: [
+      {
+        title: "The rock cycle",
+        body:
+          "Three rock types cycle endlessly. Igneous rock forms from cooled magma; sedimentary from compressed sediments (often holding fossils and fossil fuels); metamorphic from rock changed by heat and pressure. Weathering and erosion break rock into the mineral base of soil.",
+        table: {
+          headers: ["Rock type", "Forms from"],
+          rows: [
+            ["Igneous", "Cooled/solidified magma or lava"],
+            ["Sedimentary", "Compacted sediments (holds fossils, fossil fuels)"],
+            ["Metamorphic", "Existing rock altered by heat & pressure"],
+          ],
+        },
+        keyIdea: "Fossil fuels and fossils are found in SEDIMENTARY rock — formed from compressed ancient organic matter and sediments.",
+      },
+      {
+        title: "Soil formation and horizons",
+        body:
+          "Soil forms slowly as weathered rock mixes with decomposed organic matter (humus). It develops layered horizons: O (organic litter), A (topsoil — richest), B (subsoil), C (weathered parent rock). Soil texture (sand/silt/clay proportions) controls water retention and fertility.",
+        terms: [
+          { term: "Weathering", def: "The physical/chemical breakdown of rock into smaller particles." },
+          { term: "Soil horizons", def: "Layers of soil (O, A, B, C); the A horizon (topsoil) is the most fertile." },
+          { term: "Soil texture", def: "The proportion of sand, silt, and clay; controls water and nutrient holding." },
+        ],
+        traps: ["Topsoil (A horizon) is the fertile layer — slow to form and easily lost to erosion, so it's effectively nonrenewable on human timescales."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 4, lessonNum: 3,
+    unitName: "Earth Systems and Resources",
+    title: "The Atmosphere — Structure and Composition",
+    subtitle: "A thin envelope of gas in layers — and the ozone layer that shields life from UV.",
+    overview:
+      "The atmosphere is mostly nitrogen and oxygen, arranged in layers by temperature. Two layers matter most for the exam: the troposphere (where weather and we live) and the stratosphere (home to the protective ozone layer).",
+    objectives: [
+      "State the atmosphere's main composition.",
+      "Identify the key atmospheric layers.",
+      "Explain the role of the ozone layer.",
+    ],
+    sections: [
+      {
+        title: "Composition and layers",
+        body:
+          "Dry air is about 78% nitrogen and 21% oxygen, with trace gases (including CO₂) making up the rest. The atmosphere is layered by temperature; the two you must know are the troposphere and stratosphere.",
+        table: {
+          headers: ["Layer", "Feature"],
+          rows: [
+            ["Troposphere", "Lowest; weather happens here; where we live"],
+            ["Stratosphere", "Above; contains the protective OZONE layer"],
+          ],
+        },
+        keyIdea: "Troposphere = weather + life (bottom). Stratosphere = ozone layer (above). Don't swap them.",
+      },
+      {
+        title: "The ozone layer",
+        body:
+          "In the stratosphere, the ozone layer absorbs most of the sun's harmful ultraviolet (UV) radiation, protecting life from skin cancer and ecosystem damage. This 'good' high-altitude ozone is different from 'bad' ground-level ozone (a pollutant) — a distinction the exam loves.",
+        terms: [
+          { term: "Troposphere", def: "The lowest atmospheric layer, where weather occurs." },
+          { term: "Stratosphere", def: "The layer above the troposphere, containing the ozone layer." },
+          { term: "Ozone layer", def: "Stratospheric ozone that absorbs harmful UV radiation." },
+        ],
+        traps: ["'Good' ozone is in the STRATOSPHERE (shields UV); 'bad' ozone is at GROUND level (a pollutant). Same molecule, opposite roles."],
+      },
+    ],
+  },
 ];
