@@ -274,7 +274,7 @@ export default function ParentsClient() {
         </aside>
 
         {/* MAIN */}
-        <main style={{ display: "flex", flexDirection: "column", gap: 18, minWidth: 0 }}>
+        <main className="parents-main" style={{ display: "flex", flexDirection: "column", gap: 18, minWidth: 0 }}>
           {/* Hero carousel */}
           <div style={{ position: "relative", borderRadius: 14, overflow: "hidden", height: 230 }}>
             {SLIDES.map((s, i) => (
@@ -379,7 +379,7 @@ export default function ParentsClient() {
         </main>
 
         {/* SIDEBAR */}
-        <aside style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <aside className="parents-right" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {/* Login / signup */}
           <div style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: 18 }}>
             {loggedIn ? (
@@ -441,7 +441,7 @@ export default function ParentsClient() {
             Cornell 등 아이비리그 재학생이 손으로 정리한 실제 AP 학습 노트입니다.
           </p>
           {materials.length > 0 ? (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16 }}>
+            <div className="mat-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16 }}>
               {materials.map((m) => {
                 const large = isLargeFile(m.fileSize);
                 const inner = (
@@ -495,7 +495,7 @@ export default function ParentsClient() {
           <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.7, marginBottom: 22 }}>
             Limits부터 무한급수까지, AP 전 범위를 담은 디지털 교재입니다. 표지를 눌러 바로 읽어보세요.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(168px, 1fr))", gap: 16 }}>
+          <div className="tb-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(168px, 1fr))", gap: 16 }}>
             {textbooks.map((b) => (
               <button key={b.slug} onClick={() => go(`/textbooks/${b.slug}`, true)}
                 style={{ textAlign: "left", background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, overflow: "hidden", cursor: "pointer", padding: 0, boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 180ms, box-shadow 200ms" }}
@@ -529,10 +529,21 @@ export default function ParentsClient() {
           .parents-grid { grid-template-columns: minmax(0,1fr) 320px !important; }
           .parents-left { position: static !important; grid-column: 1 / -1; }
         }
+        /* Mobile: single column. Lead with the hero (main), then the Korean
+           note rail, then the sidebar — matches the phone mental model. */
         @media (max-width: 880px) {
           .parents-grid { grid-template-columns: 1fr !important; }
-          .parents-left { grid-column: auto; }
+          .parents-left { grid-column: auto !important; order: 2; }
+          .parents-main { order: 1; }
+          .parents-right { order: 3; }
           .board-grid { grid-template-columns: 1fr !important; }
+        }
+        /* Phone: keep all 10 shortcuts in a tidy 5-up grid; materials/textbooks
+           show 2-up below so everything is visible at a glance. */
+        @media (max-width: 600px) {
+          .mat-grid, .tb-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 400px) {
           .quick-grid { grid-template-columns: repeat(4, 1fr) !important; }
         }
       `}</style>
