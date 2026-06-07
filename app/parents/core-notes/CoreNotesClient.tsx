@@ -76,9 +76,9 @@ export default function CoreNotesClient() {
       </div>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px 90px" }}>
-        <p style={{ fontSize: 13, fontWeight: 700, color: "#7c3aed", marginBottom: 10 }}>📘 핵심 노트</p>
+        <p style={{ fontSize: 13, fontWeight: 700, color: "#7c3aed", marginBottom: 10 }}>📘 AP 개념정리</p>
         <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.6rem,3.6vw,2.2rem)", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: 10 }}>
-          {total.toLocaleString()}개 AP 핵심 노트, 일타강사처럼
+          {total.toLocaleString()}개 AP 개념정리, 일타강사처럼
         </h1>
         <p style={{ fontSize: 14, color: "#475569", lineHeight: 1.7, marginBottom: 18 }}>
           AP Chemistry는 한국어로 완성되어 있고, 다른 과목도 순차 한국어화 중입니다. 과목을 고르고 왼쪽에서 단원별로 골라 읽어보세요.
