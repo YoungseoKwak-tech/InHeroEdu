@@ -208,6 +208,17 @@ export default function ParentsClient() {
               <p style={{ fontSize: 12.5, color: "#94a3b8", lineHeight: 1.6, margin: 0 }}>일타강사처럼 풀어낸 AP 개념 노트를 불러오는 중…</p>
             </section>
           )}
+
+          {/* Question bank box — under the Korean notes in the left rail */}
+          <button onClick={() => go("/parents/question-bank", false)}
+            style={{ textAlign: "left", border: "1px solid #e2e6ea", cursor: "pointer", background: "#fff", borderRadius: 14, padding: "16px 16px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+              <h2 style={{ fontSize: 15.5, fontWeight: 800, margin: 0 }}>📝 AP 문제 은행</h2>
+              <span style={{ fontSize: 11.5, fontWeight: 800, color: "#047a45", background: "#e9fbf2", borderRadius: 6, padding: "2px 8px" }}>11,975개</span>
+            </div>
+            <p style={{ fontSize: 12.5, color: "#64748b", lineHeight: 1.6, margin: "0 0 12px" }}>College Board 스타일 실전 문제. 보기를 눌러 바로 채점하고 한국어 해설까지.</p>
+            <span style={{ display: "block", textAlign: "center", background: GREEN, color: "#fff", borderRadius: 8, padding: "10px", fontSize: 13.5, fontWeight: 800 }}>바로 풀어보기 →</span>
+          </button>
         </aside>
 
         {/* MAIN */}
