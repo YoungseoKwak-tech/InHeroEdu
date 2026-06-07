@@ -39,6 +39,8 @@ export interface CoreNote {
   objectives: string[];
   /** Key formulas rendered as a monospace panel (quant subjects). */
   formulas?: string[];
+  /** Key of a built-in SVG diagram to render (e.g. "supply-demand"). */
+  diagram?: string | null;
   sections: NoteSection[];
 }
 export interface NoteSubjectCount {
@@ -197,6 +199,7 @@ interface SeedNote {
   subtitle?: string;
   objectives?: string[];
   formulas?: string[];
+  diagram?: string | null;
   sections?: { title: string; subtitle?: string | null; terms?: NoteTerm[]; traps?: string[]; example?: string | null }[];
 }
 function seedToNote(s: SeedNote): CoreNote {
@@ -214,6 +217,7 @@ function seedToNote(s: SeedNote): CoreNote {
     subtitle: s.subtitle ?? null,
     objectives: s.objectives ?? [],
     formulas: s.formulas ?? [],
+    diagram: s.diagram ?? null,
     sections: (s.sections ?? []).map((sec) => ({
       title: sec.title,
       subtitle: sec.subtitle ?? null,

@@ -58,6 +58,26 @@ const FORMULAS = {
   "ap-microeconomics|5": ["MRP=MP×price", "hire while MRP≥wage"],
 };
 
+// Attach a built-in SVG diagram to a lesson when its title clearly calls for one.
+function pickDiagram(courseId, unitTitle, lessonTitle) {
+  const s = `${unitTitle} ${lessonTitle}`.toLowerCase();
+  if (courseId === "ap-microeconomics" || courseId === "ap-macroeconomics") {
+    if (/aggregate (demand|supply)|ad.?as|aggregate model|short-run|long-run|stabiliz|national income|fiscal|monetary/.test(s)) return "ad-as";
+    if (/production possibilit|\bppc\b|scarcity|opportunity cost|basic economic|gains from trade|comparative advantage/.test(s)) return "ppc";
+    if (/supply|demand|market|equilibrium|price (ceiling|floor|control)|elasticity|surplus/.test(s)) return "supply-demand";
+  }
+  if (courseId === "ap-statistics") {
+    if (/regression|scatter|correlation|least.?squares|slope|two-variable|bivariate/.test(s)) return "scatter-regression";
+    if (/normal|sampling distribution|z-score|central limit|empirical/.test(s)) return "bell-curve";
+    if (/one-variable|describing|display|distribution|boxplot|summary|exploring|graph/.test(s)) return "boxplot";
+  }
+  if (courseId === "ap-calculus-bc") {
+    if (/integral|integration|accumulation|area (under|between)|riemann|definite/.test(s)) return "area-under-curve";
+    if (/derivative|tangent|differentiation|rate of change|slope/.test(s)) return "tangent";
+  }
+  return null;
+}
+
 function splitTopic(t) {
   // "Name (detail): explanation" → term/def; else null
   const i = t.indexOf(":");
@@ -95,6 +115,7 @@ for (const [bid, courseId] of Object.entries(MAP)) {
         else sections.push({ title: l.lessonTitle, terms: [], traps: [tip], example: null });
       }
       const formulas = QUANT.has(courseId) ? FORMULAS[`${courseId}|${u.unitNumber}`] : undefined;
+      const diagram = pickDiagram(courseId, u.unitTitle, l.lessonTitle);
       notes.push({
         courseId,
         unit: u.unitNumber,
@@ -104,6 +125,7 @@ for (const [bid, courseId] of Object.entries(MAP)) {
         subtitle: null,
         objectives,
         ...(formulas ? { formulas } : {}),
+        ...(diagram ? { diagram } : {}),
         sections: sections.length ? sections : [{ title: l.lessonTitle, terms: [], traps: [], example: null }],
       });
     }

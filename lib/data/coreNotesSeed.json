@@ -6482,6 +6482,7 @@
    "(fg)' = f'g + fg'",
    "(f/g)' = (f'g − fg')/g²"
   ],
+  "diagram": "tangent",
   "sections": [
    {
     "title": "Differentiation Rules — BC Speed and Fluency",
@@ -6509,6 +6510,7 @@
    "(fg)' = f'g + fg'",
    "(f/g)' = (f'g − fg')/g²"
   ],
+  "diagram": "tangent",
   "sections": [
    {
     "title": "Key concepts",
@@ -6541,6 +6543,7 @@
    "d/dx[f(g(x))] = f'(g(x))·g'(x)",
    "d/dx[eˣ]=eˣ, d/dx[ln x]=1/x"
   ],
+  "diagram": "tangent",
   "sections": [
    {
     "title": "Implicit Differentiation for BC-Level Curves",
@@ -6566,6 +6569,7 @@
    "d/dx[f(g(x))] = f'(g(x))·g'(x)",
    "d/dx[eˣ]=eˣ, d/dx[ln x]=1/x"
   ],
+  "diagram": "tangent",
   "sections": [
    {
     "title": "Key concepts",
@@ -6598,6 +6602,7 @@
    "Applying L'Hôpital's multiple times when needed",
    "Connection to Taylor series as alternative to L'Hôpital"
   ],
+  "diagram": "tangent",
   "sections": [
    {
     "title": "L'Hôpital's Rule in Applied Contexts",
@@ -6621,6 +6626,7 @@
    "Related rates with implicit geometric relations",
    "Newton's method and iterative root-finding"
   ],
+  "diagram": "tangent",
   "sections": [
    {
     "title": "Optimization and Related Rates — BC Complexity",
@@ -6649,6 +6655,7 @@
    "f''>0 ⇒ concave up",
    "MVT: f'(c)=(f(b)−f(a))/(b−a)"
   ],
+  "diagram": "tangent",
   "sections": [
    {
     "title": "Graphical Analysis — f, f', f'' Across BC Contexts",
@@ -6677,6 +6684,7 @@
    "f''>0 ⇒ concave up",
    "MVT: f'(c)=(f(b)−f(a))/(b−a)"
   ],
+  "diagram": "tangent",
   "sections": [
    {
     "title": "Extreme Values in Parametric and Polar Forms",
@@ -6705,6 +6713,7 @@
    "d/dx ∫ₐˣ f(t)dt = f(x)",
    "∫(1/x)dx = ln|x|+C"
   ],
+  "diagram": "area-under-curve",
   "sections": [
    {
     "title": "Integration by Parts — When and How",
@@ -6733,6 +6742,7 @@
    "d/dx ∫ₐˣ f(t)dt = f(x)",
    "∫(1/x)dx = ln|x|+C"
   ],
+  "diagram": "area-under-curve",
   "sections": [
    {
     "title": "Partial Fractions and Rational Integration",
@@ -6759,6 +6769,7 @@
    "d/dx ∫ₐˣ f(t)dt = f(x)",
    "∫(1/x)dx = ln|x|+C"
   ],
+  "diagram": "area-under-curve",
   "sections": [
    {
     "title": "Key concepts",
@@ -6800,6 +6811,7 @@
    "d/dx ∫ₐˣ f(t)dt = f(x)",
    "∫(1/x)dx = ln|x|+C"
   ],
+  "diagram": "area-under-curve",
   "sections": [
    {
     "title": "u-Substitution and Trig Substitution",
@@ -6826,6 +6838,7 @@
    "d/dx ∫ₐˣ f(t)dt = f(x)",
    "∫(1/x)dx = ln|x|+C"
   ],
+  "diagram": "area-under-curve",
   "sections": [
    {
     "title": "Key concepts",
@@ -6922,6 +6935,7 @@
    "Disk: V=π∫[R(x)]²dx",
    "Distance=∫|v(t)|dt"
   ],
+  "diagram": "area-under-curve",
   "sections": [
    {
     "title": "Key concepts",
@@ -6953,6 +6967,7 @@
    "Disk: V=π∫[R(x)]²dx",
    "Distance=∫|v(t)|dt"
   ],
+  "diagram": "area-under-curve",
   "sections": [
    {
     "title": "Key concepts",
@@ -7376,6 +7391,7 @@
    "IQR=Q3−Q1",
    "Outlier: <Q1−1.5·IQR or >Q3+1.5·IQR"
   ],
+  "diagram": "boxplot",
   "sections": [
    {
     "title": "Key concepts",
@@ -7407,6 +7423,7 @@
    "IQR=Q3−Q1",
    "Outlier: <Q1−1.5·IQR or >Q3+1.5·IQR"
   ],
+  "diagram": "boxplot",
   "sections": [
    {
     "title": "Key concepts",
@@ -7442,6 +7459,7 @@
    "IQR=Q3−Q1",
    "Outlier: <Q1−1.5·IQR or >Q3+1.5·IQR"
   ],
+  "diagram": "boxplot",
   "sections": [
    {
     "title": "Key concepts",
@@ -7477,6 +7495,7 @@
    "IQR=Q3−Q1",
    "Outlier: <Q1−1.5·IQR or >Q3+1.5·IQR"
   ],
+  "diagram": "boxplot",
   "sections": [
    {
     "title": "Key concepts",
@@ -7513,6 +7532,7 @@
    "IQR=Q3−Q1",
    "Outlier: <Q1−1.5·IQR or >Q3+1.5·IQR"
   ],
+  "diagram": "bell-curve",
   "sections": [
    {
     "title": "Key concepts",
@@ -7545,6 +7565,7 @@
    "IQR=Q3−Q1",
    "Outlier: <Q1−1.5·IQR or >Q3+1.5·IQR"
   ],
+  "diagram": "bell-curve",
   "sections": [
    {
     "title": "Key concepts",
@@ -7577,6 +7598,7 @@
    "IQR=Q3−Q1",
    "Outlier: <Q1−1.5·IQR or >Q3+1.5·IQR"
   ],
+  "diagram": "boxplot",
   "sections": [
    {
     "title": "Key concepts",
@@ -7608,6 +7630,7 @@
    "IQR=Q3−Q1",
    "Outlier: <Q1−1.5·IQR or >Q3+1.5·IQR"
   ],
+  "diagram": "boxplot",
   "sections": [
    {
     "title": "Key concepts",
@@ -7643,6 +7666,7 @@
    "r² = % variation explained",
    "residual = y−ŷ"
   ],
+  "diagram": "scatter-regression",
   "sections": [
    {
     "title": "Key concepts",
@@ -7679,6 +7703,7 @@
    "r² = % variation explained",
    "residual = y−ŷ"
   ],
+  "diagram": "scatter-regression",
   "sections": [
    {
     "title": "Key concepts",
@@ -7711,6 +7736,7 @@
    "r² = % variation explained",
    "residual = y−ŷ"
   ],
+  "diagram": "scatter-regression",
   "sections": [
    {
     "title": "Key concepts",
@@ -7743,6 +7769,7 @@
    "r² = % variation explained",
    "residual = y−ŷ"
   ],
+  "diagram": "scatter-regression",
   "sections": [
    {
     "title": "Key concepts",
@@ -7774,6 +7801,7 @@
    "r² = % variation explained",
    "residual = y−ŷ"
   ],
+  "diagram": "scatter-regression",
   "sections": [
    {
     "title": "Key concepts",
@@ -7814,6 +7842,7 @@
    "r² = % variation explained",
    "residual = y−ŷ"
   ],
+  "diagram": "scatter-regression",
   "sections": [
    {
     "title": "Key concepts",
@@ -7845,6 +7874,7 @@
    "r² = % variation explained",
    "residual = y−ŷ"
   ],
+  "diagram": "scatter-regression",
   "sections": [
    {
     "title": "Key concepts",
@@ -7880,6 +7910,7 @@
    "r² = % variation explained",
    "residual = y−ŷ"
   ],
+  "diagram": "scatter-regression",
   "sections": [
    {
     "title": "Key concepts",
@@ -8131,6 +8162,7 @@
    "P(A or B) = P(A) + P(B) - P(A and B); simplifies if mutually exclusive",
    "P(A and B) = P(A)·P(B|A); simplifies if independent"
   ],
+  "diagram": "boxplot",
   "sections": [
    {
     "title": "Key concepts",
@@ -8157,6 +8189,7 @@
   "objectives": [
    "Testing independence from a two-way table"
   ],
+  "diagram": "boxplot",
   "sections": [
    {
     "title": "Key concepts",
@@ -8187,6 +8220,7 @@
   "objectives": [
    "Var(X) = Σ[(x-μ)²·P(X=x)]; SD(X) = √Var(X)"
   ],
+  "diagram": "boxplot",
   "sections": [
    {
     "title": "Key concepts",
@@ -8218,6 +8252,7 @@
    "P(X=k) = C(n,k)pᵏ(1-p)^(n-k)",
    "μ = np; σ = √(np(1-p)); normal approximation when np≥10 and n(1-p)≥10"
   ],
+  "diagram": "boxplot",
   "sections": [
    {
     "title": "Key concepts",
@@ -8244,6 +8279,7 @@
   "objectives": [
    "E(X) = 1/p; Var(X) = (1-p)/p²"
   ],
+  "diagram": "boxplot",
   "sections": [
    {
     "title": "Key concepts",
@@ -8274,6 +8310,7 @@
   "objectives": [
    "P(X=a) = 0 for continuous distributions; only intervals have nonzero probability"
   ],
+  "diagram": "boxplot",
   "sections": [
    {
     "title": "Key concepts",
@@ -8305,6 +8342,7 @@
    "Standardizing to Z and using z-table or calculator normalcdf",
    "Finding values from percentiles using invNorm"
   ],
+  "diagram": "bell-curve",
   "sections": [
    {
     "title": "Key concepts",
@@ -8331,6 +8369,7 @@
   "objectives": [
    "Using simulation to estimate probabilities empirically"
   ],
+  "diagram": "boxplot",
   "sections": [
    {
     "title": "Key concepts",
@@ -8366,6 +8405,7 @@
    "SE(x̄)=σ/√n",
    "SE(p̂)=√(p(1−p)/n)"
   ],
+  "diagram": "bell-curve",
   "sections": [
    {
     "title": "Key concepts",
@@ -8402,6 +8442,7 @@
    "SE(x̄)=σ/√n",
    "SE(p̂)=√(p(1−p)/n)"
   ],
+  "diagram": "bell-curve",
   "sections": [
    {
     "title": "Key concepts",
@@ -8434,6 +8475,7 @@
    "SE(x̄)=σ/√n",
    "SE(p̂)=√(p(1−p)/n)"
   ],
+  "diagram": "bell-curve",
   "sections": [
    {
     "title": "Key concepts",
@@ -8465,6 +8507,7 @@
    "SE(x̄)=σ/√n",
    "SE(p̂)=√(p(1−p)/n)"
   ],
+  "diagram": "bell-curve",
   "sections": [
    {
     "title": "Key concepts",
@@ -8500,6 +8543,7 @@
    "SE(x̄)=σ/√n",
    "SE(p̂)=√(p(1−p)/n)"
   ],
+  "diagram": "bell-curve",
   "sections": [
    {
     "title": "Key concepts",
@@ -8536,6 +8580,7 @@
    "SE(x̄)=σ/√n",
    "SE(p̂)=√(p(1−p)/n)"
   ],
+  "diagram": "bell-curve",
   "sections": [
    {
     "title": "Key concepts",
@@ -8567,6 +8612,7 @@
    "SE(x̄)=σ/√n",
    "SE(p̂)=√(p(1−p)/n)"
   ],
+  "diagram": "bell-curve",
   "sections": [
    {
     "title": "Key concepts",
@@ -8602,6 +8648,7 @@
    "SE(x̄)=σ/√n",
    "SE(p̂)=√(p(1−p)/n)"
   ],
+  "diagram": "bell-curve",
   "sections": [
    {
     "title": "Key concepts",
@@ -9265,6 +9312,7 @@
    "GOF df = cats−1",
    "indep df=(r−1)(c−1)"
   ],
+  "diagram": "boxplot",
   "sections": [
    {
     "title": "Expected Counts and the Chi-Square Distribution",
@@ -9319,6 +9367,7 @@
    "LINE conditions",
    "s = SD of residuals"
   ],
+  "diagram": "scatter-regression",
   "sections": [
    {
     "title": "Key concepts",
@@ -9355,6 +9404,7 @@
    "LINE conditions",
    "s = SD of residuals"
   ],
+  "diagram": "scatter-regression",
   "sections": [
    {
     "title": "Key concepts",
@@ -9387,6 +9437,7 @@
    "LINE conditions",
    "s = SD of residuals"
   ],
+  "diagram": "scatter-regression",
   "sections": [
    {
     "title": "Key concepts",
@@ -9420,6 +9471,7 @@
    "LINE conditions",
    "s = SD of residuals"
   ],
+  "diagram": "scatter-regression",
   "sections": [
    {
     "title": "Reading Computer Output for Regression",
@@ -10750,6 +10802,7 @@
   "objectives": [
    "PPC shows maximum combinations of two goods — points ON curve are efficient"
   ],
+  "diagram": "ppc",
   "sections": [
    {
     "title": "Key concepts",
@@ -10780,6 +10833,7 @@
   "objectives": [
    "Specialization and trade expanding consumption possibilities beyond the PPC"
   ],
+  "diagram": "ppc",
   "sections": [
    {
     "title": "Key concepts",
@@ -10927,6 +10981,7 @@
    "spending mult=1/(1−MPC)",
    "tax mult=−MPC/(1−MPC)"
   ],
+  "diagram": "ad-as",
   "sections": [
    {
     "title": "Key concepts",
@@ -10961,6 +11016,7 @@
    "spending mult=1/(1−MPC)",
    "tax mult=−MPC/(1−MPC)"
   ],
+  "diagram": "ad-as",
   "sections": [
    {
     "title": "Key concepts",
@@ -11001,6 +11057,7 @@
    "spending mult=1/(1−MPC)",
    "tax mult=−MPC/(1−MPC)"
   ],
+  "diagram": "ad-as",
   "sections": [
    {
     "title": "The Multiplier Effect",
@@ -11026,6 +11083,7 @@
    "spending mult=1/(1−MPC)",
    "tax mult=−MPC/(1−MPC)"
   ],
+  "diagram": "ad-as",
   "sections": [
    {
     "title": "Key concepts",
@@ -11064,6 +11122,7 @@
    "money mult=1/reserve ratio",
    "buy bonds→MS↑ rates↓"
   ],
+  "diagram": "supply-demand",
   "sections": [
    {
     "title": "Key concepts",
@@ -11136,6 +11195,7 @@
    "money mult=1/reserve ratio",
    "buy bonds→MS↑ rates↓"
   ],
+  "diagram": "ad-as",
   "sections": [
    {
     "title": "Key concepts",
@@ -11170,6 +11230,7 @@
   "objectives": [
    "Master Fiscal Policy — Government Spending and Taxation for the Long-Run Consequences of Stabilization Policies unit."
   ],
+  "diagram": "ad-as",
   "sections": [
    {
     "title": "Key concepts",
@@ -11204,6 +11265,7 @@
   "objectives": [
    "Master Phillips Curve — Short Run and Long Run for the Long-Run Consequences of Stabilization Policies unit."
   ],
+  "diagram": "ad-as",
   "sections": [
    {
     "title": "Key concepts",
@@ -11302,6 +11364,7 @@
   "objectives": [
    "Master Scarcity, Opportunity Cost, and Marginal Analysis for the Basic Economic Concepts unit."
   ],
+  "diagram": "ppc",
   "sections": [
    {
     "title": "Key concepts",
@@ -11336,6 +11399,7 @@
   "objectives": [
    "Price ceiling below equilibrium → shortage; price floor above equilibrium → surplus"
   ],
+  "diagram": "ppc",
   "sections": [
    {
     "title": "Key concepts",
@@ -11371,6 +11435,7 @@
    "|E|<1 inelastic, >1 elastic",
    "ceiling<eq→shortage"
   ],
+  "diagram": "supply-demand",
   "sections": [
    {
     "title": "Key concepts",
@@ -11406,6 +11471,7 @@
    "|E|<1 inelastic, >1 elastic",
    "ceiling<eq→shortage"
   ],
+  "diagram": "supply-demand",
   "sections": [
    {
     "title": "Key concepts",
@@ -11445,6 +11511,7 @@
    "|E|<1 inelastic, >1 elastic",
    "ceiling<eq→shortage"
   ],
+  "diagram": "supply-demand",
   "sections": [
    {
     "title": "Key concepts",
@@ -11519,6 +11586,7 @@
    "shutdown if P<min AVC",
    "profit=(P−ATC)·Q"
   ],
+  "diagram": "ad-as",
   "sections": [
    {
     "title": "Key concepts",
@@ -11581,6 +11649,7 @@
   "objectives": [
    "Monopolist faces downward-sloping demand — must lower price to sell more, making MR < P"
   ],
+  "diagram": "supply-demand",
   "sections": [
    {
     "title": "Key concepts",
@@ -11680,6 +11749,7 @@
    "MRP=MP×price",
    "hire while MRP≥wage"
   ],
+  "diagram": "supply-demand",
   "sections": [
    {
     "title": "Key concepts",
@@ -11706,6 +11776,7 @@
   "objectives": [
    "Master Externalities and Public Goods for the Market Failure and the Role of Government unit."
   ],
+  "diagram": "supply-demand",
   "sections": [
    {
     "title": "Key concepts",

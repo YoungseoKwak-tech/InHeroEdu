@@ -32,6 +32,7 @@ interface CoreNote {
   subtitle?: string | null;
   objectives: string[];
   formulas?: string[];
+  diagram?: string | null;
   sections: NoteSection[];
 }
 interface SubjectCount { courseId: string | null; label: string; emoji: string; count: number }
@@ -265,6 +266,8 @@ function NoteView({ note }: { note: CoreNote }) {
         </div>
       )}
 
+      {note.diagram && <Diagram kind={note.diagram} />}
+
       {note.sections.map((s, i) => (
         <section key={i} style={{ marginTop: 40 }}>
           <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
@@ -310,4 +313,111 @@ function NoteView({ note }: { note: CoreNote }) {
       ))}
     </article>
   );
+}
+
+const AXIS = "#3a4658";
+const DLABEL = "#9aa6b6";
+const DIAGRAM_TITLES: Record<string, string> = {
+  "supply-demand": "Supply & Demand", "ad-as": "AD–AS Model", "ppc": "Production Possibilities Curve",
+  "bell-curve": "Normal Distribution (68–95–99.7)", "scatter-regression": "Scatterplot & Regression Line",
+  "boxplot": "Box-and-Whisker Plot", "tangent": "Tangent Line (Derivative)", "area-under-curve": "Area Under a Curve (Integral)",
+};
+
+function Diagram({ kind }: { kind: string }) {
+  const body = diagramBody(kind);
+  if (!body) return null;
+  return (
+    <figure style={{ margin: "22px 0 0", padding: "18px 18px 12px", borderRadius: 14, background: "#070b12", border: `1px solid ${BORDER}` }}>
+      <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: INDIGO, marginBottom: 8 }}>▦ DIAGRAM</div>
+      <svg viewBox="0 0 280 170" width="100%" style={{ maxWidth: 360, display: "block", margin: "0 auto" }}>{body}</svg>
+      <figcaption style={{ textAlign: "center", fontSize: 12, color: DLABEL, marginTop: 6 }}>{DIAGRAM_TITLES[kind] ?? ""}</figcaption>
+    </figure>
+  );
+}
+
+function axes() {
+  return (
+    <>
+      <line x1="40" y1="20" x2="40" y2="140" stroke={AXIS} strokeWidth="1.5" />
+      <line x1="40" y1="140" x2="250" y2="140" stroke={AXIS} strokeWidth="1.5" />
+    </>
+  );
+}
+const lbl = (x: number, y: number, t: string, fill: string = DLABEL) => (
+  <text x={x} y={y} fill={fill} fontSize="9">{t}</text>
+);
+
+function diagramBody(kind: string): React.ReactNode {
+  switch (kind) {
+    case "supply-demand":
+    case "ad-as": {
+      const up = kind === "supply-demand" ? "S" : "SRAS";
+      const down = kind === "supply-demand" ? "D" : "AD";
+      return (<>
+        {axes()}
+        <line x1="55" y1="125" x2="235" y2="35" stroke={MINT} strokeWidth="2.2" />
+        <line x1="55" y1="35" x2="235" y2="125" stroke={INDIGO} strokeWidth="2.2" />
+        <line x1="145" y1="80" x2="145" y2="140" stroke={AXIS} strokeDasharray="3 3" />
+        <line x1="40" y1="80" x2="145" y2="80" stroke={AXIS} strokeDasharray="3 3" />
+        <circle cx="145" cy="80" r="3" fill="#fff" />
+        {lbl(238, 33, up, MINT)}{lbl(238, 128, down, INDIGO)}
+        {lbl(24, 84, "P*")}{lbl(140, 152, "Q*")}
+        {lbl(18, 18, kind === "ad-as" ? "PL" : "P")}{lbl(250, 136, kind === "ad-as" ? "rGDP" : "Q")}
+      </>);
+    }
+    case "ppc":
+      return (<>
+        {axes()}
+        <path d="M40,35 C 110,45 150,95 235,140" fill="none" stroke={MINT} strokeWidth="2.2" />
+        <circle cx="120" cy="78" r="3" fill="#fff" />{lbl(126, 74, "efficient")}
+        <circle cx="85" cy="118" r="2.5" fill={INDIGO} />{lbl(92, 122, "inside = idle", INDIGO)}
+        {lbl(20, 30, "A")}{lbl(244, 136, "B")}
+      </>);
+    case "bell-curve":
+      return (<>
+        <line x1="20" y1="135" x2="260" y2="135" stroke={AXIS} strokeWidth="1.5" />
+        <path d="M30,135 C 90,135 105,40 140,40 C 175,40 190,135 250,135" fill="rgba(0,255,178,0.08)" stroke={MINT} strokeWidth="2.2" />
+        {[80, 110, 140, 170, 200].map((x, i) => (<line key={i} x1={x} y1="131" x2={x} y2="139" stroke={AXIS} strokeWidth="1.5" />))}
+        <line x1="140" y1="40" x2="140" y2="135" stroke={AXIS} strokeDasharray="3 3" />
+        {lbl(136, 150, "μ")}{lbl(99, 150, "−1σ")}{lbl(160, 150, "+1σ")}
+        {lbl(120, 95, "68%", MINT)}
+      </>);
+    case "scatter-regression": {
+      const pts = [[60, 120], [80, 110], [95, 118], [110, 95], [130, 100], [150, 80], [170, 85], [195, 60], [215, 62], [230, 45]];
+      return (<>
+        {axes()}
+        {pts.map((p, i) => (<circle key={i} cx={p[0]} cy={p[1]} r="2.6" fill={INDIGO} />))}
+        <line x1="55" y1="125" x2="235" y2="45" stroke={MINT} strokeWidth="2.2" />
+        {lbl(150, 58, "ŷ = a + bx", MINT)}
+      </>);
+    }
+    case "boxplot":
+      return (<>
+        <line x1="20" y1="90" x2="260" y2="90" stroke={AXIS} strokeWidth="1.5" />
+        <line x1="55" y1="90" x2="95" y2="90" stroke={MINT} strokeWidth="2" />
+        <line x1="55" y1="78" x2="55" y2="102" stroke={MINT} strokeWidth="2" />
+        <rect x="95" y="68" width="90" height="44" fill="rgba(0,255,178,0.08)" stroke={MINT} strokeWidth="2" />
+        <line x1="140" y1="68" x2="140" y2="112" stroke={MINT} strokeWidth="2.4" />
+        <line x1="185" y1="90" x2="230" y2="90" stroke={MINT} strokeWidth="2" />
+        <line x1="230" y1="78" x2="230" y2="102" stroke={MINT} strokeWidth="2" />
+        {lbl(46, 128, "min")}{lbl(86, 128, "Q1")}{lbl(130, 128, "med")}{lbl(177, 128, "Q3")}{lbl(218, 128, "max")}
+      </>);
+    case "tangent":
+      return (<>
+        {axes()}
+        <path d="M50,130 Q 145,0 240,130" fill="none" stroke={INDIGO} strokeWidth="2.2" />
+        <line x1="70" y1="120" x2="200" y2="40" stroke={MINT} strokeWidth="2" />
+        <circle cx="115" cy="71" r="3.2" fill="#fff" />
+        {lbl(120, 64, "slope = f'(a)", MINT)}{lbl(108, 152, "a")}
+      </>);
+    case "area-under-curve":
+      return (<>
+        {axes()}
+        <path d="M40,140 L60,110 Q 140,40 230,95 L230,140 Z" fill="rgba(0,255,178,0.14)" stroke="none" />
+        <path d="M60,110 Q 140,40 230,95" fill="none" stroke={MINT} strokeWidth="2.2" />
+        {lbl(118, 112, "∫ₐᵇ f(x) dx", MINT)}{lbl(56, 152, "a")}{lbl(224, 152, "b")}
+      </>);
+    default:
+      return null;
+  }
 }
