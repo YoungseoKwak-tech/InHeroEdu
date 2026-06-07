@@ -34,6 +34,7 @@ import { AP_ENV_U1A_KO } from "./ap-env-u1a";
 import { AP_ENV_U1B_KO } from "./ap-env-u1b";
 import { AP_ENV_U1C_KO } from "./ap-env-u1c";
 import { AP_ENV_U2A_KO } from "./ap-env-u2a";
+import { AP_ENV_U2B_KO } from "./ap-env-u2b";
 
 export const REGISTRY_A: CoreNote[] = [
   ...AP_CHEM_U1A_KO,
@@ -64,4 +65,5 @@ export const REGISTRY_A: CoreNote[] = [
   ...AP_ENV_U1B_KO,
   ...AP_ENV_U1C_KO,
   ...AP_ENV_U2A_KO,
+  ...AP_ENV_U2B_KO,
 ];
