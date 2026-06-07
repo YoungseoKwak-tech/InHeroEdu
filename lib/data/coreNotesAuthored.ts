@@ -536,4 +536,152 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-psychology", unit: 4, lessonNum: 3,
+    unitName: "Learning and Cognition",
+    title: "Memory — Encoding, Storage, and Retrieval",
+    subtitle: "Memory isn't a recording — it's a three-step process of getting information in, holding it, and pulling it back out.",
+    overview:
+      "Memory works in three stages: encoding (getting information in), storage (holding it), and retrieval (getting it back out). A failure at any stage looks like 'forgetting.' The classic model also describes three stores the information passes through — sensory, short-term, and long-term — each with its own capacity and duration.",
+    objectives: [
+      "Describe the three processes (encoding, storage, retrieval) and three stores of memory.",
+      "Explain techniques that strengthen encoding (chunking, rehearsal, spacing).",
+      "Explain retrieval cues and why we forget (interference, retrieval failure).",
+    ],
+    sections: [
+      {
+        title: "Three stores: sensory → short-term → long-term",
+        body:
+          "Information first hits sensory memory, a split-second snapshot. Attention moves a little of it to short-term (working) memory, which holds about 7 items for ~20–30 seconds. Rehearsal and encoding transfer some into long-term memory, which is effectively unlimited and durable.",
+        table: {
+          headers: ["Store", "Duration", "Capacity"],
+          rows: [
+            ["Sensory memory", "A fraction of a second", "Huge but fleeting"],
+            ["Short-term / working", "~20–30 seconds", "About 7 (±2) items"],
+            ["Long-term memory", "Up to a lifetime", "Essentially unlimited"],
+          ],
+        },
+        keyIdea: "Attention is the gate from sensory to short-term; rehearsal is the gate from short-term to long-term.",
+      },
+      {
+        title: "Encoding: getting it to stick",
+        body:
+          "Some encoding tricks dramatically help. Chunking groups items into meaningful units (a phone number as 3 chunks, not 10 digits). The spacing effect shows distributed study beats cramming. Deep (semantic) encoding — processing meaning — beats shallow processing of sound or appearance. Mnemonics like the method of loci hang new items on familiar mental hooks.",
+        keyIdea: "Studying a little each day (spacing) crushes one long cram — the single most useful memory finding for students.",
+        terms: [
+          { term: "Chunking", def: "Grouping items into meaningful units to expand short-term capacity." },
+          { term: "Spacing effect", def: "Better long-term memory from study spread over time than massed cramming." },
+          { term: "Levels of processing", def: "Deep (meaning-based) encoding produces stronger memories than shallow encoding." },
+        ],
+      },
+      {
+        title: "Retrieval and why we forget",
+        body:
+          "Retrieval cues — associations linked at encoding — trigger recall (context- and state-dependent memory rely on this). Recognition (multiple choice) is easier than recall (fill-in) because the cue is provided. Forgetting often comes from interference: proactive (old learning blocks new) and retroactive (new learning blocks old). The serial position effect explains why we best remember the first (primacy) and last (recency) items in a list.",
+        terms: [
+          { term: "Retrieval cue", def: "An association that helps trigger a stored memory." },
+          { term: "Proactive interference", def: "Old learning disrupts recall of new information." },
+          { term: "Retroactive interference", def: "New learning disrupts recall of old information." },
+          { term: "Serial position effect", def: "Best recall for the first (primacy) and last (recency) items." },
+        ],
+        traps: ["Proactive = PRIOR learning interferes forward; retroactive = recent learning interferes backward. Map it by which learning came first."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-psychology", unit: 5, lessonNum: 1,
+    unitName: "Developmental Psychology",
+    title: "Piaget's Cognitive Development Stages",
+    subtitle: "Children aren't just less-smart adults — they think in qualitatively different ways that unfold in a fixed order.",
+    overview:
+      "Jean Piaget argued that children's thinking develops through four stages, each a new way of understanding the world. Kids build mental frameworks (schemas) and update them through assimilation and accommodation as they grow.",
+    objectives: [
+      "Explain schemas, assimilation, and accommodation.",
+      "Sequence Piaget's four stages with their hallmark abilities and limits.",
+      "Contrast Piaget with Vygotsky's social view of development.",
+    ],
+    sections: [
+      {
+        title: "How thinking grows: schemas update",
+        body:
+          "A schema is a mental framework for a concept. When new information fits an existing schema, that's assimilation (a child calls a zebra a 'horsey'). When the schema must change to fit reality, that's accommodation (learning zebras are their own thing). Development is constant assimilation and accommodation.",
+        keyIdea: "Assimilation = fit new info INTO an old schema. Accommodation = CHANGE the schema to fit new info.",
+        terms: [
+          { term: "Schema", def: "A mental framework that organizes and interprets information." },
+          { term: "Assimilation", def: "Fitting new experiences into an existing schema." },
+          { term: "Accommodation", def: "Modifying a schema to incorporate new information." },
+        ],
+      },
+      {
+        title: "The four stages",
+        body:
+          "Each stage adds an ability and is limited by what hasn't developed yet. The two most-tested limits are the preoperational child's egocentrism and lack of conservation (not grasping that quantity stays the same despite a change in shape).",
+        table: {
+          headers: ["Stage", "Age", "Gains / Hallmark"],
+          rows: [
+            ["Sensorimotor", "0–2", "Object permanence (things exist when unseen)"],
+            ["Preoperational", "2–7", "Symbols & language; BUT egocentric, no conservation"],
+            ["Concrete operational", "7–11", "Conservation, logical thought about concrete things"],
+            ["Formal operational", "12+", "Abstract & hypothetical reasoning"],
+          ],
+        },
+        keyIdea: "Conservation (concrete stage) and object permanence (sensorimotor) are the two milestones the exam tests most.",
+        traps: ["Egocentrism = can't take another's PERSPECTIVE; it is not selfishness."],
+      },
+      {
+        title: "Beyond Piaget: Vygotsky",
+        body:
+          "Lev Vygotsky stressed the social side of development. Children learn within the zone of proximal development — the gap between what they can do alone and what they can do with help — through scaffolding (temporary guidance that's withdrawn as they master a skill). Modern research also shows Piaget underestimated young children's abilities.",
+        terms: [
+          { term: "Zone of proximal development", def: "The gap between what a learner can do alone vs. with guidance." },
+          { term: "Scaffolding", def: "Temporary support from a more skilled person, removed as competence grows." },
+        ],
+      },
+    ],
+  },
+  {
+    courseId: "ap-psychology", unit: 5, lessonNum: 2,
+    unitName: "Developmental Psychology",
+    title: "Social Development — Attachment and Identity",
+    subtitle: "From a baby's first bond to a teenager's search for self — the relationships that shape who we become.",
+    overview:
+      "Social development traces our bonds and sense of self across life. Early attachment to caregivers sets a template for later relationships, and Erikson mapped the whole lifespan as a series of social challenges, each one a turning point.",
+    objectives: [
+      "Summarize Harlow's and Ainsworth's attachment research and the attachment styles.",
+      "Identify Erikson's key psychosocial stages and their central conflicts.",
+      "Connect early attachment to later social outcomes.",
+    ],
+    sections: [
+      {
+        title: "Attachment: the first bond",
+        body:
+          "Harlow's monkeys chose a soft cloth 'mother' over a wire one that fed them, showing attachment grows from contact comfort, not just food. Ainsworth's Strange Situation then revealed distinct attachment styles based on how infants react to a caregiver leaving and returning.",
+        table: {
+          headers: ["Attachment style", "Behavior when caregiver leaves/returns"],
+          rows: [
+            ["Secure", "Distressed at leaving, comforted at return; uses caregiver as a safe base"],
+            ["Avoidant", "Little distress; avoids/ignores caregiver at return"],
+            ["Anxious (resistant)", "Intense distress; clingy yet hard to soothe at return"],
+          ],
+        },
+        keyIdea: "Harlow's lesson: comfort and contact, not just feeding, build attachment.",
+      },
+      {
+        title: "Erikson's psychosocial stages",
+        body:
+          "Erik Erikson described eight lifespan stages, each a conflict to resolve. You don't need all eight perfectly, but know the high-frequency ones — especially adolescence's identity vs. role confusion, where teens form a coherent sense of self.",
+        table: {
+          headers: ["Stage (age)", "Conflict", "Success looks like"],
+          rows: [
+            ["Infancy", "Trust vs. mistrust", "Basic security from reliable care"],
+            ["Adolescence", "Identity vs. role confusion", "A clear sense of self"],
+            ["Young adulthood", "Intimacy vs. isolation", "Close, committed relationships"],
+            ["Middle adulthood", "Generativity vs. stagnation", "Contributing to the next generation"],
+          ],
+        },
+        keyIdea: "Match the crisis to the age: identity = teens, intimacy = young adults, generativity = midlife.",
+        traps: ["Identity vs. role confusion is the ADOLESCENCE stage — the most-tested Erikson conflict."],
+      },
+    ],
+  },
 ];
