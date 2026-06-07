@@ -11,7 +11,7 @@ const MAX_LIMIT = 60;
 const TRENDING_WINDOW_DAYS = 14;
 const HYDRATION_LIMIT = 500;
 const RESOURCE_SELECT =
-  "id, chat_message_id, lounge_id, author_id, folder_type, title, description, attachment_url, attachment_meta, file_name, file_size, mime_type, is_inhero_official, is_seeded, download_count, upvote_count, comment_count, created_at, preview_page_1_url";
+  "id, chat_message_id, lounge_id, author_id, folder_type, title, description, attachment_url, attachment_meta, file_name, file_size, mime_type, is_inhero_official, is_seeded, download_count, upvote_count, comment_count, created_at, preview_page_1_url, total_pages";
 
 type Sort = "new" | "trending";
 
@@ -35,6 +35,7 @@ interface ResourceRow {
   comment_count: number;
   created_at: string;
   preview_page_1_url: string | null;
+  total_pages: number | null;
 }
 
 interface FeedRow {
@@ -57,6 +58,7 @@ interface FeedRow {
   comment_count: number;
   created_at: string;
   preview_page_1_url: string | null;
+  total_pages: number | null;
 }
 
 interface LoungeJoin { id: string; slug: string; name: string }
@@ -153,6 +155,7 @@ export async function GET(req: NextRequest) {
     comment_count: r.comment_count,
     created_at: r.created_at,
     preview_page_1_url: r.preview_page_1_url,
+    total_pages: r.total_pages,
   }));
 
   if (folder) {
@@ -231,7 +234,7 @@ export async function GET(req: NextRequest) {
       previewPage1Url: r.preview_page_1_url,
       previewPage2Url: null,
       previewPage3Url: null,
-      totalPages: null,
+      totalPages: r.total_pages ?? null,
       previewStatus: null,
       lounge: lounge ? { slug: lounge.slug, name: lounge.name } : null,
       author: profile?.display_handle ? { handle: profile.display_handle } : null,

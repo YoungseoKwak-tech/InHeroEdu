@@ -90,10 +90,16 @@ export default function MaterialsClient() {
                       </div>
                     )}
                     <span style={{ position: "absolute", top: 10, left: 10, fontSize: 9.5, fontWeight: 900, letterSpacing: "0.06em", color: "#7c5500", background: "#fde68a", borderRadius: 5, padding: "3px 8px" }}>⭐ INHERO ORIGINAL</span>
+                    {!!it.totalPages && it.totalPages > 1 && (
+                      <span style={{ position: "absolute", top: 10, right: 10, fontSize: 11, fontWeight: 900, color: "#fff", background: "#dc2626", borderRadius: 6, padding: "3px 9px", boxShadow: "0 2px 8px rgba(220,38,38,0.4)" }}>📄 {it.totalPages}p</span>
+                    )}
                   </div>
                   {/* meta */}
                   <div style={{ padding: "13px 15px 15px" }}>
                     <div style={{ fontSize: 14.5, fontWeight: 800, color: "#1a1a1f", lineHeight: 1.35, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", minHeight: 40 }}>{it.title}</div>
+                    {!!it.totalPages && it.totalPages > 1 && (
+                      <div style={{ fontSize: 12.5, fontWeight: 800, color: "#dc2626", marginTop: 6 }}>📄 총 {it.totalPages}페이지</div>
+                    )}
                     {it.lounge && <div style={{ fontSize: 11.5, color: "#94a3b8", marginTop: 6 }}>📕 {it.lounge.name}</div>}
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 10 }}>
                       {it.author && <span style={{ fontSize: 12, color: "#64748b", fontStyle: "italic", fontWeight: 600 }}>by {it.author.handle}</span>}

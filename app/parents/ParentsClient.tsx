@@ -25,7 +25,7 @@ interface Question {
   view_count: number; answer_count: number; created_at: string;
 }
 interface Textbook { slug: string; title: string; subtitle: string | null; total_chapters: number | null; total_pages: number | null; }
-interface Material { id: string; title: string; previewPage1Url: string | null; lounge: { slug: string; name: string } | null; author: { handle: string } | null; }
+interface Material { id: string; title: string; previewPage1Url: string | null; totalPages: number | null; lounge: { slug: string; name: string } | null; author: { handle: string } | null; }
 interface KoNote { lessonId: string; subjectLabel: string; emoji: string; unit: number | null; lessonNum: number | null; title: string; subtitle: string | null; overview: string | null; }
 
 // Korean 일타강사 notes to feature on the homepage — the killer content. These
@@ -81,6 +81,7 @@ const NAV = [
   { label: "AP 문제은행", route: "/parents/question-bank", gated: false },
   { label: "핵심노트", route: "/parents/core-notes", gated: false },
   { label: "디지털 교재", route: "#textbooks", gated: false },
+  { label: "미국 대학 분석", route: "/parents/colleges", gated: false },
 ];
 
 const QUICK = [
@@ -91,19 +92,23 @@ const QUICK = [
   { emoji: "📝", label: "AP 문제은행", route: "/parents/question-bank", gated: false },
   { emoji: "📘", label: "핵심노트", route: "/parents/core-notes", gated: false },
   { emoji: "📚", label: "디지털 교재", route: "#textbooks", gated: false },
+  { emoji: "🏛️", label: "미국 대학 분석", route: "/parents/colleges", gated: false },
 ];
 
+// Sorted by views (trending) — the board renders this order as-is.
 const RESOURCES = [
-  { title: "코넬 공대 합격 에세이 분석", desc: "실제 합격 에세이를 한 문단씩 — 무엇이 왜 잘 됐는지", route: "/parents/essay", tag: "합격에세이" },
-  { title: "미국 입시 STEM 대회 데이터베이스", desc: `USABO·USACO·ISEF 등 ${COMPETITIONS.length}개 대회 총정리`, route: "/parents/competitions", tag: "자료" },
-  { title: "학년별 로드맵 (G6–G12)", desc: "학업·시험·활동·에세이를 학년별로", route: "/parents/roadmap", tag: "가이드" },
-  { title: "전공별 AP 과목 선택 가이드", desc: "‘○○ 전공이면 AP 뭘?’ 8개 전공별 추천", route: "/parents/ap-guide", tag: "가이드" },
+  { title: "코넬 공대 합격 에세이 분석", desc: "실제 합격 에세이를 한 문단씩 — 무엇이 왜 잘 됐는지", route: "/parents/essay", tag: "합격에세이", views: 1000 },
+  { title: "미국 대학 분석 — 인재상·입시·인턴십", desc: "하버드부터 UC까지, 학교별 인재상·합격률·취업 파이프라인", route: "/parents/colleges", tag: "대학분석", views: 874 },
+  { title: "미국 입시 STEM 대회 데이터베이스", desc: `USABO·USACO·ISEF 등 ${COMPETITIONS.length}개 대회 총정리`, route: "/parents/competitions", tag: "자료", views: 731 },
+  { title: "학년별 로드맵 (G6–G12)", desc: "학업·시험·활동·에세이를 학년별로", route: "/parents/roadmap", tag: "가이드", views: 562 },
+  { title: "전공별 AP 과목 선택 가이드", desc: "‘○○ 전공이면 AP 뭘?’ 8개 전공별 추천", route: "/parents/ap-guide", tag: "가이드", views: 418 },
 ];
 
 const NOTICES = [
   { title: "InHero 학부모 자료실 오픈 안내", route: "/parents" },
   { title: "AP 문제은행 11,975개 무료 공개", route: "/parents/question-bank", gated: false },
   { title: "AP 디지털 교재 6권 추가 (Calc BC 포함)", route: "#textbooks", gated: false },
+  { title: "미국 대학 분석 데이터베이스 오픈 (인재상·인턴십)", route: "/parents/colleges", gated: false },
 ];
 
 export default function ParentsClient() {
@@ -190,6 +195,17 @@ export default function ParentsClient() {
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "22px 20px 80px", display: "grid", gridTemplateColumns: "300px minmax(0,1fr) 320px", gap: 20, alignItems: "start" }} className="parents-grid">
         {/* LEFT RAIL — Korean 일타강사 core notes (the killer content) */}
         <aside style={{ position: "sticky", top: 80, display: "flex", flexDirection: "column", gap: 14 }} className="parents-left">
+          {/* Student-site link — sits above the Korean notes */}
+          <a href="https://inheroedu.com" target="_blank" rel="noopener noreferrer"
+            style={{ display: "block", textDecoration: "none", background: "linear-gradient(135deg,#0a0a14,#16162a)", borderRadius: 14, padding: "16px 16px", border: "1px solid #e2e6ea" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 5 }}>
+              <span style={{ fontSize: 18 }}>🎓</span>
+              <span style={{ color: "#fff", fontSize: 14.5, fontWeight: 800, letterSpacing: "-0.01em" }}>학생 전용 웹사이트 보러가기</span>
+            </div>
+            <p style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.6, margin: "0 0 10px" }}>자녀가 직접 공부하는 InHero 학생 사이트 — 강의·문제·커뮤니티까지.</p>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "#00FF88", fontSize: 13, fontWeight: 800, fontFamily: "'JetBrains Mono', monospace" }}>inheroedu.com →</span>
+          </a>
+
           {koNotes.length > 0 ? (
             <section style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "16px 16px 8px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 3 }}>
@@ -266,7 +282,7 @@ export default function ParentsClient() {
           </div>
 
           {/* Quick icons */}
-          <div style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "20px 16px", display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 8 }} className="quick-grid">
+          <div style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "20px 16px", display: "grid", gridTemplateColumns: "repeat(8, 1fr)", gap: 8 }} className="quick-grid">
             {QUICK.map((q) => (
               <button key={q.label} onClick={() => go(q.route, q.gated)} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, padding: "6px 2px" }}>
                 <span style={{ fontSize: 30 }}>{q.emoji}</span>
@@ -292,13 +308,15 @@ export default function ParentsClient() {
               ))}
             </Board>
 
-            {/* 추천 자료 */}
+            {/* 추천 자료 — trending order, view counts visible */}
             <Board title="추천 자료" moreHref="/parents/competitions">
-              {RESOURCES.map((r) => (
+              {RESOURCES.map((r, i) => (
                 <Link key={r.route} href={r.route} style={{ ...rowStyle, alignItems: "flex-start", flexDirection: "column", gap: 2 }}>
-                  <span style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                  <span style={{ display: "flex", gap: 6, alignItems: "center", width: "100%" }}>
+                    {i === 0 && <span style={{ fontSize: 11 }}>🔥</span>}
                     <span style={{ fontSize: 10.5, fontWeight: 800, color: "#7c3aed", background: "#f3eefe", borderRadius: 4, padding: "1px 6px" }}>{r.tag}</span>
-                    <span style={{ color: "#1f2937", fontWeight: 600 }}>{r.title}</span>
+                    <span style={{ color: "#1f2937", fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.title}</span>
+                    <span style={{ marginLeft: "auto", flexShrink: 0, color: "#94a3b8", fontSize: 11.5, fontWeight: 600 }}>👁 {r.views.toLocaleString()}</span>
                   </span>
                   <span style={{ color: "#94a3b8", fontSize: 12.5, paddingLeft: 2 }}>{r.desc}</span>
                 </Link>
@@ -425,6 +443,9 @@ export default function ParentsClient() {
                         <div style={{ textAlign: "center", color: "#94a3b8" }}><div style={{ fontSize: 34 }}>📕</div><div style={{ fontSize: 11, marginTop: 5 }}>미리보기 생성 중…</div></div>
                       )}
                       <span style={{ position: "absolute", top: 9, left: 9, fontSize: 9, fontWeight: 900, letterSpacing: "0.05em", color: "#7c5500", background: "#fde68a", borderRadius: 5, padding: "3px 7px" }}>⭐ INHERO ORIGINAL</span>
+                      {!!m.totalPages && m.totalPages > 1 && (
+                        <span style={{ position: "absolute", top: 9, right: 9, fontSize: 10.5, fontWeight: 900, color: "#fff", background: "#dc2626", borderRadius: 6, padding: "3px 8px", boxShadow: "0 2px 8px rgba(220,38,38,0.4)" }}>📄 {m.totalPages}p</span>
+                      )}
                     </div>
                     <div style={{ padding: "12px 14px 14px" }}>
                       <div style={{ fontSize: 13.5, fontWeight: 800, color: "#1a1a1f", lineHeight: 1.35, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", minHeight: 37 }}>{m.title}</div>
