@@ -1460,4 +1460,109 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 3, lessonNum: 1,
+    unitName: "Land-Based Empires (c. 1450–1750)",
+    title: "Ottoman Empire — Gunpowder, Devshirme, and Expansion",
+    subtitle: "A Sunni Muslim empire that conquered with cannon and governed with a loyal slave-soldier elite.",
+    overview:
+      "The Ottoman Empire was the longest-lived of the 'gunpowder empires.' It expanded through superior firearms — famously taking Constantinople in 1453 — and ran on two distinctive institutions: the devshirme that produced its elite Janissary soldiers, and the millet system that managed its many religions.",
+    objectives: [
+      "Explain how gunpowder weapons fueled Ottoman expansion.",
+      "Describe the devshirme system and the Janissaries.",
+      "Explain how the millet system governed religious diversity.",
+    ],
+    sections: [
+      {
+        title: "Conquest by gunpowder",
+        body:
+          "The Ottomans mastered cannon and firearms. In 1453, their massive cannon breached the walls of Constantinople, ending the Byzantine Empire and giving them control of a key crossroads between Europe and Asia (which they renamed Istanbul). Under Suleiman the Magnificent the empire reached its height.",
+        keyIdea: "1453: Ottoman cannon take Constantinople → Byzantine Empire ends; gunpowder reshapes who holds power.",
+        terms: [
+          { term: "Janissaries", def: "Elite Ottoman infantry recruited as boys through the devshirme; loyal directly to the sultan." },
+          { term: "Suleiman the Magnificent", def: "Sultan under whom the Ottoman Empire reached its territorial and cultural peak." },
+        ],
+      },
+      {
+        title: "Devshirme and governing diversity",
+        body:
+          "The devshirme took Christian boys from conquered lands, converted them to Islam, and trained them as soldiers (Janissaries) or administrators loyal to the sultan — an elite created OUTSIDE the hereditary nobility. To rule a multi-religious empire, the millet system let each religious community govern its own internal affairs under its own laws while paying taxes.",
+        terms: [
+          { term: "Devshirme", def: "Ottoman system of recruiting and converting Christian boys for state/military service." },
+          { term: "Millet system", def: "Ottoman policy granting religious communities self-governance under their own laws." },
+        ],
+        traps: ["Janissaries were technically enslaved Christian-born converts — their loyalty to the sultan came from being outside the noble families."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 3, lessonNum: 2,
+    unitName: "Land-Based Empires (c. 1450–1750)",
+    title: "Safavid Empire — Shi'a Islam as State Identity",
+    subtitle: "A Persian empire that made Shi'a Islam its official identity — and lit a Sunni–Shia rivalry that still echoes today.",
+    overview:
+      "The Safavid Empire in Persia stands out for making Shi'a Islam the state religion, which sharply distinguished it from its Sunni Ottoman and Mughal neighbors and fueled lasting conflict. Under Shah Abbas it enjoyed a golden age of trade and the arts.",
+    objectives: [
+      "Explain how Shi'a Islam shaped Safavid identity and conflict.",
+      "Describe Shah Abbas's reforms and the empire's golden age.",
+      "Compare the Safavids with the other gunpowder empires.",
+    ],
+    sections: [
+      {
+        title: "Religion as state identity",
+        body:
+          "The Safavids imposed Shi'a Islam as the official faith, a deliberate identity distinct from the Sunni Ottomans next door. This religious difference turned into political and military rivalry — Sunni vs. Shia conflict that shaped the region for centuries.",
+        keyIdea: "Making Shi'a Islam the STATE religion set the Safavids against their Sunni neighbors — religion became geopolitics.",
+        terms: [
+          { term: "Shi'a Islam", def: "The branch of Islam the Safavids made their official state religion." },
+        ],
+      },
+      {
+        title: "Shah Abbas and the golden age",
+        body:
+          "Shah Abbas modernized the military with gunpowder weapons, centralized power, promoted the silk trade, and built the magnificent capital of Isfahan — a peak of Safavid art and architecture.",
+        terms: [
+          { term: "Shah Abbas", def: "Safavid ruler who modernized the army, boosted trade, and built up Isfahan." },
+          { term: "Isfahan", def: "The splendid Safavid capital, a showcase of Persian art and architecture." },
+        ],
+        traps: ["The Safavid–Ottoman conflict was Shia vs. Sunni — a religious divide driving political rivalry, not just a border dispute."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 3, lessonNum: 3,
+    unitName: "Land-Based Empires (c. 1450–1750)",
+    title: "Mughal Empire — Akbar's Tolerance and Revenue Systems",
+    subtitle: "A Muslim dynasty ruling a Hindu-majority India — held together by tolerance, then strained by its abandonment.",
+    overview:
+      "The Mughal Empire ruled a vast, mostly Hindu population. Its greatest ruler, Akbar, governed through religious tolerance and an efficient revenue system. Later, Aurangzeb's reversal of that tolerance helped weaken the empire — a clear cause-and-effect the exam loves.",
+    objectives: [
+      "Explain how Akbar's tolerance and administration unified a diverse empire.",
+      "Describe the Mughal revenue/zamindar system.",
+      "Analyze how Aurangzeb's policies contributed to decline.",
+    ],
+    diagram: "cause-effect",
+    sections: [
+      {
+        title: "Akbar: tolerance as strategy",
+        body:
+          "Akbar, a Muslim ruling a Hindu majority, made tolerance a tool of stability: he abolished the jizya (the tax on non-Muslims), included Hindus in his government, and even hosted interfaith debates. Revenue was collected through zamindars (local tax officials), funding a strong central state.",
+        keyIdea: "Akbar's tolerance wasn't just kindness — it was smart politics for keeping a Hindu-majority empire loyal.",
+        terms: [
+          { term: "Akbar", def: "Tolerant Mughal emperor who integrated Hindus and abolished the jizya." },
+          { term: "Jizya", def: "A tax on non-Muslims; abolishing it (Akbar) eased Hindu–Muslim relations." },
+          { term: "Zamindar", def: "Local official who collected taxes for the Mughal state." },
+        ],
+      },
+      {
+        title: "Decline under Aurangzeb",
+        body:
+          "Later, the emperor Aurangzeb reversed course: he reimposed the jizya and persecuted non-Muslims. This alienated the Hindu majority and fueled rebellions, weakening the empire — a direct cause→effect of abandoning Akbar's tolerant model.",
+        terms: [
+          { term: "Aurangzeb", def: "Mughal emperor whose religious intolerance (reimposed jizya) fueled unrest and decline." },
+        ],
+        traps: ["Contrast Akbar (tolerance → stability) with Aurangzeb (intolerance → revolt). The exam tests this cause-and-effect directly."],
+      },
+    ],
+  },
 ];
