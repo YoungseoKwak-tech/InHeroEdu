@@ -973,4 +973,144 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 1, lessonNum: 1,
+    unitName: "The Global Tapestry (c. 1200–1450)",
+    title: "Song Dynasty China — Bureaucracy and Innovation",
+    subtitle: "The era's most advanced state, run by exam-picked scholars and powered by a commercial revolution.",
+    overview:
+      "Around 1200, Song China was arguably the most prosperous, technologically advanced society on Earth. Two things drove it: a government staffed by merit through the civil service exam, and an economic boom fueled by new rice, new money, and old inventions finally scaling up.",
+    objectives: [
+      "Explain how the civil service exam and Neo-Confucianism shaped Song governance.",
+      "Identify the causes and effects of the Song economic revolution.",
+      "Describe the role of Buddhism and Confucian values in Song society.",
+    ],
+    sections: [
+      {
+        title: "Government by merit (sort of)",
+        body:
+          "The Song expanded the civil service examination, which tested mastery of Confucian classics to select officials. In theory this created a meritocracy of scholar-gentry rather than rule by hereditary nobles. Neo-Confucianism — a revival blending Confucian ethics with Buddhist and Daoist ideas — became the official ideology, stressing hierarchy, filial piety, and education.",
+        keyIdea: "The exam made government more merit-based than Europe's — but wealthy families could afford tutors, so elites still dominated.",
+        terms: [
+          { term: "Civil service exam", def: "Merit-based test on Confucian classics used to select government officials." },
+          { term: "Scholar-gentry", def: "The educated elite class that staffed the Song bureaucracy." },
+          { term: "Neo-Confucianism", def: "A revived Confucianism (with Buddhist/Daoist elements) emphasizing hierarchy and duty." },
+        ],
+      },
+      {
+        title: "The economic revolution",
+        body:
+          "Fast-ripening Champa rice (from Vietnam) allowed two harvests a year, driving a population boom. Commerce exploded: the Song issued the world's first paper money, ran the vast Grand Canal linking north and south, and mass-produced iron, steel, and porcelain for export along the Silk Roads and Indian Ocean.",
+        table: {
+          headers: ["Cause", "Effect"],
+          rows: [
+            ["Champa rice (2 harvests)", "Population surge, urban growth"],
+            ["Paper money & credit", "Booming trade and commerce"],
+            ["Grand Canal", "Cheap internal transport, integrated economy"],
+            ["Iron, steel, porcelain", "Major exports along trade routes"],
+          ],
+        },
+        keyIdea: "Song China was a major EXPORTER (silk, porcelain) — foreign silver flowed in to pay for its goods.",
+      },
+      {
+        title: "Belief and society",
+        body:
+          "Buddhism, especially the Chan (Zen) school, remained influential, while Neo-Confucianism reinforced a patriarchal social order — including the spread of foot binding among elites as a status marker. Confucian filial piety structured family and state alike.",
+        terms: [
+          { term: "Champa rice", def: "Fast-ripening, drought-resistant rice from Vietnam that boosted Chinese population." },
+          { term: "Filial piety", def: "The Confucian duty of respect and obedience to parents and elders." },
+        ],
+        traps: ["The civil service exam is 'meritocratic' in theory, but preparation required wealth — don't overstate equality of opportunity."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 1, lessonNum: 2,
+    unitName: "The Global Tapestry (c. 1200–1450)",
+    title: "Dar al-Islam — Political Fragmentation, Cultural Unity",
+    subtitle: "The caliphates broke apart politically, yet a shared faith, language, and trade knit the Islamic world tighter than ever.",
+    overview:
+      "By 1200 the unified Abbasid Caliphate had fractured into rival states, often ruled by newcomers like Turkic peoples. But politically divided did not mean culturally divided: across these states stretched Dar al-Islam — 'the house of Islam' — bound by religion, the Arabic language, scholarship, and commerce.",
+    objectives: [
+      "Explain the political fragmentation of the Islamic world after the Abbasids.",
+      "Describe the cultural and intellectual achievements that unified Dar al-Islam.",
+      "Explain how trade and Sufism spread Islam.",
+    ],
+    sections: [
+      {
+        title: "Political fragmentation",
+        body:
+          "As Abbasid power waned, new Muslim states rose, frequently led by Turkic military groups who converted to Islam and then ruled. Power passed to soldiers and sultans even as the caliph remained a religious figurehead.",
+        table: {
+          headers: ["State", "Note"],
+          rows: [
+            ["Abbasid Caliphate", "Declining; caliph becomes a figurehead"],
+            ["Seljuk Turks", "Turkic group that seized political/military power"],
+            ["Mamluks (Egypt)", "State ruled by former enslaved soldiers"],
+            ["Delhi Sultanate", "Muslim rule established over northern India"],
+          ],
+        },
+        keyIdea: "Political map fractured, but Islam, Arabic, and trade kept the Islamic world culturally connected — that's the point of 'Dar al-Islam.'",
+      },
+      {
+        title: "A golden age of learning",
+        body:
+          "Scholars in centers like Baghdad's House of Wisdom translated and preserved Greek and Roman texts (which later flowed to Europe and helped spark the Renaissance) and made original advances in mathematics (algebra), astronomy, and medicine. This intellectual flourishing was a shared inheritance across the fragmented states.",
+        terms: [
+          { term: "Dar al-Islam", def: "The 'house of Islam' — the lands and community united by the Islamic faith." },
+          { term: "House of Wisdom", def: "Baghdad center of scholarship that preserved and expanded classical knowledge." },
+        ],
+      },
+      {
+        title: "How Islam spread",
+        body:
+          "Islam expanded less by conquest than by connection. Muslim merchants carried the faith along trade routes, and Sufism — a mystical, adaptable form of Islam — won converts by blending with local cultures across Africa and South/Southeast Asia.",
+        terms: [
+          { term: "Sufism", def: "Mystical Islam whose adaptable, personal spirituality eased conversion along trade routes." },
+        ],
+        traps: ["'Fragmentation' is POLITICAL; 'unity' is CULTURAL/religious. The exam contrasts the two deliberately."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 1, lessonNum: 3,
+    unitName: "The Global Tapestry (c. 1200–1450)",
+    title: "South and Southeast Asia — Hinduism, Buddhism, and Trade",
+    subtitle: "Religiously diverse states, many of them built and enriched by control of Indian Ocean trade.",
+    overview:
+      "South and Southeast Asia in this era were shaped by Hinduism, Buddhism, and a growing Muslim presence — and above all by trade. Sea-based states grew rich taxing the ships passing through, while land-based kingdoms built monumental temples.",
+    objectives: [
+      "Describe religious diversity and interaction in South Asia (Hindu, Buddhist, Muslim).",
+      "Contrast sea-based and land-based states in Southeast Asia.",
+      "Explain how Indian Ocean trade shaped these states.",
+    ],
+    sections: [
+      {
+        title: "South Asia: many faiths, one subcontinent",
+        body:
+          "Hinduism remained dominant, but the Delhi Sultanate brought Muslim rule to the north, producing centuries of Hindu–Muslim interaction (and tension). The bhakti movement, stressing personal devotion to a deity accessible to all castes, paralleled Sufism's emotional spirituality — both made religion more personal and crossed social barriers.",
+        keyIdea: "Bhakti (Hindu) and Sufism (Muslim) both emphasized personal devotion open to everyone — a quiet bridge between the faiths.",
+        terms: [
+          { term: "Bhakti movement", def: "Hindu devotional movement emphasizing personal love of a deity, open across castes." },
+          { term: "Delhi Sultanate", def: "Muslim dynasties ruling much of northern India (1206–1526)." },
+        ],
+      },
+      {
+        title: "Southeast Asia: sea states vs. land states",
+        body:
+          "Geography split the region into two kinds of power. Sea-based states grew wealthy controlling and taxing maritime trade through key straits; land-based states drew wealth from agriculture and built vast temple complexes.",
+        table: {
+          headers: ["State", "Type", "Known for"],
+          rows: [
+            ["Srivijaya", "Sea-based (Buddhist)", "Taxed ships through the Strait of Malacca"],
+            ["Majapahit", "Sea-based (Buddhist)", "Java-based maritime power controlling trade"],
+            ["Khmer Empire", "Land-based (Hindu→Buddhist)", "Angkor Wat temple complex"],
+            ["Sukhothai", "Land-based (Buddhist)", "Early Thai kingdom"],
+          ],
+        },
+        keyIdea: "Sea-based states = wealth from TRADE tolls; land-based states = wealth from AGRICULTURE and monumental building.",
+        traps: ["Angkor Wat began HINDU and later became Buddhist — a classic example of religious syncretism via trade and contact."],
+      },
+    ],
+  },
 ];
