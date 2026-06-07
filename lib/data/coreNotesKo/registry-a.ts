@@ -46,6 +46,7 @@ import { AP_ENV_U5A_KO } from "./ap-env-u5a";
 import { AP_ENV_U5B_KO } from "./ap-env-u5b";
 import { AP_ENV_U5C_KO } from "./ap-env-u5c";
 import { AP_ENV_U6_KO } from "./ap-env-u6";
+import { AP_ENV_U7_KO } from "./ap-env-u7";
 
 export const REGISTRY_A: CoreNote[] = [
   ...AP_CHEM_U1A_KO,
@@ -88,4 +89,5 @@ export const REGISTRY_A: CoreNote[] = [
   ...AP_ENV_U5B_KO,
   ...AP_ENV_U5C_KO,
   ...AP_ENV_U6_KO,
+  ...AP_ENV_U7_KO,
 ];
