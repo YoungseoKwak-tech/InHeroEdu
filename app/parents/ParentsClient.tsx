@@ -163,7 +163,53 @@ export default function ParentsClient() {
       </header>
 
       {/* ── Body: main + sidebar ── */}
-      <div style={{ maxWidth: 1180, margin: "0 auto", padding: "22px 20px 80px", display: "grid", gridTemplateColumns: "minmax(0,1fr) 320px", gap: 22, alignItems: "start" }} className="parents-grid">
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "22px 20px 80px", display: "grid", gridTemplateColumns: "300px minmax(0,1fr) 320px", gap: 20, alignItems: "start" }} className="parents-grid">
+        {/* LEFT RAIL — Korean 일타강사 core notes (the killer content) */}
+        <aside style={{ position: "sticky", top: 80, display: "flex", flexDirection: "column", gap: 14 }} className="parents-left">
+          {koNotes.length > 0 ? (
+            <section style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "16px 16px 8px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 3 }}>
+                <h2 style={{ fontSize: 15.5, fontWeight: 800, margin: 0, letterSpacing: "-0.01em" }}>📘 한국어 핵심 노트</h2>
+              </div>
+              <p style={{ fontSize: 12, color: "#7c3aed", fontWeight: 700, margin: "0 0 14px" }}>일타강사처럼 풀어낸 AP 개념</p>
+
+              <Link href="/parents/core-notes" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
+                <div style={{ borderRadius: 12, border: "1px solid #eef0f3", background: "linear-gradient(180deg,#fbfcfe,#fff)", padding: "14px 15px" }}>
+                  <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap", marginBottom: 7 }}>
+                    <span style={{ fontSize: 10.5, fontWeight: 800, color: "#047a45", background: "#e9fbf2", borderRadius: 5, padding: "2px 7px" }}>🇰🇷 한국어</span>
+                    <span style={{ fontSize: 11, color: "#94a3b8", fontWeight: 600 }}>{koNotes[0].emoji} U{koNotes[0].unit}·L{koNotes[0].lessonNum}</span>
+                  </div>
+                  <h3 style={{ fontSize: 17, fontWeight: 800, margin: "0 0 5px", letterSpacing: "-0.02em", lineHeight: 1.25 }}>{koNotes[0].title}</h3>
+                  {koNotes[0].subtitle && <p style={{ fontSize: 12, color: "#94a3b8", margin: "0 0 10px", lineHeight: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{koNotes[0].subtitle}</p>}
+                  {koNotes[0].overview && (
+                    <div style={{ position: "relative", maxHeight: 150, overflow: "hidden" }}>
+                      <p style={{ fontSize: 13, color: "#334155", lineHeight: 1.8, margin: 0, whiteSpace: "pre-wrap" }}>
+                        {koNotes[0].overview.split(/\n\n+/)[0]}
+                      </p>
+                      <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 56, background: "linear-gradient(transparent,#fff)" }} />
+                    </div>
+                  )}
+                  <div style={{ marginTop: 10, color: GREEN, fontSize: 13, fontWeight: 800 }}>이어서 읽기 →</div>
+                </div>
+              </Link>
+
+              {koNotes.slice(1).map((n) => (
+                <Link key={n.lessonId} href="/parents/core-notes" style={{ ...rowStyle, color: "#1f2937", fontSize: 13 }}>
+                  <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    <span style={{ fontSize: 10, fontWeight: 800, color: "#047a45", marginRight: 6 }}>🇰🇷</span>{n.title}
+                  </span>
+                </Link>
+              ))}
+              <Link href="/parents/core-notes" style={{ display: "block", textAlign: "center", color: GREEN, fontSize: 12.5, fontWeight: 700, textDecoration: "none", padding: "12px 0 6px" }}>전체 노트 보기 →</Link>
+            </section>
+          ) : (
+            <section style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "18px 16px" }}>
+              <h2 style={{ fontSize: 15.5, fontWeight: 800, margin: "0 0 8px" }}>📘 한국어 핵심 노트</h2>
+              <p style={{ fontSize: 12.5, color: "#94a3b8", lineHeight: 1.6, margin: 0 }}>일타강사처럼 풀어낸 AP 개념 노트를 불러오는 중…</p>
+            </section>
+          )}
+        </aside>
+
         {/* MAIN */}
         <main style={{ display: "flex", flexDirection: "column", gap: 18, minWidth: 0 }}>
           {/* Hero carousel */}
@@ -193,55 +239,6 @@ export default function ParentsClient() {
               </button>
             ))}
           </div>
-
-          {/* Featured Korean core notes — surface the killer 일타강사 content */}
-          {koNotes.length > 0 && (
-            <section style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "20px 22px" }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 4, flexWrap: "wrap" }}>
-                <h2 style={{ fontSize: 16.5, fontWeight: 800, margin: 0, letterSpacing: "-0.01em", display: "flex", alignItems: "center", gap: 8 }}>
-                  📘 한국어 핵심 노트
-                  <span style={{ fontSize: 11.5, fontWeight: 800, color: "#7c3aed", background: "#f3eefe", borderRadius: 6, padding: "2px 9px" }}>일타강사 풀이</span>
-                </h2>
-                <Link href="/parents/core-notes" style={{ color: GREEN, fontSize: 13, fontWeight: 700, textDecoration: "none" }}>전체 노트 보기 →</Link>
-              </div>
-              <p style={{ fontSize: 13, color: "#94a3b8", margin: "0 0 16px" }}>개념을 한눈에 이해되게 풀어낸 한국어 노트. 클릭해서 이어 읽어보세요.</p>
-
-              {/* Hero note: title + subtitle + engaging opening with fade */}
-              <Link href="/parents/core-notes" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
-                <div style={{ borderRadius: 12, border: "1px solid #eef0f3", background: "linear-gradient(180deg,#fbfcfe,#fff)", padding: "18px 20px" }}>
-                  <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginBottom: 8 }}>
-                    <span style={{ fontSize: 11, fontWeight: 800, color: "#047a45", background: "#e9fbf2", borderRadius: 6, padding: "2px 8px" }}>🇰🇷 한국어</span>
-                    <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 600 }}>{koNotes[0].emoji} {koNotes[0].subjectLabel} · U{koNotes[0].unit}·L{koNotes[0].lessonNum}</span>
-                  </div>
-                  <h3 style={{ fontSize: 19, fontWeight: 800, margin: "0 0 5px", letterSpacing: "-0.02em" }}>{koNotes[0].title}</h3>
-                  {koNotes[0].subtitle && <p style={{ fontSize: 13, color: "#64748b", margin: "0 0 12px", lineHeight: 1.55 }}>{koNotes[0].subtitle}</p>}
-                  {koNotes[0].overview && (
-                    <div style={{ position: "relative", maxHeight: 132, overflow: "hidden" }}>
-                      <p style={{ fontSize: 14, color: "#334155", lineHeight: 1.85, margin: 0, whiteSpace: "pre-wrap" }}>
-                        {koNotes[0].overview.split(/\n\n+/).slice(0, 2).join("\n\n")}
-                      </p>
-                      <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 60, background: "linear-gradient(transparent,#fff)" }} />
-                    </div>
-                  )}
-                  <div style={{ marginTop: 12, display: "inline-block", color: GREEN, fontSize: 13.5, fontWeight: 800 }}>이어서 읽기 →</div>
-                </div>
-              </Link>
-
-              {/* More featured notes */}
-              {koNotes.length > 1 && (
-                <div style={{ marginTop: 12, display: "flex", flexDirection: "column" }}>
-                  {koNotes.slice(1).map((n) => (
-                    <Link key={n.lessonId} href="/parents/core-notes" style={{ ...rowStyle, color: "#1f2937" }}>
-                      <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                        <span style={{ fontSize: 11, fontWeight: 800, color: "#047a45", marginRight: 7 }}>🇰🇷 한국어</span>{n.title}
-                      </span>
-                      <span style={{ color: "#cbd5e1", fontSize: 12, flexShrink: 0 }}>{n.emoji} U{n.unit}·L{n.lessonNum}</span>
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </section>
-          )}
 
           {/* Boards */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="board-grid">
@@ -312,6 +309,15 @@ export default function ParentsClient() {
             <EmptyRow text="아직 댓글이 없습니다." />
           </SideCard>
 
+          {/* Ivy mentor CTA */}
+          <button onClick={() => go("/mentors", true)}
+            style={{ textAlign: "left", border: "none", cursor: "pointer", borderRadius: 14, padding: "20px 18px", background: "linear-gradient(135deg,#1e1b4b,#4c1d95)", color: "#fff", boxShadow: "0 8px 24px rgba(76,29,149,0.28)" }}>
+            <div style={{ fontSize: 26, marginBottom: 8 }}>🎓</div>
+            <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: "-0.01em", lineHeight: 1.35, marginBottom: 6 }}>아이비리그 멘토와<br />소통해보세요!</div>
+            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.6, margin: "0 0 12px" }}>아이비리그 재학생 멘토에게 AP·SAT·입시 전략을 직접 물어보세요.</p>
+            <span style={{ display: "inline-block", background: "rgba(255,255,255,0.16)", border: "1px solid rgba(255,255,255,0.3)", borderRadius: 8, padding: "8px 16px", fontSize: 13, fontWeight: 800 }}>멘토 만나보기 →</span>
+          </button>
+
           <p style={{ fontSize: 12, color: "#94a3b8", textAlign: "center" }}>
             학생이신가요? <Link href="/" style={{ color: GREEN, textDecoration: "none", fontWeight: 600 }}>InHero 둘러보기 →</Link>
           </p>
@@ -355,8 +361,14 @@ export default function ParentsClient() {
       </section>
 
       <style>{`
+        /* Tablet: drop the left rail into the flow above the main content. */
+        @media (max-width: 1100px) {
+          .parents-grid { grid-template-columns: minmax(0,1fr) 320px !important; }
+          .parents-left { position: static !important; grid-column: 1 / -1; }
+        }
         @media (max-width: 880px) {
           .parents-grid { grid-template-columns: 1fr !important; }
+          .parents-left { grid-column: auto; }
           .board-grid { grid-template-columns: 1fr !important; }
           .quick-grid { grid-template-columns: repeat(4, 1fr) !important; }
         }
