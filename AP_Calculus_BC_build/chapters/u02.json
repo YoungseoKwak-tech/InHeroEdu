@@ -1,0 +1,1459 @@
+[
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differentiation — Definition and Fundamental Properties",
+    "chapter_title": "Average vs Instantaneous Rate of Change",
+    "hook": "Your speedometer doesn't compute trip distance over trip time — it tells you how fast you're going right now. The leap from 'average over an interval' to 'instantaneous at a moment' is the leap from algebra to calculus.",
+    "learning_objectives": [
+      "Compute average rates of change as difference quotients over an interval",
+      "Interpret average rate of change graphically as the slope of a secant line",
+      "Define instantaneous rate of change as a limit of average rates",
+      "Interpret instantaneous rate of change as the slope of a tangent line",
+      "Estimate instantaneous rates from tables by choosing the best available interval"
+    ],
+    "sections": [
+      {
+        "title": "Average Rate of Change",
+        "subtitle": "Slope of the secant line",
+        "body": "The average rate of change of f over [a, b] is the total change in output divided by the total change in input: (f(b) - f(a))/(b - a). It is a fancy name for the slope between two points on the graph — the slope of the secant line through (a, f(a)) and (b, f(b)).\n\nUnits make the concept concrete. If P(t) measures bacteria population at time t hours, then (P(5) - P(2))/(5 - 2) carries units of bacteria per hour: how fast the population grew on average across that window. The AP exam expects rate answers with units, and 'output units per input unit' is the universal recipe.\n\nAverage rates smooth over the story inside the interval. A car that covers 120 miles in 2 hours averaged 60 mph, but it may have crawled through traffic and sprinted on the highway. The average is honest about the endpoints and silent about everything between — which is precisely the limitation calculus exists to fix.\n\nNotation preview: the difference quotient (f(x + h) - f(x))/h is the same secant slope with the interval written as [x, x + h]. The two forms — endpoints a and b, or anchor x and width h — are interchangeable, and you should be fluent in both because the exam uses both freely.",
+        "key_terms": [
+          [
+            "Average rate of change",
+            "(f(b) - f(a))/(b - a): change in output per unit change in input over an interval"
+          ],
+          [
+            "Secant line",
+            "The line through two points on a graph; its slope is the average rate of change"
+          ],
+          [
+            "Difference quotient",
+            "(f(x + h) - f(x))/h, the secant slope written with anchor point x and width h"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Average rate of change questions are pure arithmetic — no derivative needed. The exam tests whether you reach for the formula (f(b) - f(a))/(b - a) instead of differentiating. If the phrase is 'average rate,' the tool is the secant slope. Period."
+          ]
+        ]
+      },
+      {
+        "title": "Shrinking the Interval",
+        "subtitle": "From secant to tangent",
+        "body": "To capture how fast f changes AT a single instant x = a, take average rates over smaller and smaller intervals anchored at a, and watch where those slopes head. The instantaneous rate of change is the limit: lim h→0 (f(a + h) - f(a))/h. Chapter 1's machinery — limits — is exactly what makes 'rate at an instant' meaningful.\n\nGeometrically, as the second point slides toward (a, f(a)), the secant lines pivot toward a limiting position: the tangent line. The tangent line touches the curve at the point and matches its direction there; its slope is the instantaneous rate. A tangent can cross the curve elsewhere — tangency is a local, single-point relationship.\n\nTry it concretely with f(x) = x^2 at a = 3. Over [3, 3.1]: slope (9.61 - 9)/0.1 = 6.1. Over [3, 3.01]: 6.01. Over [2.99, 3]: 5.99. The slopes squeeze toward 6 from both sides; the parabola's steepness at x = 3 is exactly 6. Algebraically: ((3 + h)^2 - 9)/h = (6h + h^2)/h = 6 + h → 6. The h cancels — the signature move of every difference-quotient limit.\n\nThis limit gets a permanent name in the next chapter: the derivative. But keep the layered meaning — limit of average rates, slope of the tangent, instantaneous rate — because exam questions probe each layer separately.",
+        "key_terms": [
+          [
+            "Instantaneous rate of change",
+            "lim h→0 (f(a + h) - f(a))/h: the limiting value of average rates over shrinking intervals"
+          ],
+          [
+            "Tangent line",
+            "The limiting position of secant lines through (a, f(a)); touches and matches the curve's direction"
+          ],
+          [
+            "Local linearity",
+            "Zoomed in far enough, a smooth curve looks like its tangent line"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When the exam says 'rate of change' without a qualifier, it means INSTANTANEOUS — the derivative. The word 'average' will always be stated explicitly. This single reading habit prevents the most common Unit 2 misfire."
+          ]
+        ]
+      },
+      {
+        "title": "Estimating from Tables",
+        "subtitle": "The best secant available",
+        "body": "Real data comes in tables, and tables cannot deliver limits — only finitely many secants. To estimate an instantaneous rate at x = a from a table, compute the average rate over the smallest interval containing a. Given values at x = 2, 5, 7 and asked for the rate at 5, the symmetric choice (f(7) - f(2))/(7 - 2) using points straddling 5 is the standard estimate.\n\nWhen a is itself a table point, the straddle is usually best: the slope between the neighbors on either side. If asked at x = 5 with data at 2, 5, 7, the centered estimate (f(7) - f(2))/5 often beats either one-sided secant because errors on the two sides partially cancel — and the AP's expected answer on such questions is almost always the straddling secant.\n\nUnits and interpretation carry the other half of the credit. A complete FRQ sentence: 'The rate of change of temperature at t = 5 is approximately (T(7) - T(2))/(7 - 2) = 3.2 degrees Celsius per minute.' Approximately, because a table estimate is a secant standing in for a tangent — say 'approximately' and you are scoring like a grader thinks.\n\nKnow what the table CANNOT tell you, echoing the IVT chapter: actual instantaneous rates, monotonicity between samples, or maximum values. Estimates inherit the table's blindness between data points; the exam tests whether you claim only what the data supports.",
+        "key_terms": [
+          [
+            "Straddling secant",
+            "The average rate over the smallest interval containing the target point — the standard table estimate"
+          ],
+          [
+            "Centered estimate",
+            "A straddle with the target near the middle, where one-sided errors tend to cancel"
+          ],
+          [
+            "Estimate language",
+            "Table-based rates are approximations and must be reported as such"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Table rate questions on the FRQ have a 3-part scoring pattern: correct difference quotient setup, correct arithmetic, units + 'approximately' in the interpretation. Memorize the sentence template and collect all three points every time."
+          ]
+        ]
+      },
+      {
+        "title": "Rates in the Wild",
+        "subtitle": "Position, profit, and per-unit thinking",
+        "body": "The rate concept transfers to every quantitative discipline, and the AP deliberately rotates contexts. Position s(t) gives velocity as its instantaneous rate — the original motivating example, with average velocity (s(b) - s(a))/(b - a) versus the speedometer's instantaneous reading. Unit 4 builds a whole chapter on this.\n\nEconomics: if C(q) is the cost of producing q units, the instantaneous rate C'(q) is marginal cost — approximately the cost of unit number q + 1. Biology: rate of population growth. Medicine: rate of drug concentration decay. The mathematics is identical; only the units rotate. 'Output per input' answers every interpretation question regardless of costume.\n\nSign and magnitude carry separate information. A negative rate means the quantity is decreasing; a rate near zero means a plateau. Comparing rates at two times — 'is the temperature rising faster at t = 2 or t = 6?' — means comparing instantaneous rates, estimated from whatever representation you are given: formula (compute), graph (compare tangent steepness), or table (compare straddling secants).\n\nOne subtle distinction closes the chapter: the rate of change of f IS a new function in waiting. At each x, the limit of difference quotients produces a number; collect them and you have f', the derivative function. That object — the function whose values are slopes — is where the next chapter begins.",
+        "key_terms": [
+          [
+            "Velocity",
+            "The instantaneous rate of change of position — signed: direction matters"
+          ],
+          [
+            "Marginal cost",
+            "The instantaneous rate of change of cost; approximates the cost of the next unit"
+          ],
+          [
+            "Sign of the rate",
+            "Positive = increasing, negative = decreasing, zero = momentarily flat"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Interpretation answers need four ingredients: WHAT is changing, WITH RESPECT TO what, the VALUE with UNITS, and the TIME/PLACE it applies. 'At t = 3 hours, the water depth is increasing at 2 cm per hour' — that sentence shape earns the point in every context."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "For f(x) = x^2 - 3x, the average rate of change over [1, 4] is",
+          "choices": {
+            "A": "2",
+            "B": "5",
+            "C": "1",
+            "D": "6"
+          },
+          "answer": "A",
+          "explanation": "f(4) = 4, f(1) = -2. Average rate: (4 - (-2))/(4 - 1) = 6/3 = 2."
+        },
+        {
+          "question": "The instantaneous rate of change of f(x) = x^2 at x = 5, computed as a limit, is",
+          "choices": {
+            "A": "25",
+            "B": "10",
+            "C": "5",
+            "D": "0"
+          },
+          "answer": "B",
+          "explanation": "((5 + h)^2 - 25)/h = (10h + h^2)/h = 10 + h → 10 as h → 0."
+        },
+        {
+          "question": "W(t) gives the gallons of water in a tank at time t minutes: W(0) = 50, W(3) = 44, W(8) = 40, W(10) = 41. The best estimate of the instantaneous rate at t = 8 is",
+          "choices": {
+            "A": "(W(8) - W(0))/8",
+            "B": "(W(10) - W(3))/7",
+            "C": "(W(10) - W(8))/2",
+            "D": "(W(8) - W(3))/5"
+          },
+          "answer": "B",
+          "explanation": "The smallest available interval containing t = 8 in its interior is [3, 10]; the straddling secant (41 - 44)/7 is the standard estimate. C and D are one-sided and generally less accurate."
+        },
+        {
+          "question": "A secant line and a tangent line are drawn to a curve at and around the same point. The tangent line's slope equals",
+          "choices": {
+            "A": "the average of all secant slopes",
+            "B": "the limit of secant slopes as the second point approaches the first",
+            "C": "the secant slope over the smallest visible interval",
+            "D": "the y-coordinate of the point of tangency"
+          },
+          "answer": "B",
+          "explanation": "Instantaneous slope is defined as the limit of average (secant) slopes as the interval shrinks to the point — not an average, and not any single finite secant."
+        },
+        {
+          "question": "C(q), in dollars, is the cost to produce q phone cases. C'(200) = 1.4 is best interpreted as:",
+          "choices": {
+            "A": "producing 200 cases costs $1.40",
+            "B": "the 201st case costs approximately $1.40 to produce",
+            "C": "average cost per case is $1.40 for the first 200",
+            "D": "costs decrease by $1.40 at q = 200"
+          },
+          "answer": "B",
+          "explanation": "Marginal cost: at production level 200, cost is rising at about $1.40 per additional case — approximately the cost of the next unit. Positive 1.4 rules out D; 'average' rules out C."
+        }
+      ],
+      "frq": [
+        {
+          "question": "The temperature of a cooling liquid is T(t) = 80 - 4t + 0.1t^2 degrees Celsius, t in minutes, valid for 0 ≤ t ≤ 15.\n(a) Find the average rate of change of T over [0, 10], with units.\n(b) Using the limit definition, find the instantaneous rate of change of T at t = 10.\n(c) Interpret your answer to (b) in a complete sentence.",
+          "rubric": [
+            "(a) T(10) = 50, T(0) = 80; average rate = -3 degrees per minute",
+            "(b) Sets up lim h→0 (T(10 + h) - T(10))/h and expands correctly",
+            "Simplifies to -2 + 0.1h → -2 degrees per minute",
+            "(c) Sentence includes: at t = 10 minutes, temperature is DECREASING at 2 degrees Celsius per minute"
+          ],
+          "model_answer": "(a) (T(10) - T(0))/(10 - 0) = (50 - 80)/10 = -3 degrees Celsius per minute. (b) T(10 + h) = 80 - 4(10 + h) + 0.1(100 + 20h + h^2) = 50 - 2h + 0.1h^2. So (T(10+h) - T(10))/h = (-2h + 0.1h^2)/h = -2 + 0.1h → -2. (c) At exactly t = 10 minutes, the liquid's temperature is decreasing at a rate of 2 degrees Celsius per minute."
+        },
+        {
+          "question": "Selected values of a differentiable function g: g(1) = 12, g(4) = 18, g(6) = 17, g(9) = 25.\n(a) Estimate the instantaneous rate of change of g at x = 5, showing your difference quotient.\n(b) Is your answer in (a) exact? Explain why or why not.\n(c) Must there be a value of x in (1, 9) where g(x) = 20? Justify.",
+          "rubric": [
+            "(a) Uses the straddling interval [4, 6]: (17 - 18)/(6 - 4) = -1/2",
+            "(b) States the estimate is a secant slope standing in for a tangent slope, so not exact",
+            "(c) Cites continuity (differentiable ⟹ continuous) and IVT on [6, 9] since 20 is between 17 and 25",
+            "Concludes yes, some x in (6, 9) ⊂ (1, 9) has g(x) = 20"
+          ],
+          "model_answer": "(a) Using the smallest interval containing 5: (g(6) - g(4))/(6 - 4) = (17 - 18)/2 = -0.5. (b) No — it is the average rate over [4, 6], an approximation to the instantaneous rate; the table cannot produce the limit h → 0. (c) Yes. g is differentiable, hence continuous, on [6, 9]; 20 lies between g(6) = 17 and g(9) = 25, so by the IVT there is an x in (6, 9) with g(x) = 20."
+        },
+        {
+          "question": "A particle's position is s(t) = t^3 - 6t^2 + 9t meters at time t seconds, for t ≥ 0.\n(a) Compute the average velocity over [0, 2].\n(b) The instantaneous velocity at t = 2 is -3 m/s (you may use this). Compare the average and instantaneous velocities and explain why they can differ in sign.\n(c) Without computing any further limits, estimate when the average velocity over [0, b] would equal zero, and verify your value of b algebraically.",
+          "rubric": [
+            "(a) s(2) = 2, s(0) = 0; average velocity = 1 m/s",
+            "(b) Notes the average (+1) summarizes the whole window while the instantaneous (-3) describes t = 2 only; the particle moved forward early, backward later",
+            "(c) Sets s(b)/b = 0, so s(b) = 0 with b > 0: b^2 - 6b + 9 = 0",
+            "Solves b = 3 and verifies s(3) = 0"
+          ],
+          "model_answer": "(a) (s(2) - s(0))/2 = (8 - 24 + 18)/2 = 2/2 = 1 m/s. (b) The average velocity over [0, 2] is +1 m/s, yet at the instant t = 2 the particle moves backward at 3 m/s. No contradiction: early in the window the particle moved forward strongly, and the average blends the whole interval while the instantaneous rate reports only the endpoint moment. (c) Average velocity over [0, b] is s(b)/b (since s(0) = 0); it is zero when s(b) = 0: b(b^2 - 6b + 9) = b(b - 3)^2 = 0, so b = 3. Check: s(3) = 27 - 54 + 27 = 0. ✓"
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differentiation — Definition and Fundamental Properties",
+    "chapter_title": "The Derivative as a Limit",
+    "hook": "One limit, taken at every point at once, creates an entirely new function — the derivative. Learn to read its three notations, compute it from the definition, and recognize the definition itself hiding inside exam questions.",
+    "learning_objectives": [
+      "Define the derivative f'(a) using both standard limit forms",
+      "Compute derivatives of polynomials and simple rationals directly from the limit definition",
+      "Recognize a given limit as the derivative of a specific function at a specific point",
+      "Translate among Lagrange, Leibniz, and operator notations for derivatives",
+      "Use the derivative's value to write tangent line equations"
+    ],
+    "sections": [
+      {
+        "title": "Two Forms of One Definition",
+        "subtitle": "The h-form and the x-form",
+        "body": "The derivative of f at a is f'(a) = lim h→0 (f(a + h) - f(a))/h — the instantaneous rate from the last chapter, now with its permanent name and symbol. An equivalent x-form moves the limit variable to the input itself: f'(a) = lim x→a (f(x) - f(a))/(x - a). Both are secant slopes collapsing to the tangent; h measures the gap, or x rides toward a. Same number, two costumes.\n\nWhy keep both? Computation usually favors the h-form (expanding f(a + h) sets up clean cancellation), while recognition questions usually wear the x-form. The AP writes limits like lim x→2 (x^5 - 32)/(x - 2) and expects you to see f(x) = x^5, a = 2: the limit IS f'(2), no algebra required once you recognize the shape (answer: 5·2^4 = 80, using next chapter's shortcut).\n\nApplied at a general point x rather than a fixed a, the definition manufactures the derivative FUNCTION f': its value at each input is the slope there. One limit computation with x as a parameter yields the whole slope catalog — this is what 'differentiate f' means.\n\nExistence is not free: f'(a) exists only when this limit exists, a two-sided requirement with real teeth. The next chapter dissects exactly how the limit can fail and what that says about the graph. For now: differentiable at a means the defining limit exists there.",
+        "key_terms": [
+          [
+            "Derivative at a point",
+            "f'(a) = lim h→0 (f(a+h) - f(a))/h, the slope of the tangent at (a, f(a))"
+          ],
+          [
+            "Alternative (x-) form",
+            "f'(a) = lim x→a (f(x) - f(a))/(x - a), the recognition-friendly version"
+          ],
+          [
+            "Derivative function",
+            "x ↦ f'(x): the function whose output at each point is the slope there"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Memorize the recognition template: lim x→a (f(x) - f(a))/(x - a) = f'(a) and lim h→0 (f(a+h) - f(a))/h = f'(a). The exam shows the limit and asks for its value — naming f and a converts a scary limit into a one-line derivative."
+          ]
+        ]
+      },
+      {
+        "title": "Computing from the Definition",
+        "subtitle": "Expand, cancel, evaluate",
+        "body": "Definition computations follow one rhythm: write the difference quotient, expand the numerator until the terms WITHOUT h annihilate, factor h out, cancel, and let h → 0. Every problem type has its standard expansion move.\n\nPolynomials: binomial expansion. For f(x) = x^3, the quotient is ((x + h)^3 - x^3)/h = (3x^2 h + 3x h^2 + h^3)/h = 3x^2 + 3xh + h^2 → 3x^2. Notice the surviving term is the one with a single h — the higher powers die in the limit. f'(x) = 3x^2: the whole slope function in four lines.\n\nReciprocals: common denominators. For f(x) = 1/x, the numerator 1/(x + h) - 1/x combines to -h/(x(x + h)); divide by h and cancel: -1/(x(x + h)) → -1/x^2. Square roots: conjugates. For f(x) = √x, multiply by (√(x + h) + √x) over itself; the numerator becomes h, cancel, and the limit is 1/(2√x). Chapter 1.2's algebra toolkit — factoring, common denominators, conjugates — was training for exactly these three rhythms.\n\nThe payoff table you just earned: d/dx x^3 = 3x^2, d/dx 1/x = -1/x^2, d/dx √x = 1/(2√x). The next chapter's power rule will generate all three instantly — but the AP still asks definition computations directly, and 'use the definition' in a problem stem means shortcuts score zero.",
+        "key_terms": [
+          [
+            "Difference quotient rhythm",
+            "Expand, cancel the h-free terms, factor and cancel h, evaluate the limit"
+          ],
+          [
+            "Surviving term",
+            "After cancellation, the term with one power of h becomes the derivative; higher powers vanish"
+          ],
+          [
+            "Definition-required problems",
+            "Stems saying 'using the definition of the derivative' — rule-based shortcuts earn no credit"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Three expansions cover virtually every definition problem on the exam: binomial for powers, common denominator for 1/x-type, conjugate for √x-type. Drill one of each until the algebra is muscle memory — definition FRQs are free points for the prepared."
+          ]
+        ]
+      },
+      {
+        "title": "The Notation Zoo",
+        "subtitle": "Lagrange, Leibniz, and friends",
+        "body": "Calculus accumulated several notations for the same object, and the AP uses all of them interchangeably. Lagrange: f'(x), read 'f prime' — compact, function-flavored, the notation of this book so far. Leibniz: df/dx or dy/dx — a fraction-shaped reminder that derivatives are limits of Δy/Δx. Operator: d/dx [expression] — an instruction to differentiate whatever follows.\n\nLeibniz notation shines at bookkeeping. dy/dx names both variables: y changes with respect to x. Evaluation at a point gets a vertical bar: dy/dx |_{x=2} means f'(2). When several quantities depend on time in Unit 4's related rates, dV/dt versus dr/dt keeps the players straight in a way primes cannot. The price: dy/dx is NOT literally a fraction — but its limit ancestry makes fraction-like manipulations (chain rule, u-substitution) look natural later.\n\nVelocity earns its own convention: s'(t) = v(t) = ds/dt. And y' floats around as a quick Lagrange variant when the function has no name. The skill is fluency — instant translation between any pair — because a single FRQ can open with dy/dx, switch to f', and ask about d/dx [f(2x)] in part (c).\n\nReading aloud helps cement meaning: dy/dx is 'the rate of change of y with respect to x.' That phrase, mechanically applied, decodes every notation the exam can throw, including unit analysis: if y is meters and x is seconds, dy/dx is meters per second, full stop.",
+        "key_terms": [
+          [
+            "Lagrange notation",
+            "f'(x), f''(x): primes counting derivatives"
+          ],
+          [
+            "Leibniz notation",
+            "dy/dx: names both variables; evaluation written dy/dx |_{x=a}"
+          ],
+          [
+            "Operator notation",
+            "d/dx [·]: a command to differentiate the bracketed expression"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "dy/dx |_{x=3} and f'(3) are the same number — the exam will use both within one problem set. Translate notation FIRST, then compute; most notation errors happen from rushing past the vertical bar without registering 'evaluate at 3.'"
+          ]
+        ]
+      },
+      {
+        "title": "The Tangent Line Payoff",
+        "subtitle": "Point plus slope equals line",
+        "body": "The derivative's first concrete deliverable: tangent line equations. The tangent to f at x = a passes through the point (a, f(a)) with slope f'(a), so point-slope form hands you the equation: y - f(a) = f'(a)(x - a). Two numbers — the value and the derivative — fully determine the line.\n\nThe procedure is three steps and the exam tests each: evaluate f(a) (students who skip this and use only the slope lose the point), evaluate f'(a), assemble point-slope. Leave the equation in point-slope form unless told otherwise — solving for y invites arithmetic slips and earns nothing extra.\n\nExample: tangent to f(x) = 1/x at x = 2. f(2) = 1/2; f'(x) = -1/x^2 (from our definition work), so f'(2) = -1/4. Tangent: y - 1/2 = -1/4(x - 2). Done. A normal line — perpendicular to the tangent — uses the negative reciprocal slope instead: y - 1/2 = 4(x - 2).\n\nTangent lines preview their biggest application: near the point of tangency, the line approximates the curve (local linearity, formalized in Unit 4 as linearization). Graphing f(x) = 1/x and its tangent at 2 in the same window shows the curve hugging the line — zoom in and they become indistinguishable. The derivative is the curve's best linear impersonation, and that idea echoes through linear approximation, Euler's method, and Taylor polynomials all the way to Unit 10.",
+        "key_terms": [
+          [
+            "Point-slope assembly",
+            "y - f(a) = f'(a)(x - a): the tangent line from the value and the derivative"
+          ],
+          [
+            "Normal line",
+            "The perpendicular through the same point: slope -1/f'(a) when f'(a) ≠ 0"
+          ],
+          [
+            "Local linearity",
+            "Near the tangency point, the curve and tangent are nearly identical — the seed of approximation methods"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Tangent line errors are 90% forgotten points: students compute f'(a) and then write y = f'(a)·x + something random. Anchor the habit — find BOTH f(a) and f'(a) before writing any line, every time."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "Using the definition of the derivative, f'(x) for f(x) = x^2 - 5x is",
+          "choices": {
+            "A": "2x - 5",
+            "B": "2x",
+            "C": "x - 5",
+            "D": "2x + 5"
+          },
+          "answer": "A",
+          "explanation": "((x+h)^2 - 5(x+h) - x^2 + 5x)/h = (2xh + h^2 - 5h)/h = 2x + h - 5 → 2x - 5."
+        },
+        {
+          "question": "lim h→0 ((2 + h)^4 - 16)/h equals the derivative of which function at which point?",
+          "choices": {
+            "A": "f(x) = x^4 at x = 2",
+            "B": "f(x) = x^4 at x = 16",
+            "C": "f(x) = 2x^4 at x = 0",
+            "D": "f(x) = x^2 at x = 4"
+          },
+          "answer": "A",
+          "explanation": "The template (f(a + h) - f(a))/h with f(x) = x^4, a = 2, since 2^4 = 16. The limit equals f'(2) = 32."
+        },
+        {
+          "question": "lim x→9 (√x - 3)/(x - 9) equals",
+          "choices": {
+            "A": "1/3",
+            "B": "1/6",
+            "C": "1/9",
+            "D": "6"
+          },
+          "answer": "B",
+          "explanation": "This is the x-form of f'(9) for f(x) = √x (note √9 = 3). f'(x) = 1/(2√x), so f'(9) = 1/6. (Conjugate algebra gives the same.)"
+        },
+        {
+          "question": "If g(x) = 1/x, the equation of the tangent line to g at x = -1 is",
+          "choices": {
+            "A": "y + 1 = -(x + 1)",
+            "B": "y - 1 = -(x - 1)",
+            "C": "y + 1 = x + 1",
+            "D": "y = -x"
+          },
+          "answer": "A",
+          "explanation": "g(-1) = -1 and g'(x) = -1/x^2 gives g'(-1) = -1. Point-slope: y - (-1) = -1(x - (-1)), i.e. y + 1 = -(x + 1)."
+        },
+        {
+          "question": "dy/dx |_{x=4} for y = √x is",
+          "choices": {
+            "A": "2",
+            "B": "1/2",
+            "C": "1/4",
+            "D": "1/8"
+          },
+          "answer": "C",
+          "explanation": "dy/dx = 1/(2√x); at x = 4 this is 1/(2·2) = 1/4. The vertical bar means evaluate the derivative at 4."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = x^2 + 3x.\n(a) Using the limit definition of the derivative, find f'(x). Show the complete limit computation.\n(b) Write the equation of the tangent line to f at x = 1.\n(c) The limit lim x→1 (x^2 + 3x - 4)/(x - 1) appears on a later page of the same exam. Evaluate it by recognizing its structure, and reconcile with (b).",
+          "rubric": [
+            "(a) Correct quotient ((x+h)^2 + 3(x+h) - x^2 - 3x)/h, expansion, and cancellation",
+            "Limit evaluates to 2x + 3",
+            "(b) Uses point (1, 4) and slope 5: y - 4 = 5(x - 1)",
+            "(c) Recognizes the x-form of f'(1) (since f(1) = 4) and answers 5, matching the tangent slope"
+          ],
+          "model_answer": "(a) (f(x+h) - f(x))/h = (x^2 + 2xh + h^2 + 3x + 3h - x^2 - 3x)/h = (2xh + h^2 + 3h)/h = 2x + h + 3 → 2x + 3 = f'(x). (b) f(1) = 4, f'(1) = 5: y - 4 = 5(x - 1). (c) The limit is lim x→1 (f(x) - f(1))/(x - 1) = f'(1) = 5 — exactly the tangent slope from (b); the two questions are the same computation in different notation."
+        },
+        {
+          "question": "Let g(x) = √(x + 5).\n(a) Use the limit definition (with conjugate multiplication) to show g'(x) = 1/(2√(x + 5)).\n(b) Find the equation of the normal line to g at x = 4.\n(c) For which x in the domain of g does g'(x) fail to exist? What feature does the graph have there?",
+          "rubric": [
+            "(a) Multiplies quotient by conjugate; numerator reduces to h; cancels and evaluates",
+            "(b) g(4) = 3, g'(4) = 1/6, normal slope -6: y - 3 = -6(x - 4)",
+            "(c) Identifies x = -5 (the domain endpoint) where the limit is +∞",
+            "Describes a vertical tangent at the endpoint (-5, 0)"
+          ],
+          "model_answer": "(a) (√(x+h+5) - √(x+5))/h · (√(x+h+5) + √(x+5))/(√(x+h+5) + √(x+5)) = h/(h(√(x+h+5) + √(x+5))) = 1/(√(x+h+5) + √(x+5)) → 1/(2√(x+5)). (b) g(4) = 3 and g'(4) = 1/6, so the normal slope is -6: y - 3 = -6(x - 4). (c) At x = -5, the one-sided difference quotient grows without bound (denominator 2√(x+5) → 0⁺), so g'(-5) does not exist; the graph leaves (-5, 0) with a vertical tangent."
+        },
+        {
+          "question": "Each limit below equals f'(a) for some function f and point a. Identify f and a, then evaluate the limit using derivative shortcuts you know (d/dx x^n = n x^{n-1} for these cases).\n(a) lim h→0 ((3 + h)^2 - 9)/h\n(b) lim x→8 (x^{1/3} - 2)/(x - 8)\n(c) lim h→0 (1/(4 + h) - 1/4)/h",
+          "rubric": [
+            "(a) f(x) = x^2, a = 3, value 6",
+            "(b) f(x) = x^{1/3}, a = 8 (since 8^{1/3} = 2), value (1/3)·8^{-2/3} = 1/12",
+            "(c) f(x) = 1/x, a = 4, value -1/16",
+            "Work explicitly names f and a for each before evaluating"
+          ],
+          "model_answer": "(a) The h-form with f(x) = x^2, a = 3: f'(3) = 2·3 = 6. (b) The x-form with f(x) = x^{1/3}, a = 8: f'(x) = (1/3)x^{-2/3}, so f'(8) = (1/3)(1/4) = 1/12. (c) The h-form with f(x) = 1/x = x^{-1}, a = 4: f'(x) = -x^{-2}, so f'(4) = -1/16."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differentiation — Definition and Fundamental Properties",
+    "chapter_title": "Differentiability and Continuity",
+    "hook": "Every differentiable function is continuous — but the absolute value function is continuous and still has no derivative at its corner. The one-way street between these two properties is one of the most-tested logical facts in the entire course.",
+    "learning_objectives": [
+      "Prove and apply the implication: differentiable at a ⟹ continuous at a",
+      "Use the contrapositive: discontinuous at a ⟹ not differentiable at a",
+      "Identify the four graphical failures of differentiability: corner, cusp, vertical tangent, discontinuity",
+      "Test differentiability of piecewise functions by matching values and one-sided derivatives",
+      "Recognize that continuity does not imply differentiability, with standard counterexamples"
+    ],
+    "sections": [
+      {
+        "title": "The One-Way Implication",
+        "subtitle": "Differentiable ⟹ continuous, never the reverse",
+        "body": "If f'(a) exists, then f is continuous at a. The proof is two lines and worth seeing: f(x) - f(a) = ((f(x) - f(a))/(x - a)) · (x - a) → f'(a) · 0 = 0 as x → a, so f(x) → f(a) — which is continuity. Differentiability is the stronger condition: having a slope at a point requires, first of all, arriving at that point cleanly.\n\nThe converse fails, and the standard counterexample is f(x) = |x| at 0: perfectly continuous (the V touches down at the origin), but the left difference quotients are all -1 and the right ones all +1. The defining limit disagrees by side, so f'(0) does not exist. Continuity buys you arrival; it does not buy you smooth arrival.\n\nThe contrapositive does heavy exam lifting: NOT continuous at a ⟹ NOT differentiable at a. Spot any discontinuity — hole, jump, asymptote — and you may instantly declare non-differentiability there, no difference quotients needed. This is usually the fastest elimination tool on 'which statements must be true' questions.\n\nKeep the logical map straight: differentiable ⟹ continuous ⟹ limit exists. Each arrow is one-way. The exam's favorite wrong answer is the reversed arrow — 'f is continuous at 3, so f'(3) exists' is FALSE, and recognizing it as false is routinely worth a point.",
+        "key_terms": [
+          [
+            "Differentiability implies continuity",
+            "If f'(a) exists then lim x→a f(x) = f(a) — smoothness requires arrival"
+          ],
+          [
+            "Contrapositive",
+            "Discontinuous at a ⟹ not differentiable at a: the instant-elimination form"
+          ],
+          [
+            "|x| counterexample",
+            "Continuous everywhere, not differentiable at 0 — the canonical one-way-street witness"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Truth-table this once and never miss it again: Diff ⟹ Cont (TRUE). Cont ⟹ Diff (FALSE, |x|). Not Cont ⟹ Not Diff (TRUE). Not Diff ⟹ Not Cont (FALSE, |x| again). Two truths, two lies, one counterexample covering both lies."
+          ]
+        ]
+      },
+      {
+        "title": "A Bestiary of Failures",
+        "subtitle": "Corner, cusp, vertical tangent, break",
+        "body": "Differentiability fails at a in exactly four graphical ways, and the AP expects identification on sight. The corner: one-sided slopes both exist but differ, like |x| at 0 — the graph turns sharply, a V or a kink. Secants from the two sides stabilize to two DIFFERENT lines.\n\nThe cusp: the one-sided difference quotients blow up to OPPOSITE infinities — the graph comes to a point like x^{2/3} at 0, where slopes approach -∞ from the left and +∞ from the right. Sharper than a corner: the curve momentarily looks like a vertical spike folded back on itself.\n\nThe vertical tangent: both one-sided quotients blow up to the SAME infinity, like x^{1/3} at 0. The tangent line exists geometrically — it is vertical — but a vertical line has no slope, so f'(0) DNE while the graph stays perfectly smooth-looking. (Note both cusp and vertical tangent require continuity at the point; they are smooth-arrival failures of a different flavor.)\n\nThe discontinuity: any hole, jump, or asymptote, by the contrapositive. Summary check for 'where is f not differentiable?' on a graph: scan for breaks first, then sharp turns, then vertical-tangent points. Everything else — including points where the function merely touches zero or changes direction smoothly — is differentiable business as usual.",
+        "key_terms": [
+          [
+            "Corner",
+            "One-sided derivatives exist but differ (|x| at 0); the mildest failure"
+          ],
+          [
+            "Cusp",
+            "One-sided quotients diverge to opposite infinities (x^{2/3} at 0)"
+          ],
+          [
+            "Vertical tangent",
+            "Both quotients diverge to the same infinity (x^{1/3} at 0); the tangent is vertical, slope undefined"
+          ],
+          [
+            "Failure scan order",
+            "Breaks, then corners, then vertical tangents — the efficient graph-reading routine"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "x^{1/3} versus x^{2/3} at the origin is a classic discrimination pair: the cube root has a vertical tangent (S-shaped through zero), the two-thirds power has a cusp (a bird-beak pointing down). Both are continuous, neither is differentiable at 0."
+          ]
+        ]
+      },
+      {
+        "title": "Piecewise Differentiability",
+        "subtitle": "Match the values, then match the slopes",
+        "body": "For a piecewise function to be differentiable at a seam x = c, TWO matching conditions must hold, in order. First, continuity: the pieces must meet — left limit = right limit = f(c). Second, slope agreement: the derivatives of the two pieces must agree at c. Both checks, always in that order, because differentiability without continuity is impossible.\n\nThe standard exam problem: f(x) = x^2 for x ≤ 1 and f(x) = mx + b for x > 1; find m and b making f differentiable everywhere. Continuity at 1: 1 = m + b. Slopes: 2x on the left gives 2 at the seam; m on the right. So m = 2, then b = -1. Two conditions, two unknowns — the problem type is a small linear system wearing calculus clothing.\n\nA subtle trap: matching slopes WITHOUT matching values does not rescue differentiability. If the pieces are parallel but offset — same slope, different heights at the seam — the function jumps, is discontinuous, and the contrapositive kills differentiability regardless of the slope agreement. This is why the order of checks matters: continuity first, then slopes.\n\nA second subtlety for honest bookkeeping: technically the slope condition compares one-sided derivative limits, and for the standard exam setup (each piece differentiable up to the seam) computing each piece's derivative and plugging in the seam is exactly right. State both conditions explicitly in FRQ work — 'for continuity: ...; for matching derivatives: ...' — and the rubric points fall out automatically.",
+        "key_terms": [
+          [
+            "Seam differentiability",
+            "Continuity at the seam PLUS equal one-sided derivatives there"
+          ],
+          [
+            "Two-condition system",
+            "Value match and slope match: two equations determining two parameters"
+          ],
+          [
+            "Parallel-pieces trap",
+            "Equal slopes with unequal values still leaves a jump — not differentiable"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "FRQ template for seam problems: 'Continuity requires [left value] = [right value]. Differentiability additionally requires [left derivative at c] = [right derivative at c].' Write both equations labeled exactly that way — the labels themselves are what the rubric rewards."
+          ]
+        ]
+      },
+      {
+        "title": "Reading Differentiability from Information",
+        "subtitle": "Graphs, tables, and theorem hypotheses",
+        "body": "From a graph, differentiability questions are the bestiary scan. From a formula, they concentrate at suspicious points: seams of piecewise definitions, points where an absolute value's interior vanishes, roots of even-index radicals, and discontinuities of the formula itself. Everywhere else, the library functions are differentiable on their domains.\n\nAbsolute value compositions deserve their own reflex: g(x) = |x^2 - 4| is non-differentiable exactly where the inside crosses zero with nonzero slope — at x = ±2 the graph of x^2 - 4 gets folded upward, creating corners. If the inside touches zero WITHOUT crossing (like |x^2| = x^2 at 0), no corner forms. The rule of thumb: |inside| manufactures corners at simple zeros of the inside, and stays smooth at even-order zeros.\n\nFrom a table, you cannot conclude differentiability at all — but exam stems often GIVE differentiability as a hypothesis ('f is twice-differentiable on [0, 10]') precisely so later parts can use continuity for free (IVT applications) and so difference quotients can estimate f'. When a stem grants differentiability, consciously bank both consequences.\n\nDifferentiability hypotheses power the existence theorems ahead: the Mean Value Theorem (Unit 5) demands continuity on [a, b] and differentiability on (a, b), and exam graders check hypothesis verification sentence by sentence. This chapter is where you learn to write those sentences honestly — 'f is differentiable, hence continuous, so...' is a phrase you will use for the rest of the course.",
+        "key_terms": [
+          [
+            "Suspicious points",
+            "Seams, zeros inside absolute values, radical branch points, discontinuities — the only places to check"
+          ],
+          [
+            "|inside| corner rule",
+            "Corners appear where the inside crosses zero with nonzero slope; smooth where it touches without crossing"
+          ],
+          [
+            "Hypothesis banking",
+            "Granted differentiability ⟹ free continuity ⟹ IVT and difference-quotient estimates become legal"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'f is differentiable' in a problem stem is never wasted ink — it is there to license something later: continuity for an IVT part, an MVT application, or trusting a table-based slope estimate. When you read it, ask immediately: which later part needs this?"
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "f(x) = |x - 3|. Which statement is true at x = 3?",
+          "choices": {
+            "A": "f is continuous and differentiable",
+            "B": "f is continuous but not differentiable",
+            "C": "f is differentiable but not continuous",
+            "D": "f is neither continuous nor differentiable"
+          },
+          "answer": "B",
+          "explanation": "The V touches down at (3, 0) — continuous. One-sided slopes are -1 and +1 — a corner, so not differentiable. (C is impossible for any function, ever.)"
+        },
+        {
+          "question": "If g is differentiable at x = 2, which statement MUST be true?",
+          "choices": {
+            "A": "g'(2) > 0",
+            "B": "lim x→2 g(x) = g(2)",
+            "C": "g is differentiable everywhere",
+            "D": "g''(2) exists"
+          },
+          "answer": "B",
+          "explanation": "Differentiability at a point forces continuity at that point — that is the one-way implication. The others are unwarranted: slope sign, global behavior, and higher derivatives are all extra claims."
+        },
+        {
+          "question": "At x = 0, the function f(x) = x^{1/3} has",
+          "choices": {
+            "A": "a corner",
+            "B": "a cusp",
+            "C": "a vertical tangent",
+            "D": "a removable discontinuity"
+          },
+          "answer": "C",
+          "explanation": "The difference quotient h^{1/3}/h = h^{-2/3} → +∞ from BOTH sides — same infinity, so a vertical tangent. (Opposite infinities would be a cusp; that is x^{2/3}.)"
+        },
+        {
+          "question": "f(x) = x^2 + 1 for x < 2 and f(x) = ax + b for x ≥ 2 is differentiable at x = 2 when",
+          "choices": {
+            "A": "a = 4, b = -3",
+            "B": "a = 4, b = 5",
+            "C": "a = 2, b = 1",
+            "D": "a = 4, b = 3"
+          },
+          "answer": "A",
+          "explanation": "Continuity: 4 + 1 = 2a + b. Slopes: 2x gives 4; so a = 4, then 5 = 8 + b gives b = -3. Both conditions, in order."
+        },
+        {
+          "question": "g(x) = |x^2 - 9|. The x-values where g is NOT differentiable are",
+          "choices": {
+            "A": "x = 3 only",
+            "B": "x = -3 and x = 3",
+            "C": "x = 0, -3, and 3",
+            "D": "g is differentiable everywhere"
+          },
+          "answer": "B",
+          "explanation": "The inside x^2 - 9 crosses zero with nonzero slope at ±3, folding the graph into corners there. At x = 0 the inside is -9 ≠ 0 — no corner."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = x^2 for x ≤ 1 and f(x) = 2x - 1 for x > 1.\n(a) Show that f is continuous at x = 1.\n(b) Show that f is differentiable at x = 1 by comparing one-sided derivatives.\n(c) Sketch-describe the graph near x = 1: why does it LOOK smooth even though it is built from two different formulas?",
+          "rubric": [
+            "(a) Left value/limit: 1; right limit: 2(1) - 1 = 1; f(1) = 1 — all equal",
+            "(b) Left derivative 2x at 1 gives 2; right derivative is 2; they match",
+            "(c) Notes the line y = 2x - 1 IS the tangent line to y = x^2 at (1,1)",
+            "Concludes the parabola hands off to its own tangent — value and slope both agree, hence visual smoothness"
+          ],
+          "model_answer": "(a) lim x→1⁻ f = 1^2 = 1, lim x→1⁺ f = 2(1) - 1 = 1, and f(1) = 1: continuous. (b) For x < 1, f' = 2x → 2; for x > 1, f' = 2. One-sided derivatives agree at 2, and f is continuous there, so f'(1) = 2 exists. (c) The line y = 2x - 1 is exactly the tangent to the parabola at (1, 1) — the curve transitions into its own tangent line, matching both height and direction, so the junction is seamless to the eye and to the derivative."
+        },
+        {
+          "question": "Consider g(x) = x^{2/3}.\n(a) Show g is continuous at 0.\n(b) Evaluate the one-sided limits of the difference quotient at 0 and conclude about g'(0).\n(c) Name the graphical feature at the origin and contrast it with the feature x^{1/3} has there.",
+          "rubric": [
+            "(a) lim x→0 x^{2/3} = 0 = g(0)",
+            "(b) Quotient h^{2/3}/h = h^{-1/3} → +∞ as h → 0⁺ and -∞ as h → 0⁻",
+            "Concludes g'(0) does not exist",
+            "(c) Identifies a cusp (opposite infinities) vs the vertical tangent of x^{1/3} (same infinity, S-curve)"
+          ],
+          "model_answer": "(a) x^{2/3} = (x^{1/3})^2 → 0 as x → 0, and g(0) = 0: continuous. (b) (g(h) - g(0))/h = h^{2/3}/h = 1/h^{1/3}. As h → 0⁺ this → +∞; as h → 0⁻ it → -∞. The two-sided limit fails dramatically, so g'(0) DNE. (c) Opposite-signed blowups make a cusp — the graph descends to a sharp point at the origin and rises again. x^{1/3} instead has both quotients → +∞: a vertical tangent, with the curve passing smoothly through the origin in an S shape."
+        },
+        {
+          "question": "f is defined by f(x) = ax^2 + bx for x ≤ 2 and f(x) = x^3 - 4 for x > 2.\n(a) Write the continuity condition at x = 2.\n(b) Write the differentiability condition at x = 2.\n(c) Solve for a and b, and verify that with these values both conditions hold.",
+          "rubric": [
+            "(a) 4a + 2b = 8 - 4 = 4",
+            "(b) Left derivative 2ax + b at 2: 4a + b; right derivative 3x^2 at 2: 12. So 4a + b = 12",
+            "(c) Solves the system 4a + 2b = 4 and 4a + b = 12 to get b = -8, a = 5",
+            "Verifies: values 20 - 16 = 4 ✓ and slopes 20 - 8 = 12 ✓"
+          ],
+          "model_answer": "(a) Continuity: lim x→2⁻ f = 4a + 2b must equal lim x→2⁺ f = 2^3 - 4 = 4, so 4a + 2b = 4. (b) Differentiability additionally requires the one-sided derivatives to match: 2ax + b at x = 2 gives 4a + b, and 3x^2 at x = 2 gives 12, so 4a + b = 12. (c) Subtract the equations: (4a + 2b) - (4a + b) = 4 - 12 gives b = -8, then 4a - 16 = 4 so a = 5. Check: value 4(5) + 2(-8) = 4 matches 4 ✓; slope 4(5) - 8 = 12 matches 12 ✓. f is differentiable at the seam with a = 5, b = -8."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differentiation — Definition and Fundamental Properties",
+    "chapter_title": "Power Rule, Sums, and Constant Multiples",
+    "hook": "You computed d/dx x^3 = 3x^2 from the definition in four careful lines. The power rule does it in zero lines — and with linearity, it differentiates every polynomial on sight. This is where calculus starts moving at full speed.",
+    "learning_objectives": [
+      "Apply the power rule d/dx x^n = n x^{n-1} for all rational exponents",
+      "Differentiate constant multiples and sums term by term using linearity",
+      "Rewrite radicals and reciprocal powers as rational exponents before differentiating",
+      "Differentiate full polynomials and evaluate derivatives at points fluently",
+      "Combine the rules to solve tangent line and rate problems without limit computations"
+    ],
+    "sections": [
+      {
+        "title": "The Power Rule",
+        "subtitle": "Bring it down, knock it down",
+        "body": "For any real exponent n, d/dx x^n = n x^{n-1}: multiply by the old exponent, then reduce the exponent by one. 'Bring the power down in front, knock the power down by one.' The definition-based computations of the last chapter — 3x^2 for x^3, the binomial expansion shedding higher-order h terms — are this rule's proof in miniature: the surviving term of (x + h)^n is always n x^{n-1} h.\n\nThe rule covers far more than positive integers. n = 1: d/dx x = 1 (the line y = x has slope 1 everywhere — sanity check). n = 0: d/dx 1 = 0; constants are flat, slope zero, everywhere. Negative n: d/dx x^{-1} = -x^{-2}, matching our hard-won definition result for 1/x. Fractional n: d/dx x^{1/2} = (1/2) x^{-1/2} = 1/(2√x), matching the conjugate computation. The rule unifies the whole previous chapter.\n\nThe practical skill is REWRITING. The exam hands you √x, 1/x^4, x√x, or 5/√x — none in power form. Translate first: √x = x^{1/2}; 1/x^4 = x^{-4}; x√x = x^{3/2}; 5/√x = 5x^{-1/2}. Then the rule is mechanical: d/dx x^{-4} = -4x^{-5}, d/dx x^{3/2} = (3/2)x^{1/2}.\n\nClean-up matters for matching answer choices: -4x^{-5} = -4/x^5, and (1/2)x^{-1/2} = 1/(2√x). Multiple-choice answers appear in radical/fraction form roughly as often as exponent form; fluency in both directions is non-negotiable speed.",
+        "key_terms": [
+          [
+            "Power rule",
+            "d/dx x^n = n x^{n-1}, valid for every rational (indeed real) exponent n"
+          ],
+          [
+            "Rewriting step",
+            "Converting radicals and reciprocals to x^n form BEFORE differentiating"
+          ],
+          [
+            "Constant rule",
+            "d/dx c = 0: constants have flat graphs and zero slope"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The #1 power rule error on the exam is differentiating 1/x^3 as if it were x^3. Force the rewrite x^{-3} every single time — the negative sign in the exponent produces the -3x^{-4} that distinguishes right from wrong answers."
+          ]
+        ]
+      },
+      {
+        "title": "Linearity",
+        "subtitle": "Term by term, constants along for the ride",
+        "body": "Differentiation is linear: d/dx [c·f(x)] = c·f'(x), and d/dx [f(x) + g(x)] = f'(x) + g'(x). Constants ride along; sums split apart. Together with the power rule, linearity differentiates any polynomial term by term at sight: d/dx (4x^5 - 7x^2 + 3x - 11) = 20x^4 - 14x + 3.\n\nWhy linearity holds is worth one honest paragraph: limits respect sums and constant multiples (Chapter 1.2's limit laws), and derivatives are limits, so derivatives inherit both behaviors. The difference quotient of a sum splits into the sum of difference quotients; a constant factors straight out. Calculus's rule structure is the limit laws wearing new clothes.\n\nWhat linearity does NOT cover: products and quotients. d/dx [f·g] is NOT f'·g' — the next chapter exists precisely because that tempting guess is false (quick counterexample: x·x = x^2 has derivative 2x, but 1·1 = 1). Linearity licenses splitting across PLUS and MINUS signs and pulling out multiplicative CONSTANTS — nothing else.\n\nFluency drill mentality: differentiate y = x^3/5 - 2√x + 7/x. Rewrite: (1/5)x^3 - 2x^{1/2} + 7x^{-1}. Differentiate: (3/5)x^2 - x^{-1/2} - 7x^{-2}. Clean: (3/5)x^2 - 1/√x - 7/x^2. Three steps — rewrite, rule, clean — should run in under thirty seconds by exam day.",
+        "key_terms": [
+          [
+            "Linearity",
+            "Derivatives split over sums/differences and pass through constant multiples"
+          ],
+          [
+            "Term-by-term differentiation",
+            "Polynomials differentiate one monomial at a time"
+          ],
+          [
+            "Linearity's boundary",
+            "No splitting across products or quotients — that's next chapter's machinery"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Watch for constants in DISGUISE: π^2, e^3, and ln(5) are numbers, not functions. d/dx π^2 = 0. The exam plants these hoping you'll power-rule them — any expression with no x is a constant, derivative zero."
+          ]
+        ]
+      },
+      {
+        "title": "Higher Derivatives, First Look",
+        "subtitle": "Differentiate again",
+        "body": "Nothing stops you from differentiating the derivative. f''(x) — 'f double prime' — is the derivative of f', and f'''(x), f^{(4)}(x), and so on continue the tower. Leibniz notation stacks: d^2y/dx^2 for the second derivative. For f(x) = x^4: f' = 4x^3, f'' = 12x^2, f''' = 24x, f^{(4)} = 24, f^{(5)} = 0 — polynomials eventually differentiate to zero, each pass lowering every degree by one.\n\nInterpretation preview: if f' measures how fast f changes, f'' measures how fast the SLOPE changes — the bending of the graph. Position, velocity, acceleration is the canonical chain: s''(t) = v'(t) = a(t). Units stack accordingly: position in meters, velocity in meters per second, acceleration in meters per second per second (m/s^2). Unit 4 and Unit 5 build heavily on second-derivative meaning; here you need the mechanics.\n\nThe notation f^{(n)} with parentheses distinguishes the nth derivative from the nth power — f^{(4)} is four differentiations, f^4 is a fourth power. BC students will live inside this notation in Unit 10, where Taylor coefficients are f^{(n)}(a)/n!: the entire series machinery runs on iterated derivatives evaluated at a point.\n\nA BC-flavored pattern worth keeping: each differentiation of x^n produces a falling product n(n-1)(n-2)⋯, and after n differentiations, x^n becomes the constant n! (n factorial). That factorial is precisely why Taylor coefficients divide by n! — a connection that will feel inevitable by Unit 10 if you notice it now.",
+        "key_terms": [
+          [
+            "Second derivative",
+            "f'' = (f')': the rate of change of the rate of change"
+          ],
+          [
+            "Acceleration",
+            "a(t) = v'(t) = s''(t), with units like m/s^2"
+          ],
+          [
+            "f^{(n)} notation",
+            "Parenthesized superscript counts differentiations; no parentheses means a power"
+          ],
+          [
+            "Factorial pattern",
+            "n differentiations send x^n to n! — the engine inside Taylor coefficients (BC)"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "On 'find f''(2)' questions, resist plugging in 2 too early. Differentiate twice symbolically FIRST, then evaluate — substituting before differentiating turns the function into a constant and the answer into 0, a wrong answer the choices happily include."
+          ]
+        ]
+      },
+      {
+        "title": "The Rules at Work",
+        "subtitle": "Tangents, motion, and structure questions",
+        "body": "With computation now instant, problems shift to structure. Tangent lines: for f(x) = x^3 - 3x at x = 2, three quick numbers — f(2) = 2, f'(x) = 3x^2 - 3, f'(2) = 9 — assemble y - 2 = 9(x - 2). The limit definition would take half a page; the rules take three lines. (The definition still matters: it is what the rules MEAN, and the exam tests that meaning directly.)\n\nHorizontal tangents: solve f'(x) = 0. For f(x) = x^3 - 3x: 3x^2 - 3 = 0 gives x = ±1 — the two flat points of the cubic's S-curve. 'Where is the tangent parallel to y = 9x - 1?' means solve f'(x) = 9: 3x^2 - 3 = 9, x = ±2. Parallel means equal slopes; perpendicular means negative reciprocal slopes — both phrasings reduce to equations in f'.\n\nMotion, first pass: s(t) = t^3 - 6t^2 + 9t gives v(t) = 3t^2 - 12t + 9 = 3(t - 1)(t - 3) and a(t) = 6t - 12. The particle is momentarily at rest when v = 0: t = 1 and t = 3. Velocity's sign tells direction; acceleration's sign tells whether velocity is rising. The full analysis arrives in Unit 4 — but every piece of it is power-rule arithmetic.\n\nStructure questions also run backward: given f'(x) = 4x^3, what could f be? Anything of the form x^4 + C — differentiation destroys constants, so recovering f from f' is ambiguous by exactly a constant. That observation, antidifferentiation, is Unit 6's opening door; you have already seen everything it needs.",
+        "key_terms": [
+          [
+            "Horizontal tangent",
+            "A point where f'(x) = 0: the tangent line is flat"
+          ],
+          [
+            "Parallel/perpendicular conditions",
+            "Equal slopes / negative-reciprocal slopes, both solved through f'"
+          ],
+          [
+            "Antiderivative preview",
+            "Recovering f from f' is unique only up to an added constant"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'At rest' means v(t) = 0 — not a(t) = 0, not s(t) = 0. Translating motion vocabulary into the correct derivative equation is half the credit on motion questions, and 'rest' is the most-tested word in the list."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "d/dx (3x^4 - 2x^2 + 7x - π) =",
+          "choices": {
+            "A": "12x^3 - 4x + 7",
+            "B": "12x^3 - 4x + 7 - π",
+            "C": "3x^3 - 2x + 7",
+            "D": "12x^3 - 4x"
+          },
+          "answer": "A",
+          "explanation": "Term by term: 12x^3 - 4x + 7, and the constant π differentiates to 0 — not to -π."
+        },
+        {
+          "question": "If f(x) = 4/x^2, then f'(x) =",
+          "choices": {
+            "A": "8/x",
+            "B": "-8/x^3",
+            "C": "8x",
+            "D": "-2/x^3"
+          },
+          "answer": "B",
+          "explanation": "Rewrite: 4x^{-2}. Power rule: -8x^{-3} = -8/x^3."
+        },
+        {
+          "question": "g(x) = x√x. Then g'(4) =",
+          "choices": {
+            "A": "3",
+            "B": "2",
+            "C": "4",
+            "D": "3/2"
+          },
+          "answer": "A",
+          "explanation": "x√x = x^{3/2}, so g'(x) = (3/2)x^{1/2} and g'(4) = (3/2)(2) = 3."
+        },
+        {
+          "question": "The graph of f(x) = x^3 - 12x has horizontal tangent lines at x =",
+          "choices": {
+            "A": "0 only",
+            "B": "±2",
+            "C": "±2√3",
+            "D": "±12"
+          },
+          "answer": "B",
+          "explanation": "f'(x) = 3x^2 - 12 = 0 gives x^2 = 4, x = ±2. (±2√3 are the x-intercepts of f, a planted distractor.)"
+        },
+        {
+          "question": "A particle moves with s(t) = t^3 - 9t^2 + 24t. Its acceleration at the LATER time when it is momentarily at rest is",
+          "choices": {
+            "A": "6",
+            "B": "-6",
+            "C": "0",
+            "D": "12"
+          },
+          "answer": "A",
+          "explanation": "v(t) = 3t^2 - 18t + 24 = 3(t-2)(t-4): rest at t = 2 and t = 4. a(t) = 6t - 18; at the later time t = 4, a(4) = 6."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = 2x^3 - 9x^2 + 12x - 3.\n(a) Find f'(x) and f''(x).\n(b) Write the equation of the tangent line to f at x = 0.\n(c) Find all x where the tangent to f is horizontal, and find all x where the tangent is parallel to the line y = 12x + 5.",
+          "rubric": [
+            "(a) f' = 6x^2 - 18x + 12; f'' = 12x - 18",
+            "(b) f(0) = -3, f'(0) = 12: y + 3 = 12x (or y = 12x - 3)",
+            "(c) Horizontal: 6(x-1)(x-2) = 0 at x = 1, 2",
+            "Parallel to slope 12: 6x^2 - 18x + 12 = 12 gives x = 0, 3"
+          ],
+          "model_answer": "(a) f'(x) = 6x^2 - 18x + 12 and f''(x) = 12x - 18. (b) f(0) = -3 and f'(0) = 12, so y - (-3) = 12(x - 0): y = 12x - 3. (c) Horizontal: 6x^2 - 18x + 12 = 6(x - 1)(x - 2) = 0 at x = 1 and x = 2. Parallel to y = 12x + 5 means slope 12: 6x^2 - 18x + 12 = 12, so 6x(x - 3) = 0: x = 0 and x = 3 — consistent with (b), where the tangent at 0 indeed had slope 12."
+        },
+        {
+          "question": "A particle moves along a line with position s(t) = t^4 - 4t^3 + 1 for t ≥ 0 (s in meters, t in seconds).\n(a) Find the velocity and acceleration functions.\n(b) When is the particle at rest?\n(c) Find the particle's acceleration at each time it is at rest, and state what the sign of each acceleration suggests about the velocity near that time.",
+          "rubric": [
+            "(a) v = 4t^3 - 12t^2; a = 12t^2 - 24t",
+            "(b) v = 4t^2(t - 3) = 0: t = 0 and t = 3",
+            "(c) a(0) = 0 and a(3) = 36",
+            "Interprets a(3) = 36 > 0: velocity is increasing through zero (turning from negative to positive); at t = 0, a = 0 gives no immediate conclusion"
+          ],
+          "model_answer": "(a) v(t) = 4t^3 - 12t^2, a(t) = 12t^2 - 24t. (b) v(t) = 4t^2(t - 3) = 0 at t = 0 and t = 3. (c) a(0) = 0 and a(3) = 12(9) - 72 = 36. At t = 3 the acceleration is positive, so velocity is increasing as it passes through zero — the particle stops while moving in the negative direction and turns to move positively. At t = 0 the acceleration is also zero, so the sign test is silent there; in fact v = 4t^2(t-3) stays negative on both sides of 0, so the particle pauses without turning."
+        },
+        {
+          "question": "Let g(x) = √x + 9/√x for x > 0.\n(a) Rewrite g using rational exponents and find g'(x).\n(b) Find the x-coordinate where the graph of g has a horizontal tangent.\n(c) Determine g''(x) and evaluate g'' at the point from (b). What does its sign say about the slope of g just before and just after that point?",
+          "rubric": [
+            "(a) g = x^{1/2} + 9x^{-1/2}; g' = (1/2)x^{-1/2} - (9/2)x^{-3/2}",
+            "(b) Sets g' = 0: x^{-3/2}(x - 9) = 0 (after factoring), so x = 9",
+            "(c) g'' = -(1/4)x^{-3/2} + (27/4)x^{-5/2}; evaluates g''(9) = 1/54, a positive value",
+            "Positive g'' at 9 means the slope g' is increasing through zero: negative before, positive after"
+          ],
+          "model_answer": "(a) g(x) = x^{1/2} + 9x^{-1/2}, so g'(x) = (1/2)x^{-1/2} - (9/2)x^{-3/2} = (x - 9)/(2x^{3/2}). (b) g'(x) = 0 when x = 9. (c) g''(x) = -(1/4)x^{-3/2} + (27/4)x^{-5/2}. At x = 9: -(1/4)/27 + (27/4)/243 = -1/108 + 1/36 = 2/108 = 1/54 > 0. A positive second derivative means g' is increasing as it crosses zero at x = 9 — the slope of g is negative just before x = 9 and positive just after, so the graph bottoms out there."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differentiation — Definition and Fundamental Properties",
+    "chapter_title": "Product and Quotient Rules",
+    "hook": "The derivative of a sum is the sum of derivatives — so surely the derivative of a product is the product of derivatives? Test it on x·x and watch the guess collapse. Products and quotients have their own rules, and they are non-negotiable.",
+    "learning_objectives": [
+      "State and apply the product rule to differentiate products of functions",
+      "State and apply the quotient rule, keeping the numerator's order straight",
+      "Choose between rewriting and rule-applying for quotients that simplify",
+      "Differentiate products and quotients using tables of function and derivative values",
+      "Extend the product rule to three factors and recognize its structure"
+    ],
+    "sections": [
+      {
+        "title": "Why the Naive Guess Fails",
+        "subtitle": "And what replaces it",
+        "body": "Take f(x) = g(x) = x. The product is x^2, whose derivative is 2x. The product of the derivatives is 1·1 = 1. Not equal — the naive rule is dead on arrival. Products do not differentiate factor-by-factor because BOTH factors change as x changes, and each factor's change gets amplified by the other factor's current size.\n\nThe correct statement, the product rule: d/dx [f(x)g(x)] = f'(x)g(x) + f(x)g'(x). Each term lets ONE factor change while the other holds steady — first factor's rate times second factor, plus first factor times second factor's rate. The structure mirrors how a rectangle's area grows: width change times height, plus width times height change.\n\nVerify on the failed example: f = g = x gives 1·x + x·1 = 2x. Correct. A more honest test: d/dx [x^2 · x^3]. Product rule: 2x·x^3 + x^2·3x^2 = 2x^4 + 3x^4 = 5x^4 — exactly the power rule's answer for x^5. The rules form a consistent system; cross-checking like this catches errors and builds trust.\n\nWhen should you use it? Whenever a function is a genuine product of two x-dependent factors: x^2 sin(x), (x^3 + 1)(x^2 - 4), x e^x (once exponentials arrive next chapter). When one factor is constant, skip it — d/dx [5 sin x] needs only linearity. Constant times function is linearity's job; function times function is the product rule's job.",
+        "key_terms": [
+          [
+            "Product rule",
+            "d/dx [fg] = f'g + fg' — one factor changes at a time, then add"
+          ],
+          [
+            "Rectangle intuition",
+            "Area growth = (width rate)(height) + (width)(height rate)"
+          ],
+          [
+            "Consistency check",
+            "Expanding and using the power rule must agree with the product rule — verify when unsure"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Before reaching for the product rule, ask if expanding is faster: (x^2 + 1)(x - 3) expands to a cubic that differentiates term by term in seconds. The product rule is mandatory only when expansion is impossible or ugly — like x^2 sin(x)."
+          ]
+        ]
+      },
+      {
+        "title": "The Quotient Rule",
+        "subtitle": "Low d-high minus high d-low",
+        "body": "For ratios: d/dx [f(x)/g(x)] = (f'(x)g(x) - f(x)g'(x))/[g(x)]^2, valid wherever g(x) ≠ 0. The mnemonic that has survived generations: 'low d-high minus high d-low, over low-low.' The numerator is the product rule's shape with a MINUS — and that minus makes order matter. f'g - fg', never fg' - f'g.\n\nWhy the minus? Increasing the denominator DECREASES the quotient, so the denominator's growth enters negatively. The rule actually follows from the product rule applied to f = (f/g)·g — a derivation worth seeing once so the formula feels inevitable rather than arbitrary.\n\nWorked: d/dx [(x^2 + 1)/(x - 2)]. Numerator: 2x(x - 2) - (x^2 + 1)(1) = 2x^2 - 4x - x^2 - 1 = x^2 - 4x - 1. Result: (x^2 - 4x - 1)/(x - 2)^2. Leave denominators in squared-factored form — expanding (x - 2)^2 helps nothing and invites errors. Simplify numerators, package denominators.\n\nQuotient rule discipline for exam day: write the rule's skeleton first with empty brackets — ([ ]'·[ ] - [ ]·[ ]')/[ ]^2 — then fill. Most quotient errors are silent order-swaps committed mid-computation; the skeleton makes the order a fill-in-the-blank instead of a memory test under pressure.",
+        "key_terms": [
+          [
+            "Quotient rule",
+            "d/dx [f/g] = (f'g - fg')/g^2 — the minus makes order non-negotiable"
+          ],
+          [
+            "Mnemonic",
+            "Low d-high minus high d-low, square the bottom and away we go"
+          ],
+          [
+            "Skeleton-first habit",
+            "Write the rule's frame before filling functions in — order errors die in the template"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Multiple-choice answer sets for quotient rule questions ALWAYS include the order-swapped version (fg' - f'g)/g^2 as a distractor. If your answer matches a choice exactly but you rushed, re-derive the numerator's first term: it must start with the NUMERATOR's derivative."
+          ]
+        ]
+      },
+      {
+        "title": "Rewrite or Rule?",
+        "subtitle": "Choosing the cheap path",
+        "body": "Many quotients are power-rule problems in disguise, and recognizing them saves minutes. d/dx [5/x^3]: quotient rule works, but rewriting as 5x^{-3} gives -15x^{-4} in one step. d/dx [(x^3 + 2x)/x]: split the fraction — x^2 + 2 — and differentiate to 2x instantly. Division by a MONOMIAL always splits; division by a polynomial usually does not.\n\nThe decision rule: if the denominator is a single term (a monomial or constant), rewrite — split the fraction or use negative exponents. If the denominator has multiple terms, the quotient rule is the honest path. (x^2 + 1)/(x - 2) does not split usefully; 5/x^3 and (x^4 - 3x)/x^2 do.\n\nMixed forms reward a moment of algebra first. d/dx [x^2(x^3 - 4)/x]: simplify inside before differentiating — x(x^3 - 4) = x^4 - 4x, derivative 4x^3 - 4. Differentiating first and simplifying later gets the same answer with triple the writing and triple the error surface. Algebra before calculus, every time it is available.\n\nThis chapter's rules complete 'rational function differentiation': any polynomial-over-polynomial now yields to your toolkit. With next chapter's trig and exponential derivatives, plus Unit 3's chain rule, the differentiation system will be CLOSED — every elementary function differentiable by rules, no limits required. You are two chapters from total computational power.",
+        "key_terms": [
+          [
+            "Monomial denominator",
+            "Split the fraction or use negative exponents — quotient rule is overkill"
+          ],
+          [
+            "Polynomial denominator",
+            "Multiple terms downstairs: quotient rule is the honest tool"
+          ],
+          [
+            "Algebra-first principle",
+            "Simplify the expression before differentiating whenever simplification exists"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The exam writes (x^4 + 3x^2)/x^2 hoping you'll quotient-rule it. Split it: x^2 + 3, derivative 2x. Thirty seconds saved and zero error risk. Scan every quotient's denominator for single-term-ness BEFORE choosing your weapon."
+          ]
+        ]
+      },
+      {
+        "title": "Rules from Tables",
+        "subtitle": "Structure over formulas",
+        "body": "The AP's purest test of whether you know the rules as STRUCTURES: table problems. Given f(2) = 3, f'(2) = -1, g(2) = 5, g'(2) = 4, compute (fg)'(2) = f'(2)g(2) + f(2)g'(2) = (-1)(5) + (3)(4) = 7. No formulas for f and g exist — only the rule's skeleton and four numbers.\n\nQuotient version: (f/g)'(2) = (f'(2)g(2) - f(2)g'(2))/[g(2)]^2 = ((-1)(5) - (3)(4))/25 = -17/25. The table format strips away all algebra and exposes exactly one thing: do you know which numbers go where. It is simultaneously the easiest and most error-prone question type — easy because it is arithmetic, error-prone because the skeleton must be flawless.\n\nGraph-based variants supply f and g as plotted curves: read function values from the curves' heights and derivative values from their slopes (counting grid squares for rise over run), then run the same skeletons. A piecewise-linear graph makes slopes exact; expect one segment-slope reading per factor.\n\nThree-factor products extend the pattern — d/dx [fgh] = f'gh + fg'h + fgh' — one term per factor, each factor taking its turn to differentiate. The shape generalizes infinitely and previews logarithmic differentiation in Unit 3, where products of many factors get tamed by logs. Structure, not memorization, is what scales.",
+        "key_terms": [
+          [
+            "Table problems",
+            "Rule skeletons applied to given numerical values — pure structure tests"
+          ],
+          [
+            "Graph reading",
+            "Heights give function values; slopes give derivative values"
+          ],
+          [
+            "Three-factor pattern",
+            "(fgh)' = f'gh + fg'h + fgh': one differentiated factor per term"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "In table problems, write the general rule FIRST, then substitute numbers in a second line. Graders award the rule-statement point even if your arithmetic slips — skipping straight to numbers risks both points on one careless multiply."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "Given d/dx sin(x) = cos(x), if h(x) = x^2 sin(x) then h'(x) =",
+          "choices": {
+            "A": "2x cos(x)",
+            "B": "2x sin(x) + x^2 cos(x)",
+            "C": "x^2 sin(x) + 2x cos(x)",
+            "D": "2x sin(x) - x^2 cos(x)"
+          },
+          "answer": "B",
+          "explanation": "Product rule: (x^2)' sin x + x^2 (sin x)' = 2x sin x + x^2 cos x. Choice A is the naive factor-by-factor error."
+        },
+        {
+          "question": "f(1) = 4, f'(1) = -2, g(1) = 3, g'(1) = 5. Then (fg)'(1) =",
+          "choices": {
+            "A": "-10",
+            "B": "14",
+            "C": "26",
+            "D": "-6"
+          },
+          "answer": "B",
+          "explanation": "f'(1)g(1) + f(1)g'(1) = (-2)(3) + (4)(5) = -6 + 20 = 14."
+        },
+        {
+          "question": "Using the same values as above, (f/g)'(1) =",
+          "choices": {
+            "A": "-26/9",
+            "B": "26/9",
+            "C": "-26/3",
+            "D": "14/9"
+          },
+          "answer": "A",
+          "explanation": "(f'g - fg')/g^2 = ((-2)(3) - (4)(5))/9 = (-6 - 20)/9 = -26/9. The order-swapped +26/9 is the classic trap."
+        },
+        {
+          "question": "The most efficient way to find d/dx [(x^5 - 6x^3)/x^2] is",
+          "choices": {
+            "A": "the quotient rule",
+            "B": "the product rule with x^{-2}",
+            "C": "splitting into x^3 - 6x first",
+            "D": "logarithmic differentiation"
+          },
+          "answer": "C",
+          "explanation": "The denominator is a monomial: split to x^3 - 6x, derivative 3x^2 - 6. The quotient rule gets the same answer with far more work."
+        },
+        {
+          "question": "y = (2x + 1)/(x^2 + 3). Then dy/dx at x = 0 is",
+          "choices": {
+            "A": "2/3",
+            "B": "2/9",
+            "C": "-2/3",
+            "D": "1/3"
+          },
+          "answer": "A",
+          "explanation": "(2(x^2 + 3) - (2x + 1)(2x))/(x^2 + 3)^2 at 0: (6 - 0)/9 = 2/3."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let h(x) = (x^2 + 1)(x^3 - 3x).\n(a) Find h'(x) using the product rule.\n(b) Find h'(x) by expanding first, and confirm the answers agree.\n(c) Find the x-coordinates where the graph of h has a horizontal tangent. (Hint: the equation h'(x) = 0 is a quadratic in x^2.)",
+          "rubric": [
+            "(a) h' = 2x(x^3 - 3x) + (x^2 + 1)(3x^2 - 3) = 5x^4 - 6x^2 - 3",
+            "(b) Expansion x^5 - 3x^3 + x^3 - 3x = x^5 - 2x^3 - 3x differentiates to 5x^4 - 6x^2 - 3; matches",
+            "(c) Substitutes u = x^2: 5u^2 - 6u - 3 = 0, u = (6 ± √96)/10, keeps the positive root",
+            "x = ±√((3 + 2√6)/5) (only the positive u yields real x)"
+          ],
+          "model_answer": "(a) h'(x) = 2x(x^3 - 3x) + (x^2 + 1)(3x^2 - 3) = 2x^4 - 6x^2 + 3x^4 - 3x^2 + 3x^2 - 3 = 5x^4 - 6x^2 - 3. (b) h(x) = x^5 - 2x^3 - 3x, so h'(x) = 5x^4 - 6x^2 - 3 — identical. (c) With u = x^2: 5u^2 - 6u - 3 = 0 gives u = (6 ± √(36 + 60))/10 = (3 ± 2√6)/5. Only u = (3 + 2√6)/5 > 0 is admissible, so x = ±√((3 + 2√6)/5)."
+        },
+        {
+          "question": "The functions f and g are differentiable everywhere, with the table: f(3) = 2, f'(3) = 7, g(3) = -4, g'(3) = 1.\n(a) Let P(x) = f(x)g(x). Find P'(3).\n(b) Let Q(x) = f(x)/g(x). Find Q'(3).\n(c) Let R(x) = x^2 f(x). Find R'(3), and explain which rule you used even though only one 'named' function appears.",
+          "rubric": [
+            "(a) P'(3) = 7(-4) + 2(1) = -26",
+            "(b) Q'(3) = (7(-4) - 2(1))/16 = -30/16 = -15/8",
+            "(c) R'(3) = 2(3)f(3) + 9f'(3) = 12 + 63 = 75",
+            "Identifies x^2 as a genuine (non-constant) factor requiring the product rule"
+          ],
+          "model_answer": "(a) P'(3) = f'(3)g(3) + f(3)g'(3) = (7)(-4) + (2)(1) = -26. (b) Q'(3) = (f'(3)g(3) - f(3)g'(3))/[g(3)]^2 = ((7)(-4) - (2)(1))/16 = -30/16 = -15/8. (c) R is the product of two x-dependent functions, x^2 and f(x), so the product rule applies: R'(x) = 2x f(x) + x^2 f'(x), giving R'(3) = 6(2) + 9(7) = 75. A constant multiple would ride along freely, but x^2 changes with x — hence the full rule."
+        },
+        {
+          "question": "Let y = (x^2 - 4)/(x^2 + 4).\n(a) Find dy/dx.\n(b) Show that the graph has exactly one horizontal tangent, and find the point.\n(c) Evaluate lim x→∞ y and explain what the horizontal tangent point and this limit together suggest about the graph's overall shape.",
+          "rubric": [
+            "(a) dy/dx = (2x(x^2 + 4) - (x^2 - 4)(2x))/(x^2 + 4)^2 = 16x/(x^2 + 4)^2",
+            "(b) Numerator 16x = 0 only at x = 0; point (0, -1)",
+            "(c) Limit is 1 (equal degrees, leading coefficients 1/1)",
+            "Describes a curve bottoming at (0, -1) and rising toward asymptote y = 1 on both sides"
+          ],
+          "model_answer": "(a) dy/dx = (2x(x^2 + 4) - (x^2 - 4)(2x))/(x^2 + 4)^2 = (2x[(x^2 + 4) - (x^2 - 4)])/(x^2 + 4)^2 = 16x/(x^2 + 4)^2. (b) The denominator never vanishes, so dy/dx = 0 only when 16x = 0: x = 0, giving the single horizontal tangent at (0, -1). (c) Degrees are equal, so y → 1 as x → ±∞. The graph sits at its lowest point (0, -1), rises symmetrically in both directions, and flattens toward the asymptote y = 1 — a single dip approaching a ceiling it never reaches."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differentiation — Definition and Fundamental Properties",
+    "chapter_title": "Derivatives of Sine, Cosine, Exponentials, and Logarithms",
+    "hook": "Four functions run the natural world — sine, cosine, e^x, and ln x — and their derivatives are astonishingly tidy. One of them is even its own derivative. These four facts, memorized cold, unlock physics, growth models, and everything periodic.",
+    "learning_objectives": [
+      "Differentiate sin(x) and cos(x), tracking the sign pattern through repeated derivatives",
+      "Explain why d/dx e^x = e^x and what makes the base e special",
+      "Differentiate ln(x) and apply the result with domain awareness",
+      "Differentiate general exponentials b^x and logarithms log_b(x) using ln-based formulas",
+      "Combine these derivatives with the product, quotient, and linearity rules"
+    ],
+    "sections": [
+      {
+        "title": "Sine and Cosine",
+        "subtitle": "The four-beat cycle",
+        "body": "The two facts: d/dx sin(x) = cos(x) and d/dx cos(x) = -sin(x). Both trace back to Chapter 1.4's special limits — expanding sin(x + h) via the angle-addition formula and letting sin(h)/h → 1 and (1 - cos h)/h → 0 do the work. The proofs ARE those limits; this is why the special limits were worth memorizing.\n\nThe sign pattern deserves a hard look: sine's derivative is positive cosine, cosine's derivative is NEGATIVE sine. A glance at graphs explains why. Where sin(x) climbs most steeply (at x = 0), cos(0) = 1 — maximal slope, maximal cosine. Where cos(x) starts (its peak at x = 0), its slope is about to go negative as the curve turns down — hence -sin(x), which is 0 at the peak and negative just after.\n\nRepeated differentiation cycles with period four: sin → cos → -sin → -cos → sin. So the 99th derivative of sin(x) is a lookup: 99 mod 4 = 3, three steps around the cycle from sin: -cos(x). The exam asks exactly this kind of question, and the cycle answers it in five seconds.\n\nRadians, again, forever: these formulas are FALSE in degrees (a factor of π/180 contaminates everything). Calculus's preference for radians is not stylistic — it is what makes d/dx sin x = cos x clean. Calculator in radian mode; brain in radian mode.",
+        "key_terms": [
+          [
+            "d/dx sin x = cos x",
+            "Sine's slope at every point is given by cosine's value there"
+          ],
+          [
+            "d/dx cos x = -sin x",
+            "The minus sign: cosine begins at a peak and immediately descends"
+          ],
+          [
+            "Four-beat cycle",
+            "sin → cos → -sin → -cos → sin under repeated differentiation; reduce n mod 4"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The 'find the 87th derivative of cos x' question is a mod-4 lookup, not a computation: 87 mod 4 = 3, so count three steps from cos: -sin → -cos → sin. Answer: sin x. Train the cycle until it is instant."
+          ]
+        ]
+      },
+      {
+        "title": "The Exponential Miracle",
+        "subtitle": "e^x is its own derivative",
+        "body": "d/dx e^x = e^x. The exponential function with base e is its OWN derivative — at every point, the curve's height equals its slope. The function that grows at a rate equal to its current size is the mathematical definition of natural growth, and e ≈ 2.71828 is precisely the base that makes it work.\n\nWhere does that come from? For any base b, the definition gives d/dx b^x = b^x · lim h→0 (b^h - 1)/h — the function times a CONSTANT depending only on b. For b = 2 that constant is about 0.693; for b = 3, about 1.099. Somewhere between 2 and 3 lives the base whose constant is exactly 1: that base is e. (And those constants? ln 2 and ln 3 — the general formula arrives in two paragraphs.)\n\nConsequences radiate everywhere. Every derivative of e^x is e^x, so its value, slope, concavity at x = 0 are all 1 — the cleanest possible Taylor seed for Unit 10. The tangent to e^x at any point a has slope e^a, equal to the height; this self-similarity is the engine of exponential models in Unit 7, where dy/dt = ky has solutions y = Ce^{kt}.\n\nGeneral bases now follow by one identity: b^x = e^{x ln b}, so d/dx b^x = b^x ln(b) (chain rule preview; for now, learn it as a formula). Check: d/dx 2^x = 2^x ln 2 ≈ 0.693·2^x — the mystery constant unmasked. When b = e, ln e = 1, and the miracle is recovered as the special case.",
+        "key_terms": [
+          [
+            "d/dx e^x = e^x",
+            "Height equals slope everywhere — the defining property of the natural exponential"
+          ],
+          [
+            "The constant lim (b^h - 1)/h",
+            "Equals ln b; the base e is exactly where this constant is 1"
+          ],
+          [
+            "d/dx b^x = b^x ln b",
+            "General exponentials pick up a factor of ln(base)"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "d/dx 2^x is NOT x·2^{x-1} — the power rule applies to variable-base-constant-exponent (x^n), never constant-base-variable-exponent (b^x). The exam plants x·2^{x-1} as a distractor every time 2^x appears. The correct answer carries ln 2."
+          ]
+        ]
+      },
+      {
+        "title": "The Natural Logarithm",
+        "subtitle": "A power-rule refugee finds a home",
+        "body": "d/dx ln(x) = 1/x, for x > 0. The proof leans on inverse functions (formalized in Unit 3): since e^{ln x} = x, differentiating both sides forces e^{ln x} · (ln x)' = 1, so (ln x)' = 1/x. The logarithm's slope at x is the reciprocal of x: steep near zero, ever-flatter as x grows — exactly matching ln's graph, which rockets up from the y-axis and then crawls.\n\nThere is a beautiful gap-filling here. The power rule gives antiderivative-shaped patterns x^n → x^{n+1}/(n+1) for every n EXCEPT n = -1, where division by zero blocks the formula. What function has derivative x^{-1}? Now you know: ln x. The logarithm plugs the one hole in the power-rule system — a fact that becomes the star of u-substitution integrals in Unit 6.\n\nDomain discipline: ln x exists only for x > 0, so statements about (ln x)' inherit that restriction. The broader fact d/dx ln|x| = 1/x extends to negative x and is the integration-ready version; BC students should know both forms. General-base logarithms convert via log_b(x) = ln(x)/ln(b), so d/dx log_b(x) = 1/(x ln b) — one more ln(base) tax, mirroring the exponential side.\n\nThe four headline derivatives are now assembled: sin → cos, cos → -sin, e^x → e^x, ln x → 1/x. Combined with the product and quotient rules, you can already differentiate x^2 e^x (product rule: e^x(x^2 + 2x)), e^x/x, ln(x)/x, and x sin x. Every elementary function except compositions — and compositions are exactly what Unit 3 opens with.",
+        "key_terms": [
+          [
+            "d/dx ln x = 1/x",
+            "The log's slope is the input's reciprocal — steep early, flat late (x > 0)"
+          ],
+          [
+            "The n = -1 gap",
+            "ln x is the function whose derivative is x^{-1}, the power rule's missing case"
+          ],
+          [
+            "d/dx log_b x = 1/(x ln b)",
+            "Other bases pay the ln(b) conversion tax"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "ln differentiates to 1/x — but ln(5x), ln(x^2), and ln(3x + 1) need the chain rule (Unit 3). If the exam shows a bare ln x, answer 1/x with confidence; if anything lives inside the log, flag it as a composition and wait for the chain rule."
+          ]
+        ]
+      },
+      {
+        "title": "The Rules in Concert",
+        "subtitle": "Mixed derivatives at full speed",
+        "body": "Real exam problems mix the new derivatives with the old rules, and fluency means smooth dispatch. d/dx [x^2 ln x]: product rule — 2x ln x + x^2(1/x) = 2x ln x + x. d/dx [e^x cos x]: product rule — e^x cos x - e^x sin x = e^x(cos x - sin x). d/dx [sin x / x]: quotient rule — (x cos x - sin x)/x^2. Each is one rule plus one or two of the four facts.\n\nTangent lines get more interesting with the new functions. The tangent to y = e^x at x = 0: point (0, 1), slope e^0 = 1, line y = x + 1 — worth memorizing as the canonical small-x approximation e^x ≈ 1 + x. The tangent to y = ln x at x = 1: point (1, 0), slope 1, line y = x - 1 — its mirror twin across y = x, as inverse functions must be.\n\nMotion gets periodic. A particle with s(t) = 3 sin(t) has v(t) = 3 cos(t) and a(t) = -3 sin(t) = -s(t): acceleration is proportional to negative position. That relationship — the fingerprint of simple harmonic motion — appears throughout physics, and its differential-equation form shows up in AP free response as a verify-the-solution task you can already handle: is s'' = -s? Differentiate twice and check.\n\nEvaluation discipline closes the chapter: e, ln 2, sin(1) are NUMBERS. d/dx [e^x] at x = 2 is e^2 — an exact answer; do not decimalize unless the question demands it. AP answers stay exact symbolic by default, and e^2, 3 ln 2, and cos(π/6) = √3/2 are finished answers, not work in progress.",
+        "key_terms": [
+          [
+            "Mixed-rule fluency",
+            "One structural rule (product/quotient) plus the four facts dispatches most expressions"
+          ],
+          [
+            "Canonical tangents",
+            "y = x + 1 for e^x at 0; y = x - 1 for ln x at 1 — mirror twins"
+          ],
+          [
+            "Exact-answer discipline",
+            "e^2, ln 3, √3/2 are complete answers; decimals only on request"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "s'' = -s for sine/cosine motion is a 'verify' FRQ pattern: differentiate the proposed solution twice and substitute. Verification questions require showing BOTH sides match — compute s'' explicitly, state -s explicitly, then declare equality."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "d/dx [e^x sin x] =",
+          "choices": {
+            "A": "e^x cos x",
+            "B": "e^x (sin x + cos x)",
+            "C": "e^x (sin x - cos x)",
+            "D": "e^x sin x cos x"
+          },
+          "answer": "B",
+          "explanation": "Product rule with (e^x)' = e^x: e^x sin x + e^x cos x = e^x(sin x + cos x)."
+        },
+        {
+          "question": "The 50th derivative of sin(x) is",
+          "choices": {
+            "A": "sin x",
+            "B": "cos x",
+            "C": "-sin x",
+            "D": "-cos x"
+          },
+          "answer": "C",
+          "explanation": "The cycle has period 4: 50 mod 4 = 2, two steps from sin: cos, then -sin."
+        },
+        {
+          "question": "d/dx [5^x] =",
+          "choices": {
+            "A": "x·5^{x-1}",
+            "B": "5^x",
+            "C": "5^x ln 5",
+            "D": "5^x / ln 5"
+          },
+          "answer": "C",
+          "explanation": "Constant base, variable exponent: b^x differentiates to b^x ln b. Choice A misapplies the power rule."
+        },
+        {
+          "question": "The slope of the tangent line to y = ln x at x = e is",
+          "choices": {
+            "A": "1",
+            "B": "1/e",
+            "C": "e",
+            "D": "0"
+          },
+          "answer": "B",
+          "explanation": "dy/dx = 1/x, evaluated at x = e: 1/e."
+        },
+        {
+          "question": "If f(x) = (ln x)/x for x > 0, then f'(x) =",
+          "choices": {
+            "A": "(1 - ln x)/x^2",
+            "B": "(ln x - 1)/x^2",
+            "C": "1/x^2",
+            "D": "(1 + ln x)/x^2"
+          },
+          "answer": "A",
+          "explanation": "Quotient rule: ((1/x)·x - ln x · 1)/x^2 = (1 - ln x)/x^2. The order-swapped B is the trap."
+        }
+      ],
+      "frq": [
+        {
+          "question": "A particle moves along a line with position s(t) = 2 sin t + cos t for t ≥ 0.\n(a) Find the velocity v(t) and acceleration a(t).\n(b) Verify that a(t) = -s(t) for all t.\n(c) Find the velocity at t = π/2 and state whether the particle is moving left or right then.",
+          "rubric": [
+            "(a) v = 2 cos t - sin t; a = -2 sin t - cos t",
+            "(b) Explicitly compares a(t) = -(2 sin t + cos t) = -s(t), both sides shown",
+            "(c) v(π/2) = 2(0) - 1 = -1",
+            "Negative velocity ⟹ moving left (negative direction)"
+          ],
+          "model_answer": "(a) v(t) = s'(t) = 2 cos t - sin t; a(t) = v'(t) = -2 sin t - cos t. (b) -s(t) = -(2 sin t + cos t) = -2 sin t - cos t, which is exactly a(t); the motion satisfies a = -s (simple harmonic). (c) v(π/2) = 2 cos(π/2) - sin(π/2) = 0 - 1 = -1. The velocity is negative, so the particle is moving in the negative (left) direction at 1 unit per second."
+        },
+        {
+          "question": "Let f(x) = x e^x.\n(a) Find f'(x) and f''(x), and conjecture a formula for f^{(n)}(x).\n(b) Write the equation of the tangent line to f at x = 0.\n(c) Using your conjecture, evaluate f^{(10)}(0).",
+          "rubric": [
+            "(a) f' = e^x(x + 1); f'' = e^x(x + 2); conjecture f^{(n)} = e^x(x + n)",
+            "(b) f(0) = 0, f'(0) = 1: y = x",
+            "(c) f^{(10)}(0) = e^0(0 + 10) = 10",
+            "Conjecture supported by the computed pattern (product rule adds one each time)"
+          ],
+          "model_answer": "(a) f'(x) = e^x + x e^x = e^x(x + 1); f''(x) = e^x(x + 1) + e^x = e^x(x + 2). Each differentiation adds 1 inside: f^{(n)}(x) = e^x(x + n). (b) f(0) = 0 and f'(0) = 1, so the tangent is y = x. (c) f^{(10)}(0) = e^0(0 + 10) = 10."
+        },
+        {
+          "question": "Let g(x) = x^2 ln x for x > 0.\n(a) Find g'(x).\n(b) Find the x-value where g has a horizontal tangent, and give the corresponding point exactly.\n(c) Determine the behavior of g'(x) as x → 0⁺ and interpret what it suggests about the graph near the origin.",
+          "rubric": [
+            "(a) g' = 2x ln x + x = x(2 ln x + 1)",
+            "(b) Since x > 0: 2 ln x + 1 = 0, x = e^{-1/2}; point (e^{-1/2}, -1/(2e))",
+            "(c) As x → 0⁺, x → 0 and ln x → -∞; the product x(2 ln x + 1) → 0 (x dominates)",
+            "Interprets slope flattening to 0 at the origin-edge of the domain"
+          ],
+          "model_answer": "(a) Product rule: g'(x) = 2x ln x + x^2(1/x) = 2x ln x + x = x(2 ln x + 1). (b) For x > 0, g' = 0 requires ln x = -1/2: x = e^{-1/2} = 1/√e. Then g = (1/e)·(-1/2) = -1/(2e): the point is (1/√e, -1/(2e)). (c) As x → 0⁺, ln x → -∞ but the factor x → 0 wins (polynomial beats log), so g'(x) → 0. The curve enters the origin region with flattening slope — it dips to its minimum at 1/√e before rising."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differentiation — Definition and Fundamental Properties",
+    "chapter_title": "Derivatives of the Remaining Trig Functions",
+    "hook": "Tangent, cotangent, secant, cosecant — four more trig derivatives to learn, but zero new ideas: every one of them falls out of the quotient rule plus sin and cos. Derive them once, memorize them forever, and watch sec²x start appearing everywhere.",
+    "learning_objectives": [
+      "Derive the derivative of tan(x) from the quotient rule",
+      "State the derivatives of all six trig functions, using co-function sign symmetry",
+      "Differentiate expressions combining trig functions with products and quotients",
+      "Locate where the four 'new' trig functions are non-differentiable via their asymptotes",
+      "Use Pythagorean identities to simplify derivatives into standard forms"
+    ],
+    "sections": [
+      {
+        "title": "Tangent, Derived",
+        "subtitle": "The quotient rule earns its keep",
+        "body": "tan(x) = sin(x)/cos(x), so the quotient rule applies: d/dx tan x = (cos x · cos x - sin x · (-sin x))/cos^2 x = (cos^2 x + sin^2 x)/cos^2 x. The Pythagorean identity collapses the numerator to 1, leaving d/dx tan x = 1/cos^2 x = sec^2 x.\n\nThat derivation is the whole chapter in miniature: quotient rule, then a Pythagorean identity to compress the result. Run it yourself once with pencil — the exam occasionally asks for exactly this derivation, and owning it beats trusting memory.\n\nsec^2 x is worth befriending. It is always ≥ 1 (since |cos x| ≤ 1), which means tan(x) is ALWAYS increasing on each branch — matching its graph: climbing curves between consecutive asymptotes, never a downhill step. The minimum slope 1 occurs where cos^2 x = 1, at x = 0, ±π, ±2π, ... — tangent crosses its zeros at exactly 45 degrees.\n\nSlope-of-tangent-to-tangent computations are now routine: at x = π/4, sec^2(π/4) = (√2)^2 = 2, so the tangent line to y = tan x at (π/4, 1) is y - 1 = 2(x - π/4). Values of sec and csc at the standard angles are read from cos and sin: sec(π/4) = 1/cos(π/4) = √2 — keep the unit circle warm.",
+        "key_terms": [
+          [
+            "d/dx tan x = sec^2 x",
+            "From the quotient rule plus sin^2 + cos^2 = 1"
+          ],
+          [
+            "Always-increasing branches",
+            "sec^2 x ≥ 1 means tangent climbs on every branch of its domain"
+          ],
+          [
+            "Derivation skill",
+            "Quotient rule + Pythagorean identity reproduces any of the four formulas on demand"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "If you blank on a trig derivative mid-exam, rebuild it: every one of tan, cot, sec, csc is sin-and-cos plus the quotient rule, thirty seconds flat. The rebuild skill converts memory questions into computation questions — a strict upgrade."
+          ]
+        ]
+      },
+      {
+        "title": "The Complete Six-Pack",
+        "subtitle": "Co-function symmetry organizes everything",
+        "body": "The six derivatives, assembled: sin → cos; cos → -sin; tan → sec^2 x; cot → -csc^2 x; sec → sec x tan x; csc → -csc x cot x. Three without minus signs, three with — and the pattern is perfectly systematic: every CO-function (cosine, cotangent, cosecant) carries a negative derivative.\n\nThe memory architecture: learn three formulas (sin, tan, sec), then generate the co-versions by swapping every function for its co-partner AND attaching a minus. cot's derivative: take tan's (sec^2), co-everything (csc^2), negate: -csc^2 x. csc's derivative: take sec's (sec tan), co-everything (csc cot), negate: -csc x cot x. Six formulas, three memorized, one rule.\n\nsec and csc derive just like tan did. d/dx sec x = d/dx (1/cos x): quotient rule gives sin x/cos^2 x = (1/cos x)(sin x/cos x) = sec x tan x — the factored form is the standard one. The exam writes answers in these factored forms, so simplify toward sec·tan and csc·cot, not toward sines-over-cosines-squared.\n\nDomains ride along: tan and sec share asymptotes at odd multiples of π/2 (where cos = 0); cot and csc at multiples of π (where sin = 0). Each function is differentiable everywhere it is DEFINED — the formulas hold on the full domains — but at the asymptotes there is nothing to differentiate. 'Where is sec x not differentiable?' is a domain question wearing derivative clothing.",
+        "key_terms": [
+          [
+            "Co-function minus rule",
+            "Every co-function (cos, cot, csc) has a negative derivative; co-swap + negate generates the formulas"
+          ],
+          [
+            "d/dx sec x = sec x tan x",
+            "Standard factored form; likewise csc → -csc x cot x"
+          ],
+          [
+            "Domain inheritance",
+            "tan/sec break at odd π/2; cot/csc at multiples of π — non-differentiability = non-existence"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Answer choices write trig derivatives in factored standard forms. If you derived sin x/cos^2 x for sec', factor it to sec x tan x before scanning the choices — your correct answer may be sitting there in different clothes."
+          ]
+        ]
+      },
+      {
+        "title": "Mixed Computations",
+        "subtitle": "Trig meets the rule system",
+        "body": "The six facts now feed the product and quotient rules. d/dx [x tan x]: product — tan x + x sec^2 x. d/dx [sec x / (1 + tan x)]: quotient — (sec x tan x(1 + tan x) - sec x · sec^2 x)/(1 + tan x)^2; factor sec x upstairs for the cleaned version sec x(tan x + tan^2 x - sec^2 x)/(1 + tan x)^2, and the identity tan^2 + 1 = sec^2 compresses the parenthetical to tan x - 1.\n\nThat last move generalizes: AFTER differentiating, scan for Pythagorean compressions. The identities sin^2 + cos^2 = 1, tan^2 + 1 = sec^2, and 1 + cot^2 = csc^2 are the three cleanup tools, and multiple-choice answers are always in compressed form. Differentiation creates sec^2-and-tan^2 debris; identities sweep it.\n\nSecond derivatives stay manageable if the first derivative is kept tidy. y = tan x: y' = sec^2 x, and y'' = 2 sec x · (sec x tan x) = 2 sec^2 x tan x (product rule on sec x · sec x, or chain rule next unit). Notice y'' is positive exactly where tan x is positive — concavity matching sign, a Unit 5 theme arriving early.\n\nEvaluation at standard angles is the exam's favorite finisher. At x = π/3: sec(π/3) = 2, tan(π/3) = √3, so d/dx sec x there is 2√3. At x = π/6: csc(π/6) = 2, cot(π/6) = √3, so d/dx csc x is -2√3. Keep sec = 1/cos and csc = 1/sin at your fingertips and the arithmetic is unit-circle reading.",
+        "key_terms": [
+          [
+            "Pythagorean cleanup",
+            "tan^2 + 1 = sec^2 and friends compress post-differentiation debris into standard forms"
+          ],
+          [
+            "Standard-angle evaluation",
+            "sec, csc, tan values at π/6, π/4, π/3 read straight off the unit circle"
+          ],
+          [
+            "Tidy-then-iterate",
+            "Simplify y' before computing y'' — mess compounds"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "After any trig differentiation, run one identity pass before matching answers: sec^2 - tan^2 = 1 and csc^2 - cot^2 = 1 are the two compressions the exam expects you to spot. Uncompressed answers are deliberately absent from the choices."
+          ]
+        ]
+      },
+      {
+        "title": "Asymptotes and Slope Behavior",
+        "subtitle": "Reading the four graphs through their derivatives",
+        "body": "The derivative formulas explain the four graphs' personalities. tan x: slope sec^2 x ≥ 1, so every branch climbs steadily from -∞ to +∞ between asymptotes — no flat points ever. cot x: slope -csc^2 x ≤ -1, the mirror story — every branch falls. Neither function has a horizontal tangent anywhere; any exam question premised on one is testing whether you know it cannot happen.\n\nsec x: slope sec x tan x = 0 exactly where tan x = 0 (sec is never 0), at multiples of π — the bottoms of sec's upward cups (x = 0, ±2π) and tops of its downward caps (x = ±π). The U-shapes of secant have genuine flat points, alternating minimum-of-cup at height 1 and maximum-of-cap at height -1. csc x mirrors with flats at odd multiples of π/2.\n\nNear the asymptotes, slopes blow up: as x → (π/2)⁻, sec^2 x → ∞ — tangent's branches go vertical, consistent with the function value itself diverging. Slope magnitude and function magnitude diverge together for all four functions; there are no 'gentle' approaches to any trig asymptote.\n\nThe synthesis question the exam likes: 'on (0, π/2), which is larger — the slope of tan x or the slope of sec x?' Compare sec^2 x versus sec x tan x = sec x tan x: factor out sec x to compare sec x against tan x; since sec^2 = tan^2 + 1 > tan^2, sec x > tan x > 0 on the interval, so tan's slope wins everywhere on it. Derivative formulas turn graph comparisons into one-line algebra.",
+        "key_terms": [
+          [
+            "No flat points (tan, cot)",
+            "sec^2 ≥ 1 and -csc^2 ≤ -1: monotone branches, horizontal tangents impossible"
+          ],
+          [
+            "sec/csc flat points",
+            "sec' = 0 where tan = 0 (multiples of π); csc' = 0 at odd π/2 — cup bottoms and cap tops"
+          ],
+          [
+            "Joint blowup",
+            "Function and slope diverge together at every trig asymptote"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Find where y = sec x has a horizontal tangent on [0, 2π]' is a sec x tan x = 0 problem: tan x = 0 at x = 0, π, 2π. Remember sec x itself is NEVER zero — only the tan factor can vanish, and forgetting that doubles your roots illegitimately."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "d/dx [cot x] =",
+          "choices": {
+            "A": "csc^2 x",
+            "B": "-csc^2 x",
+            "C": "sec x tan x",
+            "D": "-csc x cot x"
+          },
+          "answer": "B",
+          "explanation": "Co-function rule: tan's derivative sec^2 x, co-swapped and negated: -csc^2 x. (D is csc's derivative.)"
+        },
+        {
+          "question": "The slope of y = sec x at x = π/4 is",
+          "choices": {
+            "A": "√2",
+            "B": "2",
+            "C": "√2/2",
+            "D": "1"
+          },
+          "answer": "A",
+          "explanation": "y' = sec x tan x = sec(π/4)tan(π/4) = √2 · 1 = √2."
+        },
+        {
+          "question": "d/dx [x^2 cot x] =",
+          "choices": {
+            "A": "2x cot x - x^2 csc^2 x",
+            "B": "2x cot x + x^2 csc^2 x",
+            "C": "-2x csc^2 x",
+            "D": "2x cot x - csc^2 x"
+          },
+          "answer": "A",
+          "explanation": "Product rule: 2x cot x + x^2(-csc^2 x) = 2x cot x - x^2 csc^2 x."
+        },
+        {
+          "question": "On the interval (0, 2π), the graph of y = csc x has horizontal tangents at",
+          "choices": {
+            "A": "x = π/2 and 3π/2",
+            "B": "x = π only",
+            "C": "x = π/2 only",
+            "D": "nowhere — csc is monotone"
+          },
+          "answer": "A",
+          "explanation": "y' = -csc x cot x = 0 where cot x = 0 (csc never vanishes): x = π/2 and 3π/2 — the cup bottom and cap top."
+        },
+        {
+          "question": "If y = tan x - x, then dy/dx at x = π/4 equals",
+          "choices": {
+            "A": "1",
+            "B": "2",
+            "C": "0",
+            "D": "√2"
+          },
+          "answer": "A",
+          "explanation": "dy/dx = sec^2 x - 1 (which is tan^2 x). At π/4: sec^2(π/4) - 1 = 2 - 1 = 1."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = tan x.\n(a) Derive f'(x) from the quotient rule, showing the identity step.\n(b) Write the tangent line to f at x = π/4.\n(c) Explain why f has no horizontal tangent on any interval of its domain.",
+          "rubric": [
+            "(a) Quotient rule on sin/cos; numerator cos^2 + sin^2 = 1; result sec^2 x",
+            "(b) Point (π/4, 1), slope 2: y - 1 = 2(x - π/4)",
+            "(c) sec^2 x = 1/cos^2 x ≥ 1 > 0 for all x in the domain",
+            "Concludes the slope never vanishes, so no horizontal tangent exists"
+          ],
+          "model_answer": "(a) f'(x) = (cos x · cos x - sin x(-sin x))/cos^2 x = (cos^2 x + sin^2 x)/cos^2 x = 1/cos^2 x = sec^2 x. (b) f(π/4) = 1, f'(π/4) = sec^2(π/4) = 2: y - 1 = 2(x - π/4). (c) For every x in the domain, cos^2 x ∈ (0, 1], so sec^2 x ≥ 1 — strictly positive. A horizontal tangent requires slope zero, which never occurs; each branch of tangent is strictly increasing."
+        },
+        {
+          "question": "Let g(x) = sec x on the interval (-π/2, π/2) ∪ (π/2, 3π/2).\n(a) Find g'(x) and g''(x), simplifying g'' with an identity.\n(b) Find all x in [0, 2π] where g has a horizontal tangent, and classify each as a local max or min of g by examining values nearby.\n(c) State where g is non-differentiable on [0, 2π] and why.",
+          "rubric": [
+            "(a) g' = sec x tan x; g'' = sec x tan^2 x + sec^3 x = sec x(tan^2 x + sec^2 x) (product rule + identity-aware simplification)",
+            "(b) tan x = 0 at x = 0, π, 2π; minima of cups at 0 and 2π (height 1), maximum of cap at π (height -1)",
+            "(c) Non-differentiable at x = π/2 and 3π/2",
+            "Reason: sec x is undefined there (cos x = 0) — vertical asymptotes, nothing to differentiate"
+          ],
+          "model_answer": "(a) g'(x) = sec x tan x. Product rule: g''(x) = (sec x tan x)tan x + sec x(sec^2 x) = sec x tan^2 x + sec^3 x = sec x(tan^2 x + sec^2 x). (b) g' = 0 where tan x = 0: x = 0, π, 2π. Near 0 and 2π, sec x ≥ 1 with equality at the points — local minima (cup bottoms, height 1). Near π, sec x ≤ -1 with equality at π — local maximum (cap top, height -1). (c) At x = π/2 and 3π/2, cos x = 0 so sec x is undefined — vertical asymptotes. A function cannot be differentiable where it does not exist."
+        },
+        {
+          "question": "A particle's position is s(t) = t + cot t for 0 < t < π.\n(a) Find the velocity v(t) and simplify using an identity.\n(b) Find all times in (0, π) when the particle is at rest.\n(c) Determine the sign of v on each side of your rest time(s) and describe the particle's motion in a sentence.",
+          "rubric": [
+            "(a) v = 1 - csc^2 t = -cot^2 t (via 1 + cot^2 = csc^2)",
+            "(b) v = 0 where cot t = 0: t = π/2",
+            "(c) v = -cot^2 t ≤ 0 everywhere, zero only at π/2",
+            "Describes motion: always moving in the negative direction, pausing momentarily at t = π/2 without reversing"
+          ],
+          "model_answer": "(a) v(t) = 1 - csc^2 t. Since csc^2 t = 1 + cot^2 t, v(t) = -cot^2 t. (b) v = 0 requires cot t = 0: t = π/2. (c) As a negative square, v(t) ≤ 0 on all of (0, π), vanishing only at π/2. The particle moves steadily in the negative direction, slows to an instantaneous stop at t = π/2, and resumes moving negative — a pause, not a turnaround."
+        }
+      ]
+    }
+  }
+]

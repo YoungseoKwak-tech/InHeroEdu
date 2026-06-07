@@ -1,0 +1,1658 @@
+[
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Integration and Accumulation of Change",
+    "chapter_title": "Accumulation and the Definite Integral",
+    "hook": "If water flows in at a known rate for six hours, how much water arrived? Multiply rate by time — unless the rate keeps changing. The definite integral is what 'rate times time' becomes when the rate refuses to hold still, and it is the second pillar of calculus.",
+    "learning_objectives": [
+      "Interpret the definite integral as accumulated change from a rate function",
+      "Read definite integrals as signed areas between a curve and the x-axis",
+      "Evaluate integrals geometrically using areas of triangles, rectangles, and circles",
+      "Apply integral properties: linearity, interval splitting, and reversed bounds",
+      "Translate between accumulation language and integral notation in both directions"
+    ],
+    "sections": [
+      {
+        "title": "Accumulating a Changing Rate",
+        "subtitle": "From rate × time to the integral",
+        "body": "A constant inflow of 5 L/min for 6 minutes delivers 30 liters: rate times time, the area of a 5-by-6 rectangle on the rate graph. When the rate R(t) varies, no single multiplication works — but slicing time into tiny intervals, multiplying each slice's (nearly constant) rate by its duration, and adding recovers the idea: total ≈ Σ R(tᵢ)Δt. As slices shrink, the sum sharpens into the definite integral ∫₀⁶ R(t) dt — the exact accumulated change.\n\nThe notation narrates the construction: the integral sign ∫ is an elongated S for 'sum,' R(t) dt echoes rate-times-tiny-duration, and the bounds 0 and 6 mark the accumulation window. Reading ∫ₐᵇ R(t) dt aloud as 'the total change accumulated from a to b' is the habit that keeps every applied problem honest.\n\nThe units multiply accordingly: liters per minute times minutes gives liters — integral units are ALWAYS (integrand units) × (variable units). A rate in cars per hour integrated over hours counts cars; force in newtons integrated over meters yields newton-meters (work). The units check is the fastest sanity test on any applied integral.\n\nThe AP's central translation pair, run in both directions: f(b) = f(a) + ∫ₐᵇ f'(t) dt ('final equals initial plus accumulated change') and ∫ₐᵇ f'(t) dt = f(b) - f(a) ('the integral of a rate is the net change'). These sentences anchor Unit 8's applications and appear on virtually every modern FRQ set; learn them as English, not just symbols.",
+        "key_terms": [
+          [
+            "Definite integral",
+            "∫ₐᵇ f(t) dt: the limit of rate-times-duration sums — exact accumulated change"
+          ],
+          [
+            "Units rule",
+            "Integral units = integrand units × variable units (L/min × min = L)"
+          ],
+          [
+            "Net change pair",
+            "f(b) = f(a) + ∫ₐᵇ f' dt and its rearrangement — the applied workhorse"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'How much water is in the tank at t = 6?' is f(0) + ∫₀⁶ R(t) dt — initial PLUS accumulation. Forgetting the initial amount is the most common applied-integral error on the exam; the phrase 'plus what was already there' belongs in your setup line."
+          ]
+        ]
+      },
+      {
+        "title": "Signed Area",
+        "subtitle": "What the integral measures on a graph",
+        "body": "Geometrically, ∫ₐᵇ f(x) dx is the SIGNED area between the curve and the x-axis: regions above the axis count positive, regions below count negative. A rate dipping below zero (water draining, particle moving left) subtracts from the accumulation, and the graph shows the subtraction as below-axis area.\n\nSigned versus total area is the unit's recurring distinction. ∫₀⁴ f dx with f positive on (0, 1) and negative on (1, 4) nets the difference; the TOTAL area enclosed requires ∫|f| — splitting at the zero crossing and flipping the negative piece's sign. The motion translation: integral of velocity is displacement (signed); integral of speed |v| is total distance — Unit 4's distinction, now in integral form.\n\nGeometric evaluation handles the AP's favorite integral format: a piecewise-linear or circular graph of f, with integrals computed from area formulas. Triangles (½bh), rectangles, trapezoids, and — the perennial — semicircles and quarter circles (areas ¼πr², ½πr² read off the figure). Below-axis pieces enter negative: a quarter circle of radius 2 below the axis contributes -π.\n\nThe graph-reading protocol: mark the zero crossings, name each region's shape, compute each area, attach signs, add. Five steps, no antiderivatives — and the format appears on every exam because it tests the integral's MEANING rather than its mechanics.",
+        "key_terms": [
+          [
+            "Signed area",
+            "Above-axis positive, below-axis negative — the integral's geometric content"
+          ],
+          [
+            "Total vs net",
+            "Total area integrates |f|: split at zeros, flip negative pieces"
+          ],
+          [
+            "Geometric evaluation",
+            "Triangles, trapezoids, circle parts — areas read from the figure, signs attached"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Circle pieces in graph-integrals are radius-traps: a semicircular arc spanning [2, 6] has radius 2 (half the span), not 4. Mark the radius on the figure before computing ¼πr² or ½πr² — the misread radius quadruples the area and the error."
+          ]
+        ]
+      },
+      {
+        "title": "The Rules of Accumulation",
+        "subtitle": "Properties that move integrals around",
+        "body": "Linearity: ∫(f + g) = ∫f + ∫g and ∫cf = c∫f — integrals split over sums and release constants, exactly like derivatives and for the same limit-law reasons. Splitting: ∫ₐᵇ + ∫ᵦᶜ = ∫ₐᶜ — accumulation over adjacent windows adds, even when b sits OUTSIDE [a, c] (the algebra self-corrects via signs). Reversal: ∫ᵇₐ = -∫ₐᵇ — swapping bounds flips the sign, because accumulating backward undoes.\n\nTwo degenerate facts complete the kit: ∫ₐᵃ f = 0 (no window, no accumulation) and the comparison property — if f ≤ g on [a, b], then ∫ₐᵇ f ≤ ∫ₐᵇ g. It powers quick bounds: since 1 ≤ √(1 + x³) ≤ 1 + x³ on [0, 1], the integral of the middle expression is trapped between 1 and 7/4. Bounding integrands bounds integrals — a BC habit that returns in error analysis.\n\nThe properties' exam format is the given-values puzzle: knowing ∫₀⁵ f = 12 and ∫₃⁵ f = 4, find ∫₀³ f (answer: 8, by splitting) or ∫₅⁰ 2f (answer: -24, by reversal and linearity). No functions appear — only the algebra of accumulation. Treat the integrals as numbers with bookkeeping rules and the puzzles are arithmetic.\n\nOne caution mirrors the derivative side: integrals do NOT split over products or quotients — ∫fg ≠ (∫f)(∫g). The product's integral machinery (integration by parts) waits in chapter 6; until then, products inside integrals are a stop sign, not an invitation to improvise.",
+        "key_terms": [
+          [
+            "Linearity",
+            "Splits over sums, releases constant factors — like differentiation"
+          ],
+          [
+            "Splitting and reversal",
+            "Adjacent windows add; swapped bounds negate"
+          ],
+          [
+            "No product rule",
+            "∫fg ≠ ∫f·∫g — products await integration by parts"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Given-values puzzles hide the reversal trick: ∫₇² f dx is the negative of the given ∫₂⁷ f dx. Scan the bounds' ORDER before any arithmetic — the flipped-bounds sign error is silent and costs the whole point."
+          ]
+        ]
+      },
+      {
+        "title": "The Accumulation Function",
+        "subtitle": "Integrals with a variable top",
+        "body": "Fix the lower bound and let the upper bound roam: g(x) = ∫ₐˣ f(t) dt defines a FUNCTION of x — the accumulation function, measuring how much f-area has piled up from a to x. As x sweeps right, g grows where f is positive (area accruing), falls where f is negative, and pauses where f is zero. The variable t inside is a dummy; x lives only in the bound.\n\nReading g from a graph of f is a tested skill in its own right: g's value at x is the signed area so far — so g has a maximum where f crosses from + to − (accumulation peaks when the deposits turn to withdrawals), g is increasing where f > 0, and g inflects where f has an extreme. The translation table from Unit 5's graph-of-f' genre applies VERBATIM with f playing the role of g's derivative — which the next chapter's Fundamental Theorem will make official.\n\nWorked reading: f piecewise-linear, positive triangle of area 6 on [0, 3], negative triangle of area 2 on [3, 5]. Then g(0) = 0, g(3) = 6 (the peak), g(5) = 4 — climbing to 6, easing back to 4. Asked for g's maximum on [0, 5]: x = 3, 'because g' = f changes from positive to negative there' — Unit 5's justification grammar, one derivative down.\n\nThe accumulation function is the unit's conceptual hinge: it converts integrals from numbers into functions, sets up FTC Part 1 (what is g'?), and models real quantities — total rainfall by day x, cars passed by time x — that FRQs describe in exactly this form. The format rewards students who see 'integral with x on top' and immediately think 'a function whose derivative is the integrand.'",
+        "key_terms": [
+          [
+            "Accumulation function",
+            "g(x) = ∫ₐˣ f(t) dt: area-so-far as a function of the sweeping bound"
+          ],
+          [
+            "Dummy variable",
+            "The t inside is internal bookkeeping; the function's variable is the bound x"
+          ],
+          [
+            "Graph translation",
+            "f acts as g's derivative: f's signs/crossings dictate g's rises/extremes"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "For g(x) = ∫ₐˣ f(t) dt with f given graphically, every Unit 5 question reappears: g increasing where f > 0, g's max where f crosses downward, g's inflections at f's extremes. One memorized correspondence, an entire FRQ genre unlocked."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "Water enters a tank at R(t) = 4 + 2t L/min. The amount added between t = 0 and t = 3 is",
+          "choices": {
+            "A": "21 L",
+            "B": "10 L",
+            "C": "30 L",
+            "D": "12 L"
+          },
+          "answer": "A",
+          "explanation": "∫₀³ (4 + 2t) dt — geometrically a trapezoid with parallel sides 4 and 10 over width 3: ½(4 + 10)(3) = 21."
+        },
+        {
+          "question": "The graph of f consists of a triangle of area 8 above the axis on [0, 4] and a triangle of area 3 below the axis on [4, 6]. ∫₀⁶ f(x) dx =",
+          "choices": {
+            "A": "5",
+            "B": "11",
+            "C": "-5",
+            "D": "24"
+          },
+          "answer": "A",
+          "explanation": "Signed area: +8 - 3 = 5. (Total area would be 11 — the |f| version.)"
+        },
+        {
+          "question": "Given ∫₁⁸ f dx = 10 and ∫₁⁵ f dx = 7, then ∫₈⁵ f dx =",
+          "choices": {
+            "A": "-3",
+            "B": "3",
+            "C": "17",
+            "D": "-17"
+          },
+          "answer": "A",
+          "explanation": "∫₅⁸ f = 10 - 7 = 3 by splitting; reversing the bounds negates: -3."
+        },
+        {
+          "question": "g(x) = ∫₀ˣ f(t) dt where f is positive on (0, 2), negative on (2, 7). The maximum of g on [0, 7] occurs at x =",
+          "choices": {
+            "A": "2",
+            "B": "0",
+            "C": "7",
+            "D": "cannot be determined"
+          },
+          "answer": "A",
+          "explanation": "g climbs while f > 0 and falls after: the accumulation peaks at the downward crossing x = 2."
+        },
+        {
+          "question": "The graph of f on [0, 4] is the upper semicircle of radius 2 centered at (2, 0). ∫₀⁴ f(x) dx =",
+          "choices": {
+            "A": "2π",
+            "B": "4π",
+            "C": "π",
+            "D": "8π"
+          },
+          "answer": "A",
+          "explanation": "Half a circle of radius 2: ½π(2²) = 2π, all above the axis."
+        }
+      ],
+      "frq": [
+        {
+          "question": "The rate at which customers enter a store is modeled by a piecewise-linear function E(t) (customers per hour): E rises linearly from E(0) = 0 to E(2) = 60, stays at 60 until t = 5, then falls linearly to E(8) = 0.\n(a) Compute ∫₀⁸ E(t) dt using geometry, and interpret the result with units.\n(b) The store opened with 12 customers inside, and customers leave at a constant 40 per hour for the whole period. Write an expression for the number of customers inside at time t = 8 and evaluate it.\n(c) At what time t is the number of customers inside greatest? Justify with rates.",
+          "rubric": [
+            "(a) Trapezoid: ½(8 + 3)(60) = 330 customers entered",
+            "(b) 12 + ∫₀⁸ E dt - 40(8) = 12 + 330 - 320 = 22 customers",
+            "(c) Inside-count rate is E(t) - 40; greatest when the rate changes + to −",
+            "E(t) = 40 falling: t = 6 (on the descent from 60 at t=5 to 0 at t=8, E hits 40 at t = 6); justified as sign change of E - 40"
+          ],
+          "model_answer": "(a) The region under E is a trapezoid with parallel sides of lengths 8 (the full base, 0 to 8) and 3 (the top, 2 to 5) and height 60: ∫₀⁸ E dt = ½(8 + 3)(60) = 330. In context: 330 customers entered the store during the 8 hours. (b) Inside at t = 8: initial + entered − left = 12 + 330 - 40(8) = 12 + 330 - 320 = 22 customers. (c) The count inside changes at rate E(t) - 40. E - 40 > 0 once E exceeds 40 (at t = 4/3 on the rise) and stays positive until E falls back to 40: on the descent E(t) = 60 - 20(t - 5), which equals 40 at t = 6. The rate flips from + to − at t = 6, so the store is fullest at t = 6 hours."
+        },
+        {
+          "question": "The graph of f on [-4, 4] consists of three pieces: a semicircle of radius 1 centered at (-3, 0) lying below the x-axis from (-4, 0) to (-2, 0); a line segment from (-2, 0) to (0, 2); and a line segment from (0, 2) to (4, -2).\n(a) Evaluate ∫₋₄⁻² f, ∫₋₂⁰ f, and ∫₀⁴ f.\n(b) Evaluate ∫₋₄⁴ f(x) dx.\n(c) Find the total area between f and the x-axis on [-4, 4].",
+          "rubric": [
+            "(a) Semicircle below: -π/2; triangle: +2; the [0,4] piece crosses zero at x = 2: +2 then -2, net 0",
+            "(b) Sum: -π/2 + 2 + 0 = 2 - π/2",
+            "(c) Total area: π/2 + 2 + 2 + 2 = 6 + π/2",
+            "Zero crossing at x = 2 identified and used to split"
+          ],
+          "model_answer": "(a) The semicircle of radius 1 below the axis contributes -½π(1²) = -π/2. The triangle from (-2, 0) to (0, 2) has area ½(2)(2) = 2, above the axis: +2. On [0, 4], the line from (0, 2) to (4, -2) crosses zero at x = 2: a positive triangle ½(2)(2) = +2 then a negative one -2: net 0. (b) ∫₋₄⁴ f = -π/2 + 2 + 0 = 2 - π/2. (c) Total (unsigned) area: π/2 + 2 + 2 + 2 = 6 + π/2."
+        },
+        {
+          "question": "Let g(x) = ∫₂ˣ f(t) dt, where f is graphed: f is positive on (0, 3), zero at 3, negative on (3, 7), with ∫₂³ f = 5 and ∫₃⁷ f = -9.\n(a) Compute g(2), g(3), and g(7).\n(b) On what interval is g increasing? Justify in terms of f.\n(c) Find the minimum value of g on [2, 7], with justification.",
+          "rubric": [
+            "(a) g(2) = 0; g(3) = 5; g(7) = 5 - 9 = -4",
+            "(b) g increasing where f > 0: on (2, 3)",
+            "(c) Candidates: endpoints and the sign change; g falls from 5 throughout (3,7)",
+            "Minimum g(7) = -4, since g decreases on (3, 7) and ends lowest there"
+          ],
+          "model_answer": "(a) g(2) = ∫₂² f = 0. g(3) = ∫₂³ f = 5. g(7) = ∫₂⁷ f = 5 + (-9) = -4. (b) g grows exactly where new area is positive — where f > 0: the interval (2, 3). (c) g rises to 5 at x = 3, then falls steadily across (3, 7) (f < 0 there) to g(7) = -4. The candidates for the minimum are x = 2 (value 0) and x = 7 (value -4): the minimum value is -4 at x = 7, justified because g' = f < 0 on (3, 7) makes g strictly decreasing after its peak, so the right endpoint is lowest."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Integration and Accumulation of Change",
+    "chapter_title": "Riemann Sums and Numerical Approximation",
+    "hook": "Before integrals had antiderivatives, they had rectangles. Riemann sums approximate area with arithmetic anyone can do — and the AP grades the setup, the over/under reasoning, and the trapezoid upgrade every single year.",
+    "learning_objectives": [
+      "Construct left, right, and midpoint Riemann sums from formulas and tables",
+      "Compute trapezoidal approximations, including unequal subinterval widths",
+      "Determine over/underestimate direction from monotonicity (rectangles) and concavity (trapezoids)",
+      "Express a definite integral as a limit of Riemann sums and vice versa",
+      "Choose sample points and widths correctly from table data on the exam's terms"
+    ],
+    "sections": [
+      {
+        "title": "Rectangles Under a Curve",
+        "subtitle": "Left, right, and midpoint sums",
+        "body": "Slice [a, b] into n subintervals of width Δx = (b - a)/n and erect a rectangle on each, with height read from f at a chosen sample point: the LEFT endpoint (left Riemann sum), RIGHT endpoint (right sum), or MIDPOINT (midpoint sum). Each rectangle contributes height × width; the sum approximates ∫ₐᵇ f dx, with the choice of sample point setting the bias.\n\nWorked on f(x) = x² over [0, 2] with n = 4 (Δx = ½): left sum uses heights at 0, ½, 1, 3/2: (0 + ¼ + 1 + 9/4)(½) = 7/4 = 1.75. Right sum uses ½, 1, 3/2, 2: (¼ + 1 + 9/4 + 4)(½) = 15/4 = 3.75. The true value (next chapters) is 8/3 ≈ 2.67 — bracketed by the two, as an increasing function guarantees. Midpoint, using ¼, ¾, 5/4, 7/4: (1/16 + 9/16 + 25/16 + 49/16)(½) = 84/32 = 2.625 — strikingly closer, a pattern that is no accident.\n\nFrom tables — the AP's preferred delivery — the subintervals come pre-cut by the data, often with UNEQUAL widths: t-values 0, 2, 5, 6 give widths 2, 3, 1, and each rectangle's width must be read individually. The left sum uses each subinterval's left-edge value; no Δx formula applies. Unequal widths are the norm on FRQs, and hard-coding (b-a)/n is the trap.\n\nIndexing discipline prevents the classic off-by-one: with n subintervals, a left sum uses values at the first n points (skipping the last), a right sum the last n (skipping the first). Writing the sample values in a row and bracketing which n get used beats any formula memorized blind.",
+        "key_terms": [
+          [
+            "Riemann sum",
+            "Σ f(sample)·width over the subintervals — rectangle areas standing in for the integral"
+          ],
+          [
+            "Sample-point choice",
+            "Left, right, or midpoint of each subinterval sets the rectangle heights and the bias"
+          ],
+          [
+            "Unequal widths",
+            "Table data pre-cuts the intervals; each width is read, not computed from (b-a)/n"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Table-based Riemann FRQs grade the SETUP: write the sum as height₁·width₁ + height₂·width₂ + ⋯ with the actual numbers visible. A bare final answer cannot earn the setup point, and with unequal widths the visible setup is also your own error-catcher."
+          ]
+        ]
+      },
+      {
+        "title": "Over or Under, Part 1",
+        "subtitle": "Monotonicity decides for rectangles",
+        "body": "For an INCREASING function, every left-endpoint rectangle sits below the curve (the left edge is the interval's lowest point): the left sum UNDERestimates, and symmetrically the right sum OVERestimates. For a DECREASING function, the roles flip: left over, right under. The mnemonic is unnecessary if you sketch one subinterval — but the conclusion sentence is graded, so the reasoning must be stated, not just used.\n\nThe graded sentence pattern: 'Since f is increasing on [a, b], the left Riemann sum underestimates ∫ₐᵇ f dx.' Cause (monotonicity), claim (direction). On table problems, monotonicity is read from the data (values steadily rising); on formula problems, from f' > 0. Either certificate works; one must appear.\n\nNon-monotonic intervals void the simple rules: a function rising then falling can make a left sum land on either side. Exam questions either keep f monotone or split the analysis at the turn — and 'no conclusion without monotonicity' is itself a tested answer choice. The honest reflex: check the behavior FIRST, then claim a direction.\n\nMidpoint sums resist monotonicity analysis (the midpoint rectangle overshoots on one half, undershoots on the other) — their bias is governed by CONCAVITY: for concave-up f, midpoint underestimates; concave-down, overestimates. The full midpoint story pairs with trapezoids in the next section, where the two make opposite errors and the geometry explains both at once.",
+        "key_terms": [
+          [
+            "Increasing ⟹ L under, R over",
+            "Left edges are minima of rising intervals; right edges are maxima"
+          ],
+          [
+            "Graded causation",
+            "The direction claim must cite monotonicity (or the data trend) explicitly"
+          ],
+          [
+            "Monotonicity prerequisite",
+            "No simple over/under verdict on intervals where f turns around"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The over/under sentence is its own rubric point and must include the word 'increasing' or 'decreasing' (or the data-trend equivalent). 'Left sums underestimate' as a bare slogan is FALSE for decreasing functions — and the exam rotates both cases deliberately."
+          ]
+        ]
+      },
+      {
+        "title": "Trapezoids and the Midpoint Duel",
+        "subtitle": "Slanted tops, concavity bias",
+        "body": "Replace each rectangle's flat top with a slanted segment joining the curve's values at both edges: the trapezoid sum, T = Σ ½(f(left) + f(right))·width. Equivalently, T is the average of the left and right sums when widths are equal. Trapezoids hug curves far better than rectangles — error shrinks like 1/n² versus 1/n — and the AP uses them as the default 'good' approximation on table problems.\n\nTrapezoid bias is pure concavity: on a CONCAVE-DOWN arc, the chord joining two curve points sags below the arc, so the trapezoid UNDERestimates; concave-up, chords sit above arcs — overestimate. (Chords below arcs for caps, above for cups: the tangent-line picture from linearization, mirrored — tangents and chords always bracket the curve from opposite sides.)\n\nThe midpoint sum makes exactly the OPPOSITE error: the midpoint rectangle equals (in area) the tangent-line trapezoid at the midpoint, and tangents sit below cups, above caps. So for concave-up f: midpoint under, trapezoid over — and the true integral lies between them, with the midpoint typically about half as wrong. The bracket-by-opposites structure is a BC-flavored insight the exam rewards in 'which is largest?' rankings.\n\nThe ranking question, assembled: for f increasing and concave up on [a, b], order L < M < ∫ < T < R. Left/right from monotonicity, mid/trap from concavity. Any specific case can be re-derived in seconds from the two principles — derive, don't memorize, because the exam permutes the function's behavior precisely to break memorized orderings.",
+        "key_terms": [
+          [
+            "Trapezoid sum",
+            "Σ ½(f(L) + f(R))·width — chord-topped slices, the average of L and R sums"
+          ],
+          [
+            "Concavity bias",
+            "Chords under caps (trap under), over cups (trap over); midpoint mirrors it"
+          ],
+          [
+            "Bracket by opposites",
+            "Midpoint and trapezoid err oppositely; the integral sits between"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Trapezoid questions on tables with UNEQUAL widths must be computed trapezoid-by-trapezoid: ½(f₀ + f₁)w₁ + ½(f₁ + f₂)w₂ + ⋯. The averaged-sums shortcut T = (L + R)/2 silently assumes equal widths — using it on FRQ tables is a wrong answer, not a shortcut."
+          ]
+        ]
+      },
+      {
+        "title": "The Limit Definition",
+        "subtitle": "Sums become integrals, and back",
+        "body": "The definite integral IS the limit: ∫ₐᵇ f(x) dx = lim n→∞ Σᵢ f(xᵢ*)Δx — rectangles refined until the approximation error vanishes. The definition matters operationally on the AP in one specific genre: converting between limit-of-sum notation and integral notation, in both directions.\n\nReading a limit as an integral: lim n→∞ Σ (3/n)·√(1 + 3i/n) — the factor 3/n is Δx, so the interval has length 3; the sample 1 + 3i/n starts at 1 (right endpoints), so [a, b] = [1, 4] and the integrand is √x: the limit equals ∫₁⁴ √x dx. The decode recipe: identify Δx for the length, the sample expression's range for the bounds, and the function applied to the sample for the integrand.\n\nWriting an integral as a limit reverses the recipe: ∫₂⁵ x³ dx = lim Σ (3/n)(2 + 3i/n)³ with right endpoints. The skeleton — Δx = (b-a)/n, xᵢ = a + iΔx, sum f(xᵢ)Δx — assembles any such expression. Both directions appear as multiple choice; the decode direction is the more common and the more fumbled.\n\nWhy the definition earns its keep beyond notation: it is what makes the integral MEAN accumulated change (chapter 1's slicing argument, formalized), it justifies every numerical method in this chapter, and it returns in BC's arc length and surface integrals where slicing arguments construct new integral formulas from scratch. The rectangles never really leave; they just go backstage.",
+        "key_terms": [
+          [
+            "Limit definition",
+            "∫ₐᵇ f dx = lim Σ f(xᵢ*)Δx — the integral as refined rectangle sums"
+          ],
+          [
+            "Decode recipe",
+            "Δx gives the length; the sample's range gives the bounds; the applied function is the integrand"
+          ],
+          [
+            "Slicing arguments",
+            "The definition's pattern builds new integral formulas (arc length, volumes) later"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "In limit-to-integral decodes, the bounds hide in the SAMPLE expression: 2 + 3i/n runs from 2 to 5 as i runs 1 to n — bounds [2, 5], length 3, matching Δx = 3/n. Cross-check length against Δx every time; mismatches expose a misread."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "Using the table t: 0, 2, 5, 6 with f(t): 3, 7, 11, 9, the left Riemann sum for ∫₀⁶ f dt is",
+          "choices": {
+            "A": "6 + 21 + 11 = 38",
+            "B": "14 + 33 + 9 = 56",
+            "C": "38.5",
+            "D": "40"
+          },
+          "answer": "A",
+          "explanation": "Widths 2, 3, 1 with left heights 3, 7, 11: 3(2) + 7(3) + 11(1) = 6 + 21 + 11 = 38."
+        },
+        {
+          "question": "f is decreasing on [1, 9]. The right Riemann sum for ∫₁⁹ f dx is",
+          "choices": {
+            "A": "an underestimate",
+            "B": "an overestimate",
+            "C": "exact",
+            "D": "indeterminate without concavity"
+          },
+          "answer": "A",
+          "explanation": "For decreasing f, each right edge is the interval's lowest point: rectangles sit below the curve."
+        },
+        {
+          "question": "f is concave down on [0, 8]. The trapezoidal approximation of ∫₀⁸ f dx is",
+          "choices": {
+            "A": "an underestimate",
+            "B": "an overestimate",
+            "C": "exact",
+            "D": "indeterminate without monotonicity"
+          },
+          "answer": "A",
+          "explanation": "Chords sag below concave-down arcs: trapezoid tops sit under the curve. (Monotonicity is irrelevant for trapezoids.)"
+        },
+        {
+          "question": "Using the same table as before (t: 0, 2, 5, 6; f: 3, 7, 11, 9), the trapezoidal approximation of ∫₀⁶ f dt is",
+          "choices": {
+            "A": "47",
+            "B": "38",
+            "C": "56",
+            "D": "44"
+          },
+          "answer": "A",
+          "explanation": "½(3+7)(2) + ½(7+11)(3) + ½(11+9)(1) = 10 + 27 + 10 = 47."
+        },
+        {
+          "question": "lim n→∞ Σᵢ₌₁ⁿ (2/n)·(1 + 2i/n)² equals",
+          "choices": {
+            "A": "∫₁³ x² dx",
+            "B": "∫₀² x² dx",
+            "C": "∫₁³ 2x² dx",
+            "D": "∫₀¹ (1 + 2x)² dx"
+          },
+          "answer": "A",
+          "explanation": "Δx = 2/n (length 2); samples 1 + 2i/n sweep (1, 3]: bounds [1, 3]; the function applied is squaring. (D is also equivalent by substitution but A is the direct decode; on the exam only one appears.)"
+        }
+      ],
+      "frq": [
+        {
+          "question": "A pump's flow rate R(t) (gallons per minute) is recorded: t = 0, 3, 4, 7, 10 with R = 20, 26, 28, 22, 16.\n(a) Approximate ∫₀¹⁰ R(t) dt with a right Riemann sum using the four subintervals given, and interpret the result.\n(b) Approximate the same integral with a trapezoidal sum.\n(c) The pump's rate is known to have been increasing on [0, 4] and decreasing on [4, 10]. Can you determine whether your answer to (a) over- or underestimates on the FULL interval? Analyze each piece.",
+          "rubric": [
+            "(a) 26(3) + 28(1) + 22(3) + 16(3) = 78 + 28 + 66 + 48 = 220 gallons pumped",
+            "(b) ½(20+26)(3) + ½(26+28)(1) + ½(28+22)(3) + ½(22+16)(3) = 69 + 27 + 75 + 57 = 228",
+            "(c) On [0,4] (increasing): right sum over; on [4,10] (decreasing): right sum under",
+            "Conclusion: opposing biases — no overall verdict without more information"
+          ],
+          "model_answer": "(a) Right sum with widths 3, 1, 3, 3 and right heights 26, 28, 22, 16: 26(3) + 28(1) + 22(3) + 16(3) = 220. Approximately 220 gallons flowed through the pump during the 10 minutes. (b) Trapezoids: ½(20+26)(3) + ½(26+28)(1) + ½(28+22)(3) + ½(22+16)(3) = 69 + 27 + 75 + 57 = 228 gallons. (c) On [0, 4], R increases, so right rectangles OVERestimate that portion; on [4, 10], R decreases, so right rectangles UNDERestimate there. The two biases oppose, and without knowing the relative sizes of the errors, no over/under verdict applies to the full-interval estimate — the honest answer is that the direction cannot be determined."
+        },
+        {
+          "question": "Let f(x) = e^{-x²} on [0, 2], a positive, decreasing, initially concave-down function with an inflection at x = 1/√2.\n(a) With n = 4 equal subintervals, write (do not evaluate) the left Riemann sum for ∫₀² f dx.\n(b) State whether the left sum over- or underestimates the integral, with justification.\n(c) Rank L (left), T (trapezoid), and the true integral I on [0, 1/√2] only — where f is concave down — from smallest to largest, justifying each comparison.",
+          "rubric": [
+            "(a) ½[f(0) + f(½) + f(1) + f(3/2)] with f(x) = e^{-x²}",
+            "(b) f decreasing ⟹ left endpoints are maxima ⟹ overestimate",
+            "(c) On concave-down: T < I (chords sag); f decreasing: L > I",
+            "Ranking: T < I < L"
+          ],
+          "model_answer": "(a) Δx = ½: L = ½[e⁰ + e^{-1/4} + e^{-1} + e^{-9/4}]. (b) f is decreasing on [0, 2], so each left endpoint gives the subinterval's largest value — the rectangles poke above the curve: the left sum OVERestimates. (c) On [0, 1/√2], f is concave down: trapezoid chords sag below the arc, so T < I. f is decreasing there, so the left sum overshoots: L > I. Ranking: T < I < L."
+        },
+        {
+          "question": "Consider lim n→∞ Σᵢ₌₁ⁿ (5/n)·sin(π(2 + 5i/n)).\n(a) Identify Δx, the interval [a, b], and the integrand, and rewrite the limit as a definite integral.\n(b) A student claims the interval is [0, 5] 'because the sum runs from i = 1 to n.' Explain the error.\n(c) Without evaluating, state whether the integral is positive, negative, or requires more analysis, given that sin is being sampled over the resulting interval.",
+          "rubric": [
+            "(a) Δx = 5/n; samples 2 + 5i/n sweep (2, 7]: ∫₂⁷ sin(πx) dx",
+            "(b) The index range sets the COUNT of rectangles; the BOUNDS come from the sample expression's sweep, 2 to 7",
+            "(c) sin(πx) completes full periods on intervals of length 2; [2, 7] is 2.5 periods",
+            "Full periods cancel; the leftover [6, 7] gives ∫ sin(πx) > 0 on (6,7)? sin(πx) on (6,7): πx in (6π,7π), sine positive there — integral positive"
+          ],
+          "model_answer": "(a) Δx = 5/n, so the interval has length 5; the sample 2 + 5i/n runs from just above 2 (i = 1) to 7 (i = n): [a, b] = [2, 7], right endpoints. The function applied is sin(π·). The limit equals ∫₂⁷ sin(πx) dx. (b) The summation index i counts the n rectangles — it never names the x-interval. The bounds live inside the sample expression: as i sweeps 1 to n, the sample sweeps 2 to 7. Reading bounds from the index is the standard decode error. (c) sin(πx) has period 2, and [2, 7] spans 2.5 periods. Each complete period integrates to zero, leaving ∫₆⁷ sin(πx) dx; on (6, 7), πx lies in (6π, 7π) where sine is positive. The integral is positive (its value is 2/π, though no evaluation was required)."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Integration and Accumulation of Change",
+    "chapter_title": "The Fundamental Theorem of Calculus — Part 1",
+    "hook": "Here is the theorem that earns the adjective: the derivative of an accumulation function is the function being accumulated. Slopes and areas — built from opposite ends of calculus — turn out to be inverse operations, and everything after this page depends on it.",
+    "learning_objectives": [
+      "State FTC Part 1: d/dx ∫ₐˣ f(t) dt = f(x) for continuous f",
+      "Differentiate accumulation functions, including chain-rule upper bounds",
+      "Handle variable lower bounds and two-variable-bound integrals",
+      "Analyze accumulation functions (extremes, concavity) using FTC-supplied derivatives",
+      "Explain the theorem's meaning: accumulation rate equals the current integrand value"
+    ],
+    "sections": [
+      {
+        "title": "The Theorem and Its Meaning",
+        "subtitle": "Why accumulation differentiates to the integrand",
+        "body": "FTC Part 1: if f is continuous on an interval containing a, then g(x) = ∫ₐˣ f(t) dt is differentiable and g'(x) = f(x). Differentiating an accumulation function hands back the integrand, evaluated at the sweeping bound. Integration and differentiation are inverse processes — the fact that makes antiderivatives compute areas (Part 2, next chapter) and makes the last chapter's graph-reading correspondences exact.\n\nThe intuition deserves to be owned, not memorized: g(x + h) - g(x) is the area of the sliver between x and x + h — a near-rectangle of height f(x) and width h. So the difference quotient (g(x+h) - g(x))/h ≈ f(x)·h/h = f(x), and the limit seals it. The accumulation's growth RATE is the current deposit rate: if water pours at 7 L/min right now, the total's rate of change is 7 L/min right now. Stated that way, the deepest theorem in the course sounds obvious — which is exactly the right way to remember it.\n\nThe dummy-variable hygiene from chapter 1 pays off here: in d/dx ∫₂ˣ cos(t²) dt = cos(x²), the t was internal; the answer substitutes the BOUND into the integrand. No antiderivative of cos(t²) exists in elementary terms — and none is needed. FTC1 differentiates integrals you could never evaluate, which is precisely its working power on the exam.\n\nImmediate dividends: every chapter-1 graph correspondence ('g has a max where f crosses + to −') is now literally Unit 5's first-derivative test applied to g' = f. The machinery was never an analogy; it was the theorem, previewed.",
+        "key_terms": [
+          [
+            "FTC Part 1",
+            "d/dx ∫ₐˣ f(t) dt = f(x): the accumulation's derivative is the integrand at the bound"
+          ],
+          [
+            "Sliver argument",
+            "g(x+h) - g(x) ≈ f(x)·h: the next sliver of area is a thin rectangle"
+          ],
+          [
+            "Unevaluable integrands",
+            "FTC1 differentiates ∫ cos(t²) dt and friends — no antiderivative required"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "d/dx ∫₅ˣ √(1 + t³) dt = √(1 + x³). One substitution, done. Students who try to FIND an antiderivative first are answering a much harder question than was asked — FTC1 problems are recognition problems, not integration problems."
+          ]
+        ]
+      },
+      {
+        "title": "Chain Rule Upper Bounds",
+        "subtitle": "When x² rides on top",
+        "body": "When the upper bound is a FUNCTION of x, the accumulation is a composition and the chain rule collects its fee: d/dx ∫ₐ^{u(x)} f(t) dt = f(u(x))·u'(x). Substitute the bound into the integrand, multiply by the bound's derivative. For F(x) = ∫₀^{x²} sin(t) dt: F'(x) = sin(x²)·2x.\n\nThe structure is g(u(x)) with g the plain accumulation function: FTC1 gives g' = f, the chain rule glues on u'. Seeing the two-layer anatomy keeps the formula from being one more memorized incantation — it is Unit 3's chain rule meeting this chapter's theorem, nothing new under the hood.\n\nVariable LOWER bounds flip sign first: ∫_{v(x)}^{b} f dt = -∫_b^{v(x)} f dt, so its derivative is -f(v(x))·v'(x). Both bounds variable splits at any convenient constant: d/dx ∫_{v(x)}^{u(x)} f dt = f(u(x))·u'(x) - f(v(x))·v'(x) — 'top in, times top-prime, MINUS bottom in, times bottom-prime.' The two-bound formula compresses the whole section.\n\nWorked at full strength: d/dx ∫_{√x}^{x³} ln(1 + t²) dt = ln(1 + x⁶)·3x² - ln(1 + x)·(1/(2√x)). Mechanical once the anatomy is seen: each bound contributes (integrand at bound)·(bound's derivative), signed by its position. Exam variants stop at one variable bound plus a constant — the full two-bound version is BC-comfortable insurance.",
+        "key_terms": [
+          [
+            "Chain-rule FTC",
+            "d/dx ∫ₐ^{u} f dt = f(u)·u' — substitute the bound, pay its fee"
+          ],
+          [
+            "Lower-bound sign flip",
+            "Variable bottoms differentiate with a minus: -f(v)·v'"
+          ],
+          [
+            "Two-bound formula",
+            "Top-in times top-prime, minus bottom-in times bottom-prime"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The chain-rule fee on FTC1 problems is the unit's most-planted distractor: d/dx ∫₀^{x²} sin t dt = sin(x²)·2x, and the fee-free sin(x²) sits among the choices every time. Bound a function of x? Fee due. No exceptions."
+          ]
+        ]
+      },
+      {
+        "title": "Analyzing Accumulation Functions",
+        "subtitle": "Unit 5's machinery, fully powered",
+        "body": "With g' = f in hand officially, every analytical question about g routes through f. Critical points of g: zeros and sign changes of f. g increasing: f > 0. Concavity of g: monotonicity of f (g'' = f'). Inflections of g: extremes of f. The complete Unit 5 playbook applies with the graph of f as the given — and this composite IS the AP's single most reliable FRQ, appearing in some form nearly every year.\n\nThe standard problem hands you a piecewise graph of f (lines and circle arcs) and g(x) = ∫₀ˣ f(t) dt, then walks the ladder: evaluate g at named points (geometric areas with signs), find where g is increasing (f > 0), classify g's critical points (f's crossings, by the 1DT), locate g's inflections (f's extremes), and sketch or bound g. Each rung is a chapter already taught; the FRQ is an assembly test.\n\nJustification grammar carries over verbatim with g' = f cited: 'g has a local maximum at x = 3 because g'(x) = f(x) changes from positive to negative at x = 3.' The phrase g' = f — the theorem's invocation — is part of the graded sentence. Concavity answers cite f's behavior: 'g is concave down on (1, 4) because g' = f is decreasing there.'\n\nExtreme-value versions add the candidates test: absolute extremes of g on [0, 8] compare g's values at endpoints and at f's sign changes, with g-values computed as accumulated areas. The arithmetic is chapter 1; the candidate logic is Unit 5; the bridge is the theorem. Three units in one problem — the reason this FRQ genre decides scores.",
+        "key_terms": [
+          [
+            "The ladder FRQ",
+            "Evaluate g, analyze g's behavior, classify, sketch — all from f's graph"
+          ],
+          [
+            "Invocation grammar",
+            "'g'(x) = f(x)' appears in every justification — the theorem is cited, not assumed"
+          ],
+          [
+            "Candidates with areas",
+            "Absolute extremes of g: compare accumulated-area values at crossings and endpoints"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "On accumulation FRQs, write 'g'(x) = f(x) by the Fundamental Theorem' once at the top of your work, then reference it. The single line activates Unit 5 grammar for every subsequent part and collects the theorem-citation point examiners look for."
+          ]
+        ]
+      },
+      {
+        "title": "Defined by Integrals",
+        "subtitle": "Functions the integral builds from scratch",
+        "body": "Some functions are DEFINED as accumulation integrals because no simpler formula exists. The premier example is the natural logarithm, constructible as ln(x) = ∫₁ˣ (1/t) dt: FTC1 instantly gives d/dx ln x = 1/x, and the log's properties (ln(ab) = ln a + ln b) can be derived from integral algebra. What Unit 2 asserted, the integral constructs.\n\nStatistics runs on another: the error function erf(x) accumulates the bell curve e^{-t²}, which has no elementary antiderivative. Fresnel integrals (sin(t²)) drive optics. These functions are not exotic — they are what accumulation produces when the integrand resists closed forms, and FTC1 supplies their derivatives, their increasing/decreasing analysis, and (in Unit 10) their Taylor series — their entire calculus, formula-free.\n\nFor the AP, the operational point: a function presented as g(x) = 3 + ∫₂ˣ f(t) dt is a complete, analyzable object. Its value at 2 is 3 (the integral vanishes); its derivative is f; its tangent line at x = 2 is y = 3 + f(2)(x - 2). Initial value plus accumulated change — the chapter-1 sentence — IS this presentation, and FRQs phrase real models this way constantly.\n\nThe theorem's two halves are about to meet: Part 1 says accumulation functions are antiderivatives of their integrands. Part 2 (next chapter) runs the logic backward — ANY antiderivative, however obtained, evaluates the definite integral by subtraction. Together they collapse area computation from rectangle limits to algebra, and the unit's remaining chapters are the craft of finding antiderivatives.",
+        "key_terms": [
+          [
+            "Integral-defined functions",
+            "ln, erf, Fresnel — built by accumulation when formulas don't exist"
+          ],
+          [
+            "Complete object",
+            "g = C + ∫ₐˣ f: value, derivative, tangent, behavior — all readable"
+          ],
+          [
+            "Bridge to Part 2",
+            "Accumulations are antiderivatives; Part 2 turns antiderivatives into evaluations"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "g(x) = 5 + ∫₃ˣ f(t) dt has g(3) = 5 — the integral from 3 to 3 is zero, leaving the constant. The 'find g at the anchor point' question is a freebie hidden in nearly every accumulation FRQ; collect it in five seconds."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "If g(x) = ∫₁ˣ √(t³ + 1) dt, then g'(2) =",
+          "choices": {
+            "A": "3",
+            "B": "√9",
+            "C": "Both A and B (they are equal)",
+            "D": "Cannot be determined without an antiderivative"
+          },
+          "answer": "C",
+          "explanation": "FTC1: g'(x) = √(x³ + 1), so g'(2) = √9 = 3. No antiderivative needed — that is the theorem's point."
+        },
+        {
+          "question": "d/dx ∫₀^{x³} cos(t) dt =",
+          "choices": {
+            "A": "3x² cos(x³)",
+            "B": "cos(x³)",
+            "C": "-sin(x³)·3x²",
+            "D": "cos(3x²)"
+          },
+          "answer": "A",
+          "explanation": "Substitute the bound, multiply by its derivative: cos(x³)·3x². Choice B dodges the chain-rule fee."
+        },
+        {
+          "question": "F(x) = ∫ₓ⁵ e^{t²} dt. Then F'(x) =",
+          "choices": {
+            "A": "-e^{x²}",
+            "B": "e^{x²}",
+            "C": "e^{25} - e^{x²}",
+            "D": "-e^{25}"
+          },
+          "answer": "A",
+          "explanation": "The variable bound is on the BOTTOM: flip the integral's sign first, so F' = -e^{x²}."
+        },
+        {
+          "question": "g(x) = ∫₀ˣ f(t) dt where the graph of f crosses the x-axis from below to above at x = 4. At x = 4, g has",
+          "choices": {
+            "A": "a local minimum",
+            "B": "a local maximum",
+            "C": "an inflection point",
+            "D": "a discontinuity"
+          },
+          "answer": "A",
+          "explanation": "g' = f changes − to + at 4: the first derivative test gives a local min of g."
+        },
+        {
+          "question": "h(x) = 7 + ∫₂ˣ sin(t²) dt. The tangent line to h at x = 2 is",
+          "choices": {
+            "A": "y = 7 + sin(4)(x - 2)",
+            "B": "y = sin(4)(x - 2)",
+            "C": "y = 7 + sin(2)(x - 2)",
+            "D": "y = 7"
+          },
+          "answer": "A",
+          "explanation": "h(2) = 7 (empty integral) and h'(2) = sin(4) by FTC1: point-slope assembles A."
+        }
+      ],
+      "frq": [
+        {
+          "question": "The graph of f on [-2, 6] consists of line segments: from (-2, 2) to (0, 2), from (0, 2) to (2, -2), and from (2, -2) to (6, 2) — crossing zero at x = 1 and x = 4. Let g(x) = ∫₀ˣ f(t) dt.\n(a) Compute g(-2), g(1), and g(4).\n(b) Find the x-coordinates of all local extremes of g on (-2, 6) and classify them, citing the theorem that licenses your reasoning.\n(c) On what interval(s) is g concave up? Justify.",
+          "rubric": [
+            "(a) g(1) = 1 (triangle area 1); g(4) = 1 - 3 = -2; g(-2) = -∫₋₂⁰ f = -(4) = -4",
+            "(b) g' = f by FTC1; f: + on (-2,1), − on (1,4), + on (4,6): local max at x = 1, local min at x = 4",
+            "(c) g'' = f': f increasing on (2, 6) — g concave up there",
+            "Justifications cite g' = f and the sign changes"
+          ],
+          "model_answer": "(a) g(1): triangle from 0 to 1 under the descending segment — f falls from 2 at x=0 to 0 at x=1: area ½(1)(2) = 1, so g(1) = 1. g(4) = g(1) + ∫₁⁴ f: the below-axis triangle from 1 to 4 has area ½(3)(2) = 3, so g(4) = 1 - 3 = -2. g(-2) = ∫₀⁻² f = -∫₋₂⁰ f = -(2·2) = -4 (rectangle of height 2, width 2, reversed bounds). (b) By the Fundamental Theorem, g'(x) = f(x). f changes from + to − at x = 1 (local maximum of g) and from − to + at x = 4 (local minimum of g). (c) g''(x) = f'(x): f is increasing on (2, 6) (the rising segment), so g is concave up on (2, 6)."
+        },
+        {
+          "question": "Let F(x) = ∫₁^{x²} (ln t)/t dt for x > 1.\n(a) Find F'(x), showing the chain-rule structure, and simplify using ln(x²) = 2 ln x.\n(b) Solve F'(x) = 0 on the domain and explain what the result tells you about F.\n(c) Compute F''(x) and determine the concavity of F for x > 1.",
+          "rubric": [
+            "(a) F'(x) = (ln(x²)/x²)·2x, then ln(x²) = 2 ln x simplifies it to 4 ln x/x",
+            "(b) F' = 4 ln x/x = 0 only at ln x = 0, x = 1 (boundary); F' > 0 for x > 1: F strictly increasing",
+            "(c) F'' = 4(1 - ln x)/x²: positive on (1, e), negative on (e, ∞)",
+            "Concave up on (1, e), down on (e, ∞), inflection at x = e"
+          ],
+          "model_answer": "(a) FTC1 with chain rule, u = x²: F'(x) = (ln(x²)/x²)·2x. Since ln(x²) = 2 ln x, this simplifies to F'(x) = (2 ln x/x²)(2x) = 4 ln x/x. (b) F'(x) = 4 ln x/x = 0 requires ln x = 0, i.e., x = 1 — the domain's edge. For all x > 1, ln x > 0 so F' > 0: F is strictly increasing on its whole domain, with no interior critical points. (c) F''(x) = 4·(x·(1/x) - ln x)/x² = 4(1 - ln x)/x². Positive when ln x < 1 (x < e), negative when x > e: F is concave up on (1, e), concave down on (e, ∞), with an inflection at x = e."
+        },
+        {
+          "question": "A reservoir's inflow rate is f(t) (acre-feet per day), graphed for 0 ≤ t ≤ 12: f is positive on (0, 5), negative on (5, 9), positive on (9, 12), with ∫₀⁵ f = 40, ∫₅⁹ f = -25, ∫₉¹² f = 10. The reservoir holds A(t) = 100 + ∫₀ᵗ f(s) ds acre-feet.\n(a) Compute A(0), A(5), A(9), and A(12).\n(b) When is the reservoir's volume greatest, and what is that volume? Justify via A' and the candidates comparison.\n(c) The local water authority claims the reservoir never dropped below 110 acre-feet during the 12 days. Evaluate the claim.",
+          "rubric": [
+            "(a) A(0) = 100; A(5) = 140; A(9) = 115; A(12) = 125",
+            "(b) A' = f: + on (0,5), − on (5,9), + on (9,12); candidates t = 5 (max from sign change) vs endpoint t = 12: A(5) = 140 > 125",
+            "Greatest volume 140 acre-feet at t = 5",
+            "(c) Minimum candidates: t = 0 (100) and t = 9 (115); A(0) = 100 < 110 — claim false at the start"
+          ],
+          "model_answer": "(a) A(0) = 100. A(5) = 100 + 40 = 140. A(9) = 140 - 25 = 115. A(12) = 115 + 10 = 125. (b) A'(t) = f(t) by the Fundamental Theorem. A rises on (0, 5), falls on (5, 9), rises on (9, 12) — local max at t = 5. Comparing with the right endpoint: A(5) = 140 versus A(12) = 125: the reservoir is fullest at t = 5 with 140 acre-feet. (c) The volume's minimum candidates are the left endpoint and the − to + turn at t = 9: A(0) = 100 and A(9) = 115. Since A(0) = 100 < 110, the claim is false — though only barely, and only at the very start: from the moment inflow began, the reservoir stayed above 110 after recovering past it early in the window. More precisely, A starts at 100, so 'never below 110' fails at t = 0 itself."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Integration and Accumulation of Change",
+    "chapter_title": "The Fundamental Theorem of Calculus — Part 2 and Antiderivatives",
+    "hook": "Part 2 is the payoff: to evaluate any definite integral, find an antiderivative, plug in the endpoints, subtract. Centuries of area problems collapse into algebra — provided you can run differentiation backward, which is this chapter's craft.",
+    "learning_objectives": [
+      "State and apply FTC Part 2: ∫ₐᵇ f = F(b) - F(a) for any antiderivative F",
+      "Build the basic antiderivative library by reversing the derivative rules",
+      "Use the +C correctly in indefinite integrals and drop it correctly in definite ones",
+      "Evaluate definite integrals of polynomials, powers, trig, exponentials, and 1/x",
+      "Solve initial-value problems: recover f from f' and a point"
+    ],
+    "sections": [
+      {
+        "title": "Part 2 and the Evaluation Ritual",
+        "subtitle": "F(b) minus F(a)",
+        "body": "FTC Part 2: if F is ANY antiderivative of the continuous function f (meaning F' = f), then ∫ₐᵇ f(x) dx = F(b) - F(a). The notation [F(x)]ₐᵇ packages the ritual: antidifferentiate, evaluate at the top, evaluate at the bottom, subtract. The connection to Part 1: the accumulation ∫ₐˣ f IS an antiderivative, and any two antiderivatives differ by a constant that cancels in the subtraction — so any antiderivative works.\n\nThe ritual, run: ∫₁³ x² dx = [x³/3]₁³ = 27/3 - 1/3 = 26/3. The rectangle limits of chapter 2 would labor for this; the algebra takes one line. That collapse — geometry into algebra — is why the theorem carries the name Fundamental.\n\nWhy no +C in definite integrals: include it and watch it cancel — (F(b) + C) - (F(a) + C) = F(b) - F(a). The constant is genuine bookkeeping for INDEFINITE integrals (next section) and pure decoration in definite ones. Writing it in definite evaluations is harmless but signals confusion; omitting it in indefinite answers loses a point.\n\nSign discipline in the subtraction: F(b) - F(a) with the TOP bound first, and parentheses around negative evaluations — ∫₋₂¹ x³ dx = [x⁴/4] = 1/4 - 16/4 = -15/4, where sloppy minus-handling routinely flips answers. The evaluation bar is the unit's highest-volume arithmetic; protect it with parentheses.",
+        "key_terms": [
+          [
+            "FTC Part 2",
+            "∫ₐᵇ f = F(b) - F(a) for any F with F' = f"
+          ],
+          [
+            "Evaluation bar",
+            "[F(x)]ₐᵇ: top evaluation minus bottom evaluation"
+          ],
+          [
+            "Canceling constant",
+            "Any antiderivative works — the +C dies in the subtraction"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Calculator-section integrals can be evaluated numerically — but the no-calculator section's definite integrals are exactly this ritual, and arithmetic slips in F(b) - F(a) (especially with negative bounds and even powers) outnumber concept errors three to one. Parentheses around every substituted value."
+          ]
+        ]
+      },
+      {
+        "title": "The Antiderivative Library",
+        "subtitle": "Differentiation's table, reversed",
+        "body": "Every derivative fact reads backward as an antiderivative fact. The power rule reverses to ∫xⁿ dx = xⁿ⁺¹/(n + 1) + C for n ≠ -1 — raise the power, divide by the new power. The excluded case n = -1 is the logarithm's seat: ∫(1/x) dx = ln|x| + C, the absolute value extending the formula to negative x (where 1/x still demands an antiderivative and ln|x| supplies it).\n\nTrig reverses with signs to mind: ∫cos = sin + C; ∫sin = -cos + C (the minus, because (cos)' = -sin); ∫sec² = tan + C; ∫sec·tan = sec + C; ∫csc² = -cot + C; ∫csc·cot = -csc + C. Exponentials: ∫eˣ = eˣ + C; ∫bˣ = bˣ/ln b + C. The inverse-trig pair from Unit 3, now in their destined role: ∫dx/(1 + x²) = arctan x + C and ∫dx/√(1 - x²) = arcsin x + C.\n\nLinearity carries over wholesale: antidifferentiate term by term, constants ride along. ∫(6x² - 4 sin x + 5/x) dx = 2x³ + 4 cos x + 5 ln|x| + C — one C suffices for the whole expression (the constants merge). Rewriting before integrating is the same discipline as differentiating: √x → x^{1/2} → (2/3)x^{3/2}, and 1/x⁴ → x⁻⁴ → -x⁻³/3.\n\nVerification is uniquely cheap in this direction: DIFFERENTIATE your answer and watch for the integrand. Antidifferentiation guesses are self-grading — a ten-second derivative check converts uncertainty into proof, and the habit catches sign slips (the ∫sin minus!) before they cost.",
+        "key_terms": [
+          [
+            "Reverse power rule",
+            "∫xⁿ = xⁿ⁺¹/(n+1) + C, n ≠ -1; the gap at -1 belongs to ln|x|"
+          ],
+          [
+            "Sign-minding trig",
+            "∫sin = -cos + C: antiderivative signs flip where derivative signs flipped"
+          ],
+          [
+            "Differentiate to verify",
+            "Check every antiderivative by differentiating it — self-grading work"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "∫(1/x) dx = ln|x| + C — the absolute value is graded on the AP. Omitting it on integrals whose interval is positive is tolerated; omitting it in general answers or on intervals touching negatives is a deduction. Write |x| by default."
+          ]
+        ]
+      },
+      {
+        "title": "Initial Value Problems",
+        "subtitle": "Pinning down the +C",
+        "body": "The indefinite integral's +C encodes a family: all vertical shifts of one antiderivative. An INITIAL CONDITION — one known point — selects the family member. Given f'(x) = 3x² - 4 with f(1) = 5: antidifferentiate to f(x) = x³ - 4x + C, substitute the point: 5 = 1 - 4 + C, so C = 8 and f(x) = x³ - 4x + 8. Antidifferentiate, substitute, solve, write the finished function — the four-beat IVP ritual.\n\nMotion is the genre's home turf: given acceleration a(t) = -32 ft/s² (gravity), v(0) = 64, s(0) = 80 — antidifferentiate twice, pinning a constant at each level. v(t) = -32t + C₁ with v(0) = 64: v = -32t + 64. s(t) = -16t² + 64t + C₂ with s(0) = 80: s = -16t² + 64t + 80. Projectile problems, fully armed: when does it peak (v = 0), how high (s there), when does it land (s = 0).\n\nThe FTC alternative phrasing — f(b) = f(a) + ∫ₐᵇ f' — solves IVPs without naming C: f(3) = f(1) + ∫₁³ (3x² - 4) dx = 5 + [x³ - 4x]₁³ = 5 + (15 - (-3)) = 23. When only ONE value is wanted (not the whole formula), the accumulation route is faster and calculator-friendly; when the formula is wanted, the C-route delivers it. Both phrasings are the same mathematics; fluency means choosing by what the question requests.\n\nTwo-constant problems flag a BC reflex: each antidifferentiation level needs its own condition, and conditions can arrive at different points (v(2) = 10, s(0) = 3) — substitute each at ITS point, in order. The bookkeeping is trivial when organized level by level and a mess when interleaved.",
+        "key_terms": [
+          [
+            "Initial value problem",
+            "f' plus one point determines f: antidifferentiate, substitute, solve for C"
+          ],
+          [
+            "Twice-integrated motion",
+            "a → v → s, one constant pinned per level"
+          ],
+          [
+            "Accumulation phrasing",
+            "f(b) = f(a) + ∫ₐᵇ f': the C-free route to single values"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When an FRQ gives f' and f(a) and asks only for f(b), skip the C entirely: f(b) = f(a) + ∫ₐᵇ f' dx, evaluated (by hand or calculator as the section permits). The accumulation route is faster, C-error-proof, and worth the same full credit."
+          ]
+        ]
+      },
+      {
+        "title": "Hypotheses and Honest Limits",
+        "subtitle": "Where Part 2 can fail, and graph-based evaluation",
+        "body": "Part 2's hypothesis — f continuous on [a, b] — is not decoration. The cautionary classic: ∫₋₁¹ (1/x²) dx 'evaluated' as [-1/x]₋₁¹ = -1 - 1 = -2. A negative area for a positive function: absurd. The failure: 1/x² is discontinuous (unbounded) at 0, inside the interval; the theorem never applied, and the integral is in fact improper (chapter 8's subject) and divergent. Scan the interval for discontinuities BEFORE invoking the ritual.\n\nPiecewise integrands route around their seams by splitting: ∫₀⁴ f with f defined piecewise at x = 2 becomes ∫₀² + ∫₂⁴, each piece evaluated by its own formula. Absolute-value integrands are the recurring case: for ∫₀⁴ |x - 2| dx, split at the corner x = 2: ∫₀² (2 - x) dx + ∫₂⁴ (x - 2) dx = 2 + 2 = 4. Splitting at the kink converts one impossible antiderivative into two trivial ones.\n\nWhen no elementary antiderivative exists (e^{-x²}, sin(x²), the unit's recurring guests), Part 2 is not wrong but UNAVAILABLE — evaluation falls back to geometry (chapter 1), numerics (chapter 2), the calculator (on active sections), or stays symbolic as an accumulation function (chapter 3). Knowing WHICH tool a given integral admits is itself the tested skill: the exam mixes evaluable and non-evaluable integrands deliberately.\n\nThe unit's arc from here: the library handles integrands that LOOK like derivative-table entries. Most integrands don't — they look like chain-rule outputs (u-substitution, next), product-rule outputs (integration by parts), or rational functions (partial fractions). The remaining chapters are pattern-recognition training: which derivative rule, run backward, unlocks each integrand family.",
+        "key_terms": [
+          [
+            "Continuity hypothesis",
+            "Discontinuities inside [a, b] void the ritual — check before evaluating"
+          ],
+          [
+            "Split at seams",
+            "Piecewise and absolute-value integrands integrate piece by piece"
+          ],
+          [
+            "Tool selection",
+            "Geometry, numerics, FTC, or symbolic accumulation — matched to the integrand"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "∫|expression| dx ALWAYS splits at the expression's zeros — there is no antiderivative of an absolute value in one piece. The split-point computation is the question's actual content; the two resulting integrals are routine."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "∫₁⁴ (2x - 3) dx =",
+          "choices": {
+            "A": "6",
+            "B": "9",
+            "C": "12",
+            "D": "3"
+          },
+          "answer": "A",
+          "explanation": "[x² - 3x]₁⁴ = (16 - 12) - (1 - 3) = 4 + 2 = 6."
+        },
+        {
+          "question": "∫ (4/x) dx =",
+          "choices": {
+            "A": "4 ln|x| + C",
+            "B": "-4/x² + C",
+            "C": "4 ln x",
+            "D": "ln|4x| + C"
+          },
+          "answer": "A",
+          "explanation": "Constant out, reciprocal integrates to ln|x|: 4 ln|x| + C. (C lacks both the absolute value and the constant.)"
+        },
+        {
+          "question": "∫₀^{π/2} sin x dx =",
+          "choices": {
+            "A": "1",
+            "B": "-1",
+            "C": "0",
+            "D": "2"
+          },
+          "answer": "A",
+          "explanation": "[-cos x]₀^{π/2} = -cos(π/2) + cos(0) = 0 + 1 = 1."
+        },
+        {
+          "question": "f'(x) = 6x² + 2 and f(1) = 4. Then f(x) =",
+          "choices": {
+            "A": "2x³ + 2x + 0",
+            "B": "2x³ + 2x",
+            "C": "Both A and B describe f(x) = 2x³ + 2x",
+            "D": "2x³ + 2x + 4"
+          },
+          "answer": "C",
+          "explanation": "f = 2x³ + 2x + C; 4 = 2 + 2 + C gives C = 0, so f(x) = 2x³ + 2x."
+        },
+        {
+          "question": "A correct evaluation of ∫₀⁶ |x - 4| dx requires",
+          "choices": {
+            "A": "splitting at x = 4: ∫₀⁴(4 - x) + ∫₄⁶(x - 4) = 8 + 2 = 10",
+            "B": "the single antiderivative |x²/2 - 4x|",
+            "C": "evaluating (x-4)²/2 from 0 to 6",
+            "D": "the answer 6 by symmetry"
+          },
+          "answer": "A",
+          "explanation": "Absolute values split at their zeros: triangles of area 8 and 2, total 10. No one-piece antiderivative of |x - 4| exists."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Evaluate the following, showing antiderivatives and the evaluation bar.\n(a) ∫₁⁸ 3·x^{1/3} dx\n(b) ∫_{π/4}^{π/2} (2 cos x - csc² x) dx\n(c) ∫₁ᵉ (4/x + 2x) dx",
+          "rubric": [
+            "(a) 3·(3/4)x^{4/3} = (9/4)x^{4/3}; [(9/4)x^{4/3}]₁⁸ = (9/4)(16) - 9/4 = 36 - 2.25 = 135/4",
+            "(b) [2 sin x + cot x]: at π/2: 2 + 0; at π/4: √2 + 1; result 2 - √2 - 1 = 1 - √2",
+            "(c) [4 ln|x| + x²]₁ᵉ = (4 + e²) - (0 + 1) = e² + 3",
+            "All three carried out with the bar and clean substitution"
+          ],
+          "model_answer": "(a) ∫₁⁸ 3x^{1/3} dx = [3·(3/4)x^{4/3}]₁⁸ = [(9/4)x^{4/3}]₁⁸ = (9/4)(8^{4/3}) - (9/4)(1) = (9/4)(16) - 9/4 = 36 - 9/4 = 135/4. (b) ∫_{π/4}^{π/2} (2 cos x - csc² x) dx = [2 sin x + cot x]_{π/4}^{π/2} = (2·1 + 0) - (2·(√2/2) + 1) = 2 - √2 - 1 = 1 - √2. (c) ∫₁ᵉ (4/x + 2x) dx = [4 ln|x| + x²]₁ᵉ = (4·1 + e²) - (0 + 1) = e² + 3."
+        },
+        {
+          "question": "A ball is thrown upward from a 96-foot building with initial velocity 16 ft/s; acceleration is a(t) = -32 ft/s².\n(a) Find v(t) and s(t).\n(b) Find the maximum height, with justification that it is a maximum.\n(c) Find the speed at the moment of impact with the ground.",
+          "rubric": [
+            "(a) v = -32t + 16; s = -16t² + 16t + 96",
+            "(b) v = 0 at t = ½; s(½) = -4 + 8 + 96 = 100 ft; v changes + to − (or s'' < 0): maximum",
+            "(c) s = 0: -16t² + 16t + 96 = 0 → t² - t - 6 = 0 → t = 3; v(3) = -80",
+            "Speed |v(3)| = 80 ft/s"
+          ],
+          "model_answer": "(a) v(t) = ∫a dt = -32t + C₁ with v(0) = 16: v(t) = -32t + 16. s(t) = ∫v dt = -16t² + 16t + C₂ with s(0) = 96: s(t) = -16t² + 16t + 96. (b) v(t) = 0 at t = ½ s. v changes from positive to negative there (linear with negative slope), so s has its maximum: s(½) = -4 + 8 + 96 = 100 feet. (c) Impact: s(t) = 0 ⟹ -16(t² - t - 6) = 0 ⟹ (t - 3)(t + 2) = 0 ⟹ t = 3 s. v(3) = -96 + 16 = -80 ft/s — moving downward at impact, with speed |−80| = 80 ft/s."
+        },
+        {
+          "question": "Let f be continuous with f(2) = 7, and suppose f'(x) = 6x² - 10x for all x.\n(a) Find f(x) using an initial value computation.\n(b) Recompute f(4) using the accumulation form f(4) = f(2) + ∫₂⁴ f'(x) dx, and confirm the two routes agree.\n(c) Explain why the two routes must always agree, referencing the appropriate part of the Fundamental Theorem.",
+          "rubric": [
+            "(a) f = 2x³ - 5x² + C; 7 = 16 - 20 + C → C = 11: f(x) = 2x³ - 5x² + 11",
+            "(b) ∫₂⁴ (6x² - 10x) dx = [2x³ - 5x²]₂⁴ = (128 - 80) - (16 - 20) = 48 + 4 = 52; f(4) = 7 + 52 = 59",
+            "Direct check: f(4) = 128 - 80 + 11 = 59 ✓",
+            "(c) FTC Part 2: ∫₂⁴ f' = f(4) - f(2) for any antiderivative — the accumulation IS the net change"
+          ],
+          "model_answer": "(a) f(x) = 2x³ - 5x² + C. The condition: 7 = 2(8) - 5(4) + C = -4 + C, so C = 11 and f(x) = 2x³ - 5x² + 11. (b) ∫₂⁴ (6x² - 10x) dx = [2x³ - 5x²]₂⁴ = (128 - 80) - (16 - 20) = 48 - (-4) = 52. So f(4) = 7 + 52 = 59. Direct: f(4) = 128 - 80 + 11 = 59 ✓. (c) FTC Part 2 states ∫₂⁴ f'(x) dx = f(4) - f(2) — the definite integral of a rate is exactly the net change of the function. Adding f(2) to both sides gives the accumulation form, so the C-route and the accumulation route are algebraic rearrangements of the same theorem; they cannot disagree."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Integration and Accumulation of Change",
+    "chapter_title": "u-Substitution",
+    "hook": "Most integrands aren't in the library — they're chain-rule outputs wearing disguises. u-Substitution is the chain rule run backward: spot the inside function, watch its derivative cancel, and a hopeless integral becomes a one-line lookup.",
+    "learning_objectives": [
+      "Identify integrands of the form f(g(x))·g'(x) suitable for substitution",
+      "Execute the substitution ritual: choose u, compute du, rewrite, integrate, back-substitute",
+      "Change the bounds of definite integrals to u-values and never return to x",
+      "Handle constant-adjustment substitutions where du differs by a factor",
+      "Recognize the ln|u| pattern for integrands shaped like u'/u"
+    ],
+    "sections": [
+      {
+        "title": "The Chain Rule, Reversed",
+        "subtitle": "Spotting the inside function",
+        "body": "Differentiating F(g(x)) produces f(g(x))·g'(x) — a composition times the inside's derivative. So any integrand with that anatomy antidifferentiates by recognizing it: ∫f(g(x))·g'(x) dx = F(g(x)) + C. u-Substitution mechanizes the recognition: set u = g(x), compute du = g'(x) dx, and the integral REWRITES as ∫f(u) du — a library problem in the u-world.\n\nThe showcase: ∫2x(x² + 3)⁴ dx. The inside is x² + 3; its derivative 2x sits right there as a factor. Let u = x² + 3, du = 2x dx: the integral becomes ∫u⁴ du = u⁵/5 + C = (x² + 3)⁵/5 + C. Differentiate to verify: 5·(x²+3)⁴/5 · 2x ✓ — the chain rule regenerates the integrand, confirming the whole philosophy.\n\nWhat to choose as u: the INSIDE of the composition — the expression under a power, inside a trig function, in an exponent, under a root. The litmus test: after computing du, the REST of the integrand should disappear into it. If x-stuff survives the substitution, the choice failed; pick again or suspect another technique.\n\nThe dx is not decoration: du = g'(x) dx is a complete package (the differentials from Unit 4's linearization chapter, earning their keep), and every x and dx must convert to u and du before integrating. A half-converted integral — u's and x's cohabiting — is meaningless and ungradable; the rewrite is all-or-nothing.",
+        "key_terms": [
+          [
+            "u-Substitution",
+            "Set u = inside, du = u' dx; rewrite wholly in u; integrate; back-substitute"
+          ],
+          [
+            "Anatomy check",
+            "f(g(x))·g'(x): composition present, inside's derivative available as a factor"
+          ],
+          [
+            "All-or-nothing rewrite",
+            "No x may survive into the u-integral — mixed-variable integrals are meaningless"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Choose u so that du is VISIBLY waiting in the integrand: in ∫x e^{x²} dx, u = x² works because du = 2x dx matches the loose x (up to the constant 2). If no candidate u has its derivative on site, u-substitution is the wrong tool — move on."
+          ]
+        ]
+      },
+      {
+        "title": "Constant Adjustment",
+        "subtitle": "When du is off by a factor",
+        "body": "Usually the integrand carries ALMOST du: ∫x e^{x²} dx has u = x², du = 2x dx, but only x dx appears — half of du. Constants are no obstacle: x dx = du/2, so the integral is ∫e^u (du/2) = e^u/2 + C = e^{x²}/2 + C. Solve du's equation for the piece you actually have, and the constant rides outside.\n\nThe canonical small cases live here: ∫cos(3x) dx with u = 3x gives sin(3x)/3 + C; ∫e^{5x} dx = e^{5x}/5 + C; ∫(2x + 7)⁹ dx = (2x + 7)¹⁰/20 + C. Linear insides ax + b always cost a factor of 1/a — a pattern worth automating since it covers a third of all exam substitutions.\n\nWhat constant adjustment can NEVER do: manufacture missing VARIABLES. ∫e^{x²} dx (no loose x) does not yield to u = x² — du = 2x dx demands an x the integrand lacks, and no constant fixes a missing variable. That integral has no elementary antiderivative at all; recognizing the difference between off-by-a-constant (fixable) and off-by-a-variable (fatal) is a graded discrimination.\n\nThe u'/u pattern deserves its own reflex: any integrand shaped like derivative-over-function integrates to ln|function|. ∫x/(x² + 1) dx: u = x² + 1 catches du = 2x dx, giving ½ln(x² + 1) + C. ∫tan x dx = ∫sin x/cos x dx with u = cos x: -ln|cos x| + C = ln|sec x| + C — the tangent integral, derived in one substitution and worth memorizing as a result.",
+        "key_terms": [
+          [
+            "Constant adjustment",
+            "x dx = du/2 and friends — solve du's equation for what you have"
+          ],
+          [
+            "Linear-inside rule",
+            "∫f(ax + b) dx costs 1/a: sin(3x)/3, e^{5x}/5, (2x+7)¹⁰/20"
+          ],
+          [
+            "u'/u ⟹ ln|u|",
+            "Derivative-over-function integrates to ln of the function — tan x's secret"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Constants adjust; variables don't. ∫x e^{x²} dx submits to u-substitution, ∫e^{x²} dx does not — and the exam pairs them deliberately. The presence or absence of the loose x is the entire question; check it before committing."
+          ]
+        ]
+      },
+      {
+        "title": "Definite Integrals: Change the Bounds",
+        "subtitle": "Move to u-world and stay there",
+        "body": "For definite integrals, convert the BOUNDS along with everything else: when u = g(x), the x-bounds a, b become u-bounds g(a), g(b), and the evaluation finishes entirely in u. ∫₀² x√(x² + 1) dx: u = x² + 1, du = 2x dx; bounds x = 0 → u = 1, x = 2 → u = 5. The integral is ½∫₁⁵ √u du = ½·(2/3)u^{3/2}|₁⁵ = (5√5 - 1)/3. No back-substitution, no returning to x — the bounds did the conversion permanently.\n\nThe alternative — keeping x-bounds, back-substituting, then evaluating — is legal but slower and traps the unwary who plug x-values into u-expressions. The AP convention rewards bound-changing: write the new bounds ON the integral sign at the rewrite step, and the work self-documents. Mixed notation (u-integrand with x-bounds) is ambiguous and costs presentation points.\n\nBound order can FLIP under decreasing substitutions: u = cos x on [0, π/2] sends the bounds to 1 and 0 — the u-integral runs from 1 to 0, and reversing it (with the sign flip from chapter 1's properties) tidies the evaluation. The flip is not an error; it is the substitution being honest about direction. ∫₀^{π/2} sin x cos⁴x dx: u = cos x, du = -sin x dx: -∫₁⁰ u⁴ du = ∫₀¹ u⁴ du = 1/5.\n\nSymmetry dividends arrive free in u-world: substitutions sometimes reveal that a definite integral's u-version has equal bounds (instant zero) or symmetric bounds with an odd integrand (also zero). The bounds carry information; converting them early lets that information surface before any antiderivative work.",
+        "key_terms": [
+          [
+            "Bound conversion",
+            "x-bounds map through u = g(x): evaluate wholly in u-world"
+          ],
+          [
+            "Self-documenting rewrite",
+            "New bounds written on the integral at the substitution step"
+          ],
+          [
+            "Bound flips",
+            "Decreasing u reverses bound order; the sign-flip property restores it"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The classic definite-substitution error: rewriting ∫₀² ... dx as ∫ u⁴ du and then evaluating at 0 and 2 — the OLD x-bounds — in the u-antiderivative. Changing the bounds at the moment of substitution makes the error structurally impossible. Change them every time."
+          ]
+        ]
+      },
+      {
+        "title": "Substitution Judgment",
+        "subtitle": "Recognition drills and rearrangement tricks",
+        "body": "Fluency is recognizing the family fast. Powers of an inside: (x³ + 1)⁷·x² dx — u = x³ + 1. Exponentials of an inside: e^{sin x}cos x dx — u = sin x. Roots of an inside: x√(x² - 4) — u = x² - 4. Trig of an inside: sec²(5x) — linear inside. Derivative-over-function: (2x + 3)/(x² + 3x) — u'/u, instant logarithm. Five patterns cover the AP's substitution menu nearly completely.\n\nThe rearrangement trick for stubborn leftovers: ∫x√(x - 1) dx with u = x - 1 leaves a loose x — but x = u + 1 converts it: ∫(u + 1)√u du = ∫(u^{3/2} + u^{1/2}) du = (2/5)u^{5/2} + (2/3)u^{3/2} + C, back-substituted. When u's equation can be SOLVED for the leftover x, the substitution survives; this 'back-solve' extension handles the linear-inside-with-extra-x family the exam likes.\n\nWhen substitution fails, the diagnosis matters: a PRODUCT of unrelated functions (x·sin x — no composition anywhere) signals integration by parts, next chapter. A RATIONAL function with factorable denominator signals partial fractions, the chapter after. The techniques partition the integrand world; mis-routing wastes minutes, and the routing cue is structural (composition? product? ratio?) exactly like Unit 3's dispatch algorithm for derivatives.\n\nVerification stays cheap: differentiate the answer. Every substitution result, indefinite or definite-by-antiderivative, self-checks in ten seconds via the chain rule — which is, after all, what u-substitution was the whole time.",
+        "key_terms": [
+          [
+            "Five-pattern menu",
+            "Power, exponential, root, trig of an inside, plus u'/u — the recognition set"
+          ],
+          [
+            "Back-solve extension",
+            "Leftover x converts via x = (solve u's equation): handles x√(x-1)"
+          ],
+          [
+            "Routing diagnosis",
+            "Composition → substitution; bare product → parts; factorable ratio → partial fractions"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Five-second routing scan before integrating anything: is there a composition with its inside's derivative nearby (u-sub)? A product of unrelated pieces (parts)? A rational function (partial fractions or u'/u)? The scan assigns the tool; tools misassigned cost double time."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "∫ 2x(x² + 3)⁴ dx =",
+          "choices": {
+            "A": "(x² + 3)⁵/5 + C",
+            "B": "2x(x² + 3)⁵/5 + C",
+            "C": "(x² + 3)⁵ + C",
+            "D": "8x(x² + 3)³ + C"
+          },
+          "answer": "A",
+          "explanation": "u = x² + 3 absorbs the 2x dx exactly: ∫u⁴ du = u⁵/5 + C."
+        },
+        {
+          "question": "∫ x e^{x²} dx =",
+          "choices": {
+            "A": "e^{x²}/2 + C",
+            "B": "e^{x²} + C",
+            "C": "x²e^{x²}/2 + C",
+            "D": "2e^{x²} + C"
+          },
+          "answer": "A",
+          "explanation": "u = x²: x dx = du/2, giving ½∫eᵘ du = e^{x²}/2 + C."
+        },
+        {
+          "question": "∫₀² x√(x² + 1) dx =",
+          "choices": {
+            "A": "(5√5 - 1)/3",
+            "B": "(5√5)/3",
+            "C": "2√5 - 1",
+            "D": "(√5 - 1)/3"
+          },
+          "answer": "A",
+          "explanation": "u = x² + 1, bounds 1 → 5: ½∫₁⁵ u^{1/2} du = (1/3)u^{3/2}|₁⁵ = (5√5 - 1)/3."
+        },
+        {
+          "question": "∫ (2x + 3)/(x² + 3x + 7) dx =",
+          "choices": {
+            "A": "ln|x² + 3x + 7| + C",
+            "B": "(x² + 3x + 7)⁻¹ + C",
+            "C": "arctan(x² + 3x) + C",
+            "D": "(2x + 3)ln|x² + 3x + 7| + C"
+          },
+          "answer": "A",
+          "explanation": "The numerator is exactly the denominator's derivative: u'/u integrates to ln|u|."
+        },
+        {
+          "question": "Which integral CANNOT be evaluated by u-substitution (or any elementary method)?",
+          "choices": {
+            "A": "∫ e^{x²} dx",
+            "B": "∫ x e^{x²} dx",
+            "C": "∫ 2x e^{x²} dx",
+            "D": "∫ e^{2x} dx"
+          },
+          "answer": "A",
+          "explanation": "u = x² demands an x-factor for du; B and C have it (up to constants), D has a linear inside. A is missing the variable — no elementary antiderivative exists."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Evaluate each integral, showing the substitution, the du equation, and (where definite) the converted bounds.\n(a) ∫ sec²(4x) dx\n(b) ∫₀^{π/2} sin x cos⁴x dx\n(c) ∫₁² x/(x² + 1) dx",
+          "rubric": [
+            "(a) u = 4x: tan(4x)/4 + C",
+            "(b) u = cos x, du = -sin x dx, bounds 1 → 0; -∫₁⁰ u⁴ du = ∫₀¹ u⁴ du = 1/5",
+            "(c) u = x² + 1, bounds 2 → 5: ½∫₂⁵ du/u = ½(ln 5 - ln 2) = ½ln(5/2)",
+            "Bounds converted at the substitution step in (b) and (c)"
+          ],
+          "model_answer": "(a) u = 4x, du = 4 dx: ∫sec²u (du/4) = tan(u)/4 + C = tan(4x)/4 + C. (b) u = cos x, du = -sin x dx; bounds: x = 0 → u = 1, x = π/2 → u = 0. The integral becomes -∫₁⁰ u⁴ du = ∫₀¹ u⁴ du = [u⁵/5]₀¹ = 1/5. (c) u = x² + 1, du = 2x dx; bounds: x = 1 → u = 2, x = 2 → u = 5. The integral is ½∫₂⁵ du/u = ½[ln u]₂⁵ = ½(ln 5 - ln 2) = ½ ln(5/2)."
+        },
+        {
+          "question": "Consider ∫ x√(x - 1) dx.\n(a) Explain why the naive substitution u = x - 1 appears to fail, and how the back-solve x = u + 1 rescues it.\n(b) Complete the integration.\n(c) Verify your answer by differentiation.",
+          "rubric": [
+            "(a) u = x - 1 leaves a loose x; since x = u + 1, the leftover converts exactly",
+            "(b) ∫(u + 1)u^{1/2} du = (2/5)u^{5/2} + (2/3)u^{3/2} + C, back-substituted with u = x - 1",
+            "(c) Differentiates: (x-1)^{3/2} + (x-1)^{1/2} = (x-1)^{1/2}((x-1) + 1) = x√(x-1) ✓",
+            "Factoring step in the verification shown"
+          ],
+          "model_answer": "(a) With u = x - 1, du = dx, but the integrand keeps a factor of x not covered by du — normally fatal. However, u's equation solves for it: x = u + 1, converting every leftover. (b) ∫(u + 1)√u du = ∫(u^{3/2} + u^{1/2}) du = (2/5)u^{5/2} + (2/3)u^{3/2} + C = (2/5)(x-1)^{5/2} + (2/3)(x-1)^{3/2} + C. (c) Differentiating: (x-1)^{3/2} + (x-1)^{1/2}. Factor out (x-1)^{1/2}: (x-1)^{1/2}[(x-1) + 1] = x(x-1)^{1/2} = x√(x-1) ✓ — the original integrand."
+        },
+        {
+          "question": "The rate of oil leakage from a tanker is R(t) = 50t e^{-t²/8} liters per hour, t in hours.\n(a) Find the total oil leaked from t = 0 to t = 2 using a substitution with converted bounds.\n(b) Find the time at which the leakage RATE is greatest, using Unit 5 machinery on R.\n(c) Total leakage over all time would be ∫₀^∞ R dt — name the chapter-ahead concept this integral requires, and explain in one sentence why the bound ∞ demands new machinery.",
+          "rubric": [
+            "(a) u = t²/8, du = (t/4) dt so t dt = 4 du; bounds 0 → 1/2; 200∫₀^{1/2} e^{-u} du = 200(1 - e^{-1/2})",
+            "(b) R' = 50e^{-t²/8}(1 - t²/4) = 0 → t = 2; sign change + to −: maximum at t = 2",
+            "(c) Improper integral",
+            "Reason: ∞ is not a number to substitute — the integral is defined as a limit of finite-bound integrals"
+          ],
+          "model_answer": "(a) Let u = t²/8, du = (t/4) dt, so t dt = 4 du; bounds t = 0 → u = 0, t = 2 → u = 1/2. ∫₀² 50 t e^{-t²/8} dt = 50·4∫₀^{1/2} e^{-u} du = 200[-e^{-u}]₀^{1/2} = 200(1 - e^{-1/2}) ≈ 78.7 liters. (b) R'(t) = 50e^{-t²/8} + 50t·e^{-t²/8}·(-t/4) = 50e^{-t²/8}(1 - t²/4). The exponential never vanishes; 1 - t²/4 = 0 at t = 2, with R' changing + to − there: the leak rate peaks at t = 2 hours. (c) ∫₀^∞ R dt is an IMPROPER integral. Infinity is not a number that can be substituted into an antiderivative — the integral must be defined as lim b→∞ ∫₀ᵇ R dt, the limit machinery of this unit's final chapter."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Integration and Accumulation of Change",
+    "chapter_title": "Integration by Parts",
+    "hook": "BC ONLY — and worth the price of admission: integration by parts is the product rule run backward, the only tool that integrates x·eˣ, x·cos x, and ln x itself. One formula, one choosing-rule, and a whole family of integrals falls.",
+    "learning_objectives": [
+      "Derive the parts formula ∫u dv = uv - ∫v du from the product rule",
+      "Choose u by the LIATE priority and dv as the rest",
+      "Apply parts iteratively for powers like x² eˣ",
+      "Integrate ln x and other lone awkward functions via dv = dx",
+      "Execute the boundary-term bookkeeping for definite integrals"
+    ],
+    "sections": [
+      {
+        "title": "The Product Rule, Reversed",
+        "subtitle": "Deriving ∫u dv = uv − ∫v du",
+        "body": "Integrate the product rule (uv)' = u'v + uv' across an interval: uv = ∫u'v + ∫uv'. Rearranged: ∫u v' dx = uv - ∫u' v dx, or in differential shorthand, ∫u dv = uv - ∫v du. Integration by parts trades one integral for another — and the entire craft is making the trade FAVORABLE: ∫v du should be simpler than ∫u dv.\n\nThe showcase: ∫x eˣ dx. Choose u = x (differentiates to the simpler 1) and dv = eˣ dx (integrates without getting worse, to v = eˣ). The formula: ∫x eˣ dx = x eˣ - ∫eˣ·1 dx = x eˣ - eˣ + C = (x - 1)eˣ + C. The x DIED under differentiation — that is the trade working: polynomial factors are mortal, and parts kills them one differentiation at a time.\n\nThe bookkeeping layout that prevents chaos: a 2×2 box — u and dv on top, du and v below — filled before touching the formula. u = x, dv = eˣ dx; du = dx, v = eˣ. Then transcribe: uv minus the integral of v du. The box is to parts what the skeleton was to the quotient rule: structure that survives exam pressure.\n\nNo +C appears when computing v from dv — any antiderivative works (the constant would cancel through the formula, same argument as FTC2), so take the cleanest one. The final answer carries one +C, attached at the end.",
+        "key_terms": [
+          [
+            "Integration by parts",
+            "∫u dv = uv - ∫v du: the product rule integrated and rearranged"
+          ],
+          [
+            "Favorable trade",
+            "Choose so ∫v du is SIMPLER — typically u dies under differentiation"
+          ],
+          [
+            "The 2×2 box",
+            "u, dv / du, v — filled completely before invoking the formula"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Parts is BC-only material and the exam flags it with unmistakable integrands: x eˣ, x sin x, x ln x, ln x alone, arctan x alone. Polynomial-times-transcendental is the silhouette; when you see it, draw the box."
+          ]
+        ]
+      },
+      {
+        "title": "Choosing u: LIATE",
+        "subtitle": "The priority list that almost never fails",
+        "body": "The choice of u decides everything, and the LIATE mnemonic ranks candidates: Logarithmic, Inverse trig, Algebraic (polynomials), Trigonometric, Exponential — choose u as the EARLIEST type present; dv swallows the rest. Logs and inverse trig differentiate beautifully (to algebraic functions) but integrate painfully, so they grab u; exponentials integrate without complaint, so they accept dv.\n\nRun the list: ∫x cos x dx — Algebraic beats Trig: u = x, dv = cos x dx, giving x sin x - ∫sin x dx = x sin x + cos x + C. ∫x ln x dx — Log beats Algebraic: u = ln x, dv = x dx: (x²/2)ln x - ∫(x²/2)(1/x) dx = (x²/2)ln x - x²/4 + C. The ranking inverts naive instinct (the ln, not the x, takes u) and that inversion is exactly what LIATE encodes.\n\nWhy LIATE works, in one sentence: it orders functions from 'differentiates-much-simpler' to 'integrates-without-damage' — u wants the former, dv needs the latter. Understanding the principle lets you sanity-check the mnemonic on hybrids and trust departures from it in the rare cases (none on the AP) where it misleads.\n\nThe wrong choice diagnoses itself: picking u = eˣ in ∫x eˣ dx produces ∫v du = ∫(x²/2)eˣ dx — WORSE than the start. A trade that complicates is a signal to swap the roles, not to push harder. One failed box costs thirty seconds; recognizing the failure fast is part of the skill.",
+        "key_terms": [
+          [
+            "LIATE",
+            "Log, Inverse trig, Algebraic, Trig, Exponential — u takes the earliest type present"
+          ],
+          [
+            "The principle behind it",
+            "u should simplify under d/dx; dv must integrate without damage"
+          ],
+          [
+            "Self-diagnosing failure",
+            "If ∫v du is worse than the original, swap the choice and rerun"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "∫ln x dx — a lone logarithm — is the LIATE edge case the exam loves: u = ln x and dv = dx (yes, just dx). Then v = x and the formula gives x ln x - ∫x·(1/x) dx = x ln x - x + C. The dv = dx move also integrates arctan x; memorize the maneuver."
+          ]
+        ]
+      },
+      {
+        "title": "Iteration and the Definite Version",
+        "subtitle": "Higher powers, boundary terms",
+        "body": "Powers above one need repeated parts: ∫x² eˣ dx with u = x² gives x² eˣ - 2∫x eˣ dx — the remaining integral is last section's showcase, yielding x² eˣ - 2(x - 1)eˣ + C = (x² - 2x + 2)eˣ + C. Each round kills one power; xⁿ needs n rounds. The discipline: keep LIATE's choice (algebraic stays u) consistent through every round — swapping mid-stream undoes the previous round's progress exactly.\n\nDefinite integrals carry the boundary term through: ∫ₐᵇ u dv = [uv]ₐᵇ - ∫ₐᵇ v du. The uv piece evaluates at the bounds IMMEDIATELY — it is a number — while the remaining integral proceeds. ∫₁ᵉ ln x dx = [x ln x]₁ᵉ - ∫₁ᵉ dx = (e·1 - 1·0) - (e - 1) = e - e + 1 = 1. A clean, exam-loved result: the area under ln from 1 to e is exactly 1.\n\nThe circular family closes the chapter's technique list: ∫eˣ sin x dx runs parts twice (either consistent choice) and reproduces ITSELF: ∫eˣ sin x dx = eˣ sin x - eˣ cos x - ∫eˣ sin x dx. The escape move: add the integral to both sides and divide by 2 — ∫eˣ sin x dx = eˣ(sin x - cos x)/2 + C. The 'solve for the integral' finale turns apparent circularity into the answer; it appears on BC exams as the hardest parts variant.\n\nTabular shorthand for the iterative cases: columns of repeated derivatives of u (down to zero) and repeated antiderivatives of dv, joined diagonally with alternating signs. For x² eˣ: derivatives x², 2x, 2, 0; antiderivatives eˣ, eˣ, eˣ; diagonals (+x²eˣ)(-2xeˣ)(+2eˣ) — the answer assembled without writing the formula once. Legal, fast, and self-checking against the longhand.",
+        "key_terms": [
+          [
+            "Iterated parts",
+            "xⁿ dies in n rounds; keep the LIATE roles fixed throughout"
+          ],
+          [
+            "Boundary term",
+            "[uv]ₐᵇ evaluates immediately; only ∫v du continues as an integral"
+          ],
+          [
+            "Solve-for-it circularity",
+            "eˣ sin x: two rounds reproduce the integral — add and divide by 2"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "In the circular eˣ·trig cases, the second round must keep the SAME choice pattern as the first (exponential as dv both times, or trig as dv both times) — mixing undoes round one and returns the original integral with nothing gained. Consistency is the entire trick."
+          ]
+        ]
+      },
+      {
+        "title": "Parts in Context",
+        "subtitle": "Where the technique lives on the exam",
+        "body": "Routing review, now three techniques deep: composition with inside's derivative → u-substitution; product of UNRELATED functions (no composition) → parts; lone awkward function (ln x, arctan x) → parts with dv = dx. The x e^{x²} versus x eˣ pair is the canonical discrimination: the first has the composition anatomy (substitution, instantly), the second is a genuine unrelated product (parts). Thirty seconds of routing beats five minutes of wrong-tool grinding.\n\nApplied integrals deliver parts in costume: expected values in probability (∫x·f(x) dx with exponential densities), work and center-of-mass integrals, and BC's own coming attractions — arc-length and surface integrals occasionally reduce to parts-able forms, and Taylor series remainders (Unit 10) are proved with iterated parts. The technique is infrastructure, not trivia.\n\nAccumulation-function problems hybridize with FTC: given F(x) = ∫₀ˣ t cos t dt, find F(π) — run parts inside the accumulation: [t sin t + cos t]₀^π = (0 + (-1)) - (0 + 1) = -2. The FTC supplies the frame; parts supplies the antiderivative; the layered problem is BC's bread and butter.\n\nA final calibration note: parts problems on the AP stay SHALLOW — one round, occasionally two, the ln x maneuver, rarely the circular case. Triple iterations and exotic choices live in textbooks, not on the exam. Master the box, LIATE, the dv = dx move, and the boundary term; that inventory covers every parts question the AP has asked in a decade.",
+        "key_terms": [
+          [
+            "Routing trio",
+            "Substitution (composition), parts (product), dv = dx (lone awkward function)"
+          ],
+          [
+            "x e^{x²} vs x eˣ",
+            "The discrimination pair: composition anatomy versus genuine product"
+          ],
+          [
+            "Exam depth calibration",
+            "One-to-two rounds, ln x, boundary terms — the complete AP inventory"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Before starting any parts computation on a definite integral, check whether the integrand is secretly a u-substitution: ∫x e^{x²} dx submits to u = x² in one line, and running parts on it instead is a time-loss the exam engineers deliberately. Composition check first, always."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "∫ x cos x dx =",
+          "choices": {
+            "A": "x sin x + cos x + C",
+            "B": "x sin x - cos x + C",
+            "C": "-x sin x + cos x + C",
+            "D": "(x²/2) sin x + C"
+          },
+          "answer": "A",
+          "explanation": "u = x, dv = cos x dx: x sin x - ∫sin x dx = x sin x + cos x + C."
+        },
+        {
+          "question": "∫ ln x dx =",
+          "choices": {
+            "A": "x ln x - x + C",
+            "B": "1/x + C",
+            "C": "x ln x + C",
+            "D": "(ln x)²/2 + C"
+          },
+          "answer": "A",
+          "explanation": "The dv = dx maneuver: u = ln x, v = x gives x ln x - ∫1 dx."
+        },
+        {
+          "question": "For ∫ x² sin x dx, the LIATE choice and the number of parts rounds needed are",
+          "choices": {
+            "A": "u = x², two rounds",
+            "B": "u = sin x, one round",
+            "C": "u = x², one round",
+            "D": "u = sin x, two rounds"
+          },
+          "answer": "A",
+          "explanation": "Algebraic outranks trig: u = x², and the square takes two differentiations to die."
+        },
+        {
+          "question": "∫₁ᵉ ln x dx =",
+          "choices": {
+            "A": "1",
+            "B": "e - 1",
+            "C": "e",
+            "D": "0"
+          },
+          "answer": "A",
+          "explanation": "[x ln x - x]₁ᵉ = (e - e) - (0 - 1) = 1."
+        },
+        {
+          "question": "Which integral should be routed to u-SUBSTITUTION rather than parts?",
+          "choices": {
+            "A": "∫ x e^{x²} dx",
+            "B": "∫ x eˣ dx",
+            "C": "∫ x ln x dx",
+            "D": "∫ arctan x dx"
+          },
+          "answer": "A",
+          "explanation": "x e^{x²} has the composition-plus-inside-derivative anatomy: u = x² finishes in one line. The others are genuine parts customers."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let I = ∫ x² eˣ dx.\n(a) Set up the first round of integration by parts with the LIATE-correct choice, and carry it through to the reduced integral.\n(b) Complete the second round and state the final antiderivative.\n(c) Verify your answer by differentiation.",
+          "rubric": [
+            "(a) u = x², dv = eˣ dx: I = x² eˣ - 2∫x eˣ dx",
+            "(b) Second round on ∫x eˣ: (x - 1)eˣ; assembled: (x² - 2x + 2)eˣ + C",
+            "(c) Differentiates: (2x - 2)eˣ + (x² - 2x + 2)eˣ = x² eˣ ✓",
+            "Consistent u-choice across rounds"
+          ],
+          "model_answer": "(a) LIATE: algebraic u = x², dv = eˣ dx; du = 2x dx, v = eˣ. I = x² eˣ - ∫eˣ·2x dx = x² eˣ - 2∫x eˣ dx. (b) For ∫x eˣ dx: u = x, dv = eˣ dx gives x eˣ - eˣ. So I = x² eˣ - 2(x eˣ - eˣ) + C = (x² - 2x + 2)eˣ + C. (c) d/dx[(x² - 2x + 2)eˣ] = (2x - 2)eˣ + (x² - 2x + 2)eˣ = (x² )eˣ = x² eˣ ✓."
+        },
+        {
+          "question": "Evaluate ∫₀^{π/2} x sin x dx.\n(a) Run integration by parts with the boundary-term bookkeeping.\n(b) Interpret the boundary term's value at each endpoint.\n(c) A region under y = x sin x from 0 to π/2 is proposed as a machine part's cross-section. State its exact area from (a), and approximate it to three decimals.",
+          "rubric": [
+            "(a) u = x, dv = sin x dx: [-x cos x]₀^{π/2} + ∫₀^{π/2} cos x dx",
+            "Boundary term: 0 at both ends (cos(π/2) = 0; x = 0 at the bottom); remaining integral [sin x]₀^{π/2} = 1",
+            "(b) Top end dies via cos(π/2) = 0, bottom via the factor x = 0",
+            "(c) Area exactly 1; approximation 1.000"
+          ],
+          "model_answer": "(a) u = x, dv = sin x dx; du = dx, v = -cos x. ∫₀^{π/2} x sin x dx = [-x cos x]₀^{π/2} + ∫₀^{π/2} cos x dx = (-（π/2)·0 + 0·1) + [sin x]₀^{π/2} = 0 + 1 = 1. (b) The boundary term vanishes at BOTH ends for different reasons: at x = π/2 because cos(π/2) = 0, and at x = 0 because the factor x itself is zero — a small bookkeeping elegance worth noticing. (c) The exact area is 1 square unit; to three decimals, 1.000."
+        },
+        {
+          "question": "Let J = ∫ eˣ cos x dx.\n(a) Apply integration by parts twice with a consistent choice, showing that J reappears on the right side.\n(b) Solve the resulting equation for J.\n(c) Use your result to evaluate ∫₀^{π} eˣ cos x dx exactly.",
+          "rubric": [
+            "(a) u = cos x both rounds (or eˣ both rounds): J = eˣ cos x + ∫eˣ sin x = eˣ cos x + eˣ sin x - J",
+            "(b) 2J = eˣ(cos x + sin x): J = eˣ(sin x + cos x)/2 + C",
+            "(c) [e^x(sin x + cos x)/2]₀^π = (e^π(0 - 1) - 1(0 + 1))/2 = -(e^π + 1)/2",
+            "Consistency of choice across rounds stated"
+          ],
+          "model_answer": "(a) Round 1: u = cos x, dv = eˣ dx: J = eˣ cos x + ∫eˣ sin x dx. Round 2 (same pattern, u = sin x): ∫eˣ sin x dx = eˣ sin x - ∫eˣ cos x dx = eˣ sin x - J. Substituting: J = eˣ cos x + eˣ sin x - J. (b) 2J = eˣ(sin x + cos x), so J = eˣ(sin x + cos x)/2 + C. (c) ∫₀^π eˣ cos x dx = [eˣ(sin x + cos x)/2]₀^π = (e^π(0 + (-1)))/2 - (1(0 + 1))/2 = -e^π/2 - 1/2 = -(e^π + 1)/2."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Integration and Accumulation of Change",
+    "chapter_title": "Partial Fractions",
+    "hook": "BC ONLY: a rational function that refuses every substitution splits — like a fraction into ½ + ⅓ — into pieces that each integrate to a logarithm. Partial fractions is algebra in service of integration, and the AP keeps its version mercifully tame.",
+    "learning_objectives": [
+      "Decompose rational functions with distinct linear factors into partial fractions",
+      "Find the constants by the cover-up (root-substitution) method",
+      "Integrate each piece to its logarithm and assemble the answer",
+      "Divide first when the rational function is improper (top degree ≥ bottom degree)",
+      "Recognize the AP's boundaries: nonrepeating linear factors only"
+    ],
+    "sections": [
+      {
+        "title": "Splitting the Fraction",
+        "subtitle": "Why and how the decomposition exists",
+        "body": "The integrand 1/((x - 1)(x + 2)) defeats u-substitution (no factor's derivative is present) and parts (no useful product) — but it SPLITS: 1/((x - 1)(x + 2)) = A/(x - 1) + B/(x + 2) for the right constants A and B. Each piece is a u'/u-style logarithm-in-waiting; the decomposition converts one impossible integral into two trivial ones.\n\nWhy such constants exist: combining A/(x - 1) + B/(x + 2) over the common denominator gives (A(x + 2) + B(x - 1))/((x - 1)(x + 2)) — a numerator that is a general linear polynomial with two adjustable constants, enough freedom to match any constant or linear numerator. Distinct linear factors downstairs, one constant per factor upstairs: the template.\n\nFinding A and B by clearing denominators: 1 = A(x + 2) + B(x - 1), an identity holding for ALL x. Substituting the roots makes terms vanish: x = 1 kills B's term — 1 = 3A, A = 1/3; x = -2 kills A's: 1 = -3B, B = -1/3. The root-substitution shortcut (the 'cover-up method') finds each constant in one line: cover the factor in the original fraction, evaluate the remainder at that factor's root.\n\nThe integration finale: ∫dx/((x-1)(x+2)) = (1/3)∫dx/(x-1) - (1/3)∫dx/(x+2) = (1/3)ln|x-1| - (1/3)ln|x+2| + C = (1/3)ln|(x-1)/(x+2)| + C. Decompose, integrate each piece, optionally consolidate the logs. Three beats, every time.",
+        "key_terms": [
+          [
+            "Partial fraction decomposition",
+            "Distinct linear factors split: one constant over each factor"
+          ],
+          [
+            "Cover-up method",
+            "Each constant = the original fraction with its factor covered, evaluated at that root"
+          ],
+          [
+            "Logarithm finale",
+            "Each piece is c/(x - r): integrates to c·ln|x - r|"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "BC's partial fractions stay tame by design: DISTINCT LINEAR factors only — no repeated factors, no irreducible quadratics. If your decomposition seems to need A/(x-1)² or (Bx + C)/(x² + 1), re-read the problem; the AP didn't ask that."
+          ]
+        ]
+      },
+      {
+        "title": "The Cover-Up Method, Drilled",
+        "subtitle": "Constants in one line each",
+        "body": "The cover-up method formalized: to find the constant over (x - r), delete ('cover') that factor from the original fraction's denominator and evaluate what remains at x = r. For (3x + 5)/((x + 1)(x + 3)): the constant over (x + 1) is (3x + 5)/(x + 3) at x = -1: 2/2 = 1; over (x + 3): (3x + 5)/(x + 1) at x = -3: -4/(-2) = 2. Decomposition: 1/(x + 1) + 2/(x + 3). Integral: ln|x + 1| + 2 ln|x + 3| + C.\n\nWhy it works is the clearing-denominators argument compressed: substituting the root into the cleared identity annihilates every term except the target constant's. The method is rigorous, not a trick — but verify once per exam anyway: recombine the pieces mentally (or check one x-value, like x = 0) to confirm the split. Thirty seconds, and decomposition errors die before they propagate into logarithms.\n\nThree-factor versions scale linearly: (x + 7)/((x)(x - 2)(x + 1)) gets three constants, each by one cover-up. The arithmetic multiplies, the method doesn't change. The exam's appetite stops at two or three factors; beyond that is textbook territory.\n\nDefinite versions assemble bounds onto the logs: ∫₃⁵ dx/((x - 1)(x + 2)) = (1/3)[ln|x - 1| - ln|x + 2|]₃⁵ = (1/3)[(ln 4 - ln 7) - (ln 2 - ln 5)] = (1/3)ln(10/7) after log algebra. Exact-form answers with consolidated logarithms are the expected presentation — decimal conversions only when the question asks.",
+        "key_terms": [
+          [
+            "Cover-up drill",
+            "Cover the factor, evaluate at its root — one constant per line"
+          ],
+          [
+            "Verification habit",
+            "Recombine or spot-check one x-value before integrating"
+          ],
+          [
+            "Log consolidation",
+            "ln a - ln b = ln(a/b): definite answers compress to single logarithms"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "After the cover-up, sanity-check SIGNS by recombining the first terms mentally: A/(x-1) + B/(x+2) should reproduce the original numerator's sign at a glance. Sign slips in cover-up arithmetic are the technique's only common failure mode."
+          ]
+        ]
+      },
+      {
+        "title": "Improper Fractions Divide First",
+        "subtitle": "When the top is too big",
+        "body": "Partial fractions demands a PROPER rational function — numerator degree strictly below denominator degree. When the top matches or exceeds the bottom, polynomial long division goes first: (x² + 3x + 5)/((x + 1)(x + 2)) = (x² + 3x + 5)/(x² + 3x + 2) divides to 1 + 3/((x + 1)(x + 2)) — a polynomial part plus a proper remainder fraction, each integrable by its own rules.\n\nThe polynomial part integrates trivially; the remainder decomposes as usual: 3/((x+1)(x+2)) = 3/(x+1) - 3/(x+2). Total: x + 3 ln|x+1| - 3 ln|x+2| + C. Divide, decompose, integrate — the full pipeline for any rational function in the AP's scope.\n\nThe degree check must be a reflex: scan top and bottom degrees BEFORE writing any A/(x - r) template. Decomposing an improper fraction produces unsolvable constant equations or wrong answers that look plausible — the failure is quiet, which is what makes the upfront check mandatory. Top degree ≥ bottom degree: divide. Always.\n\nA BC connection ahead: the logistic differential equation (Unit 7) separates into exactly a partial-fractions integral — ∫dP/(P(L - P)) — and this chapter's technique is what solves it. Partial fractions is not an isolated trick; it is the algebra inside BC's most famous differential equation, which is reason enough for its place in the course.",
+        "key_terms": [
+          [
+            "Proper fraction prerequisite",
+            "Numerator degree < denominator degree, or divide first"
+          ],
+          [
+            "Divide-decompose-integrate",
+            "The complete rational-function pipeline"
+          ],
+          [
+            "Logistic preview",
+            "∫dP/(P(L - P)) — Unit 7's star equation runs on this chapter"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Degree check FIRST: (x²+1)/((x-1)(x+2)) has equal degrees (2 and 2) and must be divided before decomposing. The improper-fraction trap is quiet — the A/B template seems to work and yields a wrong answer with no alarm. Make the check muscle memory."
+          ]
+        ]
+      },
+      {
+        "title": "Routing, Completed",
+        "subtitle": "The integration decision tree, four techniques deep",
+        "body": "The unit's decision tree, now complete for AP purposes: (1) Library form? Integrate directly. (2) Composition with the inside's derivative present (up to a constant)? u-Substitution. (3) u'/u shape specifically? Instant logarithm. (4) Product of unrelated functions, or a lone log/inverse-trig? Parts. (5) Rational function? Check degrees (divide if improper), check the denominator (factorable into distinct linear pieces?), then partial fractions. (6) None of the above on a no-calculator section? Re-examine — a rewrite (split the fraction, trig identity, completing nothing the AP needs) is hiding.\n\nDiscrimination practice across the rational family: ∫2x/(x² - 4) dx — the numerator IS the denominator's derivative: u'/u, instant ln|x² - 4|, NO decomposition needed. ∫dx/(x² - 4) — no derivative upstairs: partial fractions over (x-2)(x+2). ∫x²/(x² - 4) — improper: divide first. Three near-identical integrands, three different routes; the discrimination is the skill, and the exam tests it explicitly.\n\nWhat stays outside the AP's fence, for orientation: repeated factors (A/(x-1) + B/(x-1)²), irreducible quadratics ((Bx + C)/(x² + 1)), trig substitution, and reduction formulas — college techniques the BC exam deliberately excludes. Knowing the fence keeps preparation focused and flags any practice problem demanding more as off-syllabus.\n\nThe unit closes one chapter from here: improper integrals extend the definite integral to infinite intervals and unbounded integrands — limits meeting accumulation, with the p-series criterion that Unit 10's convergence tests will lean on. The techniques are assembled; what remains is extending where integrals are allowed to live.",
+        "key_terms": [
+          [
+            "Complete decision tree",
+            "Library, substitution, u'/u, parts, rational pipeline — the AP's full kit"
+          ],
+          [
+            "The 2x/(x²-4) trio",
+            "u'/u vs partial fractions vs divide-first: near-twins, different routes"
+          ],
+          [
+            "The BC fence",
+            "No repeated factors, no irreducible quadratics, no trig substitution"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Before decomposing ANY rational integrand, check the numerator against the denominator's derivative: if they match up to a constant, u-substitution finishes in one line and decomposition is wasted effort. The u'/u check costs five seconds and is the most-skipped step in the unit."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "The decomposition of 1/((x - 3)(x + 1)) is",
+          "choices": {
+            "A": "(1/4)/(x - 3) - (1/4)/(x + 1)",
+            "B": "(1/4)/(x - 3) + (1/4)/(x + 1)",
+            "C": "(1/3)/(x - 3) - (1/3)/(x + 1)",
+            "D": "1/(x - 3) - 1/(x + 1)"
+          },
+          "answer": "A",
+          "explanation": "Cover-up: at x = 3, 1/(x+1) = 1/4; at x = -1, 1/(x-3) = -1/4."
+        },
+        {
+          "question": "∫ (3x + 5)/((x + 1)(x + 3)) dx =",
+          "choices": {
+            "A": "ln|x + 1| + 2 ln|x + 3| + C",
+            "B": "2 ln|x + 1| + ln|x + 3| + C",
+            "C": "3 ln|(x+1)(x+3)| + C",
+            "D": "ln|3x + 5| + C"
+          },
+          "answer": "A",
+          "explanation": "Cover-up gives A = 1 (at x = -1: 2/2) and B = 2 (at x = -3: -4/-2). Each piece integrates to its log."
+        },
+        {
+          "question": "Before decomposing (x² + 1)/((x - 1)(x + 2)), one must",
+          "choices": {
+            "A": "perform polynomial division, since the degrees are equal",
+            "B": "factor the numerator",
+            "C": "substitute u = x² + 1",
+            "D": "nothing — decompose directly"
+          },
+          "answer": "A",
+          "explanation": "Top and bottom are both degree 2 — improper. Divide first; only the proper remainder decomposes."
+        },
+        {
+          "question": "∫ 2x/(x² - 9) dx is most efficiently evaluated by",
+          "choices": {
+            "A": "u-substitution: the numerator is the denominator's derivative",
+            "B": "partial fractions over (x-3)(x+3)",
+            "C": "integration by parts",
+            "D": "polynomial division"
+          },
+          "answer": "A",
+          "explanation": "u'/u: instant ln|x² - 9| + C. Partial fractions also works but takes four times the writing — the routing point is the question."
+        },
+        {
+          "question": "∫₃⁵ dx/((x - 1)(x + 2)) — after decomposing with A = 1/3, B = -1/3 — equals",
+          "choices": {
+            "A": "(1/3) ln(10/7)",
+            "B": "(1/3) ln(4/7)",
+            "C": "ln(10/7)",
+            "D": "(1/3) ln(2/5)"
+          },
+          "answer": "A",
+          "explanation": "(1/3)[ln|x-1| - ln|x+2|]₃⁵ = (1/3)[(ln4 - ln7) - (ln2 - ln5)] = (1/3)ln(4·5/(7·2)) = (1/3)ln(10/7)."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = (x + 7)/((x - 1)(x + 3)).\n(a) Decompose f into partial fractions using the cover-up method, showing each evaluation.\n(b) Evaluate ∫₂⁴ f(x) dx, expressing the answer as a single logarithm.\n(c) Verify your decomposition by recombining the pieces.",
+          "rubric": [
+            "(a) Over (x-1): (x+7)/(x+3) at 1 = 8/4 = 2; over (x+3): (x+7)/(x-1) at -3 = 4/(-4) = -1: f = 2/(x-1) - 1/(x+3)",
+            "(b) [2 ln|x-1| - ln|x+3|]₂⁴ = (2ln3 - ln7) - (0 - ln5) = ln(45/7)",
+            "(c) Recombines: (2(x+3) - (x-1))/((x-1)(x+3)) = (x + 7)/((x-1)(x+3)) ✓",
+            "Log algebra correct in (b)"
+          ],
+          "model_answer": "(a) Constant over (x - 1): cover it and evaluate at x = 1: (1 + 7)/(1 + 3) = 2. Over (x + 3): at x = -3: (-3 + 7)/(-3 - 1) = -1. So f(x) = 2/(x - 1) - 1/(x + 3). (b) ∫₂⁴ f = [2 ln|x - 1| - ln|x + 3|]₂⁴ = (2 ln 3 - ln 7) - (2 ln 1 - ln 5) = ln 9 - ln 7 + ln 5 = ln(45/7). (c) Recombining: 2/(x-1) - 1/(x+3) = (2(x + 3) - (x - 1))/((x-1)(x+3)) = (x + 7)/((x - 1)(x + 3)) ✓ — the original."
+        },
+        {
+          "question": "Consider ∫ (x³ + 2x² - x - 3)/(x(x + 1)) dx. Note the numerator has degree 3 and the denominator degree 2.\n(a) Perform the polynomial division to write the integrand as a polynomial plus a proper fraction, stating your quotient and remainder.\n(b) Decompose the proper remainder fraction.\n(c) Assemble the complete antiderivative.",
+          "rubric": [
+            "(a) (x³ + 2x² - x - 3) ÷ (x² + x) = x + 1 remainder -2x - 3: integrand = x + 1 + (-2x - 3)/(x² + x)",
+            "(b) (-2x - 3)/(x(x + 1)): over x at 0: -3; over (x+1) at -1: (-2(-1)-3)/(-1) = 1: -3/x + 1/(x + 1)",
+            "(c) x²/2 + x - 3 ln|x| + ln|x + 1| + C",
+            "Division verified or stated with the remainder identity"
+          ],
+          "model_answer": "(a) Dividing x³ + 2x² - x - 3 by x² + x: first term x (giving x³ + x²), subtract: x² - x - 3; next term 1 (giving x² + x), subtract: -2x - 3. So the integrand is x + 1 + (-2x - 3)/(x(x + 1)). (b) Cover-up on (-2x - 3)/(x(x + 1)): over x, evaluate at 0: -3/1 = -3; over (x + 1), at -1: (2 - 3)/(-1) = 1. Decomposition: -3/x + 1/(x + 1). (c) ∫ = x²/2 + x - 3 ln|x| + ln|x + 1| + C."
+        },
+        {
+          "question": "A population model leads to the integral ∫ dP/(P(100 - P)) (the logistic separation, previewing Unit 7).\n(a) Decompose 1/(P(100 - P)) into partial fractions. (Treat P as the variable; note the second factor is (100 - P), whose root is P = 100.)\n(b) Integrate, attending to the sign produced by the (100 - P) factor.\n(c) Show the antiderivative can be written as (1/100) ln|P/(100 - P)| + C.",
+          "rubric": [
+            "(a) 1/(P(100-P)) = (1/100)/P + (1/100)/(100 - P), by cover-up at P = 0 and P = 100",
+            "(b) ∫(1/100)/P dP = (1/100)ln|P|; ∫(1/100)/(100-P) dP = -(1/100)ln|100-P| (chain rule sign)",
+            "(c) Combines: (1/100)(ln|P| - ln|100 - P|) = (1/100)ln|P/(100-P)| + C",
+            "The minus sign from d/dP(100 - P) = -1 handled explicitly"
+          ],
+          "model_answer": "(a) Cover-up: over P, evaluate 1/(100 - P) at P = 0: 1/100. Over (100 - P), evaluate 1/P at P = 100: 1/100. So 1/(P(100 - P)) = (1/100)[1/P + 1/(100 - P)]. (b) The first piece gives (1/100)ln|P|. The second: u = 100 - P has du = -dP, so ∫dP/(100 - P) = -ln|100 - P| — sign flip from the chain rule. Total: (1/100)ln|P| - (1/100)ln|100 - P| + C. (c) Combining the logs: (1/100)ln|P/(100 - P)| + C — exactly the form Unit 7's logistic solution will exponentiate."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Integration and Accumulation of Change",
+    "chapter_title": "Improper Integrals",
+    "hook": "BC ONLY: can a region stretching to infinity have finite area? Sometimes — and the difference between 1/x and 1/x² at infinity is the difference between divergence and the number 1. Improper integrals are limits wearing integral signs, and they gatekeep all of Unit 10.",
+    "learning_objectives": [
+      "Define improper integrals as limits of proper integrals, with mandatory limit notation",
+      "Evaluate infinite-bound integrals and determine convergence or divergence",
+      "Handle integrands with vertical asymptotes at or inside the bounds",
+      "Apply the p-test: ∫₁^∞ dx/xᵖ converges exactly when p > 1",
+      "Connect improper-integral convergence to the coming theory of infinite series"
+    ],
+    "sections": [
+      {
+        "title": "Limits in Disguise",
+        "subtitle": "Defining the infinite-bound integral",
+        "body": "∫₁^∞ f(x) dx is DEFINED as lim b→∞ ∫₁ᵇ f(x) dx: integrate to a finite cutoff b, then let the cutoff run away. If the limit exists (a finite number), the integral CONVERGES to it; if the limit is infinite or fails to exist, the integral DIVERGES. Infinity never enters an antiderivative — it enters a limit, afterward.\n\nThe headline pair: ∫₁^∞ dx/x² = lim b→∞ [-1/x]₁ᵇ = lim (1 - 1/b) = 1 — an infinite region with area exactly 1. But ∫₁^∞ dx/x = lim [ln x]₁ᵇ = lim ln b = ∞ — divergent. Both integrands die at infinity; 1/x just dies too slowly. Convergence is about the SPEED of decay, not the fact of it — the single most important intuition in the chapter and in Unit 10.\n\nThe notation is graded: writing ∫₁^∞ dx/x² = [-1/x]₁^∞ with ∞ 'plugged in' is a rubric deduction even when the answer is right. The required presentation: convert to lim b→∞ ∫₁ᵇ at the FIRST step, carry the b through the evaluation, take the limit LAST. Three visible stages — the AP grades the middle one specifically.\n\nDoubly-infinite integrals split at any convenient point: ∫_{-∞}^∞ = ∫_{-∞}^0 + ∫₀^∞, each piece its own limit, and BOTH must converge for the whole to. The split discipline mirrors the piecewise splitting of chapter 4 — accumulation handles one frontier at a time.",
+        "key_terms": [
+          [
+            "Improper integral",
+            "lim b→∞ ∫ₐᵇ f dx: a limit of proper integrals, never a plugged-in ∞"
+          ],
+          [
+            "Converge/diverge",
+            "Finite limit: converges to it; infinite or nonexistent: diverges"
+          ],
+          [
+            "Decay speed",
+            "1/x² converges, 1/x diverges — dying isn't enough; dying FAST enough is"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The limit notation is a dedicated rubric point: 'lim b→∞' must appear BEFORE the antiderivative is evaluated, with b in the evaluation bar. The shortcut of plugging ∞ directly loses the point even with a correct final answer — every year, on every improper FRQ."
+          ]
+        ]
+      },
+      {
+        "title": "The p-Test",
+        "subtitle": "The exact boundary of convergence",
+        "body": "Generalizing the headline pair: ∫₁^∞ dx/xᵖ = lim b→∞ [x^{1-p}/(1-p)]₁ᵇ for p ≠ 1. The cutoff term b^{1-p} dies when 1 - p < 0 (p > 1) and explodes when p < 1; the case p = 1 is the logarithm, divergent. The p-TEST: ∫₁^∞ dx/xᵖ converges if and only if p > 1, and when it converges, its value is 1/(p - 1).\n\nThe boundary is strict and sharp: p = 1.0001 converges (to 10,000), p = 1 diverges, p = 0.9999 diverges. There is no fuzzy zone — and the same knife-edge will reappear verbatim as the p-series test in Unit 10, where Σ1/nᵖ obeys the identical criterion for the same underlying reason (the integral test will make the connection literal).\n\nWorked contrasts cement it: ∫₁^∞ dx/x³ = 1/2 (p = 3 > 1 ✓). ∫₁^∞ dx/√x diverges (p = ½ < 1). ∫₁^∞ dx/x^{1.01} converges to 100 — barely over the line, finite all the same. Eyeballing the exponent against 1 routes the verdict in two seconds; the limit computation then certifies it for the rubric.\n\nExponential decay beats every power: ∫₀^∞ e^{-x} dx = lim [-e^{-x}]₀ᵇ = 1, and ∫₀^∞ e^{-kx} dx = 1/k for any k > 0. Exponentials at infinity are the friendliest integrands in the chapter — the growth hierarchy of Unit 1, now reading its decay-side consequences.",
+        "key_terms": [
+          [
+            "p-test",
+            "∫₁^∞ dx/xᵖ converges iff p > 1, to the value 1/(p - 1)"
+          ],
+          [
+            "Knife-edge at 1",
+            "p = 1 diverges; any p > 1 converges — no fuzzy zone"
+          ],
+          [
+            "Exponential decay",
+            "∫₀^∞ e^{-kx} dx = 1/k: exponentials always converge at infinity"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Memorize the p-test as stated — 'converges if and only if p > 1' — because Unit 10 reuses it for series verbatim, and the exam asks it in both costumes. The single criterion is worth points in two units."
+          ]
+        ]
+      },
+      {
+        "title": "Vertical Asymptotes",
+        "subtitle": "When the integrand, not the bound, is infinite",
+        "body": "The second improper species: a finite interval whose integrand blows up at an endpoint. ∫₀¹ dx/√x has a vertical asymptote at 0 — define it as lim a→0⁺ ∫ₐ¹ dx/√x = lim [2√x]ₐ¹ = lim (2 - 2√a) = 2. Convergent: the spike at zero is thin enough to enclose finite area. The one-sided limit approaches the singularity from inside the interval.\n\nThe endpoint p-test mirrors (and flips) the infinite-bound one: ∫₀¹ dx/xᵖ converges iff p < 1. At the singular end, SMALL p (gentle spikes) converges and large p diverges — the reverse of the behavior at infinity, because the danger zone is x near 0 where small powers are tamer. The pair of p-tests, with their opposite inequalities, is a classic discrimination question.\n\nThe hidden-singularity trap: ∫₋₁¹ dx/x² LOOKS routine, but the integrand explodes at x = 0 — inside the interval. The chapter-4 warning returns with teeth: evaluating [−1/x]₋₁¹ = -2 (negative, for a positive integrand!) is nonsense; the honest treatment splits at 0 into two improper integrals, each divergent — the integral diverges. Scanning the interval for interior singularities is mandatory before ANY evaluation bar.\n\nMixed cases chain the species: ∫₀^∞ dx/(√x(1 + x)) is improper at both ends, split at x = 1 into an endpoint-singular piece and an infinite-bound piece, each assessed separately. The AP keeps such doubles rare; the splitting principle is what it tests when they appear.",
+        "key_terms": [
+          [
+            "Endpoint singularity",
+            "lim a→r⁺ from inside: the one-sided limit version of improper"
+          ],
+          [
+            "Flipped p-test",
+            "∫₀¹ dx/xᵖ converges iff p < 1 — opposite inequality at the spike"
+          ],
+          [
+            "Interior singularity scan",
+            "Blow-ups INSIDE the interval force a split; ignoring them yields nonsense"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "∫₋₁¹ dx/x² = -2 is the chapter's poison answer — negative area from a positive function, produced by ignoring the interior asymptote. Scan (a, b) for integrand blow-ups before every definite evaluation; the scan IS the question on several past exams."
+          ]
+        ]
+      },
+      {
+        "title": "Convergence Without Evaluation",
+        "subtitle": "Comparison thinking and the bridge to series",
+        "body": "Sometimes the verdict matters and the value doesn't — and comparison delivers verdicts without antiderivatives. If 0 ≤ f(x) ≤ g(x) for large x: g converging forces f to converge (trapped under a finite roof), and f diverging forces g to diverge (pushed up by an infinite floor). ∫₁^∞ dx/(x³ + 5): the integrand sits below 1/x³, whose integral converges (p = 3) — converges, no decomposition needed.\n\nThe comparison instinct: identify the integrand's DOMINANT behavior at the frontier (largest power downstairs minus upstairs, exponential factors), compare to the matching p-integral or exponential. (sin²x)/x² ≤ 1/x²: converges. (2 + cos x)/x ≥ 1/x: diverges. Bounded factors never change the verdict; the frontier behavior decides.\n\nThis is Unit 10's training ground, explicitly: series convergence runs on the same comparison logic (direct comparison, limit comparison), the same p-criterion, and the integral test literally converts series questions INTO this chapter's questions. Students solid on improper integrals find half of Unit 10 pre-learned; the investment pays forward at the course's highest-stakes unit.\n\nThe unit closes here, fully equipped: accumulation defined (ch 1), approximated (ch 2), welded to derivatives (ch 3-4), and computed by a four-technique kit (ch 5-7) that now reaches infinite domains (ch 8). Unit 7 immediately spends the equipment on differential equations — where antiderivatives become predictions and the logistic equation cashes the partial-fractions check this unit wrote.",
+        "key_terms": [
+          [
+            "Comparison test",
+            "Under a convergent roof: converges; over a divergent floor: diverges"
+          ],
+          [
+            "Frontier dominance",
+            "The integrand's behavior at ∞ (or the singularity) decides; bounded factors don't"
+          ],
+          [
+            "Bridge to Unit 10",
+            "Same logic, same p-criterion: the integral test makes the connection literal"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Determine whether the integral converges' does NOT always mean 'evaluate it' — comparison to a p-integral earns full credit when the question asks only for the verdict with justification. Read the ask; evaluation is sometimes the slow road to the same points."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "∫₁^∞ dx/x³ =",
+          "choices": {
+            "A": "1/2",
+            "B": "1",
+            "C": "diverges",
+            "D": "1/3"
+          },
+          "answer": "A",
+          "explanation": "lim b→∞ [-1/(2x²)]₁ᵇ = 0 + 1/2. (p = 3 > 1: convergent, value 1/(p-1) = 1/2.)"
+        },
+        {
+          "question": "Which integral diverges?",
+          "choices": {
+            "A": "∫₁^∞ dx/x^{1.001}",
+            "B": "∫₁^∞ dx/√x",
+            "C": "∫₀^∞ e^{-2x} dx",
+            "D": "∫₁^∞ dx/x²"
+          },
+          "answer": "B",
+          "explanation": "p = 1/2 < 1: divergent by the p-test. The others: p = 1.001 > 1 ✓, exponential ✓, p = 2 ✓."
+        },
+        {
+          "question": "∫₀¹ dx/√x =",
+          "choices": {
+            "A": "2",
+            "B": "diverges",
+            "C": "1",
+            "D": "1/2"
+          },
+          "answer": "A",
+          "explanation": "Endpoint singularity at 0: lim a→0⁺ [2√x]ₐ¹ = 2 - 0 = 2. (p = 1/2 < 1 at the spike: convergent.)"
+        },
+        {
+          "question": "The evaluation ∫₋₁¹ dx/x² = [-1/x]₋₁¹ = -2 is wrong because",
+          "choices": {
+            "A": "the integrand has an asymptote at x = 0 inside the interval, so FTC2 never applied",
+            "B": "the antiderivative of 1/x² is wrong",
+            "C": "the bounds were swapped",
+            "D": "it should be +2"
+          },
+          "answer": "A",
+          "explanation": "1/x² is discontinuous at 0 ∈ (-1, 1): the integral must split into two improper pieces, each divergent — the integral diverges. (A negative result for a positive integrand was the alarm.)"
+        },
+        {
+          "question": "Knowing 0 ≤ 1/(x⁴ + x + 7) ≤ 1/x⁴ for x ≥ 1, one may conclude ∫₁^∞ dx/(x⁴ + x + 7)",
+          "choices": {
+            "A": "converges, by comparison with a convergent p-integral",
+            "B": "diverges, by comparison",
+            "C": "equals 1/3",
+            "D": "cannot be assessed without evaluation"
+          },
+          "answer": "A",
+          "explanation": "Trapped under ∫₁^∞ dx/x⁴ (p = 4 > 1, convergent): the smaller integral converges. The exact value isn't determined — only the verdict."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Evaluate each improper integral or show it diverges, using complete limit notation.\n(a) ∫₂^∞ dx/(x - 1)²\n(b) ∫₁^∞ dx/(2x + 3)\n(c) ∫₀^∞ x e^{-x²} dx",
+          "rubric": [
+            "(a) lim b→∞ [-(x-1)^{-1}]₂ᵇ = 0 + 1 = 1: converges to 1",
+            "(b) lim b→∞ (1/2)[ln|2x+3|]₁ᵇ = ∞: diverges",
+            "(c) u = x²: lim b→∞ [-e^{-x²}/2]₀ᵇ = 0 + 1/2 = 1/2",
+            "Limit notation present at the first step in all three"
+          ],
+          "model_answer": "(a) ∫₂^∞ dx/(x-1)² = lim b→∞ ∫₂ᵇ (x-1)^{-2} dx = lim b→∞ [-(x-1)^{-1}]₂ᵇ = lim b→∞ (1 - 1/(b-1)) = 1. Converges to 1. (b) lim b→∞ ∫₁ᵇ dx/(2x+3) = lim b→∞ (1/2)[ln(2x+3)]₁ᵇ = lim b→∞ (1/2)(ln(2b+3) - ln 5) = ∞. Diverges. (c) With u = x², du = 2x dx: lim b→∞ ∫₀ᵇ x e^{-x²} dx = lim b→∞ [-½e^{-x²}]₀ᵇ = lim b→∞ (½ - ½e^{-b²}) = 1/2. Converges to 1/2."
+        },
+        {
+          "question": "Consider ∫₀⁴ dx/(x - 2)^{2/3}.\n(a) Explain why this integral is improper despite its finite bounds.\n(b) Split appropriately and evaluate both pieces.\n(c) State the value of the integral, or that it diverges.",
+          "rubric": [
+            "(a) The integrand blows up at x = 2, inside [0, 4] — interior singularity",
+            "(b) Split at 2: lim t→2⁻ ∫₀ᵗ + lim s→2⁺ ∫ₛ⁴, antiderivative 3(x-2)^{1/3}",
+            "Left piece: 3(0 - (-2)^{1/3}) = 3·2^{1/3}; right piece: 3(2^{1/3} - 0) = 3·2^{1/3}",
+            "(c) Both converge: total 6·2^{1/3} = 6∛2"
+          ],
+          "model_answer": "(a) At x = 2 — inside the interval — the denominator vanishes and the integrand is unbounded: an interior singularity makes the integral improper. (b) Split at 2. Antiderivative: ∫(x-2)^{-2/3} dx = 3(x-2)^{1/3}. Left: lim t→2⁻ [3(x-2)^{1/3}]₀ᵗ = 3(0) - 3(-2)^{1/3} = 3·2^{1/3} (since (-2)^{1/3} = -2^{1/3}). Right: lim s→2⁺ [3(x-2)^{1/3}]ₛ⁴ = 3·2^{1/3} - 0 = 3·2^{1/3}. (c) Both one-sided pieces converge, so the integral converges: 3·2^{1/3} + 3·2^{1/3} = 6∛2 ≈ 7.56. (The exponent 2/3 < 1 at the spike is why convergence was possible.)"
+        },
+        {
+          "question": "A pollutant enters a lake at rate R(t) = 40/(t + 1)² grams per day, for t ≥ 0.\n(a) Find the total amount of pollutant that will EVER enter the lake — set up and evaluate the appropriate improper integral.\n(b) Find the time T by which half of that total has entered.\n(c) The cleanup agency claims 'the inflow never stops, so the total grows without bound.' Refute the claim in one sentence using the chapter's central distinction.",
+          "rubric": [
+            "(a) lim b→∞ ∫₀ᵇ 40(t+1)^{-2} dt = lim [−40/(t+1)]₀ᵇ = 40 grams",
+            "(b) ∫₀ᵀ = 40 - 40/(T+1) = 20 → T + 1 = 2 → T = 1 day",
+            "(c) A perpetual inflow with sufficiently fast decay accumulates a finite total",
+            "The decay-speed (not decay-fact) distinction articulated"
+          ],
+          "model_answer": "(a) Total = ∫₀^∞ 40/(t+1)² dt = lim b→∞ [−40/(t+1)]₀ᵇ = lim b→∞ (40 - 40/(b+1)) = 40 grams. (b) Accumulated by time T: 40 - 40/(T+1). Setting it to 20: 40/(T+1) = 20, T + 1 = 2, T = 1 day — half of all the pollutant that will ever arrive comes in the first day. (c) The claim confuses 'never stops' with 'adds up to infinity': the inflow rate decays fast enough (like 1/t², p = 2 > 1) that the endless trickle accumulates only a finite 40 grams — convergence is about decay speed, not stopping."
+        }
+      ]
+    }
+  }
+]

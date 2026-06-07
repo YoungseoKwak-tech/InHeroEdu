@@ -1,0 +1,1459 @@
+[
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Limits and Continuity",
+    "chapter_title": "What a Limit Actually Means",
+    "hook": "Zeno argued you could never cross a room: first you cover half the distance, then half of what remains, forever. Calculus answers him with one idea — the limit — and everything else in this book is built on it.",
+    "learning_objectives": [
+      "Express the intuitive idea of a limit as the value f(x) approaches, not the value f(x) reaches",
+      "Estimate limits from tables of values by approaching the target x-value from both sides",
+      "Read limits from graphs, including cases where the function value and the limit disagree",
+      "Use correct limit notation, including one-sided notation, to describe function behavior",
+      "Recognize the three classic situations where a limit fails to exist"
+    ],
+    "sections": [
+      {
+        "title": "Approaching Without Arriving",
+        "subtitle": "The single most important idea in calculus",
+        "body": "A limit answers one precise question: as x gets arbitrarily close to some number a, what single value does f(x) get arbitrarily close to? We write lim x→a f(x) = L, read \"the limit of f of x as x approaches a equals L.\" The crucial subtlety is that x never has to equal a, and f(a) never has to equal L. The limit describes the journey, not the destination.\n\nThink of it like walking toward a wall while filming your distance to it. Even if you stop filming before touching the wall, anyone watching can tell exactly where you were headed. The limit is that destination as inferred from the approach. Whether you actually touch the wall — whether f(a) is even defined — is a completely separate question.\n\nThis is why the function f(x) = (x^2 - 1)/(x - 1) is the classic first example. At x = 1 it is undefined: substitution gives 0/0, which is meaningless. But for every x near 1 (and not equal to 1), the algebra simplifies: (x - 1)(x + 1)/(x - 1) = x + 1. So as x slides toward 1, f(x) slides toward 2. The function has a hole at (1, 2), yet lim x→1 f(x) = 2 with complete confidence.\n\nThe formal definition (epsilon-delta) makes \"arbitrarily close\" rigorous, but the AP exam tests the concept, not the formalism: limits describe intended behavior, and that behavior is unaffected by what happens exactly at the point.",
+        "key_terms": [
+          [
+            "Limit",
+            "The single value L that f(x) approaches as x approaches a from both sides, written lim x→a f(x) = L"
+          ],
+          [
+            "0/0 indeterminate form",
+            "A substitution result that signals the limit needs more work — it does not mean the limit fails to exist"
+          ],
+          [
+            "Removable discontinuity",
+            "A hole in the graph: the limit exists but f(a) is undefined or differs from the limit"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The AP exam loves to ask for lim x→a f(x) at a point where the graph shows a hole with a separate filled dot somewhere else. The answer is the y-value of the hole, not the dot. The limit ignores f(a) entirely."
+          ]
+        ]
+      },
+      {
+        "title": "Limits from Tables",
+        "subtitle": "Squeezing in from both sides",
+        "body": "Before you have algebraic tools, you can estimate any limit numerically: choose x-values marching toward a from the left (like 1.9, 1.99, 1.999) and from the right (2.1, 2.01, 2.001), and watch what f(x) does. If both columns of outputs funnel toward the same number, that number is your limit estimate.\n\nTables come with two warnings. First, a table can only ever suggest a limit — it cannot prove one. The function might do something wild between your sample points. The exam phrase \"values that best supports\" or \"estimate\" signals that table reasoning is expected. Second, your calculator can lie near the limit point: evaluating sin(x)/x at x = 0.0000001 may suffer rounding errors. Stay close, but not absurdly close.\n\nA table is also the fastest way to detect one-sided disagreement. If f(x) approaches 3 from the left but 5 from the right, the two-sided limit does not exist, and the table makes that visible immediately — two columns funneling to two different targets. This numeric instinct, approach from both sides and compare, is exactly the habit the rest of this unit formalizes.",
+        "key_terms": [
+          [
+            "Numerical estimation",
+            "Approximating a limit by evaluating f at inputs progressively closer to a from each side"
+          ],
+          [
+            "Left-hand approach",
+            "Sampling x-values slightly less than a, written x → a⁻"
+          ],
+          [
+            "Right-hand approach",
+            "Sampling x-values slightly greater than a, written x → a⁺"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "On table questions, the AP answer choices often include the value f(a) itself as a trap. Always read the trend of the outputs, not the value at the point — especially when the table sneaks in the row x = a."
+          ]
+        ]
+      },
+      {
+        "title": "Limits from Graphs",
+        "subtitle": "Holes, dots, and jumps",
+        "body": "Graphical limit questions test whether you can separate three different objects: the value of the function f(a), the left-hand limit lim x→a⁻ f(x), and the right-hand limit lim x→a⁺ f(x). On a graph, f(a) is wherever the filled dot is. The one-sided limits are where each branch of the curve is heading, regardless of any dots.\n\nRun your finger along the curve from the left toward x = a; the height your finger approaches is the left-hand limit. Do the same from the right. If both fingers land at the same height L, then lim x→a f(x) = L — even if the graph has an open circle there, and even if a filled dot floats somewhere else entirely.\n\nA jump in the graph means the two fingers land at different heights: the one-sided limits exist but disagree, so the two-sided limit does not exist. A vertical asymptote means a finger climbs without bound — we write lim x→a f(x) = ∞ to describe the behavior, but the limit does not exist as a finite number.\n\nPractice until you can fill in this table for any labeled point on a graph in under ten seconds: f(a), left limit, right limit, two-sided limit. Nearly every graphical limit question on the exam is some permutation of those four cells.",
+        "key_terms": [
+          [
+            "f(a)",
+            "The actual function value at a — the filled dot on the graph, possibly different from the limit"
+          ],
+          [
+            "Jump discontinuity",
+            "Both one-sided limits exist but are unequal, so the two-sided limit does not exist"
+          ],
+          [
+            "Vertical asymptote",
+            "Unbounded behavior near x = a; the limit is described as ∞ or -∞ but does not exist as a number"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When a free-response part asks you to \"justify\" that a limit exists from a graph, the expected sentence is: the left-hand limit and right-hand limit both equal L, therefore lim x→a f(x) = L. Name both sides — one-sided agreement IS the justification."
+          ]
+        ]
+      },
+      {
+        "title": "When Limits Fail",
+        "subtitle": "The three ways approach can break down",
+        "body": "A limit fails to exist at x = a in exactly three classic ways, and the exam expects you to recognize each on sight. First: the jump. The left and right approaches each settle down, but to different values — think of a step function like the greatest integer function at any integer. One-sided limits exist; the two-sided limit does not.\n\nSecond: unbounded behavior. Near a vertical asymptote like x = 0 for f(x) = 1/x^2, the outputs grow without any ceiling. Writing lim x→0 1/x^2 = ∞ is a useful description of that behavior, but infinity is not a number, so the limit does not exist in the finite sense.\n\nThird, and most exotic: oscillation. The function sin(1/x) near x = 0 swings between -1 and 1 infinitely often in every neighborhood of 0, never settling toward any single value. No table, no graph zoom, no algebra will produce a destination, because there is none.\n\nKeep the logic straight: 0/0 from substitution is NOT one of these three. An indeterminate form means the limit is undecided pending more work — it often turns out to exist, as with (x^2 - 1)/(x - 1). \"Indeterminate\" means investigate; it never by itself means \"does not exist.\"",
+        "key_terms": [
+          [
+            "DNE",
+            "Does not exist — the verdict when no single finite value is approached from both sides"
+          ],
+          [
+            "Oscillating behavior",
+            "Infinitely many swings near the point, as in sin(1/x) at x = 0, so no destination exists"
+          ],
+          [
+            "Unbounded",
+            "Outputs exceed every bound near the point; described with ∞ but the limit DNE as a finite number"
+          ],
+          [
+            "Indeterminate form",
+            "A form like 0/0 whose limit cannot be read from substitution alone — requires algebraic resolution"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Multiple choice answers \"the limit is ∞\" and \"the limit does not exist\" can BOTH be defensible descriptions of an asymptote — the exam will only offer one of them. If ∞ appears as a choice for unbounded behavior, that is the intended answer."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "The graph of g has an open circle at (3, 4) and a filled dot at (3, 7). Both branches of the curve approach the open circle. What is lim x→3 g(x)?",
+          "choices": {
+            "A": "4",
+            "B": "7",
+            "C": "Both 4 and 7",
+            "D": "Does not exist"
+          },
+          "answer": "A",
+          "explanation": "The limit follows the branches of the curve, which approach height 4 from both sides. The filled dot at height 7 is g(3), the function value — irrelevant to the limit."
+        },
+        {
+          "question": "A table shows f(1.9) = 6.21, f(1.99) = 6.02, f(1.999) = 6.002, f(2.001) = 5.998, f(2.01) = 5.98, f(2.1) = 5.79. These values best support which conclusion?",
+          "choices": {
+            "A": "lim x→2 f(x) = 6",
+            "B": "lim x→2 f(x) = 2",
+            "C": "f(2) = 6",
+            "D": "The limit does not exist"
+          },
+          "answer": "A",
+          "explanation": "Both sides funnel toward 6. A table can support a limit estimate but says nothing certain about f(2) itself — eliminating C, which confuses the limit with the function value."
+        },
+        {
+          "question": "For f(x) = (x^2 - 9)/(x - 3), which statement is true?",
+          "choices": {
+            "A": "f(3) = 6 and lim x→3 f(x) = 6",
+            "B": "f(3) is undefined and lim x→3 f(x) = 6",
+            "C": "f(3) is undefined and the limit does not exist",
+            "D": "f(3) = 0/0 = 0"
+          },
+          "answer": "B",
+          "explanation": "Substitution gives 0/0, so f(3) is undefined. Factoring gives (x-3)(x+3)/(x-3) = x + 3 for x ≠ 3, which approaches 6. Indeterminate means investigate, not DNE."
+        },
+        {
+          "question": "Which function has a limit that fails to exist at x = 0 because of oscillation?",
+          "choices": {
+            "A": "f(x) = 1/x^2",
+            "B": "f(x) = |x|/x",
+            "C": "f(x) = sin(1/x)",
+            "D": "f(x) = x sin(1/x)"
+          },
+          "answer": "C",
+          "explanation": "sin(1/x) swings between -1 and 1 infinitely often near 0. Choice A is unbounded, B is a jump (left limit -1, right limit 1), and D actually converges to 0 by squeezing — the x factor crushes the oscillation."
+        },
+        {
+          "question": "If lim x→5⁻ h(x) = 2 and lim x→5⁺ h(x) = 2 but h(5) = -3, then lim x→5 h(x)",
+          "choices": {
+            "A": "equals 2",
+            "B": "equals -3",
+            "C": "does not exist because h(5) ≠ 2",
+            "D": "cannot be determined"
+          },
+          "answer": "A",
+          "explanation": "The two one-sided limits agree at 2, so the two-sided limit is 2. The function value h(5) = -3 creates a removable discontinuity but has no effect on the limit."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = (x^2 - 4)/(x - 2).\n(a) Explain why f(2) is undefined.\n(b) Complete the reasoning: for x ≠ 2, simplify f(x) algebraically.\n(c) Find lim x→2 f(x) and explain why the answer to (a) does not prevent this limit from existing.",
+          "rubric": [
+            "States that substitution produces 0/0 (division by zero), so f(2) is undefined",
+            "Factors x^2 - 4 = (x - 2)(x + 2) and cancels to obtain x + 2, valid for x ≠ 2",
+            "States lim x→2 f(x) = 4",
+            "Explains that the limit depends only on values of f near 2, not at 2"
+          ],
+          "model_answer": "(a) Substituting x = 2 gives (4 - 4)/(2 - 2) = 0/0, so f(2) is undefined. (b) For x ≠ 2, f(x) = (x - 2)(x + 2)/(x - 2) = x + 2. (c) As x → 2, x + 2 → 4, so the limit is 4. A limit describes behavior near the point, never at it, so the hole at x = 2 is irrelevant."
+        },
+        {
+          "question": "The graph of g consists of two pieces: for x < 1, the curve approaches the point (1, 3); for x > 1, the curve approaches the point (1, 5). There is a filled dot at (1, 5).\n(a) Find lim x→1⁻ g(x) and lim x→1⁺ g(x).\n(b) Does lim x→1 g(x) exist? Justify your answer.\n(c) What is g(1)?",
+          "rubric": [
+            "States the left-hand limit equals 3 and the right-hand limit equals 5",
+            "Concludes the two-sided limit does not exist BECAUSE the one-sided limits are unequal",
+            "Identifies g(1) = 5 from the filled dot",
+            "Justification explicitly compares the two one-sided limits"
+          ],
+          "model_answer": "(a) lim x→1⁻ g(x) = 3 and lim x→1⁺ g(x) = 5. (b) The limit does not exist: a two-sided limit requires both one-sided limits to exist and agree, but 3 ≠ 5 — this is a jump discontinuity. (c) g(1) = 5, the y-value of the filled dot."
+        },
+        {
+          "question": "A student claims: \"Since substituting x = 0 into sin(x)/x gives 0/0, the limit lim x→0 sin(x)/x does not exist.\"\n(a) Identify the error in the student's reasoning.\n(b) Using the table sin(0.1)/0.1 ≈ 0.9983, sin(0.01)/0.01 ≈ 0.99998, sin(-0.01)/(-0.01) ≈ 0.99998, what does the limit appear to be?\n(c) State what a table of values can and cannot establish about a limit.",
+          "rubric": [
+            "Identifies that 0/0 is an indeterminate form, which means the limit requires further analysis, not that it fails to exist",
+            "Reads the table trend correctly: the limit appears to equal 1",
+            "Notes values approach 1 from both sides of 0",
+            "States a table can support or estimate a limit but cannot prove it"
+          ],
+          "model_answer": "(a) The form 0/0 is indeterminate — it signals that more work is needed, not that the limit fails to exist. Many 0/0 limits exist. (b) Outputs from both sides funnel toward 1, so the limit appears to be 1 (this is the famous special limit lim x→0 sin(x)/x = 1). (c) A table can estimate a limit and support a conclusion, but it cannot prove one, since the function could behave differently between sampled points."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Limits and Continuity",
+    "chapter_title": "Limit Laws and Algebraic Evaluation",
+    "hook": "Tables and graphs estimate limits. Algebra computes them exactly — and on the AP exam, exact is the only answer that scores. This chapter is your complete toolkit for evaluating limits by hand.",
+    "learning_objectives": [
+      "Apply the limit laws to break complicated limits into simple pieces",
+      "Evaluate limits of polynomial and rational functions by direct substitution when valid",
+      "Resolve 0/0 indeterminate forms by factoring and canceling common factors",
+      "Use conjugate multiplication to evaluate limits involving radicals",
+      "Simplify complex fractions to evaluate limits of compound rational expressions"
+    ],
+    "sections": [
+      {
+        "title": "The Limit Laws",
+        "subtitle": "Why substitution works at all",
+        "body": "Limits respect arithmetic. If lim x→a f(x) = L and lim x→a g(x) = M, then the limit of the sum is L + M, the limit of the product is L·M, and the limit of the quotient is L/M provided M ≠ 0. Constants slide out front, and powers and roots pass through. These limit laws are the legal foundation for every algebraic shortcut you are about to use.\n\nStack the laws together and you get the single most useful fact in this unit: for any polynomial p(x), lim x→a p(x) = p(a). Polynomials are built from sums, products, and constants, and each piece behaves perfectly. The same holds for rational functions — ratios of polynomials — at every point where the denominator is not zero.\n\nSo the first move on any limit is always substitution. If plugging in x = a produces an ordinary number, you are done; that number is the limit. Substitution only fails in two interesting ways: a nonzero number divided by zero, which signals unbounded behavior and a vertical asymptote, or 0/0, the indeterminate form that the rest of this chapter exists to resolve.\n\nKeep the two failure modes separate. 5/0 is not indeterminate — it tells you the limit is ±∞ or DNE, and you diagnose which by checking signs on each side. 0/0 tells you nothing yet: the limit might be 7, might be 0, might not exist. Indeterminate means the form alone cannot determine the answer.",
+        "key_terms": [
+          [
+            "Limit laws",
+            "Rules letting limits distribute over sums, differences, products, quotients (nonzero denominator), powers, and roots"
+          ],
+          [
+            "Direct substitution",
+            "Evaluating lim x→a f(x) as f(a), valid for polynomials, and rational functions where the denominator is nonzero"
+          ],
+          [
+            "k/0 form",
+            "Nonzero over zero: never indeterminate — it means unbounded behavior (vertical asymptote), not 'do more algebra'"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The exam tests limit laws directly with questions like: given lim f = 3 and lim g = -2, find lim (2f - g)/(fg). Treat the given limits as numbers and compute: (6-(-2))/(3·(-2)) = -4/3. No curve sketching needed — it is pure arithmetic."
+          ]
+        ]
+      },
+      {
+        "title": "Factor and Cancel",
+        "subtitle": "The standard cure for 0/0",
+        "body": "When substitution into a rational function gives 0/0, both the numerator and denominator share a root at x = a — which means they share a factor of (x - a). Factor both, cancel the shared factor, and substitute again. The canceled function is identical to the original everywhere except at x = a itself, and since limits never care about the point itself, the limits are equal.\n\nTake lim x→3 (x^2 - 7x + 12)/(x^2 - 9). Substitution gives 0/0. Factor: (x - 3)(x - 4) over (x - 3)(x + 3). Cancel (x - 3) and substitute: (3 - 4)/(3 + 3) = -1/6. Done — exactly, not approximately.\n\nThe factoring toolbox you need: greatest common factors, difference of squares a^2 - b^2 = (a-b)(a+b), trinomials, sum and difference of cubes a^3 ± b^3 = (a ± b)(a^2 ∓ ab + b^2), and factoring by grouping. BC students also see polynomial division: if you know (x - a) is a factor because substitution gave zero, dividing it out always works even when the factorization is not obvious.\n\nOne warning: after canceling, check the new denominator. If substitution still gives 0/0, factor again — some problems hide a double root. If it gives k/0, the original limit is unbounded and you switch to sign analysis instead of celebrating an answer.",
+        "key_terms": [
+          [
+            "Common factor",
+            "If substitution at x = a gives 0/0 for a rational function, (x - a) divides both numerator and denominator"
+          ],
+          [
+            "Difference of squares",
+            "a^2 - b^2 = (a - b)(a + b), the most common factoring pattern on limit problems"
+          ],
+          [
+            "Double root",
+            "A repeated factor that survives one cancellation, requiring a second round of factoring"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Show the canceled form in free response work. Writing (x-3)(x-4)/((x-3)(x+3)) = (x-4)/(x+3), x ≠ 3, then substituting, is the justification readers expect. Jumping straight from the original expression to the answer can cost the reasoning point."
+          ]
+        ]
+      },
+      {
+        "title": "Conjugates and Complex Fractions",
+        "subtitle": "When factoring isn't enough",
+        "body": "Radicals block ordinary factoring. The fix is the conjugate: multiply numerator and denominator by the same expression with the middle sign flipped, converting roots into perfect squares. For lim x→0 (√(x + 4) - 2)/x, multiply top and bottom by (√(x + 4) + 2). The numerator becomes (x + 4) - 4 = x, the x cancels, and the limit is 1/(√4 + 2) = 1/4.\n\nThe pattern works because (A - B)(A + B) = A^2 - B^2 eliminates the square roots from one layer of the expression. Always multiply by conjugate over conjugate — a disguised form of 1 — so the function's values never change. And resist the urge to expand the unconjugated side; leave it factored, because something is about to cancel.\n\nComplex fractions — fractions inside fractions — are the other classic 0/0 disguise. For lim x→2 (1/x - 1/2)/(x - 2), combine the top into a single fraction: (2 - x)/(2x). The expression becomes (2 - x)/(2x(x - 2)) = -1/(2x), and the limit is -1/4. The universal strategy: multiply through by the least common denominator of all the small fractions, then factor and cancel as usual.\n\nNotice the sign flip trick that appeared: (2 - x) = -(x - 2). Recognizing that a - b and b - a are negatives of each other rescues many limits that look stuck after combining fractions.",
+        "key_terms": [
+          [
+            "Conjugate",
+            "The same two-term expression with the opposite middle sign; multiplying by conjugate/conjugate clears radicals"
+          ],
+          [
+            "Complex fraction",
+            "A fraction whose numerator or denominator contains fractions; simplify with the least common denominator"
+          ],
+          [
+            "Sign flip identity",
+            "(a - b) = -(b - a), used to cancel factors that match except for order"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "If a limit contains a square root and substitution gives 0/0, the conjugate is virtually always the intended method. The exam rarely mixes techniques in one problem — one clean tool per question is the norm in multiple choice."
+          ]
+        ]
+      },
+      {
+        "title": "A Strategy That Always Works",
+        "subtitle": "The decision tree for any algebraic limit",
+        "body": "Every algebraic limit yields to the same decision tree. Step one: substitute. A real number? Done. A nonzero number over zero? Vertical asymptote — analyze signs from each side to report ∞, -∞, or DNE. Zero over zero? Proceed to step two.\n\nStep two: transform. Polynomial pieces — factor and cancel. Radicals — conjugate. Small fractions inside the expression — clear them with a common denominator. Trig expressions — the special limits of Chapter 4. After transforming, return to step one and substitute again.\n\nPiecewise functions add one wrinkle: at a seam where the rule changes, substitute into each piece separately to get the two one-sided limits, then compare. Equal means the limit exists and equals that shared value; unequal means DNE. Everywhere away from the seams, a piecewise function is just whatever single rule applies there.\n\nThis flowchart is worth internalizing to the point of boredom because Unit 4 upgrades it: L'Hospital's Rule will give you a calculus-powered alternative for 0/0 forms. But the AP exam deliberately includes limits where algebra is faster and cleaner — the strongest students know both routes and choose per problem.",
+        "key_terms": [
+          [
+            "Decision tree",
+            "Substitute first; classify the result as a number, k/0, or 0/0; transform and repeat only for 0/0"
+          ],
+          [
+            "Sign analysis",
+            "For k/0 forms, testing values on each side of x = a to determine whether each one-sided limit is ∞ or -∞"
+          ],
+          [
+            "Seam",
+            "An x-value where a piecewise function switches rules — the only place one-sided analysis is mandatory"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "For limits at a piecewise seam, the exam expects explicit one-sided work: lim x→2⁻ uses the left rule, lim x→2⁺ uses the right rule, then a comparison sentence. Skipping the comparison and just stating the answer loses the justification point on FRQs."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "Given lim x→a f(x) = 4 and lim x→a g(x) = -1, what is lim x→a [f(x)]^2/(g(x) + 3)?",
+          "choices": {
+            "A": "8",
+            "B": "16",
+            "C": "4",
+            "D": "Nonexistent"
+          },
+          "answer": "A",
+          "explanation": "By the limit laws: (4)^2/(-1 + 3) = 16/2 = 8. Treat the given limits as numbers and compute."
+        },
+        {
+          "question": "What is lim x→5 (x^2 - 25)/(x^2 - 4x - 5)?",
+          "choices": {
+            "A": "0",
+            "B": "5/3",
+            "C": "10/6",
+            "D": "Does not exist"
+          },
+          "answer": "B",
+          "explanation": "Both give 0 at x = 5. Factor: (x-5)(x+5)/((x-5)(x+1)) = (x+5)/(x+1) → 10/6 = 5/3. (C is the unreduced form — the AP always lists the reduced answer.)"
+        },
+        {
+          "question": "What is lim x→0 (√(9 + x) - 3)/x?",
+          "choices": {
+            "A": "0",
+            "B": "1/3",
+            "C": "1/6",
+            "D": "1/9"
+          },
+          "answer": "C",
+          "explanation": "Multiply by the conjugate: numerator becomes (9 + x) - 9 = x, leaving 1/(√(9+x) + 3) → 1/(3 + 3) = 1/6."
+        },
+        {
+          "question": "What is lim x→4 (x - 4)/(x^2 - 8x + 16)?",
+          "choices": {
+            "A": "0",
+            "B": "1",
+            "C": "1/4",
+            "D": "Does not exist"
+          },
+          "answer": "D",
+          "explanation": "The denominator factors as (x - 4)^2. Canceling one factor leaves 1/(x - 4), a k/0 form: the left side goes to -∞ and the right side to +∞, so the limit does not exist."
+        },
+        {
+          "question": "What is lim x→3 (1/x - 1/3)/(x - 3)?",
+          "choices": {
+            "A": "-1/9",
+            "B": "1/9",
+            "C": "-1/3",
+            "D": "0"
+          },
+          "answer": "A",
+          "explanation": "Combine the numerator: (3 - x)/(3x). The expression is (3 - x)/(3x(x - 3)) = -1/(3x) → -1/9. The sign flip (3 - x) = -(x - 3) is the key step."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = (x^2 - 2x - 8)/(x^2 - 16).\n(a) Evaluate lim x→4 f(x), showing the algebraic steps that justify your answer.\n(b) Evaluate lim x→-4 f(x) or explain why it does not exist as a finite number.\n(c) Identify each discontinuity of f as removable or not removable.",
+          "rubric": [
+            "Factors numerator (x-4)(x+2) and denominator (x-4)(x+4), cancels, and finds the limit at 4 equals 6/8 = 3/4",
+            "Recognizes x = -4 gives k/0 (nonzero over zero) and concludes unbounded behavior / limit DNE",
+            "Classifies x = 4 as removable (limit exists, function undefined)",
+            "Classifies x = -4 as not removable (vertical asymptote)"
+          ],
+          "model_answer": "(a) f(x) = (x-4)(x+2)/((x-4)(x+4)) = (x+2)/(x+4) for x ≠ 4, so the limit is 6/8 = 3/4. (b) Substituting x = -4 into the reduced form gives -2/0, a nonzero number over zero, so f is unbounded near -4 and the limit does not exist. (c) x = 4 is a removable discontinuity (hole at (4, 3/4)); x = -4 is non-removable — a vertical asymptote."
+        },
+        {
+          "question": "Let g(x) = (√(x + 7) - 3)/(x - 2).\n(a) Explain why direct substitution at x = 2 fails.\n(b) Evaluate lim x→2 g(x) using an algebraic method, showing all steps.\n(c) A student instead builds a table and reports the limit is 0.1667. Explain why your answer in (b) is preferable on the AP exam.",
+          "rubric": [
+            "States substitution yields 0/0, an indeterminate form",
+            "Multiplies by the conjugate (√(x+7) + 3)/(√(x+7) + 3) and simplifies the numerator to x - 2",
+            "Cancels and evaluates to 1/6",
+            "Explains exact values beat decimal estimates and tables cannot prove a limit"
+          ],
+          "model_answer": "(a) Substitution gives (√9 - 3)/0 = 0/0, indeterminate. (b) Multiply by the conjugate: ((x + 7) - 9)/((x - 2)(√(x+7) + 3)) = (x - 2)/((x - 2)(√(x+7) + 3)) = 1/(√(x+7) + 3) → 1/6. (c) The algebra produces the exact value 1/6; a table only estimates (0.1667 is a rounding of 1/6) and cannot establish the limit, so exact algebraic evaluation earns full credit."
+        },
+        {
+          "question": "The function h is defined piecewise: h(x) = (x^2 - 1)/(x - 1) for x < 1, and h(x) = ax + 4 for x ≥ 1, where a is a constant.\n(a) Find lim x→1⁻ h(x).\n(b) Express lim x→1⁺ h(x) in terms of a.\n(c) Find the value of a for which lim x→1 h(x) exists, and state the value of that limit.",
+          "rubric": [
+            "Simplifies (x^2-1)/(x-1) to x + 1 and finds the left-hand limit equals 2",
+            "Computes the right-hand limit a(1) + 4 = a + 4",
+            "Sets 2 = a + 4 and solves a = -2",
+            "States the resulting two-sided limit equals 2"
+          ],
+          "model_answer": "(a) For x < 1, h(x) = (x-1)(x+1)/(x-1) = x + 1, so the left-hand limit is 2. (b) The right-hand limit is a + 4. (c) The two-sided limit exists when 2 = a + 4, so a = -2, and then lim x→1 h(x) = 2."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Limits and Continuity",
+    "chapter_title": "One-Sided Limits and When Limits Fail",
+    "hook": "Functions built from pieces — tax brackets, shipping rates, absolute values — change rules mid-domain. At every seam, the only honest question is one-sided: what happens approaching from the left, and from the right?",
+    "learning_objectives": [
+      "Evaluate one-sided limits using correct notation for left-hand and right-hand approach",
+      "Analyze piecewise-defined functions at the x-values where their rules change",
+      "Rewrite absolute value expressions as piecewise functions to evaluate limits through them",
+      "Apply the existence criterion: a two-sided limit exists exactly when both one-sided limits exist and agree",
+      "Determine one-sided limits at vertical asymptotes using sign analysis"
+    ],
+    "sections": [
+      {
+        "title": "One-Sided Limits, Precisely",
+        "subtitle": "Half the approach, all the rigor",
+        "body": "The notation lim x→a⁻ f(x) restricts attention to x-values less than a: we slide toward a along the number line from the left only. Likewise lim x→a⁺ f(x) approaches from values greater than a. Each one-sided limit is a full-fledged limit in its own right — it can exist, be infinite, or fail by oscillation — it just uses half the neighborhood.\n\nOne-sided limits are not exotic; they are the components of every two-sided limit you have computed. When substitution works smoothly, both sides happen to agree and nobody mentions them. They earn their own chapter because three families of functions force the sides apart: piecewise definitions, absolute values, and functions whose domains end (like √x at x = 0, which only has a right-hand limit at all).\n\nDomain edges deserve emphasis. For f(x) = √(x - 2), asking about lim x→2⁻ f(x) is meaningless — there are no function values to the left of 2. By convention, continuity and limits at domain endpoints are judged one-sided. This matters on exam questions about where functions are continuous: √x is continuous on [0, ∞), with right-continuity at 0 doing the work at the edge.",
+        "key_terms": [
+          [
+            "x → a⁻",
+            "Approach from the left: x takes values less than a only"
+          ],
+          [
+            "x → a⁺",
+            "Approach from the right: x takes values greater than a only"
+          ],
+          [
+            "Domain endpoint",
+            "A boundary of the domain where only one one-sided limit is defined, e.g. x = 0 for √x"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Read the superscript sign carefully under time pressure. lim x→3⁻ means x approaches 3 from below — it does NOT mean x approaches -3. Misreading the minus as part of the number is a classic exam-day error."
+          ]
+        ]
+      },
+      {
+        "title": "Piecewise Functions at the Seam",
+        "subtitle": "Where the action is",
+        "body": "A piecewise function lists different formulas for different intervals. Away from the boundaries, limits are ordinary: identify which rule governs the neighborhood and use it. All the interesting behavior concentrates at the seams, the x-values where the active formula changes.\n\nAt a seam x = c, the procedure is mechanical. The left-hand limit uses the rule for x < c; the right-hand limit uses the rule for x > c. Compute both by substitution (each piece is usually a polynomial or other friendly function). If the two values match, the two-sided limit exists and equals that value. If not, the limit DNE — a jump.\n\nWatch which piece owns the boundary point itself. If h(x) = x^2 for x ≤ 2 and h(x) = 3x - 1 for x > 2, then h(2) = 4 comes from the first rule, while the right-hand limit 3(2) - 1 = 5 comes from the second. The limit from the left is 4, from the right is 5: the limit DNE even though h(2) is perfectly well defined. Function value and limit are separate bookkeeping, always.\n\nThe AP's favorite twist puts a parameter in one piece — find k so the limit exists. Set the one-sided limits equal and solve. Two parameters across three pieces yields a small system of equations; the calculus content is just the existence criterion, and the rest is algebra.",
+        "key_terms": [
+          [
+            "Piecewise function",
+            "A function defined by different formulas on different parts of its domain"
+          ],
+          [
+            "Seam",
+            "A boundary x-value where the governing formula changes, requiring one-sided analysis"
+          ],
+          [
+            "Matching condition",
+            "The equation left-hand limit = right-hand limit, solved to make a limit exist at a seam"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Parameter problems (\"find k so that the limit exists\") are near-guaranteed on the exam. The full solution is three lines: left limit in terms of k, right limit in terms of k, set equal and solve. Practice until it takes 45 seconds."
+          ]
+        ]
+      },
+      {
+        "title": "Absolute Value, the Hidden Piecewise",
+        "subtitle": "One bar, two branches",
+        "body": "Every absolute value is a piecewise function in disguise: |u| equals u when u ≥ 0 and -u when u < 0. Limits through absolute values become routine the moment you rewrite the bars as explicit branches — and treacherous if you don't.\n\nThe canonical example is lim x→0 |x|/x. For x > 0, |x|/x = x/x = 1. For x < 0, |x|/x = -x/x = -1. Right-hand limit 1, left-hand limit -1: the two-sided limit does not exist. This function (the sign function) is the simplest jump discontinuity in mathematics, and the exam returns to it constantly in disguises like |x - 5|/(x - 5) or (x^2 - 25)/|x - 5|.\n\nThe general method: find where the inside expression changes sign, split the problem at that point, and simplify each branch separately. For lim x→3 (x - 3)/|x^2 - 9|: the inside x^2 - 9 = (x-3)(x+3) is negative just left of 3 and positive just right of 3. The right branch gives (x-3)/((x-3)(x+3)) = 1/(x+3) → 1/6; the left branch picks up a minus sign and gives -1/6. Different one-sided limits, so DNE.\n\nWhen the inside does NOT change sign at the limit point — say lim x→1 |x - 5| — the absolute value is locally just one branch (here 5 - x, since x - 5 < 0 near 1), and the limit is ordinary substitution: 4. Check the sign first; sometimes the bars are decoration.",
+        "key_terms": [
+          [
+            "Absolute value definition",
+            "|u| = u for u ≥ 0 and |u| = -u for u < 0 — always rewrite before taking limits"
+          ],
+          [
+            "Sign function behavior",
+            "|x|/x equals +1 for positive x and -1 for negative x, the model jump discontinuity"
+          ],
+          [
+            "Sign-change point",
+            "The x-value where the expression inside the bars crosses zero — the only place |·| creates a seam"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "If a limit involves |expression| and the limit point makes that expression zero, expect one-sided disagreement and check both branches. If the expression is NOT zero there, the bars are harmless — substitute and move on. That one check routes you to the right amount of work."
+          ]
+        ]
+      },
+      {
+        "title": "The Existence Criterion and Infinite One-Sided Limits",
+        "subtitle": "Putting the pieces together",
+        "body": "The fundamental theorem of this chapter: lim x→a f(x) = L if and only if lim x→a⁻ f(x) = L AND lim x→a⁺ f(x) = L. Both sides must exist, and they must agree. Every DNE verdict you will ever justify traces back to a violation of one of those clauses.\n\nAt vertical asymptotes, one-sided limits become the precision instrument. Consider f(x) = 1/(x - 2). From the right, x - 2 is a tiny positive number, so f(x) → +∞. From the left, x - 2 is tiny and negative, so f(x) → -∞. The one-sided infinite limits describe the asymptote's geometry exactly: the curve rockets up on one side and plunges on the other.\n\nSign analysis generalizes: to evaluate lim x→a⁺ of a k/0 form, determine the sign of the expression for x slightly greater than a (test a nearby value or track each factor's sign). Positive means +∞, negative means -∞. Note that 1/(x - 2)^2 behaves differently: the square forces positivity on both sides, so both one-sided limits are +∞, and some textbooks write lim x→2 f(x) = ∞ as a two-sided description of that shared unbounded behavior.\n\nThis completes the limit-existence picture from Chapter 1. Jump: sides disagree. Unbounded: a side is infinite. Oscillation: a side fails to settle at all. One-sided language is what lets you say precisely which failure occurred — and exam justifications are graded on exactly that precision.",
+        "key_terms": [
+          [
+            "Existence criterion",
+            "A two-sided limit exists iff both one-sided limits exist and are equal"
+          ],
+          [
+            "Infinite one-sided limit",
+            "Notation like lim x→a⁺ f(x) = ∞ describing unbounded growth from one side"
+          ],
+          [
+            "Sign analysis",
+            "Determining +∞ vs -∞ for a k/0 form by checking the expression's sign on the relevant side"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When justifying that a limit does not exist, name the mechanism: \"because lim x→2⁻ f(x) = 4 but lim x→2⁺ f(x) = 7\" scores; a bare \"DNE\" often does not. The one-sided values ARE the justification."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "Let f(x) = x^2 + 1 for x < 2 and f(x) = 6 - x for x ≥ 2. What is lim x→2 f(x)?",
+          "choices": {
+            "A": "4",
+            "B": "5",
+            "C": "Does not exist",
+            "D": "2"
+          },
+          "answer": "C",
+          "explanation": "Left: 2^2 + 1 = 5. Right: 6 - 2 = 4. The one-sided limits disagree (5 ≠ 4), so the two-sided limit does not exist."
+        },
+        {
+          "question": "What is lim x→7⁻ |x - 7|/(x - 7)?",
+          "choices": {
+            "A": "1",
+            "B": "-1",
+            "C": "0",
+            "D": "Does not exist"
+          },
+          "answer": "B",
+          "explanation": "For x < 7, x - 7 < 0, so |x - 7| = -(x - 7) and the ratio is -1 throughout the left neighborhood."
+        },
+        {
+          "question": "g(x) = (x^2 - 4)/(x - 2) for x ≠ 2 and g(2) = 7. Which statement is true?",
+          "choices": {
+            "A": "lim x→2 g(x) = 7",
+            "B": "lim x→2 g(x) = 4 and g is discontinuous at 2",
+            "C": "lim x→2 g(x) does not exist",
+            "D": "g is continuous at 2"
+          },
+          "answer": "B",
+          "explanation": "Away from 2 the formula simplifies to x + 2, so the limit is 4 from both sides. Since g(2) = 7 ≠ 4, the discontinuity is removable but real."
+        },
+        {
+          "question": "What is lim x→3⁻ (x + 1)/(x - 3)?",
+          "choices": {
+            "A": "+∞",
+            "B": "-∞",
+            "C": "4",
+            "D": "0"
+          },
+          "answer": "B",
+          "explanation": "Substitution gives 4/0, a k/0 form. Just left of 3, the numerator is near +4 and (x - 3) is small negative, so the quotient is large negative: -∞."
+        },
+        {
+          "question": "For what value of k does lim x→1 f(x) exist, where f(x) = kx^2 for x < 1 and f(x) = 3x - k for x ≥ 1?",
+          "choices": {
+            "A": "k = 3/2",
+            "B": "k = -3/2",
+            "C": "k = 3",
+            "D": "No such k exists"
+          },
+          "answer": "A",
+          "explanation": "Left limit: k(1)^2 = k. Right limit: 3(1) - k = 3 - k. The limit exists when k = 3 - k, so 2k = 3 and k = 3/2."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = (|x - 4|)/(x - 4) · (x + 2).\n(a) Simplify f(x) for x > 4 and for x < 4.\n(b) Evaluate lim x→4⁺ f(x) and lim x→4⁻ f(x).\n(c) Does lim x→4 f(x) exist? Justify using your answers to (b).",
+          "rubric": [
+            "For x > 4: |x-4|/(x-4) = 1 so f(x) = x + 2; for x < 4: the ratio is -1 so f(x) = -(x + 2)",
+            "Right-hand limit equals 6",
+            "Left-hand limit equals -6",
+            "Concludes DNE because the one-sided limits are unequal, with explicit comparison"
+          ],
+          "model_answer": "(a) For x > 4, f(x) = x + 2; for x < 4, f(x) = -(x + 2). (b) lim x→4⁺ f(x) = 6; lim x→4⁻ f(x) = -6. (c) No: a two-sided limit requires the one-sided limits to agree, but 6 ≠ -6, so lim x→4 f(x) does not exist."
+        },
+        {
+          "question": "The function g is defined by g(x) = ax + b for x < -1, g(x) = x^2 for -1 ≤ x ≤ 2, and g(x) = ax - b for x > 2, where a and b are constants.\n(a) Write the equation that makes lim x→-1 g(x) exist.\n(b) Write the equation that makes lim x→2 g(x) exist.\n(c) Solve the system to find a and b.",
+          "rubric": [
+            "Seam at -1: -a + b = 1",
+            "Seam at 2: 2a - b = 4",
+            "Solves the system correctly: a = 5, b = 6",
+            "Work shows one-sided limits computed from the correct pieces at each seam"
+          ],
+          "model_answer": "(a) Left limit at -1 is -a + b; right limit is (-1)^2 = 1, so -a + b = 1. (b) Left limit at 2 is 4; right limit is 2a - b, so 2a - b = 4. (c) Adding the equations: a = 5, then b = 6. With a = 5, b = 6 both limits exist."
+        },
+        {
+          "question": "Let h(x) = (x + 3)/((x - 1)^2) and k(x) = (x + 3)/(x - 1).\n(a) Evaluate lim x→1⁻ h(x) and lim x→1⁺ h(x).\n(b) Evaluate lim x→1⁻ k(x) and lim x→1⁺ k(x).\n(c) For each function, state whether writing \"lim x→1 = ∞\" is an accurate description, and explain the difference between the two cases.",
+          "rubric": [
+            "Both one-sided limits of h are +∞ (squared denominator forces positive values)",
+            "k: left-hand limit is -∞, right-hand limit is +∞",
+            "States lim x→1 h(x) = ∞ is an accurate description since both sides agree in unbounded direction",
+            "States that for k no two-sided description applies; the limit simply does not exist, with sides differing in sign"
+          ],
+          "model_answer": "(a) Near 1, the numerator is near 4 and (x-1)^2 > 0 on both sides, so both one-sided limits are +∞. (b) For k, just left of 1 the denominator is negative, giving -∞; just right, positive, giving +∞. (c) For h, both sides blow up the same way, so lim x→1 h(x) = ∞ is a fair description of the shared behavior (though the limit DNE as a finite number). For k the sides disagree even in direction, so no single description exists — the limit DNE, full stop."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Limits and Continuity",
+    "chapter_title": "Squeeze Theorem and Special Trig Limits",
+    "hook": "How do you find the limit of a function you can't simplify, can't factor, and can't even fully compute? You trap it. The Squeeze Theorem wins by making two easier functions do the work — and it unlocks the most famous limit in calculus.",
+    "learning_objectives": [
+      "State the Squeeze Theorem and verify its hypotheses before applying it",
+      "Evaluate limits of bounded-oscillation products like x^2 sin(1/x) by constructing the squeeze",
+      "Recall and apply the special limit lim x→0 sin(x)/x = 1",
+      "Recall and apply the special limit lim x→0 (1 - cos(x))/x = 0",
+      "Manipulate variations such as sin(5x)/(2x) or tan(x)/x into the special-limit templates"
+    ],
+    "sections": [
+      {
+        "title": "The Squeeze Theorem",
+        "subtitle": "Trapped on both sides",
+        "body": "Suppose g(x) ≤ f(x) ≤ h(x) for all x near a (except possibly at a itself), and suppose the two outer functions converge to the same value: lim x→a g(x) = lim x→a h(x) = L. Then f has no choice — lim x→a f(x) = L as well. That is the Squeeze Theorem, also called the Sandwich Theorem: the middle function is pinched between two guards walking to the same spot.\n\nThe theorem's power is that f itself can be ugly — oscillating, unsimplifiable, defined by a formula you cannot evaluate directly — as long as you can cage it between manageable bounds. The hypotheses matter, and the exam checks them: the inequality must hold in a neighborhood of a, and BOTH outer limits must exist and be equal. Two guards heading to different spots pin down nothing.\n\nWhere do the bounds come from? In practice, almost always from the universal inequalities -1 ≤ sin(anything) ≤ 1 and -1 ≤ cos(anything) ≤ 1. Multiply through by a positive quantity to build the cage. The skill being tested is not finding exotic bounds — it is recognizing that a bounded factor times a vanishing factor is a squeeze waiting to happen.",
+        "key_terms": [
+          [
+            "Squeeze Theorem",
+            "If g ≤ f ≤ h near a and lim g = lim h = L, then lim f = L"
+          ],
+          [
+            "Bounded function",
+            "A function whose outputs stay within fixed bounds, like sine and cosine within [-1, 1]"
+          ],
+          [
+            "Hypothesis check",
+            "Verifying the inequality holds near a and that both outer limits agree — required for credit"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When the AP gives you an inequality like 1 - x^2/4 ≤ g(x) ≤ cos(x) and asks for lim x→0 g(x), it is handing you a Squeeze Theorem question. Evaluate both ends (both → 1 here), say they are equal, cite the theorem by name, and conclude. All three sentences are graded."
+          ]
+        ]
+      },
+      {
+        "title": "The Classic Squeeze",
+        "subtitle": "x^2 sin(1/x) and its family",
+        "body": "Recall from Chapter 1 that sin(1/x) has no limit at 0 — it oscillates forever. Now multiply it by x^2 and watch the pathology get cured: f(x) = x^2 sin(1/x). However wildly the sine factor swings, it stays in [-1, 1], so -x^2 ≤ x^2 sin(1/x) ≤ x^2 for every x ≠ 0.\n\nBoth guards converge: lim x→0 (-x^2) = 0 and lim x→0 x^2 = 0. By the Squeeze Theorem, lim x→0 x^2 sin(1/x) = 0. The vanishing envelope x^2 crushes the oscillation. Graphically, the curve wiggles infinitely fast but inside an ever-narrowing parabolic funnel pinched to a point at the origin.\n\nThe construction generalizes: (anything → 0) × (anything bounded) → 0. So x sin(1/x) → 0, x^4 cos(1/x^2) → 0, and √x sin(1/x) → 0 from the right. Contrast with sin(1/x) alone (no vanishing factor — DNE) and with (1/x) sin(x)... which is a different story entirely, headed for the next section.\n\nWrite the squeeze explicitly on free-response questions. The chain -|x| ≤ x sin(1/x) ≤ |x| (using absolute values when x can be negative — multiplying an inequality by a negative number flips it!) shows the grader you respected the theorem's hypotheses rather than waving at \"bounded times zero.\"",
+        "key_terms": [
+          [
+            "Vanishing envelope",
+            "A factor like x^2 that tends to 0 and bounds the entire product inside a shrinking funnel"
+          ],
+          [
+            "Bounded times vanishing",
+            "The product of a bounded function and a function tending to 0 has limit 0 — proved via squeeze"
+          ],
+          [
+            "Inequality flip",
+            "Multiplying an inequality by a negative quantity reverses it; use |x| envelopes to stay safe"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The justification \"sin(1/x) is bounded between -1 and 1, and x^2 → 0, so by the Squeeze Theorem the product → 0\" is the exact sentence pattern graders look for. Memorize the sentence, not just the answer."
+          ]
+        ]
+      },
+      {
+        "title": "The Most Famous Limit in Calculus",
+        "subtitle": "sin(x)/x → 1",
+        "body": "At x = 0, sin(x)/x is a 0/0 form that no amount of factoring will fix — sine is not a polynomial. Yet the limit exists: lim x→0 sin(x)/x = 1 (x in radians). Numerically the evidence is overwhelming: sin(0.1)/0.1 ≈ 0.99833, sin(0.01)/0.01 ≈ 0.9999833. For tiny angles, sin(x) and x are nearly indistinguishable.\n\nThe standard proof is itself a Squeeze Theorem showcase. Comparing areas of a triangle, a circular sector, and a larger triangle in the unit circle produces, for 0 < x < π/2, the inequality cos(x) ≤ sin(x)/x ≤ 1. As x → 0⁺, cos(x) → 1, so the ratio is squeezed to 1; symmetry handles the left side. The geometry explains the radian requirement — sector area formulas assume radian measure, which is why calculus lives in radians forever after.\n\nIts companion limit: lim x→0 (1 - cos(x))/x = 0. Multiply by the conjugate (1 + cos(x)) to get sin^2(x)/(x(1 + cos(x))) = (sin(x)/x) · sin(x)/(1 + cos(x)) → 1 · 0/2 = 0. Worth knowing both the result and that two-line derivation — the conjugate trick from Chapter 2 reappearing on trig turf.\n\nThese two limits are the seeds of Unit 2: the derivative of sin(x) at 0 IS lim h→0 sin(h)/h, and the derivative formulas for all of trigonometry trace back to these two facts. Learn them as permanent equipment, not chapter trivia.",
+        "key_terms": [
+          [
+            "Special limit 1",
+            "lim x→0 sin(x)/x = 1, valid in radian measure"
+          ],
+          [
+            "Special limit 2",
+            "lim x→0 (1 - cos(x))/x = 0, derived from the first via conjugate"
+          ],
+          [
+            "Radian requirement",
+            "Both special limits and all of calculus's trig derivatives assume angles measured in radians"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Calculator in degree mode silently breaks every trig limit and derivative on the exam — sin(x)/x in degrees approaches π/180, not 1. Radian mode is the first thing to check when your calculator section answers look inexplicably wrong."
+          ]
+        ]
+      },
+      {
+        "title": "Stretching the Templates",
+        "subtitle": "sin(5x)/(2x) and friends",
+        "body": "The exam rarely serves sin(x)/x plain. It serves sin(5x)/(2x), tan(3x)/x, sin(x^2)/x, or sin(2x)/sin(7x) — and expects you to bend each into the template lim u→0 sin(u)/u = 1 where u is whatever lives inside the sine.\n\nThe mechanical rule: match the inside. For lim x→0 sin(5x)/(2x), force a 5x downstairs: sin(5x)/(2x) = (5/2) · sin(5x)/(5x). As x → 0, 5x → 0 too, so the ratio → 1 and the limit is 5/2. In general lim x→0 sin(ax)/(bx) = a/b. The coefficient migrates out; the template eats the rest.\n\nTangent variations unpack via tan(u) = sin(u)/cos(u): tan(3x)/x = (sin(3x)/(3x)) · 3 · (1/cos(3x)) → 1 · 3 · 1 = 3. Ratios of sines split into two templates: sin(2x)/sin(7x) = (sin(2x)/(2x)) · (7x/sin(7x)) · (2/7) → 2/7. Every variation is bookkeeping around the same engine.\n\nTwo cautions. First, the template needs its inside going to 0: lim x→π sin(x)/x is NOT a special limit — substitute directly to get 0/π = 0. Second, sin(x^2)/x = x · sin(x^2)/x^2 → 0 · 1 = 0: rewrite until each sine sits over its own inside, then read off what is left. If the insides cannot match, you are probably looking at an ordinary substitution problem wearing a trig costume.",
+        "key_terms": [
+          [
+            "Template matching",
+            "Rewriting so each sin(u) sits over the same u, then applying sin(u)/u → 1"
+          ],
+          [
+            "a/b rule",
+            "lim x→0 sin(ax)/(bx) = a/b, the workhorse result for linear insides"
+          ],
+          [
+            "Inside check",
+            "The special limits apply only when the sine's argument tends to 0 — verify before templating"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Fastest exam check: for small angles sin(u) ≈ u, so sin(5x)/(2x) ≈ 5x/2x = 5/2. This approximation instantly predicts every a/b-type answer — use it to verify your algebra, then write the rigorous template steps for the FRQ."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "If 4 - x^2 ≤ f(x) ≤ 4 + x^2 for all x near 0, what is lim x→0 f(x)?",
+          "choices": {
+            "A": "0",
+            "B": "4",
+            "C": "8",
+            "D": "Cannot be determined"
+          },
+          "answer": "B",
+          "explanation": "Both bounding functions approach 4 as x → 0, so by the Squeeze Theorem f is forced to 4 as well."
+        },
+        {
+          "question": "What is lim x→0 x^4 cos(3/x)?",
+          "choices": {
+            "A": "Does not exist",
+            "B": "3",
+            "C": "0",
+            "D": "1"
+          },
+          "answer": "C",
+          "explanation": "Cosine is bounded: -x^4 ≤ x^4 cos(3/x) ≤ x^4, and both ends go to 0. Bounded times vanishing is 0 by the squeeze."
+        },
+        {
+          "question": "What is lim x→0 sin(7x)/(3x)?",
+          "choices": {
+            "A": "7/3",
+            "B": "3/7",
+            "C": "1",
+            "D": "0"
+          },
+          "answer": "A",
+          "explanation": "Rewrite as (7/3)·sin(7x)/(7x). The template sin(u)/u → 1 with u = 7x gives 7/3."
+        },
+        {
+          "question": "What is lim x→0 (1 - cos(x))/(5x)?",
+          "choices": {
+            "A": "1/5",
+            "B": "0",
+            "C": "1",
+            "D": "5"
+          },
+          "answer": "B",
+          "explanation": "(1/5)·(1 - cos x)/x → (1/5)·0 = 0, using the second special limit."
+        },
+        {
+          "question": "What is lim x→π sin(x)/x?",
+          "choices": {
+            "A": "1",
+            "B": "0",
+            "C": "π",
+            "D": "Does not exist"
+          },
+          "answer": "B",
+          "explanation": "The inside does not approach 0, so this is not the special limit. Direct substitution: sin(π)/π = 0/π = 0."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = x^2 sin(1/x) for x ≠ 0.\n(a) Explain why lim x→0 sin(1/x) does not exist.\n(b) Write a chain of inequalities bounding f(x) near 0.\n(c) Use the Squeeze Theorem to evaluate lim x→0 f(x), citing each hypothesis of the theorem.",
+          "rubric": [
+            "States sin(1/x) oscillates between -1 and 1 infinitely often near 0, never approaching a single value",
+            "Writes -x^2 ≤ x^2 sin(1/x) ≤ x^2 for x ≠ 0",
+            "Evaluates both outer limits as 0",
+            "Cites the Squeeze Theorem and concludes the limit equals 0"
+          ],
+          "model_answer": "(a) As x → 0, 1/x runs through infinitely many periods of sine, so sin(1/x) keeps swinging between -1 and 1 — no single approached value. (b) Since -1 ≤ sin(1/x) ≤ 1 and x^2 > 0, multiplying gives -x^2 ≤ x^2 sin(1/x) ≤ x^2. (c) lim x→0 (-x^2) = 0 and lim x→0 x^2 = 0; the bounds hold for all x ≠ 0 near 0 and the outer limits agree, so by the Squeeze Theorem lim x→0 x^2 sin(1/x) = 0."
+        },
+        {
+          "question": "Evaluate each limit, showing the rewriting that justifies your answer.\n(a) lim x→0 sin(4x)/sin(9x)\n(b) lim x→0 tan(2x)/(5x)\n(c) lim x→0 sin(x^3)/x",
+          "rubric": [
+            "(a) Splits into (sin 4x/4x)·(9x/sin 9x)·(4/9) and evaluates to 4/9",
+            "(b) Uses tan = sin/cos: (sin 2x/2x)·(2/5)·(1/cos 2x) → 2/5",
+            "(c) Writes x^2 · sin(x^3)/x^3 → 0 · 1 = 0",
+            "Each special-limit application notes the inside tends to 0"
+          ],
+          "model_answer": "(a) sin(4x)/sin(9x) = (sin 4x/4x)·(9x/sin 9x)·(4/9) → 1·1·(4/9) = 4/9. (b) tan(2x)/(5x) = (sin 2x)/(2x) · (2/5) · 1/cos(2x) → 1 · 2/5 · 1 = 2/5. (c) sin(x^3)/x = x^2 · sin(x^3)/x^3; as x → 0 the template factor → 1 and x^2 → 0, so the limit is 0."
+        },
+        {
+          "question": "Suppose g satisfies 2x + 1 ≤ g(x) ≤ x^2 + 2 for all x in (0, 3).\n(a) Evaluate lim x→1 g(x) if possible, and justify.\n(b) Explain why the given inequality does NOT determine lim x→2 g(x).\n(c) What additional single piece of information would determine lim x→2 g(x)? Give an example.",
+          "rubric": [
+            "(a) Both bounds equal 3 at x = 1 (limits 3 and 3); cites Squeeze Theorem; concludes 3",
+            "(b) Notes the bounds at x = 2 are 5 and 6, which differ, so the squeeze fails",
+            "(c) Recognizes that tighter bounds agreeing at 2 (or the value of the limit directly) would suffice",
+            "Provides a valid example, e.g. a second inequality pinching g between functions that both → 5"
+          ],
+          "model_answer": "(a) lim x→1 (2x + 1) = 3 and lim x→1 (x^2 + 2) = 3. The bounds agree, so by the Squeeze Theorem lim x→1 g(x) = 3. (b) At x = 2 the lower bound approaches 5 and the upper bound 6; guards arriving at different places pin nothing down, so the theorem does not apply. (c) Any tighter cage whose sides agree at x = 2 — for example, also knowing g(x) ≤ 2x + 1 + (x-1)(x-2)^2 near 2, or simply tightening to bounds that both approach 5 — would force the limit to that common value."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Limits and Continuity",
+    "chapter_title": "Continuity and Types of Discontinuity",
+    "hook": "You already know continuity when you see it — a curve drawn without lifting your pencil. Calculus upgrades that instinct into a three-part test precise enough to grade, and the AP exam grades it constantly.",
+    "learning_objectives": [
+      "State and apply the three-part definition of continuity at a point",
+      "Classify discontinuities as removable, jump, or infinite from formulas and graphs",
+      "Determine continuity on intervals, including one-sided continuity at endpoints",
+      "Find parameter values that make piecewise functions continuous",
+      "Redefine functions to remove removable discontinuities"
+    ],
+    "sections": [
+      {
+        "title": "The Three-Part Test",
+        "subtitle": "What 'no pencil lift' actually means",
+        "body": "A function f is continuous at x = a when three things hold, in order: (1) f(a) exists — the point is actually on the graph; (2) lim x→a f(x) exists — both one-sided limits exist and agree; (3) the two are equal: lim x→a f(x) = f(a). The third condition is the punchline: the value the function approaches is the value it delivers.\n\nEach condition can fail independently, and each failure has a name you will assign in a moment. A hole with no dot fails (1). A jump fails (2). A hole with the dot floating elsewhere passes (1) and (2) but fails (3). Train yourself to check the conditions in order and report the first one that breaks — that is exactly the justification format FRQ graders reward.\n\nMost functions you meet are continuous everywhere they are defined: polynomials on all of ℝ; rational functions, roots, trig, exponentials, and logarithms on their domains. Sums, differences, products, quotients (nonzero denominator), and compositions of continuous functions stay continuous. This 'library of continuous functions' is why substitution computes most limits — continuity is the license for substitution.\n\nThe definition also explains why limits and continuity are taught together: continuity at a is a statement ABOUT a limit. Write the three conditions once at the top of your scratch paper on exam day; half the unit's questions are one of the three conditions wearing a costume.",
+        "key_terms": [
+          [
+            "Continuity at a point",
+            "f(a) exists, lim x→a f(x) exists, and the two are equal"
+          ],
+          [
+            "Library of continuous functions",
+            "Polynomials, rationals, roots, trig, exponentials, logs — continuous on their domains"
+          ],
+          [
+            "License for substitution",
+            "If f is continuous at a, then lim x→a f(x) = f(a) by definition"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "FRQ justifications must cite the definition, not the pencil: 'f is continuous at 2 because lim x→2 f(x) = f(2) = 5' scores the point. 'The graph has no break' does not. Always produce the limit value and the function value and say they match."
+          ]
+        ]
+      },
+      {
+        "title": "A Field Guide to Discontinuities",
+        "subtitle": "Removable, jump, infinite",
+        "body": "Removable discontinuity: the limit exists but condition (1) or (3) fails — a hole, with or without a stray dot. The name is literal: redefine the single value f(a) := lim x→a f(x) and continuity is repaired. Algebraically these arise from canceled common factors, like (x^2 - 1)/(x - 1) at x = 1.\n\nJump discontinuity: both one-sided limits exist but disagree. No single-point repair can fix a jump — the two branches genuinely arrive at different heights. Jumps come from piecewise definitions and absolute-value expressions, the Chapter 3 cast. Note that f(a) may equal either branch or neither; the jump is about the limits, not the dot.\n\nInfinite discontinuity: at least one one-sided limit is ±∞ — a vertical asymptote. Condition (2) fails catastrophically. These come from k/0 forms: denominators vanishing where numerators do not. (A 0/0 point might be a hole OR an asymptote — factor first, then classify by what survives in the denominator.)\n\nOne more case rounds out the taxonomy for the curious: oscillating discontinuities like sin(1/x) at 0, where a one-sided limit fails to exist for neither jump nor infinite reasons. The AP tests the main three; recognize oscillation as 'limit DNE, not a jump, not infinite' if it appears.",
+        "key_terms": [
+          [
+            "Removable discontinuity",
+            "The limit exists but doesn't match f(a) (or f(a) is undefined); fixable by redefining one point"
+          ],
+          [
+            "Jump discontinuity",
+            "One-sided limits exist but differ; arises at piecewise seams; not fixable by one point"
+          ],
+          [
+            "Infinite discontinuity",
+            "A vertical asymptote — at least one one-sided limit is ±∞"
+          ],
+          [
+            "Classification by factoring",
+            "For rational functions: canceled factors give holes, surviving denominator zeros give asymptotes"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "For f(x) = (x-3)(x+1)/((x-3)(x-5)): x = 3 is removable (the factor cancels) but x = 5 is infinite (the factor survives). The exam loves rational functions with one of each — classify per point, never per function."
+          ]
+        ]
+      },
+      {
+        "title": "Continuity on Intervals",
+        "subtitle": "Open, closed, and the endpoint convention",
+        "body": "Continuity on an open interval (a, b) means continuity at every interior point — nothing new. Closed intervals require the endpoint convention: f is continuous on [a, b] when it is continuous on (a, b), right-continuous at a (lim x→a⁺ f(x) = f(a)), and left-continuous at b. Endpoints are judged one-sided because the other side does not exist in the domain.\n\nThis convention is why √x earns the title 'continuous on [0, ∞)': at 0 there is nothing to the left, the right-hand limit is 0, and √0 = 0 — the one-sided check passes. Same logic certifies √(4 - x^2) as continuous on [-2, 2], a semicircle including both endpoints.\n\nWhen an exam question asks for ALL x-values where a function is discontinuous, work the domain first. A rational function is discontinuous exactly at the zeros of its denominator (classify each as hole or asymptote). A piecewise function adds its seams to the suspect list — check the three-part test at each seam. Everything else is covered by the library of continuous functions.\n\nInterval language matters for the big theorems coming next: the Intermediate Value Theorem and, later, the Extreme Value Theorem demand continuity on a CLOSED interval. Knowing precisely what that requires — including the one-sided endpoint checks — is what lets you verify hypotheses instead of hand-waving them.",
+        "key_terms": [
+          [
+            "Continuity on (a, b)",
+            "Continuous at every point strictly between a and b"
+          ],
+          [
+            "Continuity on [a, b]",
+            "Continuous on (a, b), plus right-continuity at a and left-continuity at b"
+          ],
+          [
+            "Endpoint convention",
+            "Domain edges are checked with one-sided limits only"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When listing discontinuities of a rational function, the AP expects you to check the denominator's zeros and ONLY those. Saying 'discontinuous at x = 2 and 5 because the denominator is zero there' plus a hole/asymptote classification is a complete answer."
+          ]
+        ]
+      },
+      {
+        "title": "Engineering Continuity",
+        "subtitle": "Parameters, repairs, and extensions",
+        "body": "The unit's signature FRQ skill: choose constants to make a piecewise function continuous. At each seam, continuity demands left-hand limit = right-hand limit = function value. With one parameter, that is one equation; with two parameters and two seams, a 2×2 system. The calculus is the setup; the algebra is the finish.\n\nExample: f(x) = (x^2 - 16)/(x - 4) for x ≠ 4 and f(4) = c. The limit as x → 4 is 8 (factor and cancel), so continuity needs c = 8 — and with that single choice the removable discontinuity is repaired. This 'continuous extension' idea is exactly why removable discontinuities are called removable.\n\nA twist the exam enjoys: trig pieces. To make f(x) = sin(kx)/x for x ≠ 0, f(0) = 3 continuous at 0, recall the special limit: sin(kx)/x → k. So k = 3. The special limits of Chapter 4 routinely smuggle themselves into continuity problems — recognize the template under the new packaging.\n\nFinally, connect continuity to its consequences. Continuous functions can be evaluated by substitution, are guaranteed intermediate values (next chapter), attain extremes on closed intervals (Unit 5), and are integrable (Unit 6). When a later theorem demands continuity as a hypothesis, this chapter is the checklist you run.",
+        "key_terms": [
+          [
+            "Matching condition",
+            "At each seam: left limit = right limit = f(seam), the equation(s) that determine parameters"
+          ],
+          [
+            "Continuous extension",
+            "Redefining f at a removable discontinuity so the repaired function is continuous"
+          ],
+          [
+            "Hypothesis checking",
+            "Verifying continuity before invoking IVT, EVT, or integrability"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Show all three quantities at a seam — left limit, right limit, function value — even when two are obviously equal. The continuity point on FRQs is awarded for demonstrating the definition, and the fastest way to lose it is silently assuming f(c) equals one of the limits."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "Let f(x) = (x^2 - 9)/(x - 3) for x ≠ 3 and f(3) = 5. Which condition of continuity fails at x = 3?",
+          "choices": {
+            "A": "f(3) does not exist",
+            "B": "The limit does not exist",
+            "C": "The limit exists but does not equal f(3)",
+            "D": "None — f is continuous at 3"
+          },
+          "answer": "C",
+          "explanation": "The limit is 6 (factor and cancel) and f(3) = 5. Conditions (1) and (2) pass; (3) fails since 6 ≠ 5. Removable discontinuity."
+        },
+        {
+          "question": "g(x) = (x + 2)/((x + 2)(x - 7)). The discontinuities of g are best described as",
+          "choices": {
+            "A": "removable at -2, infinite at 7",
+            "B": "infinite at -2, removable at 7",
+            "C": "removable at both",
+            "D": "infinite at both"
+          },
+          "answer": "A",
+          "explanation": "The (x + 2) factor cancels — a hole at x = -2 (limit exists, equals -1/9). The (x - 7) factor survives in the denominator — vertical asymptote at 7."
+        },
+        {
+          "question": "For what value of c is f continuous at x = 2, where f(x) = cx^2 + 1 for x ≤ 2 and f(x) = 4x - c for x > 2?",
+          "choices": {
+            "A": "7/5",
+            "B": "1",
+            "C": "7/3",
+            "D": "3"
+          },
+          "answer": "A",
+          "explanation": "Left value: 4c + 1. Right limit: 8 - c. Continuity: 4c + 1 = 8 - c, so 5c = 7, c = 7/5."
+        },
+        {
+          "question": "Which function is continuous on the closed interval [0, 4]?",
+          "choices": {
+            "A": "f(x) = 1/(x - 2)",
+            "B": "f(x) = √(x - 1)",
+            "C": "f(x) = √(x(4 - x))",
+            "D": "f(x) = (x^2 - 4)/(x - 2)"
+          },
+          "answer": "C",
+          "explanation": "C is defined on all of [0, 4] and continuous, with one-sided continuity at both endpoints. A has an asymptote at 2; B is undefined on [0, 1); D has a hole at 2."
+        },
+        {
+          "question": "To make h(x) = sin(5x)/(2x) for x ≠ 0 continuous at 0, define h(0) =",
+          "choices": {
+            "A": "0",
+            "B": "1",
+            "C": "5/2",
+            "D": "2/5"
+          },
+          "answer": "C",
+          "explanation": "The limit as x → 0 is 5/2 by the special limit template. Continuity requires h(0) to equal the limit."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = (x^2 + x - 12)/(x - 3) for x ≠ 3 and f(3) = k.\n(a) Find lim x→3 f(x).\n(b) Determine the value of k that makes f continuous at x = 3, citing the definition of continuity.\n(c) With your value of k, classify the original discontinuity and explain why the name is appropriate.",
+          "rubric": [
+            "Factors to (x + 4)(x - 3)/(x - 3) and finds the limit equals 7",
+            "Sets k = 7 and states all three continuity conditions hold",
+            "Identifies the discontinuity (for general k ≠ 7) as removable",
+            "Explains 'removable' means repairable by redefining the single value f(3)"
+          ],
+          "model_answer": "(a) f(x) = (x + 4)(x - 3)/(x - 3) = x + 4 for x ≠ 3, so the limit is 7. (b) Continuity at 3 requires f(3) to exist, the limit to exist, and the two to be equal; the limit is 7, so k = 7. (c) The discontinuity is removable: the limit exists, and changing only the single value f(3) to 7 removes it — exactly what the name promises."
+        },
+        {
+          "question": "The function g is defined by g(x) = a x + 3 for x < 1, g(x) = 5 for x = 1, and g(x) = x^2 + b for x > 1.\n(a) Write the conditions required for g to be continuous at x = 1.\n(b) Solve for a and b.\n(c) Suppose instead b is chosen so the right-hand limit is 9. What type of discontinuity results, regardless of a? Explain.",
+          "rubric": [
+            "Conditions: a + 3 = 5 and 1 + b = 5 (both one-sided limits equal g(1) = 5)",
+            "Solves a = 2, b = 4",
+            "With right limit 9 ≠ g(1) = 5: if a + 3 = 9 the limit exists but ≠ 5 (removable-by-redefinition mismatch); otherwise jump",
+            "Explains classification depends on whether one-sided limits agree, and they cannot both equal g(1)"
+          ],
+          "model_answer": "(a) Continuity needs lim x→1⁻ g = lim x→1⁺ g = g(1) = 5: that is, a(1) + 3 = 5 and 1^2 + b = 5. (b) a = 2 and b = 4. (c) With 1 + b = 9, the right-hand limit is 9 while g(1) = 5. If a + 3 = 9 too, the two-sided limit is 9 ≠ 5: the discontinuity is removable (redefine g(1) = 9). If a + 3 ≠ 9 the one-sided limits disagree: a jump. Either way g is discontinuous at 1, since both limits can never match the required value 5 simultaneously with the right limit forced to 9."
+        },
+        {
+          "question": "Consider r(x) = (x^2 - 4)/(x^2 - 2x - 8).\n(a) Find all x-values where r is discontinuous.\n(b) Classify each discontinuity, with algebraic justification.\n(c) Define a new function R(x) that extends r continuously wherever possible, and state the largest set on which R is continuous.",
+          "rubric": [
+            "Denominator zeros: x = 4 and x = -2",
+            "Factors: (x-2)(x+2)/((x-4)(x+2)); x = -2 removable (limit = 0/(-6)... compute: (x-2)/(x-4) at -2 = (-4)/(-6) = 2/3), x = 4 infinite",
+            "Defines R(x) = r(x) for x ∉ {-2, 4} and R(-2) = 2/3",
+            "States R is continuous on ℝ except x = 4 (vertical asymptote cannot be repaired)"
+          ],
+          "model_answer": "(a) The denominator factors as (x - 4)(x + 2), so r is discontinuous at x = 4 and x = -2. (b) Numerator: (x - 2)(x + 2). The (x + 2) cancels, so at x = -2 the limit is (x - 2)/(x - 4) = (-4)/(-6) = 2/3: removable. At x = 4 the reduced denominator still vanishes while the numerator is 2/0 — k/0: infinite discontinuity (vertical asymptote). (c) Let R(x) = (x - 2)/(x - 4) with R(-2) = 2/3 — equivalently r extended by that one value. R is continuous on all reals except x = 4, where no single-point definition can repair unbounded behavior."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Limits and Continuity",
+    "chapter_title": "Intermediate Value Theorem",
+    "hook": "If you were five feet tall in sixth grade and six feet tall now, there was a moment you were exactly 5'7\". Obvious? The Intermediate Value Theorem is that obviousness weaponized — it proves equations have solutions without ever solving them.",
+    "learning_objectives": [
+      "State the Intermediate Value Theorem with all of its hypotheses",
+      "Verify IVT hypotheses explicitly before applying the theorem",
+      "Use the IVT to prove an equation has a root in a given interval",
+      "Apply the IVT to table-based problems to guarantee specific function values",
+      "Identify what the IVT does and does not claim, including its converse's failure"
+    ],
+    "sections": [
+      {
+        "title": "What the Theorem Says",
+        "subtitle": "Continuity means no skipped values",
+        "body": "The Intermediate Value Theorem (IVT): if f is continuous on the closed interval [a, b], and N is any number strictly between f(a) and f(b), then there exists at least one c in (a, b) with f(c) = N. A continuous function cannot get from one height to another without passing through every height in between.\n\nEvery word is load-bearing. Continuous on the CLOSED interval — a single discontinuity gives the function a trapdoor to skip values. Between f(a) and f(b) — the theorem promises nothing about values outside that bracket (though the function may hit them anyway). At least one c — there may be many crossings; IVT guarantees existence, never uniqueness. In (a, b) — the c is strictly inside.\n\nThe theorem is an existence statement, and that is precisely its power and its limitation: it tells you a value is achieved but gives zero information about where. Finding c is your algebra's job; certifying that c exists is the IVT's job. On the AP, the certification IS the answer — many IVT questions never ask for c at all.\n\nIntuition check: why does continuity matter? Picture f(x) = -1 for x < 0 and f(x) = 1 for x ≥ 0. It goes from -1 to 1 but never equals 0 — the jump at the origin skips it. The IVT's hypotheses are exactly what forbid that escape.",
+        "key_terms": [
+          [
+            "Intermediate Value Theorem",
+            "Continuous f on [a, b] attains every value strictly between f(a) and f(b) at some c in (a, b)"
+          ],
+          [
+            "Existence theorem",
+            "Guarantees something exists without locating it"
+          ],
+          [
+            "Load-bearing hypothesis",
+            "Continuity on the closed interval — without it, values can be skipped"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "IVT, EVT, and MVT all require stating hypotheses for full FRQ credit. For IVT the sentence is: 'f is continuous on [a, b], and N is between f(a) and f(b), so by the IVT there exists c in (a, b) with f(c) = N.' Practice writing it verbatim."
+          ]
+        ]
+      },
+      {
+        "title": "Root Hunting",
+        "subtitle": "Proving solutions exist",
+        "body": "The IVT's killer app: proving an equation has a solution. To show f(x) = 0 has a root in (a, b), check that f is continuous on [a, b] and that f(a) and f(b) have opposite signs — then 0 lies between them, and the IVT delivers a c with f(c) = 0.\n\nExample: show x^3 + x - 1 = 0 has a solution between 0 and 1. The function f(x) = x^3 + x - 1 is a polynomial, hence continuous everywhere — hypothesis verified in five words. f(0) = -1 < 0 and f(1) = 1 > 0. Since f is continuous on [0, 1] and 0 is between -1 and 1, the IVT guarantees a c in (0, 1) with f(c) = 0. Three sentences, full credit, no solving required.\n\nEquations that are not set to zero first: to show g(x) = 5 has a solution, either apply the IVT directly with N = 5, or define h(x) = g(x) - 5 and hunt a root of h. Both are accepted; the h-trick keeps every problem in the familiar sign-change format.\n\nBisection pushes the idea further: once a root is trapped in (0, 1), test the midpoint f(0.5) and keep the half with the sign change. Each test halves the interval — this is how calculators actually locate roots, and the exam occasionally asks which smaller interval must contain the root after evaluating a midpoint.",
+        "key_terms": [
+          [
+            "Sign change",
+            "f(a) and f(b) with opposite signs puts 0 between them — the standard IVT setup for roots"
+          ],
+          [
+            "Auxiliary function",
+            "Rewriting g(x) = N as h(x) = g(x) - N = 0 to convert any target value into a root hunt"
+          ],
+          [
+            "Bisection",
+            "Repeatedly halving a sign-change interval to trap a root with increasing precision"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The phrase 'must there exist' is IVT bait. 'Must f(c) = 4 for some c in (1, 3)?' — check continuity, check whether 4 is between f(1) and f(3), and answer with the theorem. If 4 is NOT between them, the answer is 'not guaranteed' — never 'no.'"
+          ]
+        ]
+      },
+      {
+        "title": "IVT from Tables",
+        "subtitle": "The exam's favorite delivery format",
+        "body": "Table problems hand you selected values of a function announced to be continuous, then ask what the IVT forces. Suppose f is continuous with f(1) = 4, f(3) = -2, f(5) = 7. Between x = 1 and 3, every value in (-2, 4) is attained; between 3 and 5, everything in (-2, 7). So f(c) = 0 must happen at least twice — once in each interval, since 0 sits inside both brackets.\n\nThe word 'guarantee' is doing the work. The function might equal 0 ten more times — the table cannot rule behavior in or out between sample points. The IVT gives the floor: the minimum number of crossings consistent with the data. Counting that minimum (one crossing per tabulated sign change) is a recurring multiple-choice question.\n\nWhat tables can NEVER prove: a maximum value, where the function is increasing, or that f stays between its tabulated values. Between samples, a continuous function can do anything continuous — spike to a million and return. Every guarantee must route through f's announced continuity plus an intermediate value argument; anything else is an unwarranted assumption about unseen behavior.\n\nOne nuance: IVT applies between each adjacent PAIR of table entries, because [1, 3] and [3, 5] are each closed intervals where the hypotheses hold. Chaining the conclusions interval by interval is the correct way to handle longer tables, and it is exactly how the multi-crossing count above worked.",
+        "key_terms": [
+          [
+            "Guarantee",
+            "The minimum behavior the IVT forces from the data — a floor, not a census"
+          ],
+          [
+            "Sign-change count",
+            "Each adjacent pair of opposite-sign table values forces at least one root in that subinterval"
+          ],
+          [
+            "Unseen behavior",
+            "Whatever happens between sample points — unconstrained except by continuity"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Continuous' in the problem stem is not decoration — it is the hypothesis that activates the IVT, and quoting it is part of the answer. If a table problem does NOT announce continuity, the IVT guarantees nothing, and 'cannot be determined' becomes a serious candidate answer."
+          ]
+        ]
+      },
+      {
+        "title": "What the IVT Does Not Say",
+        "subtitle": "Converse traps and boundary fine print",
+        "body": "The IVT's converse is false, and the exam knows it. A function CAN hit every intermediate value while being discontinuous — pathologies like sin(1/x) extended through 0 hit every value in [-1, 1] on every neighborhood of 0, with no continuity. So 'f attains all intermediate values' does not certify continuity. Logic direction matters: continuity ⟹ intermediate values, never the reverse.\n\nStrictness fine print: N must be strictly between f(a) and f(b). If f(a) = f(b), no N qualifies, and the IVT says precisely nothing (the function still might be constant or might swing wildly — no information). If the target equals an endpoint value, the theorem as stated does not apply, though the endpoint itself witnesses the value.\n\nUniqueness is never on offer. f(x) = sin(x) on [0, 5π] goes from 0 to 0 crossing height 1/2 five times. To get uniqueness you need IVT plus monotonicity — 'f is continuous and strictly increasing, so the root is unique' — a combination that becomes available with derivatives in Unit 5 and is a genuine FRQ pattern there.\n\nFinally, the IVT needs BOTH hypotheses simultaneously: continuity AND a closed bracketed interval. Continuity on (a, b) with a limit blowing up at an endpoint, or continuity on a union of intervals dodging a discontinuity, voids the guarantee. When an exam answer choice says 'the IVT does not apply,' check the hypotheses — that choice is correct more often than students expect.",
+        "key_terms": [
+          [
+            "False converse",
+            "Attaining intermediate values does not imply continuity"
+          ],
+          [
+            "Strictly between",
+            "The IVT's N excludes the endpoint values f(a) and f(b)"
+          ],
+          [
+            "IVT + monotonicity",
+            "The standard upgrade that converts 'at least one' into 'exactly one'"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'At least one,' 'exactly one,' and 'at most one' are three different exam questions. IVT alone answers the first. The second needs IVT plus increasing/decreasing. The third needs monotonicity alone. Match the tool to the phrase before writing."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "f is continuous on [2, 6] with f(2) = -3 and f(6) = 9. Which value must f attain on (2, 6)?",
+          "choices": {
+            "A": "10",
+            "B": "0",
+            "C": "-5",
+            "D": "All of these"
+          },
+          "answer": "B",
+          "explanation": "The IVT guarantees every value strictly between -3 and 9. Only 0 lies in that range; 10 and -5 are outside and not guaranteed."
+        },
+        {
+          "question": "g(x) = x^3 - 4x + 1. By the IVT, which interval(s) must contain a root of g?",
+          "choices": {
+            "A": "(0, 1) only",
+            "B": "(1, 2) only",
+            "C": "Both (0, 1) and (1, 2)",
+            "D": "Neither"
+          },
+          "answer": "C",
+          "explanation": "g is continuous (polynomial). g(0) = 1, g(1) = -2, g(2) = 1: sign changes on (0, 1) AND on (1, 2), so the IVT forces a root inside each interval."
+        },
+        {
+          "question": "A continuous function h has values h(0) = 5, h(2) = -1, h(4) = 3, h(6) = -4. What is the minimum number of zeros h must have on (0, 6)?",
+          "choices": {
+            "A": "1",
+            "B": "2",
+            "C": "3",
+            "D": "4"
+          },
+          "answer": "C",
+          "explanation": "Sign changes occur on (0,2), (2,4), and (4,6) — three changes, so at least three zeros. The actual count could be higher, but three is the guaranteed minimum."
+        },
+        {
+          "question": "f is continuous on [1, 5] with f(1) = 2 and f(5) = 2. Which statement must be true?",
+          "choices": {
+            "A": "f has a zero in (1, 5)",
+            "B": "f attains the value 3 in (1, 5)",
+            "C": "f(x) = 0 has at most one solution in (1, 5)",
+            "D": "None of the above must be true"
+          },
+          "answer": "D",
+          "explanation": "With f(1) = f(5) = 2, no value is strictly between the endpoint values, so the IVT guarantees nothing. The constant function f(x) = 2 defeats A and B, while a function dipping below zero and returning defeats C. None is forced."
+        },
+        {
+          "question": "Which hypothesis failure makes the IVT inapplicable to f(x) = 1/(x - 3) on [1, 5] for the target value 0?",
+          "choices": {
+            "A": "f(1) and f(5) are not of opposite sign",
+            "B": "f is not continuous on [1, 5]",
+            "C": "0 is not between f(1) and f(5)",
+            "D": "The interval is not closed"
+          },
+          "answer": "B",
+          "explanation": "f has an infinite discontinuity at x = 3 inside the interval, so the continuity hypothesis fails. (In fact f(1) = -1/2 and f(5) = 1/2 do bracket 0, yet f never equals 0 — showing exactly why the hypothesis matters.)"
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = x^3 + 2x^2 - 5.\n(a) Show that the equation f(x) = 0 has a solution in the interval (1, 2). State the theorem you use and verify its hypotheses.\n(b) After computing f(1.5) = 2.875, state the smaller interval that must contain a root.\n(c) Explain why the IVT cannot tell you the exact value of the root.",
+          "rubric": [
+            "States f is a polynomial, hence continuous on [1, 2]",
+            "Computes f(1) = -2 < 0 and f(2) = 11 > 0 and notes 0 is between them; cites IVT for c in (1, 2)",
+            "Sign change now between f(1) < 0 and f(1.5) > 0: root in (1, 1.5)",
+            "Explains IVT is an existence theorem — it asserts a c exists but provides no construction"
+          ],
+          "model_answer": "(a) f is a polynomial, so continuous everywhere, in particular on [1, 2]. f(1) = 1 + 2 - 5 = -2 and f(2) = 8 + 8 - 5 = 11. Since f is continuous on [1, 2] and 0 lies between -2 and 11, the IVT gives c in (1, 2) with f(c) = 0. (b) f(1) < 0 < f(1.5), so by the same argument the root lies in (1, 1.5). (c) The IVT only asserts existence: continuity forbids skipping values, but the theorem contains no mechanism for locating c — narrowing requires further evaluations, as in (b)."
+        },
+        {
+          "question": "A continuous function g satisfies the table: g(0) = 8, g(1) = 3, g(2) = -2, g(3) = 0, g(4) = -5.\n(a) What is the minimum number of solutions to g(x) = 1 on [0, 4]? Justify with the IVT.\n(b) Must g attain the value 10 somewhere on [0, 4]? Explain.\n(c) A student claims g is decreasing on [0, 2] because g(0) > g(1) > g(2). Explain the flaw.",
+          "rubric": [
+            "Checks each adjacent pair and finds 1 is bracketed only by g(1) = 3 and g(2) = -2; concludes at least one solution, on (1, 2)",
+            "10 is not between any adjacent pair (max tabulated is 8), so not guaranteed — though possible",
+            "Notes the table only samples g; between samples g could rise and fall",
+            "Cites that decreasing-ness is a claim about all pairs of points, unverifiable from finitely many values"
+          ],
+          "model_answer": "(a) On [1, 2], g goes from 3 to -2 and is continuous, with 1 strictly between; the IVT forces at least one c in (1, 2) with g(c) = 1. No other adjacent pair brackets 1, so the guaranteed minimum is 1. (b) No. The IVT only forces values between tabulated endpoints pairwise, and 10 exceeds every tabulated value. g might attain 10 between samples, but nothing requires it. (c) The table shows three decreasing sample values, but g is only sampled at integers — between them, a continuous g could oscillate up and down repeatedly. Monotonicity cannot be concluded from finitely many points."
+        },
+        {
+          "question": "Define f(x) = 1/x for x ≠ 0 with f(0) = 0, on the interval [-1, 1].\n(a) Compute f(-1) and f(1), and note whether 1/2 lies between them.\n(b) Determine whether f(c) = 1/2 has a solution in (-1, 1).\n(c) Reconcile (a) and (b) with the IVT — why is there no contradiction?",
+          "rubric": [
+            "f(-1) = -1, f(1) = 1, and 1/2 is strictly between them",
+            "Solves 1/x = 1/2 → x = 2, outside (-1, 1); checks f(0) = 0 ≠ 1/2: no solution in the interval",
+            "Identifies that f is discontinuous at 0 (infinite discontinuity)",
+            "Concludes the IVT's continuity hypothesis fails, so its conclusion is not guaranteed — no contradiction"
+          ],
+          "model_answer": "(a) f(-1) = -1 and f(1) = 1; the value 1/2 is strictly between. (b) For x ≠ 0, f(x) = 1/2 forces x = 2, which is outside (-1, 1); and f(0) = 0. So f never equals 1/2 on (-1, 1). (c) The IVT requires continuity on the whole closed interval. f has an infinite discontinuity at 0 ∈ [-1, 1], so the theorem does not apply, and its conclusion may fail — exactly what happens. The example shows the continuity hypothesis is essential, not decorative."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Limits and Continuity",
+    "chapter_title": "Limits at Infinity and Asymptotic Behavior",
+    "hook": "Zoom out far enough and every function shows its true character: some flatten toward a ceiling, some grow without bound, some keep oscillating forever. Limits at infinity are calculus's telescope — and they decide every horizontal asymptote you'll ever find.",
+    "learning_objectives": [
+      "Evaluate limits as x → ∞ and x → -∞ for rational functions using dominant terms",
+      "Connect limits at infinity to horizontal asymptotes of graphs",
+      "Apply the three-case rule comparing degrees of numerator and denominator",
+      "Handle radical expressions at infinity, including the √(x^2) = |x| sign trap",
+      "Rank growth rates of logarithmic, polynomial, and exponential functions"
+    ],
+    "sections": [
+      {
+        "title": "End Behavior as a Limit",
+        "subtitle": "What happens way out there",
+        "body": "The notation lim x→∞ f(x) = L means: as x grows without bound, f(x) gets arbitrarily close to L and stays close. There is no point called infinity to plug in — the limit describes a trend. Likewise lim x→-∞ tracks behavior far to the left. These are called limits at infinity, distinct from the infinite limits of earlier chapters (which described unbounded OUTPUTS near a finite input).\n\nThe foundation stone: lim x→∞ 1/x = 0, and more generally 1/x^p → 0 for any p > 0. Dividing by something enormous yields something tiny. Every technique in this chapter is a scheme for rewriting functions so this one fact can finish the job.\n\nWhen f(x) → L as x → ∞, the horizontal line y = L is a horizontal asymptote of the graph. Check both directions separately: a function has at most two horizontal asymptotes, one for each end. f(x) = arctan(x) genuinely has two — y = π/2 to the right, y = -π/2 to the left — and e^x has one (y = 0 leftward; rightward it grows without bound).\n\nA limit at infinity can also be infinite — lim x→∞ x^2 = ∞ says the outputs outgrow every bound — or fail to exist entirely, as for sin(x), which oscillates forever without settling. Same trichotomy as always: settle, blow up, or wander.",
+        "key_terms": [
+          [
+            "Limit at infinity",
+            "The value f(x) approaches as x → ∞ or x → -∞ — end behavior made precise"
+          ],
+          [
+            "Horizontal asymptote",
+            "The line y = L when lim x→±∞ f(x) = L; at most one per direction"
+          ],
+          [
+            "Reciprocal power fact",
+            "1/x^p → 0 as x → ∞ for every p > 0 — the engine behind all the algebra"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Graphs may CROSS horizontal asymptotes — asymptotes describe end behavior, not forbidden territory. f(x) = sin(x)/x crosses y = 0 infinitely often. Only vertical asymptotes are uncrossable (a function value there doesn't exist)."
+          ]
+        ]
+      },
+      {
+        "title": "Rational Functions and the Degree Rule",
+        "subtitle": "Three cases that settle everything",
+        "body": "For ratios of polynomials, end behavior is a contest between leading terms, and the contest has exactly three outcomes. Degrees equal: the limit is the ratio of leading coefficients. Denominator degree higher: the limit is 0. Numerator degree higher: the limit is ±∞ (sign determined by the leading terms; no horizontal asymptote).\n\nWhy it works: divide every term by the highest power of x in the denominator. In (3x^2 + 5x)/(2x^2 - 7), dividing by x^2 gives (3 + 5/x)/(2 - 7/x^2). Every fraction with x downstairs dies as x → ∞, leaving 3/2. Writing this division out is the rigorous version; reading off leading coefficients is the exam-speed version. Know both.\n\nWhen the numerator wins, polynomial division reveals more structure: (x^2 + 1)/(x - 1) = x + 1 + 2/(x - 1), so the graph hugs the slant asymptote y = x + 1 at both ends. Slant (oblique) asymptotes occur exactly when the numerator's degree exceeds the denominator's by one — a BC-flavored detail that strengthens curve analysis in Unit 5.\n\nDominance reasoning extends beyond polynomials: as x → ∞, the biggest power rules, so x^3 - 100x^2 → ∞ (the cube eventually crushes the huge-looking middle term). Internalize 'eventually' — end behavior is about the long run, and coefficients only matter within the same degree.",
+        "key_terms": [
+          [
+            "Degree rule",
+            "Equal degrees: ratio of leading coefficients. Bottom-heavy: 0. Top-heavy: ±∞"
+          ],
+          [
+            "Dominant term",
+            "The highest-degree term, which controls a polynomial's end behavior outright"
+          ],
+          [
+            "Slant asymptote",
+            "The line a top-heavy-by-one rational function approaches, found by polynomial division"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Check x → ∞ and x → -∞ separately when the answer is ±∞: (x^3)/(x^2 + 1) → ∞ rightward but -∞ leftward. Multiple-choice traps routinely offer the right magnitude with the wrong sign for the leftward limit."
+          ]
+        ]
+      },
+      {
+        "title": "Radicals at Infinity",
+        "subtitle": "The |x| trap",
+        "body": "Square roots at infinity hide a sign subtlety that decides exam answers: √(x^2) equals |x|, not x. For x → ∞ that distinction is invisible (|x| = x), but for x → -∞ it flips signs — and the second horizontal asymptote comes out negative.\n\nWorked carefully: lim x→-∞ √(4x^2 + x)/(x). Factor inside the root: √(x^2(4 + 1/x)) = |x|√(4 + 1/x). For negative x, |x| = -x. The expression becomes -x√(4 + 1/x)/x = -√(4 + 1/x) → -2. The same function has limit +2 as x → +∞: two asymptotes, y = 2 and y = -2, exactly the hyperbola-like shape the algebra predicts.\n\nThe other radical classic: differences like √(x^2 + 3x) - x, an ∞ - ∞ indeterminate form. Multiply by the conjugate over itself: ((x^2 + 3x) - x^2)/(√(x^2 + 3x) + x) = 3x/(√(x^2 + 3x) + x). Now divide through by x (positive, since x → ∞): 3/(√(1 + 3/x) + 1) → 3/2. The conjugate converts a subtraction of giants into a controlled ratio.\n\nGeneral procedure for any radical at infinity: pull the dominant power out of the root (minding |x|), cancel, and let reciprocal powers vanish. Sign discipline at the |x| step is the entire difficulty — slow down precisely there.",
+        "key_terms": [
+          [
+            "√(x^2) = |x|",
+            "The identity that forces sign care when x → -∞"
+          ],
+          [
+            "∞ - ∞ form",
+            "An indeterminate difference of unbounded terms, typically resolved by conjugate multiplication"
+          ],
+          [
+            "Dominant-power extraction",
+            "Factoring the largest power out of a radical: √(x^2(4 + 1/x)) = |x|√(4 + 1/x)"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Any limit as x → -∞ that involves √ should trigger an automatic |x| = -x annotation in your work. Graders look for it, and skipping it almost always yields the famous wrong answer of +2 where -2 is correct (or vice versa)."
+          ]
+        ]
+      },
+      {
+        "title": "The Growth Hierarchy",
+        "subtitle": "Logs crawl, polynomials walk, exponentials fly",
+        "body": "When different function families compete at infinity, degree counting no longer applies — you need the growth hierarchy: logarithms grow slower than every positive power of x, and every polynomial grows slower than any exponential with base greater than 1. In symbols: ln(x) ≪ x^p ≪ b^x for any p > 0, b > 1.\n\nConsequences worth memorizing as limits: ln(x)/x^p → 0; x^n/e^x → 0 for every fixed n; conversely e^x/x^100 → ∞. The polynomial x^100 starts ahead for small x — by a lot — but e^x doubles every fixed step while a polynomial's percentage growth keeps shrinking. 'Eventually' belongs to the exponential, always.\n\nThese facts preview L'Hospital's Rule (Unit 4), which proves them by differentiating: each derivative knocks a power off x^n while leaving e^x untouched, so n rounds of L'Hospital end the contest. For now, use the hierarchy as known results — the AP permits citing them directly for limits like lim x→∞ x^2 e^{-x} = 0.\n\nThe hierarchy also calibrates intuition for series convergence in Unit 10: terms shrinking exponentially are summable, terms shrinking like 1/x are not — end behavior at infinity is the through-line connecting this first unit to the course's final one. File the hierarchy somewhere permanent.",
+        "key_terms": [
+          [
+            "Growth hierarchy",
+            "ln x ≪ x^p ≪ b^x (p > 0, b > 1) as x → ∞"
+          ],
+          [
+            "Eventually dominates",
+            "Wins for all sufficiently large x, regardless of early lead or coefficients"
+          ],
+          [
+            "Exponential decay",
+            "Products like x^n e^{-x} → 0: decay beats polynomial growth"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "lim x→∞ x^n/e^x = 0 may be cited as a known fact on the AP — no L'Hospital required. Recognizing 'polynomial over exponential → 0' on sight saves a multi-step computation in both multiple choice and FRQ work."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "What is lim x→∞ (5x^3 - 2x + 1)/(3x^3 + 7x^2)?",
+          "choices": {
+            "A": "0",
+            "B": "5/3",
+            "C": "∞",
+            "D": "5/7"
+          },
+          "answer": "B",
+          "explanation": "Degrees are equal (3 and 3), so the limit is the ratio of leading coefficients: 5/3."
+        },
+        {
+          "question": "How many horizontal asymptotes does f(x) = (3x)/√(x^2 + 4) have?",
+          "choices": {
+            "A": "0",
+            "B": "1",
+            "C": "2",
+            "D": "3"
+          },
+          "answer": "C",
+          "explanation": "As x → ∞, f → 3; as x → -∞, the |x| flip gives f → -3. Two asymptotes: y = 3 and y = -3."
+        },
+        {
+          "question": "What is lim x→∞ (√(x^2 + 6x) - x)?",
+          "choices": {
+            "A": "0",
+            "B": "3",
+            "C": "6",
+            "D": "∞"
+          },
+          "answer": "B",
+          "explanation": "Conjugate: 6x/(√(x^2 + 6x) + x) = 6/(√(1 + 6/x) + 1) → 6/2 = 3."
+        },
+        {
+          "question": "What is lim x→∞ (x^5 + 2^x)/(3 · 2^x)?",
+          "choices": {
+            "A": "1/3",
+            "B": "∞",
+            "C": "0",
+            "D": "5/3"
+          },
+          "answer": "A",
+          "explanation": "Exponentials dominate polynomials: divide by 2^x to get (x^5/2^x + 1)/3 → (0 + 1)/3 = 1/3."
+        },
+        {
+          "question": "Which function has the line y = 0 as a horizontal asymptote in both directions?",
+          "choices": {
+            "A": "f(x) = e^x",
+            "B": "f(x) = x/(x^2 + 1)",
+            "C": "f(x) = (x^2 + 1)/x",
+            "D": "f(x) = arctan(x)"
+          },
+          "answer": "B",
+          "explanation": "Bottom-heavy rational function: degree 1 over degree 2 → 0 at both ends. e^x only flattens leftward; C has a slant asymptote; arctan flattens to ±π/2."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = (6x^2 - x)/(2x^2 + 5) and g(x) = (6x^2 - x)/(2x + 5).\n(a) Find all horizontal asymptotes of f, with limit computations.\n(b) Explain why g has no horizontal asymptote, and describe its end behavior.\n(c) g has a slant asymptote. Find it by polynomial division.",
+          "rubric": [
+            "Divides by x^2 (or cites degree rule): both limits equal 3; asymptote y = 3 in both directions",
+            "Notes numerator degree exceeds denominator degree, so g → ±∞; states g → ∞ as x → ∞ and -∞ as x → -∞",
+            "Performs division: (6x^2 - x) ÷ (2x + 5) = 3x - 8 remainder 40, i.e. g(x) = 3x - 8 + 40/(2x + 5)",
+            "Identifies the slant asymptote y = 3x - 8"
+          ],
+          "model_answer": "(a) Dividing numerator and denominator by x^2: (6 - 1/x)/(2 + 5/x^2) → 6/2 = 3 as x → ±∞. The single horizontal asymptote is y = 3 (both directions). (b) For g the numerator's degree (2) exceeds the denominator's (1), so |g(x)| → ∞ at both ends — no horizontal asymptote. Leading behavior 6x^2/(2x) = 3x gives g → ∞ rightward and g → -∞ leftward. (c) Division: 6x^2 - x = (2x + 5)(3x - 8) + 40, so g(x) = 3x - 8 + 40/(2x + 5). Since 40/(2x + 5) → 0, the slant asymptote is y = 3x - 8."
+        },
+        {
+          "question": "Evaluate each limit with supporting work.\n(a) lim x→-∞ (2x + 1)/√(x^2 + x)\n(b) lim x→∞ (√(9x^2 + 2x) - 3x)\n(c) lim x→∞ (ln x)/(x^{0.01})",
+          "rubric": [
+            "(a) Extracts |x| = -x for x → -∞: limit equals -2",
+            "(b) Conjugate method: 2x/(√(9x^2+2x) + 3x) = 2/(√(9+2/x) + 3) → 2/6 = 1/3",
+            "(c) Cites the growth hierarchy: ln x grows slower than any positive power, so the limit is 0",
+            "Sign work at the |x| step is explicit in (a)"
+          ],
+          "model_answer": "(a) √(x^2 + x) = |x|√(1 + 1/x) = -x√(1 + 1/x) for x < 0. The ratio becomes (2x + 1)/(-x√(1 + 1/x)) = (2 + 1/x)/(-√(1 + 1/x)) → 2/(-1) = -2. (b) Multiply by the conjugate: (9x^2 + 2x - 9x^2)/(√(9x^2 + 2x) + 3x) = 2x/(√(9x^2 + 2x) + 3x) = 2/(√(9 + 2/x) + 3) → 2/(3 + 3) = 1/3. (c) By the growth hierarchy, ln x is eventually smaller than any positive power of x, so (ln x)/x^{0.01} → 0."
+        },
+        {
+          "question": "A population model is P(t) = 5000/(1 + 9e^{-0.4t}) for t ≥ 0 (a logistic curve, previewing Unit 7).\n(a) Find P(0) and interpret it.\n(b) Evaluate lim t→∞ P(t) and interpret the result.\n(c) Does P have a horizontal asymptote as t → -∞ if the model were extended to all real t? Find the limit.",
+          "rubric": [
+            "P(0) = 5000/10 = 500: initial population",
+            "As t → ∞, e^{-0.4t} → 0, so P → 5000: the carrying capacity",
+            "As t → -∞, e^{-0.4t} → ∞, so the denominator blows up and P → 0",
+            "Interprets y = 5000 and y = 0 as the two horizontal asymptotes of the extended curve"
+          ],
+          "model_answer": "(a) P(0) = 5000/(1 + 9) = 500 — the starting population. (b) e^{-0.4t} → 0 as t → ∞, so P(t) → 5000/1 = 5000. The population levels off at 5000, the carrying capacity; y = 5000 is a horizontal asymptote. (c) As t → -∞, e^{-0.4t} grows without bound, making the denominator infinite, so P → 0. Extended to all reals, the curve has two horizontal asymptotes, y = 0 (left) and y = 5000 (right) — the classic logistic S-shape."
+        }
+      ]
+    }
+  }
+]

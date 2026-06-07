@@ -1,0 +1,1451 @@
+[
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Analytical Applications of Differentiation",
+    "chapter_title": "Mean Value Theorem and Rolle's Theorem",
+    "hook": "If you average 60 mph over a trip, at some instant your speedometer read exactly 60 — guaranteed, provable, no exceptions. The Mean Value Theorem turns that certainty into the most-cited theorem on the AP exam, and graders check its hypotheses like passport control.",
+    "learning_objectives": [
+      "State Rolle's Theorem and the Mean Value Theorem with full hypotheses",
+      "Verify continuity and differentiability hypotheses explicitly before applying either theorem",
+      "Find the guaranteed c-values for given functions and intervals",
+      "Apply the MVT to real contexts: speed enforcement, table-based guarantees",
+      "Recognize hypothesis failures and construct or identify counterexamples"
+    ],
+    "sections": [
+      {
+        "title": "Rolle's Theorem",
+        "subtitle": "Equal ends force a flat spot",
+        "body": "Rolle's Theorem: if f is continuous on [a, b], differentiable on (a, b), and f(a) = f(b), then there exists at least one c in (a, b) with f'(c) = 0. A smooth curve that starts and ends at the same height must have a horizontal tangent somewhere in between — it either rises and comes back (a peak) or dips and returns (a valley) or stays flat (everywhere horizontal).\n\nEach hypothesis earns its keep through counterexamples. Drop continuity: a function that jumps back to its start can avoid flat tangents. Drop differentiability: |x| on [-1, 1] has equal endpoint values but its only candidate flat spot is the corner at 0, where no derivative exists — the V never flattens. Drop equal endpoints: a straight ramp has no horizontal tangent. Three hypotheses, three counterexamples; the AP tests this correspondence directly.\n\nThe proof sketch is worth one read: a continuous function on a closed interval attains a maximum and minimum (the Extreme Value Theorem, next chapter). If both extremes occur at the endpoints, f is constant — every interior point works. Otherwise, an interior extreme exists, and interior extremes of differentiable functions have f' = 0 (Fermat's observation, also next chapter). Rolle is the bridge between those two facts.\n\nWhere Rolle works on the exam: 'show f'(c) = 0 for some c' problems, counting zeros of derivatives, and as the engine inside the MVT's proof. Pattern: verify the three hypotheses BY NAME, conclude with the theorem BY NAME, and report the interval where c lives.",
+        "key_terms": [
+          [
+            "Rolle's Theorem",
+            "Continuous on [a,b], differentiable on (a,b), f(a) = f(b) ⟹ some c with f'(c) = 0"
+          ],
+          [
+            "Hypothesis counterexamples",
+            "|x| (corner), jump functions, ramps — each kills one hypothesis and the conclusion"
+          ],
+          [
+            "By-name protocol",
+            "Verify each hypothesis explicitly, cite the theorem explicitly — the grading standard"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Rolle and MVT justifications must name BOTH smoothness hypotheses: 'f is continuous on [1, 5] and differentiable on (1, 5).' Polynomials get the one-line certificate 'f is a polynomial, hence continuous and differentiable everywhere' — memorize that sentence; it appears in nearly every Unit 5 FRQ."
+          ]
+        ]
+      },
+      {
+        "title": "The Mean Value Theorem",
+        "subtitle": "Somewhere, the instant matches the average",
+        "body": "The Mean Value Theorem (MVT): if f is continuous on [a, b] and differentiable on (a, b), then some c in (a, b) satisfies f'(c) = (f(b) - f(a))/(b - a). In words: the instantaneous rate somewhere equals the average rate overall. Geometrically: some tangent line is parallel to the secant through the endpoints.\n\nMVT is Rolle tilted. Subtract the secant line from f and the difference function has equal endpoint values (both zero) — Rolle applies, and the flat spot of the difference is exactly where f's tangent matches the secant's slope. Tilt Rolle's flat conclusion and you get MVT's parallel conclusion; the two theorems are one fact in two postures.\n\nFinding the guaranteed c is a standard computation: for f(x) = x³ - 3x on [0, 3], the secant slope is (18 - 0)/3 = 6. Solve f'(c) = 6: 3c² - 3 = 6, c² = 3, c = √3 (the negative root lies outside the interval — discard it and SAY so). Answer: c = √3, in (0, 3). The discard step is graded; interval membership is part of the conclusion.\n\nNote what MVT does NOT say: it does not locate c, does not promise uniqueness, and says nothing if the hypotheses fail. Like the IVT, it is an existence theorem — and the pair (IVT for values, MVT for rates) covers the AP's 'must there exist' questions almost completely: values between outputs route through IVT; rates between or equal to average rates route through MVT.",
+        "key_terms": [
+          [
+            "Mean Value Theorem",
+            "Smooth on the interval ⟹ some c where f'(c) equals the average rate of change"
+          ],
+          [
+            "Secant-tangent parallelism",
+            "The geometric reading: a tangent parallel to the endpoint secant"
+          ],
+          [
+            "c-hunt protocol",
+            "Compute the secant slope, solve f'(c) = it, discard roots outside (a, b) explicitly"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Must there exist a c with f'(c) = 4?' — compute the average rate first. If it equals 4 and the smoothness hypotheses hold, MVT says yes. If the average is NOT 4, the answer may still be yes via other reasoning (IVT on f', if f' is known continuous) — but MVT alone won't deliver it. Match the tool to the number."
+          ]
+        ]
+      },
+      {
+        "title": "MVT in the Wild",
+        "subtitle": "Speeding tickets and table guarantees",
+        "body": "The famous application: a car passes two toll cameras 30 miles apart, 24 minutes (0.4 hours) apart. Average speed: 75 mph. If the limit is 65, the MVT convicts: position is continuous and differentiable (cars don't teleport), so at some instant the speedometer read exactly 75 — over the limit, ticket justified. Several jurisdictions actually enforce this way; the calculus is airtight.\n\nTable-based MVT: given a differentiable f with f(2) = 10 and f(6) = 30, some c in (2, 6) has f'(c) = 5. The exam stacks these — 'must there be a c in (1, 9) where f'(c) = 0?' — answered by finding two table entries with EQUAL values (Rolle through those points) or by applying MVT on subintervals and reasoning from the average rates. Differentiability hypotheses come from the stem ('f is differentiable on...'); cite them.\n\nMVT also powers comparative bounds — the exam's sleeper question type: if f(0) = 3 and f'(x) ≤ 2 for all x, how large can f(5) be? By MVT on [0, 5], (f(5) - 3)/5 = f'(c) ≤ 2, so f(5) ≤ 13. Derivative bounds become function bounds through the theorem; no integration needed. The reverse direction (at least how big?) uses a lower bound on f' identically.\n\nA hidden assumption to surface: applying MVT between table entries treats f as smooth BETWEEN samples — which the stem's 'differentiable' grants. Without that word, no guarantee survives. The discipline of checking who grants what, built through IVT and inverse functions, continues to pay.",
+        "key_terms": [
+          [
+            "Speed-camera argument",
+            "Average speed over the limit ⟹ instantaneous speed over the limit somewhere (MVT)"
+          ],
+          [
+            "Equal-entries Rolle",
+            "Two equal table values + differentiability ⟹ f' = 0 between them"
+          ],
+          [
+            "Bound propagation",
+            "f' ≤ M on [a,b] ⟹ f(b) ≤ f(a) + M(b - a) — derivative bounds become value bounds"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Bound-propagation questions ('what is the maximum possible value of f(5)?') are MVT in disguise and appear on BC exams regularly. The three-line answer: MVT gives (f(5) - f(0))/5 = f'(c); f'(c) ≤ 2; solve. Recognize the disguise and the question is routine."
+          ]
+        ]
+      },
+      {
+        "title": "Hypothesis Forensics",
+        "subtitle": "When theorems don't apply",
+        "body": "The exam tests hypothesis failure as often as application. f(x) = 1/x on [-1, 1]: f(-1) = -1, f(1) = 1, average rate 1 — yet f'(x) = -1/x² is NEGATIVE everywhere it exists. No c matches. No contradiction: f is discontinuous at 0, inside the interval; MVT never promised anything. Spotting the failed hypothesis IS the answer to such problems.\n\nf(x) = |x| on [-1, 2]: continuous everywhere, but not differentiable at 0 ∈ (-1, 2). Here the average rate is (2 - 1)/3 = 1/3, while f' takes only the values ±1 wherever it exists — never 1/3, so the MVT's conclusion genuinely fails. One interior corner is enough to void the warranty. The hypotheses are not legal boilerplate; they are load-bearing.\n\nThe corrected instinct: when asked 'does the MVT apply?', check continuity on the CLOSED interval, differentiability on the OPEN interval — endpoints may be corner-free zones — and answer with the specific failure or the specific certification. 'Does not apply because f is not differentiable at x = 0, which is in (-1, 2)' is a complete, full-credit answer.\n\nForensics extends to converse abuse: f'(c) equaling the average rate at some c does NOT certify the hypotheses held (plenty of broken functions accidentally satisfy the conclusion). Like IVT's false converse, the implication runs one way. Theorems are one-way streets, and the exam's 'which must be true' questions are built on students driving them backward.",
+        "key_terms": [
+          [
+            "Failure forensics",
+            "Identify the specific broken hypothesis and its location — that IS the answer"
+          ],
+          [
+            "Interior corner veto",
+            "One non-differentiable interior point voids MVT, even with continuity everywhere"
+          ],
+          [
+            "One-way street",
+            "The conclusion holding accidentally does not resurrect failed hypotheses"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "For 'does MVT apply?' questions, the answer template is: 'No — f is not [continuous/differentiable] at x = [point], which lies in the interval.' Name the property AND the point. Vague answers ('f isn't smooth enough') earn nothing."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "f(x) = x² - 4x + 1 on [0, 4]. The c guaranteed by Rolle's Theorem is",
+          "choices": {
+            "A": "2",
+            "B": "1",
+            "C": "0",
+            "D": "Rolle does not apply"
+          },
+          "answer": "A",
+          "explanation": "f(0) = f(4) = 1, polynomial smoothness holds: f'(c) = 2c - 4 = 0 gives c = 2."
+        },
+        {
+          "question": "f(x) = x³ on [0, 2]. The c guaranteed by the MVT satisfies",
+          "choices": {
+            "A": "c = 2/√3",
+            "B": "c = √2",
+            "C": "c = 4/3",
+            "D": "c = 1"
+          },
+          "answer": "A",
+          "explanation": "Average rate: 8/2 = 4. Solve 3c² = 4: c = 2/√3 ≈ 1.155, inside (0, 2)."
+        },
+        {
+          "question": "A trucker's logbook shows 140 miles covered in 2 hours on a highway with a 65 mph limit. The MVT guarantees",
+          "choices": {
+            "A": "the truck's speed was exactly 70 mph at some instant",
+            "B": "the truck always exceeded 65 mph",
+            "C": "the truck's average speed equals its final speed",
+            "D": "nothing, since speed varies"
+          },
+          "answer": "A",
+          "explanation": "Average speed 70 mph; position is continuous and differentiable, so some instant's speedometer read exactly 70 — incidentally proving a violation."
+        },
+        {
+          "question": "For f(x) = |x - 1| on [0, 3], the MVT conclusion fails because",
+          "choices": {
+            "A": "f is not continuous on [0, 3]",
+            "B": "f is not differentiable at x = 1, which is in (0, 3)",
+            "C": "f(0) ≠ f(3)",
+            "D": "the average rate of change is zero"
+          },
+          "answer": "B",
+          "explanation": "The corner at x = 1 sits inside the open interval, voiding the differentiability hypothesis. (Continuity holds; equal endpoints are Rolle's requirement, not MVT's.)"
+        },
+        {
+          "question": "f is differentiable everywhere with f(1) = 5 and f'(x) ≤ 3 for all x. The largest possible value of f(4) is",
+          "choices": {
+            "A": "14",
+            "B": "9",
+            "C": "12",
+            "D": "8"
+          },
+          "answer": "A",
+          "explanation": "MVT: (f(4) - 5)/3 = f'(c) ≤ 3, so f(4) ≤ 5 + 9 = 14."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = x³ - 6x² + 9x + 2 on the interval [0, 4].\n(a) Verify that the hypotheses of the Mean Value Theorem hold, and compute the average rate of change of f on [0, 4].\n(b) Find all values of c guaranteed by the MVT.\n(c) Separately, verify that Rolle's Theorem applies to f on [1, 3], and find its guaranteed c.",
+          "rubric": [
+            "(a) Polynomial ⟹ continuous on [0,4], differentiable on (0,4); average rate = (f(4) - f(0))/4 = (6 - 2)/4 = 1",
+            "(b) f'(c) = 3c² - 12c + 9 = 1 → 3c² - 12c + 8 = 0 → c = (12 ± √48)/6 = 2 ± 2√3/3; both in (0, 4)",
+            "(c) Evaluates f(1) = 6 and f(3) = 2; since they are unequal, identifies that Rolle's equal-endpoint hypothesis fails on [1, 3]",
+            "Correct handling of the discard/verification logic in each part"
+          ],
+          "model_answer": "(a) f is a polynomial, hence continuous on [0, 4] and differentiable on (0, 4). f(0) = 2, f(4) = 64 - 96 + 36 + 2 = 6: average rate = (6 - 2)/4 = 1. (b) Solve 3c² - 12c + 9 = 1: 3c² - 12c + 8 = 0, c = (12 ± √(144 - 96))/6 = 2 ± (2√3)/3 ≈ 0.845 and 3.155 — both inside (0, 4), so both are guaranteed values. (c) Check the endpoint values: f(1) = 1 - 6 + 9 + 2 = 6 and f(3) = 27 - 54 + 27 + 2 = 2. Since f(1) ≠ f(3), Rolle's equal-endpoint hypothesis fails on [1, 3] and the theorem does not apply there. (MVT still applies, with average rate (2 - 6)/2 = -2.)"
+        },
+        {
+          "question": "A differentiable function g satisfies the table: g(0) = 4, g(2) = 10, g(5) = 10, g(8) = -2.\n(a) Must there exist a c in (0, 8) with g'(c) = 0? Justify with the appropriate theorem.\n(b) Must there exist a c in (0, 8) with g'(c) = -4? Justify.\n(c) Can g'(x) > 0 for all x in (5, 8)? Explain.",
+          "rubric": [
+            "(a) Yes: g(2) = g(5) = 10 with g differentiable ⟹ Rolle on [2, 5] gives c in (2, 5) ⊂ (0, 8)",
+            "(b) Yes: MVT on [5, 8] gives average rate (-2 - 10)/3 = -4, so some c in (5, 8) has g'(c) = -4",
+            "(c) No: by MVT the average rate on (5,8) is -4 < 0, so g' takes a negative value there",
+            "Hypotheses (differentiable, hence continuous) cited in each part"
+          ],
+          "model_answer": "(a) Yes. g is differentiable (hence continuous), and g(2) = g(5) = 10. By Rolle's Theorem on [2, 5], some c in (2, 5) has g'(c) = 0 — and (2, 5) ⊂ (0, 8). (b) Yes. By the MVT on [5, 8]: some c in (5, 8) satisfies g'(c) = (g(8) - g(5))/(8 - 5) = (-2 - 10)/3 = -4. (c) No. Part (b) produced a point in (5, 8) where g' = -4 < 0, so g' cannot be positive throughout that interval — the function must fall on net from 10 to -2, and the MVT pins an instant of negative rate."
+        },
+        {
+          "question": "Let f(x) = x^{2/3} on the interval [-8, 8].\n(a) Show that f(-8) = f(8), and compute f'(x) where it exists.\n(b) Show that there is NO c in (-8, 8) with f'(c) = 0.\n(c) Reconcile (a) and (b) with Rolle's Theorem — why is there no contradiction?",
+          "rubric": [
+            "(a) f(±8) = 4; f'(x) = (2/3)x^{-1/3} for x ≠ 0",
+            "(b) f'(x) = 2/(3x^{1/3}) is never zero (numerator constant 2)",
+            "(c) f is not differentiable at x = 0 (cusp), which lies in (-8, 8)",
+            "Concludes Rolle's differentiability hypothesis fails, so its conclusion is not guaranteed"
+          ],
+          "model_answer": "(a) f(-8) = (-8)^{2/3} = 4 and f(8) = 4 — equal. For x ≠ 0, f'(x) = (2/3)x^{-1/3}. (b) f'(x) = 2/(3x^{1/3}) has constant numerator 2, so it never equals zero anywhere it exists. (c) Rolle's Theorem requires differentiability on the whole open interval, but f has a cusp at x = 0 ∈ (-8, 8) (one-sided difference quotients blow up to opposite infinities). With a failed hypothesis, the theorem promises nothing — equal endpoints without a flat tangent is perfectly consistent, and f's V-like cusp at the origin is exactly the shape that does it."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Analytical Applications of Differentiation",
+    "chapter_title": "Extreme Value Theorem and Critical Points",
+    "hook": "Optimization starts with a hunting license: where CAN a maximum hide? The answer — only at critical points or endpoints — shrinks an infinite search to a short list you can check by hand. This chapter issues the license.",
+    "learning_objectives": [
+      "State the Extreme Value Theorem and the role of its closed-interval hypothesis",
+      "Define critical points: f'(c) = 0 or f'(c) undefined, with c in the domain",
+      "Find all critical points across polynomial, rational, radical, and trig functions",
+      "Execute the closed-interval (candidates) test for absolute extrema",
+      "Distinguish critical points from extrema — the location list versus the verdicts"
+    ],
+    "sections": [
+      {
+        "title": "The Extreme Value Theorem",
+        "subtitle": "Closed and continuous means extremes exist",
+        "body": "The Extreme Value Theorem (EVT): a function continuous on a CLOSED interval [a, b] attains an absolute maximum and an absolute minimum on that interval. Existence, guaranteed — before any computation, you know the search has a quarry. Like IVT and MVT, the theorem is silent about WHERE; it only rules out the hunt being futile.\n\nBoth hypotheses are load-bearing. Open intervals lose the guarantee: f(x) = 1/x on (0, 1) climbs without bound (no max) and slides toward 1 without reaching it (no min attained). Discontinuity loses it too: a function jumping just below its would-be peak never attains a maximum. The standard counterexample pair — open interval, jump discontinuity — answers every 'why closed? why continuous?' exam prompt.\n\nEVT's role in the architecture: it powers Rolle (whose proof needed extremes to exist), it justifies the closed-interval test (the section after next), and it underwrites every applied optimization that ends '...so the maximum exists and equals the largest candidate.' The theorem rarely stars in its own question; it is cited in the supporting role constantly.\n\nThe statement's precision matters on multiple choice: EVT promises the extreme VALUES are attained at points of the interval — possibly at endpoints, possibly at several points, possibly with max = min (constant functions). What it never promises: interior locations, uniqueness, or anything off a closed interval.",
+        "key_terms": [
+          [
+            "Extreme Value Theorem",
+            "Continuous on [a, b] ⟹ absolute max and min are attained on [a, b]"
+          ],
+          [
+            "Counterexample pair",
+            "Open interval (1/x on (0,1)) and a jump function — each kills one hypothesis"
+          ],
+          [
+            "Supporting-role theorem",
+            "EVT certifies existence so the candidates test's comparison is decisive"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "EVT applies to closed intervals ONLY. 'Find the absolute maximum of f on (0, ∞)' carries no EVT guarantee — such problems need limit analysis at the open ends to confirm the interior candidate wins. Check the interval's brackets before assuming extremes exist."
+          ]
+        ]
+      },
+      {
+        "title": "Critical Points",
+        "subtitle": "Where extremes are allowed to happen",
+        "body": "A critical point of f is an interior domain point c where f'(c) = 0 OR f'(c) does not exist. Fermat's theorem supplies the why: if f has a local extreme at an interior point where f is differentiable, then f'(c) = 0 — a nonzero slope means the function is actively rising or falling through c, so c cannot be a peak or valley. Add the points where f' fails to exist (corners, cusps, vertical tangents — extremes can hide there too, as |x|'s minimum at its corner shows), and the list of POSSIBLE interior extreme locations is complete.\n\nFinding critical points is a two-part hunt: solve f'(x) = 0, and separately list domain points where f' is undefined. For f(x) = x^{2/3}(x - 5) = x^{5/3} - 5x^{2/3}: f'(x) = (5/3)x^{2/3} - (10/3)x^{-1/3} = (5/3)x^{-1/3}(x - 2). Zero at x = 2; undefined at x = 0 (which IS in f's domain). Two critical points, two different species — and forgetting the undefined-derivative species is the classic omission.\n\nDomain membership is non-negotiable: f(x) = 1/x has f'(x) = -1/x², undefined at 0 — but 0 is not in f's domain, so it is NOT a critical point (it is a vertical asymptote, a different beast). The checklist: c must be in the domain of f, and f'(c) must be zero or nonexistent.\n\nVocabulary precision for the exam: critical points are CANDIDATES, not winners. f(x) = x³ has a critical point at 0 (f' = 3x² = 0) but no extreme there — the curve pauses and continues rising. The next two chapters build the verdict machinery (first and second derivative tests); this chapter only assembles the suspect list.",
+        "key_terms": [
+          [
+            "Critical point",
+            "Interior domain point with f'(c) = 0 or f'(c) undefined"
+          ],
+          [
+            "Fermat's theorem",
+            "Interior extremes of differentiable functions occur only where f' = 0"
+          ],
+          [
+            "Candidates, not winners",
+            "x³ at 0: critical point, no extreme — tests come later"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The two-species hunt is graded: 'find all critical points' answers missing the f'-undefined points (cusps of x^{2/3}-type functions) lose half the credit. Any function with fractional exponents or absolute values should trigger the undefined-derivative check."
+          ]
+        ]
+      },
+      {
+        "title": "The Closed-Interval Test",
+        "subtitle": "Candidates, evaluate, compare",
+        "body": "For absolute extrema of a continuous f on [a, b], the candidates test: (1) find all critical points in (a, b); (2) evaluate f at each critical point AND at both endpoints; (3) the largest value is the absolute max, the smallest the absolute min. EVT guarantees winners exist; Fermat guarantees no interior point outside the list can win; the comparison crowns them.\n\nWorked: f(x) = x³ - 12x on [0, 3]. f'(x) = 3x² - 12 = 0 at x = ±2; only 2 lies in (0, 3). Evaluate: f(0) = 0, f(2) = -16, f(3) = -9. Absolute max 0 (at x = 0), absolute min -16 (at x = 2). Note the max landed on an ENDPOINT — endpoints win often, and forgetting to evaluate them is the test's most common fumble.\n\nAnswer-reporting precision: 'the absolute maximum VALUE is 0, attained at x = 0.' Exam questions ask for the value, the location, or both — read which. A table presentation (x-candidates in one column, f-values in the next) is self-organizing, grader-friendly, and prevents the evaluate-the-wrong-function slip of plugging candidates into f' instead of f.\n\nThe test needs NO derivative-sign analysis, no concavity, no classification machinery — brute comparison wins on closed intervals. Save the fancier tests for open intervals and local questions where comparison lists don't close. Matching method to question type — closed-interval test here, derivative tests there — is itself a tested skill.",
+        "key_terms": [
+          [
+            "Candidates test",
+            "Critical points + endpoints, evaluate f at each, compare — done"
+          ],
+          [
+            "Endpoint vigilance",
+            "Endpoints win frequently; they are mandatory candidates"
+          ],
+          [
+            "Evaluate f, not f'",
+            "The comparison runs on FUNCTION values; plugging into f' is the classic slip"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Present the candidates test as a small table: candidate x | f(x). The table format guarantees you evaluated the right function at every candidate and lets the grader award points at a glance. Free organization, free accuracy."
+          ]
+        ]
+      },
+      {
+        "title": "Local versus Absolute",
+        "subtitle": "Two questions, two toolkits",
+        "body": "Absolute (global) extremes are champions over the WHOLE domain or interval; local (relative) extremes are champions of a neighborhood — the peaks and valleys of the landscape, whether or not they are the highest peak or lowest valley. Every interior absolute extreme is local, but local extremes are usually not absolute. The distinction routes method selection: absolute on a closed interval → candidates test; local anywhere → derivative-sign tests (next chapters).\n\nEndpoint subtlety: by the AP's convention, endpoints CAN host absolute extremes (the candidates test includes them) and are generally not classified as local extremes — local-ness requires an open neighborhood inside the domain on both sides. Exam questions avoid punishing this edge case, but the candidates test's inclusion of endpoints is exactly how absolute questions stay safe.\n\nReading questions for the routing keywords: 'absolute maximum on [1, 5]' → candidates test. 'Relative minimum' → first/second derivative test. 'Maximum value of f' with no interval — check whether the domain is naturally closed or whether limit analysis at infinity is needed. The keyword-to-method map prevents the standard mismatch errors (running sign analysis when comparison suffices, or comparing endpoint values when the question wanted a local classification).\n\nThe unit ahead, mapped from here: Chapter 3 classifies critical points by f's increasing/decreasing pattern (first derivative test); Chapter 4 classifies by concavity (second derivative test); Chapter 5 assembles full curve sketches; Chapter 6 optimizes applied quantities — where the candidates list and the classification tests do their real work. The suspect list from this chapter feeds everything.",
+        "key_terms": [
+          [
+            "Absolute vs local",
+            "Whole-interval champion versus neighborhood champion"
+          ],
+          [
+            "Method routing",
+            "Closed-interval absolute → candidates test; local classification → derivative tests"
+          ],
+          [
+            "Endpoint convention",
+            "Endpoints join absolute comparisons; local extremes live at interior points"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Absolute' + closed interval = candidates test, no sign charts needed. 'Relative/local' = sign analysis, no endpoint comparison needed. Mixing the toolkits wastes exam minutes — the question's adjective picks the tool."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "The critical points of f(x) = x³ - 3x² - 9x + 1 are",
+          "choices": {
+            "A": "x = -1 and x = 3",
+            "B": "x = 1 and x = -3",
+            "C": "x = 0 only",
+            "D": "x = -1, 0, and 3"
+          },
+          "answer": "A",
+          "explanation": "f'(x) = 3x² - 6x - 9 = 3(x - 3)(x + 1) = 0 at x = -1, 3; f' exists everywhere."
+        },
+        {
+          "question": "f(x) = x^{2/3} has a critical point at x = 0 because",
+          "choices": {
+            "A": "f'(0) = 0",
+            "B": "f'(0) does not exist and 0 is in the domain",
+            "C": "f(0) = 0",
+            "D": "the graph crosses the x-axis there"
+          },
+          "answer": "B",
+          "explanation": "f'(x) = (2/3)x^{-1/3} blows up at 0, but f(0) = 0 is defined — the undefined-derivative species of critical point (a cusp)."
+        },
+        {
+          "question": "The absolute maximum of f(x) = x³ - 3x on [0, 2] is",
+          "choices": {
+            "A": "2",
+            "B": "0",
+            "C": "-2",
+            "D": "1"
+          },
+          "answer": "A",
+          "explanation": "Critical point in (0,2): x = 1 (f' = 3x² - 3). Candidates: f(0) = 0, f(1) = -2, f(2) = 2. Largest: 2."
+        },
+        {
+          "question": "Which function fails to attain an absolute maximum on the given set?",
+          "choices": {
+            "A": "f(x) = x² on [-1, 2]",
+            "B": "f(x) = sin x on [0, 2π]",
+            "C": "f(x) = 1/(1 - x) on [0, 1)",
+            "D": "f(x) = |x| on [-2, 2]"
+          },
+          "answer": "C",
+          "explanation": "On [0, 1), f grows without bound as x → 1⁻ — the interval isn't closed, so EVT doesn't apply and no max is attained."
+        },
+        {
+          "question": "f'(c) = 0 at an interior point c. Which statement MUST be true?",
+          "choices": {
+            "A": "f has a local extreme at c",
+            "B": "c is a critical point of f",
+            "C": "f has an absolute extreme at c",
+            "D": "f changes direction at c"
+          },
+          "answer": "B",
+          "explanation": "Zero derivative makes c a critical point by definition — but only a candidate: x³ at 0 shows the extreme and direction-change claims can fail."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = x⁴ - 8x² + 3 on the interval [-1, 3].\n(a) Find all critical points of f in the open interval (-1, 3).\n(b) Apply the candidates test to find the absolute maximum and minimum values of f on [-1, 3], presenting your evaluations in a table.\n(c) State where each absolute extreme is attained, and identify which candidates were critical points versus endpoints.",
+          "rubric": [
+            "(a) f' = 4x³ - 16x = 4x(x - 2)(x + 2); in (-1, 3): x = 0 and x = 2",
+            "(b) Table: f(-1) = -4, f(0) = 3, f(2) = -13, f(3) = 12",
+            "(c) Absolute max 12 at x = 3 (endpoint); absolute min -13 at x = 2 (critical point)",
+            "Discards x = -2 as outside the interval, explicitly"
+          ],
+          "model_answer": "(a) f'(x) = 4x³ - 16x = 4x(x² - 4) = 4x(x - 2)(x + 2). Zeros: x = -2, 0, 2; only x = 0 and x = 2 lie in (-1, 3) (x = -2 is outside — discarded). (b) Candidates table: x = -1: f = 1 - 8 + 3 = -4; x = 0: f = 3; x = 2: f = 16 - 32 + 3 = -13; x = 3: f = 81 - 72 + 3 = 12. (c) The absolute maximum value is 12, attained at the endpoint x = 3; the absolute minimum value is -13, attained at the critical point x = 2. (EVT guaranteed both exist: f is a polynomial, continuous on the closed interval.)"
+        },
+        {
+          "question": "Let g(x) = x^{2/3}(x - 5), defined for all real x.\n(a) Show that g'(x) = (5/3)x^{-1/3}(x - 2), and find all critical points of g.\n(b) Find the absolute extremes of g on [-1, 8] using the candidates test.\n(c) One of your critical points is a cusp. Identify it, and explain how a point with no derivative can still host an extreme.",
+          "rubric": [
+            "(a) Product/power computation to the given form; critical points x = 2 (zero) and x = 0 (undefined, in domain)",
+            "(b) Candidates: g(-1) = -6, g(0) = 0, g(2) = 2^{2/3}(-3) ≈ -4.76, g(8) = 4·3 = 12",
+            "Absolute max 12 at x = 8; absolute min -6 at x = -1",
+            "(c) x = 0 is the cusp; extremes need only a neighborhood comparison, not a slope — |x|'s corner-minimum analogy"
+          ],
+          "model_answer": "(a) g(x) = x^{5/3} - 5x^{2/3}, so g'(x) = (5/3)x^{2/3} - (10/3)x^{-1/3} = (5/3)x^{-1/3}(x - 2). Critical points: g' = 0 at x = 2; g' undefined at x = 0, which is in g's domain — both are critical points. (b) Candidates: g(-1) = (1)(-6) = -6; g(0) = 0; g(2) = 2^{2/3}(-3) ≈ -4.762; g(8) = 4(3) = 12. Absolute maximum 12 at x = 8 (endpoint); absolute minimum -6 at x = -1 (endpoint). (c) The cusp is x = 0: one-sided slopes blow up oppositely. An extreme is a statement about VALUES — g(0) ≥ g(x) nearby or not — and needs no tangent line. The function |x| has its minimum at a corner for the same reason; smoothness is sufficient machinery for FINDING extremes, never a prerequisite for HAVING them."
+        },
+        {
+          "question": "A function h is continuous on [0, 10] with h'(x) = (x - 3)²(x - 7) for 0 < x < 10.\n(a) Find all critical points of h in (0, 10).\n(b) Without evaluating h, determine which critical point(s) could host a local extreme, by examining the sign of h' on each side. (A full classification chapter follows; use sign reasoning directly.)\n(c) Where must the absolute minimum of h on [0, 10] occur? Justify using your sign analysis and the candidates principle.",
+          "rubric": [
+            "(a) h' = 0 at x = 3 and x = 7",
+            "(b) (x-3)² ≥ 0 always: h' sign is the sign of (x - 7): negative on (0,3)∪(3,7), positive on (7,10); only x = 7 has a sign change",
+            "(c) h decreases on (0, 7), increases on (7, 10): minimum at x = 7",
+            "Justification: endpoints are higher (h falls to 7 and rises after), so the interior sign-change point wins"
+          ],
+          "model_answer": "(a) h'(x) = (x - 3)²(x - 7) = 0 at x = 3 and x = 7 — both in (0, 10), both critical points. (b) The factor (x - 3)² is nonnegative, so the sign of h' matches the sign of (x - 7): h' < 0 on (0, 3) and (3, 7); h' > 0 on (7, 10). At x = 3 there is NO sign change (negative on both sides) — no extreme; at x = 7 the sign flips from − to +: a local minimum candidate confirmed. (c) h decreases across (0, 7) (the touch-and-continue at 3 notwithstanding) and increases on (7, 10). So h(7) is below every other value: h(0) > h(7) and h(10) > h(7). The absolute minimum on [0, 10] occurs at x = 7."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Analytical Applications of Differentiation",
+    "chapter_title": "First Derivative Test and Function Behavior",
+    "hook": "A sign chart of f' is an X-ray of f: where the derivative is positive the function climbs, where negative it falls, and every sign flip marks a peak or a valley. One chart, drawn once, answers half the questions on any Unit 5 free response.",
+    "learning_objectives": [
+      "Determine intervals of increase and decrease from the sign of f'",
+      "Construct accurate sign charts using critical points as boundaries",
+      "Apply the First Derivative Test to classify critical points",
+      "Write interval-and-sign justifications in the AP's graded format",
+      "Analyze functions given f' as a graph or formula without knowing f"
+    ],
+    "sections": [
+      {
+        "title": "Increasing, Decreasing, and the Sign of f'",
+        "subtitle": "The fundamental correspondence",
+        "body": "If f' > 0 on an interval, f is increasing there; f' < 0, decreasing. The MVT proves it: for any two points x₁ < x₂ in the interval, f(x₂) - f(x₁) = f'(c)(x₂ - x₁) for some c between them, and a positive f'(c) forces the difference positive. The previous chapter's theorem quietly underwrites this one — the logical chain EVT → Rolle → MVT → increasing/decreasing is the unit's spine.\n\nThe sign of f' can only change where f' is zero or undefined — at critical points (or discontinuities of f). So critical points partition the domain into intervals of constant f'-sign, and ONE test value per interval determines the sign throughout. That is the entire sign-chart algorithm: mark the critical points, test one point per gap, record the signs.\n\nWorked: f(x) = x³ - 3x² - 9x + 4. f'(x) = 3(x² - 2x - 3) = 3(x - 3)(x + 1). Critical points -1, 3 split the line into three intervals. Test x = -2: f' = 3(-5)(-1) > 0. Test 0: 3(-3)(1) < 0. Test 4: 3(1)(5) > 0. Chart: + − +. Conclusion: f increases on (-∞, -1), decreases on (-1, 3), increases on (3, ∞).\n\nInterval-notation care: the AP accepts open or closed interval answers for increasing/decreasing (both conventions appear in textbooks), but consistency and correct boundary identification are graded. The safe standard: report open intervals bounded by the critical points, and never union across a critical point where the sign changes.",
+        "key_terms": [
+          [
+            "Sign correspondence",
+            "f' > 0 ⟹ increasing; f' < 0 ⟹ decreasing — proved by MVT"
+          ],
+          [
+            "Sign-chart algorithm",
+            "Critical points partition; one test value per interval settles each sign"
+          ],
+          [
+            "Boundary discipline",
+            "Signs can flip only at critical points or discontinuities — nowhere else"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Justifications must reference f', not the graph's looks: 'f is increasing on (3, ∞) BECAUSE f'(x) > 0 there.' The because-clause with the derivative's sign is the graded unit; conclusions without it score zero on justification points."
+          ]
+        ]
+      },
+      {
+        "title": "The First Derivative Test",
+        "subtitle": "Sign flips classify critical points",
+        "body": "The First Derivative Test (1DT): at a critical point c, if f' changes from + to −, f has a local MAXIMUM at c (rising then falling — a peak); from − to +, a local MINIMUM (falling then rising — a valley); no sign change, NO extreme (the function pauses and resumes its direction — x³'s flat crossing at 0).\n\nThe test reads straight off the sign chart. From the worked example (+ − + with critical points -1 and 3): at x = -1, + flips to −: local max. At x = 3, − flips to +: local min. The chart built for increasing/decreasing intervals classifies the critical points for free — one artifact, two question types answered, which is why building the chart FIRST is the standing strategy.\n\nThe no-change case is the exam's favorite subtlety, engineered by squared factors: f'(x) = (x - 3)²(x - 7) from last chapter's FRQ has a critical point at 3 with NO extreme (the square keeps f' negative on both sides). Squared factors in f' are flags: expect a touch-without-flip at those roots. Cusps classify too: x^{2/3} has f' undefined at 0, with sign − then + around it — a local minimum at a point with no derivative, the 1DT handling what the (coming) second derivative test cannot.\n\nJustification grammar, graded verbatim: 'f has a local maximum at x = -1 because f' changes sign from positive to negative at x = -1.' The CHANGE language is essential — citing f'(-1) = 0 alone classifies nothing (x³ warns why). State the flip, earn the point.",
+        "key_terms": [
+          [
+            "First Derivative Test",
+            "+→− max; −→+ min; no change, no extreme"
+          ],
+          [
+            "Squared-factor flag",
+            "Even powers in f' mark critical points without sign changes"
+          ],
+          [
+            "Change language",
+            "The justification cites the SIGN CHANGE, never just f'(c) = 0"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The 1DT works at critical points where f' is UNDEFINED (cusps, corners) — places the second derivative test cannot touch. When a function has fractional exponents or absolute values, the 1DT is not just sufficient but mandatory."
+          ]
+        ]
+      },
+      {
+        "title": "Working from f' Alone",
+        "subtitle": "The graph-of-the-derivative genre",
+        "body": "The AP's signature Unit 5 genre: you are shown the GRAPH of f' (not f!) and asked about f. Every question routes through one translation: heights of the f'-graph are slopes of f. Where the f'-graph is ABOVE the axis, f increases. Where the f'-graph CROSSES the axis downward (+ to −), f has a local max. The f'-graph's own peaks and valleys are NOT extremes of f — they will matter next chapter (they mark inflection points of f).\n\nThe discipline is resisting the reflex to treat the displayed curve as f. Students who annotate the printout — writing 'this is f-PRIME' at the top, marking axis crossings with 'CP' and labeling each region + or − — convert the genre into the familiar sign-chart workflow. The graph IS a sign chart, drawn fancy.\n\nTypical question battery for an f'-graph with zeros at 1, 4, 6 (crossing down, touching, crossing up respectively): Where is f increasing? (Wherever f' ≥ 0: read the above-axis intervals.) Local extremes? (Max at 1, nothing at 4 — a touch, not a cross — min at 6.) Where is f' itself decreasing? (Different question! Read the f'-graph's own downhill stretches.) The battery's danger is question (3)-type switches — about f' as a function rather than as f's slope — and the cure is reading each prompt's subject noun slowly.\n\nGiven numerical f' formulas with no closed form for f (like f'(x) = e^{-x²} - 0.5), calculator-active versions run the same logic: graph f', find its zeros numerically, classify by the crossing direction. The translation skill — heights to slopes, crossings to extremes — is identical across presentation formats, and it is the single most leveraged skill in the unit.",
+        "key_terms": [
+          [
+            "Heights are slopes",
+            "The f'-graph's y-values are f's slopes — the genre's one translation rule"
+          ],
+          [
+            "Crossing vs touching",
+            "Axis crossings of f' flip f's direction; touches do not"
+          ],
+          [
+            "Subject-noun reading",
+            "'Where is f' decreasing?' asks about the displayed curve itself — watch the prompt switch"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "First move on any graph-of-f' problem: write 'THIS IS f′' above the figure and mark each axis crossing. The 15-second annotation prevents the single most common Unit 5 error — answering about the displayed curve when asked about f."
+          ]
+        ]
+      },
+      {
+        "title": "Behavior Synthesis",
+        "subtitle": "From sign data to function portraits",
+        "body": "Sign charts compose into qualitative portraits. From + − + with critical points -1 and 3, and values f(-1) = 9, f(3) = -23: the function climbs to a peak of 9 at x = -1, descends through the midzone to a valley of -23 at 3, then climbs away. Add end behavior (a positive cubic: −∞ to ∞) and the portrait is complete enough to sketch — which is precisely Chapter 5's program, with concavity refinements from Chapter 4.\n\nMonotonicity consequences feed other question types. A function increasing on an entire interval is one-to-one there — invertibility certificates from Unit 3 reappear ('f' > 0 everywhere ⟹ f has an inverse'). Roots count via monotonicity too: a continuous function increasing through a sign change crosses zero EXACTLY once on that stretch — IVT gives at-least-one, monotonicity gives at-most-one. The 'exactly one root' FRQ is this pair, cited in sequence.\n\nMotion reprise: a particle's 'moving right' intervals are v > 0 readings on v's sign chart — the same chart, the same flips, with turnarounds at v's sign changes. Unit 4's motion analysis was this chapter's machinery applied to s'; recognizing the identity means motion problems cost no new study.\n\nThe chapter's deliverable, stated plainly: given any f (formula, f'-graph, or table of f'-signs), produce the increasing/decreasing intervals, the classified critical points, and the justification sentences, in under five minutes. That deliverable plus concavity (next) IS the AP's curve-analysis question. Drill the chart; the rest is reading it.",
+        "key_terms": [
+          [
+            "Qualitative portrait",
+            "Signs + critical values + end behavior = a sketchable description of f"
+          ],
+          [
+            "Exactly-one-root pattern",
+            "IVT (at least one) + monotonicity (at most one), cited together"
+          ],
+          [
+            "Motion identity",
+            "Direction analysis is the 1DT applied to v = s' — the same chart"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Show f has exactly one zero in [a, b]' is a two-theorem sandwich: IVT for existence (sign change at the ends, continuity), then 'f' > 0 throughout, so f is increasing and cannot return to zero' for uniqueness. Both halves must appear; each carries points."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "f'(x) = (x + 2)(x - 5). f is decreasing on",
+          "choices": {
+            "A": "(-2, 5)",
+            "B": "(-∞, -2)",
+            "C": "(5, ∞)",
+            "D": "(-∞, 5)"
+          },
+          "answer": "A",
+          "explanation": "The parabola f' opens up with roots -2 and 5: negative between them, so f falls exactly on (-2, 5)."
+        },
+        {
+          "question": "f'(x) changes from negative to positive at x = 4. The First Derivative Test concludes",
+          "choices": {
+            "A": "f has a local minimum at x = 4",
+            "B": "f has a local maximum at x = 4",
+            "C": "f has an inflection point at x = 4",
+            "D": "f is undefined at x = 4"
+          },
+          "answer": "A",
+          "explanation": "Falling then rising is a valley: local minimum."
+        },
+        {
+          "question": "f'(x) = (x - 1)³(x - 6)². At which critical point does f have a local extreme?",
+          "choices": {
+            "A": "x = 1 only",
+            "B": "x = 6 only",
+            "C": "both 1 and 6",
+            "D": "neither"
+          },
+          "answer": "A",
+          "explanation": "The cubed factor changes sign at 1 (extreme); the squared factor does not change sign at 6 (no extreme)."
+        },
+        {
+          "question": "The graph of f' is shown to be above the x-axis on (0, 3), crossing to below at x = 3, and below on (3, 7). At x = 3, f has",
+          "choices": {
+            "A": "a local maximum",
+            "B": "a local minimum",
+            "C": "an inflection point",
+            "D": "a discontinuity"
+          },
+          "answer": "A",
+          "explanation": "f' goes + to −: f rises then falls — a peak at x = 3."
+        },
+        {
+          "question": "f is continuous with f(1) = -2, f(4) = 5, and f'(x) > 0 on (1, 4). The number of zeros of f in (1, 4) is exactly",
+          "choices": {
+            "A": "1",
+            "B": "0",
+            "C": "2",
+            "D": "cannot be determined"
+          },
+          "answer": "A",
+          "explanation": "IVT (sign change, continuity) gives at least one; f strictly increasing gives at most one. Exactly one."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = 3x⁴ - 8x³ - 6x² + 24x.\n(a) Compute f'(x) and factor it completely. (It factors with integer roots.)\n(b) Build the sign chart for f' and state the intervals where f is increasing and decreasing.\n(c) Classify every critical point using the First Derivative Test, with the standard justification sentences.",
+          "rubric": [
+            "(a) f' = 12x³ - 24x² - 12x + 24 = 12(x³ - 2x² - x + 2) = 12(x - 2)(x - 1)(x + 1)",
+            "(b) Signs on (-∞,-1), (-1,1), (1,2), (2,∞): − + − +; increasing on (-1,1) and (2,∞), decreasing elsewhere",
+            "(c) x = -1: − to + local min; x = 1: + to − local max; x = 2: − to + local min",
+            "Justifications cite the sign changes explicitly"
+          ],
+          "model_answer": "(a) f'(x) = 12x³ - 24x² - 12x + 24 = 12(x³ - 2x² - x + 2) = 12[x²(x - 2) - (x - 2)] = 12(x - 2)(x² - 1) = 12(x - 2)(x - 1)(x + 1). (b) Test values give the chart − + − + across the critical points -1, 1, 2: f is increasing on (-1, 1) and (2, ∞); decreasing on (-∞, -1) and (1, 2). (c) At x = -1, f' changes from negative to positive: local minimum. At x = 1, f' changes from positive to negative: local maximum. At x = 2, f' changes from negative to positive: local minimum. Each conclusion follows from the First Derivative Test via the stated sign change."
+        },
+        {
+          "question": "The figure (described): the graph of f', the DERIVATIVE of f, on [0, 9]. It is positive on (0, 2), crosses zero downward at x = 2, negative on (2, 5), touches zero at x = 5 without crossing, negative on (5, 8), and crosses upward at x = 8.\n(a) On what intervals is f increasing? Justify.\n(b) Find and classify all local extremes of f in (0, 9).\n(c) A student claims f has a local minimum at x = 5 'because f' is zero there.' Explain the error with a justification the student should have written.",
+          "rubric": [
+            "(a) f increasing on (0, 2) and (8, 9), where f' > 0",
+            "(b) Local max at x = 2 (+ to −); local min at x = 8 (− to +); nothing at x = 5",
+            "(c) f'(5) = 0 alone classifies nothing; the sign does not change at 5 (negative both sides)",
+            "Correct justification: no sign change ⟹ no extreme — f merely pauses while decreasing"
+          ],
+          "model_answer": "(a) f is increasing exactly where its derivative is positive: on (0, 2) and (8, 9). (b) At x = 2, f' crosses from + to −: local maximum. At x = 8, f' crosses from − to +: local minimum. At x = 5, f' touches zero but stays negative on both sides: no extreme. (c) The student used the wrong criterion: f'(c) = 0 makes c a CANDIDATE, not a winner. Classification requires a sign change, and here f' is negative on (2, 5) and on (5, 8) alike — f decreases, pauses momentarily at 5, and continues decreasing. The correct sentence: 'f has no local extreme at x = 5 because f' does not change sign there.'"
+        },
+        {
+          "question": "Let g(x) = x - 2 sin x on the interval [0, 2π].\n(a) Find all critical points of g in (0, 2π).\n(b) Determine the intervals of increase and decrease.\n(c) Show that g has exactly one zero in the interval (π/3, π), citing both theorems your argument needs.",
+          "rubric": [
+            "(a) g' = 1 - 2cos x = 0: cos x = 1/2, x = π/3 and 5π/3",
+            "(b) g' < 0 on (0, π/3), g' > 0 on (π/3, 5π/3), g' < 0 on (5π/3, 2π)",
+            "(c) g(π/3) = π/3 - √3 < 0, g(π) = π > 0: IVT gives a zero; g' > 0 on the interval gives uniqueness",
+            "Both theorem citations (IVT, monotonicity via positive derivative) present"
+          ],
+          "model_answer": "(a) g'(x) = 1 - 2cos x = 0 when cos x = 1/2: x = π/3 and x = 5π/3. (b) cos x > 1/2 on (0, π/3) makes g' < 0 (decreasing); cos x < 1/2 on (π/3, 5π/3) makes g' > 0 (increasing); cos x > 1/2 again on (5π/3, 2π): decreasing. (c) g is continuous; g(π/3) = π/3 - 2(√3/2) = π/3 - √3 ≈ -0.685 < 0, and g(π) = π - 0 > 0. By the IVT, g has at least one zero in (π/3, π). On that interval g' = 1 - 2cos x > 0 (it lies inside (π/3, 5π/3)), so g is strictly increasing there and can cross zero at most once. Exactly one zero."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Analytical Applications of Differentiation",
+    "chapter_title": "Concavity and the Second Derivative Test",
+    "hook": "Two roads can both climb — but one bends upward, accelerating, while the other bends over, exhausting itself. Concavity is the bend, f'' is its detector, and inflection points mark where the bending flips. This is the layer that turns sign charts into true portraits.",
+    "learning_objectives": [
+      "Define concavity via the behavior of f' and detect it with the sign of f''",
+      "Find inflection points, verifying the concavity change rather than just f'' = 0",
+      "Apply the Second Derivative Test to classify critical points",
+      "Choose between the first and second derivative tests, knowing when 2DT is silent",
+      "Connect concavity to tangent-line position and estimation error directions"
+    ],
+    "sections": [
+      {
+        "title": "What Concavity Is",
+        "subtitle": "The slope's own trend",
+        "body": "A graph is concave UP on an interval when its slope is increasing there — tangent lines rotate counterclockwise as you move right, and the curve sits ABOVE every tangent it owns, cupping upward. Concave DOWN: slopes decreasing, curve below its tangents, capping over. The official detector: f'' > 0 means f' increasing means concave up; f'' < 0, concave down.\n\nConcavity is independent of increasing/decreasing — the four combinations all exist and all matter. Rising concave-up (accelerating growth: early exponential), rising concave-down (saturating growth: filling tank), falling concave-up (decelerating decline: cooling coffee), falling concave-down (accelerating decline: early free fall measured downward). The 2×2 grid of (f' sign, f'' sign) is the complete local taxonomy, and 'sketch a curve that is decreasing and concave up' is a real exam instruction.\n\nPrecision note: concavity describes f' 's MONOTONICITY, so the honest definition is 'f' increasing' — detectable by f'' > 0 when f'' exists, but meaningful even where it doesn't. For AP purposes, the f''-sign criterion is the working tool, with the f'-increasing language as the deeper justification accepted equally by rubrics.\n\nThe tangent-position consequence already earned its keep in linearization: concave up puts curves above tangents (underestimates), concave down below (overestimates). Euler's method and Taylor polynomial error directions — both BC staples — run on the same geometry. One picture, four units of applications.",
+        "key_terms": [
+          [
+            "Concave up",
+            "f' increasing (f'' > 0): curve above its tangents, cupping"
+          ],
+          [
+            "Concave down",
+            "f' decreasing (f'' < 0): curve below its tangents, capping"
+          ],
+          [
+            "2×2 taxonomy",
+            "(f' sign, f'' sign) pairs: the four local shapes every curve is built from"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Increasing at a decreasing rate' (f' > 0, f'' < 0) and its three siblings appear constantly in applied stems. Translate prose to the sign pair FIRST, then reason. The 2×2 grid taped to your mental wall is worth several points a year."
+          ]
+        ]
+      },
+      {
+        "title": "Inflection Points",
+        "subtitle": "Where the bend flips",
+        "body": "An inflection point is a point on the graph where concavity CHANGES — cup to cap or cap to cup. Detection mirrors critical points one derivative up: candidates are where f'' = 0 or f'' is undefined; winners are candidates where f'' actually changes sign. The verification step is non-optional: f(x) = x⁴ has f''(0) = 0 but f'' = 12x² ≥ 0 on both sides — no sign change, no inflection, the curve stays cupped.\n\nWorked: f(x) = x³ - 6x² + 9x. f''(x) = 6x - 12, zero at x = 2, sign − then +: concavity flips from down to up at x = 2 — inflection point at (2, f(2)) = (2, 2). Report inflection points as POINTS (both coordinates) when asked for points; x-values alone when asked where.\n\nOn the graph of f', inflection points of f appear as local extremes of f' — where the slope stops increasing and starts decreasing (or vice versa). This completes last chapter's translation table: f'-graph crossings ↔ f's extremes; f'-graph extremes ↔ f's inflections. The graph-of-f' genre tests both rows, usually in the same problem.\n\nInflection points carry applied meaning: the steepest point of a logistic curve (epidemic's fastest-spread day, product adoption's peak velocity) is an inflection — growth still positive but switching from accelerating to decelerating. 'When is the rate of change greatest?' on a rising S-curve is an inflection question, and Unit 7's logistic differential equation returns here for its famous P = L/2 moment.",
+        "key_terms": [
+          [
+            "Inflection point",
+            "A point where concavity changes — f'' flips sign there"
+          ],
+          [
+            "x⁴ caution",
+            "f'' = 0 without a sign change is no inflection — verify the flip"
+          ],
+          [
+            "f'-graph translation",
+            "Extremes of the f'-graph are inflection points of f"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Inflection justifications are graded like 1DT ones: 'f has an inflection point at x = 2 because f'' changes sign there.' Citing f''(2) = 0 alone fails (x⁴!). Same grammar, one derivative higher."
+          ]
+        ]
+      },
+      {
+        "title": "The Second Derivative Test",
+        "subtitle": "Concavity classifies critical points",
+        "body": "The Second Derivative Test (2DT): suppose f'(c) = 0. If f''(c) > 0, the curve is cupped at a flat point — local MINIMUM. If f''(c) < 0, capped at a flat point — local MAXIMUM. If f''(c) = 0, the test is SILENT: no conclusion, fall back to the first derivative test. (x⁴, -x⁴, and x³ all have f' = f'' = 0 at zero, with a min, a max, and neither, respectively — the silence is genuine.)\n\nWorked on the running cubic f(x) = x³ - 3x² - 9x + 4: critical points -1 and 3; f''(x) = 6x - 6. f''(-1) = -12 < 0: local max at -1. f''(3) = 12 > 0: local min at 3 — matching the 1DT's verdicts from the sign chart, as it must.\n\n2DT versus 1DT, the strategic comparison: 2DT is FASTER when f'' is easy and nonzero at the critical points — two evaluations replace a whole sign chart. 1DT is MORE GENERAL: it works when f'' is messy, when f''(c) = 0, and at critical points where f' is undefined (cusps — 2DT cannot even be stated there). Default: 2DT for clean polynomials and quick classification; 1DT when the second derivative resists or the test goes silent.\n\nOne more 2DT virtue: it needs only the VALUE f''(c), not intervals — making it the tool of choice for table problems ('f'(3) = 0 and f''(3) = -5; classify') and for implicit curves (evaluate the implicit y'' at the flat point). The exam writes both formats annually; the answer is one sentence: 'f'(3) = 0 and f''(3) < 0, so by the Second Derivative Test f has a local maximum at x = 3.'",
+        "key_terms": [
+          [
+            "Second Derivative Test",
+            "f' = 0 and f'' > 0: min; f'' < 0: max; f'' = 0: silent"
+          ],
+          [
+            "Genuine silence",
+            "x⁴ vs -x⁴ vs x³ — all silent cases, all different outcomes"
+          ],
+          [
+            "Strategic default",
+            "2DT for clean evaluations; 1DT for cusps, messes, and silence"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The 2DT sentence is two facts and a citation: 'f'(c) = 0 and f''(c) < 0, so by the Second Derivative Test, local max at c.' BOTH facts must be stated — omitting the f'(c) = 0 clause (the test's precondition) is a real deduction."
+          ]
+        ]
+      },
+      {
+        "title": "The Full Sign-Chart Stack",
+        "subtitle": "f, f', f'' in one dashboard",
+        "body": "The complete analysis stacks two sign charts: f' (increasing/decreasing, extremes at flips) above f'' (concavity, inflections at flips), aligned on one number line. The running cubic's dashboard: f' is + − + over critical points -1, 3; f'' is − + over the inflection candidate 2. Reading down columns gives the local shape on each stretch: rising-capped, falling-capped, falling-cupped, rising-cupped — the four taxonomy cells in sequence, with the curve's portrait now fully determined up to vertical placement.\n\nThe dashboard answers the AP's favorite cross-examination instantly. 'Where is f increasing AND concave down?' — read both rows: (-∞, -1). 'Where do f' and f'' agree in sign?' — columns with matching symbols. Such conjunction questions are lookups for chart-builders and nightmares for improvisers; the chart is the entire strategy.\n\nConsistency checks live in the stack: between consecutive extremes there must be an inflection (a falling curve cannot start rising without un-bending somewhere), and a max must sit capped (f'' ≤ 0 nearby) while a min sits cupped. Violations in your charts mean an arithmetic error upstream — the dashboard self-audits.\n\nGiven GRAPHS instead of formulas, the same dashboard assembles from visual reads: f'-graph above/below axis fills row one; f'-graph rising/falling fills row two (since f'' is f''s slope). And given only a TABLE of f, f', f'' values at points, behavior questions reduce to citing the relevant signed value. Formula, graph, table — one dashboard, three input formats, every Unit 5 question type. Chapter 5 turns the dashboard into finished curve sketches.",
+        "key_terms": [
+          [
+            "Sign-chart stack",
+            "f' and f'' rows aligned on one number line — the analysis dashboard"
+          ],
+          [
+            "Conjunction lookup",
+            "'Increasing and concave down' reads two rows at once"
+          ],
+          [
+            "Self-audit",
+            "Extremes need an inflection between them; maxes sit capped, mins cupped"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Between any local max and the next local min, a continuous twice-differentiable curve MUST inflect — if your charts show two extremes with no inflection between, recheck the f'' row before submitting. The audit catches sign errors that feel invisible otherwise."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "f(x) = x³ - 6x² + 5. f is concave down on",
+          "choices": {
+            "A": "(-∞, 2)",
+            "B": "(2, ∞)",
+            "C": "(0, 4)",
+            "D": "(-∞, 0)"
+          },
+          "answer": "A",
+          "explanation": "f'' = 6x - 12 < 0 for x < 2."
+        },
+        {
+          "question": "f'(c) = 0 and f''(c) = -7. The Second Derivative Test concludes",
+          "choices": {
+            "A": "local maximum at c",
+            "B": "local minimum at c",
+            "C": "inflection point at c",
+            "D": "no conclusion"
+          },
+          "answer": "A",
+          "explanation": "Flat tangent on a concave-down (capped) arc: a peak."
+        },
+        {
+          "question": "g(x) = x⁴ - 4x³. The inflection points of g occur at x =",
+          "choices": {
+            "A": "0 and 2",
+            "B": "0 only",
+            "C": "2 only",
+            "D": "3 only"
+          },
+          "answer": "A",
+          "explanation": "g'' = 12x² - 24x = 12x(x - 2): sign + − + flips at both 0 and 2 — both are inflections."
+        },
+        {
+          "question": "f'(c) = 0 and f''(c) = 0. Which is true?",
+          "choices": {
+            "A": "The Second Derivative Test gives no conclusion; use the First Derivative Test",
+            "B": "f has an inflection point at c",
+            "C": "f has no extreme at c",
+            "D": "f has a local minimum at c"
+          },
+          "answer": "A",
+          "explanation": "Silence is silence: x⁴ (min), -x⁴ (max), x³ (neither) all fit these facts. Only a sign analysis of f' settles it."
+        },
+        {
+          "question": "The graph of f' has a local maximum at x = 4. The graph of f has",
+          "choices": {
+            "A": "an inflection point at x = 4",
+            "B": "a local maximum at x = 4",
+            "C": "a local minimum at x = 4",
+            "D": "a zero at x = 4"
+          },
+          "answer": "A",
+          "explanation": "An extreme of f' is where f's slope stops rising and starts falling — concavity flips: inflection of f."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = x⁴ - 6x² + 8x + 1.\n(a) Find f'(x) and f''(x), and verify that x = 1 is a critical point.\n(b) Classify x = 1 using the Second Derivative Test if possible; if the test is silent, say so and classify with the First Derivative Test instead. (Note: f'(x) factors as f'(x) = 4(x - 1)²(x + 2).)\n(c) Find all inflection points of f, verifying each sign change.",
+          "rubric": [
+            "(a) f' = 4x³ - 12x + 8, f'' = 12x² - 12; f'(1) = 0 ✓",
+            "(b) f''(1) = 0: 2DT silent; 1DT with the factored f': (x-1)² keeps sign + around 1 (sign of (x+2) > 0): no sign change ⟹ no extreme at 1",
+            "(c) f'' = 12(x-1)(x+1): flips at both ±1",
+            "Inflections at (-1, f(-1)) = (-1, -12) and (1, f(1)) = (1, 4), changes verified"
+          ],
+          "model_answer": "(a) f'(x) = 4x³ - 12x + 8 and f''(x) = 12x² - 12. f'(1) = 4 - 12 + 8 = 0 ✓. (b) f''(1) = 0 — the Second Derivative Test is silent. Using the factorization f'(x) = 4(x - 1)²(x + 2): near x = 1, (x + 2) > 0 and (x - 1)² ≥ 0, so f' is positive on both sides — no sign change, hence NO local extreme at x = 1 (the curve pauses while rising). (c) f''(x) = 12(x - 1)(x + 1): sign + − + across x = -1 and x = 1, changing at both. Inflection points: (-1, f(-1)) = (-1, 1 - 6 - 8 + 1) = (-1, -12) and (1, f(1)) = (1, 4)."
+        },
+        {
+          "question": "A twice-differentiable function h satisfies: h'(2) = 0, h''(2) = 3; h'(5) = 0, h''(5) = 0; h'(8) = 0, h''(8) = -6. Additionally, h'(x) < 0 on (4, 5) and h'(x) > 0 on (5, 6).\n(a) Classify the critical points x = 2 and x = 8, citing the appropriate test.\n(b) Classify x = 5, explaining why the Second Derivative Test cannot do the job and what information rescues the classification.\n(c) Must h have an inflection point in (2, 8)? Justify.",
+          "rubric": [
+            "(a) x = 2: 2DT with h'' > 0 ⟹ local min; x = 8: h'' < 0 ⟹ local max",
+            "(b) h''(5) = 0: silent; the given h'-signs (− to +) give a local min by the 1DT",
+            "(c) Yes: h is capped at 8 (h'' < 0) and cupped at 2 (h'' > 0)",
+            "Applies the IVT to the continuous h'' on [2, 8]: h'' passes from positive to negative, so it vanishes and changes sign — an inflection of h"
+          ],
+          "model_answer": "(a) At x = 2: h'(2) = 0 and h''(2) = 3 > 0, so by the Second Derivative Test h has a local minimum. At x = 8: h'(8) = 0 and h''(8) = -6 < 0: local maximum. (b) At x = 5, h''(5) = 0 — the 2DT is silent. But the problem supplies h' signs: negative on (4, 5), positive on (5, 6) — a − to + change, so by the First Derivative Test h has a local minimum at x = 5. (c) Yes. h''(2) = 3 > 0 and h''(8) = -6 < 0. If h'' is continuous (granted for AP purposes by twice-differentiability with the values given), the IVT applied to h'' on [2, 8] produces a point where h'' = 0 — and since h'' genuinely transitions from positive to negative values, a sign change (hence an inflection of h) occurs in (2, 8)."
+        },
+        {
+          "question": "An epidemic's cumulative case count is modeled by a smooth increasing function C(t) whose graph is S-shaped: concave up on (0, 12), concave down on (12, 30), with C(12) = 4000.\n(a) Interpret the point (12, 4000) in the language of this chapter and in plain English about the epidemic.\n(b) The health ministry says 'cases are still rising, but the situation is improving' at t = 15. Translate into derivative signs and verify the claim's consistency with the model.\n(c) On which day is the number of NEW cases per day greatest? Justify.",
+          "rubric": [
+            "(a) (12, 4000) is the inflection point — concavity flips; epidemic's fastest-spread moment",
+            "(b) 'Still rising': C' > 0; 'improving': C'' < 0 (the growth rate is falling) — consistent with concave down at 15",
+            "(c) New cases per day = C'(t), maximized where C'' changes + to −: t = 12",
+            "Justification: C' increases on (0,12), decreases after — peak of C' at the inflection"
+          ],
+          "model_answer": "(a) The point (12, 4000) is the inflection point of C: concavity switches from up to down there. Epidemiologically, day 12 is the day the outbreak's spread peaked — case counts still rise after it, but the daily increase starts shrinking. (b) 'Cases still rising' is C'(15) > 0; 'situation improving' is C''(15) < 0 — the growth rate itself is declining. The model agrees: t = 15 lies in the concave-down region, where C' > 0 (increasing function) and C'' < 0. (c) New cases per day IS C'(t). C' increases where C'' > 0 (on (0, 12)) and decreases where C'' < 0 (after 12), so C' peaks at t = 12 — the inflection day is the worst day for new infections, exactly why inflection points headline epidemic reporting."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Analytical Applications of Differentiation",
+    "chapter_title": "Curve Sketching — Connecting f, f', and f''",
+    "hook": "Given a formula, you can now deduce where a curve rises, falls, bends, peaks, and flattens — without a calculator, without plotting points. Curve sketching is the unit's capstone proof that you understand what derivatives SAY, and the AP tests the connections in every direction.",
+    "learning_objectives": [
+      "Assemble complete curve sketches from f, f', and f'' analysis",
+      "Incorporate asymptotes and end behavior into derivative-based portraits",
+      "Match graphs of f, f', and f'' to each other in any pairing",
+      "Translate between behavior tables and graphs in both directions",
+      "Diagnose inconsistencies between proposed graphs and derivative data"
+    ],
+    "sections": [
+      {
+        "title": "The Sketching Protocol",
+        "subtitle": "Dashboard to drawing",
+        "body": "The full protocol assembles everything the unit built: (1) domain, intercepts where cheap, and asymptotes/end behavior (Unit 1's limits); (2) f' analysis — critical points, sign chart, increasing/decreasing, classified extremes; (3) f'' analysis — concavity chart, inflection points; (4) plot the anchor points (extremes, inflections, intercepts) with their y-values; (5) connect with arcs matching each interval's (f' sign, f'' sign) cell from the 2×2 taxonomy.\n\nWorked spine: f(x) = x³ - 6x² + 9x. Domain ℝ; intercepts x = 0, 3 (factoring x(x-3)²); end behavior −∞ to ∞. f' = 3(x-1)(x-3): + − + ⟹ rising to a max at (1, 4), falling to a min at (3, 0), rising away. f'' = 6x - 12: inflection at (2, 2), cap before, cup after. Anchors: (0,0), (1,4), (2,2), (3,0). Connect: rising-capped into (1,4), falling-capped to (2,2), falling-cupped to (3,0), rising-cupped away. The sketch draws itself.\n\nThe arc vocabulary is worth a moment's drill — four arc shapes for the four cells: rising-cupped (J-curve), rising-capped (climbing but tiring), falling-capped (over the top), falling-cupped (leveling out of a dive). Sketches assembled from correct arcs are unmistakable to graders even when drawn freehand.\n\nWhat the AP actually asks: full sketches rarely; PIECES constantly. 'Find and classify extremes' is steps 2; 'find inflection points' is step 3; 'on which intervals is f increasing and concave up?' reads two charts at once. The protocol is the superset; every Unit 5 analytic question is a subset.",
+        "key_terms": [
+          [
+            "Sketching protocol",
+            "Limits/asymptotes, f' chart, f'' chart, anchor points, taxonomy arcs"
+          ],
+          [
+            "Anchor points",
+            "Extremes, inflections, and intercepts with computed y-values — the skeleton"
+          ],
+          [
+            "Arc vocabulary",
+            "Four arc shapes matching the four (f', f'') sign cells"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When an FRQ says 'sketch a graph consistent with the table,' graders check: extremes at the right x-values, correct increasing/decreasing arcs between them, and concavity matching — NOT artistic quality. Anchor the named points, draw the right arc types, done."
+          ]
+        ]
+      },
+      {
+        "title": "Asymptotic Portraits",
+        "subtitle": "Rational functions, fully analyzed",
+        "body": "Rational functions add asymptote scaffolding to the protocol. f(x) = (x² - 4)/(x² - 1): vertical asymptotes where the (reduced) denominator vanishes — x = ±1; horizontal from the degree rule — y = 1 both directions. Sign analysis of f itself across the asymptotes and zeros (±2) frames which 'corridors' the curve occupies before any derivative is computed.\n\nDerivatives then refine within corridors: f'(x) = 6x/(x² - 1)² (quotient rule, simplified). The squared denominator keeps f''s sign equal to the sign of 6x: falling for x < 0, rising for x > 0, within each domain piece. The single critical point is x = 0 with f(0) = (-4)/(-1) = 4 — and since the middle branch dives toward −∞ on both sides as x → ±1, the point (0, 4) is that branch's local maximum. Cross-checking each critical value against its corridor catches errors the algebra alone misses.\n\nSlant asymptotes (degree gap one) integrate the same way: divide, sketch the line, and let the remainder term's sign show which side the curve hugs at each end. BC exams enjoy one rational-function analysis with a slant; the division is Unit 1.7's, the derivative work is this unit's.\n\nThe asymptote-aware protocol ordering matters: limits FIRST, derivatives second. Students who compute f' before mapping the asymptotes routinely classify extremes into corridors the curve never visits. Geography before topography.",
+        "key_terms": [
+          [
+            "Corridors",
+            "Regions between asymptotes and zeros where the curve's sign is fixed"
+          ],
+          [
+            "Geography first",
+            "Asymptotes and end behavior before derivative refinement"
+          ],
+          [
+            "Slant integration",
+            "Divide, draw the line, sign the remainder to pick the hugging side"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "A critical point's classification must be consistent with its corridor: a 'local max' whose value sits below a corridor's floor signals an algebra error. The two-second value-vs-corridor sanity check is free insurance on rational-function questions."
+          ]
+        ]
+      },
+      {
+        "title": "The Matching Game",
+        "subtitle": "f, f', f'' in any pairing",
+        "body": "Graph-matching questions show two or three curves and ask which is f, which f', which f''. The decision rules, in order of power: (1) zeros of one curve must align with extremes of another (f' = 0 under f's peaks); (2) where one curve is positive, its antiderivative-partner must rise; (3) inflections of f align with extremes of f' and zeros of f''. Apply rule 1 to candidate pairs and most matchings collapse immediately.\n\nDegree logic shortcuts polynomial matchings: differentiation drops degree by one, so the wiggliest curve (most turning points) is f, the next f', the flattest f''. A cubic-parabola-line trio matches by shape class alone. Trig matchings rotate phases: sine's derivative leads by a quarter period — the curve peaking where another crosses zero RISING is the derivative of the crosser.\n\nThe verification habit that prevents traps: after matching, spot-check ONE feature in each direction — 'f has a max at x = 2; does my f' cross zero downward there? f' has a min at 4; does my f'' cross zero upward there?' Thirty seconds, two checks, and the matching is bulletproof. Traps in these questions are mirror-images and sign-flips that survive sloppy matching but die under spot-checks.\n\nTable-direction translations run the same correspondences without pictures: given a table of signs for f, f', f'' on intervals, select the consistent graph (or vice versa). The dashboard from last chapter IS the table; the protocol from this chapter IS the graph. The two formats are one analysis wearing different output devices.",
+        "key_terms": [
+          [
+            "Alignment rules",
+            "Zeros of f' under extremes of f; zeros of f'' under inflections of f"
+          ],
+          [
+            "Degree logic",
+            "Most wiggles = f; each differentiation smooths one wiggle away"
+          ],
+          [
+            "Spot-check habit",
+            "Verify one feature per pairing after matching — kills mirror traps"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "In matching questions, test EXTREME-to-ZERO alignment first — it eliminates wrong candidates fastest. Slope-reading ('this curve is positive so that one should rise') is the backup check, not the primary tool; it is slower and easier to fumble under pressure."
+          ]
+        ]
+      },
+      {
+        "title": "Consistency Diagnosis",
+        "subtitle": "When data and graphs disagree",
+        "body": "The inverse skill: given a proposed graph plus derivative data, find the inconsistency. 'The table says f'(3) = 0 and f''(3) > 0, but the graph shows a maximum at x = 3' — the 2DT demands a minimum; the graph is wrong. Diagnosis questions reward knowing the implications as two-way streets you can drive in REVERSE: every test that classifies also constrains.\n\nThe constraint catalog, assembled from the unit: extremes need f' sign changes (or endpoint status); maxima sit capped, minima cupped (when f'' exists and is nonzero); inflections need f'' sign changes; increasing intervals forbid downhill arcs; concave-up intervals demand the curve sit above its tangent lines. A proposed sketch violating any one is diagnosably wrong, and naming WHICH constraint broke is the answer.\n\nMVT supplies the subtlest diagnostics: a table with f(1) = 3 and f(4) = 3 plus the claim 'f' > 0 on (1, 4)' is self-contradictory — Rolle forces a zero of f' between equal values. Average-rate bounds (MVT) catch impossible tables: f(0) = 0, f(2) = 10 with 'f'(x) ≤ 3 throughout' cannot coexist, since the average rate 5 must be attained. Theorems as lie detectors — the AP's most elegant question genre.\n\nThe unit closes where it opened: existence theorems (EVT, Rolle, MVT) plus classification machinery (1DT, 2DT, concavity) form one deductive system. Curve sketching exercises the system forward; consistency diagnosis exercises it backward; the exam exercises it in both directions, often in the same problem. Master the implications, not the rituals.",
+        "key_terms": [
+          [
+            "Constraint catalog",
+            "Each test, read backward, forbids graph features — the diagnosis toolkit"
+          ],
+          [
+            "Theorem lie detectors",
+            "Rolle/MVT expose impossible tables: equal values force zero rates; averages must be attained"
+          ],
+          [
+            "Two-way mastery",
+            "Forward analysis and backward diagnosis are the same implications, both tested"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Which of the following could be the graph of f?' questions are elimination races: check each option against ONE strong constraint (usually extreme placement or concavity at a labeled point) and discard fast. Verifying the survivor fully beats verifying all options partially."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "f'(x) > 0 and f''(x) < 0 on (2, 5). The graph of f on that interval is",
+          "choices": {
+            "A": "rising and concave down",
+            "B": "rising and concave up",
+            "C": "falling and concave down",
+            "D": "falling and concave up"
+          },
+          "answer": "A",
+          "explanation": "Positive slope, negative bend: climbing but flattening — rising, capped."
+        },
+        {
+          "question": "f(x) = (x² - 4)/(x² - 1) has vertical asymptotes at",
+          "choices": {
+            "A": "x = ±1",
+            "B": "x = ±2",
+            "C": "x = 1 only",
+            "D": "y = 1"
+          },
+          "answer": "A",
+          "explanation": "The denominator x² - 1 vanishes at ±1 with no cancellation (zeros are at ±2). y = 1 is the horizontal asymptote — a different feature."
+        },
+        {
+          "question": "Three graphs show a cubic, a parabola, and a line. If they are f, f', f'' in some order, then",
+          "choices": {
+            "A": "cubic = f, parabola = f', line = f''",
+            "B": "parabola = f, cubic = f', line = f''",
+            "C": "line = f, parabola = f', cubic = f''",
+            "D": "cubic = f, line = f', parabola = f''"
+          },
+          "answer": "A",
+          "explanation": "Differentiation lowers polynomial degree by one: 3 → 2 → 1. Degree logic settles it without reading a single feature."
+        },
+        {
+          "question": "A table claims f(2) = 7, f(6) = 7, and f'(x) > 0 for all x in (2, 6). This data is",
+          "choices": {
+            "A": "impossible — Rolle's Theorem forces f'(c) = 0 somewhere in (2, 6)",
+            "B": "possible if f is concave up",
+            "C": "possible if f has an asymptote",
+            "D": "impossible — the IVT is violated"
+          },
+          "answer": "A",
+          "explanation": "Equal values at the ends of an interval where f is differentiable force a zero derivative between (Rolle) — 'always positive' contradicts it. (Implicitly f is differentiable since f' is discussed throughout.)"
+        },
+        {
+          "question": "The graph of f'' is positive on (0, 3) and negative on (3, 7). Which feature does the graph of f have at x = 3?",
+          "choices": {
+            "A": "an inflection point",
+            "B": "a local maximum",
+            "C": "a local minimum",
+            "D": "a vertical asymptote"
+          },
+          "answer": "A",
+          "explanation": "f'' changes sign at 3: concavity flips, the definition of an inflection point. (Extremes of f need f' information, which is not given.)"
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = x³ - 3x² + 4.\n(a) Find the intervals of increase/decrease and classify all extremes.\n(b) Find the inflection point and the concavity intervals.\n(c) Sketch-describe the curve: list the anchor points in order of x and name the arc type (rising/falling, cupped/capped) connecting each consecutive pair. Include end behavior.",
+          "rubric": [
+            "(a) f' = 3x(x - 2): increasing on (-∞,0) and (2,∞), decreasing on (0,2); max at (0,4), min at (2,0)",
+            "(b) f'' = 6x - 6: inflection at (1, 2); concave down x < 1, up x > 1",
+            "(c) Anchors (0,4), (1,2), (2,0); arcs: rising-capped into (0,4), falling-capped to (1,2), falling-cupped to (2,0), rising-cupped away",
+            "End behavior: f → -∞ as x → -∞, f → ∞ as x → ∞"
+          ],
+          "model_answer": "(a) f'(x) = 3x² - 6x = 3x(x - 2): positive, negative, positive across 0 and 2. Increasing on (-∞, 0) and (2, ∞); decreasing on (0, 2). Local max at (0, 4) (+ to −); local min at (2, 0) (− to +). (b) f''(x) = 6x - 6: negative before 1, positive after — inflection at (1, f(1)) = (1, 2); concave down on (-∞, 1), up on (1, ∞). (c) Coming from -∞ (end behavior of a positive cubic), the curve rises capped into the peak (0, 4); falls capped to the inflection (1, 2); continues falling but now cupped to the valley (2, 0); rises cupped toward +∞. Four arcs, four taxonomy cells, one S-shaped cubic."
+        },
+        {
+          "question": "Consider g(x) = x/(x² + 1).\n(a) Explain why g has no vertical asymptotes, and find its horizontal asymptote(s).\n(b) Find and classify all critical points.\n(c) g has three inflection points. Find their x-coordinates. (g''(x) = 2x(x² - 3)/(x² + 1)³.)",
+          "rubric": [
+            "(a) x² + 1 never zero: no VAs; degree rule: y = 0 both directions",
+            "(b) g' = (1 - x²)/(x² + 1)²: critical at ±1; min at (-1, -1/2), max at (1, 1/2)",
+            "(c) g'' zero at x = 0, ±√3, with sign changes at all three",
+            "Inflections at x = -√3, 0, √3"
+          ],
+          "model_answer": "(a) The denominator x² + 1 ≥ 1 never vanishes, so no vertical asymptotes. Degrees: 1 below 2, so y = 0 is the horizontal asymptote in both directions. (b) g'(x) = ((x² + 1) - x(2x))/(x² + 1)² = (1 - x²)/(x² + 1)². Critical points x = ±1. Sign of g' is the sign of 1 - x²: negative, positive, negative — local min at (-1, -1/2), local max at (1, 1/2). (c) g''(x) = 2x(x² - 3)/(x² + 1)³ vanishes at x = 0, ±√3. The numerator 2x(x - √3)(x + √3) changes sign at each root (all simple), so all three are inflection points: x = -√3, 0, √3. The odd little curve rises from the axis, dips to -1/2, swings through the origin to +1/2, and settles back to the axis — with the bend flipping three times en route."
+        },
+        {
+          "question": "A student proposes a graph of a differentiable function h with these features: a local maximum at (2, 5); h decreasing on (2, 6); a local minimum at (6, 1); h concave down on the ENTIRE interval (0, 8).\n(a) Use the unit's machinery to find the inconsistency in this proposal.\n(b) State the theorem or test that exposes it.\n(c) Repair the proposal minimally: change one feature so the description becomes consistent, and justify.",
+          "rubric": [
+            "(a) A local min at 6 needs h' changing − to + (h rising just after 6), and a min sits cupped: h'' ≥ 0 nearby — contradicting concave down throughout",
+            "(b) The 2DT/concavity constraint (minima are cupped), or: between a max and a min, h' goes 0 → negative → 0, forcing h' to have a min, i.e., an inflection of h",
+            "(c) Repair: allow an inflection in (2, 6) — e.g., concave down on (0, 4), concave up on (4, 8)",
+            "Justification: the new concavity permits the cupped minimum at 6"
+          ],
+          "model_answer": "(a) The proposal puts a local minimum at (6, 1) inside a region declared concave down. A minimum of a differentiable function is locally CUPPED: just after 6 the curve rises, and rising out of a valley requires the slope to increase through zero — h'' ≥ 0 near 6. Concave down on all of (0, 8) forbids exactly that. (b) The concavity constraint behind the Second Derivative Test exposes it (equivalently: h' falls from 0 at the max to 0 at the min, so h' must bottom out between — an inflection of h, impossible under single-signed h''). (c) Minimal repair: insert an inflection point — say h concave down on (0, 4) and concave up on (4, 8). Then the max at 2 sits capped (consistent), the curve un-bends at 4, and the min at 6 sits cupped (consistent). All other features survive untouched."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Analytical Applications of Differentiation",
+    "chapter_title": "Optimization Problems",
+    "hook": "What dimensions make the cheapest can, the largest pasture, the shortest cable? Optimization is calculus earning its keep in the real world — and on the AP, it's a word problem with a five-step skeleton that never changes.",
+    "learning_objectives": [
+      "Translate verbal optimization problems into a function of one variable",
+      "Use constraint equations to eliminate variables before differentiating",
+      "Find and verify optima with the candidates test or derivative tests",
+      "Justify that a critical point is the requested extreme — the graded step",
+      "Solve the AP's classic scenarios: fencing, boxes, cans, distances, and costs"
+    ],
+    "sections": [
+      {
+        "title": "The Optimization Skeleton",
+        "subtitle": "Objective, constraint, eliminate, optimize, verify",
+        "body": "Every optimization problem runs one skeleton: (1) NAME the quantity to optimize and write its formula — the objective; (2) write the CONSTRAINT equation binding the variables; (3) ELIMINATE variables using the constraint until the objective has one variable, and state that variable's domain; (4) OPTIMIZE: find critical points of the single-variable objective; (5) VERIFY the candidate is the requested max/min and ANSWER the actual question asked.\n\nThe pasture classic: maximize the area of a rectangular field with 400 m of fence, one side along a river (unfenced). Objective: A = xy. Constraint: x + 2y = 400 (one x-side plus two y-sides). Eliminate: x = 400 - 2y, so A(y) = (400 - 2y)y = 400y - 2y², with domain 0 < y < 200. Optimize: A' = 400 - 4y = 0 at y = 100. Verify: A'' = -4 < 0 — a max. Answer: y = 100, x = 200, area 20,000 m².\n\nStep 3's domain matters more than students expect: endpoints encode degenerate cases (zero-width fields), and on closed domains the candidates test needs them. When the domain is open, the verification step must argue the interior critical point wins — usually via the 2DT or the 1DT sign pattern.\n\nStep 5's two halves both carry credit: the verification sentence (next section's subject) and answering the QUESTION ASKED — if the problem wants the minimum COST, report dollars, not the dimensions that achieve it. Re-read the question's last sentence before writing the final answer; optimization problems lose more points to mismatched answers than to wrong calculus.",
+        "key_terms": [
+          [
+            "Objective function",
+            "The quantity being maximized/minimized, as a formula"
+          ],
+          [
+            "Constraint elimination",
+            "Solve the constraint for one variable, substitute into the objective"
+          ],
+          [
+            "Domain statement",
+            "The eliminated objective's variable has physical bounds — state them"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Write the objective and constraint as LABELED equations before any algebra: 'Maximize A = xy subject to x + 2y = 400.' The labeling sentence is setup credit on FRQs and the single best defense against optimizing the wrong quantity."
+          ]
+        ]
+      },
+      {
+        "title": "The Justification Point",
+        "subtitle": "Proving your candidate is the winner",
+        "body": "Finding the critical point earns partial credit; JUSTIFYING that it is the requested extreme earns the rest. The AP accepts three justification routes, each one sentence. Route A — Second Derivative Test: 'A''(y) = -4 < 0, so y = 100 gives a local maximum; as the only critical point in the domain, it is the absolute maximum.' Route B — First Derivative Test: 'A' > 0 for y < 100 and A' < 0 for y > 100, so A increases then decreases: absolute max at y = 100.' Route C — Candidates test (closed domains): the comparison table itself is the justification.\n\nThe 'only critical point' clause in Route A is load-bearing: a local max among several critical points might lose globally; a local max that is the ONLY critical point on an interval where the function is differentiable cannot be beaten (the function would need to come back up through another critical point). Examiners look for the clause; include it whenever it is true.\n\nRoute B's strength: it proves GLOBAL optimality directly — increasing-then-decreasing leaves no room for rivals. On open domains where endpoints cannot be checked, Route B (or A-plus-only) is the standard play. Route C is mandatory when endpoints are live candidates: a cost function on 1 ≤ r ≤ 5 might bottom out at r = 5.\n\nUngraded justifications that FEEL convincing but score zero: 'this is obviously the max,' 'the graph shows it,' plugging in two nearby points ('A(99) and A(101) are smaller'). Nearby-point checks prove local-ness at best; the rubric wants derivative-based reasoning. One sentence, one route, every time.",
+        "key_terms": [
+          [
+            "Route A (2DT + only)",
+            "Negative f'' plus 'only critical point in the domain' = absolute max"
+          ],
+          [
+            "Route B (1DT global)",
+            "Increasing-then-decreasing proves the absolute claim directly"
+          ],
+          [
+            "Route C (candidates)",
+            "Closed domain: the comparison table is the justification"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The justification is a dedicated rubric point on every optimization FRQ — historically the most-dropped point in Unit 5. Pre-write the three sentence templates in your head; on exam day, pick the matching route and transcribe."
+          ]
+        ]
+      },
+      {
+        "title": "The Scenario Repertory",
+        "subtitle": "Boxes, cans, distances, and cost mixes",
+        "body": "Open-top box from a sheet: cut squares of side x from the corners of a W×L sheet, fold. V(x) = x(W - 2x)(L - 2x), domain 0 < x < min(W,L)/2. Expand, differentiate, solve the quadratic in the domain. The cubic volume with quadratic derivative is the genre's fingerprint.\n\nThe cylindrical can: minimize surface area at fixed volume V₀. Objective S = 2πr² + 2πrh; constraint πr²h = V₀ eliminates h = V₀/(πr²): S(r) = 2πr² + 2V₀/r. S' = 4πr - 2V₀/r² = 0 gives r³ = V₀/(2π) — and substituting back, h = 2r: the optimal can is exactly as tall as it is wide. Real cans deviate for manufacturing reasons, an aside that makes the result memorable.\n\nClosest-point problems: minimize the distance from (3, 0) to the parabola y = x². The move that saves algebra: minimize the SQUARED distance D = (x - 3)² + x⁴ — distance and its square share minimizers (squaring is increasing on nonneds), and the square root's chain rule fee vanishes. D' = 2(x - 3) + 4x³ = 0 — solve (here numerically or by inspection-friendly setups on the exam). Declare the squared-distance substitution; it is expected, not sneaky.\n\nCost mixtures: cable from an offshore platform to a coastal station — underwater segments cost more per mile than overland. Total cost C(x) = c₁√(x² + d²) + c₂(L - x) over the landing point x. C' = 0 balances the marginal costs; the solution typically satisfies a clean sine/ratio condition. These blend the distance template with economic weighting and are BC's favorite hard optimization.",
+        "key_terms": [
+          [
+            "Corner-cut box",
+            "V = x(W-2x)(L-2x): cubic objective, quadratic derivative, bounded domain"
+          ],
+          [
+            "Optimal can",
+            "Fixed volume, min surface ⟹ h = 2r — height equals diameter"
+          ],
+          [
+            "Squared-distance trick",
+            "Minimize D² instead of D: same winner, no square-root calculus"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When minimizing any distance, write 'minimizing D² minimizes D since squaring preserves order on positive values' and work with D². The sentence licenses the simplification; the simplification halves the differentiation work."
+          ]
+        ]
+      },
+      {
+        "title": "Optimization Judgment",
+        "subtitle": "Domains, units, and the reasonableness pass",
+        "body": "Physical domains police the mathematics. Negative lengths, cut-squares larger than the half-sheet, probabilities beyond 1 — constraint violations masquerade as critical points whenever the algebra produces multiple roots. The domain stated in skeleton step 3 is the filter: discard out-of-domain critical points EXPLICITLY ('x = 7 is rejected since the domain is 0 < x < 4'), because the discard is part of the graded logic.\n\nUnits ride through optimization like every applied chapter: a maximized area answers in square meters, a minimized cost in dollars, and mixed-rate problems (cost per underwater mile versus overland) demand consistent units before any equation is written. The exam occasionally plants a feet/inches mismatch in the stem; the setup step is where to catch it.\n\nThe reasonableness pass after solving: does the optimal can's h = 2r look like a real can (roughly, yes)? Does the pasture use ALL the fence (it must — leftover fence means a bigger field was available)? Is the maximum-volume box's cut between zero and the half-width? Thirty seconds of plausibility checking catches sign errors, domain slips, and constraint misreads that survive the algebra.\n\nUnit synthesis, closing the analytical arc: critical points (Ch 2) found by derivative rules (Units 2-3), classified by sign tests (Ch 3-4), assembled into portraits (Ch 5), now DEPLOYED on applied objectives. The remaining chapter extends behavior analysis to implicit curves — and then Unit 6 changes the question entirely, from slopes to accumulations.",
+        "key_terms": [
+          [
+            "Domain filter",
+            "Out-of-domain critical points are discarded by name, as graded logic"
+          ],
+          [
+            "Reasonableness pass",
+            "Plausibility-check the optimum against the physical story"
+          ],
+          [
+            "Constraint exhaustion",
+            "Optimal solutions use the full budget/fence/material — slack signals errors"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "If a quadratic derivative yields two roots, expect exactly one in the physical domain — and SAY why the other is rejected. Silent discards leave graders unsure you saw the issue; explicit discards convert a potential deduction into evidence of command."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "A farmer has 240 m of fence for a rectangular pen against a barn (no fence on the barn side). The maximum area is",
+          "choices": {
+            "A": "7200 m²",
+            "B": "3600 m²",
+            "C": "14400 m²",
+            "D": "120 m²"
+          },
+          "answer": "A",
+          "explanation": "A(y) = (240 - 2y)y maximizes at y = 60, x = 120: area 7200 m²."
+        },
+        {
+          "question": "Two nonnegative numbers sum to 20. The maximum value of their product is",
+          "choices": {
+            "A": "100",
+            "B": "99",
+            "C": "400",
+            "D": "20"
+          },
+          "answer": "A",
+          "explanation": "P = x(20 - x) peaks at x = 10: P = 100."
+        },
+        {
+          "question": "To minimize the distance from the point (0, 3) to the curve y = x², the cleanest objective function is",
+          "choices": {
+            "A": "D² = x² + (x² - 3)²",
+            "B": "D = √(x² + (x² - 3)²)",
+            "C": "D = x + x² - 3",
+            "D": "D² = (x - 3)² + x⁴"
+          },
+          "answer": "A",
+          "explanation": "Squared distance from (0, 3) to (x, x²): x² + (x² - 3)² — same minimizer as D, no radical. (D matches the wrong anchor point.)"
+        },
+        {
+          "question": "An open-top box is made by cutting x-by-x squares from the corners of a 12-by-12 sheet. The domain of the volume function V(x) = x(12 - 2x)² is",
+          "choices": {
+            "A": "0 < x < 6",
+            "B": "0 < x < 12",
+            "C": "0 < x < 3",
+            "D": "x > 0"
+          },
+          "answer": "A",
+          "explanation": "The fold needs positive base width: 12 - 2x > 0 gives x < 6, with x > 0 for a positive height."
+        },
+        {
+          "question": "C(r) = 2πr² + 250/r for r > 0 (a can's cost). C'(r) = 4πr - 250/r². The justification that the critical point gives an absolute minimum is best stated as",
+          "choices": {
+            "A": "C'' = 8π + 500/r³ > 0 for all r > 0, and it is the only critical point",
+            "B": "C(r) is large at the critical point",
+            "C": "C(1) and C(5) are both bigger",
+            "D": "the graph looks like a valley"
+          },
+          "answer": "A",
+          "explanation": "Positive second derivative everywhere (the function is convex) plus uniqueness of the critical point — Route A at full strength. B is meaningless; C proves only local comparisons; D is ungraded."
+        }
+      ],
+      "frq": [
+        {
+          "question": "A rectangular poster must contain 600 cm² of printed area, with 5 cm margins top and bottom and 3 cm margins on each side. Let x be the WIDTH of the printed area.\n(a) Express the total poster area A as a function of x alone, and state the domain.\n(b) Find the dimensions of the printed area that minimize the total poster area.\n(c) Justify that your answer gives the absolute minimum.",
+          "rubric": [
+            "(a) Printed height = 600/x; A(x) = (x + 6)(600/x + 10), domain x > 0",
+            "(b) A(x) = 660 + 10x + 3600/x; A' = 10 - 3600/x² = 0 gives x² = 360, x = 6√10 ≈ 18.97; printed dimensions 6√10 by 10√10",
+            "(c) A'' = 7200/x³ > 0 for all x > 0 and unique critical point ⟹ absolute min",
+            "Final dimensions reported for the PRINTED area as asked"
+          ],
+          "model_answer": "(a) The printed area is x wide and 600/x tall. The poster adds 3 cm margins each side and 5 cm top and bottom: A(x) = (x + 6)(600/x + 10) = 600 + 10x + 3600/x + 60 = 660 + 10x + 3600/x, for x > 0. (b) A'(x) = 10 - 3600/x² = 0 gives x² = 360, x = 6√10 ≈ 18.97 cm. Printed height: 600/x = 600/(6√10) = 10√10 ≈ 31.62 cm. The printed area should be 6√10 cm wide by 10√10 cm tall. (c) A''(x) = 7200/x³ > 0 for every x in the domain, so the objective is concave up throughout and x = 6√10, the only critical point, gives the absolute minimum total area."
+        },
+        {
+          "question": "A 10 dm³ (10,000 cm³) closed cylindrical drum is to be built. The material for the top and bottom costs 0.06 dollars/cm², and the side costs 0.04 dollars/cm².\n(a) Write the cost as a function of the radius r alone.\n(b) Find the radius minimizing the cost. (Leave the answer in exact cube-root form.)\n(c) A consultant claims that at the optimal radius, the side costs exactly twice as much as the top and bottom combined. Verify or refute the claim using your optimal r.",
+          "rubric": [
+            "(a) h = 10000/(πr²); C(r) = 0.12πr² + 0.04·2πrh = 0.12πr² + 800/r",
+            "(b) C' = 0.24πr - 800/r² = 0 → r³ = 800/(0.24π) = 10000/(3π); r = (10000/(3π))^{1/3}",
+            "(c) At the optimum 0.24πr³ = 800, so the ends cost 0.12πr² = 400/r while the side costs 800/r — ratio exactly 2",
+            "Concludes the claim is TRUE: side costs twice the ends at the optimum"
+          ],
+          "model_answer": "(a) Volume: πr²h = 10000, so h = 10000/(πr²). Ends: 2πr² at 0.06 → 0.12πr². Side: 2πrh at 0.04 → 0.08πr·(10000/(πr²)) = 800/r. C(r) = 0.12πr² + 800/r, r > 0. (b) C'(r) = 0.24πr - 800/r² = 0 ⟹ r³ = 800/(0.24π) = 10000/(3π), so r = (10000/(3π))^{1/3} ≈ 10.2 cm. (C'' = 0.24π + 1600/r³ > 0 and the critical point is unique: absolute minimum.) (c) At the optimum, 0.24πr³ = 800, i.e. 0.12πr² = 400/r. The ends cost 0.12πr² = 400/r and the side costs 800/r — exactly twice. The claim is true: the optimal drum splits its budget 2:1 between side and ends, a fingerprint of the 0.04/0.06 price ratio."
+        },
+        {
+          "question": "A power station is on the bank of a straight river 300 m wide; a factory is 1000 m downstream on the opposite bank. Cable costs $5 per meter underwater and $3 per meter on land. The cable will run underwater from the station to a point P on the opposite bank x meters downstream, then on land from P to the factory.\n(a) Write the total cost as a function of x, with domain.\n(b) Find the value of x that minimizes the cost.\n(c) Verify the minimum with a derivative test and compute the minimum cost.",
+          "rubric": [
+            "(a) C(x) = 5√(x² + 90000) + 3(1000 - x), 0 ≤ x ≤ 1000",
+            "(b) C' = 5x/√(x² + 90000) - 3 = 0 → 25x² = 9(x² + 90000) → x² = 50625, x = 225",
+            "(c) Sign analysis or C'' > 0; C(225) = 5(375) + 3(775) = 1875 + 2325 = 4200 dollars",
+            "Endpoint check or global argument included (closed domain: compare C(0) = 4500, C(1000) ≈ 5220)"
+          ],
+          "model_answer": "(a) The underwater leg spans √(x² + 300²) = √(x² + 90000); the land leg is 1000 - x. C(x) = 5√(x² + 90000) + 3(1000 - x), 0 ≤ x ≤ 1000. (b) C'(x) = 5x/√(x² + 90000) - 3 = 0: 5x = 3√(x² + 90000), 25x² = 9x² + 810000, x² = 50625, x = 225 m. (c) C' < 0 for x < 225 and C' > 0 for x > 225 (the ratio 5x/√(...) increases with x), so C falls then rises: absolute minimum at x = 225, confirmed against the endpoints (C(0) = 5·300 + 3000 = 4500; C(1000) = 5√(1090000) + 0 ≈ 5220). Minimum cost: C(225) = 5√(50625 + 90000) + 3(775) = 5(375) + 2325 = 1875 + 2325 = $4200."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Analytical Applications of Differentiation",
+    "chapter_title": "Behavior of Implicit Relations",
+    "hook": "Circles, ellipses, and folium curves don't pass the vertical line test — but they still have flat tops, steep sides, and bending arcs. This closing chapter points the unit's entire toolkit at curves that aren't functions, exactly the way the BC exam likes to.",
+    "learning_objectives": [
+      "Find horizontal and vertical tangent points on implicit curves systematically",
+      "Determine concavity of implicit curves via implicit second derivatives",
+      "Classify points on implicit curves using sign analysis adapted to branches",
+      "Combine implicit differentiation with the unit's tests in FRQ-style sequences",
+      "Handle the dual-condition systems (derivative condition + original equation) cleanly"
+    ],
+    "sections": [
+      {
+        "title": "Flat Tops and Steep Sides, Revisited",
+        "subtitle": "The two-equation systems",
+        "body": "Unit 3 located horizontal tangents (numerator of dy/dx zero) and vertical tangents (denominator zero) on implicit curves. This unit's lens upgrades the question from WHERE to WHAT: a horizontal-tangent point on a closed curve is typically its highest or lowest point — a constrained extreme — and the locating system doubles as an optimization tool.\n\nThe ellipse x² + xy + y² = 12: dy/dx = -(2x + y)/(x + 2y). Horizontal candidates: y = -2x on the curve: x² - 2x² + 4x² = 12 gives x = ±2 — points (2, -4) and (-2, 4). Vertical candidates: x = -2y similarly gives (4, -2), (-4, 2). The four points frame the tilted ellipse: top at (-2, 4), bottom at (2, -4), rightmost (4, -2), leftmost (-4, 2). 'Find the highest point on the curve' is solved by the horizontal-tangent system — implicit optimization without ever isolating y.\n\nThe system discipline from Unit 3 persists: the tangent condition AND the original equation, solved simultaneously; candidates where both numerator and denominator vanish get flagged for special handling, not blind classification.\n\nWhy the exam loves this: it braids Unit 3 mechanics with Unit 5 interpretation in one problem — typically (a) find dy/dx, (b) locate the horizontal tangent points, (c) classify or interpret them. Parts (a) and (b) are computation; part (c) is this unit. The braid is the single most predictable BC implicit FRQ.",
+        "key_terms": [
+          [
+            "Implicit extremes",
+            "Horizontal-tangent points are the curve's local tops and bottoms"
+          ],
+          [
+            "Two-equation system",
+            "Tangent condition + original curve, solved simultaneously"
+          ],
+          [
+            "The braid FRQ",
+            "(a) dy/dx, (b) tangent points, (c) classification — the standard sequence"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "After solving the horizontal-tangent system, VERIFY the denominator is nonzero at each solution: a point killing both numerator and denominator is not a horizontal tangent but a singular point needing separate analysis. The one-line check ('at (2, -4), x + 2y = -6 ≠ 0 ✓') is graded."
+          ]
+        ]
+      },
+      {
+        "title": "Concavity on Implicit Curves",
+        "subtitle": "y'' with the original equation recycled",
+        "body": "Classifying an implicit curve's flat points needs concavity, and concavity needs the implicit second derivative — the Unit 3 workflow (differentiate y', substitute y', recycle the original equation) now serving the 2DT. The circle's y'' = -25/y³ classified its arcs; general curves run the same play with more algebra.\n\nEfficient classification at a SPECIFIC flat point skips the general y'': differentiate the dy/dx expression (or the once-differentiated equation), then substitute the point's x, y, AND y' = 0 — the zero slope kills entire terms, collapsing the computation. On x² + xy + y² = 12 at (2, -4): differentiate 2x + y + (x + 2y)y' = 0 once more to get 2 + 2y' + (1 + 2y')y' + (x + 2y)y'' = 0. Setting y' = 0 at the flat point wipes out the middle terms: 2 + (x + 2y)y'' = 0, so y'' = -2/(x + 2y) = -2/(-6) = 1/3 > 0 — concave up: (2, -4) is the curve's LOW point. The y' = 0 collapse is the technique's entire speed advantage.\n\nThe matching classification at (-2, 4): by the same formula y'' = -2/(x + 2y) = -2/6 = -1/3 < 0 — concave down, the HIGH point. Symmetric curves often yield mirrored verdicts from one computation; noticing the symmetry halves the work and signals understanding in written solutions.\n\nThe 2DT's statement adapts verbatim: at a point with dy/dx = 0, positive y'' means a local minimum OF THE BRANCH through that point, negative a local maximum. The branch language matters — implicit curves carry several function-branches, and classification is per-branch. The exam's phrasing ('the curve has a local maximum at...') implicitly means the branch, and answering in branch terms is always safe.",
+        "key_terms": [
+          [
+            "y' = 0 collapse",
+            "Substituting the flat point's zero slope before solving for y'' kills most terms"
+          ],
+          [
+            "Branch classification",
+            "Implicit verdicts are per-branch: the arc through the point cups or caps"
+          ],
+          [
+            "Symmetry dividend",
+            "Symmetric curves yield mirrored classifications from one computation"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "At a horizontal-tangent point, differentiate the ONCE-differentiated equation and immediately set y' = 0 — never compute the general y'' formula first. The collapse turns a quotient-rule marathon into three lines, and BC FRQ rubrics are written expecting the short route."
+          ]
+        ]
+      },
+      {
+        "title": "Full Behavior Analysis",
+        "subtitle": "A worked implicit dossier",
+        "body": "The folium-style curve x³ + y³ = 6xy rewards a complete dossier. dy/dx = (2y - x²)/(y² - 2x) (Unit 3 computation). Horizontal tangents: x² = 2y on the curve. Substituting y = x²/2: x³ + x⁶/8 = 3x³, so x⁶ = 16x³ and x³ = 16, giving x = 2^{4/3} and y = x²/2 = 2^{8/3}/2 = 2^{5/3}. The arithmetic is heavier than the concept: one genuine flat point on the loop, at (2^{4/3}, 2^{5/3}). Vertical tangents mirror by the curve's x↔y symmetry: (2^{5/3}, 2^{4/3}).\n\nThe symmetry observation does real work: the folium is symmetric across y = x (swap x and y and the equation is unchanged), so every feature reflects — flat points pair with steep points, and one dossier entry generates its mirror for free. Exam curves are chosen with such symmetries; spotting them is both a checker and a shortcut.\n\nSingular points — where numerator AND denominator of dy/dx vanish — get the flagged treatment: for the folium, (0, 0) kills both 2y - x² and y² - 2x. The origin is where the loop crosses itself: two branches, two tangent directions, no single slope. The AP handles singular points gently (usually 'explain why dy/dx is not defined'), and the honest answer names the 0/0 form and the geometric crossing.\n\nThe dossier's exam format: a sequence of parts walking exactly this analysis — derivative, tangent points, a classification, sometimes a singular-point comment. Each part feeds the next; an early algebra slip cascades. The defensive practice: carry EXACT values (2^{4/3}, not 2.52) so later parts substitute cleanly, and re-verify each located point ON the original curve before moving on.",
+        "key_terms": [
+          [
+            "Curve dossier",
+            "Derivative, flat/steep points, concavity verdicts, singularities — the complete file"
+          ],
+          [
+            "x↔y symmetry",
+            "Swap-invariant equations mirror every feature across y = x"
+          ],
+          [
+            "Singular point",
+            "Both parts of dy/dx vanish: branches cross, no single tangent exists"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Re-verify located points against the ORIGINAL equation before classifying them — a candidate that fails the curve equation is an algebra-slip artifact, and classifying a phantom point compounds one error into three. The verification line is cheap; the cascade is not."
+          ]
+        ]
+      },
+      {
+        "title": "The Unit in One Problem",
+        "subtitle": "Synthesis and the road to integration",
+        "body": "A capstone composite, sketched: the curve x² - xy + y² = 9 (a tilted ellipse). (a) dy/dx = (y - 2x)/(2y - x). (b) Horizontal tangents: y = 2x on the curve gives 3x² = 9, x = ±√3 — points (√3, 2√3) and (-√3, -2√3). (c) Classify: differentiate-and-collapse with y' = 0 gives y'' = -2/(2y - x); at (√3, 2√3): y'' = -2/(3√3) < 0 — the high point. (d) The MVT-flavored finale some FRQs add: between the high and low points, the curve's branches must pass through every intermediate height — IVT on a parametrized arc.\n\nEvery move in that composite is a chapter of this unit: critical-point hunting (Ch 2) via implicit systems (Ch 7), classification by the adapted 2DT (Ch 4, 7), existence reasoning (Ch 1). The unit's deliverable is not seven techniques but ONE analytical fluency that reads any curve — explicit, implicit, or data-described — for its behavior.\n\nWhat the toolkit cannot yet do: measure. How LONG is the arc between the flat points? How much AREA does the closed curve enclose? Slopes and shapes answer 'what does it look like'; the next unit's integral answers 'how much.' The derivative tells the curve's story pointwise; the integral adds it up.\n\nUnit 6 opens with exactly that turn: accumulation, the definite integral, and the theorem — fundamental in name and in fact — that welds the two halves of calculus together. The analytical machinery built here stays loaded: optimization returns inside integral applications, concavity returns in error analysis, and the MVT returns wearing an integral costume. Nothing in this unit retires.",
+        "key_terms": [
+          [
+            "Capstone composite",
+            "One implicit curve exercising the unit's full toolkit in sequence"
+          ],
+          [
+            "Analytical fluency",
+            "The unified skill: read behavior from derivatives in any presentation"
+          ],
+          [
+            "The turn to measure",
+            "From slope-questions to amount-questions — Unit 6's integral"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "BC implicit FRQs cascade: part (c) uses part (b)'s points and part (a)'s derivative. Budget time to VERIFY parts (a) and (b) before classifying in (c) — thirty seconds of checking beats propagating one slip through three scored parts."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "For the curve x² + 4y² = 16, the points with horizontal tangent lines are",
+          "choices": {
+            "A": "(0, ±2)",
+            "B": "(±4, 0)",
+            "C": "(±2, 0)",
+            "D": "(0, ±4)"
+          },
+          "answer": "A",
+          "explanation": "dy/dx = -x/(4y) = 0 at x = 0; the curve gives 4y² = 16, y = ±2."
+        },
+        {
+          "question": "On the curve x² + y² = 25, y'' = -25/y³. The arc through (0, -5) is",
+          "choices": {
+            "A": "concave up — the point is the circle's bottom",
+            "B": "concave down — the point is the circle's top",
+            "C": "an inflection point",
+            "D": "not on the curve"
+          },
+          "answer": "A",
+          "explanation": "y'' = -25/(-125) = 1/5 > 0: cupped. The lowest point of the circle, consistent with dy/dx = 0 there."
+        },
+        {
+          "question": "For an implicit curve, dy/dx = (3y - x)/(y - 3x). A point where BOTH 3y - x = 0 and y - 3x = 0 hold is",
+          "choices": {
+            "A": "a singular point requiring separate analysis",
+            "B": "automatically a horizontal tangent",
+            "C": "automatically a vertical tangent",
+            "D": "a local maximum"
+          },
+          "answer": "A",
+          "explanation": "0/0 in the slope formula means no single tangent direction — typically a self-crossing. Neither tangent classification applies without deeper analysis."
+        },
+        {
+          "question": "At a point on an implicit curve where dy/dx = 0 and (by the collapse computation) y'' = -4/3, the branch through the point has",
+          "choices": {
+            "A": "a local maximum",
+            "B": "a local minimum",
+            "C": "an inflection point",
+            "D": "a vertical tangent"
+          },
+          "answer": "A",
+          "explanation": "Flat tangent plus negative second derivative: capped — a local max of that branch, by the 2DT."
+        },
+        {
+          "question": "The curve x³ + y³ = 6xy is unchanged when x and y are swapped. If it has a horizontal tangent at (a, b), it must have",
+          "choices": {
+            "A": "a vertical tangent at (b, a)",
+            "B": "a horizontal tangent at (b, a)",
+            "C": "a singular point at (a, b)",
+            "D": "a zero at x = b"
+          },
+          "answer": "A",
+          "explanation": "Reflection across y = x swaps the roles of horizontal and vertical: the mirrored point carries the mirrored (vertical) tangent."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Consider the curve x² + xy + y² = 12.\n(a) Find dy/dx.\n(b) Find all points where the curve has a horizontal tangent line, verifying the denominator condition.\n(c) Using the collapse technique (substituting y' = 0 after differentiating again), classify each point from (b) as the branch's local maximum or minimum.",
+          "rubric": [
+            "(a) (2x + y) + (x + 2y)y' = 0 → dy/dx = -(2x + y)/(x + 2y)",
+            "(b) y = -2x into the curve: 3x² = 12, x = ±2 → (2, -4), (-2, 4); checks x + 2y ≠ 0 at both",
+            "(c) Differentiating again with y' = 0: 2 + (x + 2y)y'' = 0 → y'' = -2/(x + 2y)",
+            "At (2,-4): y'' = 1/3 > 0 local min; at (-2,4): y'' = -1/3 < 0 local max"
+          ],
+          "model_answer": "(a) Differentiating: 2x + y + x y' + 2y y' = 0, so dy/dx = -(2x + y)/(x + 2y). (b) Horizontal tangents need 2x + y = 0, i.e., y = -2x, on the curve: x² + x(-2x) + 4x² = 3x² = 12, x = ±2. Points: (2, -4) and (-2, 4). Denominator check: x + 2y = 2 - 8 = -6 ≠ 0 and -2 + 8 = 6 ≠ 0 ✓ — both are genuine horizontal tangents. (c) Differentiate 2x + y + (x + 2y)y' = 0 once more and set y' = 0 at the points: 2 + (x + 2y)y'' = 0, so y'' = -2/(x + 2y). At (2, -4): y'' = -2/(-6) = 1/3 > 0 — the branch cups: local minimum (the curve's lowest point). At (-2, 4): y'' = -2/6 = -1/3 < 0 — local maximum (the highest point)."
+        },
+        {
+          "question": "The curve y³ - xy = 6 passes through (1, 2).\n(a) Verify the point and find dy/dx at (1, 2).\n(b) Determine whether the curve has any horizontal tangent points at all, and justify.\n(c) Find the points where the curve has a VERTICAL tangent line. (The system is 3y² = x with the original equation.)",
+          "rubric": [
+            "(a) 8 - 2 = 6 ✓; differentiating: 3y²y' - y - xy' = 0 → y' = y/(3y² - x); at (1,2): 2/11",
+            "(b) Horizontal needs y = 0; substituting y = 0 into the curve gives 0 = 6, impossible — no horizontal tangents",
+            "(c) 3y² = x into the curve: y³ - 3y³ = 6 → y³ = -3, y = -3^{1/3}, x = 3·3^{2/3}",
+            "Verifies numerator y ≠ 0 at the point — genuine vertical tangent"
+          ],
+          "model_answer": "(a) Check: 2³ - (1)(2) = 8 - 2 = 6 ✓. Differentiate: 3y² y' - (y + x y') = 0, so y'(3y² - x) = y and dy/dx = y/(3y² - x). At (1, 2): dy/dx = 2/(12 - 1) = 2/11. (b) A horizontal tangent requires the numerator y = 0. But y = 0 in the curve equation gives 0 - 0 = 6 — impossible. The curve never crosses y = 0, and it has NO horizontal tangent points. (c) Vertical tangents: denominator zero, 3y² = x, substituted into the curve: y³ - (3y²)y = -2y³ = 6, so y³ = -3, y = -3^{1/3} ≈ -1.442, and x = 3y² = 3·3^{2/3} ≈ 6.24. At this point the numerator y ≠ 0, so the tangent is genuinely vertical: the point is (3·3^{2/3}, -3^{1/3})."
+        },
+        {
+          "question": "An elliptical track is modeled by 4x² + y² = 100 (units in meters).\n(a) Find the coordinates of the track's northernmost point using calculus (not inspection), showing the horizontal-tangent system.\n(b) Classify the point with an implicit second-derivative computation.\n(c) A drone must hover over the track point with the steepest slope dy/dx in magnitude. Explain — using the vertical-tangent analysis — why no such 'steepest finite slope' point exists, and describe what happens to slopes near the track's east and west extremes.",
+          "rubric": [
+            "(a) dy/dx = -4x/y = 0 → x = 0; curve: y² = 100 → northernmost (0, 10)",
+            "(b) Differentiate 8x + 2y y' = 0 again, set y' = 0: 8 + 2y y'' = 0 → y'' = -4/y = -2/5 < 0: local max ✓",
+            "(c) Slopes -4x/y blow up as y → 0 (points (±5, 0)); for any finite bound there are nearer points with larger slope",
+            "Describes |dy/dx| → ∞ approaching the east/west extremes — vertical tangents there"
+          ],
+          "model_answer": "(a) Differentiating: 8x + 2y y' = 0, so dy/dx = -4x/y. Horizontal tangent: -4x = 0, x = 0; on the curve y² = 100, y = ±10. The northernmost point is (0, 10). (b) Differentiate 8x + 2y y' = 0 again: 8 + 2(y')² + 2y y'' = 0; at (0, 10) with y' = 0: 8 + 20 y'' = 0, y'' = -2/5 < 0 — concave down: a local maximum of the branch, confirming (0, 10) is the top. (c) The slope -4x/y grows without bound in magnitude as y → 0 along the curve — i.e., approaching the east and west extremes (±5, 0), where the tangents are vertical (denominator zero, numerator -4(±5) ≠ 0). For any candidate 'steepest finite slope' point, track points closer to (±5, 0) have steeper slopes still, so no maximum finite slope exists; the slopes increase without limit toward the vertical-tangent points."
+        }
+      ]
+    }
+  }
+]

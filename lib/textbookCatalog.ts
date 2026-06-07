@@ -20,6 +20,7 @@ const SUBJECT_BY_TEXTBOOK_SLUG: Record<string, string> = {
   "ap-physics-ultimate": "ap-physics-1",
   "ap-physics-2-ultimate": "ap-physics-2",
   "ap-calc-ab-ultimate": "ap-calculus-ab",
+  "ap-calc-bc-ultimate": "ap-calculus-bc",
 };
 
 export function subjectIdForTextbookSlug(slug: string): string | null {

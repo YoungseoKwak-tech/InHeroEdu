@@ -2020,4 +2020,114 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 5, lessonNum: 2,
+    unitName: "Revolutions (c. 1750–1900)",
+    title: "American and French Revolutions — Outcomes Compared",
+    subtitle: "Two revolutions, the same Enlightenment ideals — wildly different paths and endings.",
+    overview:
+      "The American and French revolutions both invoked natural rights and popular sovereignty, but they unfolded very differently. The American produced a relatively stable republic; the French spiraled into radical violence and ended in Napoleon's empire.",
+    objectives: [
+      "Compare the causes and goals of the American and French revolutions.",
+      "Explain why their outcomes diverged so sharply.",
+      "Connect both to Enlightenment ideals.",
+    ],
+    diagram: "cause-effect",
+    sections: [
+      {
+        title: "Two revolutions side by side",
+        body:
+          "Both rejected unaccountable rule using Enlightenment language, but their scope and violence differed dramatically.",
+        table: {
+          headers: ["", "American (1776)", "French (1789)"],
+          rows: [
+            ["Target", "British colonial rule", "Their own monarchy & social order"],
+            ["Radicalism", "Moderate; preserved existing elites", "Radical; overturned monarchy, church, hierarchy"],
+            ["Violence", "Limited (a war of independence)", "Extreme (Reign of Terror)"],
+            ["Outcome", "Stable constitutional republic", "Chaos → Napoleon's empire"],
+          ],
+        },
+        keyIdea: "Same ideals, different scope: America changed WHO ruled; France tried to remake society itself — hence the chaos.",
+      },
+      {
+        title: "Why the outcomes diverged",
+        body:
+          "The American Revolution largely preserved the existing social structure (minus the British), making it more stable. The French Revolution attacked the entire old order — monarchy, nobility, church — unleashing the radical Reign of Terror before Napoleon seized power and spread revolutionary ideals (and conquest) across Europe.",
+        terms: [
+          { term: "Reign of Terror", def: "The radical, violent phase of the French Revolution (mass executions)." },
+          { term: "Napoleon Bonaparte", def: "General-turned-emperor who ended the Revolution's chaos and spread its ideals by conquest." },
+        ],
+        traps: ["Don't assume 'revolution' = total social change. The American kept its elites; the French tried to overturn everything."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 5, lessonNum: 3,
+    unitName: "Revolutions (c. 1750–1900)",
+    title: "Haitian Revolution — The Exception That Tests the Rule",
+    subtitle: "The only successful large-scale slave revolt in history — and the most radical application of 'all men are created equal.'",
+    overview:
+      "The Haitian Revolution stands apart: enslaved people themselves overthrew French rule and founded an independent nation in 1804. It took the Enlightenment promise of equality further than any other Atlantic revolution — to the enslaved — and terrified slaveholding societies everywhere.",
+    objectives: [
+      "Describe the course and leaders of the Haitian Revolution.",
+      "Explain why it was the most radical Atlantic revolution.",
+      "Analyze its impact on the Atlantic world.",
+    ],
+    diagram: "cause-effect",
+    sections: [
+      {
+        title: "The only successful slave revolution",
+        body:
+          "Inspired by the French Revolution's ideals, the enslaved majority of the French colony of Saint-Domingue rose up under leaders like Toussaint Louverture. After brutal fighting they defeated France and declared independence as Haiti in 1804 — the first nation born of a successful slave revolt and the first Black republic.",
+        keyIdea: "Haiti applied 'all men are equal' to ENSLAVED people — the radical step other revolutions refused to take.",
+        terms: [
+          { term: "Toussaint Louverture", def: "Formerly enslaved leader of the Haitian Revolution." },
+          { term: "Saint-Domingue", def: "The wealthy French sugar colony that became independent Haiti." },
+        ],
+      },
+      {
+        title: "Why it 'tested the rule'",
+        body:
+          "Other revolutions proclaimed equality while keeping slavery; Haiti's enslaved people forced the issue. The revolution both inspired enslaved people across the Americas and terrified slaveholding elites, who tried to isolate Haiti. It exposed the hypocrisy at the heart of the age of revolutions.",
+        terms: [
+          { term: "Haiti (1804)", def: "The independent nation created by the only successful large-scale slave revolt." },
+        ],
+        traps: ["Haiti is the 'exception' because it's the one revolution where the ENSLAVED won freedom and power — the others stopped short."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 5, lessonNum: 4,
+    unitName: "Revolutions (c. 1750–1900)",
+    title: "Latin American Independence — Creole Revolutions",
+    subtitle: "Independence led by resentful creole elites — which changed the rulers far more than the social order.",
+    overview:
+      "Spain's American colonies won independence in the early 1800s, but these were largely creole revolutions: led by American-born elites (creoles) who resented Spanish-born peninsulares. They threw off Spain yet preserved the existing social hierarchy.",
+    objectives: [
+      "Identify the leaders and causes of Latin American independence.",
+      "Explain the role of creole resentment and Spain's weakness.",
+      "Analyze why social hierarchies survived independence.",
+    ],
+    sections: [
+      {
+        title: "Creole-led revolutions",
+        body:
+          "Creoles were wealthy and educated but blocked from the highest offices by peninsulares — a resentment that, combined with Enlightenment ideals and Spain's weakness during the Napoleonic Wars, sparked independence. Leaders like Simón Bolívar and José de San Martín led the military campaigns.",
+        keyIdea: "Creole resentment of peninsulares (rich but shut out of top posts) was the engine of Latin American independence.",
+        terms: [
+          { term: "Creoles", def: "American-born people of Spanish descent who led independence movements." },
+          { term: "Simón Bolívar", def: "Creole general who liberated much of northern South America." },
+        ],
+      },
+      {
+        title: "New rulers, old order",
+        body:
+          "Independence swapped Spanish rulers for creole ones but largely left the social hierarchy intact: the casta order persisted and the mass of indigenous, enslaved, and mixed-race people saw little improvement. Politically free, socially unchanged.",
+        terms: [
+          { term: "Peninsulares", def: "Spanish-born colonists who had held the top colonial offices." },
+        ],
+        traps: ["Latin American independence changed WHO ruled (creoles, not Spain) but mostly preserved the social hierarchy — limited social revolution."],
+      },
+    ],
+  },
 ];

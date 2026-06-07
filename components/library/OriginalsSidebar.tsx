@@ -46,6 +46,7 @@ const COVER_BY_SLUG: Record<string, { src: string; glyph: string }> = {
   "ap-physics-ultimate": { src: "/textbook-covers/ap-physics-1.jpg",   glyph: "⚛️" },
   "ap-physics-2-ultimate": { src: "/textbook-covers/ap-physics-2.jpg", glyph: "🧲" },
   "ap-calc-ab-ultimate": { src: "/textbook-covers/ap-calc-ab.jpg",     glyph: "∫" },
+  "ap-calc-bc-ultimate": { src: "/textbook-covers/ap-calculus-bc.jpg", glyph: "∫" },
 };
 
 // Fallback roadmap entries — only render if their slug isn't already live

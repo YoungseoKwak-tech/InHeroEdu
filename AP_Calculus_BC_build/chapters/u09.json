@@ -1,0 +1,1658 @@
+[
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Parametric Equations, Polar Coordinates, and Vector-Valued Functions",
+    "chapter_title": "Parametric Equations — Curves in Motion",
+    "hook": "BC ONLY from here to the end of the course. A point's x and y can each follow their own clock: x = f(t), y = g(t). Parametric equations describe curves the vertical line test forbids — loops, spirals, figure-eights — and motion along them, with time built in.",
+    "learning_objectives": [
+      "Interpret parametric equations as a point's coordinates driven by a parameter",
+      "Plot parametric curves and mark their direction of travel",
+      "Eliminate the parameter to identify a curve's Cartesian shape",
+      "Parametrize standard curves: lines, circles, ellipses, function graphs",
+      "Distinguish the curve (the road) from the parametrization (the trip)"
+    ],
+    "sections": [
+      {
+        "title": "Two Clocks, One Point",
+        "subtitle": "What parametric equations say",
+        "body": "A parametric curve assigns the moving point's coordinates separately: x = f(t), y = g(t), with the parameter t running through an interval. At each t the pair (f(t), g(t)) is a location; as t advances, the point traces a path. The parameter is usually time, and the framing is usually motion: not 'what does y equal at x' but 'where IS the point at time t.'\n\nFirst example, plotted by table: x = t², y = t³ - 3t for t in [-2, 2]. At t = -2: (4, -2). At t = -1: (1, 2). At t = 0: (0, 0). At t = 1: (1, -2). At t = 2: (4, 2). The trace sweeps right-to-left along the upper arc, down through the origin, and back out — a curve that CROSSES ITSELF at (1, ±2)-adjacent points and fails the vertical line test decisively. No y = f(x) could draw this; the parameter could.\n\nDirection of travel is part of the data: arrows on the sketch showing increasing t. Two parametrizations tracing the same set of points in opposite directions are DIFFERENT motions — and exam questions about velocity and 'moving left' depend on the direction, not just the shape.\n\nThe domain of t crops the curve: the same equations on [0, 2] draw only the lower-right portion. Parametric curves are trips with departure and arrival times; restricting t is restricting the itinerary, and bounds matter exactly as integration bounds did.",
+        "key_terms": [
+          [
+            "Parametric curve",
+            "x = f(t), y = g(t): coordinates on separate clocks, traced as t runs"
+          ],
+          [
+            "Direction of travel",
+            "Arrows of increasing t — part of the curve's data, not decoration"
+          ],
+          [
+            "Parameter domain",
+            "The t-interval crops the trip: same equations, different windows, different curves"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Plot parametric curves by a t-table (five to seven values), and ALWAYS arrow the direction. Sketch questions grade the arrows; analysis questions ('moving left at t = 1?') are unanswerable without tracking which way t drives the point."
+          ]
+        ]
+      },
+      {
+        "title": "Eliminating the Parameter",
+        "subtitle": "Finding the road's Cartesian name",
+        "body": "To identify a parametric curve's shape, eliminate t: solve one equation for t and substitute into the other. x = t + 1, y = t² - 1: t = x - 1, so y = (x - 1)² - 1 — a parabola, now nameable. The Cartesian form reveals the ROAD; the parametric form retained the TRIP (direction, speed, timing) that elimination throws away.\n\nTrig parametrizations eliminate through identities: x = 3cos t, y = 3sin t gives (x/3)² + (y/3)² = cos²t + sin²t = 1 — the circle x² + y² = 9, traced counterclockwise from (3, 0) as t runs 0 to 2π. Ellipses generalize: x = a cos t, y = b sin t. The identity route (square and add) handles every sine-cosine pair; solving for t directly would drown in arc-functions.\n\nDomain bookkeeping survives elimination: for x = t², y = t⁴, substitution gives y = x² — but x = t² is never negative, so the parametric curve is only the RIGHT HALF of the parabola. Elimination can silently enlarge the curve; check the parametric coordinates' actual ranges and state the restriction. The exam tests this exact subtlety with even powers and square roots.\n\nThe reverse skill — parametrizing a given curve — has standard answers: the graph of y = f(x) takes x = t, y = f(t); the segment from P to Q takes (1 - t)P + tQ for t in [0, 1]; circles take the cosine-sine pair. Parametrization is never unique (infinitely many trips travel one road), and 'a' parametrization is all such prompts want.",
+        "key_terms": [
+          [
+            "Parameter elimination",
+            "Solve for t and substitute, or square-and-add for trig pairs"
+          ],
+          [
+            "Range restriction",
+            "Even powers and roots shrink coordinate ranges: state the cropped domain"
+          ],
+          [
+            "Standard parametrizations",
+            "x = t for graphs; cos-sin for circles; (1-t)P + tQ for segments"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "After eliminating the parameter, audit the ranges: x = t² traces only x ≥ 0. The Cartesian equation alone OVERSTATES the curve, and 'identify the curve' answers that ignore the restriction lose the point on exactly this design."
+          ]
+        ]
+      },
+      {
+        "title": "Motion Reading",
+        "subtitle": "Where, which way, how the coordinates move",
+        "body": "Parametric motion questions read each coordinate's clock separately. 'Is the point moving left at t = 1?' asks about x alone: dx/dt < 0 means leftward, whatever y does. 'Moving up?' is dy/dt > 0. The particle on x = t² - 2t, y = t³ at t = 1: dx/dt = 2t - 2 = 0 and dy/dt = 3 > 0 — momentarily moving straight UP, the horizontal motion paused.\n\nThe component-wise reading is the unit's foundational habit: every parametric derivative question decomposes into per-coordinate questions, each one Unit-4 material on its own clock. A particle can move left while rising, pause horizontally while falling — the coordinates are independent dancers, and the curve is their joint choreography.\n\nWhere is the point AT t = 3 versus WHERE DOES IT PASS THROUGH (2, 5): the first evaluates (x(3), y(3)); the second solves x(t) = 2 and y(t) = 5 SIMULTANEOUSLY — both equations, same t. A curve passing through a location requires one clock-time satisfying both coordinates; solving only x's equation finds times the point is merely vertically aligned with the target.\n\nSelf-intersections (the t²/t³-3t example's crossing) are simultaneous-passage questions with two DIFFERENT times: find t₁ ≠ t₂ with x(t₁) = x(t₂) and y(t₁) = y(t₂). The same road point, visited twice — possible because trips can revisit, which functions never could. BC asks these occasionally; the setup is the two-equation system.",
+        "key_terms": [
+          [
+            "Component-wise reading",
+            "Left/right is dx/dt's sign; up/down is dy/dt's — separate clocks"
+          ],
+          [
+            "Simultaneous passage",
+            "Through (a, b) means one t solving x(t) = a AND y(t) = b together"
+          ],
+          [
+            "Self-intersection",
+            "Two different times, same location: the two-equation, two-time system"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'At what time does the particle pass through (2, 5)?' requires BOTH coordinate equations to hold at the SAME t — solve one, then verify in the other. Solving only x(t) = 2 and reporting that t is the genre's planted error."
+          ]
+        ]
+      },
+      {
+        "title": "Why BC Goes Parametric",
+        "subtitle": "The unit's map and the exam's stake",
+        "body": "Parametric form is where calculus meets real motion: projectiles (x = v₀t cos θ, y = v₀t sin θ - 16t²), orbits, robot arms, anything whose coordinates evolve independently. The form's freedom — loops, crossings, vertical travel — is exactly what y = f(x) lacked, and BC's final units live in that freedom.\n\nThe unit's roadmap from here: derivatives of parametric curves (slopes of the road from the trip's clocks — next chapter), arc length and speed (the trip's odometer), vector-valued functions (the same content in vector notation — the AP uses both interchangeably), planar motion (the full physics), then polar coordinates (a different parametrization of the plane itself) with their own derivatives and areas.\n\nThe exam's stake: parametric/vector/polar carries one of the six FRQs most years, plus several multiple choice. The recurring FRQ is planar motion — position, velocity, speed, total distance — which is Unit 8's motion battery with two coordinates. Students who keep the 'same framework, second coordinate' perspective find the unit light; students who treat it as new mathematics drown in notation.\n\nOne orientation note for what follows: the AP writes parametric motion in BOTH notations — x(t), y(t) pairs, and vector form r(t) = ⟨x(t), y(t)⟩ with velocity v(t) = ⟨x'(t), y'(t)⟩. They are the same content; chapter 4 makes the dictionary explicit. Read both fluently and the unit's notational surface flattens.",
+        "key_terms": [
+          [
+            "Projectile parametrization",
+            "Independent horizontal and vertical clocks: physics' native form"
+          ],
+          [
+            "The unit roadmap",
+            "Slopes, lengths/speed, vectors, motion, then polar — one freedom, six chapters"
+          ],
+          [
+            "Dual notation",
+            "(x(t), y(t)) and r(t) = ⟨x, y⟩: one content, two costumes"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Units 9 and 10 are BC-only and together carry roughly a third of the BC exam's weight — the AB-overlap material is behind you. Budget study time accordingly: these are the units that separate BC scores."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "A curve is given by x = t + 1, y = t² - 1. Its Cartesian equation is",
+          "choices": {
+            "A": "y = (x - 1)² - 1",
+            "B": "y = x² - 1",
+            "C": "y = (x + 1)² - 1",
+            "D": "x = y² - 1"
+          },
+          "answer": "A",
+          "explanation": "t = x - 1 substitutes into y = t² - 1."
+        },
+        {
+          "question": "The curve x = 2cos t, y = 2sin t for 0 ≤ t ≤ 2π is",
+          "choices": {
+            "A": "a circle of radius 2 traced counterclockwise",
+            "B": "a circle of radius 4",
+            "C": "a circle of radius 2 traced clockwise",
+            "D": "half a circle"
+          },
+          "answer": "A",
+          "explanation": "x² + y² = 4; at t = 0 the point is (2, 0) and at t = π/2 it is (0, 2): counterclockwise."
+        },
+        {
+          "question": "For x = t², y = t⁶, eliminating the parameter gives y = x³. The parametric curve is",
+          "choices": {
+            "A": "only the x ≥ 0 portion of y = x³",
+            "B": "all of y = x³",
+            "C": "only the x ≤ 0 portion",
+            "D": "the full curve traced twice"
+          },
+          "answer": "A",
+          "explanation": "x = t² never goes negative: the trip covers only the right half of the road."
+        },
+        {
+          "question": "A particle follows x = t² - 4t, y = 2t + 1. At t = 1 it is moving",
+          "choices": {
+            "A": "left and up",
+            "B": "right and up",
+            "C": "left and down",
+            "D": "right and down"
+          },
+          "answer": "A",
+          "explanation": "dx/dt = 2t - 4 = -2 < 0 (left); dy/dt = 2 > 0 (up)."
+        },
+        {
+          "question": "The particle x = t - 2, y = t² passes through the point (1, 9)",
+          "choices": {
+            "A": "at t = 3",
+            "B": "at t = ±3",
+            "C": "at t = 1",
+            "D": "never"
+          },
+          "answer": "A",
+          "explanation": "x = 1 forces t = 3; check y(3) = 9 ✓. (t = -3 satisfies y but fails x — both equations must hold at one t.)"
+        }
+      ],
+      "frq": [
+        {
+          "question": "Consider the parametric curve x = t², y = t³ - 3t for -2 ≤ t ≤ 2.\n(a) Complete a table of (x, y) at t = -2, -1, 0, 1, 2, and describe the direction of travel.\n(b) Show that the curve passes through the point (3, 0), and find all times it does so.\n(c) Show the curve intersects itself: find the self-intersection point and the two times.",
+          "rubric": [
+            "(a) Points (4,-2),(1,2),(0,0),(1,-2),(4,2); direction narrated with arrows by increasing t",
+            "(b) y = 0 at t = 0, ±√3; x = 3 requires t = ±√3: passes through (3, 0) at t = ±√3",
+            "(c) Self-intersection needs t₁ ≠ t₂ with equal coordinates: x equal forces t₂ = -t₁; y equal then forces t³ - 3t = -(t³ - 3t)",
+            "So t³ = 3t: t = ±√3, point (3, 0) — the same point found in (b), visited twice"
+          ],
+          "model_answer": "(a) t = -2: (4, -2); t = -1: (1, 2); t = 0: (0, 0); t = 1: (1, -2); t = 2: (4, 2). The point sweeps in from the lower right, up through (1, 2), down through the origin to (1, -2), and back out to the upper right — arrows follow increasing t. (b) y = t³ - 3t = t(t² - 3) = 0 at t = 0, ±√3. Of these, x = t² = 3 holds at t = ±√3: the curve passes through (3, 0) at both t = -√3 and t = √3. (c) For a self-intersection, seek t₁ ≠ t₂ with x(t₁) = x(t₂) and y(t₁) = y(t₂). Equal x forces t₂ = -t₁ (squares agree). Equal y then demands t₁³ - 3t₁ = -t₁³ + 3t₁, i.e., 2t₁³ = 6t₁, t₁² = 3. The times are ∓√3 and the point is (3, 0) — the curve crosses itself exactly where part (b) found the double passage."
+        },
+        {
+          "question": "A drone's position is x = 3cos t, y = 2sin t for 0 ≤ t ≤ 2π (meters, seconds).\n(a) Eliminate the parameter to identify the flight path, and state the direction of travel.\n(b) Find all times the drone is moving straight up or straight down (horizontally paused).\n(c) Find the position(s) where the drone moves fastest horizontally, i.e. where |dx/dt| is maximal.",
+          "rubric": [
+            "(a) (x/3)² + (y/2)² = 1: ellipse, semi-axes 3 and 2, counterclockwise from (3, 0)",
+            "(b) dx/dt = -3sin t = 0 at t = 0, π, 2π — at (±3, 0); vertical motion there: dy/dt = 2cos t = ±2 ≠ 0",
+            "(c) |dx/dt| = 3|sin t| maximal at t = π/2, 3π/2",
+            "Positions (0, 2) and (0, -2) — the ellipse's top and bottom"
+          ],
+          "model_answer": "(a) (x/3)² + (y/2)² = cos²t + sin²t = 1: an ellipse with semi-major axis 3 (x-direction) and semi-minor 2. At t = 0 the drone sits at (3, 0); at t = π/2, at (0, 2): counterclockwise. (b) Horizontal pause: dx/dt = -3 sin t = 0 at t = 0, π, 2π — the points (3, 0) and (-3, 0). There dy/dt = 2cos t = ±2 ≠ 0, so the motion is genuinely vertical: at (3, 0) (t = 0 and 2π) the drone moves straight up (dy/dt = 2), and at (-3, 0) (t = π) straight down (dy/dt = -2). (c) |dx/dt| = 3|sin t| peaks at t = π/2 and 3π/2, where the drone crosses (0, 2) and (0, -2) — fastest sideways sweep at the top and bottom of the ellipse."
+        },
+        {
+          "question": "Write parametrizations for each, with the parameter domain.\n(a) The graph of y = ln x from x = 1 to x = e².\n(b) The line segment from P(2, -1) to Q(5, 3).\n(c) The circle x² + y² = 16 traced CLOCKWISE starting at (0, 4).",
+          "rubric": [
+            "(a) x = t, y = ln t, 1 ≤ t ≤ e²",
+            "(b) (x, y) = (2 + 3t, -1 + 4t), 0 ≤ t ≤ 1",
+            "(c) Clockwise from the top: x = 4sin t, y = 4cos t, 0 ≤ t ≤ 2π (or equivalent)",
+            "Start point and direction verified for (c)"
+          ],
+          "model_answer": "(a) The graph trick: x = t, y = ln t for 1 ≤ t ≤ e². (b) Segment template (1 - t)P + tQ: x = 2 + 3t, y = -1 + 4t for 0 ≤ t ≤ 1 — at t = 0 it sits at P, at t = 1 at Q. (c) Start at (0, 4) and go clockwise: x = 4 sin t, y = 4 cos t for 0 ≤ t ≤ 2π. Check: t = 0 gives (0, 4) ✓; t = π/2 gives (4, 0) — moved to the RIGHT from the top, which is clockwise ✓. (Parametrizations are not unique; any pair tracing the same trip earns credit.)"
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Parametric Equations, Polar Coordinates, and Vector-Valued Functions",
+    "chapter_title": "Derivatives of Parametric Curves",
+    "hook": "The road's slope from the trip's clocks: dy/dx = (dy/dt)/(dx/dt). One division converts parametric speeds into curve geometry — tangent lines, horizontal and vertical tangents, and a second derivative with a famous trap in its denominator.",
+    "learning_objectives": [
+      "Compute dy/dx for parametric curves as (dy/dt)/(dx/dt)",
+      "Write tangent lines to parametric curves at a given parameter value",
+      "Locate horizontal tangents (dy/dt = 0) and vertical tangents (dx/dt = 0)",
+      "Compute d²y/dx² via the parametric second-derivative formula",
+      "Analyze concavity and behavior of parametric curves through t"
+    ],
+    "sections": [
+      {
+        "title": "The Slope Formula",
+        "subtitle": "Chain rule, rearranged",
+        "body": "The curve's slope at a point is dy/dx — but parametric curves deliver dy/dt and dx/dt instead. The chain rule connects them: dy/dt = (dy/dx)(dx/dt), so dy/dx = (dy/dt)/(dx/dt), wherever dx/dt ≠ 0. The road's steepness is the ratio of the clocks' speeds: climbing 6 units per second while advancing 2 per second means slope 3.\n\nWorked: x = t², y = t³ - 3t. dy/dx = (3t² - 3)/(2t). At t = 2: (12 - 3)/4 = 9/4 — the slope of last chapter's curve as it sweeps through (4, 2). Note the answer is a function of T, not of x: parametric slopes are naturally indexed by the trip's clock, and 'the slope at t = 2' is the standard phrasing.\n\nTangent lines assemble exactly as always — a point and a slope, both from the same t: at t = 2 the point is (4, 2) and the slope 9/4: y - 2 = (9/4)(x - 4). Both coordinates AND the slope evaluated at the same parameter value; mixing t's across the ingredients is the assembly error to guard against.\n\nThe formula's failure mode — dx/dt = 0 — is geometry, not breakdown: the point is moving purely vertically, and the curve's tangent is vertical (if dy/dt ≠ 0 there). The slope formula's denominator carries real information, which the horizontal/vertical tangent analysis next section reads systematically.",
+        "key_terms": [
+          [
+            "Parametric slope",
+            "dy/dx = (dy/dt)/(dx/dt): the ratio of the coordinate speeds"
+          ],
+          [
+            "Same-t assembly",
+            "Tangent lines use the point AND slope from one parameter value"
+          ],
+          [
+            "Slope as a function of t",
+            "Parametric derivatives index by the clock, not by x"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "dy/dx is dy/dt OVER dx/dt — y's clock upstairs. The inverted ratio (dx/dt)/(dy/dt) computes dx/dy, a different (and rarely wanted) quantity, and it sits among the multiple-choice options every time."
+          ]
+        ]
+      },
+      {
+        "title": "Horizontal and Vertical Tangents",
+        "subtitle": "Numerator zeros, denominator zeros",
+        "body": "Horizontal tangents: dy/dt = 0 with dx/dt ≠ 0 — the vertical clock pauses while the horizontal runs: the curve crests or bottoms. Vertical tangents: dx/dt = 0 with dy/dt ≠ 0 — the horizontal pauses: the curve turns straight up or down. The implicit-differentiation analysis of Unit 5 ran on the same numerator/denominator logic; here the parts arrive pre-separated.\n\nOn the spine curve x = t², y = t³ - 3t: dy/dt = 3t² - 3 = 0 at t = ±1 (dx/dt = ±2 ≠ 0 there): horizontal tangents at (1, -2) and (1, 2). dx/dt = 2t = 0 at t = 0 (dy/dt = -3 ≠ 0): vertical tangent at the origin. Three tangent landmarks from two derivative zeros — and the curve's self-crossing sketch now has its turning geometry labeled.\n\nThe both-zero case (dy/dt = dx/dt = 0 at the same t) is the flagged singularity: the point momentarily STOPS, and the curve can do anything — cusp, smooth pause, corner. The slope's limit (L'Hospital on the ratio, or factoring) settles each case individually. The AP flags these gently; the honest answer names the 0/0 form and investigates rather than declaring.\n\nReporting conventions: tangent locations are POINTS — convert the t-values through both coordinate equations. 'Horizontal tangents at t = ±1' half-answers a 'where' question; '(1, -2) and (1, 2)' completes it. The t-to-point conversion is the chapter's recurring final step.",
+        "key_terms": [
+          [
+            "Horizontal tangent",
+            "dy/dt = 0, dx/dt ≠ 0: the crest/trough condition"
+          ],
+          [
+            "Vertical tangent",
+            "dx/dt = 0, dy/dt ≠ 0: the curve turns vertical"
+          ],
+          [
+            "Both-zero singularity",
+            "The point stops; the curve's behavior needs case-by-case limits"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Check the OTHER derivative at every candidate: dy/dt = 0 alone does not certify a horizontal tangent — if dx/dt also vanishes there, the point is a singularity, not a crest. The two-condition sentence ('dy/dt = 0 and dx/dt ≠ 0 at t = 1') is the graded form."
+          ]
+        ]
+      },
+      {
+        "title": "The Second Derivative",
+        "subtitle": "Differentiate the slope, divide by dx/dt again",
+        "body": "d²y/dx² differentiates dy/dx with respect to X — but the slope arrived as a function of t. The chain rule routes it: d²y/dx² = [d/dt(dy/dx)] / (dx/dt). Differentiate the slope-in-t, then divide by dx/dt ONCE MORE. The formula's shape — derivative of the previous answer, over the same denominator — iterates for higher orders, though the AP stops at the second.\n\nThe trap, named: d²y/dx² is NOT (d²y/dt²)/(d²x/dt²). The ratio of second clock-derivatives is dimensionally tempting and entirely wrong — the correct route differentiates the QUOTIENT (3t² - 3)/(2t), quotient rule and all, before dividing again. The wrong formula sits in the answer choices; the right one has the quotient rule's fingerprints on it.\n\nWorked on the spine: dy/dx = (3t² - 3)/(2t) = (3/2)(t - 1/t). d/dt of that: (3/2)(1 + 1/t²). Divide by dx/dt = 2t: d²y/dx² = (3/2)(1 + 1/t²)/(2t) = 3(t² + 1)/(4t³). Concavity now reads from t's sign: positive t (the branch sweeping the lower-right arc up through the upper right) is concave up, and negative t concave down. The curve's two halves bend oppositely, as its sketch suggests.\n\nConcavity questions phrase as 'for what values of t is the curve concave up?' — solve d²y/dx² > 0 in t, exactly Unit 5's sign analysis with the parameter as the variable. The full Unit 5 battery (increasing where dy/dx > 0, concavity, behavior) transfers t-indexed; nothing conceptual is new, and the AP's parametric second-derivative item is annual.",
+        "key_terms": [
+          [
+            "Parametric second derivative",
+            "d²y/dx² = [d/dt(dy/dx)]/(dx/dt) — differentiate the slope, divide again"
+          ],
+          [
+            "The famous trap",
+            "NOT (d²y/dt²)/(d²x/dt²): second clock-derivatives don't divide into curve concavity"
+          ],
+          [
+            "t-indexed analysis",
+            "Concavity and behavior solve as sign questions in the parameter"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The parametric d²y/dx² appears on the BC exam nearly every year, and the distractor (y''(t)/x''(t)) appears with it. The correct computation MUST show a quotient-rule differentiation of dy/dx — if your work has no quotient rule, you computed the trap."
+          ]
+        ]
+      },
+      {
+        "title": "Full Curve Analysis",
+        "subtitle": "The parametric dossier",
+        "body": "The complete parametric analysis assembles the unit's opening chapters: plot landmarks (endpoint positions, axis crossings), find horizontal and vertical tangents (with points), determine concavity regions in t, and sketch with arrows. The spine curve's dossier: starts (4, -2) at t = -2, vertical tangent at (0, 0), horizontal tangents at (1, ±2), self-crossing at (3, 0), concave down for t < 0 and up for t > 0, ends (4, 2).\n\nTangent lines at named times decorate FRQ parts: 'write the tangent line at t = 2' is the same three-ingredient assembly as ever (point from both equations, slope from the ratio). Normal lines, parallel-to-a-given-line conditions ('find t where the tangent is parallel to y = 2x'), and slope-at-a-POINT questions (convert the point to its t first — possibly multiple t's at a self-crossing!) complete the genre's variations.\n\nThe multiple-t subtlety at crossings earns its own sentence: at (3, 0), the spine curve passes TWICE (t = ±√3), with two different slopes — dy/dx = (3t² - 3)/(2t) at t = √3 gives 6/(2√3) = √3, and at t = -√3 gives -√3. 'The slope at (3, 0)' is ill-posed; 'the slopes at the self-intersection' is the well-posed version, and listing both is the answer.\n\nWhat the dossier feeds: speed and arc length next chapter use the same dx/dt, dy/dt ingredients in Pythagorean combination; vector notation then repackages everything. The derivative pair (dx/dt, dy/dt) computed once serves four chapters — label it clearly in your work and reuse.",
+        "key_terms": [
+          [
+            "Parametric dossier",
+            "Landmarks, tangents (both kinds), concavity in t, arrows — the full sketch kit"
+          ],
+          [
+            "Point-to-t conversion",
+            "Slope at a POINT: find its t (or t's, at crossings) first"
+          ],
+          [
+            "Two slopes at a crossing",
+            "Self-intersections carry one slope per passage — report both"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "At a self-intersection, 'the' tangent line doesn't exist — the curve has one per passage. If a question asks for tangent lines at such a point, the plural is the hint: find both t's, both slopes, both lines."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "For x = t², y = t³ - 3t, dy/dx =",
+          "choices": {
+            "A": "(3t² - 3)/(2t)",
+            "B": "2t/(3t² - 3)",
+            "C": "3t² - 3",
+            "D": "6t/2"
+          },
+          "answer": "A",
+          "explanation": "dy/dt over dx/dt. (B inverts the ratio — the standard distractor.)"
+        },
+        {
+          "question": "The curve x = t² - 4, y = t³ - 12t has horizontal tangents at t =",
+          "choices": {
+            "A": "±2",
+            "B": "0",
+            "C": "±2 and 0",
+            "D": "±√12"
+          },
+          "answer": "A",
+          "explanation": "dy/dt = 3t² - 12 = 0 at t = ±2, where dx/dt = 2t = ±4 ≠ 0 ✓. (t = 0 zeroes dx/dt instead: vertical tangent.)"
+        },
+        {
+          "question": "The tangent line to x = 1 + 2t, y = t² at t = 3 is",
+          "choices": {
+            "A": "y - 9 = 3(x - 7)",
+            "B": "y - 9 = 6(x - 7)",
+            "C": "y - 9 = 3(x - 3)",
+            "D": "y - 7 = 3(x - 9)"
+          },
+          "answer": "A",
+          "explanation": "Point (7, 9); slope = (2t)/2 = t = 3. Same t for point and slope."
+        },
+        {
+          "question": "For a parametric curve, d²y/dx² equals",
+          "choices": {
+            "A": "[d/dt(dy/dx)] ÷ (dx/dt)",
+            "B": "(d²y/dt²)/(d²x/dt²)",
+            "C": "d/dt(dy/dx)",
+            "D": "(dy/dt)²/(dx/dt)²"
+          },
+          "answer": "A",
+          "explanation": "Differentiate the slope in t, divide by dx/dt again. (B is the famous trap.)"
+        },
+        {
+          "question": "x = e^t, y = t e^t. Then dy/dx at t = 0 is",
+          "choices": {
+            "A": "1",
+            "B": "0",
+            "C": "e",
+            "D": "undefined"
+          },
+          "answer": "A",
+          "explanation": "dy/dt = e^t(1 + t), dx/dt = e^t: ratio 1 + t, which is 1 at t = 0."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Consider the curve x = t² - 4, y = t³ - 12t.\n(a) Find all points where the tangent line is horizontal.\n(b) Find all points where the tangent line is vertical.\n(c) Write the equation of the tangent line at t = 1.",
+          "rubric": [
+            "(a) dy/dt = 3t² - 12 = 0 at t = ±2 (dx/dt ≠ 0 there): points (0, -16) and (0, 16)",
+            "(b) dx/dt = 2t = 0 at t = 0 (dy/dt = -12 ≠ 0): point (-4, 0)",
+            "(c) Point (-3, -11); slope (3 - 12)/2 = -9/2",
+            "Line y + 11 = (-9/2)(x + 3)"
+          ],
+          "model_answer": "(a) dy/dt = 3t² - 12 vanishes at t = ±2, where dx/dt = ±4 ≠ 0 — genuine horizontal tangents. Points: t = 2 → (0, -16); t = -2 → (0, 16). (b) dx/dt = 2t = 0 at t = 0, where dy/dt = -12 ≠ 0: vertical tangent at (-4, 0). (c) At t = 1: point (1 - 4, 1 - 12) = (-3, -11); slope dy/dx = (3 - 12)/2 = -9/2. Tangent: y + 11 = (-9/2)(x + 3)."
+        },
+        {
+          "question": "For the curve x = t², y = t³ - 3t:\n(a) Compute d²y/dx², showing the quotient-rule differentiation of dy/dx.\n(b) Determine the values of t for which the curve is concave up.\n(c) A student computes (d²y/dt²)/(d²x/dt²) = 6t/2 = 3t and reports it as the concavity. Explain the error and exhibit one t-value where the two formulas even disagree in SIGN.",
+          "rubric": [
+            "(a) dy/dx = (3t² - 3)/(2t); d/dt gives (3/2)(1 + 1/t²); divide by 2t: 3(t² + 1)/(4t³)",
+            "(b) Sign of t³: concave up for t > 0",
+            "(c) The second derivative in x requires dividing the slope's t-derivative by dx/dt — not a ratio of clock accelerations",
+            "Exhibits a t where the formulas disagree numerically (e.g. t = 1/2: correct 15/2 versus the wrong formula's 3/2)"
+          ],
+          "model_answer": "(a) dy/dx = (3t² - 3)/(2t). Quotient rule (or simplify first to (3/2)(t - t⁻¹)): d/dt[dy/dx] = (3/2)(1 + 1/t²). Then d²y/dx² = (3/2)(1 + 1/t²) ÷ (2t) = 3(t² + 1)/(4t³). (b) The numerator 3(t² + 1) is always positive, so the sign is t³'s: concave up exactly when t > 0. (c) The error: d²y/dx² means differentiating dy/dx with respect to x, which the chain rule converts to [d/dt(dy/dx)]/(dx/dt) — the slope's t-derivative divided by the x-clock, NOT the ratio of the two clocks' accelerations. The formulas are genuinely different functions: 3(t² + 1)/(4t³) versus 3t. At t = 1/2 the correct value is 3(5/4)/(1/2) = 15/2 while the wrong one gives 3/2 — off by a factor of five; and as t → 0⁺ the true concavity blows up while 3t → 0, so the wrong formula even misses the vertical-tangent geometry entirely."
+        },
+        {
+          "question": "The curve x = t² , y = t³ - 3t crosses itself at (3, 0) (passing at t = ±√3).\n(a) Compute the slope of the curve at each passage.\n(b) Write both tangent lines at the point (3, 0).\n(c) Explain why 'the slope of the curve at (3, 0)' is not a well-posed question, in one sentence.",
+          "rubric": [
+            "(a) dy/dx = (3t² - 3)/(2t): at √3, 6/(2√3) = √3; at -√3, -√3",
+            "(b) y = √3(x - 3) and y = -√3(x - 3)",
+            "(c) The location is visited twice with different directions — slope belongs to a passage, not a point",
+            "Both lines through (3, 0) with the ± slopes"
+          ],
+          "model_answer": "(a) dy/dx = (3t² - 3)/(2t). At t = √3: (9 - 3)/(2√3) = 6/(2√3) = √3. At t = -√3: (9 - 3)/(-2√3) = -√3. (b) Both lines pass through (3, 0): y = √3(x - 3) and y = -√3(x - 3) — a symmetric X through the crossing. (c) The curve occupies (3, 0) on two different passages with two different headings, so slope is a property of the PASSAGE (the t-value), not of the location — asking for 'the' slope at the point picks no passage and hence no answer."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Parametric Equations, Polar Coordinates, and Vector-Valued Functions",
+    "chapter_title": "Arc Length and Speed for Parametric Curves",
+    "hook": "Unit 8's arc length formula was the special case x = t. Free both coordinates and Pythagoras symmetrizes: speed is √((dx/dt)² + (dy/dt)²), and distance traveled is its integral. One formula, two jobs — the BC exam's most reliable parametric points.",
+    "learning_objectives": [
+      "Compute speed as the magnitude √((dx/dt)² + (dy/dt)²)",
+      "Compute parametric arc length / total distance as the integral of speed",
+      "Distinguish distance traveled from displacement for planar motion",
+      "Evaluate engineered arc integrals exactly and general ones numerically",
+      "Connect the formula to Unit 8's y = f(x) version as the x = t special case"
+    ],
+    "sections": [
+      {
+        "title": "Speed",
+        "subtitle": "The Pythagorean magnitude",
+        "body": "A parametric particle's velocity has components (dx/dt, dy/dt) — and its SPEED is the components' Pythagorean combination: speed = √((dx/dt)² + (dy/dt)²). Moving 3 units/s rightward while climbing 4 units/s means traveling 5 units/s along the path: the diagonal of the velocity rectangle.\n\nWorked: x = t², y = t³ - 3t at t = 2: dx/dt = 4, dy/dt = 9: speed = √(16 + 81) = √97 ≈ 9.85. Note speed is a SCALAR — positive, directionless — while the component pair carries the direction. The scalar/vector split previews chapter 4's formalization; the computation is already complete here.\n\nSpeed's extremes answer 'when is the particle moving fastest/slowest': optimize √((x')² + (y')²) — equivalently its SQUARE, dodging the radical exactly as Unit 5's distance problems did. Minimum speed zero means the particle momentarily stops: both components vanishing at once, the singularity condition from last chapter wearing motion clothes.\n\nThe units audit, perennial: components in m/s combine to speed in m/s — same units, Pythagorean blend. And the one-dimensional sanity check: y ≡ 0 collapses the formula to |dx/dt|, Unit 4's speed-is-|velocity| — the planar formula contains the line formula, as upgrades should.",
+        "key_terms": [
+          [
+            "Speed",
+            "√((dx/dt)² + (dy/dt)²): the velocity components' magnitude"
+          ],
+          [
+            "Square-to-optimize",
+            "Fastest/slowest solve on speed² — no radical calculus"
+          ],
+          [
+            "Momentary stop",
+            "Speed zero ⟺ both components zero at once"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Speed questions are calculator-friendly one-liners: 'the speed at t = 1.3' evaluates √(x'(1.3)² + y'(1.3)²) numerically. The formula written out, the value to three decimals — two lines, full credit, every BC exam."
+          ]
+        ]
+      },
+      {
+        "title": "Distance Traveled",
+        "subtitle": "Integrating the speedometer",
+        "body": "Distance accumulates speed: traveled distance from t = a to b is L = ∫ₐᵇ √((dx/dt)² + (dy/dt)²) dt. The integral IS the parametric arc length — the trip's odometer — and it doubles as the curve's length when the trip covers the curve once. Unit 8's ∫|v| dt was this formula on a line; the plane adds the second square.\n\nThe engineered exact case: x = t², y = t³ on [0, 2], with components 2t and 3t²: L = ∫₀² √(4t² + 9t⁴) dt = ∫₀² t√(4 + 9t²) dt (factoring t² out of the radical — legal since t ≥ 0). u-substitution (u = 4 + 9t², du = 18t dt): (1/18)·(2/3)u^{3/2} evaluated from 4 to 40: (1/27)(40^{3/2} - 8) = (8/27)(10√10 - 1). The factor-then-substitute pattern is the genre's exact-evaluation playbook.\n\nThe general case goes numeric: x = cos t + t sin t styles produce radicals no technique opens, and the calculator integrates the speed directly. As with every Unit 8 application: the SETUP line L = ∫ₐᵇ √((x')² + (y')²) dt with the actual derivatives substituted is the graded artifact; the machine supplies digits.\n\nOnce-covered honesty: the integral measures the TRIP — a parametrization retracing the curve (the circle traced twice by t in [0, 4π]) accumulates double the curve's length. 'Length of the curve' and 'distance traveled' coincide only for injective trips; the exam phrases planar-motion questions as DISTANCE, where the trip is always the right reading.",
+        "key_terms": [
+          [
+            "Parametric arc length",
+            "L = ∫√((dx/dt)² + (dy/dt)²) dt: the speed, integrated"
+          ],
+          [
+            "Factor-then-substitute",
+            "Pull t² from the radical, u-sub the survivor — the exact-case playbook"
+          ],
+          [
+            "Trip vs curve",
+            "Retracing parametrizations double-count: distance reads the trip"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Total distance for planar motion is ∫(speed) dt — NO absolute value bars needed: the Pythagorean radical is already nonnegative. Students importing Unit 8's |v| reflex write |√(...)| harmlessly, but hunting for sign changes to split at is wasted time the formula never asked for."
+          ]
+        ]
+      },
+      {
+        "title": "Displacement vs Distance, Planar Edition",
+        "subtitle": "Vector net change against the odometer",
+        "body": "Planar displacement is the coordinate-wise net change: Δx = ∫ₐᵇ (dx/dt) dt = x(b) - x(a), and Δy likewise — the straight-line vector from start to end, computed one clock at a time. Its magnitude √((Δx)² + (Δy)²) is how far the endpoints sit apart. Distance traveled (the speed integral) can only exceed it: trips are never shorter than their chords, the planar restatement of Unit 8's chord check.\n\nThe distinction's standard FRQ pairing: 'find the position at t = 3' (anchor plus the two component integrals — next chapter's vector framework, already usable component-wise) versus 'find the total distance traveled on [0, 3]' (one speed integral). Two questions, three integrals, no overlap — and the exam asks them adjacent to test whether the concepts stay separate.\n\nWorked contrast on the circle x = cos t, y = sin t over [0, 2π]: distance = ∫₀^{2π} √(sin²t + cos²t) dt = ∫₀^{2π} 1 dt = 2π — the circumference, at unit speed. Displacement: x and y return to their starts: (0, 0), magnitude 0. A full lap drives 2π to go nowhere — the cleanest possible exhibit of the distinction.\n\nThe unit-speed observation generalizes usefully: when √((x')² + (y')²) simplifies to a constant, distance is just (speed)×(time) — and exam integrands sometimes collapse this way (the circle, helical styles). Simplify the radicand BEFORE integrating; constants hide in trig identities.",
+        "key_terms": [
+          [
+            "Planar displacement",
+            "(Δx, Δy) by component integrals: the endpoint-to-endpoint vector"
+          ],
+          [
+            "Chord inequality",
+            "Distance traveled ≥ |displacement|: trips beat chords, planar edition"
+          ],
+          [
+            "Constant-speed collapse",
+            "Radicands that simplify to constants turn the integral into multiplication"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'How far is the particle from its starting point at t = 3?' is the DISPLACEMENT's magnitude — √((x(3)-x(0))² + (y(3)-y(0))²) — not the distance traveled. The phrase 'from its starting point' is the router; misrouting costs the whole part."
+          ]
+        ]
+      },
+      {
+        "title": "The Formula Family",
+        "subtitle": "One Pythagoras, three costumes",
+        "body": "The unit's length formulas are one identity dressed three ways. Parametric: L = ∫√((dx/dt)² + (dy/dt)²) dt — the master, both coordinates free. Function graphs: y = f(x) parametrizes as x = t, y = f(t), collapsing the master to ∫√(1 + (f')²) dx — Unit 8's formula, derived rather than memorized. Polar (chapter 8 ahead): r = f(θ) parametrizes as x = r cos θ, y = r sin θ, and the master grinds out ∫√(r² + (dr/dθ)²) dθ.\n\nThe derivation habit pays at exam time: rather than maintaining three formulas, regenerate from √(dx² + dy²) — divide and multiply by the parameter's differential, square inside, integrate. Thirty seconds re-derives any of the three; a memory slip in any ONE memorized version is unrecoverable.\n\nSpeed inherits the same family structure: |f'(x)|-style on lines, the Pythagorean radical for parametric, and (chapter 8) the polar version. 'Speed' on the BC exam means the parametric radical in virtually every appearance — planar motion is its habitat.\n\nWhat remains in the unit: vector notation (the same derivatives with angle brackets — next), the full planar-motion FRQ (everything so far assembled), then polar coordinates' own geometry. The Pythagorean radical computed in this chapter is the unit's single most-used expression; every remaining chapter calls it.",
+        "key_terms": [
+          [
+            "The master formula",
+            "∫√((dx/dt)² + (dy/dt)²) dt — both special cases derive from it"
+          ],
+          [
+            "Derive, don't triple-memorize",
+            "√(dx² + dy²) regenerates the function-graph and polar versions"
+          ],
+          [
+            "Speed's habitat",
+            "On the BC exam, 'speed' = the parametric radical, almost always"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "If asked for arc length in an unfamiliar setting, start from √(dx² + dy²) and substitute the setting's expressions for dx and dy — the derivation IS the answer path. The three formulas are checkpoints, not separate facts."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "A particle moves with x = t², y = t³ - 3t. Its speed at t = 2 is",
+          "choices": {
+            "A": "√97",
+            "B": "97",
+            "C": "13",
+            "D": "√(16 + 36)"
+          },
+          "answer": "A",
+          "explanation": "Components 4 and 9: √(16 + 81) = √97."
+        },
+        {
+          "question": "The distance traveled by x = cos t, y = sin t from t = 0 to t = π is",
+          "choices": {
+            "A": "π",
+            "B": "2π",
+            "C": "2",
+            "D": "1"
+          },
+          "answer": "A",
+          "explanation": "Speed = √(sin²t + cos²t) = 1; distance = ∫₀^π 1 dt = π — half the circle at unit speed."
+        },
+        {
+          "question": "The arc length of x = t², y = t³ for 0 ≤ t ≤ 2 is computed by",
+          "choices": {
+            "A": "∫₀² t√(4 + 9t²) dt",
+            "B": "∫₀² √(2t + 3t²) dt",
+            "C": "∫₀² (4t² + 9t⁴) dt",
+            "D": "∫₀² √(1 + 9t⁴) dt"
+          },
+          "answer": "A",
+          "explanation": "√(4t² + 9t⁴) = t√(4 + 9t²) for t ≥ 0. (C dropped the radical; D used the y = f(x) formula in the wrong setting.)"
+        },
+        {
+          "question": "A particle's velocity components are dx/dt = 3 and dy/dt = -4 (constant). Over [0, 5] its distance traveled and displacement magnitude are",
+          "choices": {
+            "A": "both 25",
+            "B": "25 and 5",
+            "C": "5 and 25",
+            "D": "35 and 5"
+          },
+          "answer": "A",
+          "explanation": "Constant speed 5 along a straight line: distance 25, and the chord equals the path — displacement magnitude also 25."
+        },
+        {
+          "question": "'How fast is the particle moving at t = 1?' asks for",
+          "choices": {
+            "A": "√(x'(1)² + y'(1)²)",
+            "B": "x'(1) + y'(1)",
+            "C": "|x'(1)|",
+            "D": "the slope dy/dx at t = 1"
+          },
+          "answer": "A",
+          "explanation": "Speed is the Pythagorean magnitude of the velocity components — not their sum, not one component, not the direction."
+        }
+      ],
+      "frq": [
+        {
+          "question": "A particle moves with x = t², y = t³ for 0 ≤ t ≤ 2.\n(a) Find the particle's speed at t = 1.\n(b) Set up and evaluate the exact distance traveled over [0, 2], showing the substitution.\n(c) Compute the displacement's magnitude over [0, 2] and verify the chord inequality.",
+          "rubric": [
+            "(a) √(4 + 9) = √13",
+            "(b) ∫₀² t√(4 + 9t²) dt; u = 4 + 9t²: (1/27)[u^{3/2}]₄⁴⁰ = (8/27)(10√10 - 1) ≈ 9.07",
+            "(c) Endpoints (0,0) → (4, 8): |displacement| = √(16 + 64) = 4√5 ≈ 8.94",
+            "9.07 ≥ 8.94 ✓ — the path slightly beats its chord"
+          ],
+          "model_answer": "(a) Components 2t and 3t² at t = 1: speed = √(4 + 9) = √13 ≈ 3.61. (b) L = ∫₀² √(4t² + 9t⁴) dt = ∫₀² t√(4 + 9t²) dt. Let u = 4 + 9t², du = 18t dt: L = (1/18)∫₄⁴⁰ √u du = (1/27)[u^{3/2}]₄⁴⁰ = (1/27)(40√40 - 8) = (8/27)(10√10 - 1) ≈ 9.07. (c) The particle runs from (0, 0) to (4, 8): displacement magnitude √(16 + 64) = 4√5 ≈ 8.94. Indeed 9.07 > 8.94 — the gently curving path is slightly longer than its chord, as the inequality demands."
+        },
+        {
+          "question": "A skater's position is x = 2cos t, y = 2sin t + t for 0 ≤ t ≤ 2π (a rising loop).\n(a) Write the speed as a function of t and simplify the radicand.\n(b) Find the times of maximum and minimum speed, and the speeds there.\n(c) Set up the total distance integral and evaluate it numerically to three decimals.",
+          "rubric": [
+            "(a) Components -2sin t, 2cos t + 1; speed² = 4sin²t + 4cos²t + 4cos t + 1 = 5 + 4cos t",
+            "(b) Max at cos t = 1 (t = 0, 2π): speed 3; min at cos t = -1 (t = π): speed 1",
+            "(c) L = ∫₀^{2π} √(5 + 4cos t) dt ≈ 13.365",
+            "Identity-driven simplification shown before optimizing"
+          ],
+          "model_answer": "(a) dx/dt = -2 sin t, dy/dt = 2 cos t + 1. Speed² = 4 sin²t + (2 cos t + 1)² = 4 sin²t + 4 cos²t + 4 cos t + 1 = 5 + 4 cos t. Speed = √(5 + 4 cos t). (b) The radicand 5 + 4 cos t is maximal when cos t = 1 (t = 0 and 2π): speed √9 = 3; minimal when cos t = -1 (t = π): speed √1 = 1. The skater moves fastest at the loop's start/end, slowest opposite. (c) L = ∫₀^{2π} √(5 + 4 cos t) dt — no elementary antiderivative; numerically L ≈ 13.365. (Sanity: between the constant-speed bounds 1·2π ≈ 6.28 and 3·2π ≈ 18.85 ✓.)"
+        },
+        {
+          "question": "Show that Unit 8's arc length formula is a special case of the parametric one.\n(a) Parametrize the graph of y = f(x), a ≤ x ≤ b, with the standard trick.\n(b) Substitute into L = ∫√((dx/dt)² + (dy/dt)²) dt and simplify to the Unit 8 formula.\n(c) Use the parametric formula directly to find the length of y = (2/3)x^{3/2} from x = 0 to x = 3, and confirm it matches the value 14/3 computed in Unit 8.",
+          "rubric": [
+            "(a) x = t, y = f(t), a ≤ t ≤ b",
+            "(b) dx/dt = 1, dy/dt = f'(t): L = ∫ₐᵇ √(1 + (f'(t))²) dt — the Unit 8 formula with t renamed x",
+            "(c) x = t, y = (2/3)t^{3/2}: speed √(1 + t); ∫₀³ √(1 + t) dt = (2/3)(8 - 1) = 14/3 ✓",
+            "Explicit identification of the special case"
+          ],
+          "model_answer": "(a) The standard graph parametrization: x = t, y = f(t) for a ≤ t ≤ b. (b) Then dx/dt = 1 and dy/dt = f'(t), so L = ∫ₐᵇ √(1 + (f'(t))²) dt. Since t IS x along this trip, the integral is ∫ₐᵇ √(1 + (f'(x))²) dx — Unit 8's formula exactly: the one-clock-fixed special case of the parametric master. (c) With x = t, y = (2/3)t^{3/2}: dy/dt = t^{1/2}, speed = √(1 + t). L = ∫₀³ √(1 + t) dt = [(2/3)(1 + t)^{3/2}]₀³ = (2/3)(8 - 1) = 14/3 — matching the Unit 8 computation, as it must: same curve, same length, one formula wearing two coats."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Parametric Equations, Polar Coordinates, and Vector-Valued Functions",
+    "chapter_title": "Vector-Valued Functions",
+    "hook": "Wrap the coordinate pair in angle brackets and parametric motion becomes vector calculus: r(t) = ⟨x(t), y(t)⟩, velocity v = r', acceleration a = v'. Nothing computes differently — but the AP writes half its motion questions in this notation, and fluency is the price of entry.",
+    "learning_objectives": [
+      "Read and write vector-valued functions r(t) = ⟨x(t), y(t)⟩ and their derivatives",
+      "Differentiate and integrate vector functions component-wise",
+      "Translate between vector notation and parametric notation without friction",
+      "Compute velocity, acceleration, and speed in vector form",
+      "Recover position vectors from velocity with vector initial conditions"
+    ],
+    "sections": [
+      {
+        "title": "Vectors as Packaging",
+        "subtitle": "The notation and its dictionary",
+        "body": "A vector-valued function bundles the coordinates: r(t) = ⟨x(t), y(t)⟩ — the position VECTOR from the origin to the moving point. Differentiation acts component-wise: r'(t) = ⟨x'(t), y'(t)⟩ = v(t), the velocity vector; r''(t) = ⟨x''(t), y''(t)⟩ = a(t), acceleration. Each derivative rule from the scalar world applies per slot; the brackets just keep the slots together.\n\nThe dictionary, complete: position (x(t), y(t)) ⟺ r(t) = ⟨x, y⟩. The pair (dx/dt, dy/dt) ⟺ v(t). Speed √((x')² + (y')²) ⟺ |v(t)|, the velocity's MAGNITUDE — vector bars meaning Pythagorean length. Distance traveled ∫|v| dt — the same integral as last chapter with tidier clothes. Every chapter-1-through-3 computation has a bracketed restatement and an identical answer.\n\nNotational variants the exam uses freely: ⟨x, y⟩ angle brackets, xi + yj unit-vector form (i, j the axis directions), and column-ish (x(t), y(t)) pairs. All three name the same object; FRQ stems pick one and accept answers in any. The i-j form differentiates termwise exactly like brackets: d/dt(t²i + t³j) = 2t i + 3t² j.\n\nWhy vectors at all: direction and magnitude SEPARATE cleanly. The velocity vector ⟨-3, 4⟩ says 'leftward-and-up, at 5 units per second' in one object — sign pattern for direction, length for speed. Questions about 'the direction of motion' read the vector; about 'how fast,' its magnitude. The packaging is the point.",
+        "key_terms": [
+          [
+            "Vector-valued function",
+            "r(t) = ⟨x(t), y(t)⟩: the coordinates, bundled and differentiated per slot"
+          ],
+          [
+            "The kinematic stack",
+            "r → v → a by component-wise differentiation; |v| is speed"
+          ],
+          [
+            "Three costumes",
+            "⟨x, y⟩, xi + yj, and bare pairs — one object, free interchange"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Vector answers need BOTH components: v(2) = ⟨4, 9⟩, not '4 and 9' loose on the page, and certainly not just one. The bracket (or i-j) packaging in your final answer is part of the graded communication."
+          ]
+        ]
+      },
+      {
+        "title": "Component-Wise Calculus",
+        "subtitle": "Differentiate and integrate per slot",
+        "body": "Worked stack: r(t) = ⟨t², t³ - 3t⟩. v(t) = ⟨2t, 3t² - 3⟩. a(t) = ⟨2, 6t⟩. Speed |v(t)| = √(4t² + (3t² - 3)²). At t = 2: v = ⟨4, 9⟩, a = ⟨2, 12⟩, |v| = √97 — chapter 3's numbers, repackaged. Evaluation questions ('find v(2) and a(2)') are substitution; the calculus happened at the component level.\n\nIntegration mirrors: ∫⟨2t, 3t²⟩ dt = ⟨t² + C₁, t³ + C₂⟩ — a constant PER COMPONENT, pinned by a vector initial condition. Given v(t) = ⟨2t, 3t²⟩ and r(0) = ⟨1, -2⟩: r(t) = ⟨t² + 1, t³ - 2⟩. The accumulation form works equally: r(b) = r(a) + ⟨∫x', ∫y'⟩ — Unit 8's anchor-plus-integral, once per slot.\n\nThe FRQ's favorite recovery: given a(t), v(0), and r(0), integrate twice with two vector conditions — four scalar constants in all, organized two per level. The bookkeeping is Unit 6's two-constant discipline doubled; the layout that survives it is computing v(t) COMPLETELY (both components, constant pinned) before touching r.\n\nProducts deserve one care-flag: there is no single 'product rule' needed on the AP for vectors (dot/cross products are beyond the syllabus) — but scalar-times-vector functions like t·⟨cos t, sin t⟩ differentiate by the ordinary product rule per component. Componentization reduces every required operation to old calculus; the unit adds notation, not rules.",
+        "key_terms": [
+          [
+            "Component integration",
+            "Per-slot antiderivatives, one constant each, vector conditions pin both"
+          ],
+          [
+            "Twice-integrated recovery",
+            "a → v → r with two vector conditions: the standard FRQ"
+          ],
+          [
+            "Complete-v-first layout",
+            "Finish velocity (both slots, constants pinned) before starting position"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Position recovery on the calculator section: x(3) = x(0) + ∫₀³ x'(t) dt per component, machine-evaluated — no symbolic antiderivative needed. The exam designs velocity components (like sin(t²)) specifically so the accumulation route is the ONLY route."
+          ]
+        ]
+      },
+      {
+        "title": "Velocity and Acceleration, Read Together",
+        "subtitle": "Direction, speeding up, and the geometry",
+        "body": "Direction of motion at an instant is v's sign pattern: v(1) = ⟨-2, 5⟩ moves left-and-up. 'Moving toward the y-axis' reads x's component against x's position (x > 0 with x' < 0 approaches). The per-slot reading from chapter 1, now phrased on the vector.\n\nSpeeding up or slowing down in the plane: the speed |v| is what changes, so differentiate IT — d/dt|v| — or, the practical equivalent the AP accepts: compute |v| at the time and just before/after numerically (calculator sections), or analyze (|v|²)' = 2(x'x'' + y'y'') whose sign matches d|v|/dt's. The one-dimensional 'v and a same sign' shortcut has no direct planar analog — the honest object is the speed's own derivative.\n\nThe geometric pairing: v points along the path (tangent); a points where the velocity is being pushed. Their relationship sets the motion's character — a aligned with v speeds the particle, opposed brakes it, perpendicular curves it. The circular case shows it cleanly: on r = ⟨cos t, sin t⟩, v = ⟨-sin t, cos t⟩ rides the tangent while a = ⟨-cos t, -sin t⟩ = -r aims at the center — centripetal. The AP tests the verify-on-the-circle computation, not the general theory.\n\nTangent-line questions ride the velocity: the tangent to the PATH at t₀ passes through r(t₀) with direction v(t₀) — slope y'(t₀)/x'(t₀), chapter 2's ratio with vector provenance. The line of motion if all forces vanished — physics' reading — is the same line, and stems use both phrasings.",
+        "key_terms": [
+          [
+            "Direction reading",
+            "v's sign pattern: the instantaneous heading, slot by slot"
+          ],
+          [
+            "Planar speeding up",
+            "Differentiate the speed: d/dt|v|, or sign((|v|²)') = sign(x'x'' + y'y'')"
+          ],
+          [
+            "Centripetal verification",
+            "On the circle, a = -r: acceleration aims at the center while v rides the tangent"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Is the particle speeding up at t = 2?' in the PLANE: compute d/dt|v| (or evaluate |v| just around t = 2 by calculator). The 1-D shortcut 'v and a same sign' does not transfer — vectors don't have one sign. The speed's own derivative is the graded object."
+          ]
+        ]
+      },
+      {
+        "title": "The Notation Bridge, Sealed",
+        "subtitle": "One motion, every costume",
+        "body": "A closing translation drill, the unit's Rosetta stone. The motion x = t², y = t³ - 3t in all costumes: parametric pair (x(t), y(t)); vector r(t) = ⟨t², t³ - 3t⟩; i-j form t²i + (t³ - 3t)j. Velocity: (dx/dt, dy/dt) = v(t) = ⟨2t, 3t² - 3⟩ = 2ti + (3t² - 3)j. Speed: one radical, three notations. The exam may open in one costume and ask parts in another; translation should cost zero seconds.\n\nWhat each chapter contributed, now visible as one structure: the trip (ch 1), its slopes (ch 2), its odometer and speedometer (ch 3), its packaging (here). The planar motion FRQ — the unit's flagship, next chapter — draws one part from each: position at a time (integrate v), slope of the path (the ratio), speed and total distance (the radical and its integral), direction or tangent (the vector read).\n\nThe AB-to-BC reflection worth a sentence: every scalar concept acquired a planar twin by componentization plus Pythagoras. Position → position vector; velocity → velocity vector; |v| stayed speed; ∫|v| stayed distance; tangent slopes became ratios. Students who carry the 'twin' map answer BC motion with AB instincts — which is the design.\n\nNext: the assembled planar-motion chapter, then polar coordinates — where the PLANE itself gets reparametrized by angle and radius, and the unit's tools (slopes through ratios, lengths through radicals, areas through slicing) replay one more time in their final costume.",
+        "key_terms": [
+          [
+            "Rosetta drill",
+            "One motion written three ways, translated without friction"
+          ],
+          [
+            "The flagship preview",
+            "Planar motion FRQs draw one part from each chapter of the unit"
+          ],
+          [
+            "The twin map",
+            "Scalar concepts → planar twins: componentize, then Pythagoras"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "BC motion FRQs mix notations mid-question by design — the stem in r(t) brackets, part (c) asking about dy/dx. Translating without re-deriving (the slope is y'(t)/x'(t) regardless of costume) is the fluency being graded."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "r(t) = ⟨t², t³ - 3t⟩. Then a(1) =",
+          "choices": {
+            "A": "⟨2, 6⟩",
+            "B": "⟨2, 0⟩",
+            "C": "⟨2t, 6t⟩",
+            "D": "⟨0, 6⟩"
+          },
+          "answer": "A",
+          "explanation": "a(t) = ⟨2, 6t⟩; at t = 1: ⟨2, 6⟩."
+        },
+        {
+          "question": "v(t) = ⟨3, -4⟩ (constant). The particle's speed is",
+          "choices": {
+            "A": "5",
+            "B": "-1",
+            "C": "7",
+            "D": "√7"
+          },
+          "answer": "A",
+          "explanation": "|v| = √(9 + 16) = 5 — the magnitude, not the component sum."
+        },
+        {
+          "question": "v(t) = ⟨2t, 3⟩ with r(0) = ⟨1, -2⟩. Then r(t) =",
+          "choices": {
+            "A": "⟨t² + 1, 3t - 2⟩",
+            "B": "⟨t², 3t⟩",
+            "C": "⟨2, 0⟩ + t⟨1, -2⟩",
+            "D": "⟨t² - 2, 3t + 1⟩"
+          },
+          "answer": "A",
+          "explanation": "Integrate per slot, pin each constant: x = t² + 1, y = 3t - 2."
+        },
+        {
+          "question": "At t = 1, v(1) = ⟨-2, 5⟩. The particle is moving",
+          "choices": {
+            "A": "left and up",
+            "B": "right and up",
+            "C": "left and down",
+            "D": "toward the origin"
+          },
+          "answer": "A",
+          "explanation": "Negative x-component: left; positive y-component: up. (D needs position information the vector alone doesn't carry.)"
+        },
+        {
+          "question": "For r(t) = ⟨cos t, sin t⟩, the acceleration satisfies",
+          "choices": {
+            "A": "a(t) = -r(t), pointing at the center",
+            "B": "a(t) = v(t)",
+            "C": "a(t) = 0",
+            "D": "a(t) = r(t), pointing outward"
+          },
+          "answer": "A",
+          "explanation": "a = ⟨-cos t, -sin t⟩ = -r: centripetal — the circle's signature."
+        }
+      ],
+      "frq": [
+        {
+          "question": "A particle's acceleration is a(t) = ⟨2, 6t⟩ with v(0) = ⟨0, -3⟩ and r(0) = ⟨0, 0⟩.\n(a) Find v(t) and r(t).\n(b) Find the particle's speed at t = 2.\n(c) Verify your recovered r(t) matches the motion x = t², y = t³ - 3t, and find the slope dy/dx of the path at t = 2.",
+          "rubric": [
+            "(a) v = ⟨2t, 3t² - 3⟩ (constants from v(0)); r = ⟨t², t³ - 3t⟩ (constants from r(0))",
+            "(b) |v(2)| = √(16 + 81) = √97",
+            "(c) Components match the named motion ✓; slope = (3t² - 3)/(2t) at 2 = 9/4",
+            "Complete-v-first layout, constants pinned per level"
+          ],
+          "model_answer": "(a) Integrate the acceleration: v(t) = ⟨2t + C₁, 3t² + C₂⟩; v(0) = ⟨0, -3⟩ pins C₁ = 0, C₂ = -3: v(t) = ⟨2t, 3t² - 3⟩. Integrate again: r(t) = ⟨t² + D₁, t³ - 3t + D₂⟩; r(0) = ⟨0, 0⟩ pins both at zero: r(t) = ⟨t², t³ - 3t⟩. (b) v(2) = ⟨4, 9⟩: speed √(16 + 81) = √97 ≈ 9.85. (c) The components are exactly x = t², y = t³ - 3t — the unit's spine curve, now rebuilt from its acceleration. Slope of the path: dy/dx = y'(t)/x'(t) = (3t² - 3)/(2t); at t = 2: 9/4."
+        },
+        {
+          "question": "A particle moves with v(t) = ⟨e^t - 1, sin(t²)⟩ for 0 ≤ t ≤ 2, with r(0) = ⟨3, 1⟩ (calculator active).\n(a) Find the particle's position at t = 2.\n(b) Find its speed at t = 2 and the total distance traveled over [0, 2].\n(c) Is the particle moving toward or away from the vertical line x = 10 at t = 2? Justify.",
+          "rubric": [
+            "(a) r(2) = ⟨3 + ∫₀²(e^t - 1)dt, 1 + ∫₀² sin(t²)dt⟩ = ⟨3 + e² - 3, 1 + 0.805⟩ ≈ ⟨7.389, 1.805⟩",
+            "(b) |v(2)| = √((e² - 1)² + sin²4) ≈ 6.434; distance = ∫₀² |v| dt ≈ 7.090 (numeric; accept with setup)",
+            "(c) x(2) ≈ 7.389 < 10 and x'(2) = e² - 1 > 0: moving toward the line",
+            "Accumulation setups visible for both components"
+          ],
+          "model_answer": "(a) Component accumulation: x(2) = 3 + ∫₀² (e^t - 1) dt = 3 + [(e² - 1) - 2] = 3 + (e² - 3) = e² ≈ 7.389. y(2) = 1 + ∫₀² sin(t²) dt ≈ 1 + 0.805 = 1.805. r(2) ≈ ⟨7.389, 1.805⟩. (b) v(2) = ⟨e² - 1, sin 4⟩ ≈ ⟨6.389, -0.757⟩: speed ≈ √(40.82 + 0.573) ≈ 6.434. Total distance: ∫₀² √((e^t - 1)² + sin²(t²)) dt ≈ 7.090 by machine. (c) At t = 2 the particle sits at x ≈ 7.389, left of the line x = 10, and x'(2) = e² - 1 > 0 — moving rightward, hence TOWARD the line. (Position relative to the target plus the component's sign: both halves belong in the justification.)"
+        },
+        {
+          "question": "Let r(t) = ⟨4cos t, 4sin t⟩, a particle on a circle of radius 4.\n(a) Compute v(t) and show the speed is constant.\n(b) Show a(t) = -r(t) and interpret the direction of the acceleration.\n(c) The particle is released (forces vanish) at t = π/3 and thereafter travels along its tangent line. Find its position 2 seconds after release.",
+          "rubric": [
+            "(a) v = ⟨-4sin t, 4cos t⟩; |v| = 4 constant",
+            "(b) a = ⟨-4cos t, -4sin t⟩ = -r: pointed from the particle toward the center",
+            "(c) Release point (2, 2√3), release velocity ⟨-2√3, 2⟩",
+            "Position = release point + 2·(release velocity) = ⟨2 - 4√3, 2√3 + 4⟩"
+          ],
+          "model_answer": "(a) v(t) = ⟨-4 sin t, 4 cos t⟩, so |v| = √(16 sin²t + 16 cos²t) = 4 — constant speed: uniform circular motion. (b) a(t) = ⟨-4 cos t, -4 sin t⟩ = -r(t): the acceleration is the position vector reversed, pointing from the particle straight at the circle's center — centripetal, turning the velocity without changing its magnitude. (c) At t = π/3: position r = ⟨4·(1/2), 4·(√3/2)⟩ = ⟨2, 2√3⟩; velocity v = ⟨-4·(√3/2), 4·(1/2)⟩ = ⟨-2√3, 2⟩. Released, it coasts: position after 2 seconds = ⟨2, 2√3⟩ + 2⟨-2√3, 2⟩ = ⟨2 - 4√3, 2√3 + 4⟩ ≈ ⟨-4.93, 7.46⟩ — straight-line motion along the tangent, physics and the tangent line agreeing exactly."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Parametric Equations, Polar Coordinates, and Vector-Valued Functions",
+    "chapter_title": "Motion in the Plane",
+    "hook": "Everything assembles here: a particle roams the plane, and one FRQ asks where it is, how fast it goes, which way it heads, and how far it has driven. This is the BC exam's most reliable free-response question — and you already own every piece.",
+    "learning_objectives": [
+      "Run the complete planar-motion battery from velocity and an initial position",
+      "Compute position, velocity, acceleration, speed, and direction at given times",
+      "Find total distance traveled and displacement over an interval",
+      "Find slopes and tangent lines to the path at given times",
+      "Execute the genre under both exact and calculator-active conditions"
+    ],
+    "sections": [
+      {
+        "title": "The Battery, Assembled",
+        "subtitle": "One particle, six questions",
+        "body": "The standard planar-motion FRQ supplies v(t) = ⟨x'(t), y'(t)⟩ and r(t₀), then asks some four of: (1) speed at a time — the radical |v|; (2) acceleration at a time — differentiate components; (3) position at a time — anchor plus component integrals; (4) total distance over an interval — integrate the speed; (5) slope of the path at a time — y'/x'; (6) direction of motion — v's sign pattern. Six question types, six one-line setups, all from four chapters of machinery.\n\nA full exact run: v(t) = ⟨2t, 3t² - 3⟩, r(0) = ⟨1, 0⟩, on [0, 2]. Speed at 1: √(4 + 0) = 2 — note dy/dt = 0 there: purely horizontal motion. Acceleration: a(t) = ⟨2, 6t⟩. Position at 2: ⟨1 + ∫₀² 2t dt, 0 + ∫₀² (3t² - 3) dt⟩ = ⟨5, 2⟩. Slope at 2: 9/4. Direction at 1/2: ⟨1, -9/4⟩ pattern — right and down.\n\nDistance on [0, 2]: ∫₀² √(4t² + (3t² - 3)²) dt — no clean antiderivative: exact setups, numeric finishes, exactly the calculator section's design. Writing the integral IS the credited work; the machine's ≈ 6.13 completes it.\n\nThe genre's internal consistency checks, free of charge: position changes should match displacement integrals; distance must exceed |displacement|; the slope at t should match v(t)'s component ratio. Thirty seconds of cross-checking catches the sign slips that multi-part questions propagate.",
+        "key_terms": [
+          [
+            "The six-question battery",
+            "Speed, acceleration, position, distance, slope, direction — one setup each"
+          ],
+          [
+            "Exact setup, numeric finish",
+            "Distance integrals rarely antidifferentiate: the setup line is the work"
+          ],
+          [
+            "Cross-checks",
+            "Distance ≥ |displacement|; slopes match component ratios — free audits"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Planar motion appears as an FRQ on nearly every BC exam. The six setups above ARE the rubric lines. Drill them as a fixed kata: given v and an anchor, write all six setups in under three minutes, before any evaluation."
+          ]
+        ]
+      },
+      {
+        "title": "Reading the Questions Right",
+        "subtitle": "The genre's phrase-to-formula dictionary",
+        "body": "The genre's phrasing dictionary, assembled once: 'How fast' → |v(t)|. 'Speeding up at t₀' → is |v| increasing — d/dt|v| at t₀ (or numeric comparison around t₀). 'How far from its starting point' → |r(t) - r(t₀)|, the displacement magnitude. 'Total distance traveled' → ∫|v| dt. 'Leftmost point' → x'(t) = 0 with sign change, then evaluate x. 'Slope of the path' / 'slope of the line tangent to the curve' → y'/x'. 'When is the particle at rest' → BOTH components zero simultaneously.\n\nThe at-rest condition deserves its own paragraph: planar rest means v(t) = ⟨0, 0⟩ — both clocks paused at once. One component vanishing means vertical or horizontal motion, not rest. Exam items plant times where only x' = 0 and offer 'at rest' as a distractor; the both-components sentence defends the point.\n\nExtremal-coordinate questions ('leftmost', 'highest') are one-variable Unit 5 problems on the relevant component: x's critical times plus interval endpoints, candidates compared. The OTHER coordinate just comes along for the final answer's ordered pair. Reporting the full point when only the x-coordinate was asked — or vice versa — is a reading slip the genre punishes mildly but regularly.\n\n'Find the y-coordinate when the particle reaches its leftmost point': solve x' = 0 for the time, confirm a minimum (sign change), then evaluate Y at that time — the two coordinates cooperate through the shared clock. Phrase-to-formula, then formula-to-time, then time-to-whichever-coordinate: the genre's three-step rhythm.",
+        "key_terms": [
+          [
+            "Phrase dictionary",
+            "Each stock phrase maps to one formula — translation before computation"
+          ],
+          [
+            "Planar rest",
+            "v = ⟨0, 0⟩: BOTH components zero at the same instant"
+          ],
+          [
+            "Shared-clock extremes",
+            "Optimize one coordinate's function of t; read the other at the winning time"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'At rest' in the plane requires both x'(t) = 0 AND y'(t) = 0 at the same t — write both equations and the shared solution. Times where only one vanishes are turning points of one coordinate, and the exam lists them as trap answers."
+          ]
+        ]
+      },
+      {
+        "title": "A Calculator-Active Run",
+        "subtitle": "The modern FRQ, executed",
+        "body": "Modern form: v(t) = ⟨cos(t²), e^{0.3t} - 2⟩ with r(0) = ⟨2, 5⟩, on [0, 3]. (a) Speed at t = 2: √(cos²4 + (e^{0.6} - 2)²) ≈ 0.683. (b) Position at 3: ⟨2 + ∫₀³ cos(t²) dt, 5 + ∫₀³ (e^{0.3t} - 2) dt⟩ ≈ ⟨2.703, 2.798⟩. (c) Total distance: ∫₀³ |v| dt ≈ 2.973. (d) When is the particle moving left? cos(t²) < 0: t² in (π/2, 3π/2): t in (1.253, 2.171). Every part: setup written, machine finishing.\n\nThe interval-solving in (d) is the modern genre's flavor: component sign questions become inequality solving on the calculator (graph the component, read the crossings, store them). Answers are t-intervals with three-decimal endpoints — and the stored-root discipline from Unit 8 carries over verbatim.\n\nJustification sentences stay mandatory under calculator conditions: '(d) the particle moves left when x'(t) = cos(t²) < 0, which on [0, 3] occurs for 1.253 < t < 2.171.' Condition, then interval — the machine found the numbers; the sentence supplies the calculus.\n\nThe planar-motion FRQ's grading skeleton, in summary: setups (the six formulas with actual functions substituted), numeric answers to three decimals, justification sentences naming conditions. Three layers, every part. The content is four chapters old; the points are in the discipline.",
+        "key_terms": [
+          [
+            "Modern-form FRQ",
+            "Unintegrable components by design: accumulation setups, machine numbers"
+          ],
+          [
+            "Component sign intervals",
+            "'Moving left' becomes inequality-solving with stored crossings"
+          ],
+          [
+            "Three-layer grading",
+            "Setup, number, justification — every part, no exceptions"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Write the position-accumulation setup with the anchor VISIBLE: x(3) = 2 + ∫₀³ cos(t²) dt. The anchor-less integral is a displacement, not a position, and the missing '2 +' is the genre's most-charged deduction."
+          ]
+        ]
+      },
+      {
+        "title": "Edge Cases and Mastery Checks",
+        "subtitle": "Where prepared students still slip",
+        "body": "Edge one — negative-time or shifted anchors: r(1) given instead of r(0): the accumulation runs from 1 (x(3) = x(1) + ∫₁³ x' dt), and computing 'position at t = 0' integrates BACKWARD (∫₁⁰ = -∫₀¹). The anchor is wherever the problem placed it; the formula never assumed zero.\n\nEdge two — piecewise or graphical velocity components: x' given as a graph means component integrals become geometric areas (Unit 6 chapter 1), and the planar battery runs on areas-with-signs. The cross-format assembly — one component graphical, one symbolic — has appeared; each component simply uses its own format's tools.\n\nEdge three — questions ABOUT the path versus ABOUT the motion: 'the slope of the path at the point where t = 2' (ratio at 2) versus 'does the particle pass through (4, 7)?' (simultaneous system) versus 'find where the path crosses the x-axis' (y(t) = 0 times, then x there). Path questions route through the parameter; none are answerable from the Cartesian shadow alone.\n\nThe mastery check before exam day: hand yourself any v(t) pair and an anchor; produce the six setups, the at-rest analysis, and one extremal-coordinate solve in under ten minutes. The unit's remaining chapters change the COORDINATES (polar); the motion content is complete as of this page — and it is the unit's biggest scorer.",
+        "key_terms": [
+          [
+            "Shifted anchors",
+            "Accumulate from wherever the position was given — backward when needed"
+          ],
+          [
+            "Cross-format components",
+            "Graphical x', symbolic y': each integrates by its own format's tools"
+          ],
+          [
+            "Path vs motion routing",
+            "Through-the-parameter always; the Cartesian shadow under-determines"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When the anchor is r(1) and the question asks for r(0), integrate backward: x(0) = x(1) + ∫₁⁰ x' dt = x(1) - ∫₀¹ x' dt. The reversed bounds carry the sign automatically — trust the formula over the instinct that integrals 'go forward.'"
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "v(t) = ⟨2t, 3t² - 3⟩, r(0) = ⟨1, 0⟩. The position at t = 2 is",
+          "choices": {
+            "A": "⟨5, 2⟩",
+            "B": "⟨4, 2⟩",
+            "C": "⟨5, 6⟩",
+            "D": "⟨4, 6⟩"
+          },
+          "answer": "A",
+          "explanation": "x = 1 + ∫₀²2t dt = 5; y = 0 + ∫₀²(3t² - 3)dt = 8 - 6 = 2."
+        },
+        {
+          "question": "A particle with v(t) = ⟨t - 2, t² - 4⟩ is at rest",
+          "choices": {
+            "A": "at t = 2 only",
+            "B": "at t = ±2",
+            "C": "at t = 2 and t = -2 separately for each component",
+            "D": "never"
+          },
+          "answer": "A",
+          "explanation": "Rest needs both: t - 2 = 0 gives t = 2; t² - 4 = 0 gives t = ±2. The shared solution is t = 2."
+        },
+        {
+          "question": "The slope of the path of v(t) = ⟨4, 6t⟩ at t = 1 is",
+          "choices": {
+            "A": "3/2",
+            "B": "2/3",
+            "C": "6",
+            "D": "4"
+          },
+          "answer": "A",
+          "explanation": "dy/dx = y'/x' = 6/4 = 3/2."
+        },
+        {
+          "question": "'How far does the particle travel on [0, 5]?' requires",
+          "choices": {
+            "A": "∫₀⁵ √((x')² + (y')²) dt",
+            "B": "|r(5) - r(0)|",
+            "C": "∫₀⁵ (x' + y') dt",
+            "D": "√(x(5)² + y(5)²)"
+          },
+          "answer": "A",
+          "explanation": "Total distance integrates speed. (B is displacement magnitude; D is distance from the ORIGIN.)"
+        },
+        {
+          "question": "The particle's x-coordinate satisfies x'(t) = cos(t²) on [0, 3]. The particle moves LEFT exactly when",
+          "choices": {
+            "A": "cos(t²) < 0",
+            "B": "t² < 0",
+            "C": "x(t) < 0",
+            "D": "cos(t²) > 0"
+          },
+          "answer": "A",
+          "explanation": "Leftward = negative x-velocity. (C confuses position with motion — being left of the axis is not moving left.)"
+        }
+      ],
+      "frq": [
+        {
+          "question": "A particle moves with v(t) = ⟨2t, 3t² - 3⟩ for 0 ≤ t ≤ 2, with r(0) = ⟨1, 0⟩.\n(a) Find the acceleration vector and the speed at t = 1, and describe the direction of motion at that instant.\n(b) Find the position at t = 2.\n(c) Set up the total-distance integral and explain why the particle's distance traveled exceeds |r(2) - r(0)|.",
+          "rubric": [
+            "(a) a(1) = ⟨2, 6⟩; v(1) = ⟨2, 0⟩: speed 2, moving purely rightward (horizontal instant)",
+            "(b) ⟨1 + 4, 0 + (8 - 6)⟩ = ⟨5, 2⟩",
+            "(c) ∫₀² √(4t² + (3t² - 3)²) dt; the path bends (y' changes sign at t = 1)",
+            "Chord inequality: a non-straight trip strictly exceeds its chord"
+          ],
+          "model_answer": "(a) a(t) = ⟨2, 6t⟩, so a(1) = ⟨2, 6⟩. v(1) = ⟨2, 0⟩: speed √4 = 2, and with the y-component zero the particle is momentarily moving purely in the +x direction — rightward, horizontally. (b) r(2) = ⟨1 + ∫₀² 2t dt, 0 + ∫₀² (3t² - 3) dt⟩ = ⟨1 + 4, 8 - 6⟩ = ⟨5, 2⟩. (c) Distance = ∫₀² √(4t² + (3t² - 3)²) dt. The y-velocity changes sign at t = 1 (down, then up), so the path genuinely bends — it is not the straight chord from (1, 0) to (5, 2). Curved trips strictly exceed their chords, so the distance integral exceeds |r(2) - r(0)| = √(16 + 4) = √20."
+        },
+        {
+          "question": "(Calculator active.) A particle moves with v(t) = ⟨cos(t²), e^{0.3t} - 2⟩ for 0 ≤ t ≤ 3, with r(0) = ⟨2, 5⟩.\n(a) Find the speed and acceleration vector at t = 2.\n(b) Find the position at t = 3.\n(c) On what interval(s) is the particle moving left AND down simultaneously? Justify with both component conditions.",
+          "rubric": [
+            "(a) |v(2)| = √(cos²4 + (e^{0.6} - 2)²) ≈ 0.683; a(t) = ⟨-2t sin(t²), 0.3e^{0.3t}⟩, a(2) ≈ ⟨3.027, 0.547⟩",
+            "(b) ⟨2 + ∫₀³cos(t²)dt, 5 + ∫₀³(e^{0.3t} - 2)dt⟩ ≈ ⟨2.703, 2.798⟩",
+            "(c) Left: cos(t²) < 0 → t ∈ (1.253, 2.171); down: e^{0.3t} < 2 → t < ln2/0.3 ≈ 2.310",
+            "Intersection: (1.253, 2.171) — both conditions named"
+          ],
+          "model_answer": "(a) v(2) = ⟨cos 4, e^{0.6} - 2⟩ ≈ ⟨-0.654, -0.178⟩: speed ≈ 0.683. Differentiating components: a(t) = ⟨-2t sin(t²), 0.3e^{0.3t}⟩, so a(2) = ⟨-4 sin 4, 0.3e^{0.6}⟩ ≈ ⟨3.027, 0.547⟩. (b) r(3) = ⟨2 + ∫₀³ cos(t²) dt, 5 + ∫₀³ (e^{0.3t} - 2) dt⟩ ≈ ⟨2 + 0.703, 5 - 2.202⟩ = ⟨2.703, 2.798⟩. (c) Moving left: cos(t²) < 0, i.e., π/2 < t² < 3π/2: 1.253 < t < 2.171. Moving down: e^{0.3t} - 2 < 0, i.e., t < (ln 2)/0.3 ≈ 2.310. Both at once on the intersection: 1.253 < t < 2.171 — the leftward window sits entirely inside the downward one."
+        },
+        {
+          "question": "A particle's velocity is v(t) = ⟨3t² - 12, 2t⟩ for 0 ≤ t ≤ 3, with r(0) = ⟨0, 1⟩.\n(a) Find the time at which the particle is at its LEFTMOST point, with justification.\n(b) Find the leftmost point itself (both coordinates).\n(c) Does the particle ever move straight up? If so, when, and what is the tangent line to the path there?",
+          "rubric": [
+            "(a) x' = 3t² - 12 = 0 at t = 2; x' changes − to +: minimum of x",
+            "(b) x(2) = 0 + ∫₀²(3t² - 12)dt = 8 - 24 = -16; y(2) = 1 + 4 = 5: point (-16, 5)",
+            "(c) Straight up: x' = 0, y' ≠ 0: t = 2 (y'(2) = 4 > 0 ✓)",
+            "Tangent there is vertical: x = -16"
+          ],
+          "model_answer": "(a) x'(t) = 3t² - 12 vanishes at t = 2 (on the interval), changing from negative to positive — x decreases then increases: the leftmost time is t = 2. (b) x(2) = 0 + ∫₀² (3t² - 12) dt = [t³ - 12t]₀² = 8 - 24 = -16. y(2) = 1 + ∫₀² 2t dt = 1 + 4 = 5. Leftmost point: (-16, 5). (c) Straight-up motion means x' = 0 with y' > 0: exactly t = 2, where v(2) = ⟨0, 4⟩. The path's tangent there is VERTICAL — the line x = -16. (The leftmost point and the straight-up instant coincide, as they must: the particle turns around horizontally by momentarily moving only vertically.)"
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Parametric Equations, Polar Coordinates, and Vector-Valued Functions",
+    "chapter_title": "Polar Coordinates and Polar Graphs",
+    "hook": "Address every point by distance and direction instead of left and up: (r, θ). Circles become one-term equations, spirals become lines, and a whole garden of curves — cardioids, roses, limaçons — blooms from formulas no x-y equation could keep simple.",
+    "learning_objectives": [
+      "Convert points and equations between polar and Cartesian coordinates",
+      "Plot polar curves from r = f(θ) by sweeping the angle",
+      "Recognize the standard polar curves: circles, cardioids, limaçons, roses",
+      "Handle negative r and non-unique polar addresses correctly",
+      "Find intersections of polar curves, including the origin's special role"
+    ],
+    "sections": [
+      {
+        "title": "The Polar Address System",
+        "subtitle": "Distance and direction",
+        "body": "Polar coordinates locate a point by r — its distance from the origin (the pole) — and θ, the angle from the positive x-axis. The conversion dictionary: x = r cos θ, y = r sin θ (polar to Cartesian, by right-triangle reading); r² = x² + y² and tan θ = y/x (Cartesian to polar). The point (r, θ) = (2, π/3) sits at (2·½, 2·(√3/2)) = (1, √3).\n\nPolar addresses are NOT unique: (2, π/3), (2, π/3 + 2π), and (-2, π/3 + π) all name one point. The negative-r convention: a negative distance walks BACKWARD along the direction — (-2, π/3) lies at angle π/3 + π, distance 2. Non-uniqueness is a feature with consequences (intersection-finding, below), not a defect to normalize away.\n\nEquation conversion runs the dictionary in both directions. The vertical line x = 3 becomes r cos θ = 3, i.e., r = 3 sec θ. The polar circle r = 4 cos θ multiplies by r: r² = 4r cos θ, so x² + y² = 4x — completing the square: (x - 2)² + y² = 4, a circle of radius 2 through the origin centered at (2, 0). The multiply-by-r move is the standard trick for r = a cos θ and r = a sin θ forms.\n\nWhy polar at all: curves with circular symmetry collapse to one-term equations (the circle r = 5; spirals r = θ), and the AP's polar area formula (chapter 8) makes regions bounded by such curves integrable in one variable. Polar is the plane reparametrized for rotation — the right tool whenever the geometry spins.",
+        "key_terms": [
+          [
+            "Conversion dictionary",
+            "x = r cos θ, y = r sin θ; r² = x² + y², tan θ = y/x"
+          ],
+          [
+            "Negative r",
+            "Walk backward along the ray: (-r, θ) = (r, θ + π)"
+          ],
+          [
+            "Multiply-by-r trick",
+            "r = a cos θ → r² = ar cos θ → x² + y² = ax: instant Cartesian"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "r = a cos θ and r = a sin θ are CIRCLES (diameter a, through the origin, centered on the respective axis) — recognized on sight, not re-derived. The pair anchors half the AP's polar-area regions; knowing their pictures instantly is non-negotiable."
+          ]
+        ]
+      },
+      {
+        "title": "Sweeping the Angle",
+        "subtitle": "Plotting r = f(θ)",
+        "body": "A polar curve r = f(θ) plots by sweeping: as θ rotates from 0 onward, the point sits at distance f(θ) along the current direction. Plot by table at the cardinal and half-cardinal angles, then connect with the sweep's flow. The radius GROWING means the curve spirals outward along the sweep; SHRINKING, inward; hitting zero, passing through the pole.\n\nThe cardioid r = 1 + cos θ, swept: at θ = 0, r = 2 (far right); at π/2, r = 1 (above pole); at π, r = 0 — the curve touches the pole pointing left; at 3π/2, r = 1; back to 2 at 2π. The heart shape emerges: round on the right, dimpled to a point at the left. Cos-cardioids point their dimple along the x-axis; sin-cardioids along the y-axis — the inner function names the symmetry axis.\n\nWhere r = 0 happens matters doubly: the curve passes through the pole, AND the tangent direction there is the angle θ that zeroed r (a fact chapter 7 certifies). Marking the pole-passages while plotting scaffolds both the sketch and the coming calculus.\n\nSymmetry shortcuts: cos-built curves mirror across the x-axis (cos(-θ) = cos θ); sin-built across the y-axis. One half plotted, the mirror finishes — and symmetry doubles as the area-shortcut flag in chapter 8. The plotting drill: sweep, table the cardinals, mark pole-passages, exploit the mirror.",
+        "key_terms": [
+          [
+            "Sweep plotting",
+            "θ rotates, r = f(θ) sets the distance: table the cardinal angles, connect"
+          ],
+          [
+            "Pole passage",
+            "r = 0 at θ₀: the curve crosses the origin, tangent along direction θ₀"
+          ],
+          [
+            "Built-in mirrors",
+            "cos-curves: x-axis symmetry; sin-curves: y-axis"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Calculator polar mode plots r = f(θ) directly — use it on active sections to SEE the region before integrating. Half the polar-area errors on record trace to integrating a region the student never looked at."
+          ]
+        ]
+      },
+      {
+        "title": "The Standard Garden",
+        "subtitle": "Cardioids, limaçons, roses",
+        "body": "The AP's recurring polar cast. Circles: r = a (centered), r = a cos θ / a sin θ (through the pole). Cardioids: r = a ± a cos θ (or sin) — the equal-coefficient heart. Limaçons: r = a ± b cos θ with a ≠ b — b > a grows an INNER LOOP (r goes negative on part of the sweep); a > b dents without looping. Roses: r = a cos(nθ) or a sin(nθ) — n petals when n is odd, 2n when even, each petal of length a.\n\nThe limaçon's inner loop is the negative-r showcase: r = 1 + 2cos θ dips negative for θ between 2π/3 and 4π/3 — the point walks backward through the pole, drawing the small loop INSIDE the big one. Loop boundaries are exactly the r = 0 angles: cos θ = -1/2. Chapter 8's inner-loop-area question lives on those bounds; finding them is this chapter's contribution.\n\nRose petal-counting: r = 2cos(3θ) has 3 petals (odd n); r = 2cos(2θ) has 4 (even doubles). One petal of cos(nθ) centers on θ = 0, spanning where the cosine stays positive: -π/(2n) ≤ θ ≤ π/(2n) — the single-petal bounds that chapter 8's petal-area integrals need. Sketch one petal from its bounds; symmetry replicates the rest.\n\nSpirals round out the garden: r = θ (Archimedean) unwinds linearly — mostly a plotting exercise and an arc-length guest. The garden is small by design: AP polar questions plant cardioids, limaçons, roses, and the origin-circles almost exclusively, and recognizing each from its equation BEFORE plotting is the tested fluency.",
+        "key_terms": [
+          [
+            "Limaçon loop rule",
+            "r = a ± b cos θ: inner loop iff b > a, bounded by the r = 0 angles"
+          ],
+          [
+            "Rose petal count",
+            "n odd: n petals; n even: 2n — petal length a, first petal spanning ±π/(2n)"
+          ],
+          [
+            "The small garden",
+            "Circles, cardioids, limaçons, roses: the AP's whole polar cast"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Petal and loop BOUNDS are the r = 0 solutions — cos(3θ) = 0 for the rose, 1 + 2cos θ = 0 for the loop. Chapter 8's area integrals are only as correct as these bounds; solving them cleanly here is pre-paying the area question."
+          ]
+        ]
+      },
+      {
+        "title": "Intersections",
+        "subtitle": "Where two polar curves actually meet",
+        "body": "Finding where r = f(θ) meets r = g(θ) starts with f(θ) = g(θ) — same direction, same distance. For r = 1 + cos θ and r = 3cos θ, setting the radii equal: 1 + cos θ = 3 cos θ gives cos θ = 1/2: θ = ±π/3, meeting points (3/2, ±π/3). The algebra mirrors curve-intersection everywhere else.\n\nBut polar's non-unique addresses hide rendezvous the equation misses: two curves can occupy the same POINT at different θ's (one curve's (2, π/3) is the other's (-2, 4π/3)), and — the exam's recurring case — both curves may pass through the POLE at different angles. The pole check is mandatory: does r₁ = 0 have a solution? Does r₂ = 0? If both, the origin is an intersection point no simultaneous equation found. The cardioid (r = 0 at π) and the circle r = 3cos θ (r = 0 at π/2) DO both visit the pole: three intersection points total, not two.\n\nThe practical protocol: (1) solve f = g; (2) check the pole separately; (3) when stakes are high (area boundaries), GRAPH both curves and count visually — the picture catches the exotic same-point-different-address cases that even the pole check misses. On calculator sections the graph is a keystroke; use it.\n\nWhy intersections matter here: chapter 8's between-curves areas integrate (1/2)(R² - r²) between intersection ANGLES — wrong intersections, wrong bounds, wrong area. This chapter's protocol is that chapter's setup step, extracted and drilled in advance.",
+        "key_terms": [
+          [
+            "Simultaneous solve",
+            "f(θ) = g(θ): the same-address intersections"
+          ],
+          [
+            "The pole check",
+            "Both curves visiting r = 0 — at any angles — meet at the origin"
+          ],
+          [
+            "Graph-and-count",
+            "The visual census catches what the algebra's blind spots miss"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Polar intersection questions are graded on the POLE check: solving f = g finds the generic meetings, but the origin joins the list whenever both curves attain r = 0. Omitting it is the classic lost point — make 'check the pole' a reflex."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "The polar point (4, π/6) has Cartesian coordinates",
+          "choices": {
+            "A": "(2√3, 2)",
+            "B": "(2, 2√3)",
+            "C": "(4, 2)",
+            "D": "(2√3, -2)"
+          },
+          "answer": "A",
+          "explanation": "x = 4cos(π/6) = 2√3; y = 4sin(π/6) = 2."
+        },
+        {
+          "question": "The polar equation r = 6 sin θ describes",
+          "choices": {
+            "A": "a circle of radius 3 centered at (0, 3)",
+            "B": "a circle of radius 6 centered at the origin",
+            "C": "a cardioid",
+            "D": "a vertical line"
+          },
+          "answer": "A",
+          "explanation": "Multiply by r: x² + y² = 6y → x² + (y - 3)² = 9 — through the pole, centered on the y-axis."
+        },
+        {
+          "question": "The curve r = 1 + 2cos θ is a",
+          "choices": {
+            "A": "limaçon with an inner loop",
+            "B": "cardioid",
+            "C": "rose with 2 petals",
+            "D": "dented limaçon without a loop"
+          },
+          "answer": "A",
+          "explanation": "b = 2 > a = 1: r goes negative (for cos θ < -1/2), drawing the inner loop."
+        },
+        {
+          "question": "The rose r = 3 cos(2θ) has",
+          "choices": {
+            "A": "4 petals of length 3",
+            "B": "2 petals of length 3",
+            "C": "4 petals of length 6",
+            "D": "3 petals"
+          },
+          "answer": "A",
+          "explanation": "Even n doubles: 2n = 4 petals, each reaching r = 3."
+        },
+        {
+          "question": "The curves r = 1 + cos θ and r = 3 cos θ intersect at",
+          "choices": {
+            "A": "(3/2, ±π/3) and the pole",
+            "B": "(3/2, ±π/3) only",
+            "C": "the pole only",
+            "D": "(2, 0) only"
+          },
+          "answer": "A",
+          "explanation": "Setting equal: cos θ = 1/2 gives the two generic points; both curves separately reach r = 0 (at π and π/2), so the origin joins the list."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Consider the cardioid r = 1 + cos θ.\n(a) Make a table of r at θ = 0, π/2, π, 3π/2, 2π and sketch-describe the curve.\n(b) Convert the equation to Cartesian form far enough to show the curve passes through (2, 0) and (0, 1).\n(c) At what angle does the curve pass through the pole, and what does that angle mean geometrically?",
+          "rubric": [
+            "(a) r = 2, 1, 0, 1, 2: heart pointing its dimple left, round side right",
+            "(b) θ = 0: (2, 0) ✓; θ = π/2: r = 1 at angle π/2 → (0, 1) ✓ (conversion through x = r cos θ, y = r sin θ)",
+            "(c) r = 0 at θ = π",
+            "Geometric meaning: the curve enters the origin tangent to the direction θ = π (the negative x-axis)"
+          ],
+          "model_answer": "(a) θ = 0: r = 2; π/2: 1; π: 0; 3π/2: 1; 2π: 2. The curve bulges right to (2, 0), narrows past (0, 1) and (0, -1), and pinches into the pole from the left — the heart with its point at the origin, dimple-axis along x. (b) At θ = 0: (x, y) = (2cos 0, 2 sin 0) = (2, 0) ✓. At θ = π/2: r = 1, so (cos(π/2), sin(π/2)) gives (0, 1) ✓. (c) r = 0 exactly at θ = π. Geometrically, the curve passes through the origin moving along the direction θ = π — its tangent at the pole is the negative x-axis, which is why the heart's point aims left."
+        },
+        {
+          "question": "Consider the limaçon r = 1 + 2cos θ.\n(a) Find all angles in [0, 2π) where r = 0, and the interval where r < 0.\n(b) Describe what the curve does on the negative-r interval.\n(c) Find the maximum distance from the pole attained by the curve, and the point where it occurs.",
+          "rubric": [
+            "(a) cos θ = -1/2: θ = 2π/3, 4π/3; r < 0 on (2π/3, 4π/3)",
+            "(b) The point walks backward through the pole, tracing the inner loop inside the main body",
+            "(c) r max = 3 at θ = 0",
+            "Point (3, 0) in Cartesian"
+          ],
+          "model_answer": "(a) 1 + 2cos θ = 0 at cos θ = -1/2: θ = 2π/3 and 4π/3. Between them — on (2π/3, 4π/3) — the radius is negative. (b) With r < 0 the point plots BACKWARD along the sweep direction: as θ crosses 2π/3 the curve dives through the pole and draws a small loop on the opposite side of the announced angles — the inner loop, completed when θ reaches 4π/3 and r returns to zero. (c) r is largest when cos θ = 1: r = 3 at θ = 0, the Cartesian point (3, 0). The limaçon's big lobe reaches 3 units right of the pole; the inner loop, by contrast, extends only 1 unit left (|r| at θ = π is |1 - 2| = 1)."
+        },
+        {
+          "question": "Let r₁ = 2 sin θ and r₂ = 2 cos θ (two circles through the pole).\n(a) Solve r₁ = r₂ and give the resulting intersection point in both polar and Cartesian form.\n(b) Show that the pole is ALSO an intersection point, even though no single θ satisfies both r₁ = 0 and r₂ = 0 simultaneously.\n(c) Sketch-describe both circles and confirm the two intersections visually.",
+          "rubric": [
+            "(a) tan θ = 1: θ = π/4, r = √2: polar (√2, π/4) = Cartesian (1, 1)",
+            "(b) r₁ = 0 at θ = 0; r₂ = 0 at θ = π/2 — each curve visits the origin at its own angle",
+            "Same point, different addresses: the pole intersection the simultaneous equation misses",
+            "(c) Circles of radius 1 centered (0,1) and (1,0): visibly crossing at the origin and (1,1)"
+          ],
+          "model_answer": "(a) 2 sin θ = 2 cos θ gives tan θ = 1: θ = π/4, where r = 2 sin(π/4) = √2. Polar (√2, π/4); Cartesian (√2·cos(π/4), √2·sin(π/4)) = (1, 1). (b) r₁ = 0 at θ = 0 (and π); r₂ = 0 at θ = π/2 (and 3π/2). No shared angle zeroes both — but the pole is ONE point regardless of which angle a curve arrives by. Each circle passes through the origin (at its own sweep moment), so the origin is a genuine intersection of the two CURVES that the simultaneous equation structurally cannot find. (c) The conversions give x² + (y - 1)² = 1 and (x - 1)² + y² = 1: unit circles centered at (0, 1) and (1, 0). They visibly cross twice — at the origin and at (1, 1) — confirming the census: one algebraic intersection plus the pole."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Parametric Equations, Polar Coordinates, and Vector-Valued Functions",
+    "chapter_title": "Derivatives in Polar Form",
+    "hook": "A polar curve is secretly parametric — x = r cos θ, y = r sin θ with θ as the parameter — so its slopes come from the parametric formula you already own. Plus one genuinely new dial: dr/dθ, which reads whether the curve is flying away from the pole or falling back in.",
+    "learning_objectives": [
+      "Treat r = f(θ) as a parametric curve via x = r cos θ, y = r sin θ",
+      "Compute dy/dx for polar curves through the parametric quotient",
+      "Find horizontal and vertical tangents of polar curves",
+      "Interpret dr/dθ as the radial expansion/contraction rate",
+      "Find tangent lines at the pole using the r = 0 angles"
+    ],
+    "sections": [
+      {
+        "title": "Polar Curves Are Parametric",
+        "subtitle": "The reduction that does all the work",
+        "body": "Substituting r = f(θ) into the conversion dictionary parametrizes the curve by its own angle: x(θ) = f(θ)cos θ, y(θ) = f(θ)sin θ. Every parametric tool now applies with θ as the clock — slopes from the quotient dy/dx = (dy/dθ)/(dx/dθ), tangent lines from point-plus-slope, arc length from the radical. Polar calculus is parametric calculus after one substitution; the unit's architecture pays off in full.\n\nThe component derivatives, by product rule: dy/dθ = (dr/dθ)sin θ + r cos θ, and dx/dθ = (dr/dθ)cos θ - r sin θ. The slope formula assembles as their ratio — memorizable, but the safer exam habit is REBUILDING it: write x and y, product-rule each, divide. Thirty seconds, no formula-recall risk, and the rebuild itself earns setup credit.\n\nWorked: the cardioid r = 1 + cos θ at θ = π/2. dr/dθ = -sin θ = -1 there; r = 1. dy/dθ = (-1)(1) + (1)(0) = -1; dx/dθ = (-1)(0) - (1)(1) = -1. Slope = (-1)/(-1) = 1. The point: (r cos θ, r sin θ) = (0, 1). Tangent: y - 1 = x. The heart crests its left shoulder at 45 degrees — visible on the sketch, certified by the quotient.\n\nEvaluation discipline mirrors the parametric chapter: point AND slope from the same θ, Cartesian coordinates for the point (through the dictionary), and the answer as a line in x and y. Polar inputs, Cartesian tangent outputs — the standard format.",
+        "key_terms": [
+          [
+            "Polar-as-parametric",
+            "x = f(θ)cos θ, y = f(θ)sin θ: the angle is the parameter"
+          ],
+          [
+            "Component derivatives",
+            "dy/dθ = r'sin θ + r cos θ; dx/dθ = r'cos θ - r sin θ — product rule twice"
+          ],
+          [
+            "Rebuild habit",
+            "Re-derive the components at need; the rebuild is faster than safe recall"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Polar slope questions are parametric slope questions — the AP expects dy/dx = (dy/dθ)/(dx/dθ) with the product-rule components shown. Quoting a memorized monster formula unexplained risks transcription errors the rebuild never makes."
+          ]
+        ]
+      },
+      {
+        "title": "Horizontal and Vertical Tangents",
+        "subtitle": "The numerator-denominator hunt, polar edition",
+        "body": "Horizontal tangents: dy/dθ = 0 (with dx/dθ ≠ 0); vertical: dx/dθ = 0 (with dy/dθ ≠ 0) — the parametric conditions verbatim, now with trig-heavy components. The algebra leans on identities: expect double-angle conversions (2 sin θ cos θ = sin 2θ) and factoring to crack the trig equations.\n\nWorked hunt on r = 1 + cos θ: dy/dθ = -sin²θ + cos θ + cos²θ = 2cos²θ + cos θ - 1 = (2cos θ - 1)(cos θ + 1). Zeros: cos θ = 1/2 (θ = ±π/3) and cos θ = -1 (θ = π). dx/dθ = -sin θ(1 + 2cos θ): zeros at θ = 0, π, and cos θ = -1/2 (θ = ±2π/3). Horizontal tangents at θ = ±π/3, where r = 3/2: points (3/4, ±3√3/4); vertical at θ = 0 and ±2π/3. At θ = π BOTH vanish — the pole's cusp, flagged for the next section's special handling.\n\nThe both-zero angle at a cardioid's pole-touch is the genre's standard singularity: the heart's point is a cusp, and the simple tangent conditions go silent exactly there. The exam's design spares you the resolution: cusp angles get asked through the pole-tangent rule (next), not through 0/0 limits.\n\nOrganizing the hunt: factor both component derivatives COMPLETELY, list each one's zeros, and classify angle by angle (horizontal, vertical, or both-zero). The two-column zero list is the work's visible skeleton — and the points, as always, convert through the dictionary before reporting.",
+        "key_terms": [
+          [
+            "Polar tangent hunt",
+            "dy/dθ = 0: horizontal; dx/dθ = 0: vertical; both: flagged singularity"
+          ],
+          [
+            "Identity-driven algebra",
+            "Double angles and factoring crack the trig zeros"
+          ],
+          [
+            "Two-column skeleton",
+            "Each component's zeros listed, then classified angle by angle"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Cardioid tangent hunts ALWAYS produce a both-zero angle at the pole-touch (the cusp). Don't force it into the horizontal or vertical list — name it as the case requiring separate analysis, which the pole-tangent rule supplies."
+          ]
+        ]
+      },
+      {
+        "title": "Tangents at the Pole",
+        "subtitle": "The angle IS the tangent",
+        "body": "The pole-tangent rule, polar calculus's cleanest gift: if r = 0 at θ = θ₀ (with dr/dθ ≠ 0 there), the curve passes through the origin TANGENT TO THE LINE θ = θ₀. The direction of approach is the address angle itself — no quotient computation, no limit. The cardioid touches the pole at θ = π: tangent line θ = π, the x-axis (approached leftward). The rose r = 2cos(3θ) zeroes at θ = π/6: that petal-edge enters the origin along the line θ = π/6.\n\nWhy it works, in one line: near the pole, y/x = tan θ → tan θ₀ — the curve hugs its arrival ray. (The parametric quotient confirms it: with r = 0, dy/dθ = r' sin θ and dx/dθ = r' cos θ, whose ratio is tan θ₀.) The rule converts chapter 6's pole-passage bookkeeping into instant tangent lines.\n\nRose petals showcase the rule: r = 2cos(3θ)'s first petal spans θ = -π/6 to π/6 (the r = 0 bounds), and BOTH edges enter the pole along their respective lines θ = ±π/6 — the petal opens at a 60-degree angle from the origin. Petal geometry, tangent lines, and (chapter 8) area bounds all read from the same r = 0 solve: one computation, three payoffs.\n\nMultiple pole-visits list multiple tangents: the limaçon r = 1 + 2cos θ zeroes at 2π/3 AND 4π/3 — two distinct tangent lines at the origin, one per loop-edge passage. Like the self-intersection slopes of chapter 2: the location is one point; the passages each carry their own geometry.",
+        "key_terms": [
+          [
+            "Pole-tangent rule",
+            "r(θ₀) = 0 ⟹ tangent at the origin is the line θ = θ₀"
+          ],
+          [
+            "One solve, three payoffs",
+            "The r = 0 angles give pole-tangents, petal edges, and area bounds"
+          ],
+          [
+            "Per-passage tangents",
+            "Each pole visit contributes its own tangent line"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Find the tangent lines to the curve at the pole' is an r = 0 solve, NOT a dy/dx computation — the angles ARE the answer (as lines θ = θ₀). Recognizing the shortcut converts a five-minute quotient grind into a thirty-second equation."
+          ]
+        ]
+      },
+      {
+        "title": "dr/dθ as Its Own Dial",
+        "subtitle": "Radial motion and the exam's interpretation item",
+        "body": "Beyond slope, polar curves carry a second derivative-reading: dr/dθ alone. Positive means the curve is moving AWAY from the pole as the sweep advances — the distance-to-origin growing; negative, falling inward. The cardioid's dr/dθ = -sin θ is negative on (0, π): sweeping the upper half, the heart continuously approaches the pole. No Cartesian quotient involved — the radial dial reads directly.\n\nThe AP's standard item: 'For the curve r = f(θ), is the distance between the curve and the origin increasing or decreasing at θ = π/3?' Answer: the sign of dr/dθ there, with the sentence 'dr/dθ = -sin(π/3) < 0, so the distance to the origin is decreasing.' One derivative, one sign, one interpretation sentence — among the cheapest points on the BC exam, and missable only by overthinking it into a slope question.\n\nThe two dials together profile the motion along a polar curve: dy/dx orients the path in the plane; dr/dθ tracks the pole-distance. They answer different questions — 'which way is the curve heading' versus 'is it spiraling in or out' — and the exam asks both, sometimes adjacent. Reading WHICH dial a question wants is the skill: 'slope of the tangent' → quotient; 'distance from the origin increasing?' → dr/dθ.\n\nWith polar motion (θ as time), dr/dθ literally IS radial velocity, and extreme-distance questions ('closest approach to the pole') are Unit 5 optimizations on r(θ): critical angles from dr/dθ = 0, classified by sign change. The full calculus toolkit, aimed down the radius — and the unit's last chapter aims it at area next.",
+        "key_terms": [
+          [
+            "Radial dial",
+            "dr/dθ's sign: away from the pole (+) or toward it (−)"
+          ],
+          [
+            "The interpretation item",
+            "'Distance to origin increasing?' = sign of dr/dθ, one sentence"
+          ],
+          [
+            "Two dials, two questions",
+            "dy/dx for heading; dr/dθ for pole-distance — route by the phrase"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Is the curve getting closer to the origin?' is answered by dr/dθ's sign ALONE — computing dy/dx for it is the classic over-engineering trap. The phrase 'distance from the origin/pole' routes to the radial dial, every time."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "For a polar curve r = f(θ), the parametric components are",
+          "choices": {
+            "A": "x = f(θ)cos θ, y = f(θ)sin θ",
+            "B": "x = f(θ), y = θ",
+            "C": "x = cos θ, y = sin θ",
+            "D": "x = θ cos θ, y = θ sin θ"
+          },
+          "answer": "A",
+          "explanation": "The conversion dictionary with r replaced by its formula — the angle becomes the parameter."
+        },
+        {
+          "question": "For r = 1 + cos θ at θ = π/2, dy/dx =",
+          "choices": {
+            "A": "1",
+            "B": "-1",
+            "C": "0",
+            "D": "undefined"
+          },
+          "answer": "A",
+          "explanation": "dy/dθ = r'sin θ + r cos θ = -1; dx/dθ = r'cos θ - r sin θ = -1; ratio 1."
+        },
+        {
+          "question": "The curve r = 2cos(3θ) passes through the pole at θ = π/6. Its tangent line there is",
+          "choices": {
+            "A": "the line θ = π/6",
+            "B": "horizontal",
+            "C": "vertical",
+            "D": "the line θ = π/3"
+          },
+          "answer": "A",
+          "explanation": "The pole-tangent rule: the arrival angle is the tangent direction."
+        },
+        {
+          "question": "For r = 3 + 2sin θ at θ = π/3, dr/dθ = 2cos(π/3) = 1 > 0. This means",
+          "choices": {
+            "A": "the curve's distance from the pole is increasing",
+            "B": "the tangent is horizontal",
+            "C": "the curve is moving left",
+            "D": "r is at a maximum"
+          },
+          "answer": "A",
+          "explanation": "The radial dial: positive dr/dθ means spiraling outward at that sweep moment."
+        },
+        {
+          "question": "A polar curve has dy/dθ = 0 and dx/dθ = -3 at θ = π/4. At that point the curve has",
+          "choices": {
+            "A": "a horizontal tangent",
+            "B": "a vertical tangent",
+            "C": "a cusp",
+            "D": "a pole passage"
+          },
+          "answer": "A",
+          "explanation": "Numerator zero, denominator nonzero: slope 0 — horizontal, the parametric condition in polar dress."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Consider the cardioid r = 1 + cos θ.\n(a) Write the parametric components x(θ), y(θ) and compute dx/dθ and dy/dθ.\n(b) Find all θ in [0, 2π) giving horizontal tangents, and the corresponding points.\n(c) The angle θ = π zeroes both component derivatives. Use the pole-tangent rule to give the tangent line there anyway.",
+          "rubric": [
+            "(a) x = (1 + cos θ)cos θ, y = (1 + cos θ)sin θ; dy/dθ = (2cos θ - 1)(cos θ + 1), dx/dθ = -sin θ(1 + 2cos θ)",
+            "(b) cos θ = 1/2: θ = π/3, 5π/3 (cos θ = -1 is the both-zero flag); points (3/4, ±3√3/4)",
+            "(c) r = 0 at θ = π: tangent is the line θ = π (the x-axis)",
+            "Both-zero angle handled by the rule, not forced into a list"
+          ],
+          "model_answer": "(a) x(θ) = (1 + cos θ)cos θ, y(θ) = (1 + cos θ)sin θ. Product rule: dy/dθ = -sin θ·sin θ + (1 + cos θ)cos θ = cos θ + cos²θ - sin²θ = 2cos²θ + cos θ - 1 = (2cos θ - 1)(cos θ + 1). dx/dθ = -sin θ·cos θ - (1 + cos θ)sin θ = -sin θ(1 + 2cos θ). (b) dy/dθ = 0 at cos θ = 1/2 (θ = π/3, 5π/3) and cos θ = -1 (θ = π). At π/3 and 5π/3, dx/dθ = -sin θ(2) ≠ 0: genuine horizontal tangents. There r = 3/2, giving points (3/2·cos(π/3), 3/2·sin(±π/3)) = (3/4, ±3√3/4). (c) θ = π zeroes both derivatives — the cusp. But r(π) = 0: by the pole-tangent rule the curve enters the origin tangent to the line θ = π, i.e., the x-axis. The heart's point sits on the axis it aims along."
+        },
+        {
+          "question": "Consider the limaçon r = 1 + 2cos θ.\n(a) Find the tangent lines to the curve at the pole.\n(b) Determine whether the curve's distance from the origin is increasing or decreasing at θ = π/6, with the one-sentence justification.\n(c) Find the slope dy/dx at θ = π/2.",
+          "rubric": [
+            "(a) r = 0 at θ = 2π/3, 4π/3: tangents are those two lines through the origin",
+            "(b) dr/dθ = -2sin(π/6) = -1 < 0: distance decreasing",
+            "(c) At π/2: r = 1, r' = -2; dy/dθ = -2(1) + 0 = -2; dx/dθ = 0 - 1 = -1; slope 2",
+            "Components rebuilt by product rule"
+          ],
+          "model_answer": "(a) 1 + 2cos θ = 0 at θ = 2π/3 and 4π/3. By the pole-tangent rule, the curve crosses the origin twice, tangent to the lines θ = 2π/3 and θ = 4π/3 — the inner loop's two edges. (b) dr/dθ = -2 sin θ; at π/6: -1 < 0, so the curve's distance from the origin is DECREASING at that sweep moment. (c) At θ = π/2: r = 1, dr/dθ = -2. dy/dθ = r'sin θ + r cos θ = -2(1) + 1(0) = -2. dx/dθ = r'cos θ - r sin θ = -2(0) - 1(1) = -1. Slope = (-2)/(-1) = 2 — the curve climbs at slope 2 as it crosses the point (0, 1)."
+        },
+        {
+          "question": "A bug walks the spiral r = θ for 0 ≤ θ ≤ 2π (θ in radians, r in cm).\n(a) Explain — without computing any quotient — why the bug's distance from the pole is increasing for the entire walk.\n(b) Compute the slope dy/dx at θ = π/2 and interpret the tangent direction.\n(c) Set up (do not evaluate) the arc length integral for the full walk, using the polar arc length form √(r² + (dr/dθ)²).",
+          "rubric": [
+            "(a) dr/dθ = 1 > 0 throughout: the radial dial is always positive",
+            "(b) At π/2: x = θcos θ, y = θ sin θ: dy/dθ = sin θ + θcos θ = 1; dx/dθ = cos θ - θ sin θ = -π/2: slope = -2/π",
+            "(c) L = ∫₀^{2π} √(θ² + 1) dθ",
+            "Interpretation: at the top of the first turn the spiral heads up-and-left, gently"
+          ],
+          "model_answer": "(a) dr/dθ = 1, positive for every θ: at each sweep instant the bug's radius grows — the spiral unwinds outward monotonically, no quotient needed. (b) Components x = θ cos θ, y = θ sin θ: dy/dθ = sin θ + θ cos θ, dx/dθ = cos θ - θ sin θ. At θ = π/2: dy/dθ = 1 + 0 = 1; dx/dθ = 0 - π/2 = -π/2. Slope = 1/(-π/2) = -2/π ≈ -0.64. At the point (0, π/2) — directly above the pole — the tangent slopes gently downward to the right, meaning the spiral is cresting: moving leftward across the top of its first turn while its height begins to ease. (c) With r = θ and dr/dθ = 1: L = ∫₀^{2π} √(θ² + 1) dθ — the polar arc length form, complete as a setup."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Parametric Equations, Polar Coordinates, and Vector-Valued Functions",
+    "chapter_title": "Area in Polar Coordinates",
+    "hook": "Rectangles can't tile a pie slice — but sectors can. Polar area swaps Unit 6's rectangle slices for infinitesimal pie wedges: A = (1/2)∫r² dθ. One new formula, the unit's old discipline, and the BC exam's final geometry question falls.",
+    "learning_objectives": [
+      "Derive and apply the polar area formula A = (1/2)∫r² dθ",
+      "Choose integration bounds from the sweep that traces the region once",
+      "Compute petal and inner-loop areas via the r = 0 bounds",
+      "Compute areas between polar curves with (1/2)∫(R² - r²) dθ",
+      "Combine symmetry, identities, and the calculator per the section's rules"
+    ],
+    "sections": [
+      {
+        "title": "Sectors, Not Rectangles",
+        "subtitle": "Deriving (1/2)∫r² dθ",
+        "body": "A thin polar slice — the region swept between angles θ and θ + dθ — is approximately a circular SECTOR of radius r and angle dθ: area (1/2)r² dθ (the circle-fraction formula: (dθ/2π)·πr²). Summing wedges across the sweep: A = (1/2)∫ₐᵇ r² dθ. The slicing habit of Unit 6, with wedges where rectangles were — chop, measure a piece, sum, one more time.\n\nSanity anchor: the full circle r = R over [0, 2π]: (1/2)∫₀^{2π} R² dθ = (1/2)R²(2π) = πR² ✓. The formula re-derives the area it generalizes, as every slicing formula has.\n\nWorked: the cardioid r = 1 + cos θ. Full area: (1/2)∫₀^{2π} (1 + cos θ)² dθ = (1/2)∫₀^{2π} (1 + 2cos θ + cos²θ) dθ. Over the full period: the middle term dies, cos² contributes π (the half-angle identity cos²θ = (1 + cos 2θ)/2): A = (1/2)(2π + 0 + π) = 3π/2. The cos²-integrates-to-half-the-interval pattern is polar area's recurring arithmetic — internalize ∫₀^{2π} cos²θ dθ = π and its sin twin.\n\nThe squared radius is the formula's tested detail: A involves r², so the integrand is the WHOLE radius expression squared — (1 + cos θ)², binomial expansion and all. Forgetting the square, or squaring termwise, are the founding errors; the expansion-then-identity workflow is the antidote.",
+        "key_terms": [
+          [
+            "Polar area formula",
+            "A = (1/2)∫r² dθ: sector slices summed across the sweep"
+          ],
+          [
+            "The cos² workhorse",
+            "cos²θ = (1 + cos 2θ)/2: ∫ over a full period gives half the length"
+          ],
+          [
+            "Square the whole radius",
+            "(1 + cos θ)² expands fully — the binomial is the integrand"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The 1/2 out front and the SQUARE on r are both graded and both droppable under pressure: write A = (1/2)∫ᵅᵝ [whole r expression]² dθ as a template line before substituting anything. The template is the antidote to the genre's two founding errors."
+          ]
+        ]
+      },
+      {
+        "title": "Bounds from the Sweep",
+        "subtitle": "Trace once, integrate once",
+        "body": "Polar area bounds are ANGLES, chosen so the sweep traces the region exactly once. The full cardioid: 0 to 2π. A petal of r = 2cos(3θ): the r = 0 bounds — cos(3θ) = 0 gives 3θ = ±π/2: θ from -π/6 to π/6 — one petal swept once. Chapter 6's pole-passage solve IS the bounds question; the area integral just inherits it.\n\nThe petal computation, completed: A = (1/2)∫_{-π/6}^{π/6} 4cos²(3θ) dθ = ∫_{-π/6}^{π/6} (1 + cos 6θ) dθ = [θ + sin(6θ)/6] = (π/6 + 0) - (-π/6 + 0) = π/3. All three petals: π. The total-flower shortcut — one petal times the count — beats any blind full sweep, because how 0-to-2π covers a rose depends on its parity: odd-n roses are traced exactly once, while even-n roses draw their 2n petals from a mix of positive- and negative-r stretches that takes care to audit. The safe universal play: compute ONE petal from its r = 0 bounds, multiply by the petal count.\n\nThe inner loop of r = 1 + 2cos θ: bounds are its pole-passages, 2π/3 to 4π/3 — the sweep where r ≤ 0, whose squared values trace the small loop. The square erases the sign: the formula integrates r² regardless, and the loop's area is (1/2)∫_{2π/3}^{4π/3} (1 + 2cos θ)² dθ = π - (3√3)/2 after the expansion-identity grind.\n\nDouble-counting is the genre's silent killer, and the defense is visual: SKETCH the region, mark the sweep's start and end angles on the sketch, and confirm the radius arm crosses the region once. Thirty seconds of geometry before any integration — the polar edition of Unit 8's sketch-first discipline.",
+        "key_terms": [
+          [
+            "Bounds are angles",
+            "Chosen so the radius arm sweeps the region exactly once"
+          ],
+          [
+            "One-petal-times-count",
+            "Petal bounds from r = 0; multiply by n — the rose-proof play"
+          ],
+          [
+            "Sign-blind square",
+            "Negative-r stretches integrate correctly: r² doesn't care"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Rose areas: NEVER integrate 0 to 2π blind — even-n roses double-trace. One petal from its r = 0 bounds, times the petal count, is correct for every rose and is the expected work."
+          ]
+        ]
+      },
+      {
+        "title": "Between Two Curves",
+        "subtitle": "Washers go polar",
+        "body": "The region between an outer polar curve R(θ) and an inner r(θ), over a shared sweep: A = (1/2)∫ₐᵇ (R² - r²) dθ — outer squared minus inner squared, the washer logic in wedge form. The same cardinal error lurks: (R - r)² is NOT R² - r²; the squares subtract individually, exactly as in Unit 8's revolution washers.\n\nThe standard configuration: 'the region inside the circle r = 3cos θ and outside the cardioid r = 1 + cos θ.' Bounds from the intersections (chapter 6's solve): cos θ = 1/2, θ = ±π/3 — between them the circle rides outside. A = (1/2)∫_{-π/3}^{π/3} [9cos²θ - (1 + cos θ)²] dθ. Expansion, identities, symmetry (even integrand: 2∫₀^{π/3}): the grind is routine once the setup stands; the setup is the intersection solve plus the outer/inner identification.\n\nWho's outside: test ONE angle inside the sweep (θ = 0: circle 3 versus cardioid 2 — circle outside ✓), the polar twin of area-between-curves' order check. When curves trade outsideness mid-region, split at the crossing angles — trading places is as real in wedges as it was in slices.\n\n'Inside both curves' regions (the lens between the circle and cardioid) decompose by sweep: from each angle, the NEARER boundary caps the wedge — typically the region splits at the intersection angles into pieces each governed by one curve. Sketch, identify which curve bounds each angular stretch, sum the pieces: (1/2)∫(cardioid²) over its stretch plus (1/2)∫(circle²) over the rest. The decomposition mirrors Unit 8's compound regions, wedge edition.",
+        "key_terms": [
+          [
+            "Polar washer",
+            "(1/2)∫(R² - r²) dθ: outer square minus inner square, per wedge"
+          ],
+          [
+            "Outside test",
+            "One angle inside the sweep settles which curve is outer"
+          ],
+          [
+            "Inside-both decomposition",
+            "Split at intersections; each stretch keeps its nearer boundary"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Between-curves bounds come from the FULL intersection protocol — including the pole check. A missed origin-intersection truncates the sweep and silently halves regions; the chapter-6 protocol is the area question's first graded step."
+          ]
+        ]
+      },
+      {
+        "title": "The Polar Battery and the Unit's Close",
+        "subtitle": "Exam form, and what carries forward",
+        "body": "The polar FRQ's standard anatomy: (a) sketch or identify the curves; (b) find intersections (with the pole check); (c) compute an area — petal, loop, between, or inside-both; (d) a derivative item — dr/dθ interpretation or a tangent. Parts (b) and (c) carry the weight; chapter 6's protocol and this chapter's template are their respective rubrics.\n\nCalculator division of labor: polar areas on active sections evaluate numerically — the setup (template, bounds, squared expressions) is the human work, with cos²-identity grinds outsourced. No-calculator polar areas keep the trig arithmetic tame (full periods, symmetric bounds) and expect the identity workflow by hand. Both sections grade the template line.\n\nThe unit's tools, final census: parametric trips and their slopes, speeds, lengths; vector packaging; planar motion's six-question battery; polar addresses, garden, derivatives, areas. One thread ran through: componentize or reparametrize, then apply the old calculus. Nothing in the unit was new mathematics — it was new GEOMETRY for the same derivatives and integrals, which is exactly how to retain it.\n\nWhat remains: Unit 10 — infinite series, BC's capstone. Different in flavor (sums, not slices), it still leans on this course's spine: improper-integral convergence (Unit 6), the derivative tower (Units 2-3) for Taylor coefficients, and error-bounding instincts from every approximation chapter. The road geometry is done; the last unit counts forever.",
+        "key_terms": [
+          [
+            "The polar FRQ anatomy",
+            "Curves, intersections, area, a derivative item — protocol plus template"
+          ],
+          [
+            "Template-line grading",
+            "(1/2)∫(...)² dθ with bounds: the human work both sections grade"
+          ],
+          [
+            "The unit's one thread",
+            "Reparametrize, then run the old calculus — no new mathematics"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Polar area answers on calculator sections: write the template with bounds and squared radii, then the three-decimal value. The identity grind is OPTIONAL there — the machine integrates cos² happily — but the visible setup is not."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "The area enclosed by the cardioid r = 1 + cos θ is",
+          "choices": {
+            "A": "3π/2",
+            "B": "π",
+            "C": "2π",
+            "D": "3π/4"
+          },
+          "answer": "A",
+          "explanation": "(1/2)∫₀^{2π}(1 + 2cos θ + cos²θ)dθ = (1/2)(2π + 0 + π) = 3π/2."
+        },
+        {
+          "question": "One petal of the rose r = 2cos(3θ) has area",
+          "choices": {
+            "A": "π/3",
+            "B": "π",
+            "C": "2π/3",
+            "D": "π/6"
+          },
+          "answer": "A",
+          "explanation": "Bounds ±π/6 (the r = 0 angles): (1/2)∫4cos²(3θ)dθ = π/3."
+        },
+        {
+          "question": "The area inside r = 3cos θ and outside r = 1 + cos θ is computed by",
+          "choices": {
+            "A": "(1/2)∫_{-π/3}^{π/3} [9cos²θ - (1 + cos θ)²] dθ",
+            "B": "(1/2)∫_{-π/3}^{π/3} (3cos θ - 1 - cos θ)² dθ",
+            "C": "(1/2)∫₀^{2π} [9cos²θ - (1 + cos θ)²] dθ",
+            "D": "∫_{-π/3}^{π/3} (R - r) dθ"
+          },
+          "answer": "A",
+          "explanation": "Squares subtract individually over the intersection-to-intersection sweep. (B is the (R-r)² cardinal error; C sweeps angles where the 'outer' curve isn't outside.)"
+        },
+        {
+          "question": "∫₀^{2π} cos²θ dθ =",
+          "choices": {
+            "A": "π",
+            "B": "2π",
+            "C": "0",
+            "D": "π/2"
+          },
+          "answer": "A",
+          "explanation": "cos² averages 1/2 over a full period: half the interval's length."
+        },
+        {
+          "question": "The inner loop of r = 1 + 2cos θ is traced as θ sweeps",
+          "choices": {
+            "A": "from 2π/3 to 4π/3",
+            "B": "from 0 to 2π",
+            "C": "from -π/3 to π/3",
+            "D": "from 0 to π"
+          },
+          "answer": "A",
+          "explanation": "The loop lives where r ≤ 0 — between the pole-passages cos θ = -1/2. (The square in the area formula handles the negative r.)"
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let R be the region enclosed by one petal of the rose r = 4 sin(2θ).\n(a) Find the bounds of the petal lying in the first quadrant.\n(b) Compute the petal's area exactly.\n(c) The rose has four petals. Explain why integrating (1/2)r² from 0 to 2π would NOT give four times your answer, and state the correct total area.",
+          "rubric": [
+            "(a) sin(2θ) = 0: the first-quadrant petal spans θ = 0 to π/2",
+            "(b) (1/2)∫₀^{π/2} 16sin²(2θ) dθ = 4∫₀^{π/2}(1 - cos 4θ)dθ = 4(π/2) = 2π",
+            "(c) Notes that the safe general method is one petal times the count; verifies total 4 × 2π = 8π",
+            "Correct total 8π with coherent reasoning about the sweep"
+          ],
+          "model_answer": "(a) Petal edges where r = 0: sin(2θ) = 0 at θ = 0 and θ = π/2 — the first-quadrant petal spans [0, π/2] (r > 0 throughout). (b) A = (1/2)∫₀^{π/2} 16 sin²(2θ) dθ = 4∫₀^{π/2} (1 - cos 4θ) dθ = 4[θ - sin(4θ)/4]₀^{π/2} = 4(π/2) = 2π. (c) Total area: four congruent petals give 4 × 2π = 8π. A blind 0-to-2π integral is risky in general because it requires knowing exactly how the sweep covers the flower — even-n roses draw half their petals from negative-r stretches, and miscounting coverage silently doubles or halves regions. (For this curve the full sweep does trace each petal once, and (1/2)∫₀^{2π} 16 sin²(2θ) dθ = 8π agrees — but the per-petal route never needed that audit.)"
+        },
+        {
+          "question": "Let R be the region inside the circle r = 3 cos θ and outside the cardioid r = 1 + cos θ.\n(a) Find the intersection angles bounding R, including the pole analysis.\n(b) Verify which curve is outer on the sweep, and write the area integral.\n(c) Evaluate the area exactly.",
+          "rubric": [
+            "(a) 3cos θ = 1 + cos θ: cos θ = 1/2, θ = ±π/3; pole: both curves reach r = 0 (at π/2 and π) but the region between ±π/3 doesn't involve the pole crossing",
+            "(b) At θ = 0: circle 3 > cardioid 2: circle outer; A = (1/2)∫_{-π/3}^{π/3}[9cos²θ - (1+cos θ)²]dθ",
+            "(c) Expand: 8cos²θ - 2cos θ - 1; integrate: 8(θ/2 + sin2θ/4) - 2sin θ - θ → evaluates to π",
+            "Symmetry (2∫₀^{π/3}) and identity work shown; exact answer π"
+          ],
+          "model_answer": "(a) Setting 3 cos θ = 1 + cos θ: cos θ = 1/2, θ = ±π/3 — the lens's corners at (3/2, ±π/3). (Both curves separately visit the pole — the circle at π/2, the cardioid at π — so the origin is an intersection of the curves, but it does not bound THIS region, which lives in the sweep |θ| ≤ π/3.) (b) Test θ = 0: circle r = 3 versus cardioid r = 2 — the circle rides outside. A = (1/2)∫_{-π/3}^{π/3} [9cos²θ - (1 + cos θ)²] dθ. (c) Expand the integrand: 9cos²θ - 1 - 2cos θ - cos²θ = 8cos²θ - 2cos θ - 1 = 4(1 + cos 2θ) - 2cos θ - 1 = 3 + 4cos 2θ - 2cos θ. An antiderivative of 3 + 4cos 2θ - 2cos θ is 3θ + 2 sin 2θ - 2 sin θ. By evenness the symmetric evaluation doubles the half-range and cancels the leading 1/2: A = [3θ + 2 sin 2θ - 2 sin θ]₀^{π/3} = π + 2(√3/2) - 2(√3/2) = π. The lens-complement's area is exactly π."
+        },
+        {
+          "question": "(Calculator active.) Let r = 2 + sin(3θ).\n(a) Explain why this curve never passes through the pole.\n(b) Set up and evaluate the total enclosed area.\n(c) Find the rate of change of r with respect to θ at θ = π/4, and interpret the sign.",
+          "rubric": [
+            "(a) r ≥ 2 - 1 = 1 > 0 for all θ: the radius never vanishes",
+            "(b) A = (1/2)∫₀^{2π}(2 + sin 3θ)² dθ = (1/2)(8π + 0 + π) = 9π/2 ≈ 14.137 (exact possible: 4 + sin² average)",
+            "(c) dr/dθ = 3cos(3θ); at π/4: 3cos(3π/4) = -3√2/2 ≈ -2.121 < 0",
+            "Interpretation: the curve's distance from the pole is decreasing at that angle"
+          ],
+          "model_answer": "(a) sin(3θ) ≥ -1, so r = 2 + sin(3θ) ≥ 1 — the radius never reaches zero, and the wavy ring stays clear of the origin. (b) The curve closes over one full sweep: A = (1/2)∫₀^{2π} (2 + sin 3θ)² dθ = (1/2)∫₀^{2π} (4 + 4 sin 3θ + sin²3θ) dθ = (1/2)(8π + 0 + π) = 9π/2 ≈ 14.137. (The middle term dies over full periods; sin² contributes half the interval.) (c) dr/dθ = 3 cos(3θ); at θ = π/4: 3 cos(3π/4) = -3√2/2 ≈ -2.121. Negative: at that sweep moment the curve is moving TOWARD the pole — the ring is in one of its three inward-breathing phases."
+        }
+      ]
+    }
+  }
+]

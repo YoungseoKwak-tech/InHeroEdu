@@ -1,0 +1,2072 @@
+[
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Infinite Sequences and Series",
+    "chapter_title": "Sequences and Convergence",
+    "hook": "BC's capstone unit asks one question for ten chapters: can you add infinitely many numbers and get a finite answer? Before the sums, the terms — sequences, their limits, and the vocabulary that every convergence test will speak.",
+    "learning_objectives": [
+      "Define sequences and compute limits as n → ∞",
+      "Apply limit machinery (growth hierarchy, L'Hospital via functions) to sequences",
+      "Distinguish a sequence's convergence from the convergence of its series",
+      "Identify monotonic and bounded sequences and apply the boundedness theorem",
+      "Set the unit's central distinction: terms going to zero versus sums staying finite"
+    ],
+    "sections": [
+      {
+        "title": "Sequences and Their Limits",
+        "subtitle": "Functions on the integers",
+        "body": "A sequence is an ordered list a₁, a₂, a₃, ... — a function whose domain is the positive integers, written aₙ = f(n). The sequence CONVERGES to L when lim n→∞ aₙ = L: beyond some index, every term sits arbitrarily close to L. Diverges otherwise — to ∞, to -∞, or by oscillation (aₙ = (-1)ⁿ never settles).\n\nThe limit machinery is Unit 1's, evaluated along integers: aₙ = (3n² + 1)/(n² + 5n) → 3 by the degree rule; aₙ = n/2ⁿ → 0 by the growth hierarchy (exponentials beat polynomials); aₙ = (1 + 1/n)ⁿ → e by the famous limit. When a limit is genuinely stubborn, pass to the continuous function f(x) and use L'Hospital — if f(x) → L then aₙ = f(n) → L (the converse fails, but the useful direction holds).\n\nFactorials join the hierarchy here, one rung above exponentials: n! eventually dominates every bⁿ, so bⁿ/n! → 0 for every base b. The full dominance ladder — ln n ≪ nᵖ ≪ bⁿ ≪ n! ≪ nⁿ — settles most sequence limits by inspection, and Unit 10 leans on the factorial rungs constantly (the ratio test lives there).\n\nA handful of standard limits to know cold: r ⁿ → 0 for |r| < 1 (the unit's single most important fact); n^{1/n} → 1; (1 + r/n)ⁿ → e^r. These three plus the ladder cover virtually every sequence limit the exam asks.",
+        "key_terms": [
+          [
+            "Sequence convergence",
+            "lim n→∞ aₙ = L: terms eventually trapped near L"
+          ],
+          [
+            "The dominance ladder",
+            "ln n ≪ nᵖ ≪ bⁿ ≪ n! ≪ nⁿ — factorials now installed"
+          ],
+          [
+            "The geometric seed",
+            "rⁿ → 0 for |r| < 1: the fact the whole unit grows from"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "bⁿ/n! → 0 for EVERY b — even 1000ⁿ/n! dies, because factorials multiply by ever-larger factors while bⁿ multiplies by the same b forever. This single fact powers the ratio test's verdict on every exponential-vs-factorial contest in the unit."
+          ]
+        ]
+      },
+      {
+        "title": "Sequence vs Series",
+        "subtitle": "The unit's load-bearing distinction",
+        "body": "A SEQUENCE is a list; a SERIES is the sum of a list: Σaₙ = a₁ + a₂ + a₃ + ⋯. The series' convergence is defined through its PARTIAL SUMS — the sequence Sₙ = a₁ + ⋯ + aₙ. If the partial-sum sequence converges to S, the series converges with sum S; otherwise it diverges. Every series question is secretly a sequence question about Sₙ.\n\nThe distinction's teeth: the sequence 1/n converges (to zero) — but the series Σ1/n DIVERGES (the harmonic series, certified next chapters). Terms shrinking to zero does NOT make their sum finite: the terms must shrink FAST ENOUGH, and 'fast enough' is exactly what the unit's seven tests adjudicate. Unit 6's improper integrals told the same story (1/x versus 1/x²); the discrete version runs on the same intuition.\n\nPartial sums in action on a telescoping series: Σ 1/(n(n+1)) = Σ[1/n - 1/(n+1)] (partial fractions!). The partial sum collapses: Sₙ = 1 - 1/(n+1) → 1. The series converges to 1 — one of the few series whose exact sum is computable by hand, and the AP's standard telescoping example. (Geometric series, next chapter, are the other exactly-summable family.)\n\nVocabulary discipline for the whole unit: 'the sequence of terms,' 'the sequence of partial sums,' 'the series' — three different objects, and exam questions name which one they mean. 'Does {aₙ} converge?' and 'does Σaₙ converge?' are different questions with (often) different answers; reading the braces versus the sigma is the first graded act.",
+        "key_terms": [
+          [
+            "Series via partial sums",
+            "Σaₙ converges to S iff Sₙ = a₁ + ⋯ + aₙ → S"
+          ],
+          [
+            "The harmonic warning",
+            "1/n → 0 but Σ1/n = ∞: shrinking terms don't guarantee finite sums"
+          ],
+          [
+            "Telescoping series",
+            "Partial-fraction terms collapse: Sₙ computable, limit exact"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'The sequence converges but the series diverges' is a true and tested sentence (aₙ = 1/n). Any answer choice claiming term-convergence implies series-convergence is wrong by this one example — keep the harmonic series loaded at all times."
+          ]
+        ]
+      },
+      {
+        "title": "Monotonic and Bounded",
+        "subtitle": "Convergence without finding the limit",
+        "body": "A sequence is MONOTONIC when it always moves one way (increasing or decreasing), and BOUNDED when its terms stay within fixed bars. The Monotone Convergence Theorem: a bounded monotonic sequence converges — it must settle, squeezed between its own direction and its wall, even if the limit's value stays unknown. The theorem certifies existence without computation: the unit's first taste of convergence-without-evaluation.\n\nThe standard application: recursively defined sequences. a₁ = 1, aₙ₊₁ = √(2 + aₙ): show the terms increase (an induction-flavored check) and stay bounded above by 2; conclude convergence by the theorem; THEN find the limit by the fixed-point trick — the limit L must satisfy L = √(2 + L), so L² - L - 2 = 0, L = 2. Certify first, then solve: the order matters because the fixed-point equation assumes a limit exists.\n\nBoundedness alone does not suffice ((-1)ⁿ is bounded, oscillates forever); monotonicity alone does not (n increases to ∞). The theorem needs both hypotheses, and the exam's true/false items probe each gap with exactly those counterexamples.\n\nWhy the theorem matters ahead: the unit's convergence TESTS mostly certify without summing — 'this converges' with no clue what to. Monotone convergence is the prototype, and it underwrites the integral test's proof (partial sums of positive terms are increasing; bounded by the integral, they converge). The philosophy — existence first, value separately if ever — IS Unit 10.",
+        "key_terms": [
+          [
+            "Monotone Convergence Theorem",
+            "Bounded + monotonic ⟹ convergent, value unknown"
+          ],
+          [
+            "Fixed-point trick",
+            "For recursive sequences: certify convergence, then solve L = f(L)"
+          ],
+          [
+            "Existence-first philosophy",
+            "Tests certify convergence without computing sums — the unit's mode"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "For recursive sequences, the fixed-point equation L = f(L) is only legal AFTER convergence is certified — applying it to a divergent sequence 'finds' limits that don't exist. The certify-then-solve order is the graded logic."
+          ]
+        ]
+      },
+      {
+        "title": "The Unit's Map",
+        "subtitle": "Ten chapters, one question",
+        "body": "The unit's architecture, so the pieces land in slots. Chapters 2-6: CONVERGENCE TESTS for series of constants — geometric and nth-term (ch 2), integral test and p-series (ch 3), comparisons (ch 4), alternating series (ch 5), ratio test (ch 6). Chapters 7-10: POWER SERIES — series with x in them: where they converge (ch 7), Taylor polynomials (ch 8), Taylor series and error (ch 9), and the manipulation calculus (ch 10).\n\nThe test-selection skill — WHICH test for which series — is the unit's analog of the integration-technique routing in Unit 6, and the exam tests the routing as much as the executions. A routing preview: geometric form (rⁿ visible) → geometric; terms with n! or bⁿ → ratio; rational-in-n terms → comparison to a p-series; (-1)ⁿ factors → alternating; f(n) with f integrable → integral test. The full decision tree assembles across the chapters and gets drilled in each.\n\nGrading culture in series-land: every convergence claim NAMES its test and VERIFIES the test's hypotheses — 'by the ratio test, since lim |aₙ₊₁/aₙ| = 1/3 < 1' — exactly the theorem-citation discipline of Units 5 and 6. Unjustified verdicts score zero even when correct; the unit is as much about writing proofs-in-miniature as computing.\n\nThe stakes, stated once: series questions are roughly 17-18% of the BC exam — the single heaviest topic — including a guaranteed FRQ (usually Taylor-flavored). The ten chapters ahead are the course's highest-density point territory, and the sequence/series distinction this chapter installed is load-bearing under all of it.",
+        "key_terms": [
+          [
+            "The architecture",
+            "Tests for constant series (ch 2-6), then power series (ch 7-10)"
+          ],
+          [
+            "Routing preview",
+            "Form of the term picks the test — the unit's recurring meta-skill"
+          ],
+          [
+            "Name-and-verify culture",
+            "Every verdict cites its test and checks its hypotheses, every time"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Series carry more BC exam weight than any other topic — a guaranteed FRQ plus heavy multiple choice. The justification format ('converges by [test] because [hypothesis check]') is one sentence; written every time, it is worth more points than any single test's mastery."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "lim n→∞ (2n² - 1)/(3n² + n) =",
+          "choices": {
+            "A": "2/3",
+            "B": "0",
+            "C": "∞",
+            "D": "2"
+          },
+          "answer": "A",
+          "explanation": "Equal degrees: the leading-coefficient ratio."
+        },
+        {
+          "question": "The sequence aₙ = 5ⁿ/n! ",
+          "choices": {
+            "A": "converges to 0",
+            "B": "diverges to ∞",
+            "C": "converges to 5",
+            "D": "oscillates"
+          },
+          "answer": "A",
+          "explanation": "Factorials dominate exponentials: bⁿ/n! → 0 for every b."
+        },
+        {
+          "question": "Which statement is TRUE?",
+          "choices": {
+            "A": "The sequence {1/n} converges and the series Σ1/n diverges",
+            "B": "If aₙ → 0 then Σaₙ converges",
+            "C": "If Σaₙ converges then the partial sums diverge",
+            "D": "Sequences and series converge together always"
+          },
+          "answer": "A",
+          "explanation": "The harmonic example: terms die, sum doesn't. (B is the unit's central false statement.)"
+        },
+        {
+          "question": "The series Σₙ₌₁^∞ [1/n - 1/(n+1)] converges to",
+          "choices": {
+            "A": "1",
+            "B": "0",
+            "C": "2",
+            "D": "diverges"
+          },
+          "answer": "A",
+          "explanation": "Telescoping: Sₙ = 1 - 1/(n+1) → 1."
+        },
+        {
+          "question": "A sequence is increasing and bounded above. It must",
+          "choices": {
+            "A": "converge",
+            "B": "diverge to ∞",
+            "C": "oscillate",
+            "D": "be geometric"
+          },
+          "answer": "A",
+          "explanation": "The Monotone Convergence Theorem: direction plus a wall forces settling."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Consider the sequence aₙ = (3n + 1)/(n + 2) and the series Σₙ₌₁^∞ (3n + 1)/(n + 2).\n(a) Find lim n→∞ aₙ.\n(b) Determine whether the SERIES converges, with justification previewing the nth-term reasoning: what must be true of a convergent series' terms?\n(c) Contrast with bₙ = 1/n: state what its sequence does and what its series does.",
+          "rubric": [
+            "(a) Degree rule: limit 3",
+            "(b) Terms approach 3 ≠ 0: the partial sums grow without bound (adding ≈3 forever): series diverges",
+            "(c) {1/n} converges to 0; Σ1/n (harmonic) diverges",
+            "The both-directions moral: term-limit 0 is necessary, never sufficient"
+          ],
+          "model_answer": "(a) lim aₙ = 3 (equal degrees, leading coefficients 3/1). (b) The series cannot converge: its terms approach 3, so each new partial sum adds nearly 3 — Sₙ grows without bound. (For any convergent series the terms MUST approach zero, since aₙ = Sₙ - Sₙ₋₁ → S - S = 0.) This series diverges. (c) For bₙ = 1/n: the sequence converges to 0, yet the series Σ1/n — the harmonic series — diverges. Together the examples set the unit's central asymmetry: terms → 0 is necessary for convergence but not sufficient; terms ↛ 0 guarantees divergence."
+        },
+        {
+          "question": "Define a sequence by a₁ = 2 and aₙ₊₁ = √(2 + aₙ).\n(a) Compute a₂ and a₃ to three decimals, and conjecture the sequence's behavior.\n(b) Given that the sequence is increasing and bounded above by 2, explain why it must converge, naming the theorem.\n(c) Find the limit exactly using the fixed-point equation, and explain why that step required (b) first.",
+          "rubric": [
+            "(a) a₂ = 2 = ... √(2+2) = 2: recognizes a₁ = 2 makes it constant — adjust: with a₁ = 1: a₂ = √3 ≈ 1.732, a₃ ≈ 1.932 — accept either treatment with coherent values",
+            "(b) Monotone Convergence Theorem: increasing + bounded above ⟹ convergent",
+            "(c) L = √(2 + L) → L² - L - 2 = 0 → L = 2 (reject -1)",
+            "Order rationale: the fixed-point equation presupposes a limit exists"
+          ],
+          "model_answer": "(a) With a₁ = 2: a₂ = √(2 + 2) = 2 — the sequence is constant at 2 (already at its fixed point); every term is 2.000. The interesting behavior shows from any start below 2 (e.g., a₁ = 1 gives a₂ ≈ 1.732, a₃ ≈ 1.932, climbing toward 2); the conjecture either way: the sequence converges to 2. (b) An increasing sequence bounded above must converge by the Monotone Convergence Theorem — it cannot pass its wall and cannot turn back, so it settles. (c) If aₙ → L, then taking limits in the recursion: L = √(2 + L), so L² = 2 + L, (L - 2)(L + 1) = 0: L = 2 (the negative root is impossible for positive terms). The certification in (b) had to come first: the equation L = f(L) manipulates a limit that must already be known to exist — applied to a divergent recursion it produces phantom 'limits.'"
+        },
+        {
+          "question": "Rank the sequences by eventual size and use the ranking to evaluate three limits.\n(a) Order for large n: ln n, n¹⁰⁰, 2ⁿ, n!, nⁿ.\n(b) Evaluate lim n→∞ n¹⁰⁰/2ⁿ and lim n→∞ 2ⁿ/n!.\n(c) Evaluate lim n→∞ n!/nⁿ, with a one-line reason.",
+          "rubric": [
+            "(a) ln n ≪ n¹⁰⁰ ≪ 2ⁿ ≪ n! ≪ nⁿ",
+            "(b) Both 0: each numerator sits lower on the ladder",
+            "(c) 0: n!/nⁿ = (1/n)(2/n)⋯(n/n) ≤ 1/n → 0",
+            "Product-of-fractions (or ladder) reasoning present"
+          ],
+          "model_answer": "(a) The dominance ladder: ln n ≪ n¹⁰⁰ ≪ 2ⁿ ≪ n! ≪ nⁿ. (b) n¹⁰⁰/2ⁿ → 0 (polynomials lose to exponentials — 100 rounds of L'Hospital, or the ladder) and 2ⁿ/n! → 0 (factorials multiply by growing factors, exponentials by 2 forever). (c) n!/nⁿ = (1/n)(2/n)(3/n)⋯(n/n): a product of n fractions each at most 1, with the first factor 1/n → 0 — the product is squeezed below 1/n, so the limit is 0. Even factorials lose to nⁿ: the ladder's top rung."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Infinite Sequences and Series",
+    "chapter_title": "Geometric Series and the nth Term Test",
+    "hook": "One family of series can be summed exactly, completely, every time: the geometric series, where each term is a fixed multiple of the last. Master its one convergence rule and its one sum formula, then meet the nth Term Test — the unit's quickest divergence detector.",
+    "learning_objectives": [
+      "Recognize geometric series and identify the first term and common ratio",
+      "Apply the convergence criterion |r| < 1 and the sum formula a/(1 - r)",
+      "Sum geometric series in applied and disguised forms, including repeating decimals",
+      "Apply the nth Term Test for divergence, and never as a convergence test",
+      "Combine the two tools as the unit's first-pass screening of any series"
+    ],
+    "sections": [
+      {
+        "title": "The Geometric Family",
+        "subtitle": "Fixed-ratio terms, exact sums",
+        "body": "A geometric series multiplies each term by a constant ratio r: a + ar + ar² + ⋯ = Σ arⁿ. The partial sum has a closed form — Sₙ = a(1 - rⁿ)/(1 - r) — and its limit hinges entirely on rⁿ: when |r| < 1, rⁿ → 0 (chapter 1's seed fact) and the series converges to S = a/(1 - r). When |r| ≥ 1, the terms refuse to die and the series diverges. One criterion, one formula, no exceptions.\n\nThe formula's a is the FIRST TERM as actually written — not necessarily the n = 0 coefficient of a formula. Σₙ₌₂^∞ 3(1/4)ⁿ starts at the n = 2 term: a = 3/16, r = 1/4, sum (3/16)/(3/4) = 1/4. Misreading the starting index is the formula's standard misuse; identify a by writing the first term out, every time.\n\nWorked classics: Σ (2/3)ⁿ from n = 0: a = 1, r = 2/3, sum 3. The repeating decimal 0.717171... = 71/100 + 71/10000 + ⋯: a = 71/100, r = 1/100, sum (71/100)/(99/100) = 71/99 — geometric series turning decimals into fractions, a recurring small question.\n\nApplied dress: a ball dropped from 10 m rebounds to 60% of each fall. Total distance: 10 + 2(6 + 3.6 + ⋯) = 10 + 2·6/(1 - 0.6) = 10 + 30 = 40 m. Bouncing balls, drug accumulation with fractional retention, fractal lengths — the geometric sum is applied mathematics' favorite infinite total, and the AP visits the costume shop regularly.",
+        "key_terms": [
+          [
+            "Geometric series",
+            "Σarⁿ: converges iff |r| < 1, to a/(1 - r) with a the first written term"
+          ],
+          [
+            "First-term discipline",
+            "a is the series' actual first term — write it out, mind the starting index"
+          ],
+          [
+            "Applied totals",
+            "Bounces, doses, fractals: the geometric sum in costume"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "a/(1 - r) demands a = the FIRST TERM of the series as summed, whatever the index says. For Σₙ₌₃ 5(2/3)ⁿ, a = 5(2/3)³ — not 5. Writing out the first term before the formula is the two-second habit that protects the point."
+          ]
+        ]
+      },
+      {
+        "title": "The nth Term Test",
+        "subtitle": "Divergence on sight",
+        "body": "If a series converges, its terms must approach zero (chapter 1's partial-sum argument: aₙ = Sₙ - Sₙ₋₁ → 0). The contrapositive is the nth Term Test for divergence: if lim aₙ ≠ 0 (or fails to exist), Σaₙ DIVERGES. One limit computation, instant verdict — the unit's cheapest test and the right FIRST CHECK on any unfamiliar series.\n\nWhat the test can never do: certify convergence. lim aₙ = 0 says NOTHING — the harmonic series passes the term-limit check and diverges anyway. The test is a one-way detector: nonzero limit means divergence; zero limit means 'inconclusive, bring a real test.' Treating it as two-way is the unit's most-tested misconception, planted in answer choices at every opportunity.\n\nApplications at speed: Σ n/(2n + 1) — terms → 1/2 ≠ 0: diverges. Σ cos(1/n) — terms → cos 0 = 1: diverges. Σ (-1)ⁿ — terms oscillate, no limit: diverges. Σ (1 + 1/n)ⁿ — terms → e: diverges. Each verdict in one line, each justified 'by the nth Term Test since lim aₙ = [value] ≠ 0.'\n\nThe grading sentence has a required shape: name the test, state the nonzero limit. 'Diverges because the terms don't go to zero' without the limit's value is a half-sentence; 'diverges by the nth Term Test because lim aₙ = 1/2 ≠ 0' is the full point. As promised: name-and-verify, every time.",
+        "key_terms": [
+          [
+            "nth Term Test",
+            "lim aₙ ≠ 0 (or DNE) ⟹ Σaₙ diverges — divergence only"
+          ],
+          [
+            "One-way detector",
+            "Zero term-limit is inconclusive; the harmonic series is the standing witness"
+          ],
+          [
+            "The graded sentence",
+            "Test named, nonzero limit stated: one line, one point"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The nth Term Test NEVER proves convergence — 'converges by the nth term test' is an automatic zero. Its only conclusions are 'diverges' or 'inconclusive,' and the exam plants the misuse as a wrong answer relentlessly."
+          ]
+        ]
+      },
+      {
+        "title": "Disguised Geometrics",
+        "subtitle": "Recognition under costume",
+        "body": "Geometric series arrive disguised, and the un-disguising is the tested skill. Exponential rewrites: for Σ 3ⁿ⁺¹/4ⁿ⁻¹, extract the ratio rather than wrestling exponents — each term is (3/4) times the last, and the first term (n = 1) is 3²/4⁰ = 9: a geometric series with a = 9, r = 3/4, sum 9/(1/4) = 36. The reliable method: write two consecutive terms and DIVIDE — the ratio reveals itself regardless of the algebraic costume.\n\nMixed bases split by linearity: Σ (2ⁿ + 5)/7ⁿ = Σ(2/7)ⁿ + 5Σ(1/7)ⁿ — two geometric series, two sums, added: (2/7)/(5/7) + 5·(1/7)/(6/7) = 2/5 + 5/6 = 37/30. Series split over sums exactly as integrals did; each piece routes to its own family.\n\nThe x-powered preview: Σ xⁿ is geometric with ratio x — converging for |x| < 1 to 1/(1 - x). A series of FUNCTIONS, convergent on an interval: the first power series, three chapters early. The geometric family is the seed of the entire power-series half of the unit, which is why its mastery is non-negotiable.\n\nRatio-extraction also drives the divergent verdicts: Σ (5/4)ⁿ has |r| = 5/4 ≥ 1 — diverges (and the nth Term Test agrees: terms blow up). When both tools apply, cite either; the geometric criterion is self-sufficient for its family.",
+        "key_terms": [
+          [
+            "Divide-consecutive-terms",
+            "The ratio reveals itself: aₙ₊₁/aₙ, simplified, is r"
+          ],
+          [
+            "Split-by-linearity",
+            "Mixed numerators decompose into separate geometric series"
+          ],
+          [
+            "Σxⁿ preview",
+            "The geometric series in x: the first power series, interval |x| < 1"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "To identify a disguised geometric: compute a₂/a₁ and a₃/a₂. Equal ratios certify the family and HAND you r — no algebra acrobatics on the general term required. Two divisions beat one clever rewrite."
+          ]
+        ]
+      },
+      {
+        "title": "The First-Pass Screen",
+        "subtitle": "Two tools, every series",
+        "body": "With two tools installed, the unit's screening protocol begins: given ANY series, (1) check the nth Term Test — terms not dying means done, diverges; (2) check for geometric form — fixed ratio means done, with an exact sum when |r| < 1. The two checks cost seconds and resolve a sizable fraction of exam items outright; everything else proceeds to the heavier tests of chapters 3-6.\n\nThe protocol's order matters for efficiency, not correctness: the nth-term check is faster (one limit) and the geometric check more rewarding (exact sums). On multiple choice, scan for both simultaneously: visible rⁿ structure → geometric route; terms with a nonzero limit → instant divergence.\n\nWhat the screen cannot touch — and the coming chapters can: Σ1/n² (terms die, not geometric: p-series, ch 3); Σ1/(n ln n) (integral test, ch 3); Σ n/(n³ + 1) (comparison, ch 4); Σ(-1)ⁿ/n (alternating, ch 5); Σn!/100ⁿ (ratio test, ch 6 — though the nth Term Test also kills this one: factorial terms blow up). The screen sorts; the specialists finish.\n\nA summing caution to close: only geometric (and telescoping) series yield EXACT sums in this unit. Every other convergent series gets a verdict, not a value — 'converges' with the sum unnamed (until Taylor series attach values to a precious few in chapter 9). Questions asking for 'the sum' are geometric/telescoping flags; questions asking 'converges or diverges' open the full toolkit.",
+        "key_terms": [
+          [
+            "The screen",
+            "nth Term Test first, geometric recognition second — seconds each"
+          ],
+          [
+            "Sum vs verdict",
+            "Exact sums: geometric and telescoping only; everything else gets a verdict"
+          ],
+          [
+            "Routing forward",
+            "What the screen passes goes to integral, comparison, alternating, ratio"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Find the sum' means geometric or telescoping — the only families with computable sums in the unit. If a sum is requested and the series looks like neither, re-examine: a partial-fraction telescope or a disguised ratio is hiding."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "Σₙ₌₀^∞ 4(1/3)ⁿ =",
+          "choices": {
+            "A": "6",
+            "B": "4",
+            "C": "12",
+            "D": "diverges"
+          },
+          "answer": "A",
+          "explanation": "a = 4, r = 1/3: 4/(1 - 1/3) = 6."
+        },
+        {
+          "question": "Σₙ₌₂^∞ (1/2)ⁿ =",
+          "choices": {
+            "A": "1/2",
+            "B": "1",
+            "C": "2",
+            "D": "1/4"
+          },
+          "answer": "A",
+          "explanation": "First term (1/2)² = 1/4, r = 1/2: (1/4)/(1/2) = 1/2. (B forgot the shifted start.)"
+        },
+        {
+          "question": "The series Σ n/(3n + 5)",
+          "choices": {
+            "A": "diverges by the nth Term Test",
+            "B": "converges to 1/3",
+            "C": "converges by the nth Term Test",
+            "D": "is geometric with r = 1/3"
+          },
+          "answer": "A",
+          "explanation": "Terms → 1/3 ≠ 0: divergence. (C is the test's forbidden use; B confuses the TERM limit with a sum.)"
+        },
+        {
+          "question": "If lim n→∞ aₙ = 0, then Σaₙ",
+          "choices": {
+            "A": "may converge or diverge — more information is needed",
+            "B": "converges",
+            "C": "diverges",
+            "D": "converges to 0"
+          },
+          "answer": "A",
+          "explanation": "Zero term-limit is inconclusive: Σ1/n² converges, Σ1/n diverges, both pass the check."
+        },
+        {
+          "question": "The repeating decimal 0.454545... equals",
+          "choices": {
+            "A": "45/99",
+            "B": "45/100",
+            "C": "9/22",
+            "D": "5/11 exactly because 45/99 reduces"
+          },
+          "answer": "A",
+          "explanation": "Geometric: a = 45/100, r = 1/100: (45/100)/(99/100) = 45/99 (= 5/11 reduced — A is the direct form; D's reasoning is right but 45/99 = 5/11, making A the listed exact match)."
+        }
+      ],
+      "frq": [
+        {
+          "question": "A ball is dropped from 12 meters; each bounce returns it to 2/3 of its previous height.\n(a) Write the total vertical distance traveled as an expression involving a geometric series.\n(b) Compute the total distance exactly.\n(c) The ball 'bounces forever' in the model. Explain why the total TIME can also be finite, by exhibiting the time sum's structure (each fall from height h takes √(2h/g) seconds — structure only, no evaluation needed).",
+          "rubric": [
+            "(a) D = 12 + 2·Σₙ₌₁^∞ 12(2/3)ⁿ (each rebound height traveled up then down)",
+            "(b) D = 12 + 2·(8/(1/3)) = 12 + 48 = 60 m",
+            "(c) Fall times scale like √h: the time series has ratio √(2/3) < 1 — also geometric, also convergent",
+            "Infinite bounces, finite total: the unit's central possibility, instantiated"
+          ],
+          "model_answer": "(a) The ball falls 12, then for each n ≥ 1 rises and falls 12(2/3)ⁿ: D = 12 + 2Σₙ₌₁^∞ 12(2/3)ⁿ. (b) The series has first term 12(2/3) = 8 and ratio 2/3: sum 8/(1/3) = 24. D = 12 + 2(24) = 60 meters. (c) Each fall from height h takes time proportional to √h, so successive bounce times scale by √(2/3) per bounce — a geometric sequence with ratio √(2/3) ≈ 0.816 < 1. The time series is geometric and convergent too: infinitely many bounces complete in finite time. Infinite processes with finite totals are exactly what convergent series describe — the ball stops bouncing at a computable instant."
+        },
+        {
+          "question": "Determine the convergence or divergence of each series; for convergent ones, find the sum.\n(a) Σₙ₌₁^∞ (3ⁿ⁺¹)/(4ⁿ)\n(b) Σₙ₌₁^∞ (2ⁿ + 5)/(7ⁿ)\n(c) Σₙ₌₁^∞ cos(1/n)",
+          "rubric": [
+            "(a) Geometric: ratio 3/4, first term 9/4: sum (9/4)/(1/4) = 9",
+            "(b) Splits: Σ(2/7)ⁿ + 5Σ(1/7)ⁿ = 2/5 + 5/6 = 37/30",
+            "(c) Terms → cos 0 = 1 ≠ 0: diverges by the nth Term Test",
+            "Each verdict named and hypothesis-checked"
+          ],
+          "model_answer": "(a) aₙ₊₁/aₙ = 3/4: geometric with r = 3/4, first term 3²/4 = 9/4. Converges (|r| < 1) to (9/4)/(1 - 3/4) = 9. (b) Split: Σ(2/7)ⁿ + 5Σ(1/7)ⁿ. First piece: a = 2/7, r = 2/7: sum (2/7)/(5/7) = 2/5. Second: 5·(1/7)/(6/7) = 5/6. Total: 2/5 + 5/6 = 37/30. (c) lim cos(1/n) = cos 0 = 1 ≠ 0: the series diverges by the nth Term Test — the terms never stop adding nearly 1."
+        },
+        {
+          "question": "A patient takes 200 mg of a medication every 24 hours; by each next dose, only 30% of the drug present remains.\n(a) Write the amount in the body immediately after the (n+1)st dose as a finite geometric sum.\n(b) Find the long-run amount immediately after a dose (the limit).\n(c) The safe threshold is 300 mg. Does the long-run post-dose amount stay safe? What about immediately BEFORE a dose?",
+          "rubric": [
+            "(a) Aₙ = 200(1 + 0.3 + 0.3² + ⋯ + 0.3ⁿ)",
+            "(b) Limit: 200/(1 - 0.3) = 2000/7 ≈ 285.7 mg",
+            "(c) Post-dose ≈ 285.7 < 300 ✓; pre-dose = 0.3 × 285.7 ≈ 85.7 mg",
+            "Both regimes safe; steady-state reasoning through the geometric limit"
+          ],
+          "model_answer": "(a) Each earlier dose has been multiplied by 0.3 per elapsed day: after the (n+1)st dose, Aₙ = 200(1 + 0.3 + 0.3² + ⋯ + 0.3ⁿ). (b) As n → ∞ the geometric sum converges: A = 200/(1 - 0.3) = 2000/7 ≈ 285.7 mg — the steady-state peak. (c) The long-run post-dose level ≈ 285.7 mg stays below the 300 mg threshold ✓. Immediately before a dose, a day's decay has acted: 0.3 × 285.7 ≈ 85.7 mg — the trough. The regimen oscillates forever between ≈85.7 and ≈285.7 mg, safely under the line: an infinite dosing schedule with a finite, geometric ceiling."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Infinite Sequences and Series",
+    "chapter_title": "Integral Test and p-Series",
+    "hook": "Unit 6's improper integrals promised a payoff: the integral test welds series to integrals — Σf(n) and ∫f dx converge or diverge together — and out falls the p-series rule, the unit's single most-used benchmark.",
+    "learning_objectives": [
+      "State and apply the integral test with its three hypotheses",
+      "Derive and apply the p-series criterion: convergent iff p > 1",
+      "Certify the harmonic series' divergence rigorously",
+      "Choose the integral test for f(n) terms with integrable f",
+      "Use p-series as the benchmark family for the comparison chapter ahead"
+    ],
+    "sections": [
+      {
+        "title": "The Integral Test",
+        "subtitle": "Rectangles under and over the curve",
+        "body": "For a function f that is POSITIVE, CONTINUOUS, and DECREASING on [1, ∞): the series Σₙ₌₁^∞ f(n) and the integral ∫₁^∞ f(x) dx converge or diverge TOGETHER. The proof is a picture: the series' terms are unit-width rectangles that can be hung under the curve (showing Σ from 2 on ≤ ∫) or over it (∫ ≤ Σ) — the sum and the area trap each other, so neither can be finite without the other.\n\nThe three hypotheses are graded checkboxes: positive (the trapping needs one-sided rectangles), continuous (the integral needs meaning), decreasing (the rectangles need to fit). The verification sentence — 'f(x) = 1/(x ln x) is positive, continuous, and decreasing for x ≥ 2' — precedes the integral, every time; decreasing is certified by f' < 0 when not obvious.\n\nThe showcase the test exists for: Σ 1/(n ln n). The function 1/(x ln x) checks all three boxes (x ≥ 2); the integral ∫₂^∞ dx/(x ln x) = lim [ln(ln x)]₂ᵇ = ∞ — diverges, so the series diverges. No other test in the unit touches this series (comparison benchmarks miss it on both sides) — it is the integral test's signature client, and the u = ln x substitution inside is Unit 6's.\n\nWhat the test does NOT say: the sum does not EQUAL the integral — only their fates match. Σ1/n² converges (next section) but to π²/6 ≈ 1.645, while ∫₁^∞ dx/x² = 1. Verdicts transfer; values don't.",
+        "key_terms": [
+          [
+            "Integral test",
+            "Positive + continuous + decreasing: Σf(n) and ∫f dx share one fate"
+          ],
+          [
+            "Three checkboxes",
+            "The hypotheses are graded — certify all three before integrating"
+          ],
+          [
+            "Verdicts, not values",
+            "The sum and integral converge together but to different numbers"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Σ1/(n ln n) is the integral test's flagship — log-decorated terms that comparisons can't bracket. When a series carries ln n in the denominator, route to the integral test, and bring the u = ln x substitution."
+          ]
+        ]
+      },
+      {
+        "title": "The p-Series Rule",
+        "subtitle": "The benchmark family, certified",
+        "body": "Apply the integral test to f(x) = 1/xᵖ and Unit 6's p-test transfers verbatim: Σ 1/nᵖ converges if and only if p > 1. The p-SERIES rule — one boundary, knife-sharp: Σ1/n² converges (p = 2); Σ1/n diverges (p = 1, the harmonic series); Σ1/√n diverges (p = 1/2); Σ1/n^{1.001} converges, barely.\n\nThe harmonic series' divergence deserves its certificate displayed: by the integral test, ∫₁^∞ dx/x = ∞, so Σ1/n = ∞ — slowly (the first million terms total ≈ 14.4), but without bound. The slow divergence is why the nth Term Test's insufficiency needed a real proof: the terms die, the sum doesn't, and now we know it rigorously.\n\nFractional and radical costumes: Σ 1/n√n = Σ1/n^{3/2}: p = 3/2 > 1, converges. Σ n^{-0.99}: diverges. Any pure power of n routes here instantly. The rule is cited BY NAME with the p-value: 'converges as a p-series with p = 3/2 > 1' — the complete one-line justification.\n\nWhy the family matters beyond itself: p-series are the measuring sticks the comparison tests (next chapter) hold other series against. A complicated term that BEHAVES like 1/n² for large n inherits convergence by comparison with the p = 2 benchmark. Knowing the family's verdicts cold is the prerequisite for the unit's broadest test.",
+        "key_terms": [
+          [
+            "p-series rule",
+            "Σ1/nᵖ converges iff p > 1 — the integral test's first dividend"
+          ],
+          [
+            "Harmonic certificate",
+            "p = 1 diverges: slowly, provably, famously"
+          ],
+          [
+            "Benchmark family",
+            "p-series are the comparison tests' measuring sticks"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The p-series justification is one line with the p named: 'p-series, p = 3/2 > 1, converges.' No integral re-derivation needed — the rule may be cited directly, and the exam expects exactly that brevity."
+          ]
+        ]
+      },
+      {
+        "title": "Remainder Bounds from Rectangles",
+        "subtitle": "How far a partial sum can miss",
+        "body": "The trapping picture yields a bonus: after summing N terms of a convergent Σf(n), the TAIL (the remainder R_N = Σ_{N+1}^∞ f(n)) is squeezed by integrals: ∫_{N+1}^∞ f dx ≤ R_N ≤ ∫_N^∞ f dx. The leftover rectangles fit under the curve from N on — so the error in stopping at N is bounded by an improper integral you can evaluate.\n\nWorked: Σ1/n², stopped at N = 10. R₁₀ ≤ ∫₁₀^∞ dx/x² = 1/10 — the first ten terms (≈1.5498) sit within 0.1 of the true π²/6 ≈ 1.6449 ✓. And the lower bound ∫₁₁^∞ = 1/11 says the tail is at least 0.0909: the estimate is sharp on both sides.\n\nThe 'how many terms' inversion: to estimate Σ1/n² within 0.001, demand ∫_N^∞ dx/x² = 1/N ≤ 0.001: N ≥ 1000. Error tolerances convert to term counts through the tail integral — the unit's first error-control computation, rehearsing the alternating-series and Lagrange bounds ahead.\n\nThe AP's appetite here is light but real: remainder-bound items appear as multiple choice ('the error is at most...') with the tail integral as the answer. The deeper value is conceptual — series approximation ALWAYS comes with error bounds in this unit, and the rectangles-under-curves picture is where that discipline starts.",
+        "key_terms": [
+          [
+            "Tail bound",
+            "∫_{N+1}^∞ f ≤ R_N ≤ ∫_N^∞ f: the remainder trapped by integrals"
+          ],
+          [
+            "Tolerance inversion",
+            "Error ≤ ε converts to a term count through the tail integral"
+          ],
+          [
+            "Error-control culture",
+            "Every approximation in Unit 10 ships with a bound — starting here"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Remainder questions use the tail integral STARTING AT N: error after N terms ≤ ∫_N^∞ f(x) dx. Starting the integral at 1 (or at N+1 when the upper bound was asked) flips the answer — match the bound's direction to the question's 'at most/at least.'"
+          ]
+        ]
+      },
+      {
+        "title": "Routing and the Test's Place",
+        "subtitle": "When the integral test is the right call",
+        "body": "The integral test's niche: terms that are f(n) for an f you can actually INTEGRATE — powers, log-decorated powers, e^{-n}-styles. Its flagship clients: pure p-series (instant by the rule), Σ1/(n ln n) and Σ1/(n(ln n)²) (the log family — divergent and convergent respectively, both by u = ln x), and Σ n e^{-n²} (u = x² inside). If ∫f resists evaluation, the test was the wrong route; comparisons or the ratio test await.\n\nThe hypotheses police the boundary: terms that oscillate (not positive) or rise (not decreasing) disqualify. The eventually-decreasing loophole is legal and tested: f decreasing only for x ≥ 5 still works — convergence ignores any finite head of a series, so run the test from 5 and say so. ('The first four terms are a finite number; they cannot change convergence.')\n\nThe finite-head principle generalizes beyond this test and deserves its banner: ADDING, REMOVING, OR CHANGING FINITELY MANY TERMS never changes whether a series converges (though it changes the sum). Index shifts (Σ from n = 0 versus n = 3) are convergence-irrelevant; every test in the unit silently uses this.\n\nThe routing tree, updated through three chapters: terms ↛ 0 → diverges (nth term). Fixed ratio → geometric, exact sum. Pure power of n → p-series rule. f(n) with integrable f (logs!) → integral test. Next: terms that merely RESEMBLE a benchmark — the comparison tests, where the p-series family earns its keep.",
+        "key_terms": [
+          [
+            "The test's clients",
+            "p-powers, log-decorated terms, integrable f(n) — where ∫ is doable"
+          ],
+          [
+            "Finite-head principle",
+            "Finitely many terms never affect convergence — only the sum"
+          ],
+          [
+            "Routing update",
+            "nth term → geometric → p-series → integral; comparisons next"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Eventually decreasing' satisfies the integral test — state the threshold ('decreasing for x ≥ 3') and invoke the finite-head principle for the skipped terms. The exam accepts the loophole when it is NAMED; silent use looks like an unchecked hypothesis."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "Σ 1/n^{3/2}",
+          "choices": {
+            "A": "converges as a p-series with p = 3/2 > 1",
+            "B": "diverges as a p-series",
+            "C": "converges to 2",
+            "D": "diverges by the nth Term Test"
+          },
+          "answer": "A",
+          "explanation": "Pure power, p = 3/2 over the line. (No exact sum is claimed — p-series verdicts come without values.)"
+        },
+        {
+          "question": "Σ 1/(n ln n) (from n = 2)",
+          "choices": {
+            "A": "diverges by the integral test: ∫dx/(x ln x) = ln(ln x) → ∞",
+            "B": "converges by comparison with 1/n²",
+            "C": "converges by the integral test",
+            "D": "diverges by the nth Term Test"
+          },
+          "answer": "A",
+          "explanation": "The flagship: u = ln x gives a divergent log-log integral. (D fails: the terms DO go to zero.)"
+        },
+        {
+          "question": "Which series converges?",
+          "choices": {
+            "A": "Σ 1/n^{1.01}",
+            "B": "Σ 1/n",
+            "C": "Σ 1/√n",
+            "D": "Σ 1/n^{0.99}"
+          },
+          "answer": "A",
+          "explanation": "Only p = 1.01 clears the p > 1 bar; the others sit at or below it."
+        },
+        {
+          "question": "For convergent Σ1/n², the error after summing 20 terms is at most",
+          "choices": {
+            "A": "∫₂₀^∞ dx/x² = 1/20",
+            "B": "1/21",
+            "C": "1/400",
+            "D": "the 21st term"
+          },
+          "answer": "A",
+          "explanation": "Tail bound: R_N ≤ ∫_N^∞ f. (B is the LOWER bound's value; D underestimates a whole tail by one term.)"
+        },
+        {
+          "question": "The integral test applies to Σf(n) when f is",
+          "choices": {
+            "A": "positive, continuous, and decreasing on the tail",
+            "B": "any continuous function",
+            "C": "bounded",
+            "D": "alternating in sign"
+          },
+          "answer": "A",
+          "explanation": "All three hypotheses, possibly from some index on (the finite-head principle covers the start)."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Consider the series Σₙ₌₂^∞ 1/(n(ln n)²).\n(a) Verify the integral test's hypotheses for f(x) = 1/(x(ln x)²) on [2, ∞).\n(b) Evaluate the improper integral and state the series' verdict.\n(c) Contrast with Σ1/(n ln n): same test, different fate — identify exactly where the computation diverges (pun intended).",
+          "rubric": [
+            "(a) Positive and continuous for x ≥ 2; decreasing since numerator constant and denominator increasing (or f' < 0)",
+            "(b) u = ln x: ∫du/u² = [-1/u]: lim (1/ln 2 - 1/ln b) = 1/ln 2 — finite: series converges",
+            "(c) The ln n version integrates to ln(ln x) → ∞; the squared version to -1/ln x → 0",
+            "The exponent on ln is the knife: (ln)¹ diverges, (ln)² converges — a p-test one level down"
+          ],
+          "model_answer": "(a) For x ≥ 2: the function is positive (all factors positive) and continuous; it is decreasing because x(ln x)² strictly increases. Hypotheses hold. (b) Substitute u = ln x, du = dx/x: ∫₂^∞ dx/(x(ln x)²) = lim b→∞ ∫_{ln 2}^{ln b} du/u² = lim [−1/u]_{ln 2}^{ln b} = 1/ln 2 — finite. By the integral test, the series CONVERGES. (c) For Σ1/(n ln n), the same substitution yields ∫du/u = ln u → ∞: divergent. The two series differ only in the power on ln, and that power decides everything — a p-test played one logarithmic level down: u-world's Σ1/u versus Σ1/u², the harmonic/p=2 boundary all over again."
+        },
+        {
+          "question": "Let S = Σₙ₌₁^∞ 1/n².\n(a) Compute the partial sum S₄ as a fraction.\n(b) Bound the remainder R₄ above and below with tail integrals.\n(c) How many terms guarantee an estimate of S within 0.0005? Show the tolerance inversion.",
+          "rubric": [
+            "(a) S₄ = 1 + 1/4 + 1/9 + 1/16 = 205/144 ≈ 1.4236",
+            "(b) Tail bounds: R₄ ≤ ∫₄^∞ dx/x² = 1/4 and R₄ ≥ ∫₅^∞ dx/x² = 1/5",
+            "(c) ∫_N^∞ dx/x² = 1/N ≤ 0.0005 → N ≥ 2000",
+            "Bounds oriented correctly (upper from N, lower from N+1)"
+          ],
+          "model_answer": "(a) S₄ = 1 + 1/4 + 1/9 + 1/16 = (144 + 36 + 16 + 9)/144 = 205/144 ≈ 1.4236. (b) The tail after four terms is trapped: ∫₅^∞ dx/x² ≤ R₄ ≤ ∫₄^∞ dx/x², i.e., 1/5 ≤ R₄ ≤ 1/4. (Check against the truth: π²/6 - 205/144 ≈ 0.221, inside [0.2, 0.25] ✓.) (c) Demand R_N ≤ ∫_N^∞ dx/x² = 1/N ≤ 0.0005: N ≥ 2000. Two thousand terms pin the sum within five ten-thousandths — slow convergence made precise, and the tolerance-to-term-count inversion on full display."
+        },
+        {
+          "question": "Determine convergence or divergence, naming the test and verifying hypotheses.\n(a) Σₙ₌₁^∞ n e^{-n²}\n(b) Σₙ₌₁^∞ (2 + sin n)/n  — using any tool so far plus honest reasoning about the numerator's size.\n(c) Σₙ₌₁^∞ n^{-π}",
+          "rubric": [
+            "(a) Integral test: ∫x e^{-x²} dx = -e^{-x²}/2: tail integral finite (e^{-1}/2): converges",
+            "(b) Numerator between 1 and 3: terms ≥ 1/n... ≥ (1/n); since Σ1/n diverges, the larger series diverges (comparison logic, previewed)",
+            "(c) p-series with p = π > 1: converges",
+            "Hypothesis checks (positive/continuous/decreasing for (a)) present"
+          ],
+          "model_answer": "(a) f(x) = x e^{-x²} is positive and continuous on [1, ∞), and decreasing there (f' = e^{-x²}(1 - 2x²) < 0 for x ≥ 1). Integral test with u = x²: ∫₁^∞ x e^{-x²} dx = lim [-e^{-x²}/2]₁ᵇ = e^{-1}/2 — finite: the series CONVERGES. (b) The numerator 2 + sin n stays between 1 and 3, so each term is at least 1/n. The series therefore dominates the divergent harmonic series term by term and must itself DIVERGE — the comparison principle the next chapter formalizes, used here in its obvious direction. (c) Σn^{-π} is a p-series with p = π ≈ 3.14 > 1: CONVERGES, by the rule, in one line."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Infinite Sequences and Series",
+    "chapter_title": "Comparison Tests",
+    "hook": "Most series resemble a benchmark more than they match one: n/(n³ + 2) is ALMOST 1/n². The comparison tests convert resemblance into verdicts — directly, by trapping; or by limits, when the trap won't quite close.",
+    "learning_objectives": [
+      "Apply the Direct Comparison Test with correctly-oriented inequalities",
+      "Apply the Limit Comparison Test when direct inequalities misbehave",
+      "Choose benchmarks by dominant-term analysis of the general term",
+      "Recognize when each comparison flavor is the right tool",
+      "Write the two tests' distinct justification formats for the exam"
+    ],
+    "sections": [
+      {
+        "title": "Direct Comparison",
+        "subtitle": "Trapped under a roof, pushed over a floor",
+        "body": "The Direct Comparison Test (DCT), for series with POSITIVE terms: if 0 ≤ aₙ ≤ bₙ and Σbₙ converges, then Σaₙ converges (trapped under a convergent roof); if aₙ ≥ bₙ ≥ 0 and Σbₙ diverges, then Σaₙ diverges (pushed up by a divergent floor). Unit 6's integral comparison, discretized — smaller than finite is finite; bigger than infinite is infinite.\n\nWorked, roof direction: Σ 1/(n² + 3). Since 1/(n² + 3) ≤ 1/n² and Σ1/n² converges (p = 2): converges. Floor direction: Σ 1/(n - 1/2) (n ≥ 1): terms exceed 1/n, the harmonic floor: diverges. The inequality's DIRECTION must match the verdict sought — roofs prove convergence, floors prove divergence, and a comparison pointed the wrong way proves nothing.\n\nThe useless directions, named because the exam tests them: aₙ ≤ bₙ with Σbₙ DIVERGENT says nothing (being under an infinite roof is no constraint); aₙ ≥ bₙ with Σbₙ CONVERGENT says nothing (clearing a finite floor is free). Half of all comparison answer-choices are these vacuous cases dressed up; checking 'does my inequality's direction support my verdict?' is the discipline.\n\nThe standard inequality toolkit: drop positive terms from denominators (1/(n² + 3) ≤ 1/n²), bound sines and cosines by 1 (|sin n|/n² ≤ 1/n²), enlarge numerators carefully. Clean inequalities exist when the perturbation HELPS the needed direction; when it fights you — the next section's client — limits take over.",
+        "key_terms": [
+          [
+            "Direct Comparison Test",
+            "Under a convergent roof: converges; over a divergent floor: diverges"
+          ],
+          [
+            "Direction discipline",
+            "The inequality must point at the verdict — two of four orientations are vacuous"
+          ],
+          [
+            "Inequality toolkit",
+            "Drop denominator terms, cap trig by 1: standard moves for clean traps"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Before writing any comparison, say the verdict you EXPECT (from dominant terms), then build the inequality that supports it. Comparisons constructed inequality-first routinely come out vacuous — verdict-first is the workflow."
+          ]
+        ]
+      },
+      {
+        "title": "Limit Comparison",
+        "subtitle": "When the trap won't close",
+        "body": "Σ 1/(n² - 3) (n ≥ 2) resists the roof: its terms are slightly BIGGER than 1/n², the wrong side for trapping. The Limit Comparison Test (LCT) rescues resemblance: for positive-term series, if lim n→∞ aₙ/bₙ = c with 0 < c < ∞, then Σaₙ and Σbₙ converge or diverge TOGETHER. Same growth class, same fate — no inequality needed.\n\nApplied: aₙ = 1/(n² - 3), bₙ = 1/n²: ratio n²/(n² - 3) → 1 — finite and positive — so the series shares the p = 2 benchmark's convergence. The LCT trades the DCT's inequality-craft for one limit computation, and on rational-style terms that limit is the degree rule running on autopilot.\n\nBenchmark selection is dominant-term reading: keep each polynomial's top power, discard the rest. n/(n³ + 2): behaves like n/n³ = 1/n² — benchmark Σ1/n², ratio → 1, converges. (3n + 1)/(2n² - n): like 1/n — harmonic benchmark, diverges. √n/(n² + 1): like n^{1/2}/n² = 1/n^{3/2} — converges. The reading is Unit 1's end-behavior analysis, repurposed as benchmark selection.\n\nThe justification formats differ and are graded distinctly. DCT: the inequality displayed, the benchmark's fate named ('since 0 ≤ aₙ ≤ 1/n² and Σ1/n² converges (p-series, p = 2), Σaₙ converges by direct comparison'). LCT: the limit computed, its positivity-and-finiteness noted, the benchmark's fate named. Both end at a p-series or geometric citation — the benchmarks must themselves be certified.",
+        "key_terms": [
+          [
+            "Limit Comparison Test",
+            "aₙ/bₙ → c ∈ (0, ∞): the two series share one fate"
+          ],
+          [
+            "Dominant-term benchmarks",
+            "Top powers only: the general term's large-n silhouette picks bₙ"
+          ],
+          [
+            "Two formats",
+            "DCT shows an inequality; LCT shows a limit — each plus the benchmark's certificate"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When the perturbation points the WRONG way for a direct trap (denominators with minus signs: n² - 3), reach for the LCT immediately — the limit doesn't care which side of the benchmark the terms sit on. The minus-sign-in-the-denominator is the routing flag."
+          ]
+        ]
+      },
+      {
+        "title": "The Comparison Playbook",
+        "subtitle": "Worked variety at exam speed",
+        "body": "Σ (2ⁿ)/(3ⁿ + 5): dominant terms give (2/3)ⁿ — geometric benchmark. Direct works: 2ⁿ/(3ⁿ + 5) ≤ (2/3)ⁿ, convergent roof: converges. Σ (n + 1)/(n²√n): silhouette n/n^{5/2} = 1/n^{3/2}: LCT ratio → 1: converges. Σ 1/(2ⁿ - n): the minus sign flags LCT against (1/2)ⁿ: ratio 2ⁿ/(2ⁿ - n) → 1: converges. Σ ln n/n: terms EXCEED 1/n for n ≥ 3 — harmonic floor: diverges by DCT.\n\nThe ln-decorated cases earn a remark: ln n is eventually bigger than any constant but smaller than any positive power nᵉ. So ln n/n beats the harmonic floor (diverges), while ln n/n³ hides under the roof √n/n³ = 1/n^{5/2} (converges — DCT with ln n ≤ √n, or LCT against 1/n^{5/2}). The wedge-the-log-between-powers move handles the whole family.\n\nTrig-decorated cases split by what the trig does: (2 + cos n)/n² has a numerator trapped in [1, 3] — DCT roof 3/n²: converges. But Σ sin(1/n) has terms RESEMBLING 1/n (since sin x ≈ x for small x): LCT against 1/n with ratio sin(1/n)/(1/n) → 1 — diverges with the harmonic. The small-angle limit from Unit 1, deciding a series fate: the course's threads braiding.\n\nPositivity patrol, the tests' fine print: both comparisons require (eventually) POSITIVE terms. Series with mixed signs route to chapter 5's alternating test or chapter 6's absolute convergence — comparisons on signed series are out of bounds, and the hypothesis is checkable at a glance.",
+        "key_terms": [
+          [
+            "The log wedge",
+            "Constants ≪ ln n ≪ nᵉ: wedge the log between powers to trap its series"
+          ],
+          [
+            "Small-angle LCT",
+            "sin(1/n) ~ 1/n: Unit 1's special limit as a benchmark ratio"
+          ],
+          [
+            "Positivity patrol",
+            "Comparisons demand positive terms; signed series route elsewhere"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "sin(1/n) and 1 - cos(1/n) are LCT clients with Unit 1's special limits as the ratios: sin(1/n) ~ 1/n (diverges); 1 - cos(1/n) ~ 1/(2n²) (converges). The exam loves this braid of old limits and new tests — recognize the small-angle silhouettes."
+          ]
+        ]
+      },
+      {
+        "title": "Routing at Mid-Unit",
+        "subtitle": "Four chapters of tests, one decision tree",
+        "body": "The decision tree at the unit's midpoint, consolidated. (1) Terms ↛ 0? Diverges, nth Term Test, done. (2) Geometric form (fixed ratio)? Verdict by |r|, exact sum if convergent. (3) Pure p-power? The rule. (4) Log-decorated, integrable shape? Integral test. (5) RESEMBLES a benchmark (rational-ish, root-ish, trig-decorated)? Comparison — direct if a clean trap exists, limit if not. Two chapters remain to install: alternating series (signed terms) and the ratio test (factorials and exponentials).\n\nMost exam series accept several tests — Σ1/(n²+3) yields to DCT, LCT, AND the integral test — and any correctly-executed route earns full credit. Routing skill is about SPEED, not uniqueness: the fastest correct test wins time for the FRQ. Speed order, roughly: nth-term < p-rule < geometric < DCT/LCT < integral < (ratio, ahead).\n\nMulti-part 'determine convergence' FRQ sets sample across the tree deliberately — one geometric, one comparison, one alternating-or-ratio — auditing the whole toolkit in three parts. Practicing series in mixed batches (not test-by-test) builds the routing reflex the format demands.\n\nThe positivity boundary marks the tree's current edge: everything so far assumed nonnegative terms. Chapter 5 crosses it — series whose terms alternate in sign, where cancellation creates convergence that no positive-term test could see, and where the error analysis becomes the cleanest in the whole unit.",
+        "key_terms": [
+          [
+            "The mid-unit tree",
+            "nth term → geometric → p → integral → comparisons; two tests to come"
+          ],
+          [
+            "Any-route grading",
+            "Multiple tests apply to most series; the fastest correct one is best"
+          ],
+          [
+            "Mixed-batch practice",
+            "Routing is the skill: drill series in shuffled sets, not by chapter"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Multi-series FRQ parts are routing audits: expect one item per branch of the tree. If your answers to all three parts used the same test, re-examine — the exam's design almost never permits it."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "Σ 1/(n² + 3) converges by direct comparison with",
+          "choices": {
+            "A": "Σ1/n², since 1/(n²+3) ≤ 1/n²",
+            "B": "Σ1/n, since 1/(n²+3) ≤ 1/n",
+            "C": "Σ1/n³",
+            "D": "Σ(1/2)ⁿ"
+          },
+          "answer": "A",
+          "explanation": "Under the convergent p = 2 roof. (B's roof is divergent — being under it proves nothing.)"
+        },
+        {
+          "question": "For Σ 1/(n² - 3) (n ≥ 2), the right tool is",
+          "choices": {
+            "A": "limit comparison with 1/n², ratio → 1",
+            "B": "direct comparison: 1/(n²-3) ≤ 1/n²",
+            "C": "the nth Term Test",
+            "D": "geometric series"
+          },
+          "answer": "A",
+          "explanation": "The minus sign puts terms ABOVE 1/n² — the direct trap fails (B's inequality is false); the limit doesn't care."
+        },
+        {
+          "question": "Σ n/(n³ + 2) — the dominant-term benchmark and verdict are",
+          "choices": {
+            "A": "1/n²: converges",
+            "B": "1/n: diverges",
+            "C": "1/n³: converges",
+            "D": "n: diverges"
+          },
+          "answer": "A",
+          "explanation": "Silhouette n/n³ = 1/n²; LCT ratio → 1; shares p = 2's convergence."
+        },
+        {
+          "question": "Σ sin(1/n)",
+          "choices": {
+            "A": "diverges by limit comparison with 1/n",
+            "B": "converges since sin is bounded",
+            "C": "converges by comparison with 1/n²",
+            "D": "diverges by the nth Term Test"
+          },
+          "answer": "A",
+          "explanation": "sin(1/n)/(1/n) → 1: harmonic fate. (D fails — the terms DO go to zero; that's exactly why a real test was needed.)"
+        },
+        {
+          "question": "Knowing 0 ≤ aₙ ≤ bₙ with Σbₙ divergent allows the conclusion",
+          "choices": {
+            "A": "none — the comparison is vacuous in this orientation",
+            "B": "Σaₙ diverges",
+            "C": "Σaₙ converges",
+            "D": "aₙ → 0"
+          },
+          "answer": "A",
+          "explanation": "Sitting under an infinite roof constrains nothing — the planted vacuous case."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Determine the convergence or divergence of each series, naming the test, the benchmark, and the verifying computation.\n(a) Σₙ₌₁^∞ (3 + sin n)/n²\n(b) Σₙ₌₂^∞ 1/(n² - n)\n(c) Σₙ₌₁^∞ (2ⁿ + n)/(3ⁿ)",
+          "rubric": [
+            "(a) DCT: terms ≤ 4/n², convergent roof (p = 2): converges",
+            "(b) LCT vs 1/n²: ratio n²/(n² - n) → 1: converges (or telescoping/partial fractions)",
+            "(c) Split or LCT vs (2/3)ⁿ: ratio → 1 (the n/3ⁿ piece vanishes): converges",
+            "Benchmarks certified (p-series/geometric) in each part"
+          ],
+          "model_answer": "(a) The numerator sits in [2, 4], so 0 ≤ (3 + sin n)/n² ≤ 4/n². Σ4/n² converges (p-series, p = 2), so by DIRECT COMPARISON the series converges. (b) Benchmark 1/n² (dominant terms): ratio [1/(n² - n)]/[1/n²] = n²/(n² - n) → 1, finite and positive. Σ1/n² converges, so by LIMIT COMPARISON the series converges. (Equivalently: 1/(n²-n) = 1/(n-1) - 1/n telescopes to an exact sum of 1.) (c) Compare the whole term to the geometric benchmark (2/3)ⁿ: the ratio is (2ⁿ + n)/3ⁿ ÷ (2/3)ⁿ = (2ⁿ + n)/2ⁿ = 1 + n/2ⁿ → 1, finite and positive (the n/2ⁿ dies by the dominance ladder). Σ(2/3)ⁿ converges (geometric, r = 2/3), so by LIMIT COMPARISON the series converges."
+        },
+        {
+          "question": "Consider Σₙ₌₁^∞ ln n/n and Σₙ₌₁^∞ ln n/n³.\n(a) Show the first diverges by a direct comparison, stating the index from which your inequality holds.\n(b) Show the second converges, using the log wedge ln n ≤ √n (valid for n ≥ 1) or a limit comparison.\n(c) State the general principle about where ln n sits among powers, and why it decides both verdicts.",
+          "rubric": [
+            "(a) ln n ≥ 1 for n ≥ 3: terms ≥ 1/n, divergent harmonic floor",
+            "(b) ln n/n³ ≤ √n/n³ = 1/n^{5/2}: convergent roof (p = 5/2)",
+            "(c) Constants ≪ ln n ≪ nᵉ for any ε > 0",
+            "The wedge beats the harmonic on one side, hides under p > 1 on the other"
+          ],
+          "model_answer": "(a) For n ≥ 3, ln n ≥ ln 3 > 1, so ln n/n ≥ 1/n. The harmonic series diverges, and our terms sit on top of that floor (the finite head n = 1, 2 is irrelevant): Σ ln n/n DIVERGES by direct comparison. (b) Using ln n ≤ √n: ln n/n³ ≤ n^{1/2}/n³ = 1/n^{5/2}. Σ1/n^{5/2} converges (p = 5/2 > 1): the series CONVERGES under that roof. (c) The log lives strictly between constants and every positive power: 1 ≪ ln n ≪ nᵉ. Against 1/n it adds just enough weight to keep the divergence (floor side); against 1/n³ it is feather-light next to any small power, leaving the p > 1 cushion intact (roof side). One wedge, both verdicts."
+        },
+        {
+          "question": "A student must determine whether Σₙ₌₁^∞ 1/(2ⁿ - n) converges.\n(a) Explain why direct comparison with (1/2)ⁿ fails as a trap, despite the resemblance.\n(b) Complete the determination with the limit comparison test.\n(c) Alternatively, find an index N and a constant c so that 2ⁿ - n ≥ c·2ⁿ for n ≥ N, rescuing a direct comparison. (c = 1/2 works.)",
+          "rubric": [
+            "(a) 2ⁿ - n ≤ 2ⁿ makes the terms ≥ (1/2)ⁿ — above the convergent roof: vacuous direction",
+            "(b) LCT: ratio 2ⁿ/(2ⁿ - n) → 1 ∈ (0, ∞); Σ(1/2)ⁿ converges: series converges",
+            "(c) n ≤ 2ⁿ⁻¹ for n ≥ 1: 2ⁿ - n ≥ 2ⁿ⁻¹: terms ≤ 2·(1/2)ⁿ — a usable roof",
+            "Both rescues coherent; finite-head language where needed"
+          ],
+          "model_answer": "(a) Since 2ⁿ - n ≤ 2ⁿ, the terms satisfy 1/(2ⁿ - n) ≥ (1/2)ⁿ — they sit ABOVE the convergent benchmark. Being over a finite floor proves nothing: the direct trap points the vacuous way. (b) Limit comparison with bₙ = (1/2)ⁿ: aₙ/bₙ = 2ⁿ/(2ⁿ - n) = 1/(1 - n/2ⁿ) → 1 (the n/2ⁿ dies by the dominance ladder). The limit is finite and positive, Σ(1/2)ⁿ converges (geometric, r = 1/2), so the series CONVERGES. (c) For n ≥ 1, n ≤ 2ⁿ⁻¹, hence 2ⁿ - n ≥ 2ⁿ - 2ⁿ⁻¹ = 2ⁿ⁻¹ = (1/2)·2ⁿ. Then 1/(2ⁿ - n) ≤ 2·(1/2)ⁿ — under the convergent roof Σ2(1/2)ⁿ: direct comparison rescued. Both routes land the same verdict; the LCT just charged less algebra for the trip."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Infinite Sequences and Series",
+    "chapter_title": "Alternating Series and the Error Bound",
+    "hook": "Flip every other sign and divergence can turn to convergence: Σ1/n explodes, but 1 - 1/2 + 1/3 - 1/4 + ⋯ settles to ln 2. Cancellation is a force of its own — and it comes with the cleanest error bound in all of calculus.",
+    "learning_objectives": [
+      "Apply the Alternating Series Test with its two hypotheses",
+      "Use the Alternating Series Error Bound: |error| ≤ first omitted term",
+      "Distinguish absolute from conditional convergence",
+      "Classify alternating series into the three possible fates",
+      "Run the error bound's tolerance inversions for the exam's standard items"
+    ],
+    "sections": [
+      {
+        "title": "The Alternating Series Test",
+        "subtitle": "Two hypotheses, then convergence",
+        "body": "An ALTERNATING series flips sign every term: Σ(-1)ⁿ⁺¹bₙ = b₁ - b₂ + b₃ - ⋯ with bₙ > 0. The Alternating Series Test (AST): if the magnitudes bₙ are (1) DECREASING and (2) approaching ZERO, the series converges. Two checkboxes — bₙ₊₁ ≤ bₙ and lim bₙ = 0 — and the verdict follows, no benchmark needed.\n\nWhy it works is a picture worth keeping: the partial sums hop back and forth — up b₁, down b₂, up b₃ — with ever-shorter hops. The odd partial sums descend, the even ones ascend, each trapped past the other: the hopping point is squeezed into convergence. The shrinking-hop geometry IS the test, and it also delivers the error bound in the next section.\n\nThe flagship: the alternating harmonic series Σ(-1)ⁿ⁺¹/n. Magnitudes 1/n decrease to zero ✓✓: converges (to ln 2, a value chapter 9's series will certify). The same magnitudes WITHOUT alternation diverged — cancellation alone rescued the sum. Alternating versions of divergent positive series converging is the chapter's signature phenomenon.\n\nHypothesis discipline: BOTH boxes are graded. Σ(-1)ⁿ(n+1)/n alternates but its magnitudes → 1 ≠ 0: diverges — by the nth Term Test (the terms themselves don't die), not 'AST failure.' And decreasingness matters when magnitudes wobble: certify with bₙ₊₁ ≤ bₙ algebraically or via a function's derivative, the integral test's habit reused.",
+        "key_terms": [
+          [
+            "Alternating Series Test",
+            "Magnitudes decreasing to zero ⟹ the alternating series converges"
+          ],
+          [
+            "Shrinking-hop picture",
+            "Partial sums oscillate inward, trapping the limit between consecutive hops"
+          ],
+          [
+            "Alternating harmonic",
+            "1 - 1/2 + 1/3 - ⋯ = ln 2: divergence rescued by cancellation"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When an alternating series' magnitudes do NOT go to zero, the right citation is the nth Term Test (terms ↛ 0 ⟹ divergence) — not 'the AST fails.' A failed test never proves divergence; the nth-term argument does."
+          ]
+        ]
+      },
+      {
+        "title": "The Error Bound",
+        "subtitle": "The first omitted term is the whole story",
+        "body": "The shrinking-hop picture pays its dividend: when an alternating series (hypotheses holding) is truncated after N terms, the true sum lies between that partial sum and the next one — so the ERROR is at most the next hop: |S - S_N| ≤ b_{N+1}. The first OMITTED term bounds the error. No integrals, no derivatives: read the next term, done.\n\nWorked: approximate Σ(-1)ⁿ⁺¹/n² by its first four terms: S₄ = 1 - 1/4 + 1/9 - 1/16 ≈ 0.7986. The error is at most b₅ = 1/25 = 0.04 — and the true sum π²/12 ≈ 0.8225 indeed sits within 0.04 ✓. Moreover the SIGN of the error matches the first omitted term's sign: the truth lies on the side the next hop points — S₄ underestimates here, since the fifth term is positive.\n\nThe tolerance inversion, the exam's standard item: how many terms of Σ(-1)ⁿ⁺¹/n! land within 0.0001 of the sum? Demand b_{N+1} = 1/(N+1)! ≤ 0.0001: (N+1)! ≥ 10000: N + 1 ≥ 8 (since 8! = 40320): N = 7 terms. The inversion is one inequality on the omitted term — the chapter 3 tail-integral inversion's cleaner sibling.\n\nThe bound is graded as a cited theorem: 'by the Alternating Series Error Bound, |error| ≤ b₅ = 1/25' — name, inequality, value. And its hypotheses are the AST's: the bound is only legal on series the test certifies, a fine-print line the exam checks by occasionally offering non-decreasing magnitudes.",
+        "key_terms": [
+          [
+            "Alternating Series Error Bound",
+            "|S - S_N| ≤ b_{N+1}: the first omitted term"
+          ],
+          [
+            "Error's direction",
+            "The truth sits on the side of the next term's sign"
+          ],
+          [
+            "Tolerance inversion",
+            "b_{N+1} ≤ ε solves for the required term count"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The error bound is the FIRST OMITTED term — b_{N+1}, not b_N. Off-by-one here flips answer choices, and the exam prices the distinction every time the bound appears. 'Stopped after the 1/9 term' means the bound is the NEXT magnitude, 1/16."
+          ]
+        ]
+      },
+      {
+        "title": "Absolute vs Conditional",
+        "subtitle": "Two grades of convergence",
+        "body": "A convergent series Σaₙ converges ABSOLUTELY when Σ|aₙ| also converges — the convergence survives stripping the signs. It converges CONDITIONALLY when Σaₙ converges but Σ|aₙ| diverges — the convergence DEPENDED on cancellation. The alternating harmonic series is conditional (Σ1/n diverges); Σ(-1)ⁿ/n² is absolute (Σ1/n² converges, p = 2).\n\nThe classification protocol, two steps in fixed order: (1) test Σ|aₙ| with the positive-term toolkit (p-series, comparisons, ...). Converges? ABSOLUTE — done, since absolute convergence implies convergence. (2) If Σ|aₙ| diverges, test Σaₙ itself (usually by AST). Converges? CONDITIONAL. Diverges? Plain divergence. Three fates, one flowchart.\n\nThe implication powering step 1 — absolutely convergent series converge — is a theorem worth respecting: it lets the signed series inherit a verdict from its unsigned shadow, putting the whole positive-term toolkit at signed series' disposal. (Its converse fails: conditional convergence is exactly the counterexample.)\n\nWorked classification: Σ(-1)ⁿ/√n. Step 1: Σ1/√n is a p-series, p = 1/2: diverges — not absolute. Step 2: magnitudes 1/√n decrease to zero: AST converges. Verdict: CONDITIONALLY convergent. The two-step writing — both tests shown, the classification named — is the complete answer format.",
+        "key_terms": [
+          [
+            "Absolute convergence",
+            "Σ|aₙ| converges — the verdict survives de-signing; implies convergence"
+          ],
+          [
+            "Conditional convergence",
+            "Σaₙ converges only WITH its signs; Σ|aₙ| diverges"
+          ],
+          [
+            "Two-step protocol",
+            "Test the absolute series first; AST the original only if needed"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Determine whether the series converges absolutely, converges conditionally, or diverges' is a fixed three-choice genre with a fixed two-test answer shape: the Σ|aₙ| verdict (with its test), then if needed the AST verdict. Both tests, then the classification word."
+          ]
+        ]
+      },
+      {
+        "title": "The Chapter in Exam Position",
+        "subtitle": "Where alternation shows up and what it pays",
+        "body": "Alternating machinery headlines two exam genres. Genre one: the classification item just drilled — multiple choice and FRQ parts both. Genre two: ERROR analysis on Taylor approximations (chapters 8-9): the series for sin, cos, e^{-x}, ln(1 + x), and arctan at positive arguments all alternate, so THIS chapter's error bound is the tool that bounds their truncation errors. The AST bound, not Lagrange, is the intended instrument whenever the relevant series visibly alternates — it is simpler and the exam writes questions expecting it.\n\nA preview of that payoff: chapters 8-9 will build the series for e^{-0.5} = 1 - 0.5 + 0.125 - ⋯, but the error logic is already available — its terms alternate with decreasing magnitudes, so stopping anywhere leaves an error below the next term. The bound transfers to every alternating Taylor evaluation untouched.\n\nThe rearrangement curiosity, for honest understanding (the AP tests it only implicitly): conditionally convergent series are fragile — rearranging their terms can change the sum (Riemann's theorem says: to anything). Absolutely convergent series are robust: any rearrangement keeps the sum. 'Conditional' is not a technicality; it marks sums that exist by delicate cancellation.\n\nMid-unit standings: six tests installed (nth term, geometric, p, integral, comparisons, AST) plus the classification framework. One test remains — the ratio test, the factorial-killer — and with it the toolkit completes and the unit pivots to power series, where every test learned reappears aimed at intervals of x.",
+        "key_terms": [
+          [
+            "Taylor error preview",
+            "Alternating Taylor series (sin, cos, e^{-x}...) inherit this chapter's bound"
+          ],
+          [
+            "Rearrangement fragility",
+            "Conditional sums can be rearranged to anything; absolute sums are immovable"
+          ],
+          [
+            "Toolkit standings",
+            "Six tests down, ratio to go — then power series"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "On Taylor-approximation FRQs, if the series alternates (sin, cos, e at negative arguments), the ALTERNATING bound is the intended error tool — one term, one line. Reaching for Lagrange there is legal but slower and error-prone; the exam writes the numbers to make the AST bound clean."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "Σ(-1)ⁿ⁺¹/√n",
+          "choices": {
+            "A": "converges conditionally",
+            "B": "converges absolutely",
+            "C": "diverges",
+            "D": "converges to 1/2"
+          },
+          "answer": "A",
+          "explanation": "Σ1/√n diverges (p = 1/2); the AST converges the signed version (1/√n ↓ 0): conditional."
+        },
+        {
+          "question": "Approximating Σ(-1)ⁿ⁺¹/n³ by its first 5 terms, the error is at most",
+          "choices": {
+            "A": "1/216",
+            "B": "1/125",
+            "C": "1/36",
+            "D": "1/6"
+          },
+          "answer": "A",
+          "explanation": "The first omitted term: b₆ = 1/6³ = 1/216. (B is b₅ — the off-by-one trap.)"
+        },
+        {
+          "question": "Σ(-1)ⁿ · n/(2n + 1)",
+          "choices": {
+            "A": "diverges by the nth Term Test",
+            "B": "converges by the AST",
+            "C": "converges absolutely",
+            "D": "converges conditionally"
+          },
+          "answer": "A",
+          "explanation": "Magnitudes → 1/2 ≠ 0: the terms never die, so no convergence of any grade is possible."
+        },
+        {
+          "question": "Σ(-1)ⁿ/n²",
+          "choices": {
+            "A": "converges absolutely",
+            "B": "converges conditionally",
+            "C": "diverges",
+            "D": "needs the ratio test"
+          },
+          "answer": "A",
+          "explanation": "Σ1/n² converges (p = 2): absolute — and step 2 is never needed."
+        },
+        {
+          "question": "How many terms of Σ(-1)ⁿ⁺¹/n guarantee an error below 0.05?",
+          "choices": {
+            "A": "20",
+            "B": "19",
+            "C": "21",
+            "D": "10"
+          },
+          "answer": "A",
+          "explanation": "Need b_{N+1} = 1/(N+1) < 0.05, i.e. N + 1 > 20: N = 20 gives the bound 1/21 ≈ 0.0476 < 0.05. (N = 19 gives exactly 1/20 = 0.05 — not strictly below.)"
+        }
+      ],
+      "frq": [
+        {
+          "question": "Consider S = Σₙ₌₁^∞ (-1)ⁿ⁺¹/n².\n(a) Verify the hypotheses of the Alternating Series Test and conclude convergence.\n(b) Compute S₃ and bound the error |S - S₃|.\n(c) Determine the SIGN of S - S₃ and state the interval that must contain S.",
+          "rubric": [
+            "(a) 1/n² positive, decreasing, → 0: AST converges",
+            "(b) S₃ = 1 - 1/4 + 1/9 = 31/36 ≈ 0.861; error ≤ b₄ = 1/16",
+            "(c) Next term is -1/16: S < S₃; interval (31/36 - 1/16, 31/36)",
+            "Bound cited by name; direction from the omitted term's sign"
+          ],
+          "model_answer": "(a) The magnitudes bₙ = 1/n² are positive, decreasing (each denominator grows), and tend to zero. By the Alternating Series Test, S converges. (b) S₃ = 1 - 1/4 + 1/9 = 31/36 ≈ 0.8611. By the Alternating Series Error Bound, |S - S₃| ≤ b₄ = 1/16 = 0.0625. (c) The first omitted term is -1/16 (negative): the next hop goes DOWN, so S < S₃ — the partial sum overestimates. S lies in (31/36 - 1/16, 31/36) ≈ (0.7986, 0.8611). (The true value π²/12 ≈ 0.8225 obliges ✓.)"
+        },
+        {
+          "question": "Classify each series as absolutely convergent, conditionally convergent, or divergent, showing the two-step protocol.\n(a) Σ (-1)ⁿ/(n³ + 1)\n(b) Σ (-1)ⁿ⁺¹ · 1/(n ln n)  (n ≥ 2)\n(c) Σ (-1)ⁿ (2n² + 1)/(3n² + 4)",
+          "rubric": [
+            "(a) Σ|aₙ| ≤ Σ1/n³ converges: ABSOLUTE",
+            "(b) Σ1/(n ln n) diverges (integral test); magnitudes ↓ 0: AST: CONDITIONAL",
+            "(c) Magnitudes → 2/3 ≠ 0: DIVERGES (nth term)",
+            "Each step's test named"
+          ],
+          "model_answer": "(a) Step 1: Σ1/(n³ + 1) ≤ Σ1/n³, convergent (p = 3) — the absolute series converges by direct comparison: ABSOLUTELY CONVERGENT. (b) Step 1: Σ1/(n ln n) diverges (integral test: ∫dx/(x ln x) = ln(ln x) → ∞) — not absolute. Step 2: the magnitudes 1/(n ln n) are positive, decreasing, → 0: the AST converges the signed series. CONDITIONALLY CONVERGENT. (c) The magnitudes (2n² + 1)/(3n² + 4) → 2/3 ≠ 0: the terms never approach zero, so the series DIVERGES by the nth Term Test — no classification beyond that is possible."
+        },
+        {
+          "question": "The value ln 2 equals the alternating harmonic sum Σₙ₌₁^∞ (-1)ⁿ⁺¹/n.\n(a) How many terms guarantee an approximation of ln 2 within 0.01? Show the inversion.\n(b) Compute the bound's prediction for N = 4 and compare S₄ to ln 2 ≈ 0.6931.\n(c) The same magnitudes without signs diverge. Name the two grades of convergence this contrast illustrates, and classify this series.",
+          "rubric": [
+            "(a) 1/(N+1) ≤ 0.01: N ≥ 99: 99 terms",
+            "(b) S₄ = 1 - 1/2 + 1/3 - 1/4 = 7/12 ≈ 0.5833; bound b₅ = 1/5 = 0.2; |0.6931 - 0.5833| ≈ 0.11 ≤ 0.2 ✓",
+            "(c) Absolute vs conditional; this one is CONDITIONAL",
+            "Inversion inequality explicit"
+          ],
+          "model_answer": "(a) Demand b_{N+1} = 1/(N + 1) ≤ 0.01: N + 1 ≥ 100, N ≥ 99. Ninety-nine terms — the alternating harmonic converges, but slowly. (b) S₄ = 1 - 1/2 + 1/3 - 1/4 = 7/12 ≈ 0.5833. The bound promises |ln 2 - S₄| ≤ b₅ = 1/5 = 0.2; the actual error ≈ 0.1098 sits comfortably inside ✓ (and S₄ underestimates, as the positive fifth term predicts). (c) The contrast is absolute versus conditional convergence: the signs are load-bearing here, since Σ1/n diverges. The alternating harmonic series is CONDITIONALLY convergent — the textbook witness for the whole distinction."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Infinite Sequences and Series",
+    "chapter_title": "Ratio Test and Absolute Convergence",
+    "hook": "One test to rule the factorials: compare each term to the one before it, take the limit, and series built from n! and bⁿ surrender instantly. The ratio test completes the toolkit — and next chapter it single-handedly powers the radius of convergence.",
+    "learning_objectives": [
+      "Apply the Ratio Test: L < 1 absolute convergence, L > 1 divergence, L = 1 silence",
+      "Execute the ratio algebra for factorials, exponentials, and powers",
+      "Recognize when L = 1 makes the test useless and reroute",
+      "Use the ratio test through absolute values on signed series",
+      "Complete and drill the unit's full test-selection decision tree"
+    ],
+    "sections": [
+      {
+        "title": "The Test and Its Logic",
+        "subtitle": "Eventually geometric",
+        "body": "The Ratio Test: compute L = lim n→∞ |aₙ₊₁/aₙ|. If L < 1, the series converges ABSOLUTELY; if L > 1 (or ∞), it diverges; if L = 1, the test says NOTHING. The logic: when consecutive-term ratios settle near L, the tail behaves like a geometric series with ratio L — and geometric fate is decided by |r| against 1. The ratio test is the geometric criterion, generalized to series that are only eventually, approximately geometric.\n\nThe showcase: Σ 2ⁿ/n!. Ratio: |aₙ₊₁/aₙ| = (2ⁿ⁺¹/(n+1)!) · (n!/2ⁿ) = 2/(n + 1) → 0 < 1: absolutely convergent. The factorial algebra — (n+1)! = (n+1)·n!, so the n! cancels leaving (n+1) downstairs — is the test's signature move and the chapter's drilled skill.\n\nDivergence side: Σ n!/10ⁿ. Ratio: (n+1)/10 → ∞: diverges (and indeed the terms blow up — the nth Term Test agrees). Factorials upstairs beat any exponential: the dominance ladder's verdict, certified by ratio arithmetic.\n\nThe verdict L < 1 delivers ABSOLUTE convergence — the test runs on |aₙ| by construction, so signed series inherit the strongest grade automatically. One computation, the best possible conclusion: part of why the ratio test is the workhorse it is.",
+        "key_terms": [
+          [
+            "Ratio Test",
+            "L = lim|aₙ₊₁/aₙ|: < 1 absolute convergence, > 1 divergence, = 1 silence"
+          ],
+          [
+            "Factorial cancellation",
+            "(n+1)!/n! = n+1: the move that makes the test compute"
+          ],
+          [
+            "Absolute by construction",
+            "L < 1 certifies Σ|aₙ| converges — signed series get the top grade"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Ratio-test algebra is division of consecutive terms: write aₙ₊₁ OVER aₙ as one big fraction, then cancel — factorials by the (n+1)! = (n+1)·n! identity, exponentials by subtracting exponents. The setup line with both terms visible is where the credit (and the accuracy) lives."
+          ]
+        ]
+      },
+      {
+        "title": "The L = 1 Blind Spot",
+        "subtitle": "Where the ratio test sees nothing",
+        "body": "Every p-series has ratio limit L = 1: for Σ1/n², the ratio (n/(n+1))² → 1; for the divergent Σ1/n, the ratio n/(n+1) → 1 too. Same L, opposite fates — which is exactly why L = 1 concludes NOTHING. The ratio test is blind to polynomial-rate behavior; its eyes only resolve geometric-rate differences.\n\nThe blind spot defines the routing rule: rational functions of n, pure powers, log-decorated powers — anything whose consecutive terms differ by O(1/n) — give L = 1 and waste the computation. Factorials, exponentials, and n-th powers move the ratio AWAY from 1; powers of n alone never do. Glance before computing: no factorial, no bⁿ, no nⁿ — no ratio test.\n\nWhen L = 1 strikes mid-solution, reroute without ceremony: 'the ratio test is inconclusive; by limit comparison with Σ1/n²...' — naming the silence and switching tests is the graded recovery, not an admission of error. The exam writes items that bait the ratio test into L = 1 precisely to reward students who reroute fast.\n\nFor completeness, one relative: the ROOT test (lim |aₙ|^{1/n} against 1) shares the geometric logic and the L = 1 blind spot — useful for nth-power terms like ((n+1)/(2n))ⁿ, and within BC's scope only at the margins. The ratio test covers the exam's actual demands; the root test is a spare key.",
+        "key_terms": [
+          [
+            "L = 1 blind spot",
+            "All p-series ratio to 1: the test cannot see polynomial rates"
+          ],
+          [
+            "Routing glance",
+            "No factorial/exponential/nⁿ in the term ⟹ don't bother with the ratio test"
+          ],
+          [
+            "Graded reroute",
+            "'Inconclusive; by [other test]...' — naming the silence is the recovery"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'The ratio test gives L = 1, so the series converges' is an auto-zero sentence — L = 1 is SILENCE, never a verdict. The p-series pair (1/n vs 1/n²) is the standing proof both fates survive L = 1."
+          ]
+        ]
+      },
+      {
+        "title": "Ratio Drills",
+        "subtitle": "The algebra at exam speed",
+        "body": "Σ n!/nⁿ: ratio = (n+1)!/(n+1)ⁿ⁺¹ · nⁿ/n! = (n+1)·nⁿ/(n+1)ⁿ⁺¹ = (n/(n+1))ⁿ = 1/(1 + 1/n)ⁿ → 1/e < 1: converges absolutely. The famous-limit finish — (1 + 1/n)ⁿ → e — appearing inside a ratio computation is a BC classic, and the 1/e value is worth recognizing on sight.\n\nΣ (2n)!/(n!)²  (the central binomial coefficients): ratio = (2n+2)(2n+1)/(n+1)² → 4 > 1: diverges. Double-factorial-style cancellations — (2n+2)! = (2n+2)(2n+1)(2n)! — extend the signature move; writing the expansions explicitly prevents the index slips these invite.\n\nThe pure powers-of-n family routes to the ratio test only when mixed with factorials or exponentials; alone, Σnⁿ diverges by the nth Term Test before any ratio is needed (its terms blow up). The screening order from chapter 2 still leads: terms ↛ 0 ends the question first.\n\nSigned versions pass through absolute values transparently: Σ(-1)ⁿ 3ⁿ/n! has |ratio| = 3/(n+1) → 0: absolutely convergent, no AST needed. When the ratio test resolves a signed series, it outranks the alternating analysis — absolute convergence is the stronger conclusion and one test cheaper.",
+        "key_terms": [
+          [
+            "The 1/e classic",
+            "n!/nⁿ ratios to (n/(n+1))ⁿ → 1/e: famous limit inside the test"
+          ],
+          [
+            "Expansion discipline",
+            "(2n+2)! = (2n+2)(2n+1)(2n)!: write factorial expansions out"
+          ],
+          [
+            "Signed pass-through",
+            "Ratio < 1 on |aₙ| settles signed series at the strongest grade directly"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When the ratio involves ((n)/(n+1))ⁿ-type expressions, the limit is 1/e (or e±¹ variants) — NOT 1. Calling it 1 and declaring silence throws away a decisive L = 1/e < 1. The famous limit is the trap's disarm."
+          ]
+        ]
+      },
+      {
+        "title": "The Complete Decision Tree",
+        "subtitle": "Seven tests, one reflex",
+        "body": "The unit's toolkit, complete. The tree, in screening order: (1) terms ↛ 0 → DIVERGES, nth Term Test. (2) Geometric form → |r| verdict, exact sum available. (3) Pure p-power → p-rule. (4) Factorials/exponentials/nⁿ → ratio test. (5) Rational-ish or root-ish in n → comparison (limit flavor for messy, direct for clean traps). (6) ln-decorated, integrable → integral test. (7) Alternating signs → two-step classification: absolute toolkit first, AST second. Seven branches; every AP series lands in one.\n\nThe tree's order encodes efficiency, not validity — multiple branches often work, and any correct, fully-justified route scores. But the routing reflex (term-form → test) is what survives exam pressure, and mixed-batch drilling is how it builds: shuffle twenty series across all seven branches and route them in under a minute each, executing only afterward.\n\nA worked routing batch, verdicts only: Σn/(n+1): branch 1, diverges. Σ5(0.8)ⁿ: branch 2, geometric with |r| = 0.8 < 1, converges (its exact sum depends on the starting index; the verdict does not). Σ1/n^{1.2}: branch 3, converges. Σn²/2ⁿ: branch 4, L = 1/2, converges absolutely. Σ(n+3)/(n³-2): branch 5, LCT vs 1/n², converges. Σ1/(n(ln n)³): branch 6, converges (u-sub tail finite). Σ(-1)ⁿ/ln n: branch 7, conditional (Σ1/ln n diverges by comparison with 1/n; magnitudes ↓ 0).\n\nWith constants-series mastery sealed, the unit pivots: chapter 7 puts x INSIDE the series — Σcₙxⁿ — and asks for which x convergence holds. The answer machine is the ratio test with x in the ratio; the toolkit just built becomes the boundary-checking crew. Power series are where all of this was headed.",
+        "key_terms": [
+          [
+            "The seven-branch tree",
+            "nth term, geometric, p, ratio, comparison, integral, alternating"
+          ],
+          [
+            "Routing reflex",
+            "Term-form reads to test choice in seconds; execution follows"
+          ],
+          [
+            "The pivot ahead",
+            "Power series: the ratio test with x aboard, the toolkit on boundary duty"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Multi-series exam sets are routing audits across the tree. Build the reflex with shuffled batches — route first, execute second — because the exam's time budget pays for recognition, not rediscovery."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "For Σ 3ⁿ/n!, the ratio test gives L =",
+          "choices": {
+            "A": "0, so the series converges absolutely",
+            "B": "3, so it diverges",
+            "C": "1, inconclusive",
+            "D": "1/3, converges"
+          },
+          "answer": "A",
+          "explanation": "Ratio 3/(n+1) → 0 < 1: factorials downstairs beat exponentials."
+        },
+        {
+          "question": "For Σ n!/5ⁿ, the ratio test gives",
+          "choices": {
+            "A": "L = ∞: diverges",
+            "B": "L = 1/5: converges",
+            "C": "L = 1: inconclusive",
+            "D": "L = 5: converges"
+          },
+          "answer": "A",
+          "explanation": "Ratio (n+1)/5 → ∞: factorials upstairs beat exponentials. (D's 'L = 5: converges' misreads the criterion even if L were 5.)"
+        },
+        {
+          "question": "Applying the ratio test to Σ1/n³ yields L = 1. The correct next step is",
+          "choices": {
+            "A": "reroute: it is a p-series with p = 3 > 1, convergent",
+            "B": "conclude convergence from L = 1",
+            "C": "conclude divergence",
+            "D": "apply the AST"
+          },
+          "answer": "A",
+          "explanation": "L = 1 is silence; the p-rule answers instantly. (The ratio test should never have been called — no factorial or exponential in sight.)"
+        },
+        {
+          "question": "lim n→∞ |aₙ₊₁/aₙ| = 1/e for Σ n!/nⁿ. The conclusion is",
+          "choices": {
+            "A": "absolute convergence, since 1/e < 1",
+            "B": "divergence, since e > 1",
+            "C": "inconclusive",
+            "D": "conditional convergence"
+          },
+          "answer": "A",
+          "explanation": "The criterion reads L against 1: 1/e ≈ 0.37 < 1."
+        },
+        {
+          "question": "The ratio test applied to Σ(-1)ⁿ 2ⁿ/n! concludes",
+          "choices": {
+            "A": "absolute convergence — no alternating analysis needed",
+            "B": "only conditional convergence",
+            "C": "nothing; the AST must be used for signed series",
+            "D": "divergence"
+          },
+          "answer": "A",
+          "explanation": "The test runs on |aₙ| by definition: L = 0 < 1 gives the strongest grade directly."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Apply the ratio test to each series, showing the consecutive-term quotient and its limit.\n(a) Σₙ₌₁^∞ n²/3ⁿ\n(b) Σₙ₌₁^∞ (2n)!/(n!)²\n(c) Σₙ₌₁^∞ nⁿ/(n!·2ⁿ)",
+          "rubric": [
+            "(a) Ratio ((n+1)²/n²)(1/3) → 1/3 < 1: absolutely convergent",
+            "(b) Ratio (2n+2)(2n+1)/(n+1)² → 4 > 1: diverges",
+            "(c) Ratio (1 + 1/n)ⁿ/2 → e/2 > 1: diverges",
+            "Factorial expansions written explicitly in (b), famous limit in (c)"
+          ],
+          "model_answer": "(a) |aₙ₊₁/aₙ| = [(n+1)²/3ⁿ⁺¹]·[3ⁿ/n²] = (1/3)((n+1)/n)² → 1/3 < 1: converges absolutely. (b) (2n+2)!/((n+1)!)² · (n!)²/(2n)! = (2n+2)(2n+1)/(n+1)² → 4 > 1: diverges. (c) The quotient assembles to [(n+1)ⁿ⁺¹/nⁿ]·[1/((n+1)·2)] = ((n+1)/n)ⁿ · (1/2) = (1 + 1/n)ⁿ/2 → e/2 ≈ 1.36 > 1: diverges — the famous limit deciding the verdict."
+        },
+        {
+          "question": "Consider Σₙ₌₁^∞ (-1)ⁿ n³/2ⁿ.\n(a) Determine the series' convergence classification using a SINGLE test, and explain why no alternating analysis is required.\n(b) A classmate instead verifies the AST's hypotheses. What classification can the AST alone deliver, and why is it weaker?\n(c) Bound the error of the partial sum S₁₀ using the appropriate theorem from this unit.",
+          "rubric": [
+            "(a) Ratio on magnitudes: (1/2)((n+1)/n)³ → 1/2 < 1: ABSOLUTELY convergent — done",
+            "(b) AST alone certifies convergence only; it cannot distinguish absolute from conditional",
+            "(c) The series alternates with (eventually) decreasing magnitudes: |S - S₁₀| ≤ b₁₁ = 11³/2¹¹ = 1331/2048",
+            "Theorem named (Alternating Series Error Bound), hypotheses noted"
+          ],
+          "model_answer": "(a) Ratio test on the magnitudes: |aₙ₊₁/aₙ| = ((n+1)³/2ⁿ⁺¹)(2ⁿ/n³) = (1/2)(1 + 1/n)³ → 1/2 < 1. The series converges ABSOLUTELY — and since the ratio test's conclusion is already the strongest grade, no AST step is needed. (b) The AST (magnitudes n³/2ⁿ eventually decrease to 0) certifies that the signed series converges — but it is silent about Σ|aₙ|, so alone it can label the series only 'convergent,' not 'absolutely convergent.' The classification stays incomplete without testing the unsigned series. (c) The series alternates and its magnitudes decrease for n ≥ 4 (certifiable via the ratio (1/2)(1+1/n)³ < 1 there), so the Alternating Series Error Bound applies to the tail: |S - S₁₀| ≤ b₁₁ = 11³/2¹¹ = 1331/2048 ≈ 0.65."
+        },
+        {
+          "question": "Route each series to its best test (name it and give the one-line reason); execute fully for part (c) only.\n(a) Σ (n² + 1)/(n⁴ + 3)\n(b) Σ (-1)ⁿ/(2n + 1)\n(c) Σ 5ⁿ/(n·4ⁿ)",
+          "rubric": [
+            "(a) Limit comparison vs 1/n² (rational silhouette): converges",
+            "(b) Two-step alternating classification (signed, no factorial/exponential): conditional",
+            "(c) Ratio test (exponentials): L = lim (5/4)·n/(n+1) = 5/4 > 1: diverges",
+            "Routing reasons stated; (c) executed with the quotient shown"
+          ],
+          "model_answer": "(a) Rational silhouette n²/n⁴ = 1/n²: LIMIT COMPARISON with the p = 2 benchmark (ratio → 1): converges. (b) Signed series with polynomial-rate magnitudes: the TWO-STEP classification — Σ1/(2n+1) diverges (LCT vs 1/n), magnitudes decrease to 0 so the AST converges the signed version: conditionally convergent. (c) Exponentials flag the RATIO TEST: |aₙ₊₁/aₙ| = [5ⁿ⁺¹/((n+1)4ⁿ⁺¹)]·[n·4ⁿ/5ⁿ] = (5/4)·n/(n+1) → 5/4 > 1. The series DIVERGES — the (5/4)ⁿ engine outruns the polynomial brake, exactly as the ratio test sees."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Infinite Sequences and Series",
+    "chapter_title": "Power Series and Interval of Convergence",
+    "hook": "Put x inside the series and a number becomes a function: Σcₙ(x - a)ⁿ. For some x it converges, for others it explodes — and the boundary is always an interval centered at a, with a radius the ratio test computes and endpoints only the old tests can settle.",
+    "learning_objectives": [
+      "Define power series and their centers",
+      "Find the radius of convergence via the ratio test on |x|-bearing terms",
+      "Test both endpoints separately with the constants-series toolkit",
+      "Report intervals of convergence with correct bracket notation",
+      "Handle the all-x and center-only edge cases"
+    ],
+    "sections": [
+      {
+        "title": "Series with x Aboard",
+        "subtitle": "Functions defined by convergence",
+        "body": "A power series centered at a is Σₙ₌₀^∞ cₙ(x - a)ⁿ = c₀ + c₁(x - a) + c₂(x - a)² + ⋯ — a polynomial that never ends, with x a passenger. For each fixed x it is a constants series that converges or diverges; the set of convergent x's is the series' DOMAIN, and on that domain the series defines a function.\n\nThe prototype, from chapter 2: Σxⁿ (center 0, all cₙ = 1) is geometric with ratio x — converging exactly for |x| < 1, to 1/(1 - x). One series, one function, one domain: the template for everything ahead, including the headline fact that the domain came out an INTERVAL centered at the series' center.\n\nThat is the structure theorem: a power series' convergence set is always an interval centered at a (possibly just the point a, possibly all of ℝ). The RADIUS of convergence R measures its half-width: absolute convergence for |x - a| < R, divergence for |x - a| > R, and the two endpoints x = a ± R individually undecided — each endpoint its own constants-series question.\n\nWhy intervals and never scattered sets: convergence at any point x₀ forces absolute convergence at every x closer to the center (comparison against the geometric decay that convergence at x₀ implies). Convergence spreads inward — so the convergent set has no holes, and the interval shape is forced.",
+        "key_terms": [
+          [
+            "Power series",
+            "Σcₙ(x - a)ⁿ: an unending polynomial, centered at a"
+          ],
+          [
+            "Radius of convergence",
+            "Absolute convergence inside |x - a| < R; divergence outside"
+          ],
+          [
+            "Convergence spreads inward",
+            "Working at x₀ forces working at everything nearer the center"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The center is read from the (x - a) factor: Σcₙ(x + 3)ⁿ is centered at a = -3, not 3. The sign misread shifts every subsequent answer; the center is the value making the factor zero."
+          ]
+        ]
+      },
+      {
+        "title": "The Ratio Test Finds R",
+        "subtitle": "x rides through the quotient",
+        "body": "Radius-finding is the ratio test with x as cargo: compute L(x) = lim |aₙ₊₁/aₙ| where aₙ = cₙ(x - a)ⁿ — the limit comes out (something)·|x - a| — and demand L(x) < 1. Solving for |x - a| hands over R directly.\n\nWorked: Σ (x - 2)ⁿ/(n·3ⁿ). Ratio: |x - 2|/3 · n/(n+1) → |x - 2|/3. Demand |x - 2|/3 < 1: |x - 2| < 3 — radius R = 3, centered at 2: the open interval (-1, 5), with the endpoints awaiting their own trials.\n\nFactorial coefficients produce the edge cases. Σ xⁿ/n!: ratio |x|/(n+1) → 0 for EVERY x — L < 1 always: R = ∞, the series converges on all of ℝ (this is eˣ's series, chapter 9 will say). Σ n!·xⁿ: ratio (n+1)|x| → ∞ for any x ≠ 0: R = 0, convergence only AT the center. All-x and center-only are real outcomes, produced by factorials' position.\n\nThe computation's discipline: keep |x - a| as a block through the algebra (it is a constant as far as n's limit is concerned), and reduce the n-part by the usual cancellation craft. The final inequality |x - a| < R is the deliverable — with the strict inequality marking that endpoints remain open questions.",
+        "key_terms": [
+          [
+            "L(x) < 1 method",
+            "Ratio test with x aboard: solve the resulting |x - a| inequality for R"
+          ],
+          [
+            "R = ∞ and R = 0",
+            "Factorials downstairs: everywhere; factorials upstairs: center only"
+          ],
+          [
+            "The |x - a| block",
+            "Carry it untouched through the n-limit; solve at the end"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The radius computation's answer is an INEQUALITY: |x - 2| < 3. Stopping at 'R = 3' without translating to the interval (-1, 5) — or translating with an arithmetic slip — wastes the computation. Center ± radius, written out."
+          ]
+        ]
+      },
+      {
+        "title": "Endpoint Trials",
+        "subtitle": "Two constants series, tried separately",
+        "body": "At x = a ± R, the ratio limit is exactly 1 — silence — and each endpoint becomes a CONSTANTS series for the chapter-2-through-6 toolkit. The trials are independent: one endpoint can converge while the other diverges, and all four include/exclude combinations occur.\n\nThe worked example, finished: Σ(x - 2)ⁿ/(n·3ⁿ) on (-1, 5). At x = 5: Σ3ⁿ/(n·3ⁿ) = Σ1/n — harmonic: DIVERGES. At x = -1: Σ(-3)ⁿ/(n·3ⁿ) = Σ(-1)ⁿ/n — alternating harmonic: CONVERGES (conditionally). Interval of convergence: [-1, 5) — square bracket where the trial passed, round where it failed.\n\nThe endpoint outcomes follow a readable pattern: coefficients like 1/n produce harmonic-vs-alternating-harmonic endpoints (half-open intervals); 1/n² produces p = 2 at both ends (closed); no n-decay at all (Σxⁿ) leaves both endpoints with non-vanishing terms (open). The coefficient's strength decides how much of the boundary survives.\n\nThe full protocol, named for the exam: (1) ratio test for R; (2) write the open interval; (3) test EACH endpoint by substitution, citing the test used at each; (4) report with brackets. Four steps, two of them constants-series work — the unit's first half earning its keep inside its second.",
+        "key_terms": [
+          [
+            "Endpoint independence",
+            "Each end is its own constants series; the trials can split"
+          ],
+          [
+            "Bracket reporting",
+            "Square where the endpoint converges, round where it diverges"
+          ],
+          [
+            "Coefficient strength",
+            "1/n: half-open; 1/n²: closed; no decay: open — the readable pattern"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Endpoint testing is a GRADED STEP with its own points: substitute each endpoint, name the resulting series, cite its test. Intervals reported without the two trials — even when the brackets happen right — leave those points on the table."
+          ]
+        ]
+      },
+      {
+        "title": "The Genre at Full Form",
+        "subtitle": "Interval-of-convergence, exam edition",
+        "body": "The interval-of-convergence FRQ part is among BC's most predictable: 'find the interval of convergence of Σ [given series].' The rubric, almost invariant: ratio test set up with consecutive terms shown (1 pt), limit computed with the |x - a| block (1 pt), R and the open interval (1 pt), each endpoint tested and cited (1-2 pts). The four-step protocol IS the rubric.\n\nA second full run, centered off-origin with shifted indexing: Σₙ₌₁^∞ (-1)ⁿ(x + 1)ⁿ/(n²·2ⁿ). Ratio → |x + 1|/2 < 1: center -1, R = 2, open interval (-3, 1). At x = 1: Σ(-1)ⁿ/n² — converges absolutely (p = 2). At x = -3: Σ(-1)ⁿ(-2)ⁿ/(n²2ⁿ) = Σ1/n² — converges. Interval: [-3, 1], closed — the 1/n² coefficients held both ends, as the pattern predicted.\n\nVariants to expect: series in (2x - 1)ⁿ-style blocks (factor to 2ⁿ(x - 1/2)ⁿ: the center hides at 1/2 and the effective ratio doubles); series with only even powers Σcₙx²ⁿ (the ratio test runs on x² — solve |x|² < bound); and 'for what x does the series converge ABSOLUTELY?' (the open interval, before endpoint nuance — except endpoints that converge absolutely join it).\n\nWhat the interval is FOR: on it, the power series is a function — differentiable, integrable, manipulable, the entire subject of chapters 8-10. Taylor polynomials approximate such functions; Taylor series ARE such functions; and the interval computed here is where all of that is legal. The boundary work of this chapter is the license for everything that follows.",
+        "key_terms": [
+          [
+            "The invariant rubric",
+            "Setup, limit, R-and-interval, endpoint trials: four steps, four-plus points"
+          ],
+          [
+            "Disguised centers",
+            "(2x - 1)ⁿ factors to reveal center 1/2 and a rescaled radius"
+          ],
+          [
+            "The license ahead",
+            "The interval is where the series-as-function calculus of ch 8-10 operates"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "For (bx - c)ⁿ blocks, FACTOR OUT b first: (2x - 1)ⁿ = 2ⁿ(x - 1/2)ⁿ — center 1/2, and the 2ⁿ joins the coefficients. Reading the center as 1 (from the unfactored block) is the variant's designed trap."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "The power series Σ (x - 2)ⁿ/(n·3ⁿ) has center and radius",
+          "choices": {
+            "A": "center 2, R = 3",
+            "B": "center -2, R = 3",
+            "C": "center 2, R = 1/3",
+            "D": "center 3, R = 2"
+          },
+          "answer": "A",
+          "explanation": "The (x - 2) factor centers at 2; the ratio limit |x - 2|/3 < 1 gives R = 3."
+        },
+        {
+          "question": "Σ xⁿ/n! converges",
+          "choices": {
+            "A": "for all real x (R = ∞)",
+            "B": "only at x = 0",
+            "C": "for |x| < 1",
+            "D": "for |x| ≤ 1"
+          },
+          "answer": "A",
+          "explanation": "Ratio |x|/(n+1) → 0 < 1 regardless of x: the factorial downstairs defeats every |x|."
+        },
+        {
+          "question": "For Σ (x - 2)ⁿ/(n·3ⁿ), the endpoint x = 5 yields the series",
+          "choices": {
+            "A": "Σ1/n, divergent — so x = 5 is excluded",
+            "B": "Σ(-1)ⁿ/n, convergent",
+            "C": "Σ1/n², convergent",
+            "D": "a geometric series"
+          },
+          "answer": "A",
+          "explanation": "(5-2)ⁿ/(n·3ⁿ) = 1/n: the harmonic series. The right endpoint fails its trial."
+        },
+        {
+          "question": "A power series centered at 4 converges at x = 7 . It must also converge at",
+          "choices": {
+            "A": "x = 2",
+            "B": "x = 8",
+            "C": "x = 0",
+            "D": "x = -1"
+          },
+          "answer": "A",
+          "explanation": "Convergence at distance 3 forces (absolute) convergence at every distance under 3: |2 - 4| = 2 < 3 ✓. The others sit at distance ≥ 4 — unknown territory."
+        },
+        {
+          "question": "The series Σ n!(x - 1)ⁿ converges",
+          "choices": {
+            "A": "only at x = 1",
+            "B": "for |x - 1| < 1",
+            "C": "for all x",
+            "D": "for 0 ≤ x ≤ 2"
+          },
+          "answer": "A",
+          "explanation": "Ratio (n+1)|x - 1| → ∞ for any x ≠ 1: R = 0, the center-only edge case."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Find the interval of convergence of Σₙ₌₁^∞ (x - 2)ⁿ/(n·3ⁿ), executing the full four-step protocol.\n(a) Apply the ratio test and find the radius of convergence.\n(b) Test the endpoint x = 5.\n(c) Test the endpoint x = -1 and report the interval with correct brackets.",
+          "rubric": [
+            "(a) Ratio (n/(n+1))·|x-2|/3 → |x-2|/3 < 1: R = 3, open interval (-1, 5)",
+            "(b) x = 5: Σ1/n harmonic, diverges (p = 1)",
+            "(c) x = -1: Σ(-1)ⁿ/n, converges by AST",
+            "Interval [-1, 5) with the trials cited"
+          ],
+          "model_answer": "(a) |aₙ₊₁/aₙ| = [|x-2|ⁿ⁺¹/((n+1)3ⁿ⁺¹)]·[n·3ⁿ/|x-2|ⁿ] = (n/(n+1))·|x-2|/3 → |x-2|/3. Convergence demands |x-2|/3 < 1: |x - 2| < 3 — radius 3, centered at 2, open interval (-1, 5). (b) x = 5: the series becomes Σ3ⁿ/(n·3ⁿ) = Σ1/n — the harmonic series, divergent (p-series, p = 1). Endpoint excluded. (c) x = -1: Σ(-3)ⁿ/(n·3ⁿ) = Σ(-1)ⁿ/n — the alternating harmonic series, convergent by the Alternating Series Test (magnitudes 1/n decrease to zero). Endpoint included. Interval of convergence: [-1, 5)."
+        },
+        {
+          "question": "Find the interval of convergence of Σₙ₌₁^∞ (-1)ⁿ(x + 1)ⁿ/(n²·2ⁿ).\n(a) Find the center and radius.\n(b) Test both endpoints.\n(c) Explain — via the coefficient-strength pattern — why this series kept both endpoints while the previous problem's series kept only one.",
+          "rubric": [
+            "(a) Center -1; ratio |x+1|/2 < 1: R = 2, open (-3, 1)",
+            "(b) x = 1: Σ(-1)ⁿ/n² converges absolutely; x = -3: Σ1/n² converges: both pass",
+            "(c) 1/n² coefficients leave p = 2 series at the ends; 1/n coefficients left harmonic-strength ends",
+            "Interval [-3, 1] closed"
+          ],
+          "model_answer": "(a) The (x + 1) block centers the series at -1. Ratio: (n²/(n+1)²)·|x+1|/2 → |x+1|/2 < 1: R = 2, open interval (-3, 1). (b) At x = 1: Σ(-1)ⁿ·2ⁿ/(n²2ⁿ) = Σ(-1)ⁿ/n² — absolutely convergent (p = 2). At x = -3: Σ(-1)ⁿ(-2)ⁿ/(n²2ⁿ) = Σ(2)ⁿ·.../(n²2ⁿ) = Σ1/n² — convergent. Both endpoints join: interval [-3, 1]. (c) Endpoint series inherit the coefficients' decay: here the 1/n² coefficients leave p = 2 series at both ends — convergent regardless of sign pattern. The previous series' 1/n coefficients left harmonic-strength ends, where only the sign-alternating one survived. Stronger coefficient decay holds more boundary."
+        },
+        {
+          "question": "Consider Σₙ₌₀^∞ (2x - 1)ⁿ/4ⁿ.\n(a) Rewrite the general term to expose the center, and identify it.\n(b) Find the radius and interval of convergence (this series is geometric — exploit that).\n(c) For x inside the interval, find the SUM of the series as a function of x.",
+          "rubric": [
+            "(a) (2x-1)ⁿ/4ⁿ = ((2x-1)/4)ⁿ; factoring: center x = 1/2",
+            "(b) Geometric with r = (2x-1)/4: |2x-1| < 4: -3/2 < x < 5/2; endpoints give |r| = 1 terms ↛ 0: open interval",
+            "(c) Sum = 1/(1 - (2x-1)/4) = 4/(5 - 2x)",
+            "Geometric reasoning replaces the ratio test cleanly"
+          ],
+          "model_answer": "(a) The term is ((2x - 1)/4)ⁿ — a geometric series in r = (2x - 1)/4. Factoring the block: 2ⁿ(x - 1/2)ⁿ/4ⁿ — the center is x = 1/2. (b) Geometric convergence: |r| < 1 ⟺ |2x - 1| < 4 ⟺ -4 < 2x - 1 < 4 ⟺ -3 < 2x < 5 ⟺ -3/2 < x < 5/2. At the endpoints |r| = 1 and the terms (±1)ⁿ never die: both excluded. Interval: (-3/2, 5/2) — open, as no-decay coefficients predicted. (c) Inside, the geometric sum formula applies: S(x) = 1/(1 - r) = 1/(1 - (2x-1)/4) = 4/(4 - 2x + 1) = 4/(5 - 2x). A power series, summed to a closed-form function — the chapter's whole arc in one line."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Infinite Sequences and Series",
+    "chapter_title": "Taylor and Maclaurin Polynomials",
+    "hook": "Match a function's value, slope, bend, and every higher wiggle at a single point, and a polynomial becomes the function's near-perfect local twin. Taylor polynomials are the bridge from the whole course's derivatives to the unit's infinite series — and the AP's guaranteed series FRQ lives here.",
+    "learning_objectives": [
+      "Construct Taylor polynomials matching derivatives at a center",
+      "Write the general Taylor polynomial formula with factorial denominators",
+      "Build Maclaurin (centered-at-0) polynomials for the standard functions",
+      "Use Taylor polynomials to approximate function values",
+      "Compute Taylor polynomials from a table of derivative values"
+    ],
+    "sections": [
+      {
+        "title": "Matching Derivatives at a Point",
+        "subtitle": "The construction principle",
+        "body": "A Taylor polynomial approximates f near a center a by MATCHING derivatives there: the polynomial P and the function f are forced to share P(a) = f(a), P'(a) = f'(a), P''(a) = f''(a), and so on up to some order n. Agreeing on value pins the height, on slope the direction, on second derivative the bend — each matched derivative buys a sharper local fit.\n\nThe coefficients fall out of the matching. For P(x) = c₀ + c₁(x - a) + c₂(x - a)² + ⋯, differentiating and evaluating at a shows cₖ = f^{(k)}(a)/k! — the factorial appearing because differentiating (x - a)ᵏ k times yields k!. The general Taylor polynomial of order n:\n\nPₙ(x) = Σₖ₌₀ⁿ [f^{(k)}(a)/k!] (x - a)ᵏ = f(a) + f'(a)(x - a) + [f''(a)/2!](x - a)² + ⋯ + [f^{(n)}(a)/n!](x - a)ⁿ.\n\nThe first-order polynomial P₁ IS the linearization from Unit 4 — Taylor polynomials are linearization's higher-order siblings, each term a correction the tangent line missed. The factorial denominators are the derivative tower of Units 2-3 (x^k differentiating to k!) cashing in exactly where Unit 2 promised: 'the factorials this unit kept producing are Taylor's coefficients.'",
+        "key_terms": [
+          [
+            "Taylor polynomial",
+            "Pₙ matches f's first n derivatives at the center a"
+          ],
+          [
+            "The coefficient formula",
+            "cₖ = f^{(k)}(a)/k!: the factorial from differentiating (x-a)ᵏ"
+          ],
+          [
+            "Linearization's siblings",
+            "P₁ is the tangent line; higher terms are its corrections"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The kth coefficient is f^{(k)}(a) DIVIDED BY k! — the factorial is not optional. Writing f''(a)(x-a)² without the 2! is the construction's most common error, and it corrupts every approximation built on it."
+          ]
+        ]
+      },
+      {
+        "title": "The Maclaurin Library",
+        "subtitle": "The five series to know cold",
+        "body": "Maclaurin polynomials center at a = 0, and five functions' series are memorization-mandatory — they recur in every series FRQ and unlock the manipulation chapter. eˣ: 1 + x + x²/2! + x³/3! + ⋯ (every derivative is 1 at 0). sin x: x - x³/3! + x⁵/5! - ⋯ (odd powers, alternating). cos x: 1 - x²/2! + x⁴/4! - ⋯ (even powers, alternating). 1/(1 - x): 1 + x + x² + ⋯ (the geometric series). ln(1 + x): x - x²/2 + x³/3 - ⋯.\n\nThe sin/cos pattern rewards understanding over rote: sine is odd (only odd powers), cosine even, both alternating because their derivative cycles hit -1 every other time. Differentiating sin's series term-by-term yields cos's series — a consistency the manipulation chapter exploits. The structure is the mnemonic.\n\neˣ's series is the cleanest object in the unit: self-derivative means every coefficient is 1/k!, and substituting -x, 2x, or x² generates e^{-x}, e^{2x}, e^{x²} instantly (chapter 10's substitution trick). It is the series most likely to anchor an FRQ.\n\nThe geometric series 1/(1 - x) = Σxⁿ closes the circle to chapter 2: the unit's first series is also a Maclaurin series, and its manipulations (substitute, differentiate, integrate) produce arctan's and ln's series in chapter 10. Five series, memorized as patterns; their derivatives, integrals, and substitutions generate dozens more.",
+        "key_terms": [
+          [
+            "The five series",
+            "eˣ, sin x, cos x, 1/(1-x), ln(1+x): memorization-mandatory"
+          ],
+          [
+            "Odd/even/alternating",
+            "sin odd, cos even, both alternating — structure as mnemonic"
+          ],
+          [
+            "eˣ as anchor",
+            "Self-derivative, coefficients 1/k!, substitution-friendly: the FRQ favorite"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Memorize the five Maclaurin series as the unit's alphabet — they appear in nearly every series FRQ, and chapter 10's manipulations BUILD on them rather than re-deriving. Time spent here is repaid threefold; the five are non-negotiable."
+          ]
+        ]
+      },
+      {
+        "title": "Approximation and Tables",
+        "subtitle": "Putting polynomials to work",
+        "body": "Taylor polynomials approximate by EVALUATION: to estimate f at a point near the center, plug it into Pₙ. e^{0.1} ≈ P₃(0.1) = 1 + 0.1 + 0.01/2 + 0.001/6 ≈ 1.10517 — four terms, five-decimal accuracy, because 0.1 is close to the center 0 and the factorials crush the tail. Closer to the center and higher order both sharpen the estimate (the error analysis is chapter 9).\n\nThe table genre is the AP's signature Taylor FRQ: a table gives f(a), f'(a), f''(a), ... at the center, and you ASSEMBLE the polynomial by dividing each by its factorial. Given f(2) = 3, f'(2) = -1, f''(2) = 4, f'''(2) = 12: P₃(x) = 3 - (x-2) + (4/2!)(x-2)² + (12/3!)(x-2)³ = 3 - (x-2) + 2(x-2)² + 2(x-2)³. The construction is pure bookkeeping — derivative over factorial, times the power — and the bookkeeping IS the graded skill.\n\nApproximation-from-table chains the two: build Pₙ from the table, evaluate at the requested point. 'Use P₃ to approximate f(2.1)': substitute x = 2.1 into the assembled polynomial. The factorial denominators and the (x - a) powers must both be right; a table FRQ tests both in one line.\n\nDerivative-recovery runs the genre backward: given a Taylor polynomial, READ a derivative off the coefficient. If the x³ coefficient of f's Taylor polynomial at 0 is 5, then f'''(0)/3! = 5, so f'''(0) = 30. The coefficient-to-derivative inversion (multiply by the factorial) appears on the exam as often as the forward construction.",
+        "key_terms": [
+          [
+            "Approximation by evaluation",
+            "Estimate f(point) by substituting into Pₙ — closer center, higher order, sharper"
+          ],
+          [
+            "The table FRQ",
+            "Assemble Pₙ from tabulated derivatives over factorials — the signature genre"
+          ],
+          [
+            "Coefficient-to-derivative",
+            "f^{(k)}(a) = k! · (coefficient of (x-a)ᵏ) — read derivatives backward"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "To recover a derivative from a Taylor coefficient, MULTIPLY by the factorial: f^{(5)}(0) = 5! · (x⁵ coefficient). The exam asks this as often as the forward build — the coefficient already carries the 1/k!, so undoing it returns the raw derivative."
+          ]
+        ]
+      },
+      {
+        "title": "The Genre and What's Next",
+        "subtitle": "Taylor polynomials on the exam, and the leap to series",
+        "body": "The Taylor FRQ's standard anatomy: (a) construct Pₙ (from a formula's derivatives or a table); (b) use it to approximate a value; (c) bound the error (chapter 9's Lagrange or the alternating bound); (d) a manipulation — differentiate/integrate the polynomial, or recognize it as a known series (chapter 10). Parts (a) and (b) are this chapter; the FRQ is guaranteed, and these two parts are its reliable points.\n\nThe approximation-quality intuition, made precise next chapter: Taylor polynomials are EXCELLENT near the center and degrade with distance — P₃ for eˣ nails e^{0.1} but misses e^{3} badly. 'Near' is measured against the function's curvature, exactly as linearization's error was; the Lagrange bound (chapter 9) quantifies the degradation.\n\nThe conceptual leap ahead: a Taylor POLYNOMIAL stops at order n; a Taylor SERIES never stops — Σₖ₌₀^∞ [f^{(k)}(a)/k!](x - a)ᵏ. For many functions the infinite series doesn't just approximate — it EQUALS the function on an interval (eˣ everywhere, the geometric series on (-1,1)). The polynomial is a truncation of the series; the series is the function itself, spelled in powers.\n\nWhere this lands the course: the derivative tower (Units 2-3) supplies the coefficients, the convergence tests (chapters 2-7) certify where the series is valid, the error bounds (chapters 5, 9) measure the truncation, and the manipulations (chapter 10) build a library. Taylor series are the unit's summit — every earlier chapter feeds them — and the next two chapters complete the climb.",
+        "key_terms": [
+          [
+            "The Taylor FRQ anatomy",
+            "Construct, approximate, bound the error, manipulate — four parts"
+          ],
+          [
+            "Near-center accuracy",
+            "Excellent close to a, degrading with distance and curvature"
+          ],
+          [
+            "Polynomial vs series",
+            "Pₙ truncates at order n; the series runs forever and often EQUALS f"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The series FRQ is guaranteed on the BC exam, and parts (a)-(b) (construct and approximate) are its most reliable points — no convergence subtleties, just derivative-over-factorial bookkeeping and one substitution. Bank these before attempting the error and manipulation parts."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "The third-degree Taylor polynomial for f at a = 0, given f(0) = 1, f'(0) = 2, f''(0) = 6, f'''(0) = 12, is",
+          "choices": {
+            "A": "1 + 2x + 3x² + 2x³",
+            "B": "1 + 2x + 6x² + 12x³",
+            "C": "1 + 2x + 3x² + 4x³",
+            "D": "1 + 2x + 6x² + 2x³"
+          },
+          "answer": "A",
+          "explanation": "Coefficients f^{(k)}(0)/k!: 1, 2, 6/2 = 3, 12/6 = 2."
+        },
+        {
+          "question": "The Maclaurin series for cos x is",
+          "choices": {
+            "A": "1 - x²/2! + x⁴/4! - ⋯",
+            "B": "x - x³/3! + x⁵/5! - ⋯",
+            "C": "1 + x²/2! + x⁴/4! + ⋯",
+            "D": "1 + x + x²/2! + ⋯"
+          },
+          "answer": "A",
+          "explanation": "Even powers, alternating signs — cosine is even. (B is sine; D is eˣ.)"
+        },
+        {
+          "question": "Using P₂(x) = 1 + x + x²/2 for eˣ, the estimate of e^{0.2} is",
+          "choices": {
+            "A": "1.22",
+            "B": "1.20",
+            "C": "1.24",
+            "D": "1.02"
+          },
+          "answer": "A",
+          "explanation": "1 + 0.2 + 0.02 = 1.22 (true e^{0.2} ≈ 1.2214)."
+        },
+        {
+          "question": "If the Maclaurin series of f has x⁴ coefficient equal to 7, then f^{(4)}(0) =",
+          "choices": {
+            "A": "168",
+            "B": "7",
+            "C": "28",
+            "D": "7/24"
+          },
+          "answer": "A",
+          "explanation": "f^{(4)}(0) = 4!·7 = 24·7 = 168 — multiply the coefficient by the factorial."
+        },
+        {
+          "question": "The first-degree Taylor polynomial P₁ is the same as",
+          "choices": {
+            "A": "the linearization (tangent line) of f at the center",
+            "B": "the function itself",
+            "C": "the second derivative",
+            "D": "the average value"
+          },
+          "answer": "A",
+          "explanation": "P₁(x) = f(a) + f'(a)(x - a) — Unit 4's linearization exactly."
+        }
+      ],
+      "frq": [
+        {
+          "question": "A function f has these derivative values at x = 1: f(1) = 4, f'(1) = -2, f''(1) = 6, f'''(1) = -24.\n(a) Write the third-degree Taylor polynomial P₃ for f about x = 1.\n(b) Use P₃ to approximate f(1.2).\n(c) Given additionally that the coefficient of (x-1)⁴ in f's Taylor polynomial is 5, find f⁗(1).",
+          "rubric": [
+            "(a) P₃ = 4 - 2(x-1) + (6/2)(x-1)² + (-24/6)(x-1)³ = 4 - 2(x-1) + 3(x-1)² - 4(x-1)³",
+            "(b) At x = 1.2: 4 - 0.4 + 3(0.04) - 4(0.008) = 4 - 0.4 + 0.12 - 0.032 = 3.688",
+            "(c) Coefficient = f⁗(1)/4! = 5, so f⁗(1) = 5·24 = 120",
+            "Factorials correct throughout"
+          ],
+          "model_answer": "(a) P₃(x) = f(1) + f'(1)(x-1) + [f''(1)/2!](x-1)² + [f'''(1)/3!](x-1)³ = 4 - 2(x-1) + (6/2)(x-1)² + (-24/6)(x-1)³ = 4 - 2(x-1) + 3(x-1)² - 4(x-1)³. (b) At x = 1.2, (x-1) = 0.2: P₃(1.2) = 4 - 2(0.2) + 3(0.04) - 4(0.008) = 4 - 0.4 + 0.12 - 0.032 = 3.688. (c) The (x-1)⁴ coefficient is f⁗(1)/4!: setting it to 5 gives f⁗(1) = 5 · 24 = 120 — multiply the coefficient by the factorial to recover the raw derivative."
+        },
+        {
+          "question": "Let f(x) = ln(1 + x).\n(a) Compute f(0), f'(0), f''(0), f'''(0) and write the third-degree Maclaurin polynomial.\n(b) Use it to approximate ln(1.1).\n(c) Identify the pattern and write the general Maclaurin series for ln(1 + x).",
+          "rubric": [
+            "(a) f(0)=0, f'=1/(1+x)→1, f''=-1/(1+x)²→-1, f'''=2/(1+x)³→2: P₃ = x - x²/2 + x³/3",
+            "(b) ln(1.1) ≈ 0.1 - 0.005 + 0.000333 ≈ 0.09533 (true ≈ 0.09531)",
+            "(c) Σₙ₌₁^∞ (-1)ⁿ⁺¹ xⁿ/n = x - x²/2 + x³/3 - ⋯",
+            "Derivative pattern (alternating, 1/n coefficients) identified"
+          ],
+          "model_answer": "(a) f(0) = 0; f'(x) = (1+x)⁻¹, f'(0) = 1; f''(x) = -(1+x)⁻², f''(0) = -1; f'''(x) = 2(1+x)⁻³, f'''(0) = 2. Coefficients f^{(k)}(0)/k!: 0, 1, -1/2, 2/6 = 1/3. P₃(x) = x - x²/2 + x³/3. (b) ln(1.1) ≈ P₃(0.1) = 0.1 - 0.005 + 0.000333 ≈ 0.09533 (true value ≈ 0.09531 — three-decimal agreement). (c) The kth derivative is (-1)ᵏ⁺¹(k-1)!(1+x)⁻ᵏ, giving coefficient (-1)ᵏ⁺¹/k: ln(1 + x) = Σₙ₌₁^∞ (-1)ⁿ⁺¹ xⁿ/n = x - x²/2 + x³/3 - x⁴/4 + ⋯."
+        },
+        {
+          "question": "The Maclaurin series for eˣ is 1 + x + x²/2! + x³/3! + ⋯.\n(a) Write the third-degree Maclaurin polynomial for eˣ and use it to approximate √e = e^{0.5}.\n(b) Write the Maclaurin series for e^{-x²} by substitution, through the x⁴ term.\n(c) Use your answer to (b) to find the value of the 8th derivative of g(x) = e^{-x²} at 0, via its coefficient.",
+          "rubric": [
+            "(a) P₃ = 1 + x + x²/2 + x³/6; at 0.5: 1 + 0.5 + 0.125 + 0.0208 ≈ 1.6458 (true √e ≈ 1.6487)",
+            "(b) e^{-x²} = 1 - x² + x⁴/2! - ⋯ (substitute -x² for x)",
+            "(c) The x⁸ term: substituting gives (-x²)⁴/4! = x⁸/24, coefficient 1/24; g^{(8)}(0) = 8!/24 = 1680",
+            "Substitution executed; coefficient-to-derivative inversion correct"
+          ],
+          "model_answer": "(a) P₃(x) = 1 + x + x²/2 + x³/6. e^{0.5} ≈ 1 + 0.5 + 0.125 + 0.0208 = 1.6458 (true √e ≈ 1.6487 — the omitted x⁴/24 term ≈ 0.0026 accounts for most of the gap). (b) Substitute -x² into the eˣ series: e^{-x²} = 1 + (-x²) + (-x²)²/2! + (-x²)³/3! + ⋯ = 1 - x² + x⁴/2 - x⁶/6 + ⋯. (c) The x⁸ term comes from (-x²)⁴/4! = x⁸/24: its coefficient is 1/24. Since that coefficient equals g^{(8)}(0)/8!, we get g^{(8)}(0) = 8!/24 = 40320/24 = 1680 — substitution sidesteps eight rounds of differentiation entirely."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Infinite Sequences and Series",
+    "chapter_title": "Taylor Series and the Lagrange Error Bound",
+    "hook": "When does the infinite Taylor series actually EQUAL its function — not approximate, equal? The Lagrange error bound answers it, measuring exactly how far a truncated series can stray. It is the unit's most feared formula and, drilled, one of its most mechanical.",
+    "learning_objectives": [
+      "Define Taylor series and the condition for series-equals-function",
+      "State and apply the Lagrange error bound for the remainder",
+      "Choose the max-derivative bound M correctly on the relevant interval",
+      "Run tolerance inversions: how many terms for a target accuracy",
+      "Choose between the Lagrange and alternating error bounds"
+    ],
+    "sections": [
+      {
+        "title": "When Series Equals Function",
+        "subtitle": "The remainder must vanish",
+        "body": "A function's Taylor series Σ [f^{(k)}(a)/k!](x - a)ᵏ is, at each x in its interval of convergence, a NUMBER — but is that number f(x)? Not automatically. The series equals the function exactly when the REMAINDER R_n(x) = f(x) - Pₙ(x) → 0 as n → ∞. The polynomials must close the entire gap in the limit; if a stubborn remainder persists, the series converges to something OTHER than f.\n\nFor the AP's functions, the remainder does vanish on the interval, and the standard series ARE their functions there: eˣ = Σxⁿ/n! for all x; sin x and cos x everywhere; 1/(1-x) = Σxⁿ on (-1, 1); ln(1+x) on (-1, 1]. These equalities license everything in the manipulation chapter — substituting, differentiating, and integrating the series IS doing those operations to the function.\n\nThe remainder is what the Lagrange bound measures: not whether it vanishes (it does, for exam functions), but HOW FAST — bounding R_n(x) for a fixed n quantifies the truncation error of stopping at Pₙ. Series-equals-function is the qualitative fact; the Lagrange bound is its quantitative engine.\n\nThe Taylor series itself is constructed exactly as the polynomial was — coefficients f^{(k)}(a)/k! — just never truncated. The five Maclaurin series of the last chapter are Taylor series; the polynomials were their truncations all along. This chapter measures the truncation; the next manipulates the full series.",
+        "key_terms": [
+          [
+            "Taylor series",
+            "The untruncated Σ[f^{(k)}(a)/k!](x-a)ᵏ — equals f iff R_n → 0"
+          ],
+          [
+            "Remainder",
+            "R_n(x) = f(x) - Pₙ(x): the gap the polynomials must close"
+          ],
+          [
+            "Series = function",
+            "On the AP's functions, the equality holds — licensing manipulation"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The standard series EQUAL their functions on their intervals — eˣ, sin, cos everywhere; geometric and ln on (-1, 1). This equality is what makes substitution and term-by-term calculus (next chapter) legal; it is assumed, not re-proven, on the exam."
+          ]
+        ]
+      },
+      {
+        "title": "The Lagrange Error Bound",
+        "subtitle": "The formula and its M",
+        "body": "The Lagrange error bound: if |f^{(n+1)}(t)| ≤ M for all t between the center a and the point x, then the remainder satisfies |R_n(x)| ≤ M·|x - a|^{n+1}/(n+1)!. The truncation error after the nth-degree polynomial is bounded by the NEXT term's shape — |x - a|^{n+1}/(n+1)! — scaled by M, a ceiling on the (n+1)st derivative across the interval.\n\nThe formula reads as 'the first omitted term, with the derivative replaced by its worst-case size.' Where the alternating bound used the actual next term, Lagrange uses M·(next power)/(next factorial) — applicable to ANY Taylor series, alternating or not. It is the universal error tool; the alternating bound is its sharper special case.\n\nChoosing M is the bound's only real subtlety, and it is graded. M must exceed |f^{(n+1)}| EVERYWHERE between a and x — find the (n+1)st derivative's maximum magnitude on that interval. For eˣ approximating e^{0.5} with P₃: f⁗(t) = eˣ, maximized at the right end, so M = e^{0.5} < 2 (or e^{0.5} ≈ 1.65 — any valid upper bound works, and a clean over-estimate like 2 is encouraged). For sin/cos, all derivatives are bounded by 1: M = 1 always, the friendliest case.\n\nWorked: bound the error of P₃ for eˣ at x = 0.5. |R₃| ≤ M·(0.5)⁴/4! with M = e^{0.5} ≤ 2: |R₃| ≤ 2·(0.0625)/24 ≈ 0.0052. The true error (1.6487 - 1.6458 ≈ 0.0029) sits under the bound ✓ — Lagrange over-estimates, as a guarantee must.",
+        "key_terms": [
+          [
+            "Lagrange error bound",
+            "|R_n| ≤ M|x-a|^{n+1}/(n+1)!: next term's shape, worst-case derivative"
+          ],
+          [
+            "Choosing M",
+            "An upper bound on |f^{(n+1)}| across the whole interval [a, x]"
+          ],
+          [
+            "sin/cos gift",
+            "All their derivatives bounded by 1: M = 1, the easy case"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "M must bound the (n+1)st derivative on the ENTIRE interval between center and point — not just at one endpoint. A clean over-estimate (M = 2 for eˣ near 0, M = 1 for any sin/cos) is safe and encouraged; the bound only needs to be valid, not tight."
+          ]
+        ]
+      },
+      {
+        "title": "Tolerance Inversions",
+        "subtitle": "How many terms for the accuracy",
+        "body": "The exam's standard Lagrange item inverts the bound: how many terms guarantee a target accuracy? Set the bound ≤ ε and solve for n. To approximate e^{0.5} within 0.001 with M = 2: demand 2·(0.5)^{n+1}/(n+1)! ≤ 0.001, and test n = 3, 4, 5 until it holds (n = 4: 2·(0.5)⁵/120 ≈ 0.00052 ✓). Factorials make the inequality un-solvable algebraically — TESTING successive n is the intended method, and stating the first n that works is the answer.\n\nThe testing discipline: compute the bound for increasing n, stop at the first below tolerance, report that polynomial degree. Show the values that fail and the one that passes — the failing-then-passing pair is the visible work the rubric rewards, exactly like the integral test's term-count inversions.\n\nFor sin and cos, M = 1 simplifies every inversion: 'approximate sin(0.3) within 10⁻⁶' demands (0.3)^{n+1}/(n+1)! ≤ 10⁻⁶, tested upward. The friendliness of M = 1 makes trig the inversion genre's gentlest client, and the exam favors it for clean arithmetic.\n\nThe inversion's cousin — fixed n, find the error — is the forward bound: 'bound the error of P₅ for cos(0.4)'. Both directions are one formula; reading which the question wants (count given, find error / accuracy given, find count) routes the computation. The forward direction computes once; the inverse tests upward.",
+        "key_terms": [
+          [
+            "Tolerance inversion",
+            "Bound ≤ ε, solve for n by testing successive degrees"
+          ],
+          [
+            "Testing discipline",
+            "Show the failing n and the passing n: the visible graded work"
+          ],
+          [
+            "Two directions",
+            "Fixed n → find error; fixed ε → find n by testing"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Lagrange inversions can't be solved algebraically (factorials) — TEST successive n until the bound drops below tolerance, and show the work: 'n = 3 gives 0.004 > 0.001; n = 4 gives 0.0005 < 0.001, so 5 terms suffice.' The failing-passing pair is the rubric's evidence."
+          ]
+        ]
+      },
+      {
+        "title": "Choosing the Error Tool",
+        "subtitle": "Lagrange vs alternating, and the FRQ's error part",
+        "body": "Two error bounds, one decision. ALTERNATING bound (chapter 5): for an alternating series with decreasing magnitudes, |error| ≤ first omitted term — sharper, simpler, one term. LAGRANGE bound (here): for any Taylor series, |R_n| ≤ M|x-a|^{n+1}/(n+1)! — universal, requires choosing M. The rule: if the series at the evaluation point ALTERNATES with decreasing terms, use the alternating bound (it is tighter and faster); otherwise, Lagrange.\n\nThe routing in practice: sin(0.5), cos(0.5), e^{-0.5}, ln(1.3) all produce alternating series at those points — alternating bound, one term, done. By contrast e^{0.5} and e² give the all-positive eˣ series: NOT alternating, so Lagrange. The sign pattern at the SPECIFIC point decides, and checking it is the first move of any error part.\n\nThe FRQ's error part (part (c) of the standard Taylor FRQ) is where this routing pays: the exam writes the numbers so the intended bound is clean. An alternating evaluation point signals the alternating bound; an all-positive one signals Lagrange. Reaching for the harder tool when the easier applies is legal but loses time and invites M-choice errors.\n\nThe unit's error culture, complete: every approximation ships with a bound (the discipline from Unit 4's linearization, through the integral test's tails, to here). Series approximation without an error estimate is half an answer; the bound — alternating or Lagrange, correctly chosen and cited — is the other half, and the FRQ grades it as such.",
+        "key_terms": [
+          [
+            "The two bounds",
+            "Alternating (sharp, alternating series only) vs Lagrange (universal, needs M)"
+          ],
+          [
+            "Sign-pattern routing",
+            "Alternating at the point → alternating bound; all-positive → Lagrange"
+          ],
+          [
+            "Error culture",
+            "Every approximation carries a bound — the unit's through-line, completed"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Check the series' sign pattern AT THE EVALUATION POINT before choosing the bound: sin(0.5), cos(0.5), e^{-0.5}, ln(1.2) alternate (use the alternating bound); e^{0.5}, e² do not (use Lagrange). The exam's numbers reward the right choice with clean arithmetic."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "The Lagrange error bound for the nth-degree Taylor polynomial is",
+          "choices": {
+            "A": "|R_n| ≤ M|x - a|^{n+1}/(n+1)!",
+            "B": "|R_n| ≤ M|x - a|ⁿ/n!",
+            "C": "|R_n| ≤ the nth term",
+            "D": "|R_n| ≤ f^{(n+1)}(a)/(n+1)!"
+          },
+          "answer": "A",
+          "explanation": "Next power over next factorial, scaled by M, the derivative ceiling. (D uses one derivative value, not its bound.)"
+        },
+        {
+          "question": "For approximating sin x by a Taylor polynomial, the constant M may always be taken as",
+          "choices": {
+            "A": "1",
+            "B": "x",
+            "C": "π",
+            "D": "depends on the degree"
+          },
+          "answer": "A",
+          "explanation": "Every derivative of sine is ±sin or ±cos, all bounded by 1."
+        },
+        {
+          "question": "Bounding the error of P₂ for eˣ at x = 1 (using M = 3 ≥ e): |R₂| ≤",
+          "choices": {
+            "A": "3·1³/3! = 1/2",
+            "B": "3·1²/2! = 3/2",
+            "C": "1/6",
+            "D": "3"
+          },
+          "answer": "A",
+          "explanation": "M·|x-a|^{n+1}/(n+1)! with n = 2: 3·1³/3! = 3/6 = 1/2."
+        },
+        {
+          "question": "To approximate e^{0.5} you should use",
+          "choices": {
+            "A": "the Lagrange bound, since the series is all-positive there",
+            "B": "the alternating bound",
+            "C": "no bound is needed",
+            "D": "the integral test"
+          },
+          "answer": "A",
+          "explanation": "eˣ at a positive point gives all positive terms — not alternating, so Lagrange."
+        },
+        {
+          "question": "The Taylor series equals its function exactly when",
+          "choices": {
+            "A": "the remainder R_n(x) → 0 as n → ∞",
+            "B": "the series converges",
+            "C": "the radius is infinite",
+            "D": "M = 1"
+          },
+          "answer": "A",
+          "explanation": "Convergence alone isn't enough — the limit must be f itself, which is the vanishing remainder."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = eˣ, approximated near 0 by its third-degree Maclaurin polynomial P₃.\n(a) Write P₃ and use it to estimate e^{0.4}.\n(b) Use the Lagrange error bound to bound |e^{0.4} - P₃(0.4)|, justifying your choice of M.\n(c) Determine the smallest degree n guaranteeing |e^{0.4} - Pₙ(0.4)| < 0.0001.",
+          "rubric": [
+            "(a) P₃ = 1 + x + x²/2 + x³/6; P₃(0.4) = 1 + 0.4 + 0.08 + 0.01067 ≈ 1.49067",
+            "(b) M = e^{0.4} < 2 (eˣ increasing, max at 0.4); |R₃| ≤ 2(0.4)⁴/4! = 2(0.0256)/24 ≈ 0.00213",
+            "(c) Test: n=4 gives 2(0.4)⁵/120 ≈ 0.00017 > 0.0001; n=5 gives 2(0.4)⁶/720 ≈ 0.0000114 < 0.0001: n = 5",
+            "M justified; failing-passing pair shown for (c)"
+          ],
+          "model_answer": "(a) P₃(x) = 1 + x + x²/2 + x³/6. P₃(0.4) = 1 + 0.4 + 0.08 + 0.064/6 ≈ 1 + 0.4 + 0.08 + 0.01067 = 1.49067. (b) The fourth derivative of eˣ is eˣ, increasing, so its max on [0, 0.4] is e^{0.4} < 2 — take M = 2. |R₃(0.4)| ≤ M·(0.4)⁴/4! = 2(0.0256)/24 ≈ 0.00213. (True error: e^{0.4} ≈ 1.49182, error ≈ 0.00115 < 0.00213 ✓.) (c) Test successive n with M = 2: n = 4 gives 2(0.4)⁵/5! = 2(0.01024)/120 ≈ 0.00017 > 0.0001; n = 5 gives 2(0.4)⁶/6! = 2(0.004096)/720 ≈ 0.0000114 < 0.0001. The smallest degree is n = 5."
+        },
+        {
+          "question": "Approximate sin(0.6) using the Taylor (Maclaurin) series for sine.\n(a) Write the series through the x⁵ term and compute the approximation using terms through x³.\n(b) Since the series alternates at x = 0.6, bound the error of the x³-truncation using the ALTERNATING bound.\n(c) Confirm the Lagrange bound (with M = 1) gives a valid but weaker estimate of the same error.",
+          "rubric": [
+            "(a) sin x = x - x³/6 + x⁵/120 - ⋯; through x³: 0.6 - 0.036 = 0.564",
+            "(b) Alternating bound: error ≤ next term = (0.6)⁵/120 = 0.07776/120 ≈ 0.000648",
+            "(c) Lagrange with n = 3, M = 1: (0.6)⁴/4! = 0.1296/24 = 0.0054 — valid, larger",
+            "Both bounds computed; alternating shown to be tighter"
+          ],
+          "model_answer": "(a) sin x = x - x³/3! + x⁵/5! - ⋯ = x - x³/6 + x⁵/120 - ⋯. Through the x³ term: sin(0.6) ≈ 0.6 - (0.216)/6 = 0.6 - 0.036 = 0.564. (b) The series alternates with decreasing magnitudes at x = 0.6, so the error is at most the first omitted term, x⁵/120 = (0.6)⁵/120 ≈ 0.000648. (c) Lagrange with n = 3 and M = 1 (all sine derivatives bounded by 1): |R₃| ≤ 1·(0.6)⁴/4! = 0.1296/24 = 0.0054 — a valid bound, but about eight times looser than the alternating one. The alternating bound is sharper precisely because it uses the actual next term rather than a worst-case derivative; both certify the approximation, and the alternating bound is the intended tool here."
+        },
+        {
+          "question": "A function f satisfies |f^{(n)}(x)| ≤ n for all n and all x in [0, 2], and f and its derivatives at 0 are f(0) = 1, f'(0) = 1, f''(0) = 2.\n(a) Write the second-degree Maclaurin polynomial P₂.\n(b) Bound |f(1) - P₂(1)| using the Lagrange error bound with the given derivative ceiling.\n(c) Explain why the bound from (b) guarantees P₂(1) approximates f(1) to within 1, and whether that is good enough to determine f(1) to the nearest integer.",
+          "rubric": [
+            "(a) P₂ = 1 + x + (2/2)x² = 1 + x + x²",
+            "(b) n = 2: |f'''| ≤ 3 (the n = 3 ceiling) gives M = 3; |R₂| ≤ 3(1)³/3! = 1/2",
+            "(c) Error ≤ 1/2: P₂(1) = 3, so f(1) ∈ (2.5, 3.5) — determines the nearest integer as 3",
+            "Correct ceiling (M = 3 for the third derivative) selected"
+          ],
+          "model_answer": "(a) P₂(x) = f(0) + f'(0)x + [f''(0)/2!]x² = 1 + x + (2/2)x² = 1 + x + x². (b) For P₂ the remainder uses the THIRD derivative: |f'''(x)| ≤ 3 on [0, 2] by the given bound (n = 3), so M = 3. |R₂(1)| ≤ M·|1|³/3! = 3/6 = 1/2. (c) The bound says |f(1) - P₂(1)| ≤ 1/2 — better than 1, so f(1) lies within 1/2 of P₂(1) = 3, i.e., in (2.5, 3.5). That interval contains exactly one integer, 3, so the approximation DOES determine f(1) to the nearest integer: f(1) rounds to 3."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Infinite Sequences and Series",
+    "chapter_title": "Building New Series from Old",
+    "hook": "The course's finale: take a known series and substitute, differentiate, integrate, or multiply — and a new series for a new function appears, no derivatives computed. Five memorized series become a library of dozens, and the whole of calculus closes with power series doing what power series do best.",
+    "learning_objectives": [
+      "Generate new series by substituting into known ones",
+      "Differentiate and integrate power series term by term",
+      "Derive the arctan and ln series from the geometric series",
+      "Multiply and add series for products and combinations",
+      "Use series to evaluate limits and otherwise-impossible integrals"
+    ],
+    "sections": [
+      {
+        "title": "Substitution",
+        "subtitle": "New functions for free",
+        "body": "The cheapest series-building move: substitute an expression for x in a known series. From eˣ = Σxⁿ/n!: replace x with -x for e^{-x} = Σ(-x)ⁿ/n! = 1 - x + x²/2! - ⋯; with x² for e^{x²} = 1 + x² + x⁴/2! + ⋯; with 2x for e^{2x} = Σ(2x)ⁿ/n!. Each substitution is exact and instantaneous — eight derivatives of e^{x²} replaced by one substitution (last chapter's coefficient trick, now systematized).\n\nThe interval transforms with the substitution: 1/(1-x) = Σxⁿ converges on (-1, 1), so 1/(1 + x²) = Σ(-x²)ⁿ = Σ(-1)ⁿx²ⁿ converges where |-x²| < 1, i.e., |x| < 1 — same interval here, but substituting 2x would halve it. Track the new radius by applying the original's condition to the substituted expression.\n\nTrig substitutions multiply the library: sin(x²), cos(2x), e^{sin x} (first few terms) — all from the five base series. The move handles every 'find the Maclaurin series of [composite]' question without the derivative tower, and the AP asks these constantly because the substitution is the elegant route the exam rewards.\n\nThe discipline: substitute the WHOLE expression into every x, simplify powers, and keep enough terms for the question. e^{x²} through x⁶ needs the eˣ series through the cube (since (x²)³ = x⁶); reading how many base-series terms a target degree requires is the bookkeeping that keeps substitution honest.",
+        "key_terms": [
+          [
+            "Substitution building",
+            "Replace x with an expression in a known series — exact, instant"
+          ],
+          [
+            "Interval transforms",
+            "Apply the original convergence condition to the substituted expression"
+          ],
+          [
+            "Degree bookkeeping",
+            "Target degree determines how many base-series terms to carry"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Find the Maclaurin series of e^{x²}' (or sin(x²), 1/(1+x²)...) is a SUBSTITUTION problem — never compute derivatives. Replace x with the inside expression in the memorized series; the exam writes these expecting the one-line substitution, not the eight-derivative grind."
+          ]
+        ]
+      },
+      {
+        "title": "Term-by-Term Calculus",
+        "subtitle": "Differentiate and integrate the series",
+        "body": "Inside its interval of convergence, a power series can be differentiated and integrated TERM BY TERM, and the result is the series for the derivative or integral of the function. d/dx Σcₙxⁿ = Σncₙxⁿ⁻¹; ∫Σcₙxⁿ dx = Σcₙxⁿ⁺¹/(n+1) + C. The radius of convergence is preserved (endpoints may change). Calculus on functions becomes algebra on coefficients.\n\nThe consistency checks delight: differentiating sin's series x - x³/3! + x⁵/5! - ⋯ term by term gives 1 - x²/2! + x⁴/4! - ⋯ = cos's series ✓; differentiating eˣ's series returns itself ✓. The Maclaurin library is internally coherent under calculus — the series KNOW their functions' derivative relationships.\n\nThe headline derivations, both from the geometric series. ARCTAN: 1/(1 + x²) = Σ(-1)ⁿx²ⁿ (substitution); integrate term by term: arctan x = Σ(-1)ⁿx²ⁿ⁺¹/(2n+1) = x - x³/3 + x⁵/5 - ⋯. LN: 1/(1+x) = Σ(-x)ⁿ; integrate: ln(1+x) = x - x²/2 + x³/3 - ⋯ (last chapter's series, now DERIVED, not differentiated). Two famous series from one geometric seed plus an integral.\n\nThe arctan series at x = 1 yields the Leibniz formula π/4 = 1 - 1/3 + 1/5 - ⋯ — the thread from Unit 3's arctan derivative, promised there, arriving here: '1/(1+x²) → geometric series → term-by-term integration → π/4.' The course's longest single thread, tied off in the final chapter.",
+        "key_terms": [
+          [
+            "Term-by-term calculus",
+            "Differentiate/integrate a power series coefficient by coefficient; radius preserved"
+          ],
+          [
+            "Internal coherence",
+            "sin' = cos and eˣ' = eˣ at the series level — the library is consistent"
+          ],
+          [
+            "Arctan and ln from geometric",
+            "Substitute then integrate the geometric series for two famous series"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The arctan and ln series are DERIVED from the geometric series by substitute-then-integrate — this derivation is a tested FRQ move. Starting from 1/(1+x²) or 1/(1+x), substituting, and integrating term by term is the expected work; memorizing the results is a backup, not a substitute for the method."
+          ]
+        ]
+      },
+      {
+        "title": "Products, Sums, and the +C",
+        "subtitle": "Combining series carefully",
+        "body": "Series add term by term: (eˣ + cos x)'s series sums the two coefficient-wise. Series multiply by distributing and COLLECTING like powers — eˣ·sin x through x³: (1 + x + x²/2 + ⋯)(x - x³/6 + ⋯) = x + x² + (1/2 - 1/6)x³ + ⋯ = x + x² + x³/3 + ⋯. Multiplication is finite bookkeeping when only the first few terms are wanted — gather each power's contributions, a polynomial-multiplication discipline.\n\nThe integration +C needs pinning, exactly as in Unit 6's IVPs. Deriving ln(1+x) by integrating Σ(-x)ⁿ gives Σ(-1)ⁿxⁿ⁺¹/(n+1) + C; the condition ln(1) = 0 (at x = 0) pins C = 0. Term-by-term integration produces a constant that an initial value resolves — skip it and the series is shifted wrong. The +C discipline, last seen integrating rates, returns for integrating series.\n\nThe product move's exam appetite is light (first few terms only), but the SUBSTITUTION-INTO-PRODUCT compositions appear: x·eˣ, x²cos x — multiply the base series by the monomial, shifting every power. x²cos x = x²(1 - x²/2 + ⋯) = x² - x⁴/2 + ⋯, a one-line shift. Monomial-times-series is the gentlest combination and a frequent FRQ component.\n\nWhat combinations preserve: convergence on the INTERSECTION of the pieces' intervals (sums/products), and the radius under term-by-term calculus. The combined series is valid where all its ingredients are — a finite-head-style observation generalizing the convergence bookkeeping the unit has tracked throughout.",
+        "key_terms": [
+          [
+            "Add and multiply",
+            "Sum coefficient-wise; multiply by distributing and collecting like powers"
+          ],
+          [
+            "Integration +C",
+            "Term-by-term integration's constant, pinned by an initial value"
+          ],
+          [
+            "Monomial shift",
+            "x^k times a series shifts every power up by k — the easy combination"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When integrating a series term by term, the +C is real — pin it with a known value (usually f(0)). Deriving ln(1+x) from 1/(1+x), the constant is 0 because ln 1 = 0; forgetting to check shifts the entire series and the FRQ point with it."
+          ]
+        ]
+      },
+      {
+        "title": "Series as a Calculus Tool",
+        "subtitle": "Limits, integrals, and the course's close",
+        "body": "Power series solve problems other tools can't. INTEGRALS without elementary antiderivatives: ∫e^{x²}dx, ∫sin(x²)dx, ∫(sin x)/x dx — substitute the series, integrate term by term, and a series for the integral appears. ∫₀¹ e^{x²}dx = ∫₀¹(1 + x² + x⁴/2 + ⋯)dx = 1 + 1/3 + 1/10 + ⋯ — the BC-only definite integral that defeated Unit 6, now evaluable to any accuracy. The unit's improper-integral guests (e^{-x²} and friends) finally yield.\n\nLIMITS that resist L'Hospital: lim x→0 (sin x - x)/x³. Substitute sine's series: (x - x³/6 + ⋯ - x)/x³ = (-x³/6 + ⋯)/x³ → -1/6. The series exposes the leading behavior directly — often faster than repeated L'Hospital, and immune to its differentiation grind. Series-for-limits is a genuine technique the exam occasionally rewards.\n\nThe combination move's payoff is the full series library: from five memorized series, substitution builds composites, calculus builds arctan/ln/integrals-of-the-unintegrable, and combination builds products and sums. The library is effectively unbounded — and every entry traces to eˣ, sin, cos, geometric, and ln by mechanical moves. This is the unit's, and the course's, final power.\n\nThe course closes here, and the threads tie off: derivatives (Units 2-3) became Taylor coefficients; integrals (Units 6, 8) became term-by-term operations; convergence (Unit 6's improper integrals) became series tests; approximation (Unit 4's linearization) became Taylor polynomials with Lagrange bounds; and arctan's derivative (Unit 3) became π/4 = 1 - 1/3 + 1/5 - ⋯. Calculus is one subject — limits, derivatives, integrals, and infinite sums, each the others in a different light — and the series unit is where the light reveals the whole.",
+        "key_terms": [
+          [
+            "Series for integrals",
+            "∫e^{x²}, ∫sin(x²): substitute, integrate term by term — the unintegrable, integrated"
+          ],
+          [
+            "Series for limits",
+            "Expose leading behavior directly: (sin x - x)/x³ → -1/6 in one line"
+          ],
+          [
+            "The unbounded library",
+            "Five base series + three moves = effectively every series the AP needs"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "∫₀^b e^{x²} dx and similar 'impossible' integrals are SERIES problems on the BC exam: substitute the Maclaurin series, integrate term by term, evaluate. The integral that had no antiderivative in Unit 6 becomes a numerical series here — the unit's grand payoff, and a guaranteed FRQ flavor."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "The Maclaurin series for e^{-x²} is",
+          "choices": {
+            "A": "1 - x² + x⁴/2! - x⁶/3! + ⋯",
+            "B": "1 - x + x²/2! - ⋯",
+            "C": "1 + x² + x⁴/2! + ⋯",
+            "D": "-x² + x⁴/2! - ⋯"
+          },
+          "answer": "A",
+          "explanation": "Substitute -x² into eˣ = Σxⁿ/n!."
+        },
+        {
+          "question": "Differentiating the series for sin x term by term gives the series for",
+          "choices": {
+            "A": "cos x",
+            "B": "-cos x",
+            "C": "sin x",
+            "D": "-sin x"
+          },
+          "answer": "A",
+          "explanation": "d/dx(x - x³/6 + ⋯) = 1 - x²/2 + ⋯ = cos x — the library's internal consistency."
+        },
+        {
+          "question": "Integrating 1/(1 + x²) = Σ(-1)ⁿx²ⁿ term by term gives",
+          "choices": {
+            "A": "arctan x = x - x³/3 + x⁵/5 - ⋯",
+            "B": "ln(1 + x²)",
+            "C": "x + x³/3 + x⁵/5 + ⋯",
+            "D": "1/(1 - x²)"
+          },
+          "answer": "A",
+          "explanation": "Term-by-term integration of the geometric-derived series, with C = 0 from arctan(0) = 0."
+        },
+        {
+          "question": "lim x→0 (eˣ - 1 - x)/x² via series equals",
+          "choices": {
+            "A": "1/2",
+            "B": "1",
+            "C": "0",
+            "D": "2"
+          },
+          "answer": "A",
+          "explanation": "eˣ - 1 - x = x²/2 + x³/6 + ⋯; divided by x²: 1/2 + x/6 + ⋯ → 1/2."
+        },
+        {
+          "question": "∫₀¹ sin(x²) dx, via series, begins",
+          "choices": {
+            "A": "1/3 - 1/42 + ⋯",
+            "B": "1 - 1/6 + ⋯",
+            "C": "1/2 - 1/12 + ⋯",
+            "D": "1/3 + 1/42 + ⋯"
+          },
+          "answer": "A",
+          "explanation": "sin(x²) = x² - x⁶/6 + ⋯; integrating 0 to 1: 1/3 - 1/(7·6) + ⋯ = 1/3 - 1/42 + ⋯."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Start from the geometric series 1/(1 - x) = Σₙ₌₀^∞ xⁿ, valid for |x| < 1.\n(a) Find the Maclaurin series for 1/(1 + x²) by substitution, and its interval of convergence.\n(b) Integrate term by term to obtain the series for arctan x, pinning the constant.\n(c) Evaluate the series at x = 1 to express π in terms of an infinite series, and name the convergence behavior at that endpoint.",
+          "rubric": [
+            "(a) Substitute -x²: Σ(-1)ⁿx²ⁿ = 1 - x² + x⁴ - ⋯, |x| < 1",
+            "(b) Integrate: arctan x = Σ(-1)ⁿx²ⁿ⁺¹/(2n+1); arctan 0 = 0 pins C = 0",
+            "(c) x = 1: π/4 = 1 - 1/3 + 1/5 - ⋯, so π = 4(1 - 1/3 + 1/5 - ⋯)",
+            "Endpoint x = 1: converges conditionally (alternating, magnitudes 1/(2n+1) ↓ 0)"
+          ],
+          "model_answer": "(a) Substituting -x² for x in the geometric series: 1/(1 + x²) = 1/(1 - (-x²)) = Σ(-x²)ⁿ = Σ(-1)ⁿx²ⁿ = 1 - x² + x⁴ - x⁶ + ⋯, converging where |-x²| < 1, i.e., |x| < 1. (b) Integrating term by term: arctan x = Σ(-1)ⁿx²ⁿ⁺¹/(2n+1) + C = x - x³/3 + x⁵/5 - ⋯ + C. At x = 0, arctan 0 = 0 forces C = 0: arctan x = x - x³/3 + x⁵/5 - ⋯. (c) At x = 1: arctan 1 = π/4 = 1 - 1/3 + 1/5 - 1/7 + ⋯ (the Leibniz formula), so π = 4(1 - 1/3 + 1/5 - ⋯). At the endpoint x = 1 the series converges CONDITIONALLY — it alternates with magnitudes 1/(2n+1) decreasing to zero (AST), while the absolute series Σ1/(2n+1) diverges by comparison with the harmonic series."
+        },
+        {
+          "question": "Let g(x) = ∫₀ˣ e^{-t²} dt (the error-function shape, with no elementary antiderivative).\n(a) Write the Maclaurin series for e^{-t²} and integrate term by term to find the series for g(x).\n(b) Use the first three nonzero terms to approximate g(0.5).\n(c) The series for g alternates at x = 0.5. Bound the error of your three-term approximation.",
+          "rubric": [
+            "(a) e^{-t²} = 1 - t² + t⁴/2 - ⋯; g(x) = x - x³/3 + x⁵/10 - x⁷/42 + ⋯",
+            "(b) g(0.5) ≈ 0.5 - (0.125)/3 + (0.03125)/10 = 0.5 - 0.04167 + 0.003125 ≈ 0.46146",
+            "(c) Alternating: error ≤ next term = (0.5)⁷/42 = 0.0078125/42 ≈ 0.000186",
+            "Term-by-term integration and alternating bound both shown"
+          ],
+          "model_answer": "(a) e^{-t²} = 1 - t² + t⁴/2! - t⁶/3! + ⋯ (substitute -t² into eˣ). Integrate from 0 to x term by term: g(x) = x - x³/3 + x⁵/(5·2) - x⁷/(7·6) + ⋯ = x - x³/3 + x⁵/10 - x⁷/42 + ⋯. (b) First three nonzero terms at x = 0.5: 0.5 - (0.5)³/3 + (0.5)⁵/10 = 0.5 - 0.125/3 + 0.03125/10 = 0.5 - 0.04167 + 0.003125 ≈ 0.46146. (c) The series alternates with decreasing magnitudes at 0.5, so the error is at most the first omitted term: (0.5)⁷/42 = 0.0078125/42 ≈ 0.000186. The approximation 0.46146 is within 0.0002 of the true g(0.5)."
+        },
+        {
+          "question": "Use Maclaurin series to evaluate the limit and the integral.\n(a) Evaluate lim x→0 (1 - cos x)/x² using the cosine series.\n(b) Evaluate lim x→0 (x - sin x)/x³ similarly.\n(c) Write the first three nonzero terms of the series for x cos x, and use it to set up ∫₀¹ x cos x dx as a numerical series (do not sum).",
+          "rubric": [
+            "(a) 1 - cos x = x²/2 - x⁴/24 + ⋯; over x²: 1/2 - x²/24 → 1/2",
+            "(b) x - sin x = x³/6 - x⁵/120 + ⋯; over x³: 1/6 - x²/120 → 1/6",
+            "(c) x cos x = x - x³/2 + x⁵/24 - ⋯; ∫₀¹ = 1/2 - 1/8 + 1/144 - ⋯",
+            "Series substitution shown for each; integral assembled term by term"
+          ],
+          "model_answer": "(a) cos x = 1 - x²/2! + x⁴/4! - ⋯, so 1 - cos x = x²/2 - x⁴/24 + ⋯. Dividing by x²: 1/2 - x²/24 + ⋯ → 1/2 as x → 0. (b) sin x = x - x³/6 + x⁵/120 - ⋯, so x - sin x = x³/6 - x⁵/120 + ⋯. Over x³: 1/6 - x²/120 + ⋯ → 1/6. (c) x cos x = x(1 - x²/2 + x⁴/24 - ⋯) = x - x³/2 + x⁵/24 - ⋯. Integrating from 0 to 1 term by term: ∫₀¹ x cos x dx = [x²/2 - x⁴/8 + x⁶/144 - ⋯]₀¹ = 1/2 - 1/8 + 1/144 - ⋯ — the impossible-looking integral rendered as a clean numerical series, the unit's closing trick. (Its exact value, cos 1 + sin 1 - 1 by parts, confirms the series ≈ 0.3818.)"
+        }
+      ]
+    }
+  }
+]

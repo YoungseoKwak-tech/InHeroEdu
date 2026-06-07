@@ -373,6 +373,7 @@ export const courses: Course[] = [
     description: "Move from limits to series and parametric equations with the full AB scope plus BC extensions.",
     topicCount: 61, difficulty: "Advanced", color: "from-purple-500 to-violet-600", icon: "∫",
     lessonIds: [],
+    textbookSlug: "ap-calc-bc-ultimate",
     units: [
       {
         number: 1, title: "Limits and Continuity", slug: "limits-and-continuity", examWeight: "4–7%",

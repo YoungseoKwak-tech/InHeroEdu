@@ -1,0 +1,1451 @@
+[
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differentiation — Composite, Implicit, and Inverse Functions",
+    "chapter_title": "Chain Rule Foundations",
+    "hook": "sin(x²) is not a product, not a quotient, not a sum — it is a function INSIDE a function. Compositions are how mathematics builds complexity, and the chain rule is the single most-used rule in all of calculus. Miss it and every later unit leaks.",
+    "learning_objectives": [
+      "Decompose composite functions into outer and inner components",
+      "State and apply the chain rule in both prime and Leibniz notations",
+      "Differentiate compositions involving powers, trig, exponential, and log outers",
+      "Combine the chain rule with product and quotient rules in a single expression",
+      "Apply the chain rule to numerical table problems with composite functions"
+    ],
+    "sections": [
+      {
+        "title": "Seeing the Composition",
+        "subtitle": "Outer function, inner function",
+        "body": "A composition f(g(x)) applies g first, then f to the result. sin(x^2) squares first, then takes sine: outer sin, inner x^2. (3x + 1)^5 computes 3x + 1, then raises to the fifth: outer u^5, inner 3x + 1. e^{cos x}: outer e^u, inner cos x. The decomposition skill — naming outer and inner at sight — is the prerequisite for everything in this unit.\n\nThe test for 'is it a composition?': try to evaluate at a number. For sin(x^2) at x = 2, you compute 4 FIRST, then sin(4) — two stages means composition. Compare x^2 sin x at 2: you compute 4 and sin(2) separately and multiply — parallel, not nested: that is a product, and the product rule owns it.\n\nWhy a new rule? Because slopes compound multiplicatively through stages. If y changes 3 times as fast as u, and u changes 2 times as fast as x, then y changes 6 times as fast as x. Rates through a pipeline multiply — that intuition IS the chain rule, and gear trains, currency conversions, and unit chains all rehearse it.\n\nThe statement: d/dx f(g(x)) = f'(g(x)) · g'(x). Derivative of the outer EVALUATED AT THE INNER, times derivative of the inner. In Leibniz notation, dy/dx = (dy/du)(du/dx) — the notation practically begs you to multiply the rates, with du conceptually canceling.",
+        "key_terms": [
+          [
+            "Composition",
+            "f(g(x)): apply g, feed the result to f — nested, not parallel"
+          ],
+          [
+            "Outer/inner decomposition",
+            "Naming which function wraps which — the first move of every chain rule problem"
+          ],
+          [
+            "Chain rule",
+            "d/dx f(g(x)) = f'(g(x)) · g'(x): outer's derivative at the inner, times inner's derivative"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The #1 chain rule error: differentiating the outer but forgetting to multiply by the inner's derivative. d/dx sin(x^2) = cos(x^2) · 2x — the 2x is the chain rule's fee, and the exam's distractor list always includes the fee-dodging cos(x^2) alone."
+          ]
+        ]
+      },
+      {
+        "title": "The General Power Rule",
+        "subtitle": "Chain rule's most common costume",
+        "body": "The most frequent composition has a power outside: [g(x)]^n. The chain rule specializes to d/dx [g(x)]^n = n[g(x)]^{n-1} · g'(x) — the ordinary power rule on the outside, times the inside's derivative. This 'general power rule' handles (3x + 1)^5, √(x^2 + 4), and 1/(x^3 - 2)^2 without fresh thought.\n\nWorked set. d/dx (3x + 1)^5 = 5(3x + 1)^4 · 3 = 15(3x + 1)^4. d/dx √(x^2 + 4): rewrite as (x^2 + 4)^{1/2}, differentiate: (1/2)(x^2 + 4)^{-1/2} · 2x = x/√(x^2 + 4). d/dx (x^3 - 2)^{-2} = -2(x^3 - 2)^{-3} · 3x^2 = -6x^2/(x^3 - 2)^3. Rewrite radicals and reciprocals into power form first — the Unit 2 habit, now with insides.\n\nDo NOT expand when the power rule generalizes. (3x + 1)^5 expands into six terms of misery; the general power rule finishes in one line. Conversely, (x + 1)^2 might as well be expanded. The crossover is around the third power — above it, chain rule always.\n\nLeibniz bookkeeping for the same computation: let u = x^2 + 4, y = √u. Then dy/du = 1/(2√u) and du/dx = 2x, so dy/dx = (dy/du)(du/dx) = 2x/(2√(x^2 + 4)) = x/√(x^2 + 4). Identical answer, different ledger. Use prime notation for speed, Leibniz when substitution helps you stay organized — and expect the exam to phrase questions in both.",
+        "key_terms": [
+          [
+            "General power rule",
+            "d/dx [g]^n = n[g]^{n-1} g': the power rule with a chain rule fee"
+          ],
+          [
+            "Rewrite-first habit",
+            "Radicals and reciprocals become powers before differentiating, insides intact"
+          ],
+          [
+            "u-substitution ledger",
+            "Setting u = inner organizes Leibniz-style chain computations — and previews Unit 6 integration"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "√(stuff) derivatives follow one template: stuff'/(2√(stuff)). Recognizing the template turns five exam appearances per year into instant answers — d/dx √(x^2+4) = 2x/(2√(x^2+4)) = x/√(x^2+4), done before the pencil settles."
+          ]
+        ]
+      },
+      {
+        "title": "Trig, Exponential, and Log Insides",
+        "subtitle": "The library functions, composed",
+        "body": "Each library derivative from Unit 2 now gains a chain rule fee. d/dx sin(g) = cos(g)·g'. d/dx e^g = e^g·g'. d/dx ln(g) = g'/g. Applying: d/dx sin(5x) = 5cos(5x); d/dx e^{3x^2} = 6x e^{3x^2}; d/dx ln(x^2 + 1) = 2x/(x^2 + 1).\n\nThe ln pattern deserves its own line: derivative of ln(inside) is inside'/inside, a ready-made ratio. It explains the Unit 2 alert about ln(5x): its derivative is 5/(5x) = 1/x — identical to ln(x)'s, which makes sense since ln(5x) = ln 5 + ln x differs by a constant. Log properties BEFORE differentiating often simplify dramatically: ln(x^3√(x+1)) = 3 ln x + (1/2)ln(x + 1) differentiates term by term, no quotient rule, no chaos.\n\nFrequency calibration: sin(kx), cos(kx), e^{kx} with constant k are the most common compositions in applied problems, and their derivatives just multiply by k: d/dx cos(3t) = -3 sin(3t). Motion and wave problems lean on this constantly; it should cost zero thought.\n\nMixed structures stack rules from outside in. d/dx [x^2 e^{3x}]: product rule first (it is a product), chain rule inside the e-factor: 2x e^{3x} + x^2·3e^{3x} = e^{3x}(2x + 3x^2). d/dx [sin(2x)/x]: quotient rule shell, chain rule on top: (2x cos(2x) - sin(2x))/x^2. Name the outermost structure first — product, quotient, or composition — and apply rules from the outside inward.",
+        "key_terms": [
+          [
+            "Library + fee",
+            "sin→cos, e→e, ln→1/(·), each times the inner's derivative"
+          ],
+          [
+            "ln(inside) ratio",
+            "d/dx ln(g) = g'/g — a ratio the exam loves in both directions"
+          ],
+          [
+            "Outside-in parsing",
+            "Identify the outermost structure (product/quotient/composition), apply its rule, recurse"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Expand logs BEFORE differentiating whenever the inside is a product, quotient, or power: ln(a·b) = ln a + ln b turns one hard chain-quotient mess into two easy terms. The exam writes ln((x^2+1)/x^3) expecting exactly this move."
+          ]
+        ]
+      },
+      {
+        "title": "Chain Rule from Tables",
+        "subtitle": "h(x) = f(g(x)) by the numbers",
+        "body": "Table problems test the chain rule's structure: given values of f, f', g, g' at selected points, compute h'(a) for h = f∘g. The recipe: h'(a) = f'(g(a)) · g'(a). Two lookups and a multiply — but the FIRST lookup is the trap. You need f' evaluated at g(a), NOT at a.\n\nConcretely: f(1) = 4, f'(1) = -3, f(2) = 7, f'(2) = 5, g(1) = 2, g'(1) = 6. Then h'(1) = f'(g(1))·g'(1) = f'(2)·6 = 5·6 = 30. Students who reflexively grab f'(1) = -3 produce -18 — and -18 will absolutely be among the answer choices. Trace the evaluation point through the inner function first, every time.\n\nGraph versions run the same logic with slopes read off piecewise-linear curves: g(a) is a height on one graph, f' at that height is a slope read from the OTHER graph at a different x-position. The physical act of moving your finger from one graph to the other at the right place is the chain rule made tactile.\n\nWhy so much exam weight here? Because table problems cannot be pattern-matched — they verify you know WHERE each derivative is evaluated, which is the chain rule's actual content. Going forward, every rule in this unit (inverse functions especially) gets the same table treatment, and the evaluation-point discipline you build here pays compound interest.",
+        "key_terms": [
+          [
+            "h'(a) = f'(g(a))·g'(a)",
+            "The table recipe: inner value first, outer derivative there, times inner derivative"
+          ],
+          [
+            "Evaluation-point trap",
+            "f' is read at g(a), never at a — the most-planted wrong answer in the unit"
+          ],
+          [
+            "Two-graph reading",
+            "Height from the inner graph chooses where to read slope on the outer graph"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Annotate before computing: write h'(1) = f'(g(1))·g'(1) symbolically, then substitute g(1)'s VALUE into f' before touching any other number. The one-line annotation habit eliminates the single most common lost point in Unit 3."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "d/dx [(2x^3 - 5)^4] =",
+          "choices": {
+            "A": "4(2x^3 - 5)^3",
+            "B": "24x^2(2x^3 - 5)^3",
+            "C": "8x^3(2x^3 - 5)^3",
+            "D": "4(6x^2)^3"
+          },
+          "answer": "B",
+          "explanation": "General power rule: 4(2x^3 - 5)^3 · 6x^2 = 24x^2(2x^3 - 5)^3. Choice A forgets the inner derivative."
+        },
+        {
+          "question": "d/dx [e^{sin x}] =",
+          "choices": {
+            "A": "e^{sin x}",
+            "B": "e^{cos x}",
+            "C": "cos(x) e^{sin x}",
+            "D": "sin(x) e^{cos x}"
+          },
+          "answer": "C",
+          "explanation": "Outer e^u keeps itself; times inner derivative cos x: cos(x) e^{sin x}."
+        },
+        {
+          "question": "If y = ln(x^2 + 9), then dy/dx at x = 3 is",
+          "choices": {
+            "A": "1/18",
+            "B": "1/3",
+            "C": "2/3",
+            "D": "6"
+          },
+          "answer": "B",
+          "explanation": "dy/dx = 2x/(x^2 + 9); at 3: 6/18 = 1/3."
+        },
+        {
+          "question": "f(2) = 5, f'(2) = -1, f'(3) = 4, g(2) = 3, g'(2) = 7. If h(x) = f(g(x)), then h'(2) =",
+          "choices": {
+            "A": "-7",
+            "B": "28",
+            "C": "-4",
+            "D": "12"
+          },
+          "answer": "B",
+          "explanation": "h'(2) = f'(g(2))·g'(2) = f'(3)·7 = 4·7 = 28. Using f'(2) = -1 gives the trap answer -7."
+        },
+        {
+          "question": "d/dx [√(cos x)] =",
+          "choices": {
+            "A": "-sin x/(2√(cos x))",
+            "B": "1/(2√(cos x))",
+            "C": "-sin x · √(cos x)",
+            "D": "sin x/(2√(cos x))"
+          },
+          "answer": "A",
+          "explanation": "Template stuff'/(2√stuff) with stuff = cos x: (-sin x)/(2√(cos x))."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let y = (x^2 + 3)^5.\n(a) Find dy/dx using the chain rule, identifying the outer and inner functions explicitly.\n(b) Confirm your answer's structure using Leibniz notation with u = x^2 + 3.\n(c) Find the equation of the tangent line at x = 1.",
+          "rubric": [
+            "(a) Outer u^5, inner x^2 + 3; dy/dx = 5(x^2 + 3)^4 · 2x = 10x(x^2 + 3)^4",
+            "(b) dy/du = 5u^4, du/dx = 2x, product matches (a)",
+            "(c) y(1) = 4^5 = 1024; slope 10(256) = 2560",
+            "Tangent: y - 1024 = 2560(x - 1)"
+          ],
+          "model_answer": "(a) The outer function is u^5 and the inner is u = x^2 + 3. dy/dx = 5(x^2 + 3)^4 · 2x = 10x(x^2 + 3)^4. (b) dy/du = 5u^4 and du/dx = 2x, so dy/dx = 5u^4 · 2x = 10x(x^2 + 3)^4 — the same product of rates. (c) At x = 1: y = 4^5 = 1024 and dy/dx = 10(1)(4^4) = 2560. Tangent: y - 1024 = 2560(x - 1)."
+        },
+        {
+          "question": "The table gives values of differentiable functions f and g and their derivatives:\nx = 1: f = 3, f' = 2, g = 4, g' = -5\nx = 3: f = 1, f' = 8, g = 1, g' = 2\nx = 4: f = 6, f' = -3, g = 3, g' = 7\n(a) Let h(x) = f(g(x)). Find h'(1).\n(b) Let k(x) = g(f(x)). Find k'(3).\n(c) Let m(x) = f(x)·g(x). Find m'(4), and explain why the chain rule is NOT involved.",
+          "rubric": [
+            "(a) h'(1) = f'(g(1))·g'(1) = f'(4)·(-5) = (-3)(-5) = 15",
+            "(b) k'(3) = g'(f(3))·f'(3) = g'(1)·f'(3) = (-5)(8) = -40",
+            "(c) m'(4) = f'(4)g(4) + f(4)g'(4) = (-3)(3) + (6)(7) = 33",
+            "Explains m is a product (parallel evaluation), not a composition (nested), so the product rule governs"
+          ],
+          "model_answer": "(a) h'(1) = f'(g(1))·g'(1) = f'(4)·g'(1) = (-3)(-5) = 15. (b) k'(3) = g'(f(3))·f'(3) = g'(1)·f'(3) = (-5)(8) = -40. (c) m'(4) = f'(4)g(4) + f(4)g'(4) = (-3)(3) + (6)(7) = -9 + 42 = 33. m multiplies the two functions' outputs side by side rather than feeding one into the other — a product, not a composition — so the product rule applies and no inner-evaluation tracing is needed."
+        },
+        {
+          "question": "A weight oscillates with height y(t) = 4 cos(3t) + 1 centimeters at time t seconds.\n(a) Find the velocity y'(t).\n(b) Find the first positive time at which the velocity is zero, and the height at that time.\n(c) Find y''(t) and verify that y'' = -9(y - 1). What does this proportionality (acceleration toward the center height) indicate about the motion?",
+          "rubric": [
+            "(a) y' = -12 sin(3t)",
+            "(b) sin(3t) = 0 first at 3t = π: t = π/3; height y(π/3) = 4cos(π) + 1 = -3",
+            "(c) y'' = -36 cos(3t) and -9(y - 1) = -36 cos(3t): equal",
+            "Identifies simple harmonic oscillation about the center height y = 1"
+          ],
+          "model_answer": "(a) Chain rule: y'(t) = -4 sin(3t)·3 = -12 sin(3t). (b) y' = 0 when sin(3t) = 0; the first positive solution is 3t = π, t = π/3 s. Height: y(π/3) = 4 cos(π) + 1 = -4 + 1 = -3 cm. (c) y''(t) = -12 cos(3t)·3 = -36 cos(3t). Also -9(y - 1) = -9·4cos(3t) = -36 cos(3t). ✓ Acceleration is proportional to displacement from the line y = 1 and directed back toward it — the signature of simple harmonic motion centered at height 1."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differentiation — Composite, Implicit, and Inverse Functions",
+    "chapter_title": "Nested Compositions and Chain Rule Mastery",
+    "hook": "What about sin³(2x) — a power of a sine of a doubling? Three layers deep, and the chain rule handles it the same way you'd unwrap a package: one layer at a time, multiplying as you go.",
+    "learning_objectives": [
+      "Differentiate triple and deeper compositions by peeling one layer at a time",
+      "Decode powered-trig notation like sin^3(2x) into explicit nested form",
+      "Combine chain, product, and quotient rules in a single multi-structure expression",
+      "Differentiate compositions where the inner function is itself a product or quotient",
+      "Develop reliable layer-tracking habits that survive exam pressure"
+    ],
+    "sections": [
+      {
+        "title": "Three Layers Deep",
+        "subtitle": "Peel, multiply, repeat",
+        "body": "For f(g(h(x))), the chain rule iterates: derivative = f'(g(h(x))) · g'(h(x)) · h'(x). Each layer contributes one factor — the derivative of that layer, evaluated at everything inside it. Leibniz says it musically: dy/dx = (dy/du)(du/dv)(dv/dx). However deep the nest, the answer is a product with one factor per layer.\n\nWorked: d/dx sin(e^{3x}). Layers: sine outside, e^u middle, 3x inside. Peel: cos(e^{3x}) — times e^{3x} — times 3. Answer: 3e^{3x}cos(e^{3x}). Each factor keeps the full inner expression intact; nothing simplifies until all layers are peeled.\n\nAnother: d/dx √(1 + cos^2 x)... first decode: cos^2 x means (cos x)^2, so layers are √u, u = 1 + v^2 with v = cos x. Peel: 1/(2√(1 + cos^2 x)) — times 2cos x — times (-sin x). Answer: -sin x cos x/√(1 + cos^2 x). Decoding notation INTO layers is half the problem.\n\nThe discipline that prevents disasters: before differentiating anything nested, write the layer list top-to-bottom. 'Outer: square root. Middle: 1 + (·)^2. Inner: cos x.' Thirty seconds of structure beats five minutes of untangling a wrong answer — and on FRQs, the visible layer list itself communicates method to the grader.",
+        "key_terms": [
+          [
+            "Iterated chain rule",
+            "One multiplicative factor per layer, each evaluated at its full inside"
+          ],
+          [
+            "Layer list",
+            "Explicitly naming outer/middle/inner before differentiating — the anti-disaster habit"
+          ],
+          [
+            "Peel order",
+            "Differentiate from the outside in; never simplify mid-peel"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Count layers before you start: sin(e^{3x}) has three (sin, e^u, 3x), so the answer must have three factors. A two-factor answer to a three-layer problem is missing a fee — the factor-count check catches it instantly."
+          ]
+        ]
+      },
+      {
+        "title": "Powered Trig Notation",
+        "subtitle": "sin³(2x), decoded",
+        "body": "The notation sin^3(2x) compresses three layers: it means (sin(2x))^3 — a cube, of a sine, of a doubling. Differentiate by peeling: 3(sin(2x))^2 — times cos(2x) — times 2. Assembled: 6 sin^2(2x) cos(2x). The notation hides the nesting; your job is to un-hide it before differentiating.\n\nGeneral pattern worth automating: d/dx sin^n(kx) = n sin^{n-1}(kx) · cos(kx) · k. Power fee, trig fee, constant fee — three layers, three factors, every time. The same template runs cos^n(kx), tan^n(kx), and friends, with each function's own derivative in the middle slot.\n\nContrast pair that the exam loves: sin(x^3) versus sin^3(x). The first is sine OF a cube: cos(x^3)·3x^2. The second is the CUBE of a sine: 3sin^2(x)·cos x. Same symbols, different nesting, different answers. Reading the position of the exponent — on the function or on the argument — is a tested skill in itself.\n\nOne more decode: sin(2x)cos(3x) is NOT nested — it is a product of two (individually chained) factors, so product rule outside, chain rule inside each factor: 2cos(2x)cos(3x) - 3sin(2x)sin(3x). Notation tells structure; structure picks rules.",
+        "key_terms": [
+          [
+            "sin^n(kx) decode",
+            "(sin(kx))^n: power outside, trig middle, linear inside — three fees"
+          ],
+          [
+            "Exponent position",
+            "sin(x^3) vs sin^3(x): argument-cubed vs function-cubed — different layer stacks"
+          ],
+          [
+            "Notation → structure → rules",
+            "Decode first; the decoded structure dictates which rules fire"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "sin^2(x) + cos^2(x) = 1 still applies INSIDE derivatives: after differentiating, expressions like 2 sin x cos x may be rewritable as sin(2x). The exam's 'simplified' answer choices use double-angle compressions — know sin(2x) = 2 sin x cos x both directions."
+          ]
+        ]
+      },
+      {
+        "title": "Multi-Structure Expressions",
+        "subtitle": "Chain inside product inside quotient",
+        "body": "Real problems stack structures: x^2 sin^3(2x) is a product whose second factor is triple-nested. Differentiate the outermost structure first (product rule), invoking the chain rule when each factor's turn comes: 2x sin^3(2x) + x^2 · 6 sin^2(2x)cos(2x). Factor for the cleaned form: 2x sin^2(2x)[sin(2x) + 3x cos(2x)].\n\nQuotient shells work identically. d/dx [e^{2x}/(1 + x^2)]: quotient rule frame, chain rule on e^{2x}: (2e^{2x}(1 + x^2) - e^{2x}·2x)/(1 + x^2)^2 = 2e^{2x}(1 + x^2 - x)/(1 + x^2)^2. The e^{2x} factors out — exponentials always survive differentiation intact, making them prime factoring candidates.\n\nWhen the INNER function is a product, the chain rule's g' is itself a product-rule job. d/dx sin(x e^x): cos(x e^x) · d/dx[x e^x] = cos(x e^x) · e^x(1 + x). The recursion is natural: every g' inside a chain rule application is just another derivative, computed by whatever rule ITS structure demands.\n\nClean-up conventions for matching answer choices: factor out common exponentials and trig powers, keep insides unexpanded, and present chain-rule fees multiplied through. (3x+1)^4-type factors stay packaged. If your answer differs from every choice, factor before panicking — equivalent forms are the usual culprit.",
+        "key_terms": [
+          [
+            "Outermost-first",
+            "Apply the outermost structure's rule; inner derivatives recurse naturally"
+          ],
+          [
+            "Exponential factoring",
+            "e^{kx} survives differentiation and factors out of every term it touches"
+          ],
+          [
+            "Recursive g'",
+            "The chain rule's inner-derivative slot accepts any rule the inner structure requires"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "After multi-rule differentiation, FACTOR before matching choices: the exam presents 2x sin^2(2x)[sin(2x) + 3x cos(2x)], not the raw two-term product-rule output. Factored form is the house style of AP answer choices."
+          ]
+        ]
+      },
+      {
+        "title": "Pressure-Proofing",
+        "subtitle": "Habits that hold at minute 90",
+        "body": "Chain rule errors spike under time pressure, and the difference between practiced and unpracticed students is not knowledge — it is HABITS. Habit one: the layer list (write the stack before differentiating). Habit two: the factor count (n layers ⟹ n fee factors). Habit three: evaluate-at-the-inside discipline (every outer derivative keeps the original inside as its argument).\n\nHabit four: never simplify mid-derivative. Finish the complete product of fees, THEN clean up. Students who simplify one factor while still peeling another lose track of the stack and drop fees. Differentiation and simplification are separate passes.\n\nHabit five: dimension-check derivative answers against the original. If y = sin^3(2x) is bounded between -1 and 1, its derivative 6 sin^2(2x) cos(2x) is bounded by 6 — a wild answer like 6x sin^2(2x) (unbounded) signals a misplaced fee. Quick sanity bounds catch transcription errors that algebra-checking misses.\n\nSelf-test calibration: you are exam-ready on this unit when you can differentiate ten mixed expressions — spanning powered trig, nested exponentials, products with chained factors, and a quotient shell — in ten minutes with zero dropped fees. Build the speed on paper, not in your head: written fee-tracking is what scales to FRQ complexity.",
+        "key_terms": [
+          [
+            "Factor-count check",
+            "Layers in = multiplicative fees out; mismatch means a dropped derivative"
+          ],
+          [
+            "Two-pass workflow",
+            "Differentiate completely, then simplify — never interleave"
+          ],
+          [
+            "Sanity bounds",
+            "Bounded functions have bounded derivatives of predictable size; wild growth flags errors"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "FRQ graders award method points for visible structure: a layer list and an unsimplified chain-rule product earn partial credit even with arithmetic slips. Work that shows only a final (wrong) answer earns nothing. Write the peel."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "d/dx [cos^4(3x)] =",
+          "choices": {
+            "A": "-12 cos^3(3x) sin(3x)",
+            "B": "4 cos^3(3x)",
+            "C": "-4 cos^3(3x) sin(3x)",
+            "D": "12 cos^3(3x) sin(3x)"
+          },
+          "answer": "A",
+          "explanation": "Three fees: 4cos^3(3x) · (-sin(3x)) · 3 = -12 cos^3(3x) sin(3x). Choice C drops the constant fee; B drops two fees."
+        },
+        {
+          "question": "d/dx [e^{x^2 + 1}] at x = 1 is",
+          "choices": {
+            "A": "e^2",
+            "B": "2e^2",
+            "C": "2e",
+            "D": "e^2 + 1"
+          },
+          "answer": "B",
+          "explanation": "Derivative is 2x e^{x^2+1}; at x = 1: 2e^2."
+        },
+        {
+          "question": "Which is the derivative of sin(x^2), and which is the derivative of sin^2(x)?",
+          "choices": {
+            "A": "2x cos(x^2); 2 sin x cos x",
+            "B": "2 sin x cos x; 2x cos(x^2)",
+            "C": "cos(x^2); sin(2x)",
+            "D": "2x cos(x^2); cos^2(x)"
+          },
+          "answer": "A",
+          "explanation": "sin(x^2): outer sine, inner square → cos(x^2)·2x. sin^2(x): outer square, inner sine → 2 sin x · cos x. Exponent position decides the stack."
+        },
+        {
+          "question": "d/dx [ln(sin(2x))] =",
+          "choices": {
+            "A": "1/sin(2x)",
+            "B": "2 cot(2x)",
+            "C": "2 tan(2x)",
+            "D": "cot(2x)"
+          },
+          "answer": "B",
+          "explanation": "g'/g with g = sin(2x): (2cos(2x))/sin(2x) = 2cot(2x). Choice D drops the constant fee."
+        },
+        {
+          "question": "If y = x √(x^2 + 16), then dy/dx at x = 3 is",
+          "choices": {
+            "A": "34/5",
+            "B": "5",
+            "C": "9/5",
+            "D": "14/5"
+          },
+          "answer": "A",
+          "explanation": "Product + chain: √(x^2+16) + x^2/√(x^2+16). At 3: 5 + 9/5 = 34/5."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = sin^3(2x).\n(a) Write the three-layer decomposition of f explicitly.\n(b) Find f'(x), showing one factor per layer.\n(c) Evaluate f'(π/6) exactly.",
+          "rubric": [
+            "(a) Outer u^3; middle u = sin v; inner v = 2x",
+            "(b) f' = 3 sin^2(2x) · cos(2x) · 2 = 6 sin^2(2x) cos(2x)",
+            "(c) sin(π/3) = √3/2, cos(π/3) = 1/2",
+            "f'(π/6) = 6 · (3/4) · (1/2) = 9/4"
+          ],
+          "model_answer": "(a) f is the cube, of the sine, of the doubling: y = u^3 where u = sin v and v = 2x. (b) Peeling outside-in: f'(x) = 3 sin^2(2x) · cos(2x) · 2 = 6 sin^2(2x) cos(2x) — three layers, three factors. (c) At x = π/6, 2x = π/3: f'(π/6) = 6 sin^2(π/3) cos(π/3) = 6(√3/2)^2(1/2) = 6(3/4)(1/2) = 9/4."
+        },
+        {
+          "question": "Let g(x) = x^2 e^{-x^2}.\n(a) Find g'(x) and factor it completely.\n(b) Find all x where g has a horizontal tangent.\n(c) Evaluate lim x→∞ g(x) using the growth hierarchy, and explain how the horizontal tangents and the limit together sketch the graph's right half.",
+          "rubric": [
+            "(a) g' = 2x e^{-x^2} + x^2 e^{-x^2}(-2x) = 2x e^{-x^2}(1 - x^2)",
+            "(b) g' = 0 at x = 0, 1, -1",
+            "(c) Polynomial over exponential (x^2/e^{x^2}) → 0",
+            "Right half: rises from (0,0) to a peak at x = 1 (height 1/e), then decays to the asymptote y = 0"
+          ],
+          "model_answer": "(a) Product + chain: g'(x) = 2x e^{-x^2} + x^2 · e^{-x^2} · (-2x) = 2x e^{-x^2}(1 - x^2). (b) e^{-x^2} never vanishes, so g' = 0 at x = 0 and x = ±1. (c) g(x) = x^2/e^{x^2} → 0 as x → ∞ since exponentials dominate polynomials. For x ≥ 0: the curve leaves the origin (flat, since g'(0) = 0), climbs to a maximum at x = 1 of height g(1) = 1/e, then decays monotonically toward y = 0 — a single hump flattening into the axis."
+        },
+        {
+          "question": "An object's distance from a sensor is D(t) = √(t^2 + 9) meters at time t seconds.\n(a) Find D'(t) and interpret D'(4) with units.\n(b) Show that D'(t) = t/D(t), and use this form to explain why D'(t) < 1 for all t > 0.\n(c) Evaluate lim t→∞ D'(t) and interpret the result physically.",
+          "rubric": [
+            "(a) D' = t/√(t^2 + 9); D'(4) = 4/5 m/s — distance increasing at 0.8 m/s at t = 4",
+            "(b) Identifies √(t^2+9) = D(t); since D(t) = √(t^2 + 9) > √(t^2) = t > 0, the ratio t/D < 1",
+            "(c) Limit of t/√(t^2 + 9) is 1",
+            "Interprets: at large times the object recedes at a rate approaching (but never reaching) 1 m/s"
+          ],
+          "model_answer": "(a) Chain rule: D'(t) = 2t/(2√(t^2 + 9)) = t/√(t^2 + 9). D'(4) = 4/√25 = 4/5: at t = 4 s, the object's distance from the sensor is increasing at 0.8 meters per second. (b) The denominator IS D(t), so D'(t) = t/D(t). For t > 0, D(t) = √(t^2 + 9) > √(t^2) = t, hence t/D(t) < 1. (c) Dividing by t: D'(t) = 1/√(1 + 9/t^2) → 1 as t → ∞. The recession rate climbs toward 1 m/s asymptotically — the geometry's vertical offset (the 9) matters less and less as the object gets far away."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differentiation — Composite, Implicit, and Inverse Functions",
+    "chapter_title": "Implicit Differentiation",
+    "hook": "A circle is not the graph of any function — it fails the vertical line test spectacularly. Yet circles have tangent lines, and those tangents have slopes. Implicit differentiation finds dy/dx without ever solving for y, and it powers everything from related rates to exotic curves.",
+    "learning_objectives": [
+      "Differentiate both sides of an equation in x and y, treating y as a function of x",
+      "Apply the chain rule fee dy/dx to every term containing y",
+      "Solve the resulting linear equation for dy/dx",
+      "Find tangent and normal lines to implicitly defined curves at given points",
+      "Locate points with horizontal or vertical tangents on implicit curves"
+    ],
+    "sections": [
+      {
+        "title": "The Core Move",
+        "subtitle": "y is a function of x — treat it that way",
+        "body": "An equation like x^2 + y^2 = 25 ties x and y together without isolating y. The insight of implicit differentiation: near most points, y IS locally a function of x (the circle's upper or lower arc), so we may differentiate both sides with respect to x — as long as every y is treated as a function of x, paying the chain rule fee dy/dx whenever y gets differentiated.\n\nThe circle, worked: d/dx(x^2) + d/dx(y^2) = d/dx(25). The x-term gives 2x. The y-term is a composition — something-squared where the something is y(x) — so the general power rule fires: 2y · dy/dx. The right side gives 0. Assemble: 2x + 2y(dy/dx) = 0, so dy/dx = -x/y.\n\nNotice the answer contains BOTH x and y — implicit derivatives usually do. That is a feature: the slope at (3, 4) is -3/4, and at (3, -4) it is +3/4 — same x, different points on the curve, different slopes. The y in the formula is what lets one expression serve the whole curve.\n\nSanity-check against geometry: at (3, 4), the radius has slope 4/3, and the tangent is perpendicular to the radius: slope -3/4. ✓ Implicit differentiation reproduces the geometry it should — a confidence-builder worth running once before trusting the machine.",
+        "key_terms": [
+          [
+            "Implicit differentiation",
+            "Differentiate both sides in x, treating y as y(x) with chain rule fees"
+          ],
+          [
+            "The dy/dx fee",
+            "Every differentiated y-term emits a factor of dy/dx"
+          ],
+          [
+            "Slope in two variables",
+            "dy/dx formulas in x AND y serve every branch of the curve at once"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The mechanical mantra: 'differentiate normally, but every time you touch a y, multiply by dy/dx.' The most common exam error is differentiating y^2 to 2y instead of 2y(dy/dx) — the missing fee silently destroys the rest of the problem."
+          ]
+        ]
+      },
+      {
+        "title": "Heavier Machinery",
+        "subtitle": "Products of x and y, and solving for dy/dx",
+        "body": "Terms mixing x and y need the product rule WITH the fee. In x^2 y^3: product rule gives 2x y^3 + x^2 · 3y^2 (dy/dx). The x-factor differentiates free; the y-factor pays. Equations like x^2 y^3 + sin y = x become routine: 2xy^3 + 3x^2 y^2 y' + cos(y) y' = 1, where y' abbreviates dy/dx.\n\nSolving for y' is always the same algebra, because y' only ever enters LINEARLY: collect every y'-term on one side, factor y' out, divide. From the line above: y'(3x^2 y^2 + cos y) = 1 - 2xy^3, so y' = (1 - 2xy^3)/(3x^2 y^2 + cos y). Linear-collect-factor-divide — the four-beat pattern closes every implicit problem.\n\nWhy is y' always linear? Because differentiation is linear: each term of the original equation emits at most one y' factor. No implicit problem ever requires solving a quadratic in y' — if you find yourself with (y')^2, a differentiation error upstream is the cause. That structural fact is also a built-in error detector.\n\nEvaluating at a point goes faster than solving in general: plug the point's x AND y values in immediately after differentiating, then solve numerically. At (1, 2) on some curve: substitute first, get a linear equation in y' with numbers, solve in one line. Substitute-then-solve beats solve-then-substitute whenever only one point matters.",
+        "key_terms": [
+          [
+            "Mixed-term product rule",
+            "x-parts differentiate free; y-parts pay dy/dx — both inside one product rule"
+          ],
+          [
+            "Linear-collect-factor-divide",
+            "The universal four-step solve for dy/dx"
+          ],
+          [
+            "Substitute-then-solve",
+            "Plug the point in before isolating y' when a specific slope is the goal"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "If your implicit work produces (dy/dx)^2, stop — that is structurally impossible, and a y-term was differentiated twice or a product rule misfired. The linearity of y' is a free correctness check the exam rewards you for knowing."
+          ]
+        ]
+      },
+      {
+        "title": "Tangents to Curves",
+        "subtitle": "Horizontal, vertical, and at a point",
+        "body": "Tangent lines at a point run exactly as before: slope from the implicit derivative at (a, b), line from point-slope. For the ellipse x^2 + 4y^2 = 8 at (2, 1): differentiating, 2x + 8y y' = 0, y' = -x/(4y), slope -1/2. Tangent: y - 1 = -(1/2)(x - 2).\n\nHorizontal tangents: dy/dx = 0, which for a ratio means NUMERATOR zero (and denominator nonzero). For y' = -x/(4y): x = 0, giving points (0, ±√2) — the ellipse's top and bottom. Vertical tangents: the DENOMINATOR vanishes (numerator nonzero): y = 0, points (±2√2, 0) — the left and right extremes, where the curve turns vertically.\n\nThe full procedure for either: set the relevant part of y' to zero, then intersect with the ORIGINAL equation to find actual points on the curve. Both conditions matter — x = 0 alone is a line, not a point; pairing with x^2 + 4y^2 = 8 pins the curve points. Forgetting to return to the original equation is the step students drop.\n\nWhen both numerator and denominator vanish at a candidate point, the test is inconclusive — the curve may have a crossing, a cusp, or something stranger there (think folium-type curves at the origin). The AP flags such points rarely and gently, but 'both zero ⟹ investigate further, not conclude' is the honest rule.",
+        "key_terms": [
+          [
+            "Horizontal tangent",
+            "Numerator of dy/dx = 0, denominator ≠ 0; then intersect with the original curve"
+          ],
+          [
+            "Vertical tangent",
+            "Denominator of dy/dx = 0, numerator ≠ 0 — slopes blow up, curve turns vertical"
+          ],
+          [
+            "Return-to-curve step",
+            "Candidates from y' conditions must be paired with the original equation to become points"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Horizontal-tangent FRQs are two-equation systems: [numerator of y' = 0] AND [original curve equation]. Writing both equations explicitly — then solving simultaneously — is the full-credit pattern. One equation alone scores half."
+          ]
+        ]
+      },
+      {
+        "title": "Second Derivatives, Implicitly",
+        "subtitle": "Differentiate the derivative, then recycle",
+        "body": "Implicit second derivatives extend the same machinery: differentiate the dy/dx expression (which contains x and y) implicitly AGAIN, and wherever dy/dx appears in the result, substitute the already-found expression. For x^2 + y^2 = 25 with y' = -x/y: quotient rule gives y'' = -(y - x y')/y^2. Substitute y' = -x/y: y'' = -(y + x^2/y)/y^2 = -(y^2 + x^2)/y^3 = -25/y^3, using the original equation in the last step.\n\nThat final substitution — invoking the ORIGINAL curve equation to collapse x^2 + y^2 into 25 — is the elegance the exam looks for. Implicit second derivatives almost always simplify dramatically when the original equation is recycled; an unsimplified tangle often hides a recycling opportunity.\n\nThe workflow, fixed: (1) find y' implicitly; (2) differentiate y' (quotient or product rule, fees intact); (3) substitute the y' expression in; (4) recycle the original equation to simplify. Steps 3 and 4 are where the problem is actually won.\n\nWhat is y'' FOR? Concavity of implicit curves (Unit 5 applies it), and the AP asks evaluation versions: find y'' at (3, 4). With y'' = -25/y^3: -25/64. Numerical second-derivative questions reward the simplified form — computing from the unsimplified tangle at specific numbers invites sign errors that the clean form makes impossible.",
+        "key_terms": [
+          [
+            "Implicit y''",
+            "Differentiate y' implicitly, substitute y' back in, recycle the original equation"
+          ],
+          [
+            "Recycling step",
+            "Using the original curve equation to collapse combinations like x^2 + y^2"
+          ],
+          [
+            "Evaluation payoff",
+            "Simplified y'' forms make numerical questions one substitution long"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "On 'find d^2y/dx^2' implicit FRQs, the rubric has a dedicated point for substituting your dy/dx INTO the second-derivative expression. Leaving y' symbolic in the final answer forfeits it — finish the substitution every time."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "If x^2 + y^2 = 169, then dy/dx at the point (5, -12) is",
+          "choices": {
+            "A": "5/12",
+            "B": "-5/12",
+            "C": "12/5",
+            "D": "-12/5"
+          },
+          "answer": "A",
+          "explanation": "dy/dx = -x/y = -5/(-12) = 5/12."
+        },
+        {
+          "question": "If x^3 + y^3 = 9xy, then dy/dx =",
+          "choices": {
+            "A": "(3y - x^2)/(y^2 - 3x)",
+            "B": "(9y - 3x^2)/(3y^2 - 9x)",
+            "C": "Both A and B (they are equivalent)",
+            "D": "(x^2 - 3y)/(3x - y^2)"
+          },
+          "answer": "C",
+          "explanation": "Differentiating: 3x^2 + 3y^2 y' = 9y + 9x y', so y'(3y^2 - 9x) = 9y - 3x^2 — choice B, which reduces by 3 to choice A."
+        },
+        {
+          "question": "The curve x^2 + 4y^2 = 8 has vertical tangent lines at",
+          "choices": {
+            "A": "(0, ±√2)",
+            "B": "(±2√2, 0)",
+            "C": "(±2, ±1)",
+            "D": "(±8, 0)"
+          },
+          "answer": "B",
+          "explanation": "y' = -x/(4y); vertical tangents where the denominator vanishes: y = 0, and the curve gives x^2 = 8, x = ±2√2."
+        },
+        {
+          "question": "If sin(y) = x, then dy/dx in terms of y is",
+          "choices": {
+            "A": "cos y",
+            "B": "1/cos y",
+            "C": "-1/cos y",
+            "D": "sec y tan y"
+          },
+          "answer": "B",
+          "explanation": "cos(y)·y' = 1, so y' = 1/cos y. (This is the gateway to the arcsin derivative in the next chapter.)"
+        },
+        {
+          "question": "For x^2 + y^2 = 25, the second derivative y'' equals -25/y^3. At the point (0, 5), the value of y'' is",
+          "choices": {
+            "A": "-1/5",
+            "B": "1/5",
+            "C": "-5",
+            "D": "0"
+          },
+          "answer": "A",
+          "explanation": "y'' = -25/125 = -1/5: the circle's top is concave down, as geometry demands."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Consider the curve x^2 - xy + y^2 = 7.\n(a) Find dy/dx.\n(b) Find the equation of the tangent line at the point (1, 3).\n(c) Find all points on the curve where the tangent line is horizontal.",
+          "rubric": [
+            "(a) 2x - (y + x y') + 2y y' = 0 → y' = (y - 2x)/(2y - x)",
+            "(b) At (1, 3): y' = (3 - 2)/(6 - 1) = 1/5; tangent y - 3 = (1/5)(x - 1)",
+            "(c) Sets y = 2x (numerator zero) into the curve: x^2 - 2x^2 + 4x^2 = 7 → 3x^2 = 7",
+            "Points (±√(7/3), ±2√(7/3)) with matching signs; verifies denominator nonzero there"
+          ],
+          "model_answer": "(a) Differentiating: 2x - y - x y' + 2y y' = 0, so y'(2y - x) = y - 2x and y' = (y - 2x)/(2y - x). (b) At (1, 3): y' = (3 - 2)/(6 - 1) = 1/5. Tangent: y - 3 = (1/5)(x - 1). (c) Horizontal requires y - 2x = 0, i.e. y = 2x, on the curve: x^2 - x(2x) + (2x)^2 = 3x^2 = 7, so x = ±√(7/3) and the points are (√(7/3), 2√(7/3)) and (-√(7/3), -2√(7/3)). At these points 2y - x = 3x ≠ 0, so the tangents are genuinely horizontal."
+        },
+        {
+          "question": "The curve xy^2 + x^2 = 6y passes through the point (2, 2).\n(a) Verify that (2, 2) lies on the curve.\n(b) Find dy/dx at (2, 2) using the substitute-then-solve approach.\n(c) Use the tangent line at (2, 2) to approximate the y-coordinate of the curve near x = 2.1.",
+          "rubric": [
+            "(a) Left side: 2(4) + 4 = 12; right side: 6(2) = 12 — the point is on the curve",
+            "(b) Differentiates: y^2 + 2xy y' + 2x = 6y'; substitutes (2, 2): 4 + 8y' + 4 = 6y'",
+            "Solves 2y' = -8, so dy/dx = -4 at (2, 2)",
+            "(c) Tangent y - 2 = -4(x - 2) gives y(2.1) ≈ 2 - 0.4 = 1.6"
+          ],
+          "model_answer": "(a) xy^2 + x^2 = 2(4) + 4 = 12 and 6y = 12: equal, so (2, 2) is on the curve. (b) Differentiating both sides: y^2 + 2xy·y' + 2x = 6y'. Substituting x = 2, y = 2 immediately: 4 + 8y' + 4 = 6y', so 8 = -2y' and y' = -4. (c) The tangent at (2, 2) is y - 2 = -4(x - 2). At x = 2.1: y ≈ 2 - 4(0.1) = 1.6 — the curve's y-coordinate near x = 2.1 is approximately 1.6."
+        },
+        {
+          "question": "For the circle x^2 + y^2 = 25:\n(a) Find dy/dx implicitly.\n(b) Derive d^2y/dx^2, substituting your expression for dy/dx and simplifying using the circle's equation.\n(c) Evaluate y'' at (3, 4) and at (3, -4), and explain the sign difference geometrically.",
+          "rubric": [
+            "(a) y' = -x/y",
+            "(b) y'' = -(y - x y')/y^2 = -(y + x^2/y)/y^2 = -(x^2 + y^2)/y^3 = -25/y^3",
+            "(c) At (3, 4): -25/64 < 0; at (3, -4): +25/64 > 0",
+            "Upper semicircle is concave down (cap), lower is concave up (cup) — signs match the geometry"
+          ],
+          "model_answer": "(a) 2x + 2y y' = 0 gives y' = -x/y. (b) Quotient rule: y'' = -(1·y - x·y')/y^2 = -(y - x(-x/y))/y^2 = -((y^2 + x^2)/y)/y^2 = -(x^2 + y^2)/y^3 = -25/y^3, recycling x^2 + y^2 = 25. (c) y''(3, 4) = -25/64 (negative: the upper arc bends downward, a cap) and y''(3, -4) = 25/64 (positive: the lower arc bends upward, a cup). Same |value|, opposite concavity — exactly the circle's two arcs."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differentiation — Composite, Implicit, and Inverse Functions",
+    "chapter_title": "Derivatives of Inverse Functions",
+    "hook": "If a function doubles things, its inverse halves them — and if a function has slope 3 somewhere, its inverse has slope 1/3 at the mirrored point. The inverse function theorem is bookkeeping about reflections, and the AP tests the bookkeeping relentlessly.",
+    "learning_objectives": [
+      "State the inverse derivative formula (f⁻¹)'(b) = 1/f'(f⁻¹(b))",
+      "Apply the formula with correct evaluation points, especially from tables",
+      "Explain the formula graphically via reflection across y = x",
+      "Compute inverse derivatives when f⁻¹ cannot be found explicitly",
+      "Identify where an inverse fails to be differentiable (f' = 0 at the mirror point)"
+    ],
+    "sections": [
+      {
+        "title": "Reflection Logic",
+        "subtitle": "Why slopes invert",
+        "body": "The graph of f⁻¹ is the graph of f reflected across the line y = x: the point (a, b) on f becomes (b, a) on f⁻¹. Reflection swaps the roles of rise and run, so a slope of 3 (rise 3 per run 1) becomes a slope of 1/3 (rise 1 per run 3). Slopes of mirrored tangent lines are reciprocals — that is the entire geometric content of inverse differentiation.\n\nThe formula with points attached: if f(a) = b, then (f⁻¹)'(b) = 1/f'(a). In self-contained form: (f⁻¹)'(b) = 1/f'(f⁻¹(b)) — the derivative of the inverse AT b is the reciprocal of f's derivative at the PREIMAGE of b. The evaluation point moves through the inverse before f' is consulted; this point-tracking is what the exam actually tests.\n\nDerivation in one line of implicit differentiation: f(f⁻¹(x)) = x, differentiate both sides with the chain rule: f'(f⁻¹(x)) · (f⁻¹)'(x) = 1, solve. The chain rule from earlier this unit IS the proof — inverse derivatives are not a new idea, just the chain rule pointed at the identity function.\n\nUnits make it tangible: if f converts hours to miles with f' in miles per hour, f⁻¹ converts miles back to hours, and its derivative carries hours per mile — numerically the reciprocal. Inverse functions invert units, so of course they invert rates.",
+        "key_terms": [
+          [
+            "Inverse derivative formula",
+            "(f⁻¹)'(b) = 1/f'(f⁻¹(b)): reciprocal slope at the mirrored point"
+          ],
+          [
+            "Mirror point",
+            "(a, b) on f pairs with (b, a) on f⁻¹ — slopes there are reciprocals"
+          ],
+          [
+            "Chain rule proof",
+            "Differentiating f(f⁻¹(x)) = x yields the formula in one line"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The formula is NOT 1/f'(b). It is 1/f' evaluated at f⁻¹(b) — the preimage. Every inverse-derivative MC question plants 1/f'(b) as a distractor, and the only defense is writing the evaluation point explicitly before computing."
+          ]
+        ]
+      },
+      {
+        "title": "Tables and Point-Tracking",
+        "subtitle": "The exam's favorite format, again",
+        "body": "The canonical problem: a table lists x, f(x), f'(x) at several inputs; find (g)'(5) where g = f⁻¹. Procedure: (1) find the x with f(x) = 5 — scan the f-column, not the x-column; say f(2) = 5; (2) then g(5) = 2 and g'(5) = 1/f'(2). Two steps: locate the preimage, reciprocate the derivative there.\n\nThe column-scan in step (1) is where errors live. You need f⁻¹(5), which means asking 'what input gives OUTPUT 5?' — a hunt through the f(x) column. Students who look up x = 5 instead compute 1/f'(5), the planted trap. Slowing down for one labeled line — 'f(2) = 5, so f⁻¹(5) = 2' — converts the trap into free points.\n\nVerifying invertibility sometimes opens the problem: f is guaranteed invertible on an interval when it is strictly monotonic there (f' > 0 throughout or f' < 0 throughout). Exam stems either declare invertibility or give you an f' column that is visibly single-signed; citing the monotonicity is the justification when asked.\n\nFull example: f has f(1) = 3, f'(1) = 4, f(3) = 7, f'(3) = 2. For g = f⁻¹: g'(7) = 1/f'(f⁻¹(7)) = 1/f'(3) = 1/2. And g'(3) = 1/f'(1) = 1/4. Notice f'(7) appears nowhere — the table need not even contain it. The formula only ever consults f' at preimages.",
+        "key_terms": [
+          [
+            "Column scan",
+            "f⁻¹(b) is found by locating b in the OUTPUT column of f's table"
+          ],
+          [
+            "Preimage labeling",
+            "Writing 'f(a) = b so f⁻¹(b) = a' as a visible step — the anti-trap habit"
+          ],
+          [
+            "Monotonicity certificate",
+            "Single-signed f' on an interval certifies invertibility there"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Inverse-table questions take 20 seconds when you write the two-line ritual: 'f(?) = b ⟹ ? = ___' then '(f⁻¹)'(b) = 1/f'(___)'. Skipping the ritual under time pressure is how prepared students still lose this point."
+          ]
+        ]
+      },
+      {
+        "title": "Inverses You Cannot Solve For",
+        "subtitle": "The formula works anyway",
+        "body": "For f(x) = x^3 + x + 1, solving y = x^3 + x + 1 for x is hopeless — no formula for f⁻¹ exists in elementary terms. The inverse derivative formula does not care: to find (f⁻¹)'(3), hunt the preimage by inspection or simple algebra: f(1) = 1 + 1 + 1 = 3 ✓. Then (f⁻¹)'(3) = 1/f'(1) = 1/(3 + 1) = 1/4.\n\nThis is the formula's deepest virtue: it computes derivatives of functions you cannot even write down. The hunt step is deliberately gentle on exams — the preimage is always a small integer or clean fraction, findable by testing x = 0, ±1, ±2. If your hunt requires the cubic formula, re-read the problem.\n\nInvertibility here is certified by f'(x) = 3x^2 + 1 ≥ 1 > 0: strictly increasing everywhere, hence globally invertible. The exam expects this one-line check when it asks 'explain why f⁻¹ exists' — monotonicity via a positive derivative is the standard certificate, and it doubles as the denominator's non-vanishing guarantee.\n\nTangent lines to inverses assemble from the same parts: the tangent to f⁻¹ at (3, 1) has slope 1/4, line y - 1 = (1/4)(x - 3). Notice the point (3, 1) is the mirror of (1, 3) on f. Every inverse-tangent question is a regular tangent question after the reflection bookkeeping — point swapped, slope reciprocated.",
+        "key_terms": [
+          [
+            "Preimage hunt",
+            "Test small integers to solve f(a) = b when f⁻¹ has no formula"
+          ],
+          [
+            "Global invertibility check",
+            "f' everywhere positive (or everywhere negative) certifies f⁻¹ exists"
+          ],
+          [
+            "Inverse tangent line",
+            "Mirror the point, reciprocate the slope, assemble point-slope as usual"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Let g = f⁻¹ where f(x) = x^3 + 2x - 1; find g'(2)' — the hunt: f(1) = 2 ✓, so g'(2) = 1/f'(1) = 1/5. This exact problem shape appears on the AP with different coefficients almost every year. Recognize it as a 30-second question."
+          ]
+        ]
+      },
+      {
+        "title": "Where Inverses Break",
+        "subtitle": "Zero slopes become infinite slopes",
+        "body": "The formula (f⁻¹)'(b) = 1/f'(a) divides by f'(a) — and division demands a nonzero denominator. Where f has a HORIZONTAL tangent (f'(a) = 0), the reflected graph has a VERTICAL tangent at the mirror point, and f⁻¹ is not differentiable there. Zero slope reflects to undefined slope; the reciprocal relationship breaks at exactly the reciprocal's forbidden input.\n\nThe standard example: f(x) = x^3 with f'(0) = 0. Its inverse is f⁻¹(x) = x^{1/3}, whose derivative (1/3)x^{-2/3} blows up at 0 — the vertical tangent from Unit 2's bestiary, now explained: the cube root's vertical tangent at the origin is the cube's horizontal tangent, reflected. Two chapters' facts click together.\n\nDistinguish the failure modes: f' = 0 at the mirror point makes f⁻¹ non-DIFFERENTIABLE but still perfectly defined (x^{1/3} exists at 0). For f⁻¹ to fail to EXIST, f must fail to be one-to-one — a horizontal-line-test failure, fixable only by restricting domain. Existence is about monotonicity; differentiability of the inverse is about non-vanishing f'.\n\nThese facts set up the next chapter perfectly: arcsin, arccos, and arctan are inverses of restricted trig functions, their derivative formulas come from today's formula, and their endpoint non-differentiability (arcsin's vertical tangents at ±1) is precisely sine's horizontal tangents at ±π/2 reflected. The trig inverses are this chapter, instantiated.",
+        "key_terms": [
+          [
+            "Vertical-tangent inheritance",
+            "f'(a) = 0 ⟹ f⁻¹ has a vertical tangent at b = f(a): defined but not differentiable"
+          ],
+          [
+            "Existence vs differentiability",
+            "One-to-one governs existence of f⁻¹; nonzero f' governs its differentiability"
+          ],
+          [
+            "x^3 / x^{1/3} pair",
+            "The canonical example: horizontal tangent reflecting to vertical tangent at the origin"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'At which point does f⁻¹ fail to be differentiable?' translates to 'where does f' equal zero?' — then report the MIRRORED point (f(a), a). Reporting (a, f(a)) — the unreflected point — is the lurking half-error on this question type."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "f(3) = 8 and f'(3) = 5 for an invertible function f. Then (f⁻¹)'(8) =",
+          "choices": {
+            "A": "1/5",
+            "B": "5",
+            "C": "1/8",
+            "D": "-5"
+          },
+          "answer": "A",
+          "explanation": "f⁻¹(8) = 3, so (f⁻¹)'(8) = 1/f'(3) = 1/5."
+        },
+        {
+          "question": "A table gives f(1) = 6, f'(1) = 2, f(6) = 10, f'(6) = 9. If g = f⁻¹, then g'(6) =",
+          "choices": {
+            "A": "1/9",
+            "B": "1/2",
+            "C": "1/6",
+            "D": "9"
+          },
+          "answer": "B",
+          "explanation": "Scan the OUTPUT column: f(1) = 6, so g(6) = 1 and g'(6) = 1/f'(1) = 1/2. Using f'(6) gives the trap 1/9."
+        },
+        {
+          "question": "Let f(x) = x^3 + 2x - 1 and g = f⁻¹. Then g'(2) =",
+          "choices": {
+            "A": "1/5",
+            "B": "1/2",
+            "C": "5",
+            "D": "1/14"
+          },
+          "answer": "A",
+          "explanation": "Hunt: f(1) = 1 + 2 - 1 = 2 ✓. g'(2) = 1/f'(1) = 1/(3 + 2) = 1/5."
+        },
+        {
+          "question": "f(x) = x^5 has f'(0) = 0. Its inverse f⁻¹(x) = x^{1/5} therefore",
+          "choices": {
+            "A": "does not exist at 0",
+            "B": "is defined but not differentiable at 0",
+            "C": "is differentiable at 0 with slope 0",
+            "D": "has a corner at 0"
+          },
+          "answer": "B",
+          "explanation": "Zero slope on f reflects to a vertical tangent on f⁻¹: x^{1/5} exists at 0 but its derivative blows up — defined, not differentiable, and not a corner (no two distinct one-sided slopes)."
+        },
+        {
+          "question": "f is differentiable and strictly increasing, with f(4) = 4 and f'(4) = 3. The tangent line to f⁻¹ at the point (4, 4) has slope",
+          "choices": {
+            "A": "1/3",
+            "B": "3",
+            "C": "1",
+            "D": "Cannot be determined"
+          },
+          "answer": "A",
+          "explanation": "The point (4, 4) is its own mirror (it lies on y = x). (f⁻¹)'(4) = 1/f'(f⁻¹(4)) = 1/f'(4) = 1/3."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = x^3 + 3x + 2, and let g denote the inverse function of f.\n(a) Explain why g exists on all of ℝ.\n(b) Find g(6) and g'(6).\n(c) Write the equation of the tangent line to g at x = 6.",
+          "rubric": [
+            "(a) f'(x) = 3x^2 + 3 ≥ 3 > 0: strictly increasing, hence one-to-one and invertible",
+            "(b) Hunt: f(1) = 6, so g(6) = 1; g'(6) = 1/f'(1) = 1/6",
+            "(c) Tangent: y - 1 = (1/6)(x - 6)",
+            "Evaluation points tracked correctly (f' consulted at 1, not 6)"
+          ],
+          "model_answer": "(a) f'(x) = 3x^2 + 3 is at least 3 for every x, so f is strictly increasing on ℝ — one-to-one, and therefore invertible. (b) Testing small integers: f(1) = 1 + 3 + 2 = 6, so g(6) = 1. Then g'(6) = 1/f'(g(6)) = 1/f'(1) = 1/(3 + 3) = 1/6. (c) g passes through (6, 1) with slope 1/6: y - 1 = (1/6)(x - 6)."
+        },
+        {
+          "question": "The differentiable function h is strictly decreasing, with selected values: h(0) = 5, h'(0) = -2, h(2) = 1, h'(2) = -4, h(5) = -3, h'(5) = -1.\n(a) Explain how the table certifies that h⁻¹ exists.\n(b) Compute (h⁻¹)'(1) and (h⁻¹)'(5).\n(c) The point (1, 2) lies on h⁻¹. Verify this from the table and write the tangent line to h⁻¹ there.",
+          "rubric": [
+            "(a) All listed h' values are negative and h is stated strictly decreasing — one-to-one",
+            "(b) (h⁻¹)'(1) = 1/h'(2) = -1/4; (h⁻¹)'(5) = 1/h'(0) = -1/2",
+            "(c) h(2) = 1 ⟹ h⁻¹(1) = 2 — the point (1, 2) ✓",
+            "Tangent: y - 2 = (-1/4)(x - 1)"
+          ],
+          "model_answer": "(a) h is strictly decreasing (every output drops as inputs rise, and each tabulated h' is negative), so distinct inputs give distinct outputs: h is one-to-one and h⁻¹ exists. (b) For (h⁻¹)'(1): h(2) = 1, so the value is 1/h'(2) = -1/4. For (h⁻¹)'(5): h(0) = 5, so 1/h'(0) = -1/2. (c) Since h(2) = 1, h⁻¹(1) = 2 — the point (1, 2) is on h⁻¹. The tangent there: y - 2 = (-1/4)(x - 1). Note inverse derivatives of a decreasing function are negative, as the reflected graph also falls."
+        },
+        {
+          "question": "Let f(x) = x + sin(x).\n(a) Show that f is invertible on ℝ despite f' having zeros.\n(b) Find (f⁻¹)'(π), showing the preimage hunt.\n(c) Identify one value b where f⁻¹ is NOT differentiable, and justify using the reflection principle.",
+          "rubric": [
+            "(a) f'(x) = 1 + cos x ≥ 0 with isolated zeros (x = π, 3π, ...); f still strictly increasing overall",
+            "(b) f(π) = π + 0 = π, so preimage of π is π; but f'(π) = 1 + cos π = 0 — formula fails; identifies the subtlety",
+            "(c) b = π works: f'(π) = 0, so f⁻¹ has a vertical tangent at (π, π)",
+            "Coherent connection: zero slope on f reflects to vertical tangent on f⁻¹"
+          ],
+          "model_answer": "(a) f'(x) = 1 + cos x ≥ 0 everywhere, vanishing only at isolated points x = π + 2πk. A function with nonnegative derivative that is zero only at isolated points is still strictly increasing, so f is one-to-one and invertible. (b) Preimage hunt: f(π) = π + sin π = π, so f⁻¹(π) = π. The formula would give (f⁻¹)'(π) = 1/f'(π) = 1/0 — undefined: f⁻¹ exists at π but is NOT differentiable there. (c) Exactly that b = π: since f'(π) = 0 (a horizontal tangent on f at (π, π)), the reflection across y = x turns it into a vertical tangent on f⁻¹ at (π, π) — defined, continuous, and non-differentiable."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differentiation — Composite, Implicit, and Inverse Functions",
+    "chapter_title": "Derivatives of Inverse Trig Functions",
+    "hook": "arcsin's derivative has no trig in it at all — just 1/√(1-x²). The inverse trig derivatives look like algebra because that's exactly what inverting does to trig, and they become the answer keys to half the integrals in Unit 6.",
+    "learning_objectives": [
+      "Derive the derivative of arcsin(x) via implicit differentiation and a reference triangle",
+      "State the derivatives of arcsin, arccos, arctan, and their co-function partners",
+      "Apply chain rule versions like d/dx arctan(g(x))",
+      "Locate where inverse trig functions fail to be differentiable",
+      "Recognize the derivative forms as integration templates for Unit 6"
+    ],
+    "sections": [
+      {
+        "title": "Deriving arcsin",
+        "subtitle": "Implicit differentiation pays off",
+        "body": "Let y = arcsin(x), meaning sin(y) = x with y restricted to [-π/2, π/2]. Differentiate implicitly: cos(y)·y' = 1, so y' = 1/cos(y). To convert cos(y) into x-language, use the restriction: on [-π/2, π/2], cos(y) ≥ 0, so cos(y) = √(1 - sin^2 y) = √(1 - x^2). Conclusion: d/dx arcsin(x) = 1/√(1 - x^2).\n\nThe reference-triangle shortcut packages the same conversion: y = arcsin(x) means y is an angle whose sine is x — draw a right triangle with opposite x, hypotenuse 1, so adjacent √(1 - x^2), and read cos(y) = √(1 - x^2) straight off. Triangles translate 'trig of inverse trig' into algebra; the skill recurs for every inverse trig derivative and again in trig substitution (BC Unit 6).\n\nTwo structural surprises worth savoring: the derivative is purely algebraic (no trig functions survive), and it is always POSITIVE — arcsin climbs on its whole domain, matching the restricted sine it mirrors. As x → ±1, the denominator → 0 and the slope blows up: vertical tangents at the endpoints, which are sine's horizontal tangents at ±π/2 reflected — last chapter's principle, instantiated.\n\nThe domain ledger: arcsin is DEFINED on [-1, 1], DIFFERENTIABLE on (-1, 1). Endpoint non-differentiability is a tested distinction — 'differentiable on the open interval' is the exact wording to use and expect.",
+        "key_terms": [
+          [
+            "d/dx arcsin x = 1/√(1 - x^2)",
+            "Derived by implicit differentiation; positive on all of (-1, 1)"
+          ],
+          [
+            "Reference triangle",
+            "Encodes y = arcsin x as a triangle (opposite x, hypotenuse 1) to algebraize trig-of-inverse"
+          ],
+          [
+            "Endpoint blowup",
+            "Vertical tangents at x = ±1 — reflections of sine's horizontal tangents"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The restriction matters in the derivation: cos(y) = +√(1 - x^2) BECAUSE arcsin's range keeps cosine nonnegative. The exam's 'derive the formula' FRQ awards a specific point for justifying that plus sign — mention the range, collect the point."
+          ]
+        ]
+      },
+      {
+        "title": "The Six Formulas",
+        "subtitle": "Three to learn, three to negate",
+        "body": "The full set: d/dx arcsin x = 1/√(1 - x^2); d/dx arccos x = -1/√(1 - x^2); d/dx arctan x = 1/(1 + x^2); d/dx arccot x = -1/(1 + x^2); d/dx arcsec x = 1/(|x|√(x^2 - 1)); d/dx arccsc x = -1/(|x|√(x^2 - 1)). The co-function pattern from Unit 2 returns: each 'co' version is its partner negated, because arccos x = π/2 - arcsin x and constants vanish under differentiation.\n\nThat identity is worth internalizing: arcsin x + arccos x = π/2 for every x in [-1, 1] — complementary angles. Differentiating both sides gives 1/√(1-x^2) + (arccos)' = 0 — the negation pattern is forced, not memorized. One identity, three negative formulas for free.\n\nPriority ranking for the AP: arctan and arcsin dominate (appearing in derivatives AND as integral answers); arccos appears occasionally; the other three are rare. arctan's derivative 1/(1 + x^2) is the single most important: defined for ALL x, always positive, with the function climbing from -π/2 toward π/2 between its horizontal asymptotes — the slope peaking at 1 (at x = 0) and decaying to 0 at both ends.\n\nDerivations for arctan run the same implicit playbook: tan y = x gives sec^2(y)·y' = 1, and sec^2 y = 1 + tan^2 y = 1 + x^2 — the Pythagorean identity doing the x-conversion without even needing a square root. Cleanest derivation in the family; do it once by hand.",
+        "key_terms": [
+          [
+            "d/dx arctan x = 1/(1 + x^2)",
+            "Defined everywhere, always positive, maximal slope 1 at the origin"
+          ],
+          [
+            "Co-function negation",
+            "arccos = π/2 - arcsin forces the minus-sign pattern across all three pairs"
+          ],
+          [
+            "Priority order",
+            "arctan and arcsin carry the exam weight; arcsec/arccsc are rare guests"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Sign confusion between arcsin' and arccos' resolves by graph: arcsin RISES (positive derivative), arccos FALLS (negative). Two seconds of graphical recall beats any mnemonic under pressure."
+          ]
+        ]
+      },
+      {
+        "title": "Chain Rule Versions",
+        "subtitle": "Insides pay the usual fee",
+        "body": "Compositions follow the standard pattern: d/dx arcsin(g) = g'/√(1 - g^2), and d/dx arctan(g) = g'/(1 + g^2). Worked: d/dx arctan(3x) = 3/(1 + 9x^2). d/dx arcsin(x^2) = 2x/√(1 - x^4). d/dx arctan(e^x) = e^x/(1 + e^{2x}). The inner derivative rides on top; the inner function squares into the denominator's pattern.\n\nNote the squaring detail: 1 - g^2 means 1 minus the SQUARE of the whole inside — for g = x^2, that is 1 - x^4, not 1 - x^2. Squaring the inside is a mechanical step students rush; the exam's wrong choices preserve the un-squared version to catch exactly that rush.\n\nEvaluation questions combine the formulas with standard values. The slope of y = arctan(2x) at x = 1/2: y' = 2/(1 + 4x^2), evaluated: 2/2 = 1. Tangent line questions then proceed as ever, with the function value from inverse trig knowledge: arctan(1) = π/4, so the point is (1/2, π/4) and the line is y - π/4 = 1·(x - 1/2).\n\nKeep exact values fluent: arcsin(1/2) = π/6, arcsin(√2/2) = π/4, arcsin(√3/2) = π/3, arctan(1) = π/4, arctan(√3) = π/3, arctan(1/√3) = π/6. Inverse trig outputs are ANGLES in the restricted ranges — answers like 5π/6 for arcsin are automatically wrong because arcsin never leaves [-π/2, π/2].",
+        "key_terms": [
+          [
+            "arctan(g) template",
+            "g'/(1 + g^2) — inner derivative up top, inner squared below"
+          ],
+          [
+            "Square-the-inside step",
+            "1 - g^2 squares the entire inner function: arcsin(x^2) yields √(1 - x^4)"
+          ],
+          [
+            "Range discipline",
+            "Inverse trig outputs live in restricted ranges; out-of-range 'answers' self-disqualify"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "d/dx arctan(x/a) = a/(a^2 + x^2) after simplification — the form that becomes the 1/(a^2+x^2) integral template in Unit 6. BC students who recognize this pairing early bank the unit's hardest-looking integrals as lookups."
+          ]
+        ]
+      },
+      {
+        "title": "Differentiability Map and Forward Connections",
+        "subtitle": "Where they break, and why they matter",
+        "body": "The differentiability map: arcsin and arccos are defined on [-1, 1], differentiable on (-1, 1), with vertical tangents at the endpoints. arctan and arccot are defined AND differentiable on all of ℝ — the friendliest functions in the family. arcsec and arccsc are defined for |x| ≥ 1, differentiable for |x| > 1, with endpoint blowups at ±1 mirroring their parents' critical points.\n\nEach non-differentiability traces to the reflection principle: the parent trig function has a horizontal tangent exactly where its restricted branch ends (sine at ±π/2, cosine at 0 and π), so the inverse inherits a vertical tangent at the corresponding output values (±1 for both). Nothing new to memorize — the inverse-function chapter predicts every breakdown.\n\nWhy this family earns its keep: their derivatives are RATIONAL and ALGEBRAIC functions, which means they appear as ANSWERS to integration problems that look nothing like trig. ∫ dx/(1 + x^2) = arctan x + C and ∫ dx/√(1 - x^2) = arcsin x + C are Unit 6 headliners — today's derivative formulas read backward. Students who know the derivatives cold recognize the integrals instantly; students who don't stare at algebra wondering where the trig came from.\n\nBC bonus connection: arctan's derivative 1/(1 + x^2) has a geometric series expansion (Unit 10), whose term-by-term integration produces the celebrated series arctan x = x - x^3/3 + x^5/5 - ⋯ and, at x = 1, the Leibniz formula π/4 = 1 - 1/3 + 1/5 - ⋯. The thread from this chapter runs straight through the course's final act.",
+        "key_terms": [
+          [
+            "Differentiability map",
+            "arcsin/arccos: open (-1,1); arctan: all of ℝ; arcsec: |x| > 1"
+          ],
+          [
+            "Integral templates",
+            "1/(1+x^2) ↔ arctan, 1/√(1-x^2) ↔ arcsin — Unit 6's pattern bank"
+          ],
+          [
+            "Leibniz thread (BC)",
+            "arctan's derivative → geometric series → the π/4 alternating series in Unit 10"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When an integral answer choice contains arctan or arcsin, the question is testing THIS chapter in reverse. Differentiate the choices mentally — whichever derivative matches the integrand wins. Backward-checking via derivatives is the fastest integral verification on the exam."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "d/dx [arctan(5x)] =",
+          "choices": {
+            "A": "5/(1 + 25x^2)",
+            "B": "1/(1 + 25x^2)",
+            "C": "5/(1 + 5x^2)",
+            "D": "1/(1 + 5x^2)"
+          },
+          "answer": "A",
+          "explanation": "g'/(1 + g^2) with g = 5x: 5/(1 + 25x^2). The inside squares completely."
+        },
+        {
+          "question": "d/dx [arcsin(x)] at x = 1/2 is",
+          "choices": {
+            "A": "2/√3",
+            "B": "√3/2",
+            "C": "1/2",
+            "D": "2"
+          },
+          "answer": "A",
+          "explanation": "1/√(1 - 1/4) = 1/√(3/4) = 2/√3."
+        },
+        {
+          "question": "If y = arccos(x) + arcsin(x), then dy/dx =",
+          "choices": {
+            "A": "2/√(1 - x^2)",
+            "B": "0",
+            "C": "-2/√(1 - x^2)",
+            "D": "1/(1 + x^2)"
+          },
+          "answer": "B",
+          "explanation": "The sum is the constant π/2 (complementary angles), so its derivative is 0 — the two formulas cancel exactly."
+        },
+        {
+          "question": "The slope of the tangent line to y = arctan(x) at x = √3 is",
+          "choices": {
+            "A": "1/4",
+            "B": "1/2",
+            "C": "1/(1 + √3)",
+            "D": "π/3"
+          },
+          "answer": "A",
+          "explanation": "1/(1 + x^2) = 1/(1 + 3) = 1/4. (π/3 is the function VALUE arctan(√3), not the slope.)"
+        },
+        {
+          "question": "On which set is f(x) = arcsin(x) differentiable?",
+          "choices": {
+            "A": "[-1, 1]",
+            "B": "(-1, 1)",
+            "C": "All real numbers",
+            "D": "(-π/2, π/2)"
+          },
+          "answer": "B",
+          "explanation": "Defined on the closed interval, differentiable only on the open one — vertical tangents at ±1. (D confuses domain with range.)"
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let y = arcsin(x).\n(a) Starting from sin(y) = x, derive dy/dx using implicit differentiation.\n(b) Justify the sign choice when converting cos(y) to an expression in x.\n(c) Explain, using the reflection principle for inverse functions, why arcsin has vertical tangents at x = ±1.",
+          "rubric": [
+            "(a) cos(y)·y' = 1, so y' = 1/cos(y)",
+            "(b) On arcsin's range [-π/2, π/2], cos y ≥ 0, so cos y = +√(1 - x^2)",
+            "(c) sin has horizontal tangents (slope 0) at ±π/2, the endpoints of the restricted branch",
+            "Reflection across y = x turns those into vertical tangents at the image points x = ±1"
+          ],
+          "model_answer": "(a) Differentiating sin(y) = x: cos(y)·dy/dx = 1, so dy/dx = 1/cos(y). (b) arcsin outputs angles in [-π/2, π/2], where cosine is nonnegative, so cos(y) = +√(1 - sin^2 y) = √(1 - x^2) — the positive root is forced by the range. Thus dy/dx = 1/√(1 - x^2). (c) The restricted sine has slope zero at its endpoints (±π/2, ±1). Reflecting across y = x swaps rise and run: zero slopes become undefined (vertical) slopes at the mirrored points (±1, ±π/2). Hence arcsin's vertical tangents at x = ±1."
+        },
+        {
+          "question": "Let f(x) = arctan(x^2).\n(a) Find f'(x).\n(b) Find the equation of the tangent line to f at x = 1.\n(c) Determine lim x→∞ f(x) and lim x→∞ f'(x), and describe what the pair of limits says about the graph's right end.",
+          "rubric": [
+            "(a) f' = 2x/(1 + x^4)",
+            "(b) f(1) = arctan(1) = π/4; f'(1) = 2/2 = 1; tangent y - π/4 = x - 1",
+            "(c) f → π/2 (arctan's asymptote) and f' → 0 (degree 1 over degree 4)",
+            "Graph flattens as it rises toward the horizontal asymptote y = π/2"
+          ],
+          "model_answer": "(a) Chain rule: f'(x) = 2x/(1 + (x^2)^2) = 2x/(1 + x^4). (b) f(1) = arctan(1) = π/4 and f'(1) = 2/(1+1) = 1: y - π/4 = 1·(x - 1). (c) As x → ∞, x^2 → ∞ so arctan(x^2) → π/2; and 2x/(1 + x^4) → 0 by the degree rule. The curve climbs ever more slowly, leveling off toward the horizontal asymptote y = π/2 — height converging, slope dying."
+        },
+        {
+          "question": "A camera at ground level films a balloon rising vertically from a point 100 meters away. Let θ(h) = arctan(h/100) be the camera's elevation angle when the balloon's height is h meters.\n(a) Find dθ/dh and simplify.\n(b) Evaluate dθ/dh at h = 100, with units.\n(c) Explain why dθ/dh decreases as h grows, in both algebraic and physical terms.",
+          "rubric": [
+            "(a) dθ/dh = (1/100)/(1 + h^2/10000) = 100/(10000 + h^2)",
+            "(b) At h = 100: 100/20000 = 1/200 radians per meter",
+            "(c) Algebraic: the denominator 10000 + h^2 grows with h",
+            "Physical: at greater heights, each additional meter subtends a smaller angle change from the camera"
+          ],
+          "model_answer": "(a) dθ/dh = (1/100)/(1 + (h/100)^2) = 100/(10000 + h^2). (b) dθ/dh|_{h=100} = 100/20000 = 1/200 radians per meter — each extra meter of altitude tilts the camera about 0.005 radians. (c) Algebraically, the denominator 10000 + h^2 increases with h, so the rate shrinks. Physically, when the balloon is already high, one more meter is a small fraction of its distance from the camera, so the viewing angle barely changes — the geometry compresses angular change at altitude."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differentiation — Composite, Implicit, and Inverse Functions",
+    "chapter_title": "Choosing the Right Differentiation Strategy",
+    "hook": "You now own every differentiation rule in calculus. The remaining skill — the one the exam actually measures — is dispatch: reading an expression cold and knowing which rule fires first, which fires second, and which never needed to fire at all.",
+    "learning_objectives": [
+      "Classify any expression by its outermost structure before differentiating",
+      "Select efficient strategies, including simplify-first and logarithm-first options",
+      "Apply logarithmic differentiation to products of many factors and variable exponents",
+      "Avoid rule misapplication errors: power rule on b^x, product rule on compositions",
+      "Execute multi-rule derivatives with clean, gradable organization"
+    ],
+    "sections": [
+      {
+        "title": "The Dispatch Algorithm",
+        "subtitle": "Outermost structure decides",
+        "body": "Every differentiation problem yields to the same triage: identify the OUTERMOST structure, apply its rule, and let inner derivatives recurse. The structures, in checking order: (1) sum/difference — split, term by term; (2) constant multiple — carry it; (3) product of x-dependent factors — product rule; (4) quotient with multi-term denominator — quotient rule; (5) composition — chain rule; (6) bare library function — its formula.\n\nThe parse question is always 'what is the LAST operation performed when evaluating?' For x^2 sin(3x): last op is multiplication — product rule outside, chain rule inside the sine when its turn comes. For sin(x^2)·e^x... last op multiplication again. For (sin x + e^x)^3: last op is the cube — chain rule first, the sum rule appearing only inside. Evaluation order read backward IS the differentiation order.\n\nTriage errors, not computation errors, cause most lost points. Power-rule-ing 2^x (it is exponential: 2^x ln 2). Product-rule-ing sin(x^2) (it is a composition — nothing is multiplied). Chain-rule-ing x sin x (it is a product — nothing is nested). Each misfire comes from skipping the parse and pattern-matching on visual shape; the last-operation question is the antidote.\n\nBuild the reflex with a parsing drill, no differentiation at all: for each of x e^{-x}, ln(x^2+1), (x ln x)^2, tan^3 x + tan(x^3), name only the outermost structure. Ten seconds each. Students who can parse can differentiate; the converse fails surprisingly often.",
+        "key_terms": [
+          [
+            "Dispatch order",
+            "Sum → constant multiple → product → quotient → composition → library formula"
+          ],
+          [
+            "Last-operation test",
+            "The final evaluation step names the outermost structure — differentiate that first"
+          ],
+          [
+            "Triage error",
+            "Wrong rule chosen at the parse step: the dominant source of differentiation mistakes"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Three habitual misfires to drill out: 2^x is NOT power rule (it is b^x ln b); sin(x^2) is NOT product rule (nothing multiplies); x sin x is NOT chain rule (nothing nests). The exam manufactures distractors from exactly these three confusions."
+          ]
+        ]
+      },
+      {
+        "title": "Simplify First",
+        "subtitle": "The cheapest rule is no rule",
+        "body": "Before any rule fires, scan for algebra that removes the need. Quotients with monomial denominators split: (x^3 + 5x)/x^2 = x + 5/x. Log properties expand: ln(x^3/(x+1)) = 3 ln x - ln(x+1) — a quotient-rule nightmare becomes two easy terms. Radical stacking flattens: √(x√x) = x^{3/4}. Trig identities compress: sin x cos x = (1/2) sin 2x, whose derivative is cos 2x in one chain-rule step.\n\nExponent consolidation is the most overlooked: e^x · e^{2x} = e^{3x} (one chain-rule term, not a product rule); (e^x)^3 = e^{3x} likewise. 4^x/2^x = 2^x. Expressions that LOOK like rule-stacks often collapse under exponent arithmetic into single library calls.\n\nThe judgment call — when NOT to simplify: expanding (x^2 + 3)^5 is catastrophically worse than the general power rule; combining ln a + ln b into ln(ab) moves backward. The heuristic: simplification wins when it REDUCES the number of rule applications; it loses when it trades one clean rule for raw algebra volume. Count rules, not symbols.\n\nThis is also a verification tool: differentiate (x+1)^2 both ways — chain rule gives 2(x+1); expand-first gives 2x + 2. Same answer, two routes. When an exam answer eludes you, the alternate route is a built-in cross-check that catches dropped fees and sign slips.",
+        "key_terms": [
+          [
+            "Simplify-first scan",
+            "Splitting, log expansion, exponent consolidation, identity compression — before any rule"
+          ],
+          [
+            "Rule-count heuristic",
+            "Choose the route with fewer rule applications, not fewer symbols"
+          ],
+          [
+            "Two-route verification",
+            "Differentiating by an alternate path cross-checks the original answer"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "ln-of-anything-complicated is a flashing sign: expand with log properties FIRST. ln(x^2 √(x+1)/(x-3)) = 2 ln x + (1/2)ln(x+1) - ln(x-3) — three trivial terms instead of a chain-quotient-product pileup. The exam writes these expecting the expansion."
+          ]
+        ]
+      },
+      {
+        "title": "Logarithmic Differentiation",
+        "subtitle": "For variable exponents and factor avalanches",
+        "body": "Two expression types defeat every rule you own: variable-to-variable powers like x^x (neither power rule — exponent isn't constant — nor exponential rule — base isn't constant), and products of many factors like x^3(x+1)^4(x-2)^5 (nested product rules breed errors). Logarithmic differentiation handles both: take ln of both sides, expand with log properties, differentiate implicitly, multiply back through by y.\n\nThe showcase: y = x^x. Take logs: ln y = x ln x. Differentiate: y'/y = ln x + 1 (product rule on the right; the left is implicit differentiation's ln-fee). Multiply through: y' = x^x(ln x + 1). The answer no single rule could produce falls out in three lines. Note d/dx x^x is NOT x·x^{x-1} and NOT x^x ln x — it is the sum, capturing both 'power-like' and 'exponential-like' contributions.\n\nFactor avalanches: y = x^3(x+1)^4/(x-2)^5. Logs: ln y = 3 ln x + 4 ln(x+1) - 5 ln(x-2). Differentiate: y'/y = 3/x + 4/(x+1) - 5/(x-2). Multiply by y (the original expression). Every factor contributes one simple ratio — no product rule trees, no quotient rule, no algebra explosion. For three or more factors, logarithmic differentiation is not clever; it is standard procedure.\n\nThe method's quiet message: y'/y, the 'logarithmic derivative,' measures RELATIVE growth rate — percent change per unit x. Economics and biology think in y'/y natively, and Unit 7's exponential models (where y'/y is constant) are one differential equation away. The technique is also the proof engine behind the general power rule for irrational exponents: x^π differentiates to πx^{π-1} because ln makes the exponent a coefficient.",
+        "key_terms": [
+          [
+            "Logarithmic differentiation",
+            "ln both sides, expand, differentiate implicitly, multiply back by y"
+          ],
+          [
+            "x^x resolution",
+            "y' = x^x(ln x + 1) — both the power-flavored and exponential-flavored terms"
+          ],
+          [
+            "Relative rate y'/y",
+            "The logarithmic derivative: growth per unit, per current size"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Variable base AND variable exponent — x^x, (sin x)^x, x^{ln x} — has exactly one legal tool: logarithmic differentiation. Seeing the pattern and writing 'ln y = ...' immediately is the entire battle; the remaining steps grade themselves."
+          ]
+        ]
+      },
+      {
+        "title": "Putting It Together",
+        "subtitle": "Multi-rule execution that graders can follow",
+        "body": "Full-strength example: f(x) = e^{2x} arctan(3x)/(x^2 + 1). Parse: quotient outermost; numerator is a product; each factor carries a chain-rule inside. Execution order: quotient rule frame; within its f'-slot, product rule; within each product term, chain rules. Write the frame FIRST with named slots, then fill — never improvise mid-formula.\n\nOrganization standards that earn partial credit: name intermediate pieces (let u = e^{2x} arctan(3x), compute u' separately, then run the quotient rule with u and u' as ingredients). Modularizing turns one unreadable line into three auditable ones, and FRQ graders award method points to auditable work even when arithmetic slips.\n\nKnowing all roads: some expressions accept multiple valid strategies. y = (x+1)^2/(x-1) can go quotient rule directly, or logarithmic (ln y = 2 ln(x+1) - ln(x-1)), or even product rule as (x+1)^2(x-1)^{-1}. All correct; costs differ. Strategy fluency means choosing by inspection — and switching mid-problem when the chosen road turns to mud is legitimate technique, not failure.\n\nThe unit's summary in one sentence: parse the structure (this chapter), pay the chain rule fee for every layer (chapters 1-2), treat y as a function when equations bind it (chapter 3), reciprocate through reflections (chapters 4-5), and let logs flatten what nothing else can (here). That toolkit differentiates every function in the AP curriculum — what remains, starting next unit, is learning what derivatives are FOR.",
+        "key_terms": [
+          [
+            "Frame-first execution",
+            "Write the outermost rule's skeleton with named slots before computing any piece"
+          ],
+          [
+            "Modularization",
+            "Naming subexpressions (u, u') turns multi-rule work into auditable steps"
+          ],
+          [
+            "Strategy fluency",
+            "Multiple valid routes exist; choose by cost, switch when needed"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "On multi-rule FRQs, label your stages: 'Quotient rule with u = ..., v = ...' then 'u' requires the product rule: ...'. Labeled stages map directly onto rubric points; unlabeled streams of algebra force graders to reconstruct your logic — and graders don't reconstruct."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "Which rule applies FIRST when differentiating (sin x + x^2)^4?",
+          "choices": {
+            "A": "Sum rule",
+            "B": "Chain rule",
+            "C": "Product rule",
+            "D": "Power rule on sin x"
+          },
+          "answer": "B",
+          "explanation": "The last evaluation step is the fourth power — a composition. The sum lives inside and differentiates during the inner-derivative step."
+        },
+        {
+          "question": "d/dx [x^x] =",
+          "choices": {
+            "A": "x·x^{x-1}",
+            "B": "x^x ln x",
+            "C": "x^x(ln x + 1)",
+            "D": "x^{x-1}(ln x + 1)"
+          },
+          "answer": "C",
+          "explanation": "Logarithmic differentiation: ln y = x ln x, y'/y = ln x + 1, y' = x^x(ln x + 1). A and B are each half the truth."
+        },
+        {
+          "question": "The most efficient first step for differentiating ln(x^4 (x+2)^3) is",
+          "choices": {
+            "A": "chain rule with inside x^4(x+2)^3",
+            "B": "expanding to 4 ln x + 3 ln(x+2)",
+            "C": "product rule inside the log",
+            "D": "quotient rule"
+          },
+          "answer": "B",
+          "explanation": "Log expansion converts the problem to two one-step terms: 4/x + 3/(x+2). The chain-rule route reaches the same place through a product-rule swamp."
+        },
+        {
+          "question": "d/dx [e^x · e^{3x}] =",
+          "choices": {
+            "A": "4e^{4x}",
+            "B": "3e^{4x}",
+            "C": "e^x·3e^{3x}",
+            "D": "4e^{3x}"
+          },
+          "answer": "A",
+          "explanation": "Consolidate first: e^{4x}, derivative 4e^{4x}. The product rule route gives e^x e^{3x} + 3e^x e^{3x} = 4e^{4x} — same answer, more steps."
+        },
+        {
+          "question": "For y = x^2(x-1)^3(x+4)^5, logarithmic differentiation gives y'/y =",
+          "choices": {
+            "A": "2/x + 3/(x-1) + 5/(x+4)",
+            "B": "2x + 3(x-1)^2 + 5(x+4)^4",
+            "C": "(2/x)(3/(x-1))(5/(x+4))",
+            "D": "2 ln x + 3 ln(x-1) + 5 ln(x+4)"
+          },
+          "answer": "A",
+          "explanation": "ln y = 2 ln x + 3 ln(x-1) + 5 ln(x+4); differentiating gives one simple ratio per factor. D forgot to differentiate; C multiplied instead of adding."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let y = x^{sin x} for x > 0.\n(a) Explain why neither the power rule nor the exponential rule (b^x ln b) applies directly.\n(b) Use logarithmic differentiation to find dy/dx.\n(c) Evaluate dy/dx at x = π/2.",
+          "rubric": [
+            "(a) Power rule needs a constant exponent; exponential rule needs a constant base; here both vary",
+            "(b) ln y = sin x ln x; y'/y = cos x ln x + sin x/x; y' = x^{sin x}(cos x ln x + sin x/x)",
+            "(c) At π/2: cos = 0, sin = 1, so y' = (π/2)^1 · (0 + (1)/(π/2)) = (π/2)(2/π) = 1",
+            "Clean evaluation: dy/dx = 1"
+          ],
+          "model_answer": "(a) The power rule d/dx x^n requires constant n, but here the exponent sin x varies; the exponential rule d/dx b^x requires constant b, but the base x varies. Both hypotheses fail. (b) Take logs: ln y = sin x · ln x. Differentiate: y'/y = cos x ln x + sin x · (1/x). So dy/dx = x^{sin x}(cos x ln x + sin x/x). (c) At x = π/2: cos(π/2) = 0 and sin(π/2) = 1, so dy/dx = (π/2)^1 · (0 + 1/(π/2)) = (π/2)(2/π) = 1."
+        },
+        {
+          "question": "Let f(x) = (x^2 + 1)^3 (2x - 1)^4.\n(a) Find f'(x)/f(x) using logarithmic differentiation.\n(b) Write f'(x) in fully factored form.\n(c) Find all x where f has a horizontal tangent.",
+          "rubric": [
+            "(a) ln f = 3 ln(x^2+1) + 4 ln(2x-1); f'/f = 6x/(x^2+1) + 8/(2x-1)",
+            "(b) f' = (x^2+1)^3(2x-1)^4 [6x/(x^2+1) + 8/(2x-1)] = (x^2+1)^2(2x-1)^3(20x^2 - 6x + 8)",
+            "(c) Solves: (2x-1)^3 = 0 gives x = 1/2; the quadratic 20x^2 - 6x + 8 has negative discriminant (36 - 640 < 0), no real roots; (x^2+1)^2 never zero",
+            "Concludes the only horizontal tangent is at x = 1/2"
+          ],
+          "model_answer": "(a) ln f = 3 ln(x^2 + 1) + 4 ln(2x - 1), so f'/f = 6x/(x^2 + 1) + 8/(2x - 1). (b) f'(x) = (x^2+1)^3(2x-1)^4 · [6x/(x^2+1) + 8/(2x-1)] = (x^2+1)^2(2x-1)^3 [6x(2x-1) + 8(x^2+1)] = (x^2+1)^2(2x-1)^3(20x^2 - 6x + 8). (c) (x^2+1)^2 > 0 always; (2x-1)^3 = 0 at x = 1/2; and 20x^2 - 6x + 8 = 0 has discriminant 36 - 640 < 0 — no real roots. The unique horizontal tangent is at x = 1/2."
+        },
+        {
+          "question": "For each function below, name the most efficient strategy (no full computation required), then carry out the differentiation for part (c) only.\n(a) y = (x^3 - 2x)/x^2\n(b) y = ln((x+1)^5/(x^2+3))\n(c) y = e^{3x} sin(2x)",
+          "rubric": [
+            "(a) Identifies simplify-first: split to x - 2/x",
+            "(b) Identifies log expansion: 5 ln(x+1) - ln(x^2+3)",
+            "(c) Identifies product rule + chain rules; computes y' = 3e^{3x} sin(2x) + 2e^{3x} cos(2x)",
+            "Factors: y' = e^{3x}(3 sin 2x + 2 cos 2x)"
+          ],
+          "model_answer": "(a) Simplify first — the monomial denominator splits the fraction: y = x - 2x^{-1} (then term-by-term, y' = 1 + 2/x^2). (b) Expand the log first: y = 5 ln(x+1) - ln(x^2+3) (then two easy ratios: 5/(x+1) - 2x/(x^2+3)). (c) Product rule with chain rule in each factor: y' = 3e^{3x}·sin(2x) + e^{3x}·2cos(2x) = e^{3x}(3 sin 2x + 2 cos 2x)."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differentiation — Composite, Implicit, and Inverse Functions",
+    "chapter_title": "Higher-Order Derivatives",
+    "hook": "Differentiate, then differentiate again, then again. Each pass extracts new information: velocity, then acceleration, then jerk. And for BC students, the n-th derivative pattern you spot today becomes the Taylor coefficient machine of Unit 10.",
+    "learning_objectives": [
+      "Compute second and higher derivatives across all function families",
+      "Track notation: f'', f''', f^{(n)}, d²y/dx², and their evaluation forms",
+      "Find patterns in repeated derivatives and express f^{(n)} with a general formula",
+      "Compute second derivatives of implicitly defined relations",
+      "Interpret f'' as the rate of change of f' in motion and graphical contexts"
+    ],
+    "sections": [
+      {
+        "title": "The Derivative Tower",
+        "subtitle": "Mechanics across the families",
+        "body": "Higher derivatives are iterated applications of the same rules — no new machinery, but compounding bookkeeping. Polynomials descend in degree and terminate: x^5 → 5x^4 → 20x^3 → 60x^2 → 120x → 120 → 0. Degree n dies after n + 1 differentiations, leaving the constant n! one step before zero — the factorial fact flagged in Unit 2, now fully visible.\n\nExponentials persist: every derivative of e^{3x} is 3^n e^{3x} at the n-th level — the chain rule fee compounds as a power. Sines and cosines cycle with period four, each pass also multiplying by the inside coefficient: d^n/dx^n sin(2x) cycles through 2^n times the four-beat pattern. Rational and radical functions grow messier each pass — (x+1)^{-1} → -(x+1)^{-2} → 2(x+1)^{-3} → -6(x+1)^{-4}: alternating signs and factorial coefficients accumulating.\n\nThat last example carries the unit's most useful general formula: d^n/dx^n (x + 1)^{-1} = (-1)^n n! (x+1)^{-(n+1)}. Spotting and PROVING such patterns (compute three levels, conjecture, verify the next) is a legitimate FRQ task and the exact skill Taylor series demand.\n\nProducts under repeated differentiation telescope predictably: (x e^x)'' = (e^x(x+1))' = e^x(x + 2) — each pass adds 1, as the Unit 2 FRQ discovered. When asked for high-order derivatives of products, differentiate twice, watch for the drift pattern, and generalize rather than grinding.",
+        "key_terms": [
+          [
+            "Polynomial termination",
+            "Degree n vanishes after n+1 passes, leaving n! at the last nonzero step"
+          ],
+          [
+            "Compounding fees",
+            "e^{kx} and sin(kx) accumulate k^n through n differentiations"
+          ],
+          [
+            "Pattern-and-prove",
+            "Compute a few levels, conjecture f^{(n)}, verify — the standard FRQ rhythm"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "For 'find f^{(87)}(x)' questions, never grind: identify the cycle (trig: period 4) or the pattern (powers: factorials and signs), reduce 87 accordingly, and write the answer. Grinding past three derivatives on the exam means the pattern was missed."
+          ]
+        ]
+      },
+      {
+        "title": "Notation and Evaluation",
+        "subtitle": "Primes, parentheses, and stacked d's",
+        "body": "The notation systems extend: Lagrange writes f'', f''', then switches to f^{(4)}, f^{(n)} — parentheses distinguishing differentiation count from powers. Leibniz stacks: d^2y/dx^2, d^3y/dx^3. Evaluation bars attach as before: f''(3), or d^2y/dx^2 |_{x=3}. Operator form iterates: d^2/dx^2 [x sin x].\n\nLeibniz's stacking has a logic worth knowing: d^2y/dx^2 abbreviates d/dx (dy/dx) — the operator d/dx applied twice. The superscript placement (d² up top, dx² below) is conventional bookkeeping, not exponentiation of anything; reading it as 'the second derivative of y with respect to x, twice' keeps the symbols meaningful.\n\nEvaluation discipline scales up from Unit 2's warning: to find f''(2), differentiate twice SYMBOLICALLY, then substitute. Substituting early annihilates the function. For mixed tasks — 'find f'(2) and f''(2)' — compute f' symbolically, evaluate, keep the symbolic f' on the page, differentiate it, evaluate again. The symbolic chain must stay alive until the last evaluation.\n\nOne more habit: when a problem gives f as a graph or table, f'' questions become 'slope of the slope' estimates — difference quotients OF difference quotients. The AP asks these gently (usually 'estimate f''(2) given a table of f' values'), and the answer is a straddling secant on the f'-column, exactly the Unit 2 table skill aimed one level up.",
+        "key_terms": [
+          [
+            "f^{(n)} vs f^n",
+            "Parentheses count differentiations; bare superscripts are powers"
+          ],
+          [
+            "d^2y/dx^2",
+            "The operator d/dx applied twice — stacked notation, not exponent arithmetic"
+          ],
+          [
+            "Symbolic-chain discipline",
+            "Differentiate fully in symbols; evaluate only at the end of each requested level"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Estimate f''(4) from the table of f'(x) values' is a Unit 2 secant problem wearing a second-derivative costume: (f'(6) - f'(2))/(6 - 2). Recognizing the costume converts an intimidating prompt into arithmetic."
+          ]
+        ]
+      },
+      {
+        "title": "Implicit Second Derivatives",
+        "subtitle": "The recycling workflow, formalized",
+        "body": "Implicit relations yield second derivatives through the workflow Chapter 3 introduced: differentiate the implicit y' expression (fees intact), substitute the known y' in, recycle the original equation to simplify. The circle's y'' = -25/y^3 was the showcase; here the workflow gets stress-tested on harder relations.\n\nWorked: x^3 + y^3 = 28 at the point (1, 3). First derivative: 3x^2 + 3y^2 y' = 0, so y' = -x^2/y^2; at (1, 3), y' = -1/9. Second derivative — differentiate y' = -x^2 y^{-2} with the product/chain rules: y'' = -(2x y^{-2} + x^2(-2)y^{-3} y') = -2x/y^2 + 2x^2 y'/y^3. Substitute y' = -x^2/y^2: y'' = -2x/y^2 - 2x^4/y^5. At (1, 3): -2/9 - 2/243 = -56/243.\n\nThe alternative — differentiating the ORIGINAL equation twice — is sometimes cleaner: from 3x^2 + 3y^2 y' = 0, differentiate again: 6x + 6y(y')^2 + 3y^2 y'' = 0, then solve for y'' and substitute the point and y' value. Both routes are legal; the twice-differentiate route avoids quotient rules at the cost of an extra solve. Knowing both lets you pick per problem.\n\nNote what appears in the twice-differentiated equation: a (y')^2 term — legitimately quadratic, because it arises from differentiating a product CONTAINING y', not from a single differentiation pass. The Chapter 3 'y' is always linear' rule applies to FIRST derivatives only; second-derivative equations carry (y')^2 honestly.",
+        "key_terms": [
+          [
+            "Two routes to y''",
+            "Differentiate the y' formula, or differentiate the original equation twice and solve"
+          ],
+          [
+            "(y')^2 legitimacy",
+            "Second-pass differentiation creates genuine (y')^2 terms — not an error at this level"
+          ],
+          [
+            "Point-first efficiency",
+            "With a target point, substitute x, y, and y' numerically before solving for y''"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Implicit y'' at a point: find y' AT THE POINT first (one number), then run the second differentiation and substitute everything numerically. Carrying symbolic y' through the second pass triples the algebra and the error surface."
+          ]
+        ]
+      },
+      {
+        "title": "What the Second Derivative Says",
+        "subtitle": "Acceleration now, concavity next",
+        "body": "Interpretation layer one — motion: s''(t) = a(t), acceleration, the rate velocity changes. Sign analysis pairs: v > 0 with a > 0 means speeding up rightward; v > 0 with a < 0 means braking; matching signs speed up, opposing signs slow down. 'Is the particle speeding up at t = 2?' requires BOTH v(2) and a(2), and their sign comparison is the entire answer.\n\nInterpretation layer two — graphs: f'' > 0 means f' is increasing, so the curve bends upward (concave up, cup); f'' < 0 bends downward (cap). The full graphical theory — inflection points, the second derivative test for extrema — is Unit 5's centerpiece; this chapter supplies the computational engine it will run on.\n\nInterpretation layer three — units and language: f'' carries units of f per input, per input. If P(t) is dollars and t is months, P''(t) is dollars per month per month — 'the rate at which the growth rate changes.' Sentences like 'profit is increasing at a decreasing rate' translate directly: P' > 0, P'' < 0. The exam tests the translation in both directions, prose to signs and signs to prose.\n\nBC horizon: Taylor polynomials approximate f near a by matching derivatives at a — f(a) sets the height, f'(a) the slope, f''(a)/2 the bend, f'''(a)/6 the next correction. Every higher derivative you compute in this chapter is a future Taylor coefficient; the n! denominators are the factorials this unit kept producing. Unit 10 will feel like a reunion.",
+        "key_terms": [
+          [
+            "Speeding up/slowing down",
+            "Compare signs of v and a: same sign accelerates the motion, opposite brakes it"
+          ],
+          [
+            "Concavity preview",
+            "f'' > 0 cups upward, f'' < 0 caps downward — Unit 5 builds the full theory"
+          ],
+          [
+            "Increasing at a decreasing rate",
+            "f' > 0 with f'' < 0 — the canonical prose-to-calculus translation"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Speeding up' questions require BOTH v and a evaluated and their signs explicitly compared — 'v(2) = -3 < 0 and a(2) = -1 < 0; same sign, so speeding up' is a complete answer. Reporting a's sign alone is the half-credit trap."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "If f(x) = x^6, then f^{(4)}(x) =",
+          "choices": {
+            "A": "360x^2",
+            "B": "120x^3",
+            "C": "720x",
+            "D": "30x^4"
+          },
+          "answer": "A",
+          "explanation": "6·5·4·3 x^2 = 360x^2 — four passes, each lowering the degree."
+        },
+        {
+          "question": "The 25th derivative of cos(x) is",
+          "choices": {
+            "A": "cos x",
+            "B": "-sin x",
+            "C": "sin x",
+            "D": "-cos x"
+          },
+          "answer": "B",
+          "explanation": "25 mod 4 = 1: one step in the cycle from cos is -sin."
+        },
+        {
+          "question": "If y = e^{2x}, then d^5y/dx^5 =",
+          "choices": {
+            "A": "e^{2x}",
+            "B": "2e^{2x}",
+            "C": "32e^{2x}",
+            "D": "10e^{2x}"
+          },
+          "answer": "C",
+          "explanation": "Each pass multiplies by 2: 2^5 = 32."
+        },
+        {
+          "question": "A particle has v(3) = -4 and a(3) = -2. At t = 3 the particle is",
+          "choices": {
+            "A": "speeding up",
+            "B": "slowing down",
+            "C": "at rest",
+            "D": "changing direction"
+          },
+          "answer": "A",
+          "explanation": "v and a share a sign (both negative): the motion is speeding up — moving left ever faster."
+        },
+        {
+          "question": "For x^2 + y^2 = 10, differentiating the equation twice gives 2 + 2(y')^2 + 2y·y'' = 0. At a point where y' = -1/3 and y = 3, y'' =",
+          "choices": {
+            "A": "-10/27",
+            "B": "10/27",
+            "C": "-5/9",
+            "D": "-1/3"
+          },
+          "answer": "A",
+          "explanation": "2 + 2(1/9) + 6y'' = 0 → 20/9 = -6y'' → y'' = -20/54 = -10/27."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = 1/(x + 2) = (x + 2)^{-1}.\n(a) Compute f'(x), f''(x), and f'''(x).\n(b) Conjecture a formula for f^{(n)}(x) and verify it predicts your f''' correctly.\n(c) Evaluate f^{(5)}(-1).",
+          "rubric": [
+            "(a) f' = -(x+2)^{-2}, f'' = 2(x+2)^{-3}, f''' = -6(x+2)^{-4}",
+            "(b) f^{(n)}(x) = (-1)^n n! (x+2)^{-(n+1)}; checks n = 3: (-1)^3 3! = -6 ✓",
+            "(c) f^{(5)}(-1) = (-1)^5 5! (1)^{-6} = -120",
+            "Pattern reasoning explicit (signs alternate, factorials build, exponent descends)"
+          ],
+          "model_answer": "(a) f'(x) = -(x+2)^{-2}; f''(x) = 2(x+2)^{-3}; f'''(x) = -6(x+2)^{-4}. (b) Signs alternate, coefficients build factorially, exponents descend: f^{(n)}(x) = (-1)^n n!(x+2)^{-(n+1)}. Check n = 3: (-1)^3 · 6 · (x+2)^{-4} = -6(x+2)^{-4} ✓. (c) f^{(5)}(-1) = (-1)^5 · 120 · (-1+2)^{-6} = -120 · 1 = -120."
+        },
+        {
+          "question": "A particle moves with position s(t) = t^3 - 9t^2 + 15t + 4 for t ≥ 0.\n(a) Find v(t) and a(t).\n(b) On what interval(s) is the particle slowing down? Show the sign analysis for both v and a.\n(c) Find the particle's position at the moment its acceleration is zero.",
+          "rubric": [
+            "(a) v = 3t^2 - 18t + 15 = 3(t-1)(t-5); a = 6t - 18",
+            "(b) v > 0 on (0,1)∪(5,∞), v < 0 on (1,5); a < 0 for t < 3, a > 0 for t > 3",
+            "Slowing down where signs OPPOSE: (0, 1) (v>0, a<0) and (3, 5) (v<0, a>0)",
+            "(c) a = 0 at t = 3; s(3) = 27 - 81 + 45 + 4 = -5"
+          ],
+          "model_answer": "(a) v(t) = 3t^2 - 18t + 15 = 3(t - 1)(t - 5); a(t) = 6t - 18. (b) v > 0 on (0, 1) and (5, ∞); v < 0 on (1, 5). a < 0 on (0, 3); a > 0 on (3, ∞). The particle slows when v and a have opposite signs: on (0, 1) (moving right, braking) and on (3, 5) (moving left, braking). (c) a = 0 at t = 3: s(3) = 27 - 81 + 45 + 4 = -5."
+        },
+        {
+          "question": "Consider the curve x^2 - y^2 = 16.\n(a) Find dy/dx implicitly.\n(b) Differentiate the original equation a second time to obtain an equation involving y'' and (y')^2, then solve for y''.\n(c) Evaluate y'' at the point (5, 3), and state the curve's concavity at that point.",
+          "rubric": [
+            "(a) 2x - 2y y' = 0 → y' = x/y",
+            "(b) 2 - 2(y')^2 - 2y y'' = 0 → y'' = (1 - (y')^2)/y",
+            "(c) y'(5,3) = 5/3; y'' = (1 - 25/9)/3 = (-16/9)/3 = -16/27",
+            "Negative y'' ⟹ concave down at (5, 3)"
+          ],
+          "model_answer": "(a) 2x - 2y y' = 0, so y' = x/y. (b) Differentiating 2x - 2y y' = 0 again: 2 - 2(y')^2 - 2y y'' = 0, hence y'' = (1 - (y')^2)/y. (c) At (5, 3): y' = 5/3, so y'' = (1 - 25/9)/3 = (-16/9)/3 = -16/27 < 0. The upper-right branch of the hyperbola is concave down at (5, 3)."
+        }
+      ]
+    }
+  }
+]

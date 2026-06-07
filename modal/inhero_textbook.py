@@ -36,8 +36,9 @@ _DIRECT = str.maketrans({
     "⁺": "+",  "⁻": "-",  "⁼": "=",
     "₊": "+",  "₋": "-",
     "²": "2",  "³": "3",  "¹": "1",
-    # Dashes
-    "—": ",",  "–": "-",  "‒": "-",  "−": "-",
+    # Dashes (em dash is in the supported General Punctuation block; the old
+    # "," mapping corrupted titles like "Fluids — Depth" into "Fluids, Depth")
+    "–": "-",  "‒": "-",  "−": "-",
     # Quotes
     "“": '"', "”": '"', "‘": "'", "’": "'",
     # Spaces / zero-width

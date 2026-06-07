@@ -63,6 +63,7 @@ const EMOJI_BY_SLUG: Record<string, string> = {
   "ap-chem-ultimate":      "⚗️",
   "ap-physics-ultimate":   "⚛️",
   "ap-physics-2-ultimate": "🧲",
+  "ap-calc-bc-ultimate":   "∫",
 };
 
 function StatusIcon({ status }: { status: string }) {

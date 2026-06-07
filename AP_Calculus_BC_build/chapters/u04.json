@@ -1,0 +1,1451 @@
+[
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Contextual Applications of Differentiation",
+    "chapter_title": "Interpreting the Derivative in Context",
+    "hook": "C'(150) = 2.7 is just a number until you can say what it MEANS: at a production level of 150 units, cost is rising about $2.70 per additional unit. The AP dedicates entire rubric points to that sentence — this chapter teaches you to write it every time.",
+    "learning_objectives": [
+      "Interpret f'(a) in context with correct units and a complete sentence",
+      "Construct derivative units as output units per input unit",
+      "Distinguish the meanings of f(a), f'(a), and changes Δf in applied settings",
+      "Translate prose descriptions of rates into derivative statements and back",
+      "Use f'(a) to estimate nearby function values and changes"
+    ],
+    "sections": [
+      {
+        "title": "The Interpretation Sentence",
+        "subtitle": "Four ingredients, every time",
+        "body": "A complete interpretation of f'(a) names four things: WHAT quantity is changing (the output), WITH RESPECT TO what (the input), the VALUE with UNITS, and WHERE/WHEN it applies (at the specific input a). Template: 'At [a, input units], [the output quantity] is increasing/decreasing at a rate of [|value|, output units per input unit].'\n\nExample: W(t) is the weight of a puppy in pounds at age t weeks, and W'(8) = 1.5. Interpretation: 'At age 8 weeks, the puppy's weight is increasing at a rate of 1.5 pounds per week.' All four ingredients present. Compare the zero-credit versions: 'the weight changes by 1.5' (no when, no units, no direction), 'the derivative is 1.5 pounds per week' (no when, restates notation without meaning).\n\nSign handling: for negative derivatives, say DECREASING with the positive magnitude — H'(3) = -40 reads 'at t = 3, the altitude is decreasing at 40 feet per minute,' not 'increasing at -40.' Graders accept either mathematically, but the decreasing-phrasing demonstrates the understanding being tested and never backfires.\n\nThe sentence is genuinely graded: AP rubrics for interpretation parts allocate the point for units AND the 'at a' reference AND the direction. Practice until the template is automatic — it is the cheapest reliable point on the entire exam.",
+        "key_terms": [
+          [
+            "Interpretation template",
+            "At [input value], [output] is increasing/decreasing at [magnitude, output-per-input units]"
+          ],
+          [
+            "Four ingredients",
+            "What changes, with respect to what, value with units, where/when"
+          ],
+          [
+            "Sign-to-direction",
+            "Negative rates read as 'decreasing at [positive magnitude]'"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The rubric language for interpretation points is unforgiving about 'at': f'(8) describes the instant t = 8, not 'around week 8' or 'during the first 8 weeks.' Anchor every interpretation to the exact input value."
+          ]
+        ]
+      },
+      {
+        "title": "Units Arithmetic",
+        "subtitle": "Output per input, mechanically",
+        "body": "Derivative units are a fraction: the output's units over the input's units. R(t) in gallons, t in hours: R' in gallons per hour. P(x) in dollars, x in items: P' in dollars per item. No memorization — read the function's units, read the input's units, divide.\n\nSecond derivatives stack the input units twice: R'' in gallons per hour per hour (gallons/hour²). The prose meaning — 'the rate at which the flow rate changes' — sounds stilted precisely because it is two layers deep; trust the units arithmetic over linguistic intuition.\n\nComposite contexts demand care about WHICH variables the derivative connects. If C(g) is the cost in dollars of g gallons, and g(t) is gallons consumed by time t hours, then C'(g) carries dollars per gallon, g'(t) carries gallons per hour, and the chain rule product dC/dt = C'(g(t))·g'(t) carries dollars per hour — units multiplying and canceling exactly like the derivatives do. Unit consistency is a built-in chain rule audit.\n\nDimensionless inputs or outputs exist: if E(p) is efficiency (a pure percent) as a function of pressure p in psi, E' carries 'percent per psi.' And inverse functions invert units (Unit 3's observation): if f maps hours to miles, f⁻¹ maps miles to hours and its derivative carries hours per mile. Units are calculus's accounting system — keep the books and entire problem classes self-verify.",
+        "key_terms": [
+          [
+            "Units fraction",
+            "Derivative units = output units / input units, always"
+          ],
+          [
+            "Stacked seconds",
+            "f'' units divide by the input units twice: per hour per hour"
+          ],
+          [
+            "Chain rule units",
+            "dC/dt = (dC/dg)(dg/dt): dollars/gallon × gallons/hour = dollars/hour"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When an FRQ asks for 'units of f''(3)' — and it does, by name — the answer is mechanical: output per input per input. Writing gallons/hour² (or gallons per hour per hour) collects the point; describing the meaning without the units does not."
+          ]
+        ]
+      },
+      {
+        "title": "Value, Rate, and Change",
+        "subtitle": "f(a), f'(a), and Δf are three different numbers",
+        "body": "Three quantities coexist in every applied problem and answer three different questions. f(a): how much IS there at a (a level). f'(a): how fast is it changing at a (a rate). Δf = f(b) - f(a): how much did it change between a and b (an accumulation). Exam questions specify which one they want with precise phrasing, and matching phrase to quantity is the skill.\n\nPhrase decoder: 'how much water is in the tank at t = 3' → f(3). 'How fast is water entering at t = 3' → f'(3). 'How much water entered between t = 1 and t = 3' → f(3) - f(1). 'Average rate of inflow over [1, 3]' → (f(3) - f(1))/2. The decoder matters most under pressure, when 'how fast' and 'how much' blur.\n\nA level and its rate are independent: a tank can be nearly full (large f) while draining (negative f'), or nearly empty while filling fast. Exam traps exploit the confusion — 'the population is large, so it must be growing' is a non sequitur the questions are built to catch.\n\nThe rate-to-change bridge: over a SHORT interval, change ≈ rate × time: Δf ≈ f'(a)·Δt. The puppy gaining 1.5 lb/week at week 8 gains roughly 0.75 lb in the next half week. This approximation — the tangent line in disguise — is the next section's star, and eventually (Unit 6) integration makes it exact: total change is the integral of the rate.",
+        "key_terms": [
+          [
+            "Level vs rate vs change",
+            "f(a) is an amount, f'(a) a speed of change, Δf an accumulated difference"
+          ],
+          [
+            "Phrase decoder",
+            "'How much at' → value; 'how fast' → derivative; 'how much between' → difference"
+          ],
+          [
+            "Short-interval bridge",
+            "Δf ≈ f'(a)Δt — rate times time approximates change nearby"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Is the amount of water increasing or decreasing at t = 5?' is answered by the SIGN of f'(5) alone — not by comparing f(5) to f(4), and not by f(5)'s size. One sign, one sentence, full credit."
+          ]
+        ]
+      },
+      {
+        "title": "Estimation with the Derivative",
+        "subtitle": "The tangent line goes applied",
+        "body": "The derivative's estimation power: f(a + h) ≈ f(a) + f'(a)·h for small h. It is the tangent line from Unit 2 wearing applied clothes — start at the known value, move along the known slope. If the population is 4,500 at year 10 growing at 120 per year, the year-12 estimate is 4,500 + 120(2) = 4,740.\n\nTable problems combine this with Unit 2's secant estimates: given a table of f values, estimate f'(a) by a straddling difference quotient, THEN extrapolate with it. Two estimates stacked — the exam grades the setup of each, so show the difference quotient and the tangent-line arithmetic as separate steps.\n\nHow good is the estimate? It depends on h (smaller is better) and on how curved f is (straighter is better). The error direction is predictable when concavity is known: tangent lines sit BELOW concave-up curves (underestimates) and ABOVE concave-down curves (overestimates). The full theory arrives with linearization in Chapter 6 of this unit; plant the geometric picture now.\n\nEstimates deserve estimate language: 'approximately,' '≈,' 'about.' Claiming exact equality from a tangent-line extrapolation is a half-point error in interpretation parts. Calibrated honesty — exact when exact, approximate when approximate — is both good mathematics and good rubric strategy.",
+        "key_terms": [
+          [
+            "Tangent estimate",
+            "f(a + h) ≈ f(a) + f'(a)h — known value plus slope times step"
+          ],
+          [
+            "Stacked estimation",
+            "Secant slope from a table feeds the tangent-line extrapolation"
+          ],
+          [
+            "Error direction",
+            "Concave up: tangent underestimates; concave down: overestimates"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Estimation FRQs grade three visible steps: the derivative estimate (with the quotient shown), the tangent-line arithmetic, and the 'approximately' in the final sentence. Three steps, three marks — compress them and marks evaporate."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "V(t) gives the volume of water in a reservoir in acre-feet, t in days. The units of V''(t) are",
+          "choices": {
+            "A": "acre-feet per day",
+            "B": "acre-feet per day per day",
+            "C": "acre-feet",
+            "D": "days per acre-foot"
+          },
+          "answer": "B",
+          "explanation": "Second derivatives divide by the input units twice: acre-feet/day²."
+        },
+        {
+          "question": "T(m) is the temperature in °C of a patient m minutes after taking medication, with T(30) = 38.2 and T'(30) = -0.06. The best interpretation of T'(30) is:",
+          "choices": {
+            "A": "the temperature is 38.2°C at 30 minutes",
+            "B": "at 30 minutes, the temperature is falling at 0.06°C per minute",
+            "C": "the temperature fell 0.06°C in 30 minutes",
+            "D": "the temperature falls 0.06°C every minute thereafter"
+          },
+          "answer": "B",
+          "explanation": "Rate, at the instant m = 30, decreasing, with units. A interprets T(30); C is a change; D wrongly extends the instantaneous rate forever."
+        },
+        {
+          "question": "A bacteria colony has P(5) = 2,000 and P'(5) = 150 (organisms per hour). The tangent-line estimate of P(5.4) is",
+          "choices": {
+            "A": "2,060",
+            "B": "2,600",
+            "C": "2,150",
+            "D": "2,006"
+          },
+          "answer": "A",
+          "explanation": "P(5.4) ≈ 2000 + 150(0.4) = 2,060."
+        },
+        {
+          "question": "G(t) is gasoline in a tank (gallons) at time t (minutes). Which question is answered by G(10) - G(4)?",
+          "choices": {
+            "A": "How fast is gasoline leaving at t = 7?",
+            "B": "How much gasoline is in the tank at t = 10?",
+            "C": "What is the net change in gasoline from t = 4 to t = 10?",
+            "D": "What is the average amount of gasoline over [4, 10]?"
+          },
+          "answer": "C",
+          "explanation": "A difference of values is an accumulated net change. A wants a derivative; B a single value; D an average of values, not a difference."
+        },
+        {
+          "question": "If f is concave down near a, the tangent-line estimate of f(a + h) for small h > 0 is",
+          "choices": {
+            "A": "an overestimate",
+            "B": "an underestimate",
+            "C": "exact",
+            "D": "impossible to compare"
+          },
+          "answer": "A",
+          "explanation": "Concave-down curves bend below their tangent lines, so the line sits above the curve: overestimate."
+        }
+      ],
+      "frq": [
+        {
+          "question": "The depth of water in a harbor is D(t) meters, t hours after midnight. Selected values: D(0) = 8.1, D(2) = 9.4, D(4) = 9.8, D(6) = 8.9, D(8) = 7.6.\n(a) Estimate D'(5) using the best available difference quotient. Show your work.\n(b) Interpret your answer to (a) in a complete sentence with units.\n(c) Using D(4) and your estimate of the rate at t = 5 applied from t = 4, estimate the depth at t = 4.5, and state whether your answer is exact.",
+          "rubric": [
+            "(a) Straddling quotient: (D(6) - D(4))/(6 - 4) = (8.9 - 9.8)/2 = -0.45",
+            "(b) Sentence: at 5 hours after midnight, the depth is decreasing at approximately 0.45 meters per hour",
+            "(c) D(4.5) ≈ 9.8 + (-0.45)(0.5) = 9.575 meters",
+            "States the result is an approximation (secant standing in for tangent; tangent standing in for curve)"
+          ],
+          "model_answer": "(a) The smallest interval containing t = 5 is [4, 6]: D'(5) ≈ (8.9 - 9.8)/2 = -0.45. (b) At 5 hours after midnight, the harbor's depth is decreasing at approximately 0.45 meters per hour. (c) D(4.5) ≈ D(4) + (-0.45)(0.5) = 9.8 - 0.225 = 9.575 m. Not exact: the rate is itself a table estimate, and the tangent-line step assumes the depth changes linearly over the half hour — both are approximations."
+        },
+        {
+          "question": "A company's profit is P(x) thousand dollars when x hundred units are produced. It is known that P(12) = 350 and P'(12) = -15.\n(a) Interpret P'(12) in context.\n(b) The CEO argues: 'Profit is 350 thousand dollars — production level 12 is clearly working.' Use the distinction between a value and a rate to critique the argument.\n(c) Estimate the production level change needed to restore profit growth if P''(12) = 5 (thousand dollars per hundred-units squared), assuming P' changes at roughly that constant rate.",
+          "rubric": [
+            "(a) At a production level of 1200 units, profit is decreasing at about 15 thousand dollars per additional hundred units",
+            "(b) The level P(12) = 350 is high, but the rate P'(12) < 0 means the position is eroding — value and rate are independent",
+            "(c) Need P' to rise from -15 to 0 at ~5 per unit of x: Δx ≈ 15/5 = 3 hundred units",
+            "Frames the answer as an estimate based on the constant-rate assumption"
+          ],
+          "model_answer": "(a) When the company produces 1,200 units (x = 12), profit is decreasing at a rate of approximately 15 thousand dollars per additional hundred units produced. (b) The CEO cites a level; the trouble is the rate. P(12) = 350 says the company is currently profitable, but P'(12) = -15 says each additional unit of production is shrinking that profit — a high value with a negative rate is a peak being descended, not a strategy working. (c) P' must climb from -15 to 0. If P' rises at about P''(12) = 5 per hundred-units, the required change is Δx ≈ 15/5 = 3 — roughly 300 units of production adjustment (an estimate, assuming P'' stays near 5)."
+        },
+        {
+          "question": "The function R(t) gives the rate, in liters per minute, at which a pump fills a tank at time t minutes. (Note carefully: R is already a RATE.)\n(a) What are the units of R'(t), and what does R'(2) = 3 mean in context?\n(b) A student interprets R(5) = 40 as 'the tank contains 40 liters at t = 5.' Explain the error and give the correct interpretation.\n(c) Write an expression (using values of R, not an integral) that would APPROXIMATE the amount of water added from t = 5 to t = 5.2, and compute it using R(5) = 40.",
+          "rubric": [
+            "(a) Liters per minute per minute; at t = 2, the pumping rate is increasing by 3 L/min each minute",
+            "(b) R(5) is a rate, not an amount: at t = 5 water enters at 40 L/min; the tank's contents are not given",
+            "(c) Amount ≈ R(5)·Δt = 40 × 0.2 = 8 liters",
+            "Approximation language used (rate treated as constant over the short interval)"
+          ],
+          "model_answer": "(a) R' carries liters per minute per minute (L/min²). R'(2) = 3 means: at t = 2 minutes, the pump's filling RATE is increasing at 3 liters-per-minute each minute — the pump is ramping up. (b) The student confused a rate with a level. R(5) = 40 says water is ENTERING at 40 liters per minute at the instant t = 5; it says nothing about how much water has accumulated. (c) Over a short interval, change ≈ rate × time: water added ≈ R(5) × 0.2 = 40 × 0.2 = 8 liters, approximately — exact accumulation would require integrating R, which Unit 6 makes precise."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Contextual Applications of Differentiation",
+    "chapter_title": "Straight-Line Motion — Position, Velocity, Acceleration",
+    "hook": "One particle, one number line, three functions: where it is, how fast it moves, how its speed changes. Particle motion is the AP's favorite stage for derivatives — every concept from four units performs here, and the vocabulary is graded word by word.",
+    "learning_objectives": [
+      "Relate position, velocity, and acceleration via s' = v and v' = a",
+      "Determine direction of motion and rest moments from velocity's sign",
+      "Distinguish speed from velocity and analyze speeding up versus slowing down",
+      "Compute displacement and total distance over an interval from position",
+      "Translate motion vocabulary into precise calculus conditions"
+    ],
+    "sections": [
+      {
+        "title": "The Kinematic Chain",
+        "subtitle": "s, v, a and the dictionary",
+        "body": "Position s(t) locates the particle on its line at time t — signed, with a chosen origin and positive direction. Velocity v(t) = s'(t) is the rate position changes: positive means rightward (or upward — match the problem's convention), negative leftward, zero momentarily at rest. Acceleration a(t) = v'(t) = s''(t) is the rate velocity changes.\n\nThe core dictionary, graded verbatim on FRQs: 'at rest' ⟺ v(t) = 0. 'Moving right' ⟺ v(t) > 0. 'Changes direction' ⟺ v changes SIGN (not merely v = 0 — the sign must actually flip across the time). 'Velocity is increasing' ⟺ a(t) > 0. Each phrase is a precise equation or inequality; motion FRQs are translation tests.\n\nThe v = 0 subtlety deserves its own paragraph: a particle with v(2) = 0 but v > 0 on both sides (like v(t) = (t-2)^2) pauses without turning. Direction change requires a sign change, exactly like Unit 5's coming distinction between critical points and actual extrema. The parallel is not coincidence — v's sign chart IS a derivative sign chart.\n\nWorked spine for the chapter: s(t) = t^3 - 9t^2 + 24t, so v(t) = 3t^2 - 18t + 24 = 3(t-2)(t-4) and a(t) = 6t - 18. Rest at t = 2, 4. Sign chart for v: positive, negative, positive on (0,2), (2,4), (4,∞) — rightward, turn, leftward, turn, rightward. Every subsequent section interrogates this particle further.",
+        "key_terms": [
+          [
+            "Kinematic chain",
+            "s' = v, v' = a: each level is the previous one's rate"
+          ],
+          [
+            "At rest",
+            "v(t) = 0 — the exact translation, nothing about a or s"
+          ],
+          [
+            "Changes direction",
+            "v changes sign (zero with an actual flip), not merely v = 0"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Does the particle change direction at t = 2?' requires checking v's sign on BOTH sides of 2, and the rubric wants both signs named: 'v > 0 on (0,2) and v < 0 on (2,4), so yes.' Citing v(2) = 0 alone is the incomplete answer the question is designed to catch."
+          ]
+        ]
+      },
+      {
+        "title": "Speed Is Not Velocity",
+        "subtitle": "|v| and the speeding-up test",
+        "body": "Speed is the magnitude of velocity: speed = |v(t)|. A particle with v = -5 moves at speed 5 — fast, leftward. Velocity carries direction; speed does not. The distinction powers the unit's most-tested question: is the particle speeding up or slowing down?\n\nThe test: speed increases when v and a share a sign, decreases when they oppose. Reasoning: a > 0 pushes velocity upward — which increases |v| if v is already positive, but drags a negative v toward zero (braking). The mechanical procedure: find the signs of v and a at the time in question; same sign ⟹ speeding up, opposite ⟹ slowing down.\n\nOn the spine particle at t = 3: v(3) = 3(1)(-1) = -3 < 0 while a(3) = 0 — the test is silent exactly at acceleration zeros. Check a neighborhood instead: just after t = 3, a > 0 with v < 0 (opposite signs), so the particle is slowing there. At t = 5: v(5) = 3(3)(1) = 9 > 0, a(5) = 12 > 0: speeding up. Always evaluate BOTH functions; the comparison is the answer.\n\nGraph-reading version: given the GRAPH of v(t), speed increases where the graph moves AWAY from the t-axis (climbing while positive, or diving while negative) and decreases where it moves toward the axis. The away-from-axis reading answers speeding-up questions without computing a at all — a genuine exam shortcut when v is given graphically.",
+        "key_terms": [
+          [
+            "Speed",
+            "|v(t)| — magnitude only, direction stripped"
+          ],
+          [
+            "Speeding-up test",
+            "sign(v) = sign(a) ⟹ speeding up; opposite signs ⟹ slowing down"
+          ],
+          [
+            "Away-from-axis reading",
+            "On a v-graph, distance from the t-axis IS speed; moving away = speeding up"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Full credit on 'speeding up at t = 5?' has three visible parts: v(5)'s value and sign, a(5)'s value and sign, and the comparison sentence. The exam awards the point for the COMPARISON, not the conclusion — show both signs even when the answer feels obvious."
+          ]
+        ]
+      },
+      {
+        "title": "Displacement vs Total Distance",
+        "subtitle": "Net change versus odometer",
+        "body": "Displacement over [t₁, t₂] is the net change in position: s(t₂) - s(t₁). Signed: a round trip has displacement zero. Total distance is the odometer reading — every leg counted positively — and requires breaking the interval at each direction change (each sign change of v), measuring each leg, and adding absolute values.\n\nSpine particle on [0, 5]: positions s(0) = 0, s(2) = 20, s(4) = 16, s(5) = 20. Displacement: 20 - 0 = 20. Legs: 0→20 (distance 20), 20→16 (distance 4), 16→20 (distance 4). Total distance: 28. The two answers differ exactly because the particle backtracked on (2, 4); whenever v never changes sign, the two notions coincide.\n\nThe procedure formalized: (1) solve v = 0 on the interval and keep the sign CHANGES; (2) evaluate s at the interval's endpoints and every turning time; (3) displacement = last minus first; total distance = sum of |consecutive differences|. The turning-time evaluations are the step students skip — and the step every rubric prices.\n\nAverage velocity and average speed inherit the distinction: average velocity = displacement/time (here 20/5 = 4); average speed = total distance/time (28/5 = 5.6). Unit 2's average-rate machinery applies, with the same numerator subtlety. In Unit 8, integrals re-derive everything here — displacement as ∫v dt, distance as ∫|v| dt — so this chapter's bookkeeping becomes integration's setup.",
+        "key_terms": [
+          [
+            "Displacement",
+            "s(end) - s(start): net, signed, blind to backtracking"
+          ],
+          [
+            "Total distance",
+            "Sum of leg lengths between turning points: the odometer"
+          ],
+          [
+            "Turning-time protocol",
+            "Break at v's sign changes, evaluate s at every breakpoint and endpoint"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Total distance from a position formula is a three-evaluation problem minimum: endpoints plus every turn. The most common error is summing |s(t₂) - s(t₁)| without breaking at turns — it silently computes |displacement| and loses the backtracking."
+          ]
+        ]
+      },
+      {
+        "title": "Full Motion Analysis",
+        "subtitle": "The six-part FRQ, assembled",
+        "body": "AP motion FRQs braid the chapter's threads into multi-part questions; here is the spine particle's complete dossier as a model. s(t) = t^3 - 9t^2 + 24t on [0, 6]: v = 3(t-2)(t-4), a = 6(t-3).\n\n(1) At rest: t = 2, 4. (2) Moving left: v < 0 on (2, 4). (3) Direction changes: at both t = 2 and t = 4, since v's sign flips at each. (4) Speeding up: where v and a agree — a < 0 before t = 3 with v < 0 on (2,3): speeding up there; a > 0 after 3 with v > 0 after 4: also (4, 6). Slowing down on (0,2) and (3,4). (5) Displacement on [0,6]: s(6) = 36, s(0) = 0: 36. (6) Total distance: legs 0→20→16→36: 20 + 4 + 20 = 44.\n\nNotice the infrastructure: ONE pair of sign charts (v and a on the same timeline) answers parts 1-4 without recomputation. Building the dual sign chart FIRST, before reading any sub-question, is the strongest exam strategy for motion problems — every answer becomes a lookup.\n\nVocabulary checklist to close the unit's core chapter — translate on sight: farthest right (maximize s, check critical times and endpoints), at rest (v = 0), changes direction (v sign flip), speeding up (signs agree), average velocity (displacement over time), total distance (odometer protocol). Six phrases, six procedures, no improvisation at test time.",
+        "key_terms": [
+          [
+            "Dual sign chart",
+            "v and a signs on one timeline — the single artifact answering most motion sub-questions"
+          ],
+          [
+            "Farthest right/left",
+            "Optimize s over critical times AND endpoints — a closed-interval check"
+          ],
+          [
+            "Vocabulary checklist",
+            "Each motion phrase maps to one rehearsed procedure"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Build the v/a dual sign chart in the first ninety seconds of any motion FRQ, before reading part (a). Parts (a) through (d) are almost always direct reads off the chart — the chart is the work; the answers are transcription."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "A particle has position s(t) = t^3 - 6t^2 + 9t. On which interval is it moving left?",
+          "choices": {
+            "A": "(1, 3)",
+            "B": "(0, 1)",
+            "C": "(3, ∞)",
+            "D": "(0, 3)"
+          },
+          "answer": "A",
+          "explanation": "v = 3t^2 - 12t + 9 = 3(t-1)(t-3) < 0 between the roots: (1, 3)."
+        },
+        {
+          "question": "v(2) = 6 and a(2) = -3. At t = 2 the particle is",
+          "choices": {
+            "A": "speeding up",
+            "B": "slowing down",
+            "C": "at rest",
+            "D": "changing direction"
+          },
+          "answer": "B",
+          "explanation": "Signs oppose (v > 0, a < 0): the acceleration is braking the rightward motion."
+        },
+        {
+          "question": "A particle's velocity is v(t) = (t - 3)^2. Which statement about t = 3 is true?",
+          "choices": {
+            "A": "The particle changes direction at t = 3",
+            "B": "The particle is at rest at t = 3 but does not change direction",
+            "C": "The particle is moving left at t = 3",
+            "D": "The particle's speed is maximal at t = 3"
+          },
+          "answer": "B",
+          "explanation": "v(3) = 0 but v ≥ 0 on both sides — a pause without a sign change, so no turn. (Speed is minimal there, not maximal.)"
+        },
+        {
+          "question": "s(t) = t^2 - 4t for 0 ≤ t ≤ 5. The total distance traveled is",
+          "choices": {
+            "A": "5",
+            "B": "9",
+            "C": "13",
+            "D": "4"
+          },
+          "answer": "C",
+          "explanation": "v = 2t - 4 = 0 at t = 2. s(0) = 0, s(2) = -4, s(5) = 5. Legs: |−4 − 0| + |5 − (−4)| = 4 + 9 = 13. (Displacement alone is 5.)"
+        },
+        {
+          "question": "Given the graph of v(t) is positive and decreasing on (0, 4), the particle on that interval is",
+          "choices": {
+            "A": "moving right and slowing down",
+            "B": "moving right and speeding up",
+            "C": "moving left and slowing down",
+            "D": "at rest"
+          },
+          "answer": "A",
+          "explanation": "v > 0: rightward. The graph approaches the t-axis (decreasing while positive): speed is dropping."
+        }
+      ],
+      "frq": [
+        {
+          "question": "A particle moves along the x-axis with position s(t) = t^3 - 12t^2 + 36t for 0 ≤ t ≤ 8.\n(a) Find all times the particle is at rest.\n(b) Determine the time intervals on which the particle moves right and moves left, with justification from a sign chart.\n(c) Find the displacement and the total distance traveled over [0, 8].",
+          "rubric": [
+            "(a) v = 3t^2 - 24t + 36 = 3(t-2)(t-6) = 0: t = 2 and t = 6",
+            "(b) v > 0 on (0,2) and (6,8) (right); v < 0 on (2,6) (left) — signs justified",
+            "(c) s(0)=0, s(2)=32, s(6)=0, s(8)=32; displacement 32",
+            "Total distance: 32 + 32 + 32 = 96"
+          ],
+          "model_answer": "(a) v(t) = 3t^2 - 24t + 36 = 3(t - 2)(t - 6); at rest at t = 2 and t = 6. (b) Sign chart for v: on (0,2), both factors give positive product — moving right; on (2,6), v < 0 — moving left; on (6,8), v > 0 — right again. (c) s(0) = 0, s(2) = 8 - 48 + 72 = 32, s(6) = 216 - 432 + 216 = 0, s(8) = 512 - 768 + 288 = 32. Displacement: s(8) - s(0) = 32. Legs: 0→32 (32), 32→0 (32), 0→32 (32): total distance 96."
+        },
+        {
+          "question": "A particle's velocity is v(t) = t^2 - 4t + 3 with acceleration a(t) = 2t - 4, for t ≥ 0.\n(a) Find when the particle is at rest.\n(b) Determine all intervals on which the particle is slowing down, using a dual sign analysis of v and a.\n(c) The particle's position satisfies s(1) = 5. Using the tangent-line idea, estimate s(1.1), and state whether v's behavior near t = 1 makes this an over- or underestimate.",
+          "rubric": [
+            "(a) v = (t-1)(t-3) = 0: t = 1, 3",
+            "(b) v > 0 on (0,1)∪(3,∞), v < 0 on (1,3); a < 0 on (0,2), a > 0 on (2,∞); opposite signs on (0,1) and (2,3)",
+            "(c) s(1.1) ≈ s(1) + v(1)(0.1) = 5 + 0 = 5",
+            "Since v(1) = 0 and v < 0 just after 1, the true position dips below 5: the estimate is an overestimate"
+          ],
+          "model_answer": "(a) v(t) = (t - 1)(t - 3) = 0 at t = 1 and t = 3. (b) Signs: v > 0 on (0,1) and (3,∞); v < 0 on (1,3). a = 2t - 4: negative before 2, positive after. Slowing down where signs oppose: (0,1) (v>0, a<0) and (2,3) (v<0, a>0). (c) s(1.1) ≈ s(1) + v(1)·(0.1) = 5 + 0·(0.1) = 5. Just after t = 1 the velocity turns negative (the particle starts moving left), so the true s(1.1) is slightly less than 5 — the tangent estimate is an overestimate."
+        },
+        {
+          "question": "Two particles move on the same line: A with position x(t) = t^2 - 6t and B with position y(t) = 2t - 12, for t ≥ 0.\n(a) At what time(s) do the particles occupy the same position?\n(b) At what time do they have the same velocity, and what is each particle doing (direction, speeding up/slowing down) at that moment?\n(c) Particle A is farthest left at what time, and what is its position there? Justify.",
+          "rubric": [
+            "(a) t^2 - 6t = 2t - 12 → t^2 - 8t + 12 = 0 → t = 2, 6",
+            "(b) x' = 2t - 6 = 2 = y' at t = 4; A: v = 2 > 0 right, a = 2 > 0 speeding up; B: constant velocity 2, neither",
+            "(c) x' = 0 at t = 3, x changes from decreasing to increasing (v: − to +)",
+            "Farthest left at t = 3, position x(3) = -9"
+          ],
+          "model_answer": "(a) Set t^2 - 6t = 2t - 12: t^2 - 8t + 12 = (t - 2)(t - 6) = 0 — they meet at t = 2 and t = 6. (b) Velocities: x'(t) = 2t - 6 and y'(t) = 2. Equal when 2t - 6 = 2: t = 4. There, A has v = 2 > 0 (moving right) and a = 2 > 0 — same signs, speeding up. B moves right at constant speed 2 — neither speeding up nor slowing down (a = 0). (c) A's velocity 2t - 6 is negative before t = 3 and positive after: A moves left, turns at t = 3, then moves right — so its leftmost position is x(3) = 9 - 18 = -9."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Contextual Applications of Differentiation",
+    "chapter_title": "Rates of Change Beyond Motion",
+    "hook": "Derivatives don't care whether the input is time: marginal cost differentiates with respect to quantity, reaction rates with respect to concentration, and the AP rotates contexts deliberately. Master the structure once and every costume looks the same.",
+    "learning_objectives": [
+      "Apply rate-of-change analysis to non-motion contexts: economics, biology, physics",
+      "Interpret marginal cost, revenue, and profit as derivatives",
+      "Analyze rates with non-time inputs and construct their units",
+      "Combine two related quantities through chain-rule rate composition",
+      "Determine when applied quantities are increasing, decreasing, or at extremes"
+    ],
+    "sections": [
+      {
+        "title": "Marginal Thinking",
+        "subtitle": "Economics differentiates",
+        "body": "Economics names its derivatives 'marginal': marginal cost is C'(q), the rate cost changes per unit of production; marginal revenue R'(q); marginal profit P'(q). The defining approximation: C'(q) ≈ the cost of producing one more unit beyond q. The derivative converts 'what does the NEXT one cost?' into calculus.\n\nWhy the approximation works: with Δq = 1, the tangent estimate ΔC ≈ C'(q)·Δq becomes ΔC ≈ C'(q). One unit is 'small' when production runs in the hundreds — the exam expects the ≈ and accepts the language 'approximately the cost of the (q+1)st unit.'\n\nProfit structure: P(q) = R(q) - C(q), so P'(q) = R'(q) - C'(q). Profit rises while marginal revenue exceeds marginal cost and peaks where they EQUAL — the famous MR = MC condition is nothing but P' = 0, Unit 5's critical point condition arriving early in applied clothes. A firm producing where MR > MC should expand; where MR < MC, contract.\n\nTypical cost curves decelerate then accelerate: C' falls at first (bulk efficiencies) and rises later (overtime, strained capacity) — language that translates to C'' < 0 then C'' > 0. Reading prose like 'costs rise at an increasing rate' into second-derivative signs is the chapter's recurring translation drill.",
+        "key_terms": [
+          [
+            "Marginal cost",
+            "C'(q): rate of cost per unit, ≈ cost of the next unit"
+          ],
+          [
+            "MR = MC",
+            "P' = R' - C' = 0 — profit's critical point condition in economic dress"
+          ],
+          [
+            "Rising at an increasing rate",
+            "First derivative positive AND second derivative positive"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Marginal' on the AP simply means 'derivative of' — no economics background required. Marginal revenue at q = 50 is R'(50), interpreted with the standard four-ingredient sentence: at 50 units, revenue is increasing at about $[value] per additional unit."
+          ]
+        ]
+      },
+      {
+        "title": "Non-Time Inputs",
+        "subtitle": "dV/dr and friends",
+        "body": "Nothing in differentiation privileges time. A sphere's volume V(r) = (4/3)πr^3 has dV/dr = 4πr^2 — the rate volume changes per unit of RADIUS, units of cubic meters per meter. At r = 3, dV/dr = 36π: growing the radius from 3 by a small ε adds about 36πε of volume.\n\nNotice the geometric punchline: dV/dr equals the sphere's surface area. Growing a sphere adds a thin shell whose volume is (surface area)·(thickness) — the derivative result is the geometry made algebra. The same phenomenon: dA/dr for a circle is 2πr, the circumference. These coincidences reward the students who pause to interpret.\n\nOther standard non-time rates: dP/dV in physics (pressure per volume change), dC/dh for a cone filling (cross-sectional area appears), reaction rate d[product]/d[reactant] in chemistry. The mathematics is identical; only the interpretation sentence's nouns rotate. Units remain output-per-input, mechanically.\n\nEvaluation questions often pair a non-time rate with a tangent estimate: 'by approximately how much does the volume increase as r goes from 3 to 3.02?' — ΔV ≈ (36π)(0.02) = 0.72π. The chapter-one machinery, with radii instead of clocks. Spot the structure and the costume dissolves.",
+        "key_terms": [
+          [
+            "Non-time derivative",
+            "dV/dr, dP/dV — any input differentiates; units still output-per-input"
+          ],
+          [
+            "Shell interpretation",
+            "dV/dr = surface area: growth happens in a thin boundary layer"
+          ],
+          [
+            "Costume principle",
+            "Contexts rotate; the four-ingredient sentence and tangent estimate do not"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When the input isn't time, do NOT write 'per second' by reflex. dV/dr at r = 3 carries cm³ per cm. Reflexive time-units in a radius problem is a real and avoidable rubric deduction."
+          ]
+        ]
+      },
+      {
+        "title": "Chained Rates",
+        "subtitle": "Two relationships, one composition",
+        "body": "Applied systems often chain: cost depends on gallons, gallons depend on time — so cost depends on time through the composition, and dC/dt = (dC/dg)(dg/dt). The chain rule, which Unit 3 built for compositions, IS the calculus of cascading dependencies; this section is its word-problem face.\n\nWorked: a balloon's radius grows at dr/dt = 2 cm/s. How fast is volume growing when r = 5? V = (4/3)πr^3 depends on t THROUGH r: dV/dt = (dV/dr)(dr/dt) = 4πr^2 · 2 = 8πr^2. At r = 5: 200π cm³/s. The structure — differentiate the geometric relation, multiply by the given rate, evaluate at the moment — is precisely next chapter's related-rates method in its simplest, single-chain form.\n\nUnits audit the chain: (cm³/cm)·(cm/s) = cm³/s. ✓ Whenever a chained-rate answer's units fail to telescope correctly, a factor is missing — the audit catches dropped fees before the grader does.\n\nReading chains from prose: 'the price of electricity rises with demand, and demand rises through the afternoon' sets up dPrice/dt = (dPrice/dDemand)(dDemand/dt). Diagramming the dependency arrows (t → demand → price) before computing keeps multi-stage problems organized — and matches the layer-list habit from chain rule mastery, because it is the same skill.",
+        "key_terms": [
+          [
+            "Cascading dependency",
+            "x → u → y: dy/dx = (dy/du)(du/dx) in applied costume"
+          ],
+          [
+            "Units telescoping",
+            "Chained units must cancel interior variables: (cm³/cm)(cm/s) = cm³/s"
+          ],
+          [
+            "Dependency diagram",
+            "Arrow-sketch of which variable feeds which — the word problem's layer list"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Single-chain rate problems ('radius grows at 2 cm/s; how fast does volume grow when r = 5?') are related rates with training wheels — differentiate the formula with respect to the intermediate variable, multiply by the given rate, substitute. The full method next chapter just adds implicit differentiation."
+          ]
+        ]
+      },
+      {
+        "title": "Reading Applied Behavior",
+        "subtitle": "Signs, extremes, and sentences",
+        "body": "Applied questions about behavior reduce to sign analysis of derivatives, exactly like motion. A drug's concentration K(t) rises while K' > 0, peaks where K' = 0 with a sign change, declines while K' < 0. 'When is the concentration greatest?' is a critical-point question; 'is the concentration rising or falling at t = 4?' is a single sign check. Motion's machinery, renamed.\n\nThe second derivative layers on: K'' < 0 while K' > 0 means concentration is 'rising at a decreasing rate' — absorption is slowing even though levels still climb. These mixed-sign descriptions are the AP's favorite applied prose, and they decode to sign pairs: 'rising at a decreasing rate' is f' > 0 with f'' < 0. But decode magnitude language carefully: 'decreasing at an increasing rate' means falling ever faster — f' < 0 with |f'| growing, which forces f'' < 0. Magnitude phrases route through |f'|, not through f'' alone.\n\nThat last subtlety is worth slowing for: 'decreasing at an increasing RATE' is ambiguous English that the AP resolves by magnitude — the decline is steepening, f'' < 0. When prose confuses, translate to a tiny sketch: draw the curve the sentence describes, read the signs off the sketch. Sketches disambiguate faster than grammar.\n\nClosing synthesis: every applied rate question is one of five asks — value, rate, units, behavior (signs), or estimate (tangent). Identify the ask, run the matching procedure, write the four-ingredient sentence when interpretation is requested. Five asks, five procedures: the unit's entire applied surface, indexed.",
+        "key_terms": [
+          [
+            "Behavior questions",
+            "Rising/falling/peaked = sign analysis of the first derivative"
+          ],
+          [
+            "Mixed-sign prose",
+            "'Rising at a decreasing rate' = f' > 0, f'' < 0 — decode as a sign pair"
+          ],
+          [
+            "Magnitude reading",
+            "'Decreasing at an increasing rate': |f'| grows while f' < 0, so f'' < 0"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When prose rate-language turns ambiguous, sketch the four template curves (rising-steepening, rising-flattening, falling-steepening, falling-flattening) and match the sentence to a picture. The sketch-match is faster and safer than parsing English under time pressure."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "C(q) = 0.01q^2 + 4q + 900 dollars for q units. The marginal cost at q = 100 is",
+          "choices": {
+            "A": "$6 per unit",
+            "B": "$1400",
+            "C": "$2 per unit",
+            "D": "$14 per unit"
+          },
+          "answer": "A",
+          "explanation": "C'(q) = 0.02q + 4; C'(100) = 2 + 4 = 6 dollars per unit. (B evaluates C, not C'.)"
+        },
+        {
+          "question": "A circle's area A = πr^2. The rate of change of area with respect to radius at r = 4 is",
+          "choices": {
+            "A": "16π",
+            "B": "8π",
+            "C": "4π",
+            "D": "2π"
+          },
+          "answer": "B",
+          "explanation": "dA/dr = 2πr = 8π — the circumference at that radius, units of area per unit length."
+        },
+        {
+          "question": "Oil drains so that the volume satisfies dV/dh = 12 m³ per meter of depth, and the depth falls at dh/dt = -0.5 m/min. The volume is changing at",
+          "choices": {
+            "A": "-6 m³/min",
+            "B": "-12.5 m³/min",
+            "C": "6 m³/min",
+            "D": "-24 m³/min"
+          },
+          "answer": "A",
+          "explanation": "Chain: dV/dt = (dV/dh)(dh/dt) = 12 × (-0.5) = -6 m³/min — draining at 6 cubic meters per minute."
+        },
+        {
+          "question": "A population satisfies P'(t) > 0 and P''(t) < 0 for all t in (0, 10). The population is",
+          "choices": {
+            "A": "increasing at an increasing rate",
+            "B": "increasing at a decreasing rate",
+            "C": "decreasing at a decreasing rate",
+            "D": "at its maximum"
+          },
+          "answer": "B",
+          "explanation": "Positive first derivative: growing. Negative second: the growth rate itself is shrinking — climbing but flattening."
+        },
+        {
+          "question": "Revenue is R(q) and cost is C(q). Profit is maximized (interior critical point) where",
+          "choices": {
+            "A": "R(q) = C(q)",
+            "B": "R'(q) = C'(q)",
+            "C": "R'(q) = 0",
+            "D": "C'(q) = 0"
+          },
+          "answer": "B",
+          "explanation": "P' = R' - C' = 0 exactly when marginal revenue equals marginal cost. (A is break-even, a different concept.)"
+        }
+      ],
+      "frq": [
+        {
+          "question": "A company's revenue from selling q hundred phone chargers is R(q) = 60q - q^2 thousand dollars, and its cost is C(q) = 10q + 56 thousand dollars, for 0 ≤ q ≤ 30.\n(a) Find the marginal revenue and marginal cost functions, and interpret R'(10) in a sentence.\n(b) Write the profit function P(q) and find the production level where marginal revenue equals marginal cost.\n(c) Verify that the level in (b) gives a greater profit than producing nothing, by direct evaluation.",
+          "rubric": [
+            "(a) R' = 60 - 2q, C' = 10; R'(10) = 40: at 1000 chargers, revenue rises ≈ $40 thousand per additional hundred",
+            "(b) P = -q^2 + 50q - 56; MR = MC at 60 - 2q = 10: q = 25",
+            "(c) P(25) = -625 + 1250 - 56 = 569; P(0) = -56",
+            "Comparison stated: 569 > -56, so q = 25 is better than shutdown"
+          ],
+          "model_answer": "(a) R'(q) = 60 - 2q and C'(q) = 10 (thousand dollars per hundred chargers). R'(10) = 40: when the company sells 1,000 chargers, revenue is increasing at approximately 40 thousand dollars per additional hundred chargers. (b) P(q) = R - C = -q^2 + 50q - 56. Setting R' = C': 60 - 2q = 10, so q = 25 (2,500 chargers). (c) P(25) = -625 + 1250 - 56 = 569 thousand dollars, versus P(0) = -56 (a loss from fixed costs). Producing at q = 25 yields far greater profit than shutting down."
+        },
+        {
+          "question": "A spherical balloon is inflated so its radius grows at a constant 0.5 cm/s. Recall V = (4/3)πr^3.\n(a) Find dV/dt as a function of r.\n(b) Compute the inflation rate dV/dt at r = 6 cm, with units.\n(c) Explain, using the shell interpretation of dV/dr, why dV/dt grows as the balloon expands even though dr/dt is constant.",
+          "rubric": [
+            "(a) dV/dt = 4πr^2 · (0.5) = 2πr^2",
+            "(b) At r = 6: 72π cm³/s",
+            "(c) dV/dr = 4πr^2 is the surface area; each radius increment adds a shell of that area",
+            "Bigger balloon ⟹ bigger shell per cm of radius ⟹ faster volume growth at the same dr/dt"
+          ],
+          "model_answer": "(a) dV/dt = (dV/dr)(dr/dt) = 4πr^2(0.5) = 2πr^2 cm³/s. (b) At r = 6: 2π(36) = 72π ≈ 226.2 cm³/s. (c) dV/dr = 4πr^2 is exactly the sphere's surface area: growing the radius by dr adds a thin shell of volume (area)(dr). As the balloon expands, that surface grows like r², so each half-centimeter of radius costs ever more volume — the volume rate climbs even at constant radius speed."
+        },
+        {
+          "question": "The concentration of a medication in the bloodstream is K(t) mg/L at t hours, with K'(t) > 0 on (0, 2), K'(2) = 0, K'(t) < 0 on (2, 12), and K''(t) > 0 on (5, 12).\n(a) At what time is the concentration greatest? Justify.\n(b) Describe the behavior of the concentration on (5, 12) in a sentence of the form 'decreasing at a(n) ___ rate,' and justify with the sign pair.\n(c) The patient may take a second dose when the concentration's rate of decline slows to under 0.1 mg/L per hour in magnitude. Express this condition using K'.",
+          "rubric": [
+            "(a) t = 2: K' changes from + to −, so K has its maximum there",
+            "(b) On (5,12): K' < 0 and K'' > 0 — K' rising toward zero, decline slowing: 'decreasing at a decreasing rate'",
+            "(c) Condition: |K'(t)| < 0.1, equivalently -0.1 < K'(t) < 0",
+            "Sign-pair justification explicit"
+          ],
+          "model_answer": "(a) K' is positive before t = 2 and negative after, so the concentration rises, peaks, then falls: the maximum is at t = 2 hours. (b) On (5, 12), K' < 0 (falling) while K'' > 0 (K' is increasing toward zero — the decline is flattening). The concentration is decreasing at a decreasing rate. (c) The decline's magnitude is |K'(t)|; the condition is |K'(t)| < 0.1 mg/L per hour — that is, -0.1 < K'(t) < 0."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Contextual Applications of Differentiation",
+    "chapter_title": "Related Rates — Setting Up the Problem",
+    "hook": "A ladder slides down a wall. The top falls, the bottom slides out, and the two rates are chained together by the Pythagorean theorem. Related rates problems are 80% setup — and the setup is a checklist you can learn cold before touching a single hard problem.",
+    "learning_objectives": [
+      "Identify the variables, known rates, and requested rate in a word problem",
+      "Write the static equation relating the variables before differentiating",
+      "Differentiate the relation implicitly with respect to time",
+      "Substitute the snapshot values only after differentiating",
+      "Avoid the cardinal error: freezing a variable before the differentiation step"
+    ],
+    "sections": [
+      {
+        "title": "The Anatomy of a Related Rates Problem",
+        "subtitle": "Variables changing together through time",
+        "body": "Every related rates problem has the same skeleton: several quantities change with time; they are bound by a geometric or physical relationship; some of their rates are known; one rate is requested at a specific moment. The ladder: the wall height y and floor distance x both change; x^2 + y^2 = 25 binds them (a 5 m ladder); dx/dt is given; dy/dt is wanted at a snapshot.\n\nThe deep idea: differentiate the BINDING EQUATION implicitly with respect to t. Every variable is secretly a function of time, so x^2 + y^2 = 25 differentiates to 2x(dx/dt) + 2y(dy/dt) = 0 — Unit 3's implicit machinery with t as the independent variable. Each variable emits its own rate as a fee; the static relation between quantities becomes a dynamic relation between rates.\n\nVocabulary for the chapter: the EQUATION is the timeless relationship (Pythagoras, similar triangles, volume formulas); the SNAPSHOT is the specific instant's data (x = 3 when we ask); the RATES are the dx/dt-type quantities, known and unknown. Keeping the three categories separate is most of the discipline.\n\nSign conventions ride on definitions: if x is the distance from the wall and the ladder slides OUT, dx/dt > 0; the top falling means dy/dt < 0. Define each variable so its meaning is unambiguous, and let the signs report direction honestly — a negative answer to 'how fast is the top moving' correctly says 'downward at that speed.'",
+        "key_terms": [
+          [
+            "Binding equation",
+            "The timeless relation among variables (geometry/physics) — differentiated as a whole"
+          ],
+          [
+            "Snapshot",
+            "The specific instant's values, used only after differentiating"
+          ],
+          [
+            "Rate fees",
+            "Implicit differentiation in t: every variable emits its d/dt when touched"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Related rates IS implicit differentiation with respect to t. Students who frame it that way reuse Unit 3's drilled mechanics; students who treat it as a new topic re-derive the method under pressure. It is not a new topic."
+          ]
+        ]
+      },
+      {
+        "title": "The Five-Step Protocol",
+        "subtitle": "A checklist that survives panic",
+        "body": "Step 1 — DRAW: sketch the situation, label every changing quantity with a VARIABLE (never a number if it changes), mark constants as numbers. Step 2 — LIST: write the known rates (with signs) and the requested rate, each in Leibniz notation. Step 3 — RELATE: write the equation binding the variables; this is where geometry enters. Step 4 — DIFFERENTIATE: implicitly, with respect to t, before any snapshot numbers touch the equation. Step 5 — SUBSTITUTE & SOLVE: now plug the snapshot in and solve for the requested rate.\n\nThe ladder, by protocol. Draw: right triangle, wall y, floor x, ladder 5 (constant — it is a number). List: dx/dt = 0.4 m/s (sliding out), find dy/dt when x = 3. Relate: x^2 + y^2 = 25. Differentiate: 2x(dx/dt) + 2y(dy/dt) = 0. Substitute: at x = 3, y = 4 (Pythagoras fills the snapshot's gaps); 2(3)(0.4) + 2(4)(dy/dt) = 0, so dy/dt = -0.3 m/s. The top descends at 0.3 m/s.\n\nNotice the snapshot completion move: y wasn't given at the moment, but the binding equation yields it (y = √(25 - 9) = 4). Step 5 routinely includes one such mini-solve — the static equation serves twice, once for differentiating and once for filling in the instant's missing values.\n\nThe protocol's order is load-bearing, and the next section explains the catastrophic error that violating it causes. For now: the checklist is five lines on your scratch paper, and FRQ graders can follow five labeled lines — the protocol IS the rubric map.",
+        "key_terms": [
+          [
+            "Five steps",
+            "Draw, List, Relate, Differentiate, Substitute — in that order, always"
+          ],
+          [
+            "Constants vs variables",
+            "Changing quantities get letters; fixed quantities get numbers at the drawing stage"
+          ],
+          [
+            "Snapshot completion",
+            "Use the binding equation to find the instant's missing values before solving"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Write the known and requested rates in Leibniz notation as Step 2, every time: 'Given dx/dt = 0.4; find dy/dt when x = 3.' The two-line inventory forces the variable definitions and earns setup credit even if later algebra slips."
+          ]
+        ]
+      },
+      {
+        "title": "The Cardinal Error",
+        "subtitle": "Never substitute before differentiating",
+        "body": "The one mistake that destroys related rates problems: plugging snapshot values in BEFORE differentiating. Substitute x = 3 into x^2 + y^2 = 25 first and you get 9 + y^2 = 25 — differentiating that gives 2y(dy/dt) = 0, claiming the top never moves. The error froze x at the snapshot, deleting its rate from the universe.\n\nThe rule: anything that CHANGES stays a letter until after the differentiation step. Constants — the ladder's length, a cone's fixed shape ratio, a pole's height — may be numbers from the start, because their derivatives are genuinely zero. The classification question 'does this quantity change as time passes?' decides letter versus number at the drawing stage, and deciding it consciously is what the protocol's Step 1 is for.\n\nThe subtle version of the error involves DERIVED constants: in a cone with fixed shape, r/h stays constant (say r = h/3), and substituting r = h/3 into V = (1/3)πr^2h BEFORE differentiating is legal — because the relation r = h/3 holds for ALL time, not just the snapshot. The test: substitutions valid at every instant may happen early; substitutions true only at the snapshot must wait. 'Always true' versus 'true now' is the entire distinction.\n\nSelf-audit habit: after differentiating, scan your rate equation — every variable that changes should appear alongside its d/dt somewhere. A missing rate means a variable got frozen early. The audit takes five seconds and catches the error while it is still fixable.",
+        "key_terms": [
+          [
+            "Cardinal error",
+            "Substituting snapshot values before differentiating — freezes variables, deletes rates"
+          ],
+          [
+            "Always-true substitutions",
+            "Relations holding for all time (r = h/3 in a fixed cone) may be substituted early"
+          ],
+          [
+            "Rate audit",
+            "Post-differentiation scan: every changing variable should carry its d/dt"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The exam engineers problems where the cardinal error gives a clean-looking wrong answer (often 0 or a sign flip). If your related-rates answer is suspiciously tidy, audit for a frozen variable before trusting it."
+          ]
+        ]
+      },
+      {
+        "title": "Geometric Equation Bank",
+        "subtitle": "Where Step 3 equations come from",
+        "body": "Related rates problems draw their binding equations from a short, predictable bank. Pythagorean theorem: ladders, cars separating at right angles, kites, boats and docks — any right-triangle geometry. Similar triangles: shadows, cones of water, lamppost silhouettes — matching ratios like x/h = (x + s)/H. Volume formulas: spheres (4/3)πr^3, cylinders πr^2h, cones (1/3)πr^2h — tanks filling and draining. Trig relations: angles of elevation, rotating beacons — tan θ = opposite/adjacent leading to sec^2 θ dθ/dt terms.\n\nArea and perimeter round out the bank: A = πr^2 for ripples, A = (1/2)bh for growing triangles, plus the occasional law of cosines for non-right triangles (BC-friendly). Memorizing the bank means Step 3 is recognition, not invention: read the geometry, pull the formula.\n\nMulti-equation problems chain bank entries: a cone's water volume needs BOTH the cone volume formula AND a similar-triangles relation to eliminate one variable (substitute r = (R/H)h — an always-true relation — then differentiate the single-variable result). The elimination-then-differentiate pattern is the standard play for cone tanks, and it showcases the 'always true may substitute early' principle doing real work.\n\nNext chapter runs the protocol at full speed across the bank's classic scenarios — ladders, cones, shadows, cameras. The setup discipline from this chapter is what makes those execution problems routine: with Draw-List-Relate-Differentiate-Substitute internalized, no scenario in the bank holds surprises.",
+        "key_terms": [
+          [
+            "Equation bank",
+            "Pythagoras, similar triangles, volumes, trig ratios, areas — the Step 3 sources"
+          ],
+          [
+            "Eliminate-then-differentiate",
+            "Use always-true relations to reach one variable before differentiating (cone tanks)"
+          ],
+          [
+            "Recognition over invention",
+            "Step 3 is pulling a known formula, not deriving new geometry"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Cone tank problems: substitute the similar-triangles relation r = (R/H)h BEFORE differentiating (it is always true), reducing V to a function of h alone. Differentiating the two-variable form and juggling dr/dt is legal but doubles the work and the error surface."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "x and y satisfy x^2 + y^2 = 100, with dx/dt = 3 when x = 6 and y = 8. Then dy/dt =",
+          "choices": {
+            "A": "-9/4",
+            "B": "9/4",
+            "C": "-3/4",
+            "D": "-4"
+          },
+          "answer": "A",
+          "explanation": "2x dx/dt + 2y dy/dt = 0: 2(6)(3) + 2(8)dy/dt = 0 → dy/dt = -36/16 = -9/4."
+        },
+        {
+          "question": "In a related rates problem, which quantity may be replaced by a number BEFORE differentiating?",
+          "choices": {
+            "A": "The ladder's distance from the wall at the snapshot",
+            "B": "The fixed length of the ladder",
+            "C": "The height on the wall at the snapshot",
+            "D": "Any quantity whose value is known"
+          },
+          "answer": "B",
+          "explanation": "Only quantities constant for ALL time may be numbers early. Snapshot values (A, C) must wait until after differentiation — substituting them early freezes the variable."
+        },
+        {
+          "question": "A spherical snowball melts at dV/dt = -8 cm³/min. With V = (4/3)πr^3, the radius shrinks at r = 2 at rate dr/dt =",
+          "choices": {
+            "A": "-1/(2π) cm/min",
+            "B": "-2/π cm/min",
+            "C": "-8/π cm/min",
+            "D": "-1/π cm/min"
+          },
+          "answer": "A",
+          "explanation": "dV/dt = 4πr^2 dr/dt: -8 = 4π(4) dr/dt → dr/dt = -8/(16π) = -1/(2π)."
+        },
+        {
+          "question": "Water fills a cone-shaped tank (vertex down) with fixed proportions r = h/4. To find dh/dt from dV/dt, the most efficient setup is",
+          "choices": {
+            "A": "differentiate V = (1/3)πr^2h with both r and h as variables",
+            "B": "substitute r = h/4 first, then differentiate V = πh^3/48",
+            "C": "substitute the snapshot h-value first, then differentiate",
+            "D": "differentiate the relation r = h/4"
+          },
+          "answer": "B",
+          "explanation": "r = h/4 is always true, so early substitution is legal and reduces to one variable. C is the cardinal error; A works but doubles the bookkeeping."
+        },
+        {
+          "question": "Two cars leave an intersection, one north at 30 mph, one east at 40 mph. The binding equation for the distance z between them is",
+          "choices": {
+            "A": "z = x + y",
+            "B": "z^2 = x^2 + y^2",
+            "C": "z = (x^2 + y^2)/2",
+            "D": "tan z = y/x"
+          },
+          "answer": "B",
+          "explanation": "Perpendicular directions make a right triangle: Pythagoras binds the three distances."
+        }
+      ],
+      "frq": [
+        {
+          "question": "A 13-foot ladder leans against a wall. The base slides away from the wall at 2 ft/s.\n(a) Define variables, state the given rate and the requested rate when the base is 5 feet from the wall, and write the binding equation.\n(b) Find how fast the top of the ladder is sliding down the wall at that instant.\n(c) A student substituted x = 5 into x^2 + y^2 = 169 before differentiating and concluded dy/dt = 0. Identify the error and explain why the conclusion is absurd physically.",
+          "rubric": [
+            "(a) x = base distance, y = wall height; dx/dt = 2, find dy/dt when x = 5; x^2 + y^2 = 169",
+            "(b) 2x dx/dt + 2y dy/dt = 0; snapshot y = 12; 20 + 24 dy/dt = 0 → dy/dt = -5/6 ft/s",
+            "(c) Cardinal error: freezing x deleted dx/dt from the equation",
+            "Physical absurdity: a sliding base must move the top — the ladder is rigid"
+          ],
+          "model_answer": "(a) Let x be the distance from wall to base and y the height of the top, both in feet, both functions of time. Given dx/dt = 2 ft/s; find dy/dt when x = 5. Binding equation: x^2 + y^2 = 169. (b) Differentiate: 2x(dx/dt) + 2y(dy/dt) = 0. At x = 5: y = √(169 - 25) = 12. Then 2(5)(2) + 2(12)(dy/dt) = 0, so dy/dt = -20/24 = -5/6 ft/s — the top slides down at 5/6 ft/s. (c) Substituting x = 5 before differentiating freezes x as a constant, so its rate dx/dt vanishes from the differentiated equation, forcing dy/dt = 0. Physically absurd: the ladder is rigid — if the base moves, the top MUST move. Snapshot values may only enter after differentiation."
+        },
+        {
+          "question": "A conical tank (vertex down) has height 10 m and top radius 5 m. Water pours in at 3 m³/min.\n(a) Use similar triangles to express the water's volume in terms of its depth h alone.\n(b) Find how fast the depth is rising when h = 4 m.\n(c) Explain why the depth rises more slowly when the water is deeper, referencing your differentiated equation.",
+          "rubric": [
+            "(a) r/h = 5/10 so r = h/2; V = (1/3)π(h/2)^2 h = πh^3/12",
+            "(b) dV/dt = (πh^2/4) dh/dt; 3 = (π·16/4) dh/dt → dh/dt = 3/(4π) m/min",
+            "(c) Solves the rate equation for dh/dt = 4(dV/dt)/(πh^2), noting dh/dt is inversely proportional to h^2",
+            "Wider cross-section at greater depth: the same inflow spreads over more area, raising the level less"
+          ],
+          "model_answer": "(a) The water cone is similar to the tank: r/h = 5/10, so r = h/2 — always true, so substitute now. V = (1/3)πr^2h = (1/3)π(h^2/4)h = πh^3/12. (b) Differentiate: dV/dt = (πh^2/4)(dh/dt). With dV/dt = 3 and h = 4: 3 = (π·16/4)(dh/dt) = 4π(dh/dt), so dh/dt = 3/(4π) ≈ 0.239 m/min. (c) Solving the rate equation: dh/dt = (4·dV/dt)/(πh^2) — inversely proportional to h². Deeper water means a wider surface (radius h/2), so the fixed 3 m³ per minute spreads across a larger disk and lifts the surface more slowly."
+        },
+        {
+          "question": "A street lamp is 6 m tall. A 1.5-meter-tall person walks away from the lamp at 1.2 m/s. Let x be the person's distance from the lamppost and s the length of their shadow.\n(a) Use similar triangles to find the binding equation between x and s, and simplify it.\n(b) How fast is the shadow lengthening?\n(c) How fast is the TIP of the shadow moving away from the lamppost? Explain why this exceeds the walking speed.",
+          "rubric": [
+            "(a) 6/(x + s) = 1.5/s → 6s = 1.5x + 1.5s → s = x/3",
+            "(b) ds/dt = (1/3)(dx/dt) = 0.4 m/s",
+            "(c) Tip position x + s = (4/3)x; d(x+s)/dt = (4/3)(1.2) = 1.6 m/s",
+            "Tip outruns the walker because the shadow lengthens while the person advances — both motions add"
+          ],
+          "model_answer": "(a) The big triangle (lamp, tip) and small triangle (person, tip) are similar: 6/(x + s) = 1.5/s. Cross-multiplying: 6s = 1.5(x + s), so 4.5s = 1.5x and s = x/3. (b) Differentiate: ds/dt = (1/3)dx/dt = (1/3)(1.2) = 0.4 m/s. (c) The tip sits at distance x + s = x + x/3 = (4/3)x from the post, so its speed is (4/3)(1.2) = 1.6 m/s. The tip moves faster than the person because two effects stack: the person advances at 1.2 m/s AND the shadow simultaneously lengthens at 0.4 m/s — the tip carries both motions."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Contextual Applications of Differentiation",
+    "chapter_title": "Related Rates — The Classic Scenarios",
+    "hook": "Cones draining, shadows stretching, boats pulling away from docks, camera angles tracking rockets — the AP rotates through a repertory cast of related-rates scenarios. Meet each one once, slowly, and exam day becomes a reunion.",
+    "learning_objectives": [
+      "Execute the five-step protocol fluently across the classic scenario bank",
+      "Solve right-triangle scenarios: ladders, separating vehicles, kites, and docks",
+      "Solve filling and draining problems for cones and cylinders",
+      "Solve angle-rate problems using trig relations and sec² fees",
+      "Diagnose which scenario archetype a novel problem belongs to"
+    ],
+    "sections": [
+      {
+        "title": "Right-Triangle Scenarios",
+        "subtitle": "Pythagoras carries the load",
+        "body": "The separating-vehicles classic: a car drives north at 60 km/h while another drives east at 80 km/h, both from the same intersection. How fast does the distance between them grow when the northbound car is 0.6 km and the eastbound 0.8 km from the start? Bind: z^2 = x^2 + y^2. Differentiate: 2z(dz/dt) = 2x(dx/dt) + 2y(dy/dt). Snapshot: z = √(0.36 + 0.64) = 1. Substitute: dz/dt = (0.8·80 + 0.6·60)/1 = 100 km/h.\n\nThe boat-and-dock variant adds a twist: a rope from a dock pulley 1 m above the boat's bow is hauled in at 0.5 m/s. The rope length z and horizontal distance x satisfy z^2 = x^2 + 1, and the QUESTION is dx/dt while dz/dt is given. Differentiating and solving: dx/dt = (z/x)(dz/dt). Since z > x always (hypotenuse), the boat moves FASTER than the rope shortens — a counterintuitive conclusion the algebra delivers and the exam loves to probe conceptually.\n\nKites and balloons with an observer: altitude fixed or changing, horizontal drift given, find the rate the string pays out or the distance grows. All the same skeleton — identify which sides of the triangle change, which are constant (label numbers!), and differentiate Pythagoras.\n\nThe quiet workhorse: completing the snapshot with the binding equation (find z when x and y are known) before solving. In every right-triangle problem, that completion step is where dropped negatives and arithmetic slips concentrate — slow down exactly there.",
+        "key_terms": [
+          [
+            "Separating vehicles",
+            "z² = x² + y² with both component rates feeding dz/dt"
+          ],
+          [
+            "Rope-haul inversion",
+            "Given the hypotenuse rate, solve for a leg's rate: dx/dt = (z/x)dz/dt > dz/dt"
+          ],
+          [
+            "Snapshot completion",
+            "Compute the triangle's missing side before substituting — the error hotspot"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "In separating-vehicle problems, the rates dx/dt and dy/dt are constant but dz/dt is NOT — it depends on the snapshot. A common conceptual MC question asks exactly this: 'is the separation rate constant?' No, and the differentiated equation shows why."
+          ]
+        ]
+      },
+      {
+        "title": "Tanks, Cones, and Troughs",
+        "subtitle": "Volume scenarios and shape elimination",
+        "body": "Cylindrical tanks are the gentle case: V = πR^2h with R constant, so dV/dt = πR^2(dh/dt) — the rates are proportional, and depth rises uniformly regardless of level. Any problem where the cross-section doesn't change with height behaves this way.\n\nCones are the featured act, and the previous chapter's eliminate-then-differentiate is the play: vertex-down cone of height H and rim radius R, water at depth h with surface radius r = (R/H)h (similar triangles, always true). V = (1/3)πr^2h = (πR^2/3H^2)h^3. Differentiate: dV/dt = (πR^2/H^2)h^2(dh/dt). The h^2 factor is why shallow water rises fast and deep water slowly — and why 'when the depth is 2' versus 'when the depth is 6' changes the answer by a factor of 9.\n\nTroughs (prisms with triangular cross-section) run parallel: express the cross-section's area in terms of depth via similar triangles, multiply by the trough's length, differentiate. An isosceles-triangle trough 8 m long with top width 2 m and depth 1 m: at water depth h, surface width 2h, cross-section area h^2, volume 8h^2, so dV/dt = 16h(dh/dt).\n\nLeaky variants superpose rates: water pours in at 3 m³/min while draining at 1 m³/min — the NET dV/dt = 2 enters the equation. When an FRQ says 'at the same time water drains at...', add the signed rates before substituting. Bookkeeping, not new calculus.",
+        "key_terms": [
+          [
+            "Cylinder proportionality",
+            "Constant cross-section: dV/dt = (area)(dh/dt), level rises uniformly"
+          ],
+          [
+            "Cone h² law",
+            "After shape elimination, dV/dt ∝ h²(dh/dt) — depth dramatically changes rise rates"
+          ],
+          [
+            "Net rate superposition",
+            "Inflow minus outflow gives the dV/dt that enters the equation"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Trough problems hide their similar triangles in the CROSS-SECTION, not the 3D shape. Draw the 2D triangle face, relate surface width to depth there, then multiply by the prism's length. Students who try to find 3D similar solids stall; the geometry is flat."
+          ]
+        ]
+      },
+      {
+        "title": "Angle Rates",
+        "subtitle": "Cameras, beacons, and sec² fees",
+        "body": "Angle problems bind an angle to lengths through a trig ratio, and the differentiation fee is the trig derivative. The rising-balloon camera: a camera 100 m from a launch pad tracks a balloon rising at 4 m/s. With θ the elevation angle and h the height, tan θ = h/100. Differentiate: sec^2(θ)(dθ/dt) = (dh/dt)/100. At h = 100: θ = π/4, sec^2 θ = 2, so dθ/dt = 4/(100·2) = 0.02 rad/s.\n\nThe snapshot completion here computes sec^2 θ from the triangle: at h = 100, the hypotenuse is 100√2, so sec θ = √2 — or simply sec^2 θ = 1 + tan^2 θ = 1 + 1 = 2. The identity route avoids square roots entirely and is the recommended habit: sec^2 θ = 1 + (h/100)^2 turns every camera problem into algebra.\n\nRotating-beacon problems invert the given and requested: a lighthouse beam rotates at dθ/dt = 2 rev/min (convert: 4π rad/min!) and the question asks how fast the light spot races along a straight shore — tan θ = x/d differentiated gives dx/dt = d·sec^2(θ)(dθ/dt), exploding as the beam swings parallel to the shore. UNIT CONVERSION is the silent killer: revolutions to radians, degrees to radians — trig derivative formulas demand radians, full stop.\n\nWhich trig ratio to pick: tan for opposite/adjacent setups (heights vs ground distance — the majority), sin or cos when the hypotenuse is one of the changing or known quantities. Choosing the ratio whose ingredients you KNOW spares conversions later; choosing badly costs an extra identity pass but is never fatal.",
+        "key_terms": [
+          [
+            "tan θ scenario",
+            "Height over ground distance: sec²θ dθ/dt = (dh/dt)/d — the camera template"
+          ],
+          [
+            "Identity completion",
+            "sec²θ = 1 + tan²θ converts snapshot geometry to algebra, no roots"
+          ],
+          [
+            "Radian mandate",
+            "Angle rates must be in radians per time; convert revs and degrees first"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Angle-rate answers carry units of RADIANS per time, and the exam checks: a beacon at '2 revolutions per minute' must become 4π rad/min before differentiated equations see it. The rev-to-rad conversion is worth a full point and is forgotten weekly in every classroom."
+          ]
+        ]
+      },
+      {
+        "title": "Scenario Diagnosis",
+        "subtitle": "Mapping novel problems to the bank",
+        "body": "Exam problems disguise the archetypes with fresh stories — but the diagnosis questions are fixed. What quantities change? (List them; they get letters.) What binds them? (Distances at right angles → Pythagoras; a shape's dimensions → volume formula plus similar triangles; an angle sighting → trig ratio.) What is given and what is asked? (Rates, with signs.) Three questions classify any problem into the bank.\n\nMixed archetypes occur: a fish on a line involves the reel rate (rope-haul) AND the rod-tip angle (angle rate); a draining conical coffee filter dripping into a cylindrical cup chains two volume scenarios with a shared dV/dt. Decompose into stages, solve the known stage, feed its output to the next — dependency diagrams from the chained-rates section scale up naturally.\n\nWhat stays constant deserves explicit certification: 'the ladder is rigid' (length constant), 'the cone's shape is fixed' (ratio constant), 'the camera is mounted' (distance constant). Constants license number-labels at the drawing step, and stating them ('since the ladder's length is fixed at 13...') is rubric-visible justification.\n\nA closing drill for self-test: write the binding equation ONLY — no differentiation — for five prompts: two ships separating at an angle (law of cosines), a snowball melting (sphere volume), a sliding ladder's ANGLE with the ground (cos θ = x/13), water in a trough (area times length), a shadow's tip (similar triangles). Five correct equations in five minutes means the diagnostic layer is solid, and execution is just the protocol.",
+        "key_terms": [
+          [
+            "Three diagnosis questions",
+            "What changes? What binds them? What's given/asked?"
+          ],
+          [
+            "Stage decomposition",
+            "Mixed problems split at shared quantities; solve and feed forward"
+          ],
+          [
+            "Constancy certification",
+            "Naming what is fixed (and why) earns justification credit and prevents letter/number errors"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "If a related-rates FRQ feels unfamiliar, classify before computing: right triangle, volume, or angle? The 30-second classification nearly always lands the problem in the bank, converting panic into protocol."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "Two cars leave an intersection simultaneously, one north at 24 m/s, one east at 10 m/s. When the northbound car is 72 m and the eastbound 30 m from the start, the distance between them increases at",
+          "choices": {
+            "A": "26 m/s",
+            "B": "34 m/s",
+            "C": "24.9 m/s",
+            "D": "13 m/s"
+          },
+          "answer": "A",
+          "explanation": "z = √(72² + 30²) = 78. dz/dt = (x dx/dt + y dy/dt)/z = (30·10 + 72·24)/78 = (300 + 1728)/78 = 26 m/s."
+        },
+        {
+          "question": "A vertex-down conical tank with H = 12 m and R = 4 m fills at 9 m³/min. Using r = h/3, the depth rises at h = 6 at rate",
+          "choices": {
+            "A": "9/(4π) m/min",
+            "B": "4π/9 m/min",
+            "C": "1/(4π) m/min",
+            "D": "9/(36π) m/min"
+          },
+          "answer": "A",
+          "explanation": "V = πh³/27, dV/dt = (πh²/9)dh/dt: 9 = (π·36/9)dh/dt = 4π dh/dt → dh/dt = 9/(4π)."
+        },
+        {
+          "question": "A camera 50 m from a launch pad tracks a rocket rising at 30 m/s. When the rocket is 50 m high, the elevation angle increases at",
+          "choices": {
+            "A": "0.3 rad/s",
+            "B": "0.6 rad/s",
+            "C": "0.15 rad/s",
+            "D": "3/5 rad/s"
+          },
+          "answer": "A",
+          "explanation": "tan θ = h/50: sec²θ dθ/dt = (dh/dt)/50. At h = 50, sec²θ = 1 + 1 = 2: dθ/dt = 30/(50·2) = 0.3 rad/s."
+        },
+        {
+          "question": "A rope from a dock hauls a boat in. The rope (hypotenuse) shortens at 1 m/s. Compared to 1 m/s, the boat's horizontal speed toward the dock is",
+          "choices": {
+            "A": "greater",
+            "B": "less",
+            "C": "equal",
+            "D": "cannot be compared"
+          },
+          "answer": "A",
+          "explanation": "dx/dt = (z/x)dz/dt in magnitude, and the hypotenuse z always exceeds the leg x, so the boat outpaces the rope."
+        },
+        {
+          "question": "A beacon rotates at 3 revolutions per minute. Before using dθ/dt in a differentiated equation, its value must be",
+          "choices": {
+            "A": "6π rad/min",
+            "B": "3 rad/min",
+            "C": "540 deg/min",
+            "D": "3π rad/min"
+          },
+          "answer": "A",
+          "explanation": "One revolution is 2π radians: 3 rev/min = 6π rad/min. Trig derivatives require radians."
+        }
+      ],
+      "frq": [
+        {
+          "question": "A kite flies at a constant altitude of 40 m, drifting horizontally away from the person flying it at 3 m/s. Let x be the horizontal distance and z the length of string paid out (assume the string is straight).\n(a) Write the binding equation and differentiate it with respect to time.\n(b) Find how fast string must be paid out when z = 50 m.\n(c) As the kite drifts farther and farther away, what value does dz/dt approach? Justify with a limit.",
+          "rubric": [
+            "(a) z² = x² + 1600; 2z dz/dt = 2x dx/dt, so dz/dt = (x/z)(3)",
+            "(b) At z = 50: x = 30; dz/dt = (30/50)(3) = 1.8 m/s",
+            "(c) dz/dt = 3x/√(x² + 1600) → 3 as x → ∞",
+            "Interpretation: far away, the string is nearly horizontal so it pays out at almost the drift speed"
+          ],
+          "model_answer": "(a) Altitude is constant: z² = x² + 40² = x² + 1600. Differentiating: 2z(dz/dt) = 2x(dx/dt), so dz/dt = (x/z)·3. (b) When z = 50: x = √(2500 - 1600) = 30, so dz/dt = (30/50)(3) = 1.8 m/s. (c) dz/dt = 3x/√(x² + 1600); dividing by x, this is 3/√(1 + 1600/x²) → 3 m/s as x → ∞. Far from the flyer, the string is nearly horizontal, so paying out string nearly matches the kite's horizontal drift."
+        },
+        {
+          "question": "A trough is 10 m long; its cross-section is an isosceles triangle, 3 m wide at the top and 1.5 m deep, vertex down. Water flows in at 2.5 m³/min, but the trough also leaks at 0.5 m³/min.\n(a) Express the volume of water in terms of the depth h.\n(b) Find the rate the depth is rising when h = 0.5 m.\n(c) Would the answer to (b) be larger or smaller at h = 1.0 m? Justify without recomputing from scratch.",
+          "rubric": [
+            "(a) Surface width = 2h (similar triangles: width/depth = 3/1.5 = 2); cross-section h²; V = 10h²",
+            "(b) Net dV/dt = 2.5 - 0.5 = 2; from dV/dt = 20h dh/dt at h = 0.5: 2 = 10 dh/dt, so dh/dt = 0.2 m/min",
+            "(c) dh/dt = 2/(20h) = 1/(10h), inversely proportional to h",
+            "At h = 1.0 the rate halves to 0.1 — smaller, since the surface is wider"
+          ],
+          "model_answer": "(a) The cross-section triangle has width-to-depth ratio 3/1.5 = 2, so at water depth h the surface width is 2h and the cross-sectional area is (1/2)(2h)(h) = h². Volume: V = 10h². (b) The net inflow is 2.5 - 0.5 = 2 m³/min. Differentiate: dV/dt = 20h(dh/dt); at h = 0.5: 2 = 20(0.5)(dh/dt) = 10(dh/dt), so dh/dt = 0.2 m/min. (c) From dh/dt = 2/(20h) = 1/(10h), the rise rate is inversely proportional to depth. At h = 1.0 it drops to 0.1 m/min — deeper water has a wider surface, so the same net inflow lifts it more slowly."
+        },
+        {
+          "question": "A police officer stands 30 m from a straight road, watching a car. Let x be the car's distance from the point on the road nearest the officer, and θ the angle between the officer's line of sight and the perpendicular to the road. The officer measures dθ/dt = 0.2 rad/s at the moment θ = π/4.\n(a) Write the relation between x and θ and differentiate it.\n(b) Find the car's speed at that moment.\n(c) If the officer's angle rate reading were the same but at θ = π/3, would the computed speed be higher or lower? Compute it and explain the geometric reason.",
+          "rubric": [
+            "(a) tan θ = x/30; sec²θ dθ/dt = (dx/dt)/30",
+            "(b) At π/4: sec²θ = 2; dx/dt = 30(2)(0.2) = 12 m/s",
+            "(c) At π/3: sec²θ = 4; dx/dt = 30(4)(0.2) = 24 m/s — higher",
+            "Reason: at a steeper viewing angle, equal angular sweep corresponds to more road distance"
+          ],
+          "model_answer": "(a) tan θ = x/30, so sec²θ (dθ/dt) = (1/30)(dx/dt), giving dx/dt = 30 sec²θ (dθ/dt). (b) At θ = π/4: sec²(π/4) = 2, so dx/dt = 30(2)(0.2) = 12 m/s. (c) At θ = π/3: sec²(π/3) = 4, so dx/dt = 30(4)(0.2) = 24 m/s — double. Geometrically, when the car is farther down the road (larger θ), the officer's line of sight is more nearly parallel to the road, so each radian of angle change spans much more roadway: the same dθ/dt implies a faster car."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Contextual Applications of Differentiation",
+    "chapter_title": "Linearization and Local Linearity",
+    "hook": "Zoom into any differentiable curve far enough and it straightens into its tangent line. Linearization weaponizes that flatness: approximate √36.6 by hand, predict function values from tables, and know — before computing — whether your answer is too big or too small.",
+    "learning_objectives": [
+      "Construct the linearization L(x) = f(a) + f'(a)(x - a) at a chosen base point",
+      "Approximate function values by choosing a friendly nearby base point",
+      "Use concavity to determine whether a linear approximation over- or underestimates",
+      "Apply linearization to table-based and differential-equation contexts",
+      "Quantify the role of distance and curvature in approximation error"
+    ],
+    "sections": [
+      {
+        "title": "The Linearization Function",
+        "subtitle": "The tangent line, promoted",
+        "body": "The linearization of f at a is L(x) = f(a) + f'(a)(x - a) — the tangent line at a, written as a function and intended as a STAND-IN for f near a. Local linearity, the microscope fact from Unit 2, is the warrant: differentiable curves are indistinguishable from their tangents at small scales, so L(x) ≈ f(x) for x near a.\n\nThe classic demonstration: approximate √36.6. Choose f(x) = √x and the friendly base a = 36 (a perfect square close to the target). f(36) = 6; f'(x) = 1/(2√x), f'(36) = 1/12. L(x) = 6 + (x - 36)/12, so √36.6 ≈ L(36.6) = 6 + 0.6/12 = 6.05. The true value is 6.0498...: two-decimal accuracy from arithmetic a child could do.\n\nBase-point selection is the only judgment call: pick a where BOTH f(a) and f'(a) compute cleanly, as close as possible to the target. Perfect squares for roots, multiples of π for trig, powers for logs. The skill is recognizing the friendly neighbor — the rest is the formula.\n\nVocabulary patrol: 'linearization,' 'tangent line approximation,' 'local linear approximation,' and 'best linear approximation' are four names for L(x). The exam uses all four interchangeably; do not let an unfamiliar label disguise a familiar computation.",
+        "key_terms": [
+          [
+            "Linearization",
+            "L(x) = f(a) + f'(a)(x - a): the tangent line as an approximation function"
+          ],
+          [
+            "Friendly base point",
+            "Nearby a where f(a) and f'(a) are exact and easy — perfect squares, π-multiples"
+          ],
+          [
+            "Name cluster",
+            "Linearization = tangent line approximation = local linear approximation"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Linearization FRQs award separate points for f(a), f'(a), the assembled L(x), and the evaluated approximation. Write all four explicitly — a correct final number with invisible parts can drop the structure points."
+          ]
+        ]
+      },
+      {
+        "title": "Over or Under?",
+        "subtitle": "Concavity decides, every time",
+        "body": "Whether L(x) over- or underestimates f(x) is not a mystery — it is concavity. Concave up (f'' > 0): the curve bends ABOVE its tangent, so the tangent is BELOW: L underestimates. Concave down (f'' < 0): tangent above, L overestimates. Sketch a cup with a tangent and the geometry is unforgettable: chords above, tangents below for cups; flipped for caps.\n\nThe √36.6 check: f(x) = √x has f''(x) = -1/(4x^{3/2}) < 0 — concave down, so 6.05 is an overestimate. The true value 6.0498 confirms. On the exam, the justification sentence is mandatory: 'since f''(x) < 0 on the interval, the graph lies below its tangent line, so the approximation is an overestimate.' Sign of f'', position of curve versus tangent, conclusion — three beats.\n\nThe justification must cite f'' ON THE RELEVANT INTERVAL, not just at the base point: technically the curve must stay one-sided between a and x. For AP purposes, single-signed f'' on the interval between the base and the target is the gold-standard sentence, and problems are engineered so it holds.\n\nThis question — approximate, then classify the error — is among the most reliably asked FRQ pairs in the entire course, appearing with linearizations, Euler's method (Unit 7), and Taylor polynomials (Unit 10). One geometric idea funds all three: curves and their tangents disagree in the direction concavity dictates.",
+        "key_terms": [
+          [
+            "Concave up ⟹ underestimate",
+            "Tangent sits below a cup; L(x) ≤ f(x) nearby"
+          ],
+          [
+            "Concave down ⟹ overestimate",
+            "Tangent sits above a cap; L(x) ≥ f(x) nearby"
+          ],
+          [
+            "Three-beat justification",
+            "Sign of f'' on the interval → curve vs tangent position → over/under conclusion"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The over/under point requires the f''-based sentence, not a numerical comparison with a calculator value. 'The calculator says 6.0498 < 6.05' earns nothing; 'f'' < 0 so the tangent lies above the curve' earns the point. The exam grades the REASONING."
+          ]
+        ]
+      },
+      {
+        "title": "Differentials",
+        "subtitle": "dy and dx as bookkeeping",
+        "body": "Differential notation repackages linearization for changes: dy = f'(x)dx, where dx is a chosen small input change and dy is the OUTPUT change predicted by the tangent line. Against the true change Δy = f(x + dx) - f(x), the differential dy is the linear estimate: Δy ≈ dy, with the gap again governed by concavity and step size.\n\nWorked: f(x) = x^3 at x = 2 with dx = 0.1. dy = 3x² dx = 12(0.1) = 1.2 — the tangent line predicts f(2.1) ≈ 8 + 1.2 = 9.2. True: 2.1³ = 9.261. The differential underestimated, as f''(2) = 12 > 0 (concave up) demands. Same machinery as L(x), recentered on changes rather than values.\n\nApplied appeal: error propagation. A sphere's radius is measured as 5 cm with possible error dr = ±0.02. The volume error: dV = 4πr² dr = 4π(25)(0.02) = 2π cm³ — measurement uncertainty amplified through the formula by the derivative. Relative errors divide: dV/V = 3 dr/r (the exponent 3 from V ∝ r³ becomes the multiplier), so a 0.4% radius error produces a 1.2% volume error. Power rules govern error amplification — an insight chemistry and physics labs use daily.\n\nThe AP touches differentials lightly (linearization carries the tested weight), but the notation pays forward: dy = f'(x)dx is the syntax of u-substitution in Unit 6 and separation of variables in Unit 7. Fluency now is integration fluency later.",
+        "key_terms": [
+          [
+            "Differential",
+            "dy = f'(x)dx: the tangent-line-predicted output change for input change dx"
+          ],
+          [
+            "Δy vs dy",
+            "True change versus linear estimate — concavity and step size set the gap"
+          ],
+          [
+            "Relative error amplification",
+            "y = x^n gives dy/y = n(dx/x): exponents multiply percentage errors"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "dy = f'(x)dx rearranges the Leibniz 'fraction' dy/dx legally — and this is exactly the manipulation u-substitution (du = u'dx) runs on in Unit 6. Treating the notation seriously now removes the mystery from integration's central technique."
+          ]
+        ]
+      },
+      {
+        "title": "Linearization in the Wild",
+        "subtitle": "Tables, DEs, and the approximation mindset",
+        "body": "Table version: given f(3) = 7 and f'(3) = -2 (or f' estimated by a straddling quotient), approximate f(3.4): L(3.4) = 7 + (-2)(0.4) = 6.2. When the problem supplies f'' information — 'f is concave up on (2, 4)' — the over/under classification rides along free: underestimate. The full FRQ pattern is approximate-then-classify, and both halves are now routine.\n\nDifferential equation version (the BC bridge): given dy/dx = x + y with y(1) = 2, approximate y(1.2) by the tangent line at x = 1. The DE itself supplies the slope: y'(1) = 1 + 2 = 3. L(1.2) = 2 + 3(0.2) = 2.6. No formula for y was ever known — the differential equation replaced it as the slope source. Iterating this exact move IS Euler's method, three chapters ahead; the single-step version is already in your hands.\n\nWhen does linearization fail gracefully versus badly? The error grows with the square of the distance |x - a| (Taylor's theorem, Unit 10, makes this precise) and with the size of f''. Approximating √49.2 from a = 49: excellent. Approximating √60 from a = 49: poor — 11 units is not 'near.' The mindset: linearization is a NEAR-the-point tool, and 'near' is measured against how curved the function is.\n\nUnit synthesis: interpretation gives derivatives meaning, motion and related rates make them dynamic, and linearization makes them PREDICTIVE. The remaining chapter (L'Hospital) turns derivatives back on limits themselves — closing the loop the unit opened.",
+        "key_terms": [
+          [
+            "Approximate-then-classify",
+            "The standard FRQ pair: tangent estimate plus concavity-based over/under"
+          ],
+          [
+            "DE-supplied slope",
+            "dy/dx = F(x, y) evaluates the tangent slope without knowing y — Euler's seed"
+          ],
+          [
+            "Quadratic error growth",
+            "Error scales like |x - a|²: distance from the base point is squared in the penalty"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When a differential equation provides the slope, evaluate dy/dx AT THE GIVEN POINT by substituting both x and y. For dy/dx = x + y at (1, 2), the slope is 3 — not the expression x + y. The evaluated number is what enters the tangent line."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "The linearization of f(x) = √x at a = 25, used to approximate √24.4, gives",
+          "choices": {
+            "A": "4.94",
+            "B": "4.96",
+            "C": "5.06",
+            "D": "4.88"
+          },
+          "answer": "A",
+          "explanation": "L(x) = 5 + (x - 25)/10; L(24.4) = 5 - 0.6/10 = 4.94."
+        },
+        {
+          "question": "f(2) = 9, f'(2) = 4, and f''(x) > 0 for all x. The tangent-line approximation of f(2.3) is",
+          "choices": {
+            "A": "10.2, an underestimate",
+            "B": "10.2, an overestimate",
+            "C": "9.4, an underestimate",
+            "D": "10.2, exactly correct"
+          },
+          "answer": "A",
+          "explanation": "L(2.3) = 9 + 4(0.3) = 10.2; concave up means the curve sits above its tangent: underestimate."
+        },
+        {
+          "question": "Using differentials with y = x^4 at x = 3, dx = 0.02, the predicted change dy is",
+          "choices": {
+            "A": "2.16",
+            "B": "1.08",
+            "C": "0.24",
+            "D": "108"
+          },
+          "answer": "A",
+          "explanation": "dy = 4x³ dx = 4(27)(0.02) = 2.16."
+        },
+        {
+          "question": "dy/dx = 2x - y with y(2) = 1. The tangent-line approximation of y(2.1) is",
+          "choices": {
+            "A": "1.3",
+            "B": "1.2",
+            "C": "0.7",
+            "D": "1.5"
+          },
+          "answer": "A",
+          "explanation": "Slope at (2, 1): 2(2) - 1 = 3. y(2.1) ≈ 1 + 3(0.1) = 1.3."
+        },
+        {
+          "question": "A cube's side is measured as 10 cm with error at most 0.1 cm. Using differentials, the maximum error in the computed volume is approximately",
+          "choices": {
+            "A": "30 cm³",
+            "B": "3 cm³",
+            "C": "300 cm³",
+            "D": "0.3 cm³"
+          },
+          "answer": "A",
+          "explanation": "V = s³, dV = 3s² ds = 3(100)(0.1) = 30 cm³."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let f(x) = x^{2/3}.\n(a) Write the linearization of f at a = 8.\n(b) Use it to approximate 7.5^{2/3}.\n(c) Compute f''(x), determine the concavity near x = 8, and state whether your approximation is an over- or underestimate, with the standard justification.",
+          "rubric": [
+            "(a) f(8) = 4, f'(x) = (2/3)x^{-1/3}, f'(8) = 1/3: L(x) = 4 + (x - 8)/3",
+            "(b) L(7.5) = 4 - 0.5/3 = 4 - 1/6 ≈ 3.833",
+            "(c) f'' = -(2/9)x^{-4/3} < 0 near 8: concave down",
+            "Tangent lies above the curve, so the approximation is an overestimate"
+          ],
+          "model_answer": "(a) f(8) = 8^{2/3} = 4; f'(x) = (2/3)x^{-1/3}, so f'(8) = (2/3)(1/2) = 1/3. L(x) = 4 + (1/3)(x - 8). (b) 7.5^{2/3} ≈ L(7.5) = 4 + (1/3)(-0.5) = 4 - 1/6 ≈ 3.833. (c) f''(x) = -(2/9)x^{-4/3}, negative for all x > 0, so f is concave down near 8. A concave-down graph lies below its tangent line, so L(7.5) sits above the true value: the approximation is an overestimate."
+        },
+        {
+          "question": "A differentiable function g satisfies g(4) = 10, and the table of g' values gives g'(3) = 2.2, g'(4) = 1.6, g'(5) = 1.1.\n(a) Write the linearization of g at x = 4 and approximate g(4.5).\n(b) The values of g' in the table are decreasing. What does this suggest about g'', and hence about whether your approximation over- or underestimates g(4.5)?\n(c) Estimate g''(4) from the table with a difference quotient.",
+          "rubric": [
+            "(a) L(x) = 10 + 1.6(x - 4); g(4.5) ≈ 10.8",
+            "(b) Decreasing g' suggests g'' < 0 (concave down) ⟹ overestimate",
+            "(c) Straddle: (g'(5) - g'(3))/(5 - 3) = (1.1 - 2.2)/2 = -0.55",
+            "Consistency noted: negative g'' estimate supports the over-estimate conclusion"
+          ],
+          "model_answer": "(a) L(x) = g(4) + g'(4)(x - 4) = 10 + 1.6(x - 4); g(4.5) ≈ 10 + 1.6(0.5) = 10.8. (b) g' falling across the table suggests g'' < 0 — g is concave down — so the tangent line lies above the curve and 10.8 is an overestimate. (c) g''(4) ≈ (g'(5) - g'(3))/(5 - 3) = (1.1 - 2.2)/2 = -0.55, a negative estimate consistent with the concavity reasoning in (b)."
+        },
+        {
+          "question": "The radius of a spherical tumor is estimated from a scan as r = 1.2 cm, with measurement uncertainty up to dr = 0.05 cm. Volume is V = (4/3)πr³.\n(a) Use differentials to estimate the maximum error in the computed volume.\n(b) Compute the relative (percent) error in volume and compare it to the relative error in radius.\n(c) A second scan reduces the radius uncertainty to 0.01 cm. By what factor does the volume uncertainty shrink? Explain why no recomputation is needed.",
+          "rubric": [
+            "(a) dV = 4πr² dr = 4π(1.44)(0.05) = 0.288π ≈ 0.905 cm³",
+            "(b) dV/V = 3(dr/r) = 3(0.05/1.2) = 12.5%; radius error is ~4.17%",
+            "(c) dV is linear in dr: shrinking dr by factor 5 shrinks dV by factor 5",
+            "States the linear (differential) relationship as the reason"
+          ],
+          "model_answer": "(a) dV = 4πr² dr = 4π(1.2)²(0.05) = 0.288π ≈ 0.905 cm³. (b) Relative error: dV/V = 3 dr/r = 3(0.05/1.2) ≈ 12.5%, triple the radius's relative error of about 4.17% — the cube in V ∝ r³ multiplies percentage errors by 3. (c) The differential dV = 4πr² dr is LINEAR in dr at fixed r, so cutting dr from 0.05 to 0.01 (a factor of 5) cuts dV by the same factor of 5, to about 0.181 cm³ — no new computation required."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Contextual Applications of Differentiation",
+    "chapter_title": "L'Hospital's Rule and Indeterminate Forms",
+    "hook": "Unit 1 resolved 0/0 limits with algebra. L'Hospital's Rule resolves them with derivatives — differentiate top and bottom separately and try again. It is the most powerful limit tool you'll own, the most abused, and the exam tests both the power and the abuse.",
+    "learning_objectives": [
+      "State L'Hospital's Rule with its hypotheses: a 0/0 or ∞/∞ form of a quotient",
+      "Verify the indeterminate form explicitly before each application",
+      "Apply the rule iteratively when one round leaves another indeterminate form",
+      "Convert 0·∞ and other product/difference forms into quotients before applying",
+      "Recognize when L'Hospital is illegal or inferior to algebra"
+    ],
+    "sections": [
+      {
+        "title": "The Rule and Its License",
+        "subtitle": "0/0 or ∞/∞ — nothing else",
+        "body": "L'Hospital's Rule: if lim x→a f(x)/g(x) produces the form 0/0 or ∞/∞ (with f, g differentiable near a and g' ≠ 0 nearby), then lim f/g = lim f'/g' — PROVIDED the right-hand limit exists (or is ±∞). Differentiate numerator and denominator SEPARATELY — this is not the quotient rule — and re-take the limit.\n\nThe license check is mandatory: substitute first, confirm 0/0 or ∞/∞, then differentiate. Applying the rule to a determinate form produces garbage: lim x→2 (x + 3)/(x + 1) is 5/3 by substitution, but blind L'Hospital gives 1/1 = 1 — wrong, because the rule's hypotheses were never met. The exam includes such traps, and the AP's FRQ graders require the form-verification to be WRITTEN: 'since sin(3x) → 0 and x → 0 as x → 0, the limit has the form 0/0, so by L'Hospital's Rule...'\n\nWhy the rule works (intuition worth owning): near a, f(x) ≈ f'(a)(x - a) and g(x) ≈ g'(a)(x - a) when both vanish at a — linearizations from last chapter! The ratio of the functions is the ratio of their linearizations, and the (x - a) factors cancel: f/g ≈ f'/g'. L'Hospital is local linearity applied to both stories of a fraction.\n\nFirst exercises: lim x→0 sin(3x)/x — form 0/0, differentiate: 3cos(3x)/1 → 3 (matching the Unit 1 template a/b). lim x→∞ ln x/x — form ∞/∞: (1/x)/1 → 0, PROVING the growth-hierarchy fact that logs lose to polynomials. Old results, new engine.",
+        "key_terms": [
+          [
+            "L'Hospital's Rule",
+            "For 0/0 or ∞/∞ quotients: lim f/g = lim f'/g', if the latter exists"
+          ],
+          [
+            "License check",
+            "Verify (and on FRQs, write) the indeterminate form before differentiating"
+          ],
+          [
+            "Separate differentiation",
+            "Top and bottom each differentiate alone — never the quotient rule"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "AP FRQ rubrics award a dedicated point for STATING the indeterminate form before applying L'Hospital — 'this limit has the form 0/0' in writing. Skipping the sentence forfeits the point even when the final limit is correct. It is the cheapest point in Unit 4."
+          ]
+        ]
+      },
+      {
+        "title": "Iteration and Stubborn Forms",
+        "subtitle": "Apply, check, apply again",
+        "body": "One application may not finish the job. lim x→0 (1 - cos x)/x²: form 0/0; differentiate: sin x/(2x) — still 0/0; differentiate again: cos x/2 → 1/2. Each round requires its own license check: verify the form is STILL indeterminate before differentiating again, because applying the rule to a resolved form re-introduces the garbage problem.\n\nThe ∞/∞ workhorse — polynomial versus exponential, settled forever: lim x→∞ x³/eˣ. Three rounds of L'Hospital: 3x²/eˣ, 6x/eˣ, 6/eˣ → 0. Every polynomial dies after finitely many rounds while eˣ shrugs them off — the growth hierarchy of Unit 1.7, now a theorem you can prove on demand. The exam accepts both the hierarchy citation and the L'Hospital derivation; know the connection.\n\nWhen iteration spirals (each round as messy as the last), suspect a better route. lim x→∞ √(x² + 1)/x by L'Hospital cycles forever: the top differentiates to x/√(x² + 1), handing back essentially the reciprocal of the original problem. Algebra (divide through by x) finishes in one line, giving 1. L'Hospital is powerful, not universal; stubborn cycling is the signal to switch tools.\n\nEfficiency calibration: Unit 1's algebraic techniques (factor, conjugate, divide by the top power) remain FASTER for rational-function limits and many radical limits. L'Hospital shines on transcendental mixtures — sin, ln, eˣ against polynomials — where algebra has no grip. Two toolkits, chosen per problem; the strongest students switch fluidly.",
+        "key_terms": [
+          [
+            "Iterated application",
+            "Re-verify the indeterminate form before every round"
+          ],
+          [
+            "Polynomial vs exponential",
+            "n rounds of L'Hospital kill xⁿ; eˣ survives: the hierarchy proved"
+          ],
+          [
+            "Cycling signal",
+            "If L'Hospital loops without progress, switch to algebra"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "(1 - cos x)/x² → 1/2 is worth memorizing alongside sin x/x → 1: it appears directly AND as the engine inside Taylor-flavored limit questions. Two L'Hospital rounds derive it; one memory slot stores it."
+          ]
+        ]
+      },
+      {
+        "title": "Disguised Forms",
+        "subtitle": "Rewriting 0·∞ and ∞ − ∞",
+        "body": "L'Hospital reads only quotients, but indeterminacy wears other costumes. The product form 0·∞: lim x→0⁺ x ln x — x dies, ln x explodes negatively; who wins? Rewrite as a quotient: x ln x = ln x/(1/x), now ∞/∞; differentiate: (1/x)/(-1/x²) = -x → 0. The polynomial-side factor wins, and the standard rewrite — move the RECIPROCAL of one factor downstairs — is the move to drill.\n\nWhich factor moves? Choose the rewrite whose derivative SIMPLIFIES. ln x/(1/x) worked; x/(1/ln x) would have been hideous. Rule of thumb: keep logs and exponentials upstairs, send powers downstairs as reciprocals. One trial usually settles it; if the first rewrite worsens, try the other.\n\nThe difference form ∞ − ∞: lim x→0⁺ (1/x - 1/sin x). Combine over a common denominator: (sin x - x)/(x sin x) — form 0/0; L'Hospital (twice, with license checks): (cos x - 1)/(sin x + x cos x), still 0/0; (-sin x)/(2cos x - x sin x) → 0/2 = 0. Differences combine into quotients; common denominators or conjugates are the bridge.\n\nBC's exponential costumes — 1^∞, 0⁰, ∞⁰ — arise in limits like (1 + 1/x)ˣ and are handled by logarithms: set L = the limit, take ln, convert to a 0·∞ form, resolve, exponentiate back. lim x→∞ (1 + 1/x)ˣ: ln gives x ln(1 + 1/x) = ln(1 + 1/x)/(1/x) → (by L'Hospital) 1, so the limit is e¹ = e — the definition of e, recovered. The log-bridge for power forms completes the disguise catalog.",
+        "key_terms": [
+          [
+            "0·∞ rewrite",
+            "Move one factor's reciprocal downstairs: x ln x = ln x/(1/x)"
+          ],
+          [
+            "∞ − ∞ bridge",
+            "Common denominators (or conjugates) convert differences to quotients"
+          ],
+          [
+            "Log-bridge for powers",
+            "1^∞, 0⁰, ∞⁰: take ln, resolve the product form, exponentiate back"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "lim x→0⁺ x ln x = 0 is the most frequently needed 0·∞ result on the BC exam — it anchors improper-integral and series questions later. Drill the rewrite until the three-line resolution is automatic."
+          ]
+        ]
+      },
+      {
+        "title": "Abuse Prevention",
+        "subtitle": "When the rule lies or wastes your time",
+        "body": "Abuse one — no indeterminate form: already covered, but the disguised version deserves note: lim x→0⁺ (sin x)/x² is 0/0 and L'Hospital gives cos x/(2x) → ∞ — fine; but students who reflexively differentiate AGAIN (cos x/2x is 1/0, NOT indeterminate) manufacture −sin x/2 → 0, a wrong answer born of an unlicensed second round. Check the form EVERY round.\n\nAbuse two — the rule eats its own tail. lim x→0 sin x/x via L'Hospital uses cos x/1 → 1 — but the derivative of sin x at 0 IS this very limit, so the argument is circular (it assumes what it proves). The AP does not police this subtlety, but honest mathematics notes it: the special limits were proved by squeeze, and L'Hospital RESTS on them, not the reverse.\n\nAbuse three — derivative-definition limits in disguise. lim h→0 (e^{2+h} - e²)/h is f'(2) for f(x) = eˣ by RECOGNITION (Unit 2's template): e². L'Hospital also works but obscures the structure the question is testing. When a limit IS a derivative definition, say so — recognition is the intended, faster, full-credit route.\n\nThe complete limit-resolution hierarchy, final form: (1) substitute — done if determinate; (2) recognize derivative-definition templates; (3) algebra — factor, conjugate, top-power division; (4) special limits and squeeze; (5) L'Hospital for 0/0 and ∞/∞, with rewrites for disguises. Five tiers, tried in order of cost. The students who master the ORDER — not just the tools — finish limit questions in half the time.",
+        "key_terms": [
+          [
+            "Per-round licensing",
+            "Each L'Hospital application needs its own indeterminate-form check"
+          ],
+          [
+            "Circularity caveat",
+            "sin x/x via L'Hospital assumes the derivative it claims to derive"
+          ],
+          [
+            "Resolution hierarchy",
+            "Substitute → recognize → algebra → special limits → L'Hospital"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Before invoking L'Hospital on any (something - number)/(x - a) limit, scan for the derivative-definition template: if the numerator is f(x) - f(a), the answer is f'(a) by recognition. The exam writes these expecting the template; L'Hospital is the slow lane."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "lim x→0 (e^{3x} - 1)/x =",
+          "choices": {
+            "A": "3",
+            "B": "1",
+            "C": "0",
+            "D": "e³"
+          },
+          "answer": "A",
+          "explanation": "Form 0/0; L'Hospital: 3e^{3x}/1 → 3. (Equivalently, recognize the derivative of e^{3x} at 0.)"
+        },
+        {
+          "question": "lim x→∞ x²/e^{0.5x} =",
+          "choices": {
+            "A": "0",
+            "B": "∞",
+            "C": "2",
+            "D": "4"
+          },
+          "answer": "A",
+          "explanation": "∞/∞; two rounds of L'Hospital: 2x/(0.5e^{0.5x}), then 2/(0.25e^{0.5x}) → 0 — exponentials beat polynomials."
+        },
+        {
+          "question": "For which limit is applying L'Hospital's Rule ILLEGAL?",
+          "choices": {
+            "A": "lim x→0 sin x/x",
+            "B": "lim x→2 (x² - 4)/(x - 2)",
+            "C": "lim x→1 (x + 5)/(x + 2)",
+            "D": "lim x→∞ ln x/x"
+          },
+          "answer": "C",
+          "explanation": "Substitution gives 6/3 = 2 — a determinate form. The rule's hypotheses (0/0 or ∞/∞) fail; applying it anyway gives 1/1 = 1, which is wrong."
+        },
+        {
+          "question": "lim x→0⁺ x² ln x =",
+          "choices": {
+            "A": "0",
+            "B": "-∞",
+            "C": "∞",
+            "D": "-1"
+          },
+          "answer": "A",
+          "explanation": "0·∞ form; rewrite ln x/(1/x²): L'Hospital gives (1/x)/(-2/x³) = -x²/2 → 0. The power crushes the log."
+        },
+        {
+          "question": "lim x→0 (1 - cos x)/x² =",
+          "choices": {
+            "A": "1/2",
+            "B": "0",
+            "C": "1",
+            "D": "Does not exist"
+          },
+          "answer": "A",
+          "explanation": "0/0 twice: sin x/(2x) is still 0/0; cos x/2 → 1/2."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Evaluate lim x→0 (sin(5x) - 5x)/x³, showing every required form-verification.\n(a) Verify the initial indeterminate form.\n(b) Apply L'Hospital's Rule as many times as needed, verifying the form at each stage.\n(c) State the value of the limit.",
+          "rubric": [
+            "(a) sin(5x) - 5x → 0 and x³ → 0: form 0/0, stated",
+            "(b) Round 1: (5cos(5x) - 5)/(3x²) — 0/0 again, stated; Round 2: (-25sin(5x))/(6x) — 0/0, stated",
+            "Round 3 or template: -125cos(5x)/6 → -125/6",
+            "(c) Limit = -125/6"
+          ],
+          "model_answer": "(a) As x → 0, sin(5x) - 5x → 0 - 0 = 0 and x³ → 0: the form is 0/0, so L'Hospital's Rule applies. (b) Round 1: (5cos(5x) - 5)/(3x²); at 0 this is 0/0 — apply again. Round 2: (-25 sin(5x))/(6x); at 0, again 0/0. Round 3: (-125 cos(5x))/6 → -125/6 (alternatively, round 2 is the sin u/u template with u = 5x: (-25)(5/6) = -125/6). (c) The limit is -125/6."
+        },
+        {
+          "question": "Consider lim x→∞ (ln x)²/x.\n(a) Identify the indeterminate form and resolve the limit.\n(b) Use the result to compare the growth of (ln x)² to x, and generalize: how does (ln x)^k compare to x^p for positive k, p?\n(c) A student claims lim x→∞ (ln x)^{100}/x^{0.01} = ∞ 'because 100 beats 0.01.' Settle the dispute.",
+          "rubric": [
+            "(a) ∞/∞; L'Hospital: 2 ln x·(1/x)/1 = 2 ln x/x, still ∞/∞; once more: 2/x → 0",
+            "(b) (ln x)² grows slower than x; in general any (ln x)^k loses to any x^p",
+            "(c) Limit is 0, not ∞ — repeated L'Hospital strips ln-powers while x^{0.01} persists",
+            "Conclusion: every power of ln loses to every positive power of x, regardless of exponents"
+          ],
+          "model_answer": "(a) Both pieces → ∞: form ∞/∞. L'Hospital: (2 ln x/x)/1 = 2 ln x/x — still ∞/∞. Again: (2/x)/1 → 0. The limit is 0. (b) (ln x)² is eventually negligible against x. Generally, k rounds of L'Hospital reduce (ln x)^k to a constant while the denominator x^p only sheds constant factors of p — so (ln x)^k/x^p → 0 for every k > 0, p > 0. (c) The student is wrong: by (b) with k = 100, p = 0.01, the limit is 0. The log's exponent only sets HOW MANY L'Hospital rounds are needed (100), not the outcome — any positive power of x eventually dominates any power of ln x."
+        },
+        {
+          "question": "Let L = lim x→∞ (1 + 3/x)^x.\n(a) Explain why this is a 1^∞ indeterminate form and why a logarithm converts it to a tractable form.\n(b) Evaluate lim x→∞ x ln(1 + 3/x) using a quotient rewrite and L'Hospital's Rule.\n(c) Conclude the value of L.",
+          "rubric": [
+            "(a) Base → 1, exponent → ∞; ln turns the power into the product x ln(1 + 3/x), a 0·∞ form",
+            "(b) Rewrite ln(1 + 3/x)/(1/x): 0/0; L'Hospital yields 3/(1 + 3/x) → 3",
+            "(c) ln L = 3, so L = e³",
+            "Form verifications stated at each stage"
+          ],
+          "model_answer": "(a) As x → ∞, the base 1 + 3/x → 1 while the exponent x → ∞: the form 1^∞ is indeterminate (the base pulls toward 1, the exponent amplifies any excess). Taking ln converts the power to a product: ln L = lim x ln(1 + 3/x), a 0·∞ form that quotient-rewriting makes L'Hospital-ready. (b) x ln(1 + 3/x) = ln(1 + 3/x)/(1/x), form 0/0. L'Hospital: numerator derivative is (1/(1+3/x))·(-3/x²); denominator derivative is -1/x². The ratio is 3/(1 + 3/x) → 3. (c) ln L = 3, so L = e³."
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,1451 @@
+[
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Applications of Integration",
+    "chapter_title": "Average Value and Accumulation in Context",
+    "hook": "What was the average temperature today — not of six readings, but of the whole continuous day? Integrals average infinitely many values, and the average-value formula opens the unit where integration finally meets geometry, physics, and the evening news.",
+    "learning_objectives": [
+      "Compute the average value of a function: f_avg = (1/(b-a))∫ₐᵇ f(x) dx",
+      "Interpret average value geometrically as the level-water height of the region",
+      "Apply the Mean Value Theorem for Integrals: continuous f attains its average",
+      "Distinguish average value of f from average rate of change of f",
+      "Run accumulation problems in context with initial values and net change"
+    ],
+    "sections": [
+      {
+        "title": "The Average of Infinitely Many Values",
+        "subtitle": "From arithmetic means to integrals",
+        "body": "Averaging n numbers sums them and divides by n. Averaging a FUNCTION's values over [a, b] does the continuous analog: 'sum' the values with an integral, divide by the interval's length: f_avg = (1/(b - a))∫ₐᵇ f(x) dx. The Riemann view makes the analogy exact — sample f at n points, average, let n → ∞, and the sum-over-n becomes integral-over-length.\n\nWorked: f(x) = x² on [0, 3]: f_avg = (1/3)∫₀³ x² dx = (1/3)(9) = 3. The parabola's values run from 0 to 9; their continuous average is 3 — below the midpoint 4.5, because the curve spends more 'time' at low values. Averages weight by duration, and that weighting is what the integral encodes.\n\nThe geometric reading: f_avg is the height of the rectangle on [a, b] with the SAME area as the region under f — pour the region's water and let it level. Average value questions are thus area questions divided by width, and graph-given versions compute the integral geometrically (Unit 6 chapter 1 skills) before dividing.\n\nUnits sanity: f_avg carries f's OWN units (the integral's f-units × x-units, divided by x-units). The average of a temperature function is a temperature; of a velocity, a velocity. If your 'average value' carries different units than the function, the 1/(b - a) went missing — the formula's most-dropped piece.",
+        "key_terms": [
+          [
+            "Average value",
+            "f_avg = (1/(b-a))∫ₐᵇ f dx: the integral's total, spread evenly"
+          ],
+          [
+            "Level-water height",
+            "The rectangle of equal area: average value as leveled height"
+          ],
+          [
+            "Duration weighting",
+            "Values held longer count more — the integral's built-in weighting"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The 1/(b - a) factor is THE graded element: ∫₀³ x² dx = 9 is the total, not the average. Write the formula with the fraction visible before substituting — rubrics check the setup line for it explicitly."
+          ]
+        ]
+      },
+      {
+        "title": "The MVT for Integrals",
+        "subtitle": "Somewhere, the function equals its average",
+        "body": "The Mean Value Theorem for Integrals: a CONTINUOUS f on [a, b] attains its average value — some c in [a, b] has f(c) = f_avg. The level-water picture explains it: the leveled height cuts through the curve somewhere (IVT logic: the curve runs both above and below its average, or sits exactly at it). For f(x) = x² on [0, 3] with average 3: f(c) = 3 at c = √3 — inside the interval ✓.\n\nThe theorem is the integral twin of Unit 5's MVT, and the AP tests the pair's kinship: the derivative MVT guarantees a point where the instantaneous rate equals the average RATE; the integral MVT a point where the value equals the average VALUE. Both need continuity; both are existence theorems; both get hypothesis-checked in justifications.\n\nFinding c is the computational version: set f(c) = f_avg and solve, discarding roots outside [a, b] by name. The exam phrases it as 'find the value(s) of c guaranteed by the Mean Value Theorem for Integrals' — the formula, the solve, the interval check: three visible steps.\n\nWhy it matters beyond itself: the theorem underwrites the FTC's standard proof (the sliver's average height converges to f(x)) and powers 'must there be a time when the temperature was exactly 60°?' questions — average 60 plus continuity forces an attainment. Existence questions route through it whenever the target value IS the computed average.",
+        "key_terms": [
+          [
+            "MVT for Integrals",
+            "Continuous f attains f_avg at some c in [a, b]"
+          ],
+          [
+            "Twin theorems",
+            "Derivative MVT: rates; Integral MVT: values — same architecture"
+          ],
+          [
+            "Attainment questions",
+            "'Was the temperature ever exactly its average?' — yes, by this theorem"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Keep the twins straight: average RATE of change uses (f(b) - f(a))/(b - a) — no integral; average VALUE uses (1/(b-a))∫f. The exam asks both within one problem set, and the phrase 'average value OF f'(x)' (the rate function's average) deliberately splices them — it equals the average rate of f, by FTC."
+          ]
+        ]
+      },
+      {
+        "title": "The Splice",
+        "subtitle": "Average value of a rate IS average rate",
+        "body": "The deliberate splice deserves its own section: the average VALUE of f' over [a, b] is (1/(b-a))∫ₐᵇ f'(x) dx = (f(b) - f(a))/(b - a) — the average RATE of change of f, by FTC Part 2. The two 'averages' coincide exactly when the function being averaged is a derivative. The exam writes 'find the average velocity' (displacement over time — or equivalently the average value of v) and 'find the average value of the acceleration' (which is Δv/Δt) — both compute either way.\n\nThe identity organizes word problems: 'average rate at which water entered the tank over [0, 6]' is (1/6)∫₀⁶ R(t) dt if R is the inflow RATE — and equals (W(6) - W(0))/6 if W is the amount. One number, two routes; pick by which data the problem supplies (rate function: integrate; amount values: difference quotient).\n\nNon-derivative averages have no such shortcut: the average of T(t) itself (a temperature, not a rate) MUST run the integral — no difference of values reproduces it. Distinguishing 'average of the quantity' from 'average rate of the quantity' is the chapter's recurring reading test, and the units are the referee: an average temperature is °C; an average rate of temperature change is °C per hour.\n\nA worked splice: v(t) = 3t² on [0, 2]. Average velocity: (1/2)∫₀² 3t² dt = (1/2)(8) = 4 — or s(2) - s(0) over 2 with s = t³: 8/2 = 4 ✓. Average SPEED would integrate |v| (here the same, v ≥ 0); average acceleration would be (v(2) - v(0))/2 = 6. Three different averages from one motion — each with its own formula and units.",
+        "key_terms": [
+          [
+            "The splice identity",
+            "Average value of f' = average rate of f: FTC makes them one"
+          ],
+          [
+            "Route choice",
+            "Rate function given: integrate; endpoint amounts given: difference quotient"
+          ],
+          [
+            "Units referee",
+            "Quantity averages carry quantity units; rate averages carry per-time units"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Average velocity' on the AP = displacement/time = (1/(b-a))∫v dt — both formulas, same number. 'Average speed' = total distance/time = (1/(b-a))∫|v| dt. The absolute value is the entire difference, and the exam prices it."
+          ]
+        ]
+      },
+      {
+        "title": "Accumulation in Full Context",
+        "subtitle": "The net-change framework, matured",
+        "body": "The unit's framing theorem — final = initial + accumulated change — now runs at full applied strength. A water tank holds 50 L; water enters at R_in(t) and drains at R_out(t): W(t) = 50 + ∫₀ᵗ (R_in - R_out) ds. Every question about W routes through the framework: amounts (evaluate), extremes (where R_in - R_out changes sign — Unit 5 on the net rate), averages (this chapter's formula on W or on the rates, as asked).\n\nThe standard FRQ assembles exactly those parts: (a) total entering over [0, 8]: ∫R_in. (b) W(8): initial plus net integral. (c) When is W maximal? Net rate zero with sign change + candidates comparison. (d) Average rate of change of W, or average value of a rate — the splice, read carefully. Calculator-active versions hand ugly integrands to the machine; the SETUP lines are the human's graded work.\n\nInterpretation sentences inherit Unit 4's four-ingredient template with integral upgrades: '∫₂⁵ R(t) dt = 31 means 31 gallons entered the tank between t = 2 and t = 5 hours' — quantity, direction, units, window. The integral's interpretation point is as formulaic as the derivative's was; bank it.\n\nPer-something rates extend the framework's reach: a city's electricity use in megawatts (MW) integrates over hours to megawatt-hours (MWh) of energy; traffic flow in cars/minute integrates to cars. Whenever a rate's units are X per Y, its integral over Y accumulates X — the units rule from Unit 6, now the master key to every applied stem the exam can write.",
+        "key_terms": [
+          [
+            "Net-change framework",
+            "Final = initial + ∫(rate in - rate out): the applied chassis"
+          ],
+          [
+            "The standard FRQ",
+            "Total in, amount at time T, extremum of amount, an average — four parts, four tools"
+          ],
+          [
+            "Integral interpretation",
+            "Quantity, direction, units, window — the graded sentence"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Tank-problem extremes use the NET rate: W is maximal where R_in - R_out changes + to −, compared against endpoint values. Students who maximize R_in alone (ignoring the drain) miss the question's entire point — the net is the derivative of the amount."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "The average value of f(x) = x² on [0, 3] is",
+          "choices": {
+            "A": "3",
+            "B": "9",
+            "C": "4.5",
+            "D": "27"
+          },
+          "answer": "A",
+          "explanation": "(1/3)∫₀³ x² dx = (1/3)(9) = 3. Without the 1/(b-a), you get the total 9 — the planted distractor."
+        },
+        {
+          "question": "f(x) = 6 - 2x on [0, 6]. The c guaranteed by the MVT for Integrals satisfies f(c) = f_avg. Then c =",
+          "choices": {
+            "A": "3",
+            "B": "0",
+            "C": "6",
+            "D": "2"
+          },
+          "answer": "A",
+          "explanation": "f_avg = (1/6)∫₀⁶(6-2x)dx = (1/6)(0) = 0; f(c) = 6 - 2c = 0 at c = 3."
+        },
+        {
+          "question": "R(t) is the rate (liters/min) at which fuel enters a tank. The expression (1/10)∫₀¹⁰ R(t) dt represents",
+          "choices": {
+            "A": "the average rate of fuel flow over the 10 minutes, in liters per minute",
+            "B": "the total fuel added, in liters",
+            "C": "the average amount of fuel in the tank",
+            "D": "the rate at t = 10"
+          },
+          "answer": "A",
+          "explanation": "Average value of the rate function — which by the splice equals the average rate at which the amount changed. Units: L/min."
+        },
+        {
+          "question": "A particle has velocity v(t) = t² - 4 on [0, 4]. Its average velocity is",
+          "choices": {
+            "A": "4/3",
+            "B": "16/3",
+            "C": "0",
+            "D": "4"
+          },
+          "answer": "A",
+          "explanation": "(1/4)∫₀⁴(t² - 4)dt = (1/4)(64/3 - 16) = (1/4)(16/3) = 4/3."
+        },
+        {
+          "question": "A tank starts with 80 L. Water enters at R_in(t) and leaves at R_out(t). The amount at t = 5 is",
+          "choices": {
+            "A": "80 + ∫₀⁵ (R_in(t) - R_out(t)) dt",
+            "B": "∫₀⁵ R_in(t) dt",
+            "C": "80 + R_in(5) - R_out(5)",
+            "D": "80·∫₀⁵ R_in/R_out dt"
+          },
+          "answer": "A",
+          "explanation": "Initial plus accumulated NET change — the framework. (C adds rates to an amount; units already fail.)"
+        }
+      ],
+      "frq": [
+        {
+          "question": "The temperature of a greenhouse is T(t) = 60 + 12 sin(πt/12) degrees Fahrenheit, t hours after 6 a.m., for 0 ≤ t ≤ 12.\n(a) Find the average temperature over the 12 hours, exactly.\n(b) The MVT for Integrals guarantees a time when T equals that average. Find all such times in (0, 12).\n(c) An exhaust fan runs whenever T(t) ≥ 66. For what fraction of the 12 hours does the fan run?",
+          "rubric": [
+            "(a) (1/12)∫₀¹² (60 + 12 sin(πt/12)) dt; the sine term integrates to [−(144/π)cos(πt/12)]₀¹² = 288/π; average = 60 + 24/π",
+            "(b) 60 + 12 sin(πt/12) = 60 + 24/π → sin(πt/12) = 2/π → t = (12/π)arcsin(2/π) and t = 12 - that",
+            "(c) T ≥ 66 ⟺ sin(πt/12) ≥ 1/2 ⟺ πt/12 ∈ [π/6, 5π/6] ⟺ t ∈ [2, 10]",
+            "Fan fraction: 8/12 = 2/3 of the period"
+          ],
+          "model_answer": "(a) T_avg = (1/12)∫₀¹² T dt = 60 + (1/12)[−(144/π)cos(πt/12)]₀¹² = 60 + (1/12)((144/π) + (144/π)) = 60 + 24/π ≈ 67.6°F. (b) Solve T(t) = 60 + 24/π: sin(πt/12) = 2/π. In (0, 12), πt/12 runs through (0, π): two solutions, t₁ = (12/π)arcsin(2/π) ≈ 2.63 and t₂ = 12 - t₁ ≈ 9.37 hours. (c) T ≥ 66 means sin(πt/12) ≥ 1/2, i.e., πt/12 between π/6 and 5π/6: t ∈ [2, 10] — 8 hours of the 12. The fan runs 2/3 of the time."
+        },
+        {
+          "question": "Water flows into a reservoir at R(t) = 20 + 10e^{-0.5t} m³/hour and is released at a constant 15 m³/hour, for 0 ≤ t ≤ 6. The reservoir holds 200 m³ at t = 0.\n(a) Find the total volume of water that FLOWED IN during the 6 hours.\n(b) Write an expression for the volume V(t) in the reservoir and compute V(6).\n(c) Is there a time at which the volume stops increasing? Justify from the net rate.",
+          "rubric": [
+            "(a) ∫₀⁶ R dt = 120 + 20(1 - e^{-3}) = 140 - 20e^{-3}",
+            "(b) V(t) = 200 + ∫₀ᵗ (R(s) - 15) ds; V(6) = 200 + (140 - 20e^{-3}) - 90 = 250 - 20e^{-3} ≈ 249.0",
+            "(c) Net rate 5 + 10e^{-0.5t} > 5 > 0 always",
+            "Volume increases throughout: no such time"
+          ],
+          "model_answer": "(a) ∫₀⁶ (20 + 10e^{-0.5t}) dt = [20t - 20e^{-0.5t}]₀⁶ = (120 - 20e^{-3}) - (-20) = 140 - 20e^{-3} ≈ 139.0 m³. (b) V(t) = 200 + ∫₀ᵗ (R(s) - 15) ds. V(6) = 200 + (140 - 20e^{-3}) - 15(6) = 250 - 20e^{-3} ≈ 249.0 m³. (c) The net rate is R(t) - 15 = 5 + 10e^{-0.5t}, which exceeds 5 m³/h for every t — never zero, never negative. The volume increases on the entire interval; it never stops rising, and its maximum on [0, 6] is simply V(6)."
+        },
+        {
+          "question": "The graph of f on [0, 8] consists of three pieces: a line from (0, 4) down to (2, 0); the segment along the x-axis from (2, 0) to (5, 0); and a semicircle of radius 1.5 below the axis from (5, 0) to (8, 0).\n(a) Compute ∫₀⁸ f(x) dx.\n(b) Find the average value of f on [0, 8].\n(c) Does there exist c in [0, 8] with f(c) = f_avg? Cite the theorem and find one such c.",
+          "rubric": [
+            "(a) Triangle 4 + zero + semicircle −(1/2)π(1.5)² = 4 - 9π/8",
+            "(b) f_avg = (4 - 9π/8)/8 = 1/2 - 9π/64 ≈ 0.058",
+            "(c) f continuous: MVT for Integrals applies; f(c) ≈ 0.058 on the first segment: 4 - 2c = 0.058 → c ≈ 1.97",
+            "Interval membership checked"
+          ],
+          "model_answer": "(a) The triangle contributes (1/2)(2)(4) = 4; the flat stretch 0; the semicircle below the axis −(1/2)π(1.5)² = −9π/8. Total: 4 - 9π/8 ≈ 0.466. (b) f_avg = (4 - 9π/8)/8 = 1/2 - 9π/64 ≈ 0.058. (c) f is continuous on [0, 8] (the pieces join at shared endpoints), so the Mean Value Theorem for Integrals guarantees some c with f(c) = f_avg ≈ 0.058. On the first segment f(x) = 4 - 2x: 4 - 2c = 1/2 - 9π/64 gives c = 7/4 + 9π/128 ≈ 1.97 — inside [0, 2] ✓. (The descending line crosses every small positive height, so the attainment is explicit.)"
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Applications of Integration",
+    "chapter_title": "Motion with Integrals — Recovering Position",
+    "hook": "Unit 4 differentiated motion: position to velocity to acceleration. Integration runs the factory in reverse — velocity to position, with displacement and total distance becoming two different integrals. The AP's favorite motion questions live exactly here.",
+    "learning_objectives": [
+      "Recover position from velocity: s(t) = s(0) + ∫₀ᵗ v(u) du",
+      "Compute displacement as ∫v dt and total distance as ∫|v| dt",
+      "Split distance integrals at velocity's sign changes",
+      "Recover velocity from acceleration with initial conditions",
+      "Run the complete motion battery from a velocity graph or formula"
+    ],
+    "sections": [
+      {
+        "title": "Position from Velocity",
+        "subtitle": "The framework, aimed at motion",
+        "body": "Velocity is position's rate, so the net-change framework reads: s(t) = s(t₀) + ∫_{t₀}^t v(u) du — current position is the starting position plus accumulated velocity. The formula answers 'where is the particle at t = 5?' whenever v and one anchor position are known, by hand or by calculator as the section permits.\n\nWorked spine for the chapter: v(t) = t² - 4t + 3 = (t - 1)(t - 3), s(0) = 2. Position: s(t) = 2 + ∫₀ᵗ v = 2 + t³/3 - 2t² + 3t. At t = 4: s(4) = 2 + 64/3 - 32 + 12 = 2 + 4/3 = 10/3. The antiderivative route (Unit 6's IVP) and the accumulation route are the same computation — pick by what the question requests (formula versus single value).\n\nDisplacement over [a, b] is the net integral ∫ₐᵇ v dt = s(b) - s(a) — signed, with backward motion subtracting. On the spine over [0, 4]: ∫₀⁴ v = F(4) - F(0) where F = t³/3 - 2t² + 3t: 4/3 - 0 = 4/3. The particle ends 4/3 units right of its start — net, after whatever wandering occurred.\n\nGraph-given velocity converts everything to geometry: displacement is the SIGNED area under the v-graph (Unit 6 chapter 1), and position values are anchor-plus-area readings. The v-graph genre — triangles and semicircle bumps above and below the axis — is among the AP's most reliable, and every part of it is areas with signs.",
+        "key_terms": [
+          [
+            "Position recovery",
+            "s(t) = s(t₀) + ∫v: anchor plus accumulated velocity"
+          ],
+          [
+            "Displacement",
+            "∫ₐᵇ v dt: net signed change of position"
+          ],
+          [
+            "v-graph geometry",
+            "Areas above the axis advance, below retreat — position by bookkeeping"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Find the position at t = 4' requires the INITIAL position: s(4) = s(0) + ∫₀⁴ v. Answers that report the bare integral (the displacement) when an anchor was given lose the point — the question asked WHERE, not how far net."
+          ]
+        ]
+      },
+      {
+        "title": "Total Distance",
+        "subtitle": "The odometer integral",
+        "body": "Total distance traveled integrates SPEED: distance = ∫ₐᵇ |v(t)| dt. The absolute value folds backward legs to positive, so every meter counts regardless of direction — the odometer, against displacement's net GPS. Computing it splits the interval at v's sign changes (Unit 6's absolute-value protocol): integrate v piecewise, flip the negative pieces' signs, add.\n\nThe spine, in full: v = (t-1)(t-3) changes sign at 1 and 3. With F = t³/3 - 2t² + 3t: F(0) = 0, F(1) = 4/3, F(3) = 0, F(4) = 4/3. Legs: [0,1]: +4/3; [1,3]: 0 - 4/3 = -4/3 (backward 4/3); [3,4]: +4/3. Total distance: 4/3 + 4/3 + 4/3 = 4. Displacement was 4/3 — the particle drove 4 to net 4/3, the gap being the round trip on (1, 3).\n\nCalculator sections compress the whole protocol to one entry: ∫₀⁴ |v(t)| dt evaluated numerically — the machine handles the splitting internally. Knowing BOTH routes is the exam's design: no-calculator versions test the protocol, calculator versions test the setup ∫|v|, and the setup line is graded in each.\n\nAverage speed completes the trio from last chapter: total distance over time = (1/(b-a))∫|v| dt. On the spine: 4/4 = 1. Average velocity: (4/3)/4 = 1/3. Speed ≥ |velocity| always averages that way — the odometer never undercounts the GPS.",
+        "key_terms": [
+          [
+            "Total distance",
+            "∫|v| dt: speed integrated — every leg positive"
+          ],
+          [
+            "Split protocol",
+            "Break at v's zeros with sign changes; flip negative legs; sum"
+          ],
+          [
+            "Calculator compression",
+            "fnInt of abs(v) — but the ∫|v| setup line is the graded element"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Write the setup ∫ₐᵇ |v(t)| dt BEFORE any computation, both sections: it is the rubric's first point on every distance question. On calculator sections it is also the entire human contribution — the machine does the rest."
+          ]
+        ]
+      },
+      {
+        "title": "Velocity from Acceleration",
+        "subtitle": "One more rung up the chain",
+        "body": "The same framework climbs the kinematic chain: v(t) = v(t₀) + ∫_{t₀}^t a(u) du. Given a(t) = 6t - 12 with v(0) = 9 (the spine's acceleration and a chosen anchor): v(t) = 9 + 3t² - 12t. Two integrations stack when recovering s from a — each with its own anchor, Unit 6's two-constant discipline in accumulation form.\n\nThe graded subtlety: evaluating v at a specific time via v(c) = v(0) + ∫₀ᶜ a dt is often FASTER than finding the formula — especially when a is given as a graph and the integral is geometric. 'Find v(3) given the graph of a and v(0) = 2': v(3) = 2 + (signed area under a from 0 to 3). The anchor-plus-area reading, one rung up.\n\nSpeeding up/slowing down questions now run from integral-recovered data: the particle speeds up where v and a share signs — with v possibly READ from accumulated areas rather than a formula. The Unit 4 test is unchanged; only v's provenance differs. FRQs braid the levels deliberately: a given graphically, v anchored numerically, s requested at a point — three rungs, one framework.\n\nThe full battery on the spine, assembled: position at 4 (10/3), displacement (4/3), distance (4), average velocity (1/3), average speed (1), rest times (1, 3), direction changes (both), speeding-up intervals (compare signs of v and a = 6t - 12: a < 0 before 2, positive after; v > 0 on (0,1), negative (1,3), positive (3,4) — speeding up on (1, 2) and (3, 4)). Every answer from two functions and one framework — the unit's promise, kept.",
+        "key_terms": [
+          [
+            "Velocity recovery",
+            "v(t) = v(t₀) + ∫a: the framework, one level up"
+          ],
+          [
+            "Anchor-plus-area",
+            "Specific values from graphical a without any formula"
+          ],
+          [
+            "Braided levels",
+            "a graphical, v numerical, s requested — one framework spanning the chain"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "v(3) = v(0) + ∫₀³ a dt works even when a's antiderivative is hopeless or a is only a graph — and the exam engineers exactly those situations. The accumulation route is not an alternative; on such problems it is the only route."
+          ]
+        ]
+      },
+      {
+        "title": "The Motion FRQ, Complete",
+        "subtitle": "Anatomy and execution",
+        "body": "The modern motion FRQ hands you v (formula or graph) and an anchor, then walks the battery: (a) acceleration at a point (differentiate or read slope); (b) is the particle speeding up at t₀ (signs of v and a); (c) position at a time or displacement over an interval (∫v with the anchor); (d) total distance (∫|v|). Four parts, four tools, each from a different unit — motion is the course's most integrative genre.\n\nPart-by-part rubric awareness: (a) wants the value AND units; (b) wants both signs displayed and compared; (c) wants the anchor visibly added; (d) wants the |v| setup. The four graded gestures are knowable in advance — motion FRQs reward preparation more directly than any other genre because their structure never changes.\n\nSign conventions deserve one final salute: 'moving left' is v < 0; 'farthest left' is the minimum of s (candidates: v's sign changes plus endpoints, with s-values computed by anchor-plus-area); 'returns to its starting point' solves ∫₀ᵀ v = 0. Each phrase is a computation; the dictionary from Unit 4, now with integral entries, is complete.\n\nWhere motion goes from here: Unit 9 upgrades the particle to the PLANE — position becomes a vector (x(t), y(t)), speed becomes √((x')² + (y')²), and distance becomes arc length. Every scalar concept in this chapter has a vector twin waiting, and the framework — anchor plus accumulated rate — survives the upgrade untouched.",
+        "key_terms": [
+          [
+            "The four-part battery",
+            "Acceleration, speeding up, position/displacement, total distance"
+          ],
+          [
+            "Four graded gestures",
+            "Units, sign comparison, visible anchor, |v| setup"
+          ],
+          [
+            "The vector preview",
+            "Unit 9: same framework, two coordinates, √(x'² + y'²) for speed"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Returns to its starting position' means ∫₀ᵀ v dt = 0 — net displacement zero — NOT v(T) = 0 (that's resting, possibly far away). The two conditions test different integrals of understanding, and the exam knows students conflate them."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "v(t) = t² - 4t + 3, s(0) = 2. The position at t = 4 is",
+          "choices": {
+            "A": "10/3",
+            "B": "4/3",
+            "C": "2",
+            "D": "16/3"
+          },
+          "answer": "A",
+          "explanation": "s(4) = 2 + ∫₀⁴ v dt = 2 + 4/3 = 10/3. (B forgot the anchor.)"
+        },
+        {
+          "question": "For the same v on [0, 4], the total distance traveled is",
+          "choices": {
+            "A": "4",
+            "B": "4/3",
+            "C": "8/3",
+            "D": "2"
+          },
+          "answer": "A",
+          "explanation": "Split at t = 1, 3: legs of 4/3 forward, 4/3 back, 4/3 forward — odometer 4."
+        },
+        {
+          "question": "A particle's velocity graph is a semicircle of radius 2 ABOVE the axis on [0, 4]. With s(0) = 5, the position at t = 4 is",
+          "choices": {
+            "A": "5 + 2π",
+            "B": "2π",
+            "C": "5 + 4π",
+            "D": "5 - 2π"
+          },
+          "answer": "A",
+          "explanation": "Displacement = area = (1/2)π(2²) = 2π; position = anchor + 2π."
+        },
+        {
+          "question": "a(t) = 4 - 2t with v(0) = -3. Then v(3) =",
+          "choices": {
+            "A": "0",
+            "B": "3",
+            "C": "-3",
+            "D": "6"
+          },
+          "answer": "A",
+          "explanation": "v(3) = -3 + ∫₀³(4 - 2t)dt = -3 + (12 - 9) = 0."
+        },
+        {
+          "question": "A particle 'returns to its starting point at time T.' The condition is",
+          "choices": {
+            "A": "∫₀ᵀ v(t) dt = 0",
+            "B": "v(T) = 0",
+            "C": "∫₀ᵀ |v(t)| dt = 0",
+            "D": "a(T) = 0"
+          },
+          "answer": "A",
+          "explanation": "Zero net displacement. (B is resting; C would mean it never moved at all.)"
+        }
+      ],
+      "frq": [
+        {
+          "question": "A particle moves with velocity v(t) = t² - 4t + 3 m/s for 0 ≤ t ≤ 4, with s(0) = 2 m.\n(a) Find the acceleration at t = 2 and determine whether the particle is speeding up or slowing down then.\n(b) Find the particle's position at t = 4.\n(c) Find the total distance traveled on [0, 4], showing the split at velocity's sign changes.",
+          "rubric": [
+            "(a) a(t) = 2t - 4; a(2) = 0; v(2) = -1: with a = 0 the test is silent — neither speeding nor slowing at that instant",
+            "(b) s(4) = 2 + ∫₀⁴ v = 2 + 4/3 = 10/3 m",
+            "(c) Zeros at 1, 3; F(0)=0, F(1)=4/3, F(3)=0, F(4)=4/3",
+            "Distance 4/3 + 4/3 + 4/3 = 4 m"
+          ],
+          "model_answer": "(a) a(t) = v'(t) = 2t - 4, so a(2) = 0 while v(2) = 4 - 8 + 3 = -1. With zero acceleration, the speed is momentarily neither increasing nor decreasing — the sign-comparison test is silent at this instant (just before t = 2, a < 0 with v < 0: speeding up; just after, slowing). (b) s(4) = s(0) + ∫₀⁴ v dt. With F(t) = t³/3 - 2t² + 3t: ∫₀⁴ v = F(4) = 64/3 - 32 + 12 = 4/3. So s(4) = 2 + 4/3 = 10/3 m. (c) v = (t-1)(t-3) changes sign at t = 1 and t = 3. F-values: 0, 4/3, 0, 4/3 at t = 0, 1, 3, 4. Legs: |4/3| + |0 - 4/3| + |4/3| = 4 m total — versus net displacement 4/3 m: the particle backtracked through (1, 3)."
+        },
+        {
+          "question": "The velocity of a cart is given by the graph: v is a line from (0, 6) to (3, 0), then a line from (3, 0) to (5, -4), then constant at -4 from t = 5 to t = 7. The cart starts at position s(0) = -1.\n(a) Find s(3) and s(7).\n(b) At what time is the cart farthest right? Justify.\n(c) Find the total distance traveled over [0, 7] and the cart's average speed.",
+          "rubric": [
+            "(a) s(3) = -1 + 9 = 8 (triangle area); s(7) = 8 - 4 - 8 = -4 (triangle 4, rectangle 8 below)",
+            "(b) v changes + to − at t = 3: farthest right at t = 3 (s = 8), checked against endpoints",
+            "(c) Distance = 9 + 4 + 8 = 21; average speed 21/7 = 3",
+            "Signed-area readings shown for each leg"
+          ],
+          "model_answer": "(a) ∫₀³ v = triangle area (1/2)(3)(6) = 9: s(3) = -1 + 9 = 8. From 3 to 5: triangle below the axis, area (1/2)(2)(4) = 4, signed -4. From 5 to 7: rectangle below, 2 × 4 = 8, signed -8. s(7) = 8 - 4 - 8 = -4. (b) v > 0 on (0, 3) and v < 0 after: position rises to t = 3 then falls — the + to − sign change makes t = 3 the maximum, with s(3) = 8 beating both endpoint positions (-1 and -4). (c) Total distance = 9 + 4 + 8 = 21 units; average speed = 21/7 = 3 units per second (versus average velocity (s(7) - s(0))/7 = -3/7 — the odometer and the GPS in one problem)."
+        },
+        {
+          "question": "A rocket sled's acceleration is a(t) = 12 - 6t m/s² for 0 ≤ t ≤ 4, with initial velocity v(0) = -9 m/s.\n(a) Find v(t) and all times the sled is momentarily at rest.\n(b) On what interval(s) is the sled speeding up? Use a dual sign analysis.\n(c) Find the displacement over [0, 4]. (You may leave the arithmetic in exact fractions.)",
+          "rubric": [
+            "(a) v = -9 + 12t - 3t² = -3(t² - 4t + 3) = -3(t-1)(t-3): rest at t = 1, 3",
+            "(b) v < 0 on (0,1)∪(3,4), v > 0 on (1,3); a > 0 before 2, a < 0 after: speeding up on (0,1) and (2,3)",
+            "(c) ∫₀⁴ v = [-9t + 6t² - t³]₀⁴ = -36 + 96 - 64 = -4",
+            "Displacement -4 m (net 4 m backward)"
+          ],
+          "model_answer": "(a) v(t) = -9 + ∫₀ᵗ (12 - 6u) du = -9 + 12t - 3t² = -3(t - 1)(t - 3). At rest at t = 1 and t = 3 s. (b) Sign charts: v < 0 on (0, 1), v > 0 on (1, 3), v < 0 on (3, 4); a = 12 - 6t is positive for t < 2 and negative for t > 2. The sled speeds up where the signs AGREE: on (1, 2) (both positive) and on (3, 4) (both negative); it slows on (0, 1) and (2, 3), where they oppose. (c) ∫₀⁴ v dt = [-9t + 6t² - t³]₀⁴ = -36 + 96 - 64 = -4: the sled ends 4 m behind its starting point."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Applications of Integration",
+    "chapter_title": "Area Between Curves",
+    "hook": "One curve over another encloses a region, and the region has an area: integrate the gap. Top minus bottom, right minus left when sideways, split where the curves trade places — three rules that turn every enclosed region on the exam into an integral.",
+    "learning_objectives": [
+      "Compute areas between curves as ∫(top - bottom) dx over the enclosure",
+      "Find intersection points to set the bounds of integration",
+      "Split regions where the upper-lower relationship reverses",
+      "Integrate with respect to y — right minus left — when the geometry favors it",
+      "Handle regions bounded by more than two curves by decomposition"
+    ],
+    "sections": [
+      {
+        "title": "Top Minus Bottom",
+        "subtitle": "The vertical-slice formula",
+        "body": "The area between y = f(x) above and y = g(x) below, from a to b, is ∫ₐᵇ (f(x) - g(x)) dx — at each x, a vertical slice of height (top minus bottom) and width dx, summed by the integral. The formula needs no positivity: if both curves dip below the axis, the GAP f - g is still the slice's height, and the integral still measures the area. Subtraction immunizes against sign troubles that plagued single-curve areas.\n\nWorked: the region between y = 2x and y = x². Intersections: 2x = x² at x = 0, 2. Between them the line rides above the parabola (test x = 1: 2 > 1). Area: ∫₀² (2x - x²) dx = [x² - x³/3]₀² = 4 - 8/3 = 4/3. Three moves — intersect, order, integrate — that script every problem in the chapter.\n\nThe ORDER check is non-negotiable: one test value inside the interval settles who's on top. Guessing from memory ('lines beat parabolas') fails the moment the exam swaps orientation, and a backwards subtraction yields a negative 'area' — the alarm, if you're watching for it. Area answers are positive; a negative result means the order flipped somewhere.\n\nBounds come from the geometry when not given: 'the region enclosed by the curves' bounds itself at the intersections; 'from x = 0 to x = 3' overrides. Reading which regime the problem is in — self-bounded or interval-given — is the setup's first decision.",
+        "key_terms": [
+          [
+            "Top-minus-bottom",
+            "∫ₐᵇ (upper - lower) dx: vertical slices of the gap"
+          ],
+          [
+            "Three moves",
+            "Intersect (bounds), order (test a point), integrate"
+          ],
+          [
+            "Negative-area alarm",
+            "A negative result means the subtraction ran upside down"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Always test ONE interior point to fix the order — even when 'obvious.' The exam's favorite regions put the parabola on top (y = 4 - x² over y = x - 2 styles), specifically to punish the memorized line-on-top reflex."
+          ]
+        ]
+      },
+      {
+        "title": "When the Curves Trade Places",
+        "subtitle": "Split at every crossing",
+        "body": "If the curves cross INSIDE the region, the top-bottom roles reverse and the integral must split. Between y = x³ and y = x, the curves meet at x = -1, 0, 1, with the cubic on top on (-1, 0) (test x = -1/2: -1/8 > -1/2) and the line on top on (0, 1). Total area: ∫₋₁⁰ (x³ - x) dx + ∫₀¹ (x - x³) dx = 1/4 + 1/4 = 1/2. One region, two integrals, each with its own correct order.\n\nThe compressed alternative — ∫|f - g| over the whole span — is what calculator sections expect: enter abs(f - g), integrate numerically, done. No-calculator sections expect the split, and the intersection-finding IS part of the test. Both phrasings describe the same area; the section dictates the technology.\n\nSymmetry, when present, halves the work: the x³-versus-x region is odd-symmetric (both functions odd), so the two pieces are congruent and one piece doubled suffices — noted in writing ('by symmetry, total = 2∫₀¹(x - x³)dx'). Exam regions are often built symmetric precisely to reward the observation.\n\nMissed crossings are the genre's silent killer: integrating x³ - x straight across [-1, 1] gives ZERO — the signed pieces cancel, the 'area' evaporates, and nothing looks wrong. The defense is procedural: solve f = g COMPLETELY (all roots), and split at every root inside the span, every time.",
+        "key_terms": [
+          [
+            "Crossing split",
+            "Roles reverse at interior intersections: one integral per stretch"
+          ],
+          [
+            "|f - g| compression",
+            "The calculator-section form: absolute value, one entry"
+          ],
+          [
+            "Silent cancellation",
+            "Unsplit signed pieces can cancel to zero — solve f = g completely"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Solve f(x) = g(x) for ALL intersections before integrating anything: an interior crossing you didn't find produces a plausible-looking wrong answer with no warning. The complete solve is cheap insurance priced at one algebra line."
+          ]
+        ]
+      },
+      {
+        "title": "Sideways: Integrating in y",
+        "subtitle": "Right minus left",
+        "body": "Some regions slice better horizontally: between x = y² and the line x = y + 2, vertical slices would need TWO formulas (the parabola bounds both top and bottom in places), but horizontal slices run cleanly from the parabola (left) to the line (right). The y-formula: A = ∫_c^d (right - left) dy, with bounds from intersections in y: y² = y + 2 at y = -1, 2. Area: ∫₋₁² (y + 2 - y²) dy = [y²/2 + 2y - y³/3]₋₁² = (2 + 4 - 8/3) - (1/2 - 2 + 1/3) = 10/3 + 7/6 = 9/2.\n\nThe decision rule: slice PERPENDICULAR to the direction in which the boundaries are single curves. Functions of x (each vertical line meets each curve once): slice vertically. Functions of y — sideways parabolas, x = expressions: slice horizontally. A region needing two formulas in one direction usually needs one in the other; checking both orientations before integrating is a thirty-second investment.\n\nConverting curve descriptions is half the skill: y = √x rewrites as x = y² (for y ≥ 0); y = ln x as x = e^y. The right-minus-left integrand wants every boundary AS x = (function of y) — algebra before calculus, the recurring theme.\n\nWorked contrast for conviction: the y² versus y + 2 region by vertical slices requires splitting at x = 1 (where the lower boundary switches from the parabola's bottom branch to its top... ) and handling ±√x — two integrals with radicals, against one clean polynomial in y. Same area, 9/2 either way; the orientations differ by a factor of three in labor. Orientation choice is a graded judgment in the sense that time IS the exam's scarcest resource.",
+        "key_terms": [
+          [
+            "Right-minus-left",
+            "A = ∫(x_right - x_left) dy: horizontal slices for sideways regions"
+          ],
+          [
+            "Orientation rule",
+            "Slice perpendicular to the single-curve direction"
+          ],
+          [
+            "Boundary conversion",
+            "Rewrite each curve as x = g(y) before y-integration"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Sideways parabolas (x = y²), and regions bounded by y = ln x or y = eˣ together with horizontal lines, are the standard flags for y-integration. When you catch yourself splitting a region into two x-integrals with square roots, stop and try horizontal slices."
+          ]
+        ]
+      },
+      {
+        "title": "Compound Regions and Exam Form",
+        "subtitle": "Decomposition and the FRQ habitat",
+        "body": "Regions bounded by THREE curves decompose: the region under y = √x and y = 6 - x above the x-axis (a curvilinear triangle) splits at the curves' crossing x = 4 into ∫₀⁴ √x dx + ∫₄⁶ (6 - x) dx = 16/3 + 2 = 22/3. Each piece has its own top; the x-axis bottoms both. Decomposition questions test the same three moves plus the planning to see the pieces — sketch first, always.\n\nThe sketch is not decoration: a thirty-second graph with intersections marked converts every area problem from algebra-blind to geometry-guided. AP readers report that correct sketches correlate with correct setups more than any other visible feature; the sketch is the plan.\n\nArea's exam habitat is the REGION FRQ: part (a) computes the area of region R (this chapter); parts (b) and (c) revolve or cross-section the SAME region into volumes (next chapters). The area work — bounds, order, intersections — carries forward, which is why the FRQ leads with it: part (a)'s intersections are parts (b) and (c)'s bounds. Errors propagate; so does correctness.\n\nCalculator policy in the habitat: region FRQs are typically calculator-active, with intersections found numerically (stored, not rounded mid-stream) and integrals machine-evaluated. The graded human work is the SETUP — the integrand, the bounds, the orientation — plus exact storage discipline: round only at the end, to three decimals, as the AP requires.",
+        "key_terms": [
+          [
+            "Decomposition",
+            "Multi-curve regions split at crossings; each piece gets its own top/bottom"
+          ],
+          [
+            "Sketch-first discipline",
+            "The thirty-second graph IS the setup plan"
+          ],
+          [
+            "The region FRQ",
+            "Area in (a), volumes from the same region in (b), (c) — bounds carry forward"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "On calculator-active region FRQs: store intersection x-values in calculator memory (X₁, X₂) and integrate with the stored values — NEVER retype rounded decimals. Mid-stream rounding moves the third decimal of the final answer, and the AP grades all three decimals."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "The area between y = 2x and y = x² is",
+          "choices": {
+            "A": "4/3",
+            "B": "8/3",
+            "C": "4",
+            "D": "2/3"
+          },
+          "answer": "A",
+          "explanation": "Intersections 0 and 2; line on top: ∫₀²(2x - x²)dx = 4 - 8/3 = 4/3."
+        },
+        {
+          "question": "The area between y = x³ and y = x over [-1, 1] is",
+          "choices": {
+            "A": "1/2",
+            "B": "0",
+            "C": "1/4",
+            "D": "1"
+          },
+          "answer": "A",
+          "explanation": "Split at the interior crossing x = 0: two congruent pieces of 1/4 each. Integrating without splitting gives the signed 0 — the trap."
+        },
+        {
+          "question": "The area of the region bounded by x = y² and x = y + 2 is best computed as",
+          "choices": {
+            "A": "∫₋₁² (y + 2 - y²) dy",
+            "B": "∫₀⁴ (√x - (x - 2)) dx",
+            "C": "∫₋₁² (y² - y - 2) dy",
+            "D": "∫₀² (y + 2 - y²) dx"
+          },
+          "answer": "A",
+          "explanation": "Horizontal slices run line-minus-parabola between y = -1 and 2. (C is upside down; D mixes variables.)"
+        },
+        {
+          "question": "Curves y = f(x) and y = g(x) satisfy f ≥ g on [1, 5], and both are negative there. The area between them is",
+          "choices": {
+            "A": "∫₁⁵ (f - g) dx, exactly as usual",
+            "B": "∫₁⁵ (g - f) dx, since they are negative",
+            "C": "-∫₁⁵ (f + g) dx",
+            "D": "not computable without the formulas"
+          },
+          "answer": "A",
+          "explanation": "The gap f - g is the slice height regardless of where the curves sit — subtraction already handled the signs."
+        },
+        {
+          "question": "The region bounded above by y = √x, above by y = 6 - x (whichever is lower), and below by the x-axis, has area",
+          "choices": {
+            "A": "22/3",
+            "B": "16/3",
+            "C": "2",
+            "D": "20/3"
+          },
+          "answer": "A",
+          "explanation": "Split at the crossing x = 4: ∫₀⁴√x dx + ∫₄⁶(6 - x)dx = 16/3 + 2 = 22/3."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let R be the region enclosed by y = 4 - x² and y = x + 2.\n(a) Find the points of intersection.\n(b) Determine which curve bounds R above, with a test point.\n(c) Compute the area of R exactly.",
+          "rubric": [
+            "(a) 4 - x² = x + 2 → x² + x - 2 = 0 → x = -2, 1",
+            "(b) At x = 0: parabola 4 > line 2 — parabola on top",
+            "(c) ∫₋₂¹ (4 - x² - x - 2) dx = ∫₋₂¹ (2 - x - x²) dx = [2x - x²/2 - x³/3]₋₂¹",
+            "= (2 - 1/2 - 1/3) - (-4 - 2 + 8/3) = 7/6 + 10/3 = 9/2"
+          ],
+          "model_answer": "(a) 4 - x² = x + 2: x² + x - 2 = (x + 2)(x - 1) = 0, so x = -2 and x = 1 — points (-2, 0) and (1, 3). (b) Test x = 0: the parabola gives 4, the line 2 — the parabola bounds above. (c) A = ∫₋₂¹ [(4 - x²) - (x + 2)] dx = ∫₋₂¹ (2 - x - x²) dx = [2x - x²/2 - x³/3]₋₂¹ = (2 - 1/2 - 1/3) - (-4 - 2 + 8/3) = 7/6 - (-10/3) = 7/6 + 20/6 = 27/6 = 9/2."
+        },
+        {
+          "question": "Let S be the region bounded by x = y² - 4 and the y-axis.\n(a) Explain why horizontal slices suit this region better than vertical ones.\n(b) Set up and evaluate the area integral with respect to y.\n(c) Confirm your answer by exploiting the region's symmetry.",
+          "rubric": [
+            "(a) The parabola is x as a function of y; vertical slices would need ±√(x + 4) — two formulas",
+            "(b) Bounds y = ±2 (where y² - 4 = 0); A = ∫₋₂² (0 - (y² - 4)) dy = ∫₋₂² (4 - y²) dy = 32/3",
+            "(c) Even integrand: 2∫₀² (4 - y²) dy = 2(8 - 8/3) = 32/3 ✓",
+            "Right-minus-left order correct (axis right of the parabola on the region)"
+          ],
+          "model_answer": "(a) The boundary is naturally x = g(y): each horizontal line crosses the parabola once and the axis once, so slices run cleanly left-to-right. Vertical slices would split the parabola into top and bottom branches y = ±√(x + 4) — two radicals where one polynomial suffices. (b) The region spans y from -2 to 2 (the parabola meets the axis where y² = 4). On it, the axis (x = 0) lies right of the parabola (x = y² - 4 ≤ 0): A = ∫₋₂² [0 - (y² - 4)] dy = ∫₋₂² (4 - y²) dy = [4y - y³/3]₋₂² = (8 - 8/3) - (-8 + 8/3) = 32/3. (c) The integrand is even in y, so A = 2∫₀² (4 - y²) dy = 2(16/3) = 32/3 ✓ — symmetry halves the arithmetic and confirms it."
+        },
+        {
+          "question": "Let R be the region in the first quadrant bounded by y = eˣ, the horizontal line y = e², and the y-axis.\n(a) Sketch-describe R and find the coordinates of its three corners.\n(b) Compute the area of R by vertical slices.\n(c) Recompute by horizontal slices and confirm agreement.",
+          "rubric": [
+            "(a) Corners (0, 1), (0, e²), (2, e²); region under the horizontal line, above the exponential",
+            "(b) ∫₀² (e² - eˣ) dx = 2e² - (e² - 1) = e² + 1",
+            "(c) Horizontal: x runs 0 to ln y: ∫₁^{e²} ln y dy = [y ln y - y]₁^{e²} = (2e² - e²) - (-1) = e² + 1 ✓",
+            "Parts integration (or citation of ∫ln) in (c)"
+          ],
+          "model_answer": "(a) R is the curvilinear triangle with corners (0, 1) (where the exponential meets the y-axis), (0, e²) (the line meets the axis), and (2, e²) (where eˣ = e²). The horizontal line roofs it; the exponential floors it. (b) A = ∫₀² (e² - eˣ) dx = [e²x - eˣ]₀² = (2e² - e²) - (0 - 1) = e² + 1. (c) Horizontally: at height y (from 1 to e²), slices run from the y-axis to x = ln y: A = ∫₁^{e²} ln y dy = [y ln y - y]₁^{e²} (integration by parts from Unit 6) = (e²·2 - e²) - (0 - 1) = e² + 1 ✓. Two orientations, one area — and the horizontal route quietly spent a BC technique."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Applications of Integration",
+    "chapter_title": "Volumes by Cross Sections",
+    "hook": "Stack infinitely many thin slices and you've built a solid: volume is the integral of cross-sectional area. Squares, semicircles, and triangles erected on a flat base — the exam's favorite 3D question is secretly a 2D area problem wearing one extra formula.",
+    "learning_objectives": [
+      "Compute volumes as V = ∫A(x) dx for solids with known cross sections",
+      "Erect squares, semicircles, rectangles, and triangles on a plane region's slices",
+      "Express the side length of each cross section from the region's boundaries",
+      "Choose the slicing variable to match the cross sections' perpendicular direction",
+      "Connect the method to next chapter's revolution solids as a special case"
+    ],
+    "sections": [
+      {
+        "title": "Volume as Stacked Area",
+        "subtitle": "The master formula",
+        "body": "A solid sliced perpendicular to the x-axis has, at each x, a cross section of area A(x). The slab at x with thickness dx contributes A(x)·dx of volume; the integral stacks the slabs: V = ∫ₐᵇ A(x) dx. The formula is the unit's master key — every volume in this chapter and the next instantiates it with a different A.\n\nThe logic is Riemann's, one dimension up: approximate the solid by finitely many slabs, sum the slab volumes, refine. Where Unit 6 stacked rectangles into area, this chapter stacks slabs into volume — the same limit construction, and the same eventual shortcut through antiderivatives.\n\nSanity check on a known solid: a pyramid with square base side 6 and height 6, sliced parallel to the base. Measure x downward from the apex: similar triangles (ratio 6/6 = 1) make the square at depth x have side x, so A(x) = x² and V = ∫₀⁶ x² dx = 72 — matching (1/3)(36)(6) = 72 from geometry ✓. The cone/pyramid thirds-formula is this integral; the master key re-derives the geometry it grew from.\n\nUnits and dimensionality bookkeeping: A carries square units, dx linear, V cubic ✓. An exam answer in square units flags a missing dimension — usually a side length integrated instead of an AREA. The A(x) construction step is where the chapter's real work lives.",
+        "key_terms": [
+          [
+            "Master formula",
+            "V = ∫A(x) dx: cross-sectional area, stacked by the integral"
+          ],
+          [
+            "Slab logic",
+            "Riemann sums one dimension up: area × thickness, summed, refined"
+          ],
+          [
+            "Dimensional audit",
+            "Area integrand, linear dx, cubic answer — or something's missing"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The integrand is the cross section's AREA, not its side length: a square of side s contributes s², a semicircle of diameter d contributes (π/8)d². Writing ∫(side) dx instead of ∫(side)² dx is the chapter's founding error."
+          ]
+        ]
+      },
+      {
+        "title": "Cross Sections on a Base Region",
+        "subtitle": "The AP's signature construction",
+        "body": "The exam's standard solid: a flat base region R in the plane (the area-between-curves regions of last chapter), with cross sections PERPENDICULAR to an axis erected as named shapes — squares, semicircles, equilateral triangles, rectangles of given proportions. The slice of R at x — a segment of length s(x) — becomes the named shape's defining side, and A(x) follows from the shape's formula.\n\nThe shape catalog: square on the slice: A = s². Semicircle with the slice as DIAMETER: radius s/2, A = (π/2)(s/2)² = πs²/8. Equilateral triangle on the slice: A = (√3/4)s². Isosceles right triangle, hypotenuse on the base: A = s²/4; leg on the base: A = s²/2. Rectangle of height twice the base slice: A = 2s². Each is one geometry formula; the exam supplies unusual ones in the stem, and the standards above are assumed known.\n\nThe slice length s(x) is last chapter's gap: top minus bottom (or right minus left for y-slicing). Base between y = √x and the axis on [0, 4], square cross sections perpendicular to x: s(x) = √x, A = x, V = ∫₀⁴ x dx = 8. Base between two curves: s = f - g, and A = (f - g)² for squares — the square of the GAP, with the subtraction inside the square.\n\nPerpendicular-direction reading sets the variable: 'cross sections perpendicular to the x-axis' slice at each x — integrate dx, with s from vertical gaps; 'perpendicular to the y-axis' slices horizontally — dy, with s from horizontal gaps (right minus left, boundaries converted to x = g(y)). The preposition dictates the entire setup.",
+        "key_terms": [
+          [
+            "Shape catalog",
+            "Square s²; semicircle πs²/8; equilateral (√3/4)s²; the slice is the side"
+          ],
+          [
+            "Slice length",
+            "s(x) = top - bottom: last chapter's gap, reused as the shape's side"
+          ],
+          [
+            "Perpendicular reading",
+            "Perpendicular to x ⟹ dx with vertical gaps; to y ⟹ dy with horizontal"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Semicircular cross sections use the slice as the DIAMETER unless the stem says radius: A = (π/8)s², not (π/2)s². The diameter-versus-radius misread quadruples the answer and is the single most common volume deduction."
+          ]
+        ]
+      },
+      {
+        "title": "Worked Solids",
+        "subtitle": "The genre, executed",
+        "body": "Full example one: base R between y = 4 - x² and the x-axis; squares perpendicular to the x-axis. Slice: s(x) = 4 - x² on [-2, 2]. A(x) = (4 - x²)². V = ∫₋₂² (4 - x²)² dx = ∫₋₂² (16 - 8x² + x⁴) dx — even, so 2∫₀²: 2(32 - 64/3 + 32/5) = 2(256/15) = 512/15. Expansion before integration, symmetry when available: the chapter's arithmetic pattern.\n\nFull example two: same base, semicircles instead. A = (π/8)(4 - x²)², so V = (π/8)(512/15) = 64π/15 — the shape swap rescales by the catalog constant, nothing else changes. The exam exploits this: parts (b) and (c) of an FRQ often differ only in the erected shape, and recognizing that only the constant changes saves the second computation.\n\nFull example three, two-curve base with y-slicing: base between x = y² and x = 4 (perpendicular to the y-axis, squares). Slice: s(y) = 4 - y² for y in [-2, 2]; V = ∫₋₂² (4 - y²)² dy = 512/15 — the same integral as example one in different clothes, which is exactly how textbook problem sets are built and worth noticing.\n\nSetup-versus-evaluation economics, once more: calculator-active volume questions award most points for the integral SET UP (shape formula, gap expression, bounds) with the evaluation outsourced. No-calculator versions choose bases whose squared gaps expand to short polynomials. Either way, the visible setup line V = ∫ₐᵇ [shape](gap) is where the credit concentrates.",
+        "key_terms": [
+          [
+            "Squared-gap expansion",
+            "(f - g)² expands before integrating; symmetry halves it"
+          ],
+          [
+            "Shape-swap rescaling",
+            "Same base, new shape: only the catalog constant changes"
+          ],
+          [
+            "Setup concentration",
+            "The line V = ∫(shape formula)(gap) carries the rubric's weight"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When parts (b) and (c) erect different shapes on the SAME base, compute the squared-gap integral ONCE and re-scale: squares ∫s², semicircles (π/8)∫s², equilateral (√3/4)∫s². One integral, three answers — the FRQ's hidden discount."
+          ]
+        ]
+      },
+      {
+        "title": "Toward Revolution",
+        "subtitle": "Disks as circular cross sections",
+        "body": "Rotate a region about an axis and the cross sections perpendicular to that axis are DISKS — circles of radius r(x), area πr². The revolution volumes of the next chapter are this chapter's method with one specific shape: V = π∫r² dx. Seeing disks as a catalog entry (circle on the slice, slice as radius) demystifies revolution before it starts: nothing new will happen, only a shape with its own geometry.\n\nThe washer preview: regions not touching the axis revolve into disks with holes — outer radius R, inner radius r, area π(R² - r²). Again a catalog entry: the annulus. Next chapter's entire content is r and R bookkeeping; the master formula never changes.\n\nWhy cross sections come first in the course's logic: revolution is a special case, and students who learn disks as 'the formula with π' detached from slabs routinely fail the general cross-section problems. Learned this way — slabs first, disks as an instance — both genres are one idea, and the exam's alternation between them costs nothing.\n\nThe unit's remaining arc: revolution volumes (next), then arc length (BC) — the integral measuring a curve's own length — and the exam's integration-applications battery is complete. Every formula will be an instance of slicing: V = ∫A, L = ∫√(1 + (y')²), each derived by chopping, measuring a piece, and summing. The slicing habit IS the unit.",
+        "key_terms": [
+          [
+            "Disks as catalog entry",
+            "Revolution = circular cross sections: A = πr², r = the slice"
+          ],
+          [
+            "Washer preview",
+            "Annular sections: π(R² - r²) — radius bookkeeping, same master key"
+          ],
+          [
+            "Slicing habit",
+            "Chop, measure a piece, sum: every formula in the unit is this"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "If a cross-section FRQ feels unfamiliar, return to the master key: WHAT is the slice (gap expression)? WHAT shape sits on it (catalog formula)? WHAT direction is perpendicular (variable and bounds)? Three questions rebuild any setup from scratch."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "A solid has base between y = √x and the x-axis on [0, 4], with square cross sections perpendicular to the x-axis. Its volume is",
+          "choices": {
+            "A": "8",
+            "B": "16/3",
+            "C": "4",
+            "D": "64/5"
+          },
+          "answer": "A",
+          "explanation": "A(x) = (√x)² = x; V = ∫₀⁴ x dx = 8."
+        },
+        {
+          "question": "Same base, but cross sections are semicircles with the slice as diameter. The volume is",
+          "choices": {
+            "A": "π",
+            "B": "2π",
+            "C": "8π",
+            "D": "π/2"
+          },
+          "answer": "A",
+          "explanation": "A = (π/8)(√x)² = πx/8; V = (π/8)(8) = π — the shape constant rescales the same integral."
+        },
+        {
+          "question": "The base is the region between y = 4 - x² and the x-axis; cross sections perpendicular to the x-axis are squares. The integrand A(x) is",
+          "choices": {
+            "A": "(4 - x²)²",
+            "B": "4 - x²",
+            "C": "π(4 - x²)²",
+            "D": "2(4 - x²)"
+          },
+          "answer": "A",
+          "explanation": "Square of the slice. (B integrates the side — the founding error; C adds a phantom π.)"
+        },
+        {
+          "question": "Cross sections 'perpendicular to the y-axis' on a base bounded by x = y² and x = 9 require",
+          "choices": {
+            "A": "integration in y with slice length 9 - y²",
+            "B": "integration in x with slice length √x",
+            "C": "integration in y with slice length y² - 9",
+            "D": "integration in x from 0 to 3"
+          },
+          "answer": "A",
+          "explanation": "Perpendicular to y means horizontal slices: dy, right minus left = 9 - y², for y in [-3, 3]."
+        },
+        {
+          "question": "A solid's cross sections perpendicular to the x-axis are isosceles right triangles with a LEG on the base slice s(x). The area formula is",
+          "choices": {
+            "A": "s²/2",
+            "B": "s²/4",
+            "C": "s²",
+            "D": "(√3/4)s²"
+          },
+          "answer": "A",
+          "explanation": "Legs s and s: A = (1/2)s·s = s²/2. (Hypotenuse-on-base gives s²/4 — the stem's wording decides.)"
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let R be the region bounded by y = 4 - x² and the x-axis.\n(a) Find the area of R.\n(b) A solid has base R with square cross sections perpendicular to the x-axis. Set up and evaluate its volume.\n(c) A second solid erects equilateral triangles instead. Use the shape-swap principle to find its volume from (b) without re-integrating.",
+          "rubric": [
+            "(a) ∫₋₂² (4 - x²) dx = 32/3",
+            "(b) V = ∫₋₂² (4 - x²)² dx = 512/15 (symmetry + expansion shown)",
+            "(c) Equilateral constant (√3/4) versus square's 1: V = (√3/4)(512/15) = 128√3/15",
+            "Shape-swap reasoning stated explicitly"
+          ],
+          "model_answer": "(a) A = ∫₋₂² (4 - x²) dx = 2[4x - x³/3]₀² = 2(8 - 8/3) = 32/3. (b) Squares on slices of length s = 4 - x²: V = ∫₋₂² (4 - x²)² dx = 2∫₀² (16 - 8x² + x⁴) dx = 2(32 - 64/3 + 32/5) = 2·256/15 = 512/15. (c) Both solids integrate the same squared gap; only the catalog constant differs — squares carry 1, equilateral triangles (√3/4). V = (√3/4)·512/15 = 128√3/15 ≈ 14.8."
+        },
+        {
+          "question": "A monument's base is the region between y = 6 - 2x and the axes (a right triangle). Cross sections perpendicular to the y-axis are SEMICIRCLES with diameter on the base.\n(a) Express the slice length s(y), converting the boundary appropriately.\n(b) Set up and evaluate the volume.\n(c) The architect doubles every linear dimension of the base. By what factor does the monument's volume grow? Justify with the integral's structure.",
+          "rubric": [
+            "(a) Line as x = (6 - y)/2: s(y) = (6 - y)/2 for 0 ≤ y ≤ 6",
+            "(b) V = ∫₀⁶ (π/8)((6 - y)/2)² dy = (π/32)∫₀⁶ (6 - y)² dy = (π/32)(72) = 9π/4",
+            "(c) Linear doubling scales s by 2 and the interval by 2: integrand ×4, length ×2 — volume ×8",
+            "Cube-scaling justified through the integral"
+          ],
+          "model_answer": "(a) Perpendicular to the y-axis means horizontal slices: convert y = 6 - 2x to x = (6 - y)/2. Slices run from the y-axis to the line: s(y) = (6 - y)/2, for y from 0 to 6. (b) Semicircles on diameter s: A = (π/8)s² = (π/8)·(6 - y)²/4 = (π/32)(6 - y)². V = (π/32)∫₀⁶ (6 - y)² dy = (π/32)·[-(6 - y)³/3]₀⁶ = (π/32)(216/3) = (π/32)(72) = 9π/4. (c) Doubling linear dimensions doubles s(y) — squaring makes the integrand 4× — and doubles the integration interval's length: total factor 4 × 2 = 8. Volume scales as the CUBE of linear dimensions, and the integral's anatomy (squared slice × linear extent) shows exactly where the three factors of 2 live."
+        },
+        {
+          "question": "Let R be the region bounded by y = eˣ, the x-axis, x = 0, and x = 1. A solid has base R and cross sections perpendicular to the x-axis that are rectangles whose height is THREE times the base slice.\n(a) Write the area function A(x).\n(b) Compute the volume exactly.\n(c) For the same solid, find the value c such that the plane x = c divides the solid into two pieces of equal volume.",
+          "rubric": [
+            "(a) Slice s = eˣ; rectangle area = s·3s = 3e^{2x}",
+            "(b) V = 3∫₀¹ e^{2x} dx = (3/2)(e² - 1)",
+            "(c) 3∫₀ᶜ e^{2x} dx = (3/4)(e² - 1) → e^{2c} - 1 = (e² - 1)/2 → c = (1/2)ln((e² + 1)/2)",
+            "Half-volume equation set up and solved with logs"
+          ],
+          "model_answer": "(a) The slice has length s(x) = eˣ; the rectangle stands 3s tall on base s: A(x) = 3s² = 3e^{2x}. (b) V = ∫₀¹ 3e^{2x} dx = (3/2)[e^{2x}]₀¹ = (3/2)(e² - 1) ≈ 9.58. (c) Set the left piece to half the total: (3/2)(e^{2c} - 1) = (3/4)(e² - 1), so e^{2c} = (e² + 1)/2 and c = (1/2)ln((e² + 1)/2) ≈ 0.73. (Note c > 1/2: the solid fattens to the right, so the halving plane sits right of center.)"
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Applications of Integration",
+    "chapter_title": "Volumes of Revolution — Disks and Washers",
+    "hook": "Spin a region around an axis and it sweeps out a solid — a vase, a funnel, a donut. The cross sections are circles, the method is last chapter's with one shape, and the only real work is radius bookkeeping: who measures the distance to the axis, and who got left as a hole.",
+    "learning_objectives": [
+      "Compute revolution volumes with the disk method: V = π∫r² dx",
+      "Apply the washer method for regions not touching the axis: V = π∫(R² - r²) dx",
+      "Express radii as distances from curves to the rotation axis, including shifted axes",
+      "Choose the integration variable to match the rotation axis's direction",
+      "Set up (and evaluate when feasible) the full battery of axis variations"
+    ],
+    "sections": [
+      {
+        "title": "Disks",
+        "subtitle": "Circles stacked along the axis",
+        "body": "Revolve the region under y = f(x) (down to the x-axis) about the x-axis: each cross section perpendicular to the axis is a full circle of radius f(x). The catalog entry A = πr² feeds the master formula: V = π∫ₐᵇ [f(x)]² dx — the DISK method, nothing but cross sections with one specific shape.\n\nWorked: y = √x on [0, 4] about the x-axis: V = π∫₀⁴ (√x)² dx = π∫₀⁴ x dx = 8π. The radical's square collapsing is typical — regions bounded by root curves revolve into polynomial integrands, a kindness exam writers exploit deliberately.\n\nThe radius is a DISTANCE: from the axis out to the curve. About the x-axis, that distance is the function's height |f(x)| — and the square erases the sign concern. About the y-axis with horizontal slicing: r = x-distance, curves rewritten as x = g(y), V = π∫(g(y))² dy. The axis's direction dictates the variable: slices are perpendicular to the rotation axis, ALWAYS — rotating about a vertical axis means dy.\n\nSanity anchors from geometry: revolving y = r (constant) on [0, h] gives π∫r² dx = πr²h, the cylinder ✓; revolving y = (r/h)x gives the cone πr²h/3 ✓. The method re-derives the solids it generalizes, and running one anchor in your head is the five-second check that the setup direction is right.",
+        "key_terms": [
+          [
+            "Disk method",
+            "V = π∫r² — full circular cross sections, radius from axis to curve"
+          ],
+          [
+            "Radius as distance",
+            "r = the gap between the rotation axis and the boundary curve"
+          ],
+          [
+            "Axis dictates variable",
+            "Slices perpendicular to the axis: horizontal axis → dx, vertical → dy"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The π lives OUTSIDE the integral and the square lives ON the radius: V = π∫[f(x)]² dx. Squaring a binomial radius — π∫(4 - x²)² — requires expansion before integrating; π∫(16 - x⁴) is the error the answer choices are built around."
+          ]
+        ]
+      },
+      {
+        "title": "Washers",
+        "subtitle": "Disks with holes",
+        "body": "When the region doesn't touch the rotation axis, the revolution leaves a tunnel: cross sections are ANNULI — washers — with outer radius R (axis to the far boundary) and inner radius r (axis to the near boundary). Area π(R² - r²), volume V = π∫(R² - r²) dx. Subtract the hole from the slab, slice by slice.\n\nWorked: the region between y = x and y = x² (intersections 0, 1) about the x-axis. The line rides farther from the axis: R = x, r = x². V = π∫₀¹ (x² - x⁴) dx = π(1/3 - 1/5) = 2π/15. The order check is last chapter's top-bottom test wearing radii: which curve sits FARTHER from the axis on the interval — test a point if in doubt.\n\nThe cardinal washer error, named and shamed: π∫(R - r)² is NOT π∫(R² - r²). The square of the difference is the wrong shape (it would be a disk whose radius is the gap — a different solid entirely). Washers subtract SQUARES; (R - r)² subtracts twice the cross term too. The two expressions agree only when r = 0 — exactly when there was no hole to bungle.\n\nWhen the region touches the axis along part of the span and floats free elsewhere, the solid mixes disks and washers — split the integral where the inner boundary reaches the axis. The diagnosing question for every revolution: 'does the region touch the axis everywhere on the interval?' Yes: disks. No: washers. Sometimes: split.",
+        "key_terms": [
+          [
+            "Washer method",
+            "V = π∫(R² - r²): outer square minus inner square, per slice"
+          ],
+          [
+            "Radius ordering",
+            "R is the boundary FARTHER from the axis — test a point"
+          ],
+          [
+            "The cardinal error",
+            "π∫(R - r)² ≠ π∫(R² - r²): squares subtract, differences don't square"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Write (R² - r²) with both squares visible BEFORE substituting the curves: V = π∫(R² - r²) dx, then R = ..., r = .... The pre-written template makes the (R - r)² blunder structurally impossible, and the rubric awards the template line itself."
+          ]
+        ]
+      },
+      {
+        "title": "Shifted Axes",
+        "subtitle": "Rotating about y = -1 and friends",
+        "body": "Rotating about a line OTHER than a coordinate axis shifts every radius by the offset: about y = -1, a curve at height f(x) sits at distance f(x) - (-1) = f(x) + 1 from the axis. The radii inflate by the gap between the old and new axes — and the bookkeeping rule is mechanical: radius = (top expression) - (axis value) for horizontal axes below the region, or (axis value) - (expression) when the axis rides above.\n\nWorked: the y = x versus y = x² region about y = -1. Outer: the line, now R = x + 1; inner: the parabola, r = x² + 1. V = π∫₀¹ [(x + 1)² - (x² + 1)²] dx — expand and integrate: π∫₀¹ (x² + 2x + 1 - x⁴ - 2x² - 1) dx = π∫₀¹ (2x - x² - x⁴) dx = π(1 - 1/3 - 1/5) = 7π/15. Note the constants did NOT cancel before squaring — (f + 1)² ≠ f² + 1, and the cross terms carry real volume.\n\nAxes ABOVE the region flip the subtraction: about y = 5 with curves below it, R = 5 - (lower curve) and r = 5 - (upper curve) — the curve CLOSER to y = 5 makes the SMALLER radius, so the vertical order of curves reverses as radius order. Drawing one slice with both radii labeled defeats every sign confusion the genre can manufacture; the sketch is two rectangles and an axis line.\n\nVertical shifted axes (about x = 3) run the same offsets horizontally with dy: R = 3 - (left curve as x = g(y)) styles. The full variation grid — which axis, which side, which variable — sounds combinatorial but reduces to one principle: radius is always |axis - boundary|, signed by a sketch.",
+        "key_terms": [
+          [
+            "Shifted radius",
+            "radius = |boundary expression - axis value|: offsets enter BEFORE squaring"
+          ],
+          [
+            "Order reversal above",
+            "Axis above the region: the lower curve is the FARTHER one"
+          ],
+          [
+            "One-slice sketch",
+            "Two labeled radii on one drawn slice settle every sign question"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "About y = -1, the radius is f(x) + 1 — added BEFORE the square: π∫(f + 1)² dx. Adding the shift after squaring (π∫(f² + 1)) is the genre's planted wrong answer, and it appears among the choices verbatim every time."
+          ]
+        ]
+      },
+      {
+        "title": "The Revolution Battery",
+        "subtitle": "One region, every axis",
+        "body": "The region FRQ's full form spins ONE region about multiple axes across its parts: R between y = x and y = x², about the x-axis (washers, 2π/15), about y = -1 (shifted washers, 7π/15), about the y-axis (washers in y: outer x = √y, inner x = y, V = π∫₀¹ (y - y²) dy = π/6), about x = 2 (shifted, dy, R = 2 - y, r = 2 - √y). Four setups from one area computation — the bounds and curves persist; only the radius bookkeeping rotates.\n\nThe setup-only convention matters here more than anywhere: harder revolution parts often say 'set up but do not evaluate.' The graded artifact is the integral itself — correct integrand with both radii substituted, correct bounds, correct variable, π present. Practice writing FINISHED setups: V = π∫₀¹ [(2 - y)² - (2 - √y)²] dy is a complete answer to a set-up-only prompt.\n\nDisk-versus-washer diagnosis errors concentrate at axis-touching: about the y-axis, the x-versus-x² region DOES touch the axis (at the origin only) — but 'touching at a point' is not 'touching along the interval': for every y strictly between 0 and 1, the region spans from x = y to x = √y, with both endpoints positive — a genuine hole, so washers. The diagnosis runs on the INTERVAL'S interior, not on isolated contact points.\n\nWhat the unit holds back: rotating about SLANTED lines, and the shell method (cylindrical shells) — both beyond the AP's scope. Every AP revolution is disks or washers about a horizontal or vertical line, which is why the radius-bookkeeping skill, drilled on the battery above, covers the entire tested genre.",
+        "key_terms": [
+          [
+            "The battery",
+            "One region, four axes: bounds persist, radii rotate"
+          ],
+          [
+            "Setup-only answers",
+            "Integrand + bounds + variable + π: complete without evaluation"
+          ],
+          [
+            "Interval-interior diagnosis",
+            "Touching at one point ≠ touching along the span: washers"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Set up but do not evaluate' means STOP after the integral — evaluating anyway risks arithmetic errors on work that earns nothing extra. Write the complete setup, box it, move on; the exam's clock is part of the test."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "The region under y = √x on [0, 4] is revolved about the x-axis. The volume is",
+          "choices": {
+            "A": "8π",
+            "B": "16π",
+            "C": "4π",
+            "D": "64π/5"
+          },
+          "answer": "A",
+          "explanation": "Disks: π∫₀⁴ (√x)² dx = π∫₀⁴ x dx = 8π."
+        },
+        {
+          "question": "The region between y = x and y = x² is revolved about the x-axis. The volume is",
+          "choices": {
+            "A": "2π/15",
+            "B": "π/6",
+            "C": "π/3",
+            "D": "π∫₀¹(x - x²)² dx"
+          },
+          "answer": "A",
+          "explanation": "Washers: π∫₀¹(x² - x⁴)dx = π(1/3 - 1/5) = 2π/15. (D is the cardinal (R-r)² error dressed as a choice.)"
+        },
+        {
+          "question": "The region under y = f(x) ≥ 0 on [a, b] (down to the x-axis) is revolved about y = -2. The outer radius is",
+          "choices": {
+            "A": "f(x) + 2",
+            "B": "f(x) - 2",
+            "C": "f(x)² + 2",
+            "D": "2 - f(x)"
+          },
+          "answer": "A",
+          "explanation": "Distance from the axis y = -2 up to the curve: f(x) - (-2) = f(x) + 2. The shift enters before squaring."
+        },
+        {
+          "question": "Revolving about the y-axis a region bounded by y = x² from y = 0 to y = 9 (between the curve and the y-axis) uses",
+          "choices": {
+            "A": "disks in y with r = √y",
+            "B": "disks in x with r = x²",
+            "C": "washers in x",
+            "D": "disks in y with r = y²"
+          },
+          "answer": "A",
+          "explanation": "Vertical axis → dy; the boundary converts to x = √y, the radius from the axis."
+        },
+        {
+          "question": "A region NOT touching the x-axis is revolved about it. Which expression computes the volume?",
+          "choices": {
+            "A": "π∫(R² - r²) dx",
+            "B": "π∫(R - r)² dx",
+            "C": "π∫(R² + r²) dx",
+            "D": "2π∫(R - r) dx"
+          },
+          "answer": "A",
+          "explanation": "Washers subtract the SQUARES. (B is the cardinal error; D resembles shells, beyond the AP.)"
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let R be the region in the first quadrant bounded by y = x and y = x².\n(a) Find the volume when R is revolved about the x-axis.\n(b) Find the volume when R is revolved about the line y = -1.\n(c) Explain structurally why the answer to (b) exceeds the answer to (a), without comparing the numbers.",
+          "rubric": [
+            "(a) π∫₀¹(x² - x⁴)dx = 2π/15",
+            "(b) π∫₀¹[(x+1)² - (x²+1)²]dx, expanded to π∫₀¹(2x - x² - x⁴)dx = 7π/15",
+            "(c) Same region swept on circles of larger radii (every point is farther from y = -1 than from y = 0)",
+            "Cross-term reasoning or distance reasoning, not numeric comparison"
+          ],
+          "model_answer": "(a) Washers about the x-axis with R = x, r = x²: V = π∫₀¹ (x² - x⁴) dx = π(1/3 - 1/5) = 2π/15. (b) Shifting the axis to y = -1 adds 1 to each radius BEFORE squaring: R = x + 1, r = x² + 1. V = π∫₀¹ [(x + 1)² - (x² + 1)²] dx = π∫₀¹ (2x - x² - x⁴) dx = π(1 - 1/3 - 1/5) = 7π/15. (c) The region itself is unchanged, but every point of it now travels a LARGER circle: distances to y = -1 exceed distances to y = 0 by exactly 1. Material swept farther from the axis contributes more volume (the contribution grows with the radius), so dropping the axis enlarges the solid — no arithmetic needed to know which way the comparison goes."
+        },
+        {
+          "question": "Let S be the region bounded by y = 4 - x², the x-axis, and the y-axis, in the first quadrant.\n(a) Set up and evaluate the volume when S is revolved about the y-axis.\n(b) Set up but DO NOT evaluate the volume when S is revolved about the line x = 3.\n(c) For (b), verify your radii by computing both at y = 0 and confirming them against the geometry.",
+          "rubric": [
+            "(a) Disks in y: x = √(4 - y), V = π∫₀⁴ (4 - y) dy = 8π",
+            "(b) Washers in y: R = 3, r = 3 - √(4 - y): V = π∫₀⁴ [9 - (3 - √(4 - y))²] dy",
+            "(c) At y = 0: curve at x = 2; r = 3 - 2 = 1 ✓ (gap from x = 3 to the curve); R = 3 ✓ (axis to the y-axis)",
+            "Geometric confirmation sentences present"
+          ],
+          "model_answer": "(a) About the y-axis, slices are horizontal: the boundary is x = √(4 - y) for y in [0, 4], touching the axis — disks: V = π∫₀⁴ (4 - y) dy = π[4y - y²/2]₀⁴ = 8π. (b) About x = 3 (right of the region): the far boundary is the y-axis (distance 3), the near is the curve (distance 3 - √(4 - y)): V = π∫₀⁴ [3² - (3 - √(4 - y))²] dy. (c) At y = 0, the region spans x from 0 to 2. Outer radius: from x = 3 back to x = 0 is 3 ✓. Inner: from x = 3 to the curve at x = 2 is 1, and the formula gives 3 - √4 = 1 ✓. Both radii match the picture — the setup stands."
+        },
+        {
+          "question": "A glassblower models a vase by revolving the region under y = 2 + sin x on [0, 2π] (above the x-axis) about the x-axis.\n(a) Write the volume integral.\n(b) Evaluate it exactly. (Recall sin²x = (1 - cos 2x)/2.)\n(c) The artisan considers scaling the profile to y = k(2 + sin x). Find k so the vase holds exactly twice the original volume.",
+          "rubric": [
+            "(a) V = π∫₀^{2π} (2 + sin x)² dx",
+            "(b) Expand: 4 + 4 sin x + sin²x; over a full period sin integrates to 0 and sin² to π: V = π(8π + 0 + π) = 9π²",
+            "(c) Scaling y by k scales r² by k²: volume k²·9π² = 18π² → k = √2",
+            "Exact trig-power integration shown"
+          ],
+          "model_answer": "(a) V = π∫₀^{2π} (2 + sin x)² dx. (b) Expand: (2 + sin x)² = 4 + 4 sin x + sin² x. Over [0, 2π]: ∫4 dx = 8π; ∫4 sin x dx = 0 (full period); ∫sin²x dx = ∫(1 - cos 2x)/2 dx = π. So V = π(8π + 0 + π) = 9π². (c) Replacing the profile by k(2 + sin x) multiplies every radius by k, hence every r² by k²: the new volume is 9π²k². Setting 9π²k² = 18π²: k² = 2, k = √2 ≈ 1.414 — a 41% taller profile doubles the capacity, the square at work."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Applications of Integration",
+    "chapter_title": "Arc Length of Curves",
+    "hook": "BC ONLY: how long is the curve itself — not the area under it, but the path's own length, as a bug crawling along it would measure? Slice the curve into near-straight pieces, Pythagoras each piece, and integrate: L = ∫√(1 + (y')²) dx.",
+    "learning_objectives": [
+      "Derive the arc length formula from the Pythagorean slice argument",
+      "Compute arc lengths for curves engineered to have clean radicands",
+      "Set up arc length integrals for calculator evaluation when no clean form exists",
+      "Apply the formula in context: cable lengths, paths, perimeters",
+      "Preview the parametric speed integral as the same formula in motion clothes"
+    ],
+    "sections": [
+      {
+        "title": "Pythagoras, Integrated",
+        "subtitle": "Deriving L = ∫√(1 + (y')²) dx",
+        "body": "Chop the curve y = f(x) over [a, b] into small pieces. Each piece spans Δx across and Δy up — nearly straight, with length √((Δx)² + (Δy)²) by Pythagoras. Factor out Δx: length ≈ √(1 + (Δy/Δx)²)·Δx, and the difference quotient becomes the derivative in the limit: L = ∫ₐᵇ √(1 + (f'(x))²) dx. The slicing habit of the whole unit, aimed along the curve instead of under it.\n\nThe integrand reads as a stretching factor: where the curve is flat (f' ≈ 0), √(1 + 0) = 1 and arc length accrues like horizontal distance; where steep, the factor balloons and each dx of width costs more curve. The formula is a weighted horizontal ruler, with the weight √(1 + slope²) charging for climb.\n\nSanity anchors: a horizontal segment y = c on [a, b]: L = ∫√1 = b - a ✓. The line y = 3x/4 on [0, 4]: L = ∫₀⁴ √(1 + 9/16) dx = 4·(5/4) = 5 — the 3-4-5 triangle's hypotenuse ✓. Anchors confirm the formula's plumbing before the genuine curves arrive.\n\nBounds and orientation: arc length is direction-blind and positive — integrate left to right, no signs to track. For curves given as x = g(y), the mirrored formula integrates dy: L = ∫√(1 + (g'(y))²) dy. Same Pythagoras, sliced the other way.",
+        "key_terms": [
+          [
+            "Arc length formula",
+            "L = ∫ₐᵇ √(1 + (y')²) dx — Pythagoras on slices, integrated"
+          ],
+          [
+            "Stretching factor",
+            "√(1 + slope²): flat costs 1 per dx, steep costs more"
+          ],
+          [
+            "Direction-blind",
+            "Lengths are positive; no sign bookkeeping, no orientation"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The formula squares the DERIVATIVE, not the function: √(1 + (f'(x))²). Writing √(1 + f(x)²) is the founding misread, and it produces integrals that look plausibly hard — the error survives unnoticed without the derivative-first habit."
+          ]
+        ]
+      },
+      {
+        "title": "Curves That Cooperate",
+        "subtitle": "Perfect-square radicands",
+        "body": "Most curves make √(1 + (y')²) unintegrable by hand — so exam problems engineered for exact evaluation use curves whose radicand collapses to a perfect square. The workhorse: y = (2/3)x^{3/2} on [0, 3]: y' = x^{1/2}, radicand 1 + x, and L = ∫₀³ √(1 + x) dx = [(2/3)(1 + x)^{3/2}]₀³ = (2/3)(8 - 1) = 14/3. Fractional-power curves with half-integer exponents are the genre's natives.\n\nThe other engineered family balances reciprocal terms: y = x³/6 + 1/(2x) has y' = x²/2 - 1/(2x²), and 1 + (y')² = 1 + x⁴/4 - 1/2 + 1/(4x⁴) = (x²/2 + 1/(2x²))² — the MINUS in y' becomes a PLUS under the square, by the (a - b)² + 4ab = (a + b)² identity. The radical peels cleanly and the integral is polynomial. When an arc length problem hands you a two-term function with opposite-power terms, expect this collapse and look for it.\n\nThe collapse is checkable: a perfect-square radicand factors as (something)², and the something should be y' with its middle sign flipped. If your radicand refuses to factor, either the algebra slipped or the problem intends calculator evaluation — diagnose before grinding.\n\nExact-answer presentation: arc lengths are positive reals, often with radicals or fractional powers. (2/3)(8 - 1) = 14/3 — exact, clean, done. The genre's arithmetic rewards organized exponent work and punishes premature decimals, like every exact corner of the exam.",
+        "key_terms": [
+          [
+            "Engineered curves",
+            "Half-integer powers and balanced reciprocal pairs: radicands that collapse"
+          ],
+          [
+            "Sign-flip identity",
+            "y' = a - b with 4ab = const: 1 + (y')² = (a + b)² — minus becomes plus"
+          ],
+          [
+            "Collapse check",
+            "The radicand's square root should be y' with the middle sign flipped"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Two-term curves like x³/6 + 1/(2x) or x⁴/8 + 1/(4x²) are arc-length setups by design: the radicand WILL be a perfect square. If yours doesn't collapse, recheck (y')² — the cross term 2ab is where the algebra goes astray."
+          ]
+        ]
+      },
+      {
+        "title": "Calculator-Section Arc Length",
+        "subtitle": "Setup is the skill",
+        "body": "Uncooperative curves — and most are — get the machine: 'find the length of y = sin x from 0 to π' sets up L = ∫₀^π √(1 + cos²x) dx (no elementary antiderivative exists) and evaluates numerically: ≈ 3.820. The human contribution is the SETUP: differentiate correctly, square, plant inside √(1 + ·), attach bounds. The machine does what no technique can.\n\nThe setup line is graded standalone — write it even when the calculator finishes: L = ∫₀^π √(1 + cos²x) dx ≈ 3.820. AP answers report three decimals (the standard), with the integral visible as justification. A bare 3.820 without the integral earns the answer point at most; the setup point dies silently.\n\nInverse problems run the formula backward: 'find b so the curve from 0 to b has length 5' solves ∫₀ᵇ √(1 + (y')²) dx = 5 numerically — equation-solver territory, with the integral as a function of its upper bound (FTC thinking, quietly). The exam asks these on calculator sections; recognizing 'length given, bound unknown' as a solver problem is the entire insight.\n\nContext dressings: cable sag (catenary-ish profiles), road and river lengths on maps, the perimeter of a region (arc length of each boundary piece plus straight edges — the area-perimeter combination FRQ). The formula never changes; the prose around it rotates, and the units are linear (meters, not square meters) — the dimension audit, one last time.",
+        "key_terms": [
+          [
+            "Setup-then-machine",
+            "Differentiate, square, √(1 + ·), bounds — then numeric evaluation"
+          ],
+          [
+            "Inverse arc problems",
+            "Length given, bound unknown: solve ∫₀ᵇ = L numerically"
+          ],
+          [
+            "Perimeter combinations",
+            "Region perimeters = arc lengths of curved edges + straight pieces"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Arc length answers carry LINEAR units and exceed the straight-line distance between the endpoints (curves are never shorter than chords). A computed length less than the endpoint distance is wrong with certainty — the chord check is free."
+          ]
+        ]
+      },
+      {
+        "title": "Speed and the Road to Unit 9",
+        "subtitle": "The same integral, in motion",
+        "body": "Reread the formula with time as the variable: a particle at position (t, f(t)) — moving along the curve with x = t — has horizontal speed 1 and vertical speed f'(t), so its SPEED is √(1 + (f')²) and the distance it travels is ∫√(1 + (f')²) dt. Arc length IS distance traveled along the curve: the formula was a motion formula all along, with x playing time.\n\nUnit 9 makes the costume official: parametric curves (x(t), y(t)) have speed √((x')² + (y')²) and arc length L = ∫√((x'(t))² + (y'(t))²) dt — the same Pythagorean slice with both coordinates free. Today's formula is the special case x(t) = t. Students who see the kinship learn Unit 9's formula in one glance; it is THIS one, symmetrized.\n\nThe BC exam leans on the parametric version heavily (it doubles as 'total distance traveled by the particle'), and on today's version more lightly — typically one setup-or-evaluate item. The investment ratio favors understanding the slice derivation over memorizing either formula: the derivation regenerates both, plus the polar arc length variant Unit 9 adds.\n\nThe unit closes here in content: average value, motion recovery, areas, cross-section and revolution volumes, arc length — the integral's applied portfolio, every entry an instance of chop-measure-sum. The remaining chapter rehearses the portfolio under calculator-active exam conditions, where setup speed and numerical hygiene decide the points.",
+        "key_terms": [
+          [
+            "Speed reading",
+            "√(1 + (f')²) is the speed of (t, f(t)): arc length is distance traveled"
+          ],
+          [
+            "Parametric preview",
+            "√((x')² + (y')²): the symmetric Pythagoras, Unit 9's workhorse"
+          ],
+          [
+            "Derivation over memory",
+            "The slice argument regenerates every length formula the exam uses"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "BC tests arc length in both costumes: y = f(x) form (this chapter) and parametric form (Unit 9). They are ONE formula — √(dx² + dy²) integrated — and answering 'which formula?' by re-deriving from the Pythagorean slice is faster than maintaining two memorized entries."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "The length of y = (2/3)x^{3/2} from x = 0 to x = 3 is",
+          "choices": {
+            "A": "14/3",
+            "B": "16/3",
+            "C": "8/3",
+            "D": "7/3"
+          },
+          "answer": "A",
+          "explanation": "y' = √x: L = ∫₀³√(1 + x)dx = (2/3)(4^{3/2} - 1) = (2/3)(7) = 14/3."
+        },
+        {
+          "question": "The arc length integral for y = sin x on [0, π] is",
+          "choices": {
+            "A": "∫₀^π √(1 + cos²x) dx",
+            "B": "∫₀^π √(1 + sin²x) dx",
+            "C": "∫₀^π (1 + cos²x) dx",
+            "D": "π∫₀^π sin²x dx"
+          },
+          "answer": "A",
+          "explanation": "Square the DERIVATIVE cos x inside √(1 + ·). (B squared the function; C lost the radical; D wandered into revolution.)"
+        },
+        {
+          "question": "For y = x³/6 + 1/(2x), the radicand 1 + (y')² simplifies to",
+          "choices": {
+            "A": "(x²/2 + 1/(2x²))²",
+            "B": "(x²/2 - 1/(2x²))²",
+            "C": "1 + x⁴/4 + 1/(4x⁴)",
+            "D": "it does not simplify"
+          },
+          "answer": "A",
+          "explanation": "y' = x²/2 - 1/(2x²); adding 1 flips the middle sign: a perfect square with a plus."
+        },
+        {
+          "question": "A curve runs from (1, 2) to (4, 6). Its arc length must be",
+          "choices": {
+            "A": "at least 5",
+            "B": "exactly 5",
+            "C": "at most 5",
+            "D": "unrelated to 5"
+          },
+          "answer": "A",
+          "explanation": "The chord has length √(9 + 16) = 5, and curves are never shorter than their chords — equality only for the straight segment."
+        },
+        {
+          "question": "The length of the curve x = g(y) for c ≤ y ≤ d is",
+          "choices": {
+            "A": "∫_c^d √(1 + (g'(y))²) dy",
+            "B": "∫_c^d √(1 + g(y)²) dy",
+            "C": "π∫_c^d g(y)² dy",
+            "D": "∫_c^d (1 + g'(y)) dy"
+          },
+          "answer": "A",
+          "explanation": "The mirrored formula: Pythagoras sliced in y, derivative squared."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let y = x⁴/8 + 1/(4x²) on [1, 2].\n(a) Compute y' and show that 1 + (y')² is a perfect square.\n(b) Find the exact arc length.\n(c) State the structural feature of the original function that guaranteed the collapse, and give one other function with the same property.",
+          "rubric": [
+            "(a) y' = x³/2 - 1/(2x³); 1 + (y')² = (x³/2 + 1/(2x³))²",
+            "(b) L = ∫₁² (x³/2 + 1/(2x³)) dx = [x⁴/8 - 1/(4x²)]₁² = 33/16",
+            "(c) Balanced opposite-power pair whose derivative terms have constant product ab = 1/4 (so 4ab = 1)",
+            "Example: x³/6 + 1/(2x) or x⁵/10 + 1/(6x³)-type pairs"
+          ],
+          "model_answer": "(a) y' = x³/2 - 1/(2x³). Then (y')² = x⁶/4 - 1/2 + 1/(4x⁶), so 1 + (y')² = x⁶/4 + 1/2 + 1/(4x⁶) = (x³/2 + 1/(2x³))² — the middle sign flipped to plus. (b) L = ∫₁² (x³/2 + 1/(2x³)) dx = [x⁴/8 - 1/(4x²)]₁² = (16/8 - 1/16) - (1/8 - 1/4) = (2 - 1/16) - (-1/8) = 2 - 1/16 + 2/16 = 33/16. (c) The function is a pair of opposite-power terms whose derivative has the form a - b with the PRODUCT ab constant (here ab = (x³/2)(1/(2x³)) = 1/4): then 1 + (a - b)² = (a + b)² exactly when 4ab = 1. Any pair tuned that way collapses — e.g., y = x³/6 + 1/(2x), whose derivative x²/2 - 1/(2x²) has the same balanced product."
+        },
+        {
+          "question": "A suspension cable follows y = 0.1x² for -10 ≤ x ≤ 10 (meters).\n(a) Set up the integral for the cable's length.\n(b) The integral has no elementary antiderivative. Evaluate it numerically to three decimals.\n(c) Compare the cable's length to the straight-line distance between its endpoints and to the path along the towers and roadway (down 10, across 20, up 10), interpreting briefly.",
+          "rubric": [
+            "(a) L = ∫₋₁₀¹⁰ √(1 + 0.04x²) dx",
+            "(b) L ≈ 22.963 by numerical integration (accept 22.96-22.97)",
+            "(c) Chord: endpoints (±10, 10): distance 20; cable ≈ 23.0 sits between chord 20 and the 40 m tower-road path",
+            "Interpretation: the cable bows below the chord-line path but is far shorter than the rectangular detour"
+          ],
+          "model_answer": "(a) y' = 0.2x: L = ∫₋₁₀¹⁰ √(1 + 0.04x²) dx (even integrand — equivalently 2∫₀¹⁰). (b) Numerically, L ≈ 22.963 meters. (c) The endpoints are (-10, 10) and (10, 10): straight-line distance 20 m. The cable, sagging through the vertex, is longer — about 23.0 m, roughly 15% more than the chord — yet far shorter than the 10 + 20 + 10 = 40 m path down one tower, across the roadway, and up the other. A curve always beats its detours and loses to its chord; the integral quantifies by exactly how much."
+        },
+        {
+          "question": "Let C be the curve y = ln x from x = 1 to x = e.\n(a) Set up the arc length integral for C.\n(b) Set up (do not evaluate) the integral for the length of the SAME curve described as x = e^y, integrating in y, and state the y-bounds.\n(c) The two integrals must be equal. Verify numerically to three decimals, and explain why the agreement is guaranteed.",
+          "rubric": [
+            "(a) ∫₁ᵉ √(1 + 1/x²) dx",
+            "(b) ∫₀¹ √(1 + e^{2y}) dy",
+            "(c) Both ≈ 2.003; same curve, same Pythagorean slices, different parameter",
+            "The substitution y = ln x maps one integral to the other exactly"
+          ],
+          "model_answer": "(a) y' = 1/x: L = ∫₁ᵉ √(1 + 1/x²) dx. (b) As x = e^y with y from 0 to 1 and dx/dy = e^y: L = ∫₀¹ √(1 + e^{2y}) dy. (c) Numerically both evaluate to ≈ 2.003. The agreement is structural, not coincidental: both integrals sum the same Pythagorean slice lengths √(dx² + dy²) along the same curve — only the bookkeeping variable differs, and the substitution y = ln x (dy = dx/x) transforms one integral into the other line by line. Length belongs to the curve, not to the coordinates describing it."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Applications of Integration",
+    "chapter_title": "Integral Applications in the Calculator Section",
+    "hook": "Half the AP exam allows a calculator — and the questions there are written knowing it. Intersections found numerically, integrals evaluated by machine, three-decimal answers: this chapter is the unit's content under match conditions, with the machine as teammate.",
+    "learning_objectives": [
+      "Execute the calculator workflow: store intersections, integrate numerically, round last",
+      "Write the graded setup lines that survive even when the machine computes",
+      "Run the region FRQ — area, volumes, perimeter — at full calculator speed",
+      "Apply numerical-solver thinking to inverse problems (unknown bounds, equal areas)",
+      "Avoid the section's signature deductions: rounding drift, missing setups, mode errors"
+    ],
+    "sections": [
+      {
+        "title": "The Calculator Workflow",
+        "subtitle": "Store, integrate, round last",
+        "body": "The section's standard play: curves intersect somewhere ugly (e^{-x} = x² has no algebraic solution) — solve numerically, STORE the root in a variable (X₁), and use the stored value in every later computation. Round only the FINAL answer, to three decimals as the AP requires. Mid-stream rounding drifts the third decimal, and the third decimal is graded.\n\nThe four calculator skills the exam assumes: graphing a function and reading its window sensibly; solving f(x) = g(x) numerically; evaluating a definite integral numerically; evaluating a derivative at a point numerically. All four appear in the region genre; the second and third dominate it.\n\nWhat the machine does NOT replace: the setup. A rubric for 'find the area between the curves' awards (1) the integrand with correct order, (2) the bounds (the stored intersections, referenced symbolically), (3) the answer. The machine delivers only the third. Writing A = ∫_{X₁}^{X₂} (f - g) dx ≈ 1.038 with X₁, X₂ identified is the complete, full-credit form — the integral expression IS the work.\n\nMode hygiene, the silent killer: radians, always — every trig-bearing integrand on the exam assumes it (Unit 1's warning, final form). And syntax hygiene: absolute values for total distance (abs(v(t))), parentheses around integrands. The machine computes what was typed, not what was meant.",
+        "key_terms": [
+          [
+            "Store-don't-round",
+            "Numerical roots live in variables; rounding happens once, at the end"
+          ],
+          [
+            "Four assumed skills",
+            "Graph, solve, integrate, differentiate — numerically, fluently"
+          ],
+          [
+            "Setup survives the machine",
+            "Integrand + bounds written out: the graded artifact"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Three decimals means THREE DECIMALS: 1.038, not 1.04, not 1.0379. Truncation or extra digits are tolerated inconsistently by rubrics — the safe form is standard rounding to exactly three places, with the unrounded value living in the calculator."
+          ]
+        ]
+      },
+      {
+        "title": "The Region FRQ at Speed",
+        "subtitle": "Area, volume, and the clock",
+        "body": "The genre's full anatomy, calculator-active: R is bounded by y = e^{-x²} and y = x² (say). (a) Area of R: solve e^{-x²} = x² numerically (±0.7531 ≈ ±X₁), store, integrate the gap: A = ∫_{-X₁}^{X₁}(e^{-x²} - x²)dx ≈ 1.038. (b) Revolve about y = -1: washers with shifted radii, integrand [(e^{-x²}+1)² - (x²+1)²], machine-evaluated. (c) Cross sections (squares): integrate the squared gap. Twelve minutes of clock, three setup lines of graded work.\n\nTime allocation inside the genre: one minute to graph and see the region; one to solve-and-store; the rest divides among writing setups (most of the credit) and machine evaluation (none of the credit beyond the answer). Students who type before writing leave setup points uncollected when time runs; setups FIRST is the discipline.\n\nThe symmetric-region dividend: even functions intersect symmetrically (±X₁), and integrands built from them are often even — 2∫₀^{X₁} halves the numerical workload and displays structural awareness rubrics quietly reward.\n\nDerivative-flavored sub-parts visit the genre: 'find where the region is widest' maximizes the gap f - g (Unit 5 on the difference: solve f' = g' numerically); 'the rate at which the area left of x grows' is FTC1 (the gap itself, evaluated). The region is a playground for the whole course — which is the exam's point.",
+        "key_terms": [
+          [
+            "Genre anatomy",
+            "Solve-store, area setup, volume setups: three written lines carry the credit"
+          ],
+          [
+            "Setups before typing",
+            "Write all integral expressions, then evaluate — credit-ordering discipline"
+          ],
+          [
+            "Symmetric dividend",
+            "±X₁ intersections: halve with 2∫₀ and signal structure"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Reference stored intersections SYMBOLICALLY in written setups — 'where X₁ = 0.7531 is the positive intersection' — then use full precision in the machine. The written decimal is for the reader; the stored value is for the arithmetic. Two audiences, two precisions."
+          ]
+        ]
+      },
+      {
+        "title": "Inverse and Solver Problems",
+        "subtitle": "When the unknown is a bound",
+        "body": "The section's thinking questions invert the formulas: 'find k so the line y = k divides R into two regions of equal area' sets ∫(condition with k) = (half the total) and solves numerically for k. The integral becomes a FUNCTION of the unknown — area-so-far as a function of the divider — and the equation solver does the rest. FTC thinking (accumulation as a function of its bound) is the conceptual engine; the machine is the wrench.\n\nThe family: equal-area dividers (horizontal or vertical lines), equal-volume planes (last chapter's x = c slicer), unknown endpoints ('the curve from 0 to b has length 5'), and parameter-tuning ('find a so the area equals 3'). Each writes one equation in one unknown where the equation CONTAINS an integral; each is two written lines (the equation, the numerical solution) plus solver work.\n\nSetup language for the rubric: 'Let A(k) = ∫... ; solve A(k) = 4.519/2' — the equation visibly stated, the unknown named, the numerical answer to three decimals. The statement of the equation is the point-bearing artifact; the solving is assumed competent.\n\nA worked instance: R under y = 4 - x² above the axis (area 32/3). Find k with the horizontal line y = k splitting R equally. Area above y = k: the region between the curve and the line, ∫(4 - x² - k) dx over where 4 - x² ≥ k, which integrates (by symmetry and substitution) to (4/3)(4 - k)^{3/2}. Equation: (4/3)(4 - k)^{3/2} = 16/3, so (4 - k)^{3/2} = 4, 4 - k = 4^{2/3}, k = 4 - 4^{2/3} ≈ 1.480. Clean enough by hand here — but the SHAPE of the work (area-as-function, one equation, solve) is the calculator section's daily bread.",
+        "key_terms": [
+          [
+            "Integral-bearing equations",
+            "The unknown lives in a bound or parameter; the solver finishes"
+          ],
+          [
+            "Equation-statement credit",
+            "'Solve A(k) = total/2' written out is the graded move"
+          ],
+          [
+            "The divider family",
+            "Equal areas, equal volumes, target lengths, tuned parameters"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Equal-division problems: compute the TOTAL first, then set the partial accumulation equal to half of it. Solving 'left = right' directly (two integrals, one equation) also works but doubles the setup; total-then-half is the cleaner graded line."
+          ]
+        ]
+      },
+      {
+        "title": "The Unit, Banked",
+        "subtitle": "Formulas, audits, and the bridge to Unit 9",
+        "body": "The unit's formula bank, final inventory: average value (1/(b-a))∫f; position s(t₀) + ∫v; displacement ∫v; distance ∫|v|; area ∫(top - bottom) or ∫(right - left); volume ∫A(x) with the shape catalog; disks π∫r²; washers π∫(R² - r²); arc length ∫√(1 + (y')²). Nine entries, every one an instance of chop-measure-sum, every one tested.\n\nThe audits, banked beside them: units (linear/square/cubic matching the formula's dimension); positivity (areas, distances, lengths, volumes are positive — negatives flag order errors); the chord check (arc ≥ straight-line distance); the anchor check (positions need initial values); three decimals, rounded last.\n\nWhat transfers to Unit 9 immediately: the particle goes planar — position (x(t), y(t)), velocity as a vector, speed √((x')² + (y')²), distance as the parametric arc length. Areas reappear under polar curves with a new slicing geometry (sectors, not rectangles): A = (1/2)∫r² dθ. The chop-measure-sum habit converts both formulas from memorization into re-derivation.\n\nThe course's geography from here: Unit 9 (parametric, polar, vectors — BC's geometry unit) and Unit 10 (series — BC's capstone) remain. Both are BC-only territory, both lean on everything banked so far, and together they carry roughly 30% of the BC exam's weight. The applied integral toolkit is complete; what remains is teaching it new coordinate systems and then infinite sums.",
+        "key_terms": [
+          [
+            "Nine-formula bank",
+            "Average value through arc length: the unit's complete tested inventory"
+          ],
+          [
+            "The audit set",
+            "Units, positivity, chord, anchor, three decimals — five checks, most errors"
+          ],
+          [
+            "Unit 9 bridge",
+            "Planar particles and polar sectors: the same habits, new geometry"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The calculator section rewards a fixed pre-flight: MODE radians; intersections stored; setups written before typing; three decimals at the end. Four habits, rehearsed until boring — they are collectively worth more points than any single formula in the bank."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "Curves intersect at x ≈ 0.7531 (stored as X₁). The area between them should be computed using",
+          "choices": {
+            "A": "the stored full-precision X₁ in the integral's bound",
+            "B": "0.75 for simplicity",
+            "C": "0.753 retyped by hand",
+            "D": "1 as an approximation"
+          },
+          "answer": "A",
+          "explanation": "Mid-stream rounding drifts the graded third decimal; stored values preserve it."
+        },
+        {
+          "question": "On the calculator section, total distance traveled with velocity v(t) on [0, 5] is entered as",
+          "choices": {
+            "A": "∫₀⁵ abs(v(t)) dt, numerically",
+            "B": "∫₀⁵ v(t) dt, numerically",
+            "C": "abs(∫₀⁵ v(t) dt)",
+            "D": "v(5) - v(0)"
+          },
+          "answer": "A",
+          "explanation": "Speed integrates inside the absolute value. (C computes |displacement| — wrong whenever the particle backtracks.)"
+        },
+        {
+          "question": "A region FRQ part says 'set up but do not evaluate an integral for the volume.' Full credit requires",
+          "choices": {
+            "A": "the integrand with radii substituted, the bounds, and the variable — no number",
+            "B": "the numerical answer anyway",
+            "C": "only the formula V = π∫(R² - r²)",
+            "D": "a sketch alone"
+          },
+          "answer": "A",
+          "explanation": "A finished setup is the complete answer; evaluating spends clock for zero points. (C without the actual radii is an unfinished template.)"
+        },
+        {
+          "question": "To find k such that y = k splits a region into equal areas, the standard play is",
+          "choices": {
+            "A": "compute the total area, then solve (partial area as a function of k) = total/2 numerically",
+            "B": "guess and check by graphing",
+            "C": "set k equal to the average value of the function",
+            "D": "use the midpoint of the y-range"
+          },
+          "answer": "A",
+          "explanation": "Total-then-half, with the solver on the accumulation function. (C and D are plausible-sounding non-theorems.)"
+        },
+        {
+          "question": "A student computes an 'area' of -2.117 on the calculator. The correct diagnosis is",
+          "choices": {
+            "A": "the integrand's order was reversed — swap top and bottom and re-run",
+            "B": "areas can be negative",
+            "C": "the calculator is in degree mode",
+            "D": "the bounds are too wide"
+          },
+          "answer": "A",
+          "explanation": "Areas are positive; a negative result means the subtraction ran upside down. The positivity audit caught it."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Let R be the region bounded by y = e^{-x²} and y = x² (calculator active).\n(a) Find the x-coordinates of the intersection points to three decimals, and state how they should be handled in later parts.\n(b) Find the area of R.\n(c) Set up, but do not evaluate, the volume of the solid generated when R is revolved about the line y = 2.",
+          "rubric": [
+            "(a) e^{-x²} = x² at x ≈ ±0.753 (stored, used at full precision)",
+            "(b) A = ∫_{-X₁}^{X₁} (e^{-x²} - x²) dx ≈ 1.038 (symmetric: 2∫₀^{X₁} accepted)",
+            "(c) Axis above: R_outer = 2 - x², r_inner = 2 - e^{-x²}",
+            "V = π∫_{-X₁}^{X₁} [(2 - x²)² - (2 - e^{-x²})²] dx"
+          ],
+          "model_answer": "(a) Solving e^{-x²} = x² numerically: x ≈ ±0.753 (more precisely 0.7531...). The roots are stored in calculator variables and used at full precision in every later integral; the written 0.753 is for the reader only. (b) The exponential rides above the parabola between the roots: A = ∫_{-X₁}^{X₁} (e^{-x²} - x²) dx = 2∫₀^{X₁} (e^{-x²} - x²) dx ≈ 1.038. (c) The axis y = 2 sits ABOVE the region, so the curve closer to it — the exponential — gives the SMALLER radius: outer R = 2 - x², inner r = 2 - e^{-x²}. V = π∫_{-X₁}^{X₁} [(2 - x²)² - (2 - e^{-x²})²] dx — complete as a setup."
+        },
+        {
+          "question": "A particle moves along the x-axis with velocity v(t) = t·cos(t²) - 0.2 for 0 ≤ t ≤ 3, starting at x(0) = 1 (calculator active).\n(a) Find the particle's position at t = 3.\n(b) Find the total distance traveled on [0, 3].\n(c) Find the time in (0, 3) at which the particle is farthest LEFT, with justification.",
+          "rubric": [
+            "(a) x(3) = 1 + ∫₀³ v dt ≈ 1 + (-0.675) ≈ 0.325 (machine value; accept ≈ 0.32–0.33 with setup)",
+            "(b) ∫₀³ |v(t)| dt, numerically (≈ 1.99; accept with correct setup)",
+            "(c) Candidates where v changes − to + (numerically locate sign changes of v); compare x at candidates and endpoints",
+            "Justification: position minimal where v flips − to +, values compared via accumulation"
+          ],
+          "model_answer": "(a) x(3) = x(0) + ∫₀³ v(t) dt = 1 + ∫₀³ (t cos(t²) - 0.2) dt — machine evaluation of the integral gives ≈ -0.675, so x(3) ≈ 0.325. (b) Total distance = ∫₀³ |v(t)| dt, entered with abs() and evaluated numerically: ≈ 1.99. (c) The particle is farthest left at a time where v changes sign from negative to positive (a local minimum of position) or at an endpoint. Solving v(t) = 0 numerically locates the sign changes; computing x at each candidate via x(0) + ∫₀^c v dt and comparing with x(0) = 1 and x(3) ≈ 0.325 identifies the global minimum. The justification sentence — 'x is minimized where v changes from negative to positive, and the accumulated positions at the candidates compare as...' — plus the numeric comparison completes the answer. (Exact candidate values depend on the machine solve; the method is the graded content.)"
+        },
+        {
+          "question": "Let R be the region under y = 4 - x² and above the x-axis.\n(a) Compute the total area of R exactly.\n(b) Find the value k such that the horizontal line y = k divides R into two regions of equal area. (The area of the part of R ABOVE y = k equals (4/3)(4 - k)^{3/2}.)\n(c) Verify your k numerically by evaluating the upper area, and explain why k is NOT simply 2 (half the height).",
+          "rubric": [
+            "(a) ∫₋₂² (4 - x²) dx = 32/3",
+            "(b) (4/3)(4 - k)^{3/2} = 16/3 → (4 - k)^{3/2} = 4 → k = 4 - 4^{2/3} ≈ 1.480",
+            "(c) Plug back: (4/3)(4^{2/3})^{3/2} = (4/3)(4)... = 16/3 ✓",
+            "Not 2: area distributes by the region's WIDTH, which is greatest near the bottom — the halving line sits below mid-height"
+          ],
+          "model_answer": "(a) A = ∫₋₂² (4 - x²) dx = 2(8 - 8/3) = 32/3. (b) Set the upper area to half the total: (4/3)(4 - k)^{3/2} = 16/3, so (4 - k)^{3/2} = 4, 4 - k = 4^{2/3}, k = 4 - 4^{2/3} ≈ 1.480. (c) Check: (4/3)(4 - 1.480)^{3/2} = (4/3)(2.520)^{3/2} ≈ (4/3)(4.000) = 16/3 ✓. And k ≠ 2 because area is not distributed evenly in height: the parabolic region is WIDE near its base and narrow near its peak, so the lower half of the height holds more than half the area — the equal-area line must sit below y = 2 to give the top piece enough room. Geometry weights by width; the integral knows."
+        }
+      ]
+    }
+  }
+]

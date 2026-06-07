@@ -1,0 +1,146 @@
+{
+  "subject": "AP Calculus BC",
+  "slug": "ap-calc-bc-ultimate",
+  "course_slug": "ap-calculus-bc",
+  "title": "AP Calculus BC",
+  "subtitle": "The Ultimate Guide",
+  "total_units": 10,
+  "total_chapters": 75,
+  "units": [
+    {
+      "unit_number": 1,
+      "unit_name": "Limits and Continuity",
+      "chapters": [
+        "What a Limit Actually Means",
+        "Limit Laws and Algebraic Evaluation",
+        "One-Sided Limits and When Limits Fail",
+        "Squeeze Theorem and Special Trig Limits",
+        "Continuity and Types of Discontinuity",
+        "Intermediate Value Theorem",
+        "Limits at Infinity and Asymptotic Behavior"
+      ]
+    },
+    {
+      "unit_number": 2,
+      "unit_name": "Differentiation — Definition and Fundamental Properties",
+      "chapters": [
+        "Average vs Instantaneous Rate of Change",
+        "The Derivative as a Limit",
+        "Differentiability and Continuity",
+        "Power Rule, Sums, and Constant Multiples",
+        "Product and Quotient Rules",
+        "Derivatives of Sine, Cosine, Exponentials, and Logarithms",
+        "Derivatives of the Remaining Trig Functions"
+      ]
+    },
+    {
+      "unit_number": 3,
+      "unit_name": "Differentiation — Composite, Implicit, and Inverse Functions",
+      "chapters": [
+        "Chain Rule Foundations",
+        "Nested Compositions and Chain Rule Mastery",
+        "Implicit Differentiation",
+        "Derivatives of Inverse Functions",
+        "Derivatives of Inverse Trig Functions",
+        "Choosing the Right Differentiation Strategy",
+        "Higher-Order Derivatives"
+      ]
+    },
+    {
+      "unit_number": 4,
+      "unit_name": "Contextual Applications of Differentiation",
+      "chapters": [
+        "Interpreting the Derivative in Context",
+        "Straight-Line Motion — Position, Velocity, Acceleration",
+        "Rates of Change Beyond Motion",
+        "Related Rates — Setting Up the Problem",
+        "Related Rates — The Classic Scenarios",
+        "Linearization and Local Linearity",
+        "L'Hospital's Rule and Indeterminate Forms"
+      ]
+    },
+    {
+      "unit_number": 5,
+      "unit_name": "Analytical Applications of Differentiation",
+      "chapters": [
+        "Mean Value Theorem and Rolle's Theorem",
+        "Extreme Value Theorem and Critical Points",
+        "First Derivative Test and Function Behavior",
+        "Concavity and the Second Derivative Test",
+        "Curve Sketching — Connecting f, f', and f''",
+        "Optimization Problems",
+        "Behavior of Implicit Relations"
+      ]
+    },
+    {
+      "unit_number": 6,
+      "unit_name": "Integration and Accumulation of Change",
+      "chapters": [
+        "Accumulation and the Definite Integral",
+        "Riemann Sums and Numerical Approximation",
+        "The Fundamental Theorem of Calculus — Part 1",
+        "The Fundamental Theorem of Calculus — Part 2 and Antiderivatives",
+        "u-Substitution",
+        "Integration by Parts",
+        "Partial Fractions",
+        "Improper Integrals"
+      ]
+    },
+    {
+      "unit_number": 7,
+      "unit_name": "Differential Equations",
+      "chapters": [
+        "Modeling with Differential Equations",
+        "Slope Fields — Seeing Solutions Before Solving",
+        "Euler's Method",
+        "Separation of Variables",
+        "Exponential Growth and Decay",
+        "Logistic Growth",
+        "Differential Equations on the AP Exam"
+      ]
+    },
+    {
+      "unit_number": 8,
+      "unit_name": "Applications of Integration",
+      "chapters": [
+        "Average Value and Accumulation in Context",
+        "Motion with Integrals — Recovering Position",
+        "Area Between Curves",
+        "Volumes by Cross Sections",
+        "Volumes of Revolution — Disks and Washers",
+        "Arc Length of Curves",
+        "Integral Applications in the Calculator Section"
+      ]
+    },
+    {
+      "unit_number": 9,
+      "unit_name": "Parametric Equations, Polar Coordinates, and Vector-Valued Functions",
+      "chapters": [
+        "Parametric Equations — Curves in Motion",
+        "Derivatives of Parametric Curves",
+        "Arc Length and Speed for Parametric Curves",
+        "Vector-Valued Functions",
+        "Motion in the Plane",
+        "Polar Coordinates and Polar Graphs",
+        "Derivatives in Polar Form",
+        "Area in Polar Coordinates"
+      ]
+    },
+    {
+      "unit_number": 10,
+      "unit_name": "Infinite Sequences and Series",
+      "chapters": [
+        "Sequences and Convergence",
+        "Geometric Series and the nth Term Test",
+        "Integral Test and p-Series",
+        "Comparison Tests",
+        "Alternating Series and the Error Bound",
+        "Ratio Test and Absolute Convergence",
+        "Power Series and Interval of Convergence",
+        "Taylor and Maclaurin Polynomials",
+        "Taylor Series and the Lagrange Error Bound",
+        "Building New Series from Old"
+      ]
+    }
+  ]
+}

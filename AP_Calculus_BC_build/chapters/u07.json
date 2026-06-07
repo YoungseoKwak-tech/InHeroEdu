@@ -1,0 +1,1451 @@
+[
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differential Equations",
+    "chapter_title": "Modeling with Differential Equations",
+    "hook": "‘The population grows at a rate proportional to its size.’ That sentence IS an equation — dP/dt = kP — and equations about rates are how science actually writes its laws. This unit teaches you to read them, check them, and solve them.",
+    "learning_objectives": [
+      "Translate verbal rate statements into differential equations and back",
+      "Verify proposed solutions by substitution into the differential equation",
+      "Distinguish general solutions (families) from particular solutions (one curve)",
+      "Use initial conditions to select particular solutions",
+      "Identify equilibrium solutions where the derivative is identically zero"
+    ],
+    "sections": [
+      {
+        "title": "Equations About Rates",
+        "subtitle": "Reading and writing the language",
+        "body": "A differential equation (DE) relates a function to its own derivatives: dy/dx = x + y, dP/dt = kP, y'' = -y. Solving one means finding the FUNCTION(s) that make the equation true — a fundamentally different task from solving for a number, and the reason the subject feels new even though every tool involved is old.\n\nTranslation is the entry skill. 'Grows at a rate proportional to its size': dP/dt = kP. 'Cools at a rate proportional to the difference between its temperature and the room's': dT/dt = -k(T - 70) (Newton's law of cooling — the minus encodes cooling toward the room). 'The rate of change of velocity is proportional to the square of speed, opposing motion': dv/dt = -kv². Each phrase maps to a derivative, a proportionality constant, and a sign chosen by physical direction.\n\nThe reverse reading matters equally: dy/dx = xy² says 'the slope of the solution curve at any point equals the product of the x-coordinate and the square of the y-coordinate.' A DE is a slope RECIPE — at every point of the plane it dictates the direction a solution passing through must head. That pointwise reading powers slope fields next chapter.\n\nSign conventions are graded: decay and cooling carry negative constants (or negative signs with positive k — state which), growth positive. The AP accepts either convention WHEN DECLARED; undeclared sign ambiguity in a model is where translation points die.",
+        "key_terms": [
+          [
+            "Differential equation",
+            "An equation relating a function to its derivatives — solved by functions, not numbers"
+          ],
+          [
+            "Proportionality translation",
+            "'Rate proportional to X' ⟹ derivative = k·X, sign by physical direction"
+          ],
+          [
+            "Slope recipe reading",
+            "A first-order DE assigns a slope to every point — the geometric meaning"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Newton's law of cooling is the AP's favorite translation: dT/dt = -k(T - T_room) with k > 0. The rate depends on the temperature DIFFERENCE, not the temperature — writing dT/dt = -kT is the standard mistranslation and costs the modeling point."
+          ]
+        ]
+      },
+      {
+        "title": "Verifying Solutions",
+        "subtitle": "Substitute and confirm both sides",
+        "body": "Checking whether y = f(x) solves a DE requires no solving at all: compute the needed derivatives of f, substitute BOTH sides of the equation, and confirm identity. Does y = e^{3x} solve y' = 3y? Left side: y' = 3e^{3x}. Right side: 3y = 3e^{3x}. Equal for all x ✓ — it solves. Does y = x³ solve it? y' = 3x² versus 3y = 3x³: equal only at isolated points, not identically — no.\n\nVerification questions are free points with a required format: compute the left side, compute the right side, state they match for all x in the domain. The AP asks 'verify that y = ... is a solution' as the opening part of DE FRQs regularly — it tests differentiation under a new costume and warms up the equation for later parts.\n\nFamilies verify with the constant intact: y = Ce^{3x} solves y' = 3y for EVERY C (the C rides through both sides). Such a family is the GENERAL solution; choosing C via a known point gives a PARTICULAR solution. y(0) = 5 forces C = 5. The family-versus-member distinction organizes the whole unit: solving produces families; initial conditions pick members.\n\nImplicit solutions verify by implicit differentiation: does x² + y² = C solve dy/dx = -x/y? Differentiate the relation: 2x + 2y y' = 0, so y' = -x/y ✓ — for every C at once. Unit 3's machinery, now certifying solution families it could not have named.",
+        "key_terms": [
+          [
+            "Verification",
+            "Differentiate the candidate, substitute both sides, confirm identity for all x"
+          ],
+          [
+            "General solution",
+            "The family with arbitrary constant(s): every member solves the DE"
+          ],
+          [
+            "Particular solution",
+            "One family member, selected by an initial condition"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Verification answers must show BOTH sides computed separately and then equated — 'y' = 3e^{3x} = 3y ✓' is the shape. Substituting the answer into itself or asserting equality without computing both sides earns nothing."
+          ]
+        ]
+      },
+      {
+        "title": "Initial Conditions and Uniqueness",
+        "subtitle": "One point, one curve",
+        "body": "An initial value problem (IVP) pairs a DE with a point: dy/dx = 2xy with y(0) = 4. The DE supplies the family; the point selects the member. Geometrically: through (almost) every point of the plane passes exactly one solution curve — the DE's slope recipe, integrated forward and backward from the anchor.\n\nThe constant-pinning workflow extends Unit 6's IVPs: find the general solution (by methods to come), substitute the initial point, solve for C, write the finished function. The exam's wrinkle: pin C at the RIGHT STAGE. When the general solution involves logs or exponentials of both sides, pinning C before exponentiating is usually cleaner — and chapter 4 makes this concrete.\n\nDomain restrictions ride with particular solutions: y = 1/(1 - x) may solve y' = y² with y(0) = 1, but only on (-∞, 1) — the branch through the initial point, ending where the solution blows up. The AP asks for solution domains on occasion, and the rule is: the largest interval CONTAINING the initial point on which the solution is defined and differentiable. The other branch, however algebraically identical, is a different solution.\n\nEquilibrium solutions are the constant members: values where the DE's right side vanishes identically. For dP/dt = 0.2P(10 - P): P = 0 and P = 10 are equilibria — start there and the system never moves. Equilibria organize the qualitative picture (solutions between 0 and 10 grow toward 10; above 10, decay toward it) and headline the logistic analysis two chapters ahead.",
+        "key_terms": [
+          [
+            "Initial value problem",
+            "DE + anchor point: the family narrowed to one curve"
+          ],
+          [
+            "Solution domain",
+            "The largest interval around the initial point where the solution lives"
+          ],
+          [
+            "Equilibrium solution",
+            "Constant solutions where the rate is identically zero — the system at rest"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Find all values of P for which the population is not changing' means solve dP/dt = 0 — the equilibria. It is an algebra question hiding in a calculus unit, asked nearly every time a logistic or cooling model appears."
+          ]
+        ]
+      },
+      {
+        "title": "Models Worth Knowing",
+        "subtitle": "The unit's recurring cast",
+        "body": "Exponential growth/decay — dy/dt = ky: the rate is proportional to the amount. Money compounding continuously, radioactive decay, unchecked populations. Solution family (chapter 5 derives it): y = Ce^{kt}. The fingerprint: relative rate y'/y is CONSTANT.\n\nNewton's cooling — dT/dt = -k(T - T_env): the rate is proportional to the gap from the environment. Coffee cooling, bodies in forensics, thermostats. Solutions decay exponentially TOWARD T_env rather than toward zero — a shifted exponential, with the equilibrium at room temperature.\n\nLogistic growth — dP/dt = kP(1 - P/L): growth proportional to BOTH the population and the remaining room (L is the carrying capacity). Small populations grow almost exponentially; near capacity, growth chokes; the S-curve from Unit 5's epidemic example is this equation's solution. The BC exam's signature model, fully solved in chapter 6.\n\nReading model behavior WITHOUT solving is the unit's quiet superpower, available now: equilibria from the algebra (set the rate to zero), increasing/decreasing regions from the rate's sign, concavity from differentiating the DE itself (d²P/dt² via the chain rule on the right side). A surprising share of DE FRQ points require no solution formula at all — just Unit 5 analysis applied to the rate equation. The solving techniques ahead are for the parts that do.",
+        "key_terms": [
+          [
+            "Exponential model",
+            "y' = ky: constant relative rate, family Ce^{kt}"
+          ],
+          [
+            "Cooling model",
+            "T' = -k(T - T_env): exponential approach to the environment"
+          ],
+          [
+            "Logistic model",
+            "P' = kP(1 - P/L): growth with a ceiling — BC's signature equation"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Behavior questions ('is P increasing? concave up?') are answerable directly from the DE — substitute the value into the rate for the first, differentiate the DE (chain rule!) for the second. Reaching for the solution formula first is the slow road; the equation already knows."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "'The mass decays at a rate proportional to the mass present' translates to",
+          "choices": {
+            "A": "dm/dt = -km, k > 0",
+            "B": "dm/dt = -kt",
+            "C": "m = e^{-kt}",
+            "D": "dm/dt = k/m"
+          },
+          "answer": "A",
+          "explanation": "Rate proportional to the amount, with decay's negative sign. (C is a solution, not the equation.)"
+        },
+        {
+          "question": "Which function is a solution of y' = -2y?",
+          "choices": {
+            "A": "y = 7e^{-2x}",
+            "B": "y = e^{2x}",
+            "C": "y = -2x",
+            "D": "y = x e^{-2x}"
+          },
+          "answer": "A",
+          "explanation": "y' = -14e^{-2x} = -2(7e^{-2x}) = -2y ✓ — and any constant multiple works."
+        },
+        {
+          "question": "The general solution of a DE is y = Ce^{x²}. If y(0) = 3, the particular solution is",
+          "choices": {
+            "A": "y = 3e^{x²}",
+            "B": "y = Ce^{x²} + 3",
+            "C": "y = e^{3x²}",
+            "D": "y = 3 + e^{x²}"
+          },
+          "answer": "A",
+          "explanation": "y(0) = C·e⁰ = C = 3."
+        },
+        {
+          "question": "The equilibrium solutions of dP/dt = 0.5P(8 - P) are",
+          "choices": {
+            "A": "P = 0 and P = 8",
+            "B": "P = 8 only",
+            "C": "P = 0.5 and P = 8",
+            "D": "P = 4"
+          },
+          "answer": "A",
+          "explanation": "Set the rate to zero: 0.5P(8 - P) = 0 at P = 0, 8 — the constant solutions."
+        },
+        {
+          "question": "For dT/dt = -0.3(T - 20) with T(0) = 80, the temperature T is",
+          "choices": {
+            "A": "decreasing toward the equilibrium 20",
+            "B": "decreasing toward 0",
+            "C": "increasing toward 80",
+            "D": "constant"
+          },
+          "answer": "A",
+          "explanation": "At T = 80 the rate is -18 < 0: cooling. The rate vanishes at T = 20 — the environmental equilibrium the solution approaches."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Consider the differential equation dy/dx = 3y.\n(a) Verify that y = Ce^{3x} is a solution for every constant C.\n(b) Find the particular solution with y(0) = 5.\n(c) Verify that y = 0 is also a solution, and explain its relationship to the family in (a).",
+          "rubric": [
+            "(a) y' = 3Ce^{3x} and 3y = 3Ce^{3x}: equal for all x, any C",
+            "(b) 5 = Ce⁰ = C: y = 5e^{3x}",
+            "(c) y = 0 gives y' = 0 = 3(0) ✓",
+            "Relationship: the equilibrium, also the family member with C = 0"
+          ],
+          "model_answer": "(a) Left side: y' = 3Ce^{3x}. Right side: 3y = 3Ce^{3x}. The two sides agree identically for every x and every C — the whole family solves the equation. (b) y(0) = C = 5: y = 5e^{3x}. (c) For y = 0: y' = 0 and 3y = 0 ✓. It is the equilibrium solution — the system at rest — and it belongs to the family as the C = 0 member, so the general solution y = Ce^{3x} already contains it."
+        },
+        {
+          "question": "A cup of coffee at 90°C sits in a 20°C room. Its temperature obeys dT/dt = -k(T - 20) for some k > 0, t in minutes.\n(a) What does the model say about the SIGN of dT/dt while T > 20, and what does that mean physically?\n(b) Without solving, find lim t→∞ T(t) and justify from the equation.\n(c) Differentiate the DE to show d²T/dt² = k²(T - 20), and conclude the cooling curve is concave up while T > 20.",
+          "rubric": [
+            "(a) T > 20 makes -(T - 20) < 0: dT/dt < 0, the coffee cools",
+            "(b) The rate vanishes only at T = 20 (equilibrium); cooling continues while above it: T → 20",
+            "(c) d²T/dt² = -k·dT/dt = -k·(-k(T - 20)) = k²(T - 20) > 0 for T > 20",
+            "Concavity conclusion: cooling fast at first, flattening toward the room temperature"
+          ],
+          "model_answer": "(a) While T > 20, T - 20 > 0, so dT/dt = -k(T - 20) < 0: the temperature falls — hot coffee cools, as it must. (b) The only equilibrium is T = 20. The solution decreases while above 20 and its rate shrinks as the gap closes, so T(t) → 20 as t → ∞ — the coffee approaches room temperature without crossing it. (c) Differentiating both sides in t: d²T/dt² = -k(dT/dt) = -k(-k(T - 20)) = k²(T - 20). While T > 20 this is positive: the graph is concave up — steep cooling initially, leveling off as the cup nears the room's temperature, the familiar cooling-curve shape."
+        },
+        {
+          "question": "Let y = 1/(1 - x).\n(a) Verify that y solves the differential equation dy/dx = y² with y(0) = 1.\n(b) State the domain of this particular solution and explain why it stops where it does.\n(c) The function z = 1/(1 - x) ALSO describes a curve for x > 1. Explain why that branch is NOT the solution to this IVP.",
+          "rubric": [
+            "(a) y' = 1/(1 - x)² = y² ✓; y(0) = 1 ✓",
+            "(b) Domain (-∞, 1): the branch through x = 0, ending at the vertical asymptote x = 1",
+            "(c) The x > 1 branch does not contain the initial point",
+            "A solution must live on one interval containing the anchor; disconnected branches are different solutions"
+          ],
+          "model_answer": "(a) y' = d/dx (1 - x)^{-1} = (1 - x)^{-2} = [1/(1 - x)]² = y² ✓, and y(0) = 1/(1 - 0) = 1 ✓. (b) The solution's domain is (-∞, 1) — the largest interval containing the initial point x = 0 on which the formula is defined. The solution blows up at the vertical asymptote x = 1 (the curve escapes to infinity in finite x) and cannot be continued past it. (c) A solution to an IVP is a differentiable function on an INTERVAL through the initial point. The x > 1 branch never touches (0, 1) — it is a separate solution of the same DE (anchored by different conditions), not part of this one. Algebraic formulas can describe several solutions at once; the initial condition picks a single connected branch."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differential Equations",
+    "chapter_title": "Slope Fields — Seeing Solutions Before Solving",
+    "hook": "Draw a tiny dash at every point showing the slope the equation demands there, and solution curves appear like iron filings around a magnet. Slope fields let you SEE every solution at once — including the ones no formula can express.",
+    "learning_objectives": [
+      "Construct slope field segments at given points from a differential equation",
+      "Match differential equations to slope fields by structural features",
+      "Sketch particular solutions through given points by following the field",
+      "Read equilibria, increasing/decreasing regions, and concavity from a field",
+      "Determine where slopes are zero, undefined, or constant along lines"
+    ],
+    "sections": [
+      {
+        "title": "Building the Field",
+        "subtitle": "A dash at every point",
+        "body": "A slope field (direction field) plots, at each grid point (x, y), a short segment with slope dy/dx as the DE dictates there. For dy/dx = x - y at the point (2, 1): slope 1 — a 45° dash. At (0, 2): slope -2 — steep downhill. The field is the DE made visible: every dash is one evaluation of the right-hand side.\n\nConstruction questions on the AP are exactly that mechanical: 'sketch the solution segments at the twelve indicated points' means twelve evaluations and twelve dashes with reasonable slopes (zero flat, ±1 at 45°, steeper distinguished from shallower). Precision to the degree is not graded; getting zero, sign, and steep-versus-shallow right is.\n\nEfficiency comes from level curves of slope — ISOCLINES: the set where dy/dx = c. For dy/dx = x - y, slopes are 0 exactly on the line y = x, slopes are 1 on y = x - 1 — whole diagonals of parallel dashes at once. Spotting where slopes vanish (the nullcline) organizes the entire field in one stroke and answers 'where are the dashes horizontal?' instantly.\n\nDependence structure shapes the field's symmetry: if the DE involves ONLY x (dy/dx = 2x), every vertical line carries identical dashes — the field is column-uniform. Only y (dy/dx = y - 3): row-uniform. Both variables: the general case. This observation is the master key to the matching genre next.",
+        "key_terms": [
+          [
+            "Slope field",
+            "A dash of slope f(x, y) at each grid point — the DE drawn"
+          ],
+          [
+            "Isocline/nullcline",
+            "Where the slope equals c / equals 0: whole curves of parallel dashes"
+          ],
+          [
+            "Column/row uniformity",
+            "x-only DEs repeat down columns; y-only DEs repeat across rows"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When drawing field segments, three gradations are graded: horizontal where the slope is 0, 45-degree-ish where it is ±1, visibly steeper beyond. Dashes all drawn at the same tilt — the rushed student's field — loses the construction points wholesale."
+          ]
+        ]
+      },
+      {
+        "title": "The Matching Genre",
+        "subtitle": "Which equation made this field?",
+        "body": "Given a field and four candidate DEs, structural tests eliminate fast. Test 1 — uniformity: columns identical ⟹ the DE has no y; rows identical ⟹ no x. Test 2 — the zero set: find the horizontal dashes; their locations must satisfy RHS = 0 (horizontal along y = x? the equation vanishes there: consistent with dy/dx = x - y, not with dy/dx = x + y). Test 3 — a single point probe: evaluate each surviving candidate at one easy point with a distinctive dash and compare signs/steepness.\n\nThe three tests in that order settle nearly every matching question in under a minute, and each test is a one-line justification if the format demands work. Sign patterns by quadrant — 'slopes positive in quadrants I and III, negative in II and IV' suggests dy/dx = xy — extend test 3 across regions for the trickier sets.\n\nThe reverse genre — given the DE, pick the field — runs the same tests generatively: predict the uniformity, predict the nullcline, predict one quadrant's signs, then find the field exhibiting all three. Predict-then-match beats staring; the structure does the work.\n\nDistractor fields are built by sign flips (the field of -f), variable swaps (the field of f(y, x)), and nullcline shifts. The three tests catch all three manufacturing methods — which is why they are the tests.",
+        "key_terms": [
+          [
+            "Three matching tests",
+            "Uniformity, zero set, point probe — in that order"
+          ],
+          [
+            "Quadrant sign pattern",
+            "Products like xy alternate signs by quadrant; sums change along lines"
+          ],
+          [
+            "Predict-then-match",
+            "Generate the features from the DE, then find the field showing them"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The nullcline test is the highest-yield single check: locate the horizontal dashes, set each candidate's right side to zero, and keep only candidates whose zero set passes through those dashes. One test typically eliminates three of four choices."
+          ]
+        ]
+      },
+      {
+        "title": "Threading Solutions",
+        "subtitle": "Curves that follow the dashes",
+        "body": "A solution curve through a point P threads the field: starting at P, it proceeds tangent to every dash it meets — the dashes are the curve's own tangent segments, prescribed in advance. Sketching one is a hand-eye exercise: from P, follow the local slope a short way, reassess, continue; backward from P the same. The result should never CROSS dashes at an angle — crossing means the sketch disobeyed the equation somewhere.\n\nQuality criteria the readers apply: the curve passes through the required point; its slope at that point matches the local dash; it respects equilibria (never crossing a horizontal-dash line that represents an equilibrium solution — solutions cannot cross each other, in particular not the constant ones); and its end behavior follows the field's flow (flattening toward equilibria, steepening where dashes steepen).\n\nThe no-crossing principle has teeth: for dP/dt = P(10 - P), a solution starting at P = 3 stays trapped in the band 0 < P < 10 forever — the equilibria at 0 and 10 are walls. Threading respects the walls: the curve rises from 3, inflects, and flattens toward 10 without touching it. The trapped-between-equilibria reading answers limit questions ('lim t→∞ P = 10') without any formula.\n\nMultiple threads from different anchors reveal the family: sketching solutions through three stacked points shows the family's structure — for x-only DEs the members are exact vertical translates of one another, and in general they are non-crossing curves filling the plane. The field plus threading IS the general solution, drawn instead of derived.",
+        "key_terms": [
+          [
+            "Threading",
+            "Following the dashes tangentially from the anchor point, both directions"
+          ],
+          [
+            "No-crossing principle",
+            "Solution curves never cross each other — equilibria are impassable walls"
+          ],
+          [
+            "Trapped bands",
+            "Between equilibria, solutions stay forever: limits read off the field"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Sketched solutions are graded on three visible behaviors: through the point, tangent to the local dashes, and asymptotic to (never crossing) equilibrium lines. A sketch that touches the equilibrium loses the point — approach, don't arrive."
+          ]
+        ]
+      },
+      {
+        "title": "Reading Without Solving",
+        "subtitle": "Qualitative analysis from the picture",
+        "body": "Fields answer behavior questions formula-free. Where is the solution through (1, 2) increasing? Wherever the local slopes are positive along its path — read the dash signs. Where is it concave up? Where the dashes STEEPEN in the direction of travel (slopes increasing along the curve) — or, rigorously, differentiate the DE: for dy/dx = x - y, y'' = 1 - y' = 1 - (x - y), and the sign analysis runs on the formula. Field for intuition, implicit differentiation of the DE for certification.\n\nThe d²y/dx² computation deserves its own drill since BC asks it directly: differentiate the right side with respect to x, REMEMBERING y is a function of x (chain rule fees on every y). dy/dx = xy: y'' = y + xy' = y + x(xy) = y + x²y = y(1 + x²). Concavity of solutions now reads from y's sign alone — solutions above the x-axis are concave up everywhere. One differentiation, global conclusions.\n\nEquilibrium stability reads from the flow: dashes pointing TOWARD an equilibrium line from both sides mark a stable (attracting) equilibrium — cooling toward room temperature; pointing away, unstable (repelling) — a pencil balanced on its tip. For the logistic field: P = 10 attracts (solutions converge), P = 0 repels (any positive start grows away). Stability vocabulary is not formally required by the AP, but the directional reading IS, phrased as limit questions.\n\nThe chapter's place in the arc: fields show every solution but name none. Euler's method (next) walks the field numerically when no formula exists; separation of variables (after) extracts formulas when the equation permits. Picture, number, formula — three resolutions of the same object, and the exam tests all three.",
+        "key_terms": [
+          [
+            "Qualitative reading",
+            "Signs of slopes along the path: increasing/decreasing without solving"
+          ],
+          [
+            "y'' from the DE",
+            "Differentiate the right side with chain-rule fees on y, then sign-analyze"
+          ],
+          [
+            "Stability by flow",
+            "Dashes converging on an equilibrium: attracting; diverging: repelling"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Find d²y/dx² in terms of x and y' is a BC standard: differentiate the DE's right side, substitute the DE itself for every dy/dx that appears, and present the result in x and y only. The substitute-the-DE-back step is the graded move."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "For dy/dx = x - y, the slope of the field segment at (3, 1) is",
+          "choices": {
+            "A": "2",
+            "B": "-2",
+            "C": "4",
+            "D": "3"
+          },
+          "answer": "A",
+          "explanation": "Evaluate the right side: 3 - 1 = 2."
+        },
+        {
+          "question": "A slope field has identical dashes down every vertical line. The differential equation",
+          "choices": {
+            "A": "involves x only",
+            "B": "involves y only",
+            "C": "involves both x and y",
+            "D": "is second-order"
+          },
+          "answer": "A",
+          "explanation": "Down a vertical line, x is fixed while y varies. Identical dashes there mean the slope ignores y entirely — the equation depends on x only."
+        },
+        {
+          "question": "The slope field of dy/dx = y(4 - y) has horizontal segments along",
+          "choices": {
+            "A": "y = 0 and y = 4",
+            "B": "x = 0 and x = 4",
+            "C": "y = 2 only",
+            "D": "y = x"
+          },
+          "answer": "A",
+          "explanation": "Zero slope where the right side vanishes: y = 0 and y = 4 — the equilibrium lines."
+        },
+        {
+          "question": "A solution of dP/dt = P(6 - P) starts at P(0) = 2. Then lim t→∞ P(t) =",
+          "choices": {
+            "A": "6",
+            "B": "0",
+            "C": "∞",
+            "D": "2"
+          },
+          "answer": "A",
+          "explanation": "Between the equilibria 0 and 6 the rate is positive: P rises, trapped below the attracting wall at 6, approaching it."
+        },
+        {
+          "question": "For dy/dx = xy, the second derivative is y'' = y + x(xy) = y(1 + x²). Solutions BELOW the x-axis are",
+          "choices": {
+            "A": "concave down everywhere",
+            "B": "concave up everywhere",
+            "C": "concave up only for x > 0",
+            "D": "inflecting at x = ±1"
+          },
+          "answer": "A",
+          "explanation": "y(1 + x²) takes y's sign: negative y makes y'' < 0 at every x — concave down throughout."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Consider dy/dx = (x + 1)(y - 2).\n(a) Compute the slopes at the six points (0,0), (1,0), (-1,0), (0,2), (2,2), (0,4), and describe the dash at each.\n(b) Identify all lines along which the field's segments are horizontal.\n(c) The solution through (0, 4): is it increasing or decreasing at that point, and can it ever reach y = 2? Justify.",
+          "rubric": [
+            "(a) Slopes: -2, -4, 0, 0, 0, 2 respectively, with flat/steep descriptions",
+            "(b) Horizontal where (x+1)(y-2) = 0: the lines x = -1 and y = 2",
+            "(c) At (0,4): slope (1)(2) = 2 > 0, increasing",
+            "y = 2 is an equilibrium solution; other solutions cannot cross or reach it"
+          ],
+          "model_answer": "(a) (0,0): (1)(-2) = -2, steep downhill. (1,0): (2)(-2) = -4, steeper downhill. (-1,0): 0, horizontal. (0,2): 0, horizontal. (2,2): 0, horizontal. (0,4): (1)(2) = 2, uphill. (b) Segments are horizontal where the product vanishes: along the vertical line x = -1 and along the horizontal line y = 2. (c) At (0, 4) the slope is +2: increasing. The constant function y = 2 is itself a solution (both sides vanish identically), and solution curves never cross one another — so the curve through (0, 4) stays above y = 2 forever, approaching it at most asymptotically (and here, moving away as x increases since slopes above the line with x > -1 are positive)."
+        },
+        {
+          "question": "The differential equation dy/dx = x² - y has a slope field with dashes drawn on the grid [-2, 2] × [-2, 2].\n(a) Along what curve are the dashes horizontal? (It is not a straight line.)\n(b) Find d²y/dx² in terms of x and y, substituting the DE where needed.\n(c) Use (b) to determine where solution curves have inflection points, and verify that the curve from (a) is NOT the inflection locus.",
+          "rubric": [
+            "(a) Horizontal where y = x² — the parabola",
+            "(b) y'' = 2x - y' = 2x - (x² - y) = 2x - x² + y",
+            "(c) Inflections possible where y = x² - 2x",
+            "The two parabolas differ (x² vs x² - 2x): flat-slope locus ≠ inflection locus, verified"
+          ],
+          "model_answer": "(a) Dashes are horizontal where x² - y = 0: along the parabola y = x². (b) Differentiate: y'' = 2x - dy/dx; substitute the DE: y'' = 2x - (x² - y) = 2x - x² + y. (c) Inflection candidates where y'' = 0: y = x² - 2x. This parabola is the inflection locus — and it is distinct from y = x² (they agree only at x = 0). The places where solutions are momentarily FLAT and the places where they change CONCAVITY are different curves: horizontal dashes mark extrema of solutions, not inflections, and the algebra confirms the geometric distinction."
+        },
+        {
+          "question": "A population follows dP/dt = 0.4P(1 - P/12), P in thousands.\n(a) Find the equilibrium solutions and classify each as attracting or repelling using the sign of dP/dt on each side.\n(b) A solution starts at P(0) = 3. Describe its long-term behavior and its monotonicity, with justification from the rate's sign.\n(c) Using the DE, find the population at which dP/dt is maximized, and connect this to the inflection point of the solution curve.",
+          "rubric": [
+            "(a) Equilibria P = 0, 12; rate negative below 0 region n/a, positive on (0,12), negative above 12: 0 repels, 12 attracts",
+            "(b) From 3: rate positive throughout (0,12): P increases monotonically toward 12; lim = 12",
+            "(c) Rate g(P) = 0.4P - P²/30 maximized at P = 6 (vertex/derivative)",
+            "P = 6 = L/2 is where P' peaks: the solution's inflection — fastest growth at half capacity"
+          ],
+          "model_answer": "(a) dP/dt = 0 at P = 0 and P = 12. For 0 < P < 12 the rate is positive (both factors positive); for P > 12, negative. Solutions just above 0 move away from 0 (repelling); solutions on either side of 12 move toward it (attracting). (b) Starting at 3, the rate stays positive while P remains in (0, 12), so P increases for all time, trapped below the attracting equilibrium: monotonically increasing with lim t→∞ P = 12 thousand. (c) The rate as a function of P, g(P) = 0.4P(1 - P/12), is a downward parabola with roots 0 and 12: maximized at the midpoint P = 6. When P' is maximal, P'' changes sign — the solution curve inflects at P = 6 = L/2: the famous logistic property that growth is fastest at half the carrying capacity."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differential Equations",
+    "chapter_title": "Euler's Method",
+    "hook": "BC ONLY: when no formula exists, walk. Euler's method takes the tangent-line step from Unit 4 and repeats it — step, re-aim, step again — turning any differential equation into arithmetic a spreadsheet could do. It is how computers actually solve DEs.",
+    "learning_objectives": [
+      "Execute Euler's method: repeated tangent-line steps of size h",
+      "Organize the computation in the standard x, y, dy/dx, Δy table",
+      "Interpret Euler's method as following the slope field in straight chords",
+      "Determine over/underestimate direction from the solution's concavity",
+      "Understand step size's effect on accuracy and cost"
+    ],
+    "sections": [
+      {
+        "title": "One Step, Then Another",
+        "subtitle": "The tangent line, iterated",
+        "body": "Unit 4's tangent-line approximation took ONE step: y(x + h) ≈ y(x) + h·y'(x). Euler's method repeats it: from the new point, recompute the slope FROM THE DE, step again. Each step uses the equation's slope recipe at the current location — the method literally walks the slope field, replacing the curve with a chain of short chords.\n\nThe showcase, worked completely: dy/dx = x + y, y(0) = 1, step h = 0.5, approximate y(1). Step 1: slope at (0, 1) is 0 + 1 = 1; Δy = h·slope = 0.5; new point (0.5, 1.5). Step 2: slope at (0.5, 1.5) is 0.5 + 1.5 = 2; Δy = 1; new point (1, 2.5). Euler's approximation: y(1) ≈ 2.5. Two slope evaluations, two multiplications, two additions — arithmetic, organized.\n\nThe update rule in symbols: x_{new} = x_old + h; y_{new} = y_old + h·f(x_old, y_old). The slope is always evaluated at the OLD point — stepping with a slope from anywhere else is a different (and unasked) method. The AP's h is almost always 0.5 or 0.25 with two or three steps: small enough to test the iteration, large enough to keep arithmetic humane.\n\nWhy it works and when it doesn't: each chord follows the field exactly at its launch point and drifts as the true curve bends away. Smaller h means less drift per step (error per step shrinks like h²) but more steps; total error shrinks like h. Halving the step roughly halves the final error — the trade the last section quantifies.",
+        "key_terms": [
+          [
+            "Euler's method",
+            "y_{new} = y_old + h·f(x_old, y_old): tangent steps, slope re-evaluated each time"
+          ],
+          [
+            "Slope at the old point",
+            "Each step launches with the field's slope at its starting point"
+          ],
+          [
+            "Drift",
+            "Chords leave the bending curve; error per step ~h², total ~h"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Euler questions on the BC exam are two or three steps by design — enough to force the re-evaluation of the slope at each new point. Using the ORIGINAL point's slope for every step (the one-tangent-line error) is the planted mistake; the slope must be recomputed from the DE each step."
+          ]
+        ]
+      },
+      {
+        "title": "The Table Discipline",
+        "subtitle": "Four columns that prevent disasters",
+        "body": "The standard table has four columns: x, y, dy/dx (evaluated from the DE at the current x and y), and Δy = h·(dy/dx). Each row's x and y feed the slope; the slope feeds Δy; Δy plus the current y becomes the NEXT row's y. The chain structure means one arithmetic slip corrupts everything after — the table's visibility is what lets you (and the grader) audit each link.\n\nThe showcase in table form: row 1: x = 0, y = 1, y' = 1, Δy = 0.5. Row 2: x = 0.5, y = 1.5, y' = 2, Δy = 1. Row 3: x = 1, y = 2.5 — the answer, with every intermediate value displayed. FRQ scoring typically awards the method (table structure with correct slope evaluations) and the answer separately; a transcription slip with a correct table loses one point, not both.\n\nVariable bookkeeping for non-(x, y) equations: dT/dt = -0.3(T - 20) tables as t, T, dT/dt, ΔT — same discipline, renamed columns. Mixed-variable slopes (f depends on both) demand BOTH coordinates at evaluation time; t-only or y-only equations simplify the slope column but not the structure.\n\nCalculator-section Euler problems allow arithmetic by machine, but the table must still appear — 'answer 2.5' floating alone earns the answer point at most. No-calculator Euler keeps numbers tame (halves and quarters); messy decimals in your table usually signal an evaluation error upstream, which is itself useful feedback mid-exam.",
+        "key_terms": [
+          [
+            "Four-column table",
+            "x, y, dy/dx (from the DE), Δy = h·slope — the auditable layout"
+          ],
+          [
+            "Chain fragility",
+            "Each row feeds the next; visible intermediate values localize errors"
+          ],
+          [
+            "Separated scoring",
+            "Method points for the table, answer point for the final value"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Write the table even when the calculator does the arithmetic — Euler FRQs award the setup. The four-column format with the DE-evaluated slope visible in each row IS the rubric's method point; mental math leaves it uncollected."
+          ]
+        ]
+      },
+      {
+        "title": "Over or Under, Part 3",
+        "subtitle": "Concavity calls it, again",
+        "body": "Euler chords are tangent-line segments, so the linearization error analysis transfers wholesale: if the true solution is CONCAVE UP on the interval, every chord sits below the curve and Euler UNDERestimates; concave down, overestimates. One geometric principle, third appearance (linearization, trapezoids' mirror, now Euler) — the exam asks it with each tool and accepts the same one-sentence justification shape.\n\nCertifying concavity uses the previous chapter's move: compute y'' by differentiating the DE and substituting it back. For dy/dx = x + y: y'' = 1 + y' = 1 + x + y, positive along our path (every value is positive) — concave up, so 2.5 underestimates the true y(1). The exact solution (verifiable by substitution) is y = 2eˣ - x - 1, giving y(1) = 2e - 2 ≈ 3.44; indeed 2.5 < 3.44 ✓ — and notice how LARGE the gap is at h = 0.5: Euler is honest but crude at coarse steps.\n\nThe justification sentence, graded: 'y'' = 1 + x + y > 0 along the interval, so the solution is concave up; Euler's tangent segments lie below the curve, making the approximation an underestimate.' Compute y'', sign it on the relevant region, conclude with the geometry. Three beats, as ever.\n\nThe caveat that keeps it honest: the verdict needs single-signed concavity over the whole stepped interval. A solution inflecting mid-walk mixes the chord errors, and 'cannot be determined from concavity alone' becomes the correct answer — a choice the exam includes precisely for that case.",
+        "key_terms": [
+          [
+            "Chords below cups",
+            "Concave up ⟹ Euler under; concave down ⟹ over — linearization's law, iterated"
+          ],
+          [
+            "y'' certification",
+            "Differentiate the DE, substitute it back, sign the result on the path"
+          ],
+          [
+            "Mixed-concavity caveat",
+            "An inflection mid-walk voids the simple verdict"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Euler over/under questions are the SAME rubric as linearization's: y'' computed from the DE, its sign on the interval, the chord-position conclusion. Students who connect the three appearances (tangent line, trapezoid, Euler) write this justification on autopilot."
+          ]
+        ]
+      },
+      {
+        "title": "Step Size and the Method's Place",
+        "subtitle": "Accuracy, cost, and what Euler really is",
+        "body": "Halving h doubles the steps and roughly halves the total error — first-order convergence. The showcase with h = 0.25 (four steps): y-values 1 → 1.25 → 1.625 → 2.156 → 2.852, against ≈3.44 exact: better than 2.5, still under (concave up), still crude. Euler's virtue is not precision; it is UNIVERSALITY — any first-order DE, any starting point, arithmetic only.\n\nThe exam tests the trade conceptually: 'how would the approximation change with a smaller step?' — closer to the true value, from the same side (concavity unchanged), at the cost of more steps. Production solvers use refined descendants (midpoint/RK4 evaluate trial slopes mid-step), but their souls are Euler's: step, re-aim, step. The AP requires only Euler, plus this awareness that it is the seed of the real thing.\n\nEuler complements the unit's other resolutions: the slope field SHOWS all solutions, Euler NUMBERS one of them, separation (next) NAMES the nameable ones. FRQs braid them: sketch on the field, Euler two steps, then solve exactly and compare — the same IVP through three instruments. The braid rewards knowing what each instrument can and cannot say: fields give behavior, Euler gives a number with a known bias, formulas give everything but exist rarely.\n\nA closing connection BC students should carry: Euler's method IS the tangent-line approximation composed with itself, which makes it the discrete shadow of the integral — summing slope×step is a Riemann sum of dy/dx. The method's error analysis, its refinement into better solvers, and its kinship with numerical integration are one subject; the AP shows you its doorway.",
+        "key_terms": [
+          [
+            "First-order convergence",
+            "Total error ~h: halve the step, halve the error, double the work"
+          ],
+          [
+            "Universality",
+            "Any first-order DE, arithmetic only — the method's actual virtue"
+          ],
+          [
+            "Three instruments",
+            "Field (behavior), Euler (number), separation (formula) — braided on FRQs"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'With a smaller step size, the Euler approximation would be ___' — closer to the true value AND on the same side of it (the concavity hasn't changed). Both halves of that answer are expected when the question asks for the effect of refining h."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "Using Euler's method with h = 0.5 for dy/dx = x + y, y(0) = 1, the approximation of y(1) is",
+          "choices": {
+            "A": "2.5",
+            "B": "2",
+            "C": "3",
+            "D": "1.5"
+          },
+          "answer": "A",
+          "explanation": "Step to (0.5, 1.5) with slope 1; step to (1, 2.5) with slope 2."
+        },
+        {
+          "question": "Euler's method with h = 0.25 for dy/dx = 2y, y(0) = 1: after ONE step, y(0.25) ≈",
+          "choices": {
+            "A": "1.5",
+            "B": "2",
+            "C": "1.25",
+            "D": "0.5"
+          },
+          "answer": "A",
+          "explanation": "Slope at (0, 1) is 2; Δy = 0.25·2 = 0.5; y ≈ 1.5."
+        },
+        {
+          "question": "For an IVP whose solution is concave down on the stepped interval, Euler's method gives",
+          "choices": {
+            "A": "an overestimate",
+            "B": "an underestimate",
+            "C": "the exact value",
+            "D": "an alternating error"
+          },
+          "answer": "A",
+          "explanation": "Tangent chords sit above concave-down curves — every step lands high."
+        },
+        {
+          "question": "In each Euler step, the slope used is evaluated at",
+          "choices": {
+            "A": "the current (most recent) point",
+            "B": "the original initial point",
+            "C": "the midpoint of the step",
+            "D": "the target x-value"
+          },
+          "answer": "A",
+          "explanation": "Step from where you stand, with the field's slope there. (B is the one-tangent error; C describes the improved midpoint method, not Euler.)"
+        },
+        {
+          "question": "Halving Euler's step size h typically",
+          "choices": {
+            "A": "roughly halves the total error and doubles the steps",
+            "B": "squares the accuracy",
+            "C": "has no effect on error",
+            "D": "changes which side of the true value the estimate falls on"
+          },
+          "answer": "A",
+          "explanation": "First-order method: error ~h. The estimate's side is set by concavity, not by h."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Consider dy/dx = x - 2y with y(0) = 2.\n(a) Use Euler's method with two steps of h = 0.5 to approximate y(1), presenting the four-column table.\n(b) Compute d²y/dx² in terms of x and y, and evaluate the solution's concavity near the starting point.\n(c) Based on (b), is your Euler answer an over- or underestimate? Justify.",
+          "rubric": [
+            "(a) Row 1: (0, 2), slope -4, Δy = -2 → (0.5, 0). Row 2: slope 0.5, Δy = 0.25 → y(1) ≈ 0.25",
+            "(b) y'' = 1 - 2y' = 1 - 2(x - 2y) = 1 - 2x + 4y; at (0,2): 9 > 0",
+            "(c) Concave up along the early path ⟹ chords below the curve ⟹ underestimate",
+            "Caveat or check that concavity stays positive on the walked region (it does along the computed path)"
+          ],
+          "model_answer": "(a) Table — x | y | dy/dx | Δy: row 1: 0 | 2 | 0 - 4 = -4 | -2. Row 2: 0.5 | 0 | 0.5 - 0 = 0.5 | 0.25. Final: x = 1, y ≈ 0.25. (b) Differentiate: y'' = 1 - 2y'; substitute the DE: y'' = 1 - 2(x - 2y) = 1 - 2x + 4y. At (0, 2): y'' = 9 > 0, and along the computed path (y ≥ 0, x ≤ 1) it stays positive. (c) With the solution concave up on the stepped interval, Euler's tangent-line chords lie below the curve, so y(1) ≈ 0.25 is an UNDERestimate of the true value."
+        },
+        {
+          "question": "The temperature of an engine part obeys dT/dt = -0.4(T - 30), T(0) = 110, t in minutes.\n(a) Approximate T(1) using Euler's method with h = 0.5.\n(b) The exact solution is T(t) = 30 + 80e^{-0.4t}. Compute T(1) exactly (in terms of e) and numerically, and find the Euler error.\n(c) Explain the error's direction using the solution's concavity, computed from the DE.",
+          "rubric": [
+            "(a) Slope at (0,110): -32; → (0.5, 94). Slope: -25.6; → T(1) ≈ 81.2",
+            "(b) Exact: 30 + 80e^{-0.4} ≈ 83.62; error ≈ -2.42 (Euler low)",
+            "(c) T'' = -0.4T' = 0.16(T - 30) > 0 while T > 30: concave up",
+            "Chords below a concave-up curve: Euler underestimates — matching the computed error"
+          ],
+          "model_answer": "(a) Step 1: slope = -0.4(110 - 30) = -32; ΔT = -16; T(0.5) ≈ 94. Step 2: slope = -0.4(64) = -25.6; ΔT = -12.8; T(1) ≈ 81.2°. (b) Exact: T(1) = 30 + 80e^{-0.4} ≈ 30 + 53.62 = 83.62°. Euler's error: 81.2 - 83.62 ≈ -2.4° — the method ran low. (c) T'' = -0.4·dT/dt = -0.4·(-0.4(T - 30)) = 0.16(T - 30), positive while T > 30: the cooling curve is concave up (steep drop flattening out). Euler's chords therefore undershoot the curve, exactly the negative error observed."
+        },
+        {
+          "question": "For the IVP dy/dx = y - x with y(0) = 0.5:\n(a) Run Euler's method with h = 0.25 for two steps to approximate y(0.5).\n(b) A classmate runs the same problem with h = 0.5 (one step) and gets y(0.5) ≈ 0.75. Compare the two approximations and state which should be more accurate, with the general principle.\n(c) Verify that y = x + 1 - 0.5eˣ solves the IVP, and compute the true y(0.5) to assess both approximations.",
+          "rubric": [
+            "(a) (0, 0.5): slope 0.5, → (0.25, 0.625); slope 0.375, → y(0.5) ≈ 0.71875",
+            "(b) Smaller h ⟹ less drift: the h = 0.25 run should be closer (same side)",
+            "(c) y' = 1 - 0.5eˣ and y - x = 1 - 0.5eˣ ✓; y(0) = 1 - 0.5 = 0.5 ✓",
+            "True y(0.5) = 1.5 - 0.5e^{0.5} ≈ 0.6756; indeed 0.7188 vs 0.75: smaller h closer, both over"
+          ],
+          "model_answer": "(a) Step 1: slope at (0, 0.5) = 0.5 - 0 = 0.5; Δy = 0.125; → (0.25, 0.625). Step 2: slope = 0.625 - 0.25 = 0.375; Δy ≈ 0.09375; → y(0.5) ≈ 0.71875. (b) The h = 0.25 estimate should beat the h = 0.5 one: Euler's total error scales roughly with h, so halving the step halves the drift. Both lie on the same side of the truth (set by concavity, not step size). (c) For y = x + 1 - 0.5eˣ: y' = 1 - 0.5eˣ, and y - x = 1 - 0.5eˣ — equal ✓; y(0) = 0 + 1 - 0.5 = 0.5 ✓. True value: y(0.5) = 1.5 - 0.5e^{0.5} ≈ 0.6756. The approximations 0.71875 (h = 0.25) and 0.75 (h = 0.5) are both high — y'' = y' - 1 = -0.5eˣ < 0, concave down, so Euler overestimates — and the smaller step is closer, as predicted."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differential Equations",
+    "chapter_title": "Separation of Variables",
+    "hook": "When a differential equation lets you herd every y to one side and every x to the other, two integrals finish the job. Separation of variables is the unit's formula machine — and the source of the exponential solutions every science class asserts.",
+    "learning_objectives": [
+      "Identify separable equations: dy/dx expressible as g(x)·h(y)",
+      "Execute the separation ritual: separate, integrate both sides, solve for y",
+      "Apply initial conditions at the optimal stage and resolve the constant",
+      "Convert C-bearing exponential forms via the ±e^C → A consolidation",
+      "Track domains and lost solutions through the separation process"
+    ],
+    "sections": [
+      {
+        "title": "Separate, Integrate, Solve",
+        "subtitle": "The ritual on a first example",
+        "body": "A DE is SEPARABLE when the right side factors into (function of x)·(function of y): dy/dx = g(x)h(y). The ritual: (1) SEPARATE — move all y's left with dy, all x's right with dx: dy/h(y) = g(x) dx (the Leibniz differentials, manipulated as Unit 4 licensed); (2) INTEGRATE both sides, one +C on the right; (3) SOLVE for y if asked, applying the initial condition at the cleanest moment.\n\nWorked: dy/dx = xy², y(0) = 1. Separate: y^{-2} dy = x dx. Integrate: -y^{-1} = x²/2 + C. Apply the condition NOW (before solving for y): -1 = 0 + C, so C = -1. Solve: -1/y = x²/2 - 1, hence y = 1/(1 - x²/2) = 2/(2 - x²). Verify by differentiating if time permits; the check is one chain rule.\n\nNot everything separates: dy/dx = x + y has an inseparable sum (no factoring rescues it — that one needs other methods and appears on the AP only via fields and Euler). The separability CHECK is a factoring question: can the right side be written as a pure-x factor times a pure-y factor? Sums of x-stuff and y-stuff: no. Products and quotients: usually yes.\n\nThe one-constant convention: both integrals generate constants, but their difference is a single constant — write +C on one side only, immediately. Two C's that later merge are harmless but waste motion; the convention is standard and graders expect it.",
+        "key_terms": [
+          [
+            "Separable equation",
+            "dy/dx = g(x)h(y): the right side factors by variable"
+          ],
+          [
+            "The ritual",
+            "Separate (dy with y's, dx with x's), integrate both sides, solve for y"
+          ],
+          [
+            "Early condition application",
+            "Pin C right after integrating — before the algebra of solving for y"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Separation FRQs allocate points for: the separated form (visible!), both antiderivatives, the constant's resolution, and the final explicit solution. Skipping the visible separation step — integrating 'in your head' — forfeits the first point even with everything else right."
+          ]
+        ]
+      },
+      {
+        "title": "The Exponential Family, Derived",
+        "subtitle": "Where Ce^{kt} actually comes from",
+        "body": "The unit's flagship: dy/dt = ky. Separate: dy/y = k dt. Integrate: ln|y| = kt + C. Exponentiate: |y| = e^{kt + C} = e^C·e^{kt}, so y = ±e^C e^{kt} — and the cluster ±e^C, an arbitrary nonzero constant, consolidates to A: y = Ae^{kt}. (A = 0 quietly readmits the equilibrium y = 0 lost when we divided by y; the final family is complete.)\n\nThat consolidation — ±e^C becomes A — is the chapter's most-tested algebra. e^C is positive; the ± restores both signs; naming the cluster A is both legal and expected. Exam answers left as y = e^{kt + C} are unfinished; answers asserting A = e^C (dropping the ±) are subtly wrong when the initial condition is negative. The clean line: 'let A = ±e^C, so y = Ae^{kt}; then A = y(0).'\n\nWith an initial condition the whole derivation compresses: y(0) = y₀ gives A = y₀ directly, and y = y₀e^{kt}. Doubling times and half-lives now COMPUTE instead of being quoted: half-life solves y₀e^{kT} = y₀/2, so T = ln(½)/k = ln2/|k| for decay. The science-class facts are this separation, finished.\n\nNewton's cooling separates identically with a shift: dT/(T - T_env) = -k dt gives ln|T - T_env| = -kt + C, so T = T_env + Ae^{-kt} — exponential decay OF THE GAP. One substitution (u = T - T_env) reduces cooling to the flagship; recognizing shifted exponentials is half the unit's modeling fluency.",
+        "key_terms": [
+          [
+            "Flagship derivation",
+            "y' = ky separates to ln|y| = kt + C, consolidating to y = Ae^{kt}"
+          ],
+          [
+            "±e^C → A",
+            "The consolidation that absorbs sign and constant — with A = 0 readmitting the equilibrium"
+          ],
+          [
+            "Shifted exponential",
+            "Cooling: the GAP T - T_env decays exponentially; T = T_env + Ae^{-kt}"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "After exponentiating ln|y| = kt + C, the graded sequence is: |y| = e^C e^{kt}, then y = Ae^{kt} with A = ±e^C. Jumping straight from the log line to y = Ce^{kt} is usually tolerated WITH the absolute value handled — but writing it out once protects the point and your sign when y₀ < 0."
+          ]
+        ]
+      },
+      {
+        "title": "Implicit Solutions and Lost Members",
+        "subtitle": "When y won't isolate, and who fell in the division",
+        "body": "Some separations end implicitly: dy/dx = x/y separates to y dy = x dx, integrating to y²/2 = x²/2 + C, i.e., y² - x² = K — hyperbolas, perfectly good solution curves with no global y = formula. The AP accepts implicit answers when isolating y is impossible or ugly, PROVIDED the constant is resolved: with y(1) = 2, K = 3, and the solution is the branch of y² = x² + 3 through (1, 2): y = +√(x² + 3) (the sign chosen by the initial point).\n\nThe branch selection is graded: y² = x² + 3 alone names two curves; the initial condition's sign picks y = +√(x² + 3), and SAYING so — 'taking the positive root since y(1) = 2 > 0' — is the expected sentence. Implicit-to-explicit conversion, when demanded, is exactly this: solve, then choose by the anchor.\n\nDivision's casualties: separating dy/h(y) divided by h(y), quietly assuming h(y) ≠ 0 — and each root of h is a constant solution potentially LOST. For dy/dx = y(y - 3): dividing by y(y - 3) loses y = 0 and y = 3, the equilibria. Complete answers acknowledge them; IVPs anchored AT an equilibrium (y(0) = 3) are answered by the constant solution alone, no separation needed — a shortcut the exam plants.\n\nDomain honesty from chapter 1 returns at the finish: y = 2/(2 - x²) through (0, 1) lives on (-√2, √2) — the interval around the anchor where the denominator survives. Solving FRQs end with the explicit function; the strongest answers append its valid interval when blow-ups lurk.",
+        "key_terms": [
+          [
+            "Implicit solution",
+            "An x-y relation with C resolved — acceptable when y won't isolate"
+          ],
+          [
+            "Branch selection",
+            "The initial condition's sign chooses the root: state the choice"
+          ],
+          [
+            "Lost equilibria",
+            "Dividing by h(y) discards h's roots — recover them or anchor on them directly"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "If the initial condition sits AT an equilibrium (y(0) = 3 for dy/dx = y(y-3)), the answer is the constant function y = 3 — separation is unnecessary and dividing by zero to attempt it is wrong. Check the anchor against the equilibria before separating; it is a two-second scan."
+          ]
+        ]
+      },
+      {
+        "title": "The Genre at Full Strength",
+        "subtitle": "A complete FRQ anatomy",
+        "body": "The classic separation FRQ braids the unit: given dy/dx = (6x²)/(2y) with y(1) = 4 — (a) slope field dashes at marked points (chapter 2 mechanics); (b) Euler or tangent-line estimate of y(1.1) (chapter 3 / Unit 4); (c) solve exactly. The solve: 2y dy = 6x² dx; y² = 2x³ + C; 16 = 2 + C so C = 14; y = +√(2x³ + 14), positive root by y(1) = 4 > 0. Three instruments, one equation — the braid in its natural habitat.\n\nPart (c)'s rubric, typical of the genre: one point for separation, one for both antiderivatives, one for resolving C (with the condition applied to the IMPLICIT form — fine and encouraged), one for the explicit solution with the correct branch. Four points, four visible moves. The moves are this chapter's sections in order.\n\nTime-of-event finales decorate the genre: 'find when y = 6' solves 36 = 2x³ + 14, x³ = 11, x = 11^{1/3}. The solved formula converts behavior questions into algebra — which is the whole point of having a formula, and why the exam asks one such finale routinely.\n\nThe unit's last two chapters apply the machine: exponential models (population, decay, cooling — chapter 5) and the logistic equation (chapter 6), whose separation runs through partial fractions and rewards everything Unit 6 built. The ritual is learned; what remains is running it on the models that matter.",
+        "key_terms": [
+          [
+            "The braid FRQ",
+            "Field + Euler + exact solve on one IVP — the unit's standard assembly"
+          ],
+          [
+            "Four-point solve",
+            "Separation, antiderivatives, constant, explicit branch — each visible"
+          ],
+          [
+            "Time-of-event finale",
+            "Solved formulas turn 'when does y reach 6?' into algebra"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Apply the initial condition to the IMPLICIT line (y² = 2x³ + C) rather than after isolating y — fewer symbols, no premature branch choice, same credit. Then isolate, choosing the branch by the condition's sign. This ordering is both faster and safer."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "Which differential equation is separable?",
+          "choices": {
+            "A": "dy/dx = x²y",
+            "B": "dy/dx = x + y",
+            "C": "dy/dx = sin(xy)",
+            "D": "dy/dx = x - y²"
+          },
+          "answer": "A",
+          "explanation": "x²y factors as (x²)(y). Sums and entangled compositions (B, C, D) do not factor by variable."
+        },
+        {
+          "question": "Separating dy/dx = xy² and integrating yields",
+          "choices": {
+            "A": "-1/y = x²/2 + C",
+            "B": "ln y = x²/2 + C",
+            "C": "y³/3 = x²/2 + C",
+            "D": "-1/y = x² + C"
+          },
+          "answer": "A",
+          "explanation": "y^{-2} dy = x dx integrates to -y^{-1} = x²/2 + C."
+        },
+        {
+          "question": "The general solution of dy/dt = -3y is",
+          "choices": {
+            "A": "y = Ae^{-3t}",
+            "B": "y = e^{-3t} + C",
+            "C": "y = -3e^t + A",
+            "D": "y = A - 3t"
+          },
+          "answer": "A",
+          "explanation": "The flagship separation: ln|y| = -3t + C consolidates to y = Ae^{-3t}."
+        },
+        {
+          "question": "For dy/dx = x/y with y(1) = -2, the particular solution is",
+          "choices": {
+            "A": "y = -√(x² + 3)",
+            "B": "y = √(x² + 3)",
+            "C": "y = -√(x² - 3)",
+            "D": "y² = x² + 3 (no branch needed)"
+          },
+          "answer": "A",
+          "explanation": "y² = x² + C with 4 = 1 + C: C = 3. The initial y is negative: take the negative root."
+        },
+        {
+          "question": "For dy/dx = y(y - 5) with y(0) = 5, the solution is",
+          "choices": {
+            "A": "y = 5 for all x",
+            "B": "y = 5e^{5x}",
+            "C": "y = 5/(1 + e^x)",
+            "D": "undefined — separation divides by zero"
+          },
+          "answer": "A",
+          "explanation": "The anchor sits ON the equilibrium y = 5 (the rate vanishes there): the constant solution is the answer, no separation required."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Consider dy/dx = (3x²)/(2y) with y(0) = 2.\n(a) Solve the differential equation, applying the initial condition at the implicit stage.\n(b) State the explicit solution with the correct branch, and give its domain.\n(c) Find the value of x at which y = 4.",
+          "rubric": [
+            "(a) 2y dy = 3x² dx → y² = x³ + C; 4 = 0 + C: y² = x³ + 4",
+            "(b) y = +√(x³ + 4) (positive branch since y(0) = 2 > 0); domain x³ > -4: x > -4^{1/3}",
+            "(c) 16 = x³ + 4 → x³ = 12 → x = 12^{1/3}",
+            "Branch-selection sentence present"
+          ],
+          "model_answer": "(a) Separate: 2y dy = 3x² dx. Integrate: y² = x³ + C. Apply y(0) = 2 now: 4 = C. Implicit solution: y² = x³ + 4. (b) Since y(0) = 2 > 0, take the positive root: y = √(x³ + 4), valid where x³ + 4 > 0, i.e., on (-∛4, ∞) — the interval containing the anchor x = 0. (c) y = 4: 16 = x³ + 4, x³ = 12, x = ∛12 ≈ 2.289."
+        },
+        {
+          "question": "A radioactive sample obeys dm/dt = km (k < 0), with m(0) = 80 grams and m(10) = 40 grams (t in years).\n(a) Derive the general solution by separation, showing the ±e^C consolidation.\n(b) Use the two data points to find A and k exactly.\n(c) Find the time at which 10 grams remain.",
+          "rubric": [
+            "(a) dm/m = k dt → ln|m| = kt + C → m = Ae^{kt}, A = ±e^C",
+            "(b) A = 80; 40 = 80e^{10k} → k = ln(1/2)/10 = -ln2/10",
+            "(c) 10 = 80e^{kt} → e^{kt} = 1/8 → t = ln(1/8)/k = 30 years",
+            "Exact-form k and the three-half-lives logic (or algebra) for (c)"
+          ],
+          "model_answer": "(a) Separate: dm/m = k dt. Integrate: ln|m| = kt + C. Exponentiate: |m| = e^C e^{kt}, so m = Ae^{kt} where A = ±e^C (and A = 0 would readmit the trivial equilibrium). (b) m(0) = A = 80. Then 40 = 80e^{10k} gives e^{10k} = 1/2, k = -ln 2/10 per year. (c) 10 = 80e^{kt}: e^{kt} = 1/8 = (1/2)³, so kt = 3 ln(1/2), t = 3·ln(1/2)/(ln(1/2)/10) = 30 years — three half-lives, as 80 → 40 → 20 → 10 confirms."
+        },
+        {
+          "question": "Consider the equation dy/dx = (y - 1)cos x.\n(a) Find all equilibrium solutions.\n(b) Solve the IVP with y(0) = 3, showing the consolidation of constants.\n(c) Show that the solution from (b) never crosses the equilibrium, by examining the solution formula.",
+          "rubric": [
+            "(a) Equilibrium: y = 1",
+            "(b) dy/(y-1) = cos x dx → ln|y-1| = sin x + C → y = 1 + Ae^{sin x}; A = 2: y = 1 + 2e^{sin x}",
+            "(c) 2e^{sin x} > 0 always: y > 1 for all x",
+            "Connects to the no-crossing principle: the formula certifies what the field predicted"
+          ],
+          "model_answer": "(a) The rate vanishes identically when y = 1: the single equilibrium solution. (b) Separate: dy/(y - 1) = cos x dx. Integrate: ln|y - 1| = sin x + C. Exponentiate and consolidate: |y - 1| = e^C e^{sin x}, so y - 1 = Ae^{sin x} with A = ±e^C. The condition: 3 - 1 = Ae⁰, A = 2. Solution: y = 1 + 2e^{sin x}. (c) The term 2e^{sin x} is positive for every x (exponentials never vanish), so y stays strictly above 1 forever — bounded between 1 + 2e^{-1} and 1 + 2e by the sine's range, oscillating but never touching the equilibrium. The formula certifies the no-crossing principle the slope field promised."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differential Equations",
+    "chapter_title": "Exponential Growth and Decay",
+    "hook": "Compound interest, carbon dating, viral spread before saturation — one equation governs them all: dy/dt = ky. You derived its solution last chapter; now you'll run the model end to end, from data to constants to predictions.",
+    "learning_objectives": [
+      "Recognize 'rate proportional to amount' contexts as dy/dt = ky models",
+      "Use y = y₀e^{kt} with data points to determine k exactly",
+      "Compute half-lives and doubling times, and convert between them and k",
+      "Solve dating, finance, and population problems through the model",
+      "Distinguish exponential from other growth patterns in data and language"
+    ],
+    "sections": [
+      {
+        "title": "The Model and Its Fingerprint",
+        "subtitle": "Constant relative rate",
+        "body": "dy/dt = ky says the rate of change is proportional to the current amount — equivalently, the RELATIVE rate y'/y is the constant k. Per-capita birth rates, per-dollar interest, per-atom decay probability: whenever each unit of the quantity contributes equally to its own change, the model applies and the solution is y = y₀e^{kt} (last chapter's flagship separation, with y₀ the starting amount).\n\nThe fingerprint in data: equal time steps multiply the amount by equal FACTORS. A population hitting 100, 150, 225, 337.5 at consecutive hours is exponential (×1.5 each step); one hitting 100, 150, 200, 250 is linear (+50 each step). The exam tests the distinction in both directions — recognize the pattern, or produce values matching a named pattern.\n\nThe sign of k narrates: k > 0 grows, k < 0 decays, and |k| sets the speed. Units of k are 'per time' (per year, per hour) — y'/y has the amount's units canceling. An interest rate of 5% per year compounding continuously IS k = 0.05 per year; the finance phrasing and the calculus phrasing are the same statement.\n\nWhat the model ignores — and where it breaks: nothing limits growth (no carrying capacity), nothing exhausts decay (the amount never reaches zero). Real systems obey it only in regimes far from limits: early epidemics, small populations, the first half-lives. The logistic model next chapter installs the ceiling; knowing WHICH model a stem describes is itself a graded reading skill.",
+        "key_terms": [
+          [
+            "Exponential model",
+            "dy/dt = ky ⟺ y = y₀e^{kt}: constant relative rate y'/y = k"
+          ],
+          [
+            "Equal-factor fingerprint",
+            "Equal time steps multiply by equal factors — the data signature"
+          ],
+          [
+            "Regime of validity",
+            "No limits in the model: it fits growth far from ceilings, decay far from zero"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'Grows at a rate proportional to its size' ⟹ exponential. 'Grows at a CONSTANT rate' ⟹ linear (dy/dt = c). The two phrases sit one word apart and name different universes — the exam exploits the near-collision regularly."
+          ]
+        ]
+      },
+      {
+        "title": "Finding k from Data",
+        "subtitle": "Two points determine the model",
+        "body": "With y₀ known, one more data point pins k. A culture starts at 500 bacteria and reaches 1500 after 4 hours: 1500 = 500e^{4k}, so e^{4k} = 3 and k = (ln 3)/4 per hour. Keep k EXACT — (ln 3)/4, not 0.2747 — because later parts reuse it and rounding propagates. The exact-k habit is worth real points across multi-part FRQs.\n\nWhen y₀ is unknown too, two data points make two equations; dividing them cancels y₀: y(7)/y(3) = e^{7k}/e^{3k} = e^{4k}. The RATIO of values across a time gap depends only on k and the gap — a structural fact that solves 'the population triples every 5 hours' instantly: e^{5k} = 3 regardless of the start.\n\nPredictions then evaluate the finished formula: with k = (ln 3)/4 and y₀ = 500, the population at t = 10 is 500e^{10(ln3)/4} = 500·3^{2.5} ≈ 7794. Note the clean form 3^{10/4}: exponentials with exact k often simplify through the base the data suggested — writing e^{kt} as (e^{4k})^{t/4} = 3^{t/4} both checks the work and speeds evaluation.\n\nInverse questions solve for t: when does the culture reach 10,000? 10000 = 500·3^{t/4}, so 3^{t/4} = 20 and t = 4·ln 20/ln 3 ≈ 10.9 hours. Take logs, isolate t — the algebra is one move once the formula stands.",
+        "key_terms": [
+          [
+            "Exact-k discipline",
+            "k = (ln 3)/4, never its decimal — later parts reuse it"
+          ],
+          [
+            "Ratio trick",
+            "y(t₂)/y(t₁) = e^{k(t₂-t₁)}: ratios see only k and the gap, not y₀"
+          ],
+          [
+            "Base conversion",
+            "e^{kt} = 3^{t/4} when e^{4k} = 3 — the data's own base simplifies everything"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Solve for k symbolically BEFORE any decimals: 'e^{4k} = 3, so k = (ln 3)/4.' FRQ rubrics award the exact expression, and decimal-first work loses both precision and the simplification 3^{t/4} that makes part (c) humane."
+          ]
+        ]
+      },
+      {
+        "title": "Half-Life and Doubling Time",
+        "subtitle": "The model's natural clocks",
+        "body": "The half-life T_{1/2} of a decaying quantity solves y₀e^{kT} = y₀/2: T_{1/2} = ln(1/2)/k = (ln 2)/|k|. It is INDEPENDENT of the starting amount — every half-life halves whatever is present, which is why 'three half-lives' means ×1/8 regardless of scale. Doubling time mirrors for growth: T_double = (ln 2)/k.\n\nThe conversion runs both ways: carbon-14's half-life of 5730 years gives k = -ln 2/5730 per year; an investment doubling every 9 years has k = ln 2/9 ≈ 0.077 — the 'rule of 72' from finance (72 divided by the percentage rate estimates the doubling years) is this formula's folklore approximation — ln 2 ≈ 0.693 suggests 69.3, but 72 has friendlier divisors. The calculus version is exact.\n\nDating problems run the clock backward: a sample retains 30% of its carbon-14 — how old? 0.30 = e^{kt} with k = -ln2/5730: t = ln(0.30)/k = 5730·ln(0.30)/ln(0.5) ≈ 9953 years. The structure: measured fraction = e^{kt}, logs, solve. Whole-number half-life counts need no logs at all (1/8 remaining = 3 half-lives = 17,190 years); fractional ones do.\n\nA notational fork to read carefully: some texts write decay as y = y₀e^{-λt} with λ > 0. Then the half-life is (ln 2)/λ — same mathematics, the sign housed in the symbol instead of the constant. The exam declares its convention in the stem; mirror whichever it uses.",
+        "key_terms": [
+          [
+            "Half-life",
+            "T = (ln 2)/|k|: amount-independent halving clock"
+          ],
+          [
+            "Doubling time",
+            "T = (ln 2)/k for growth — the mirror clock"
+          ],
+          [
+            "Dating structure",
+            "Measured fraction = e^{kt}; logs isolate the age"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Half-life is independent of the amount — '800 g has the same half-life as 80 g' — and the exam tests the fact directly as a conceptual MC. Any answer choice making the half-life depend on y₀ is self-eliminating."
+          ]
+        ]
+      },
+      {
+        "title": "The Model in Full Dress",
+        "subtitle": "A complete FRQ walkthrough",
+        "body": "Anatomy of the standard exponential FRQ: 'A tank's pollutant decays at a rate proportional to the amount present. Initially 200 g; after 3 hours, 120 g.' (a) Write the DE: dy/dt = ky (the sentence IS the equation — translation point). (b) Solve it: y = 200e^{kt} (separation or citation of the known family — both accepted when the family is derived elsewhere on the exam). (c) Find k: 120 = 200e^{3k}, k = (1/3)ln(3/5). (d) Predict: y(10) = 200e^{10k} = 200(3/5)^{10/3} ≈ 36.5 g. (e) When does 10 g remain? t = ln(0.05)/k ≈ 17.6 hours.\n\nEach part's graded element: the DE from the words; the family with the constant resolved; exact k; a prediction with units; an inverse solve. Five beats — and every exponential FRQ for a decade has been some subset of them, reordered and recostumed.\n\nThe with-inflow variant raises difficulty one notch: dy/dt = ky + r (decay plus constant replenishment) is NOT pure exponential, but it separates: dy/(ky + r) = dt, yielding shifted exponentials approaching the equilibrium y = -r/k. The cooling equation was exactly this shape. Recognizing 'proportional plus constant' as a separable shifted-exponential is the unit's second-tier skill, tested on harder FRQs.\n\nLanguage rigor at the finish: 'the amount approaches zero but never reaches it' — exponential decay's tail is asymptotic, and claims of arrival ('the pollutant is gone at t = 50') are model-false. When asked for long-run behavior: lim t→∞ y = 0 (pure decay) or the equilibrium (with inflow), stated as a limit. The model speaks in asymptotes; answers should too.",
+        "key_terms": [
+          [
+            "Five-beat FRQ",
+            "DE from words, solve, exact k, prediction with units, inverse solve"
+          ],
+          [
+            "Decay-plus-inflow",
+            "dy/dt = ky + r: separable, shifted exponential, equilibrium -r/k"
+          ],
+          [
+            "Asymptotic honesty",
+            "Exponentials approach limits and never arrive — answer with limits"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When the model adds a constant term (leak plus inflow, decay plus dosing), do NOT force y = y₀e^{kt} onto it — separate dy/(ky + r) = dt honestly. The pure-exponential reflex applied to mixed models is the second-tier FRQ's designed failure mode."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "A population grows at a rate proportional to its size, starting at 800 with k = 0.02 per year. The model is",
+          "choices": {
+            "A": "P = 800e^{0.02t}",
+            "B": "P = 800 + 0.02t",
+            "C": "P = 0.02e^{800t}",
+            "D": "P = 800(1.02)^t exactly"
+          },
+          "answer": "A",
+          "explanation": "dy/dt = ky with y₀ = 800 solves to y₀e^{kt}. (D is discrete annual compounding — close numerically, not the continuous model.)"
+        },
+        {
+          "question": "A sample decays from 500 g to 100 g in 8 days. The exact decay constant k is",
+          "choices": {
+            "A": "(1/8)ln(1/5)",
+            "B": "(1/8)ln 5",
+            "C": "-8 ln 5",
+            "D": "ln(400)/8"
+          },
+          "answer": "A",
+          "explanation": "100 = 500e^{8k} gives e^{8k} = 1/5, so k = (1/8)ln(1/5) — negative, as decay demands."
+        },
+        {
+          "question": "A substance has half-life 20 years. Starting from 240 g, the amount after 60 years is",
+          "choices": {
+            "A": "30 g",
+            "B": "60 g",
+            "C": "80 g",
+            "D": "120 g"
+          },
+          "answer": "A",
+          "explanation": "60 years is three half-lives: 240 → 120 → 60 → 30."
+        },
+        {
+          "question": "An account doubles every 12 years under continuous growth. Its rate constant k is",
+          "choices": {
+            "A": "(ln 2)/12",
+            "B": "12 ln 2",
+            "C": "2/12",
+            "D": "ln(12)/2"
+          },
+          "answer": "A",
+          "explanation": "e^{12k} = 2 ⟹ k = (ln 2)/12 per year."
+        },
+        {
+          "question": "Data: a quantity reads 64, 48, 36, 27 at equal time intervals. The pattern is",
+          "choices": {
+            "A": "exponential decay — each step multiplies by 3/4",
+            "B": "linear decay — each step subtracts 16",
+            "C": "exponential growth",
+            "D": "neither linear nor exponential"
+          },
+          "answer": "A",
+          "explanation": "Ratios: 48/64 = 36/48 = 27/36 = 3/4 — equal factors, the exponential fingerprint. (The differences -16, -12, -9 are unequal, killing linear.)"
+        }
+      ],
+      "frq": [
+        {
+          "question": "The pollutant in a pond decays at a rate proportional to the amount present. At t = 0 there are 200 grams; at t = 3 hours, 120 grams remain.\n(a) Write and solve the differential equation, giving y(t) with exact constants.\n(b) Find the half-life of the pollutant, exactly and to the nearest tenth of an hour.\n(c) Determine, with a limit statement, the long-run amount — and explain why the model never reports exactly zero grams.",
+          "rubric": [
+            "(a) dy/dt = ky; y = 200e^{kt}; 120 = 200e^{3k} → k = (1/3)ln(3/5)",
+            "(b) T = ln(1/2)/k = 3 ln(1/2)/ln(3/5) ≈ 4.1 hours",
+            "(c) lim t→∞ y = 0",
+            "Exponentials are positive for all finite t: asymptotic approach, never arrival"
+          ],
+          "model_answer": "(a) The sentence translates to dy/dt = ky. Separating (or citing the family): y = 200e^{kt}. Fitting: 120 = 200e^{3k}, e^{3k} = 3/5, k = (1/3)ln(3/5) per hour (negative ✓). (b) Half-life: e^{kT} = 1/2 ⟹ T = ln(1/2)/k = 3·ln(1/2)/ln(3/5) ≈ 4.1 hours. (c) lim t→∞ 200e^{kt} = 0 since k < 0. But e^{kt} > 0 for every finite t — the model halves and halves without ever producing zero: decay is asymptotic, and 'the pollutant is gone at time T' is a statement the model cannot make."
+        },
+        {
+          "question": "Archaeologists find a wooden tool retaining 22% of its original carbon-14. Carbon-14's half-life is 5730 years.\n(a) Find the decay constant k exactly.\n(b) Determine the tool's age to the nearest century.\n(c) The lab's measurement could be off by ±2 percentage points (so the true fraction lies in [0.20, 0.24]). Compute the corresponding age range and comment on the sensitivity.",
+          "rubric": [
+            "(a) k = ln(1/2)/5730 = -ln 2/5730",
+            "(b) 0.22 = e^{kt} → t = 5730·ln(0.22)/ln(0.5) ≈ 12,517 → ≈ 12,500 years",
+            "(c) 0.20 → ≈ 13,305; 0.24 → ≈ 11,799: range ≈ 11,800 to 13,300 years",
+            "Comment: ±2 points of fraction ⟹ roughly ∓750 years — logs compress, but old samples stay sensitive"
+          ],
+          "model_answer": "(a) e^{5730k} = 1/2 gives k = -ln 2/5730 per year. (b) 0.22 = e^{kt}: t = ln(0.22)/k = 5730·ln(0.22)/ln(0.5) ≈ 12,517 — about 12,500 years old. (c) At 0.20: t = 5730·ln(0.20)/ln(0.5) ≈ 13,305. At 0.24: ≈ 11,799. The age range is roughly 11,800–13,300 years: a ±2-point measurement uncertainty swings the date by about ±750 years. The logarithm softens the sensitivity (fractions enter through ln), but for ancient, low-fraction samples each percentage point still moves centuries — why labs report dating with explicit error bars."
+        },
+        {
+          "question": "A hospital patient receives medication by continuous IV drip at 12 mg per hour, while the body eliminates the drug at a rate proportional to the amount present, with constant 0.3 per hour. Let y(t) be the milligrams in the bloodstream, y(0) = 0.\n(a) Write the differential equation for y.\n(b) Find the equilibrium level and interpret it.\n(c) Solve the equation by separation and find how long until the level reaches half the equilibrium value.",
+          "rubric": [
+            "(a) dy/dt = 12 - 0.3y",
+            "(b) Equilibrium: 12 - 0.3y = 0 → y = 40 mg — inflow balances elimination",
+            "(c) Separation: y = 40(1 - e^{-0.3t}); half of 40: 20 = 40(1 - e^{-0.3t}) → e^{-0.3t} = 1/2 → t = (ln 2)/0.3 ≈ 2.31 hours",
+            "Shifted-exponential structure handled (not forced into pure y₀e^{kt})"
+          ],
+          "model_answer": "(a) Rate in minus rate out: dy/dt = 12 - 0.3y. (b) Setting the rate to zero: y = 40 mg — the steady state where the drip's 12 mg/h exactly matches the body's elimination 0.3(40) = 12 mg/h. The level approaches 40 and stabilizes there. (c) Separate: dy/(12 - 0.3y) = dt; integrating, -(1/0.3)ln|12 - 0.3y| = t + C. With y(0) = 0: C = -(1/0.3)ln 12. Solving: 12 - 0.3y = 12e^{-0.3t}, so y = 40(1 - e^{-0.3t}). Half the equilibrium: 20 = 40(1 - e^{-0.3t}) gives e^{-0.3t} = 1/2, t = ln 2/0.3 ≈ 2.31 hours — the system's own 'half-life' clock, now measuring approach instead of decay."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differential Equations",
+    "chapter_title": "Logistic Growth",
+    "hook": "BC ONLY, and the unit's crown jewel: real populations can't grow forever. The logistic equation installs a ceiling, bends the exponential into an S-curve, and hands the BC exam its favorite collection of no-solving-required questions.",
+    "learning_objectives": [
+      "Interpret the logistic equation dP/dt = kP(1 - P/L) and its carrying capacity L",
+      "Determine limits, equilibria, and behavior from the equation without solving",
+      "Locate the inflection at P = L/2 where growth is fastest",
+      "Use the solution form P = L/(1 + Ae^{-kt}) with initial conditions",
+      "Answer the AP's standard logistic battery: limits, fastest growth, concavity"
+    ],
+    "sections": [
+      {
+        "title": "Installing the Ceiling",
+        "subtitle": "Reading the logistic equation",
+        "body": "dP/dt = kP(1 - P/L): growth proportional to the population AND to the remaining fraction of capacity. When P is small, (1 - P/L) ≈ 1 and the equation is nearly exponential — unchecked early growth. As P nears L, the factor collapses toward zero and growth chokes. The constant L — the CARRYING CAPACITY — is the environment's ceiling, and k sets the intrinsic speed.\n\nEquilibria from the algebra: dP/dt = 0 at P = 0 and P = L. Signs between: for 0 < P < L both factors are positive — populations grow; for P > L the second factor is negative — overcrowded populations shrink back. So L attracts from both sides and 0 repels: every positive start converges to L. The limit statement lim t→∞ P(t) = L (for P₀ > 0) is the single most-asked logistic fact, and it reads straight off the equation.\n\nAlternative costumes the exam wears: dP/dt = kP(L - P) (capacity visible as the root of the second factor; the k differs by a factor of L from the other form), and dP/dt = 0.05P - 0.0001P² (expanded — factor it to find L: 0.05P(1 - P/500), capacity 500). Identifying L means finding the POSITIVE ROOT of the rate, whatever the packaging.\n\nThe equation's logic generalizes: any rate of the form P·(decreasing function hitting zero at L) produces ceiling-limited growth. The logistic is the simplest such model — quadratic rate, symmetric rise — which is exactly why it is the teachable, testable representative of the family.",
+        "key_terms": [
+          [
+            "Logistic equation",
+            "dP/dt = kP(1 - P/L): exponential early, choked near the ceiling"
+          ],
+          [
+            "Carrying capacity L",
+            "The positive root of the rate — attracting equilibrium, long-run limit"
+          ],
+          [
+            "Costume recognition",
+            "Factor expanded forms: 0.05P - 0.0001P² hides L = 500"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Given an expanded logistic rate like dP/dt = 0.08P - 0.002P², FACTOR before anything else: 0.08P(1 - P/40) reveals L = 40. Every subsequent question (limit, fastest growth at L/2) reads from the factored form; the expanded form hides both answers."
+          ]
+        ]
+      },
+      {
+        "title": "Fastest Growth at Half Capacity",
+        "subtitle": "The L/2 property and the S-curve",
+        "body": "The growth rate g(P) = kP(1 - P/L) is a downward parabola in P with roots at 0 and L — maximized at the vertex, P = L/2. The population grows FASTEST at exactly half capacity: below it, too few individuals to multiply quickly; above it, too little room. The L/2 fact is the BC exam's most reliable logistic question, asked as 'for what value of P is dP/dt greatest?'\n\nThe same point is the solution curve's INFLECTION: while P < L/2, growth accelerates (P' increasing, P'' > 0, concave up); past L/2, growth continues but decelerates (concave down). The S-curve's waist sits at height L/2 — Unit 5's epidemic chapter described this shape; the logistic equation is its engine. Concavity questions resolve by comparing P to L/2: 'P(0) = 30, L = 100 — is the curve concave up at the start?' Yes: 30 < 50.\n\nThe certified computation, for FRQs demanding it: P'' = d/dt[kP(1 - P/L)] = k(1 - 2P/L)·P' (chain rule on P). Since P' > 0 for 0 < P < L, the sign of P'' is the sign of (1 - 2P/L): positive below L/2, negative above — the parabola-vertex argument, formalized. Either justification earns the point; the differentiation route is the one to produce when 'use calculus' appears in the stem.\n\nMaximum RATE versus maximum POPULATION is the planted confusion: the rate peaks at L/2; the population itself approaches (never attains) its supremum L. 'When is the population largest?' has no finite answer — it grows forever toward L; 'when is it growing fastest?' answers P = L/2. Reading which superlative the question asks is the entire trap.",
+        "key_terms": [
+          [
+            "L/2 property",
+            "dP/dt is maximized at P = L/2 — the rate parabola's vertex"
+          ],
+          [
+            "Inflection at the waist",
+            "Concave up below L/2, down above: the S-curve's shape, certified by P''"
+          ],
+          [
+            "Rate vs population superlatives",
+            "Fastest growth at L/2; the population itself only approaches L"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "'For what P is the population growing fastest?' — L/2, by the vertex of the rate parabola, and the value of that fastest rate is k(L/2)(1/2) = kL/4. Both the location AND the maximal rate are one-line answers once the factored form is in hand."
+          ]
+        ]
+      },
+      {
+        "title": "The Solution Formula",
+        "subtitle": "P = L/(1 + Ae^{-kt}), and where it comes from",
+        "body": "Separating the logistic runs through Unit 6's partial fractions: dP/(P(1 - P/L)) = k dt decomposes (the chapter-7 FRQ previewed it), integrates to ln|P/(L - P)| = kt + C, and exponentiates to the standard form P(t) = L/(1 + Ae^{-kt}), where A = (L - P₀)/P₀ from the initial condition. BC exams have asked the full derivation rarely; they ask USE of the form regularly — and the derivation's existence is why the formula may be cited.\n\nReading the formula confirms every qualitative fact: at t = 0, P = L/(1 + A) = P₀ ✓; as t → ∞, e^{-kt} → 0 and P → L ✓; the curve rises monotonically between. The constant A encodes the start: large A (small P₀) means a long lag before the S rises; A near 0 (P₀ near L) means starting almost full.\n\nWorked fit: L = 1000, P₀ = 100 gives A = (1000 - 100)/100 = 9: P = 1000/(1 + 9e^{-kt}). If additionally P(2) = 250: 250 = 1000/(1 + 9e^{-2k}) ⟹ 1 + 9e^{-2k} = 4 ⟹ e^{-2k} = 1/3 ⟹ k = (ln 3)/2. Finished model: P = 1000/(1 + 9·3^{-t/2}). Time-to-half-capacity then solves 500 = P(t): 1 + 9e^{-kt} = 2, e^{-kt} = 1/9, t = ln 9/k = 2·ln9/ln3 = 4 — clean by design, as exam numbers are.\n\nThe formula-versus-equation division of labor: limits, equilibria, fastest growth, concavity — from the EQUATION, no formula needed. Specific times and populations — from the FORMULA. FRQs braid both; answering equation-questions with formula algebra wastes minutes, and the strongest scripts visibly switch tools by sub-question.",
+        "key_terms": [
+          [
+            "Logistic solution",
+            "P = L/(1 + Ae^{-kt}), A = (L - P₀)/P₀ — derived via partial fractions"
+          ],
+          [
+            "A as the lag dial",
+            "Large A: long low start; small A: begins near capacity"
+          ],
+          [
+            "Division of labor",
+            "Equation for behavior; formula for specific times and values"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Check P₀ against the formula instantly: P(0) = L/(1 + A). Given P = 2000/(1 + 24e^{-0.5t}), the initial population is 2000/25 = 80 and the capacity is 2000 — two answers read in five seconds from the shape alone."
+          ]
+        ]
+      },
+      {
+        "title": "The Logistic Battery",
+        "subtitle": "Every question the AP asks, in one place",
+        "body": "Given any logistic setup, the battery: (1) Carrying capacity? The positive root of the rate / the numerator of the solution form. (2) lim t→∞ P? L, for any P₀ > 0. (3) Where is growth fastest? P = L/2, rate kL/4. (4) Concave up/down at a given P? Compare to L/2. (5) Initial population? Evaluate the form at t = 0. (6) Specific times? Solve the formula with logs. Six questions, six one-line procedures — the chapter in a box.\n\nBehavior from ABOVE capacity rounds out the picture: P₀ > L makes (1 - P/L) negative — the population FALLS toward L, concave up the whole descent (no inflection: the L/2 crossing never happens from above). Sketches starting above the ceiling decay smoothly onto it; the exam includes this branch in slope-field and sketch questions to catch students who memorized only the S.\n\nNotation variants to absorb without flinching: y for P, M or K for L, logistic in 'proportional to both y and M - y' verbal dress. The verbal version — 'spreads at a rate proportional to the product of those infected and those not yet infected' — IS dP/dt = kP(M - P): rumor and epidemic models, the logistic's natural habitat.\n\nWhere it sits in the course: the logistic closes the DE unit by spending every tool — equilibria (ch 1), fields and no-crossing (ch 2), Euler when asked (ch 3), separation + partial fractions (ch 4, Unit 6), exponential limiting behavior (ch 5). One equation, the whole unit's machinery. Unit 8 turns back to integrals and their geometry; the DE toolkit returns on the exam braided into everything.",
+        "key_terms": [
+          [
+            "The six-question battery",
+            "Capacity, limit, fastest growth, concavity, initial value, time solves"
+          ],
+          [
+            "From-above branch",
+            "P₀ > L: monotone decay onto the ceiling, concave up, no inflection"
+          ],
+          [
+            "Verbal logistic",
+            "'Proportional to the product of P and (M - P)' — epidemics and rumors"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The from-above branch (P₀ > L) has NO inflection point — the curve never crosses L/2. 'Find the inflection of the solution with P(0) = 1.5L' is a trick: the correct answer is that there isn't one, and the L/2 reflex without the P₀ check walks into it."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "For dP/dt = 0.06P(1 - P/800) with P(0) = 50, lim t→∞ P(t) =",
+          "choices": {
+            "A": "800",
+            "B": "50",
+            "C": "400",
+            "D": "∞"
+          },
+          "answer": "A",
+          "explanation": "Positive start, attracting ceiling: the population converges to the carrying capacity 800."
+        },
+        {
+          "question": "The population governed by dP/dt = 0.06P(1 - P/800) grows fastest when P =",
+          "choices": {
+            "A": "400",
+            "B": "800",
+            "C": "200",
+            "D": "0"
+          },
+          "answer": "A",
+          "explanation": "The rate parabola peaks at half capacity: L/2 = 400."
+        },
+        {
+          "question": "dP/dt = 0.1P - 0.0005P². The carrying capacity is",
+          "choices": {
+            "A": "200",
+            "B": "0.1",
+            "C": "0.0005",
+            "D": "500"
+          },
+          "answer": "A",
+          "explanation": "Factor: 0.1P(1 - P/200) — the positive root of the rate is L = 200."
+        },
+        {
+          "question": "P(t) = 600/(1 + 11e^{-0.4t}). The initial population is",
+          "choices": {
+            "A": "50",
+            "B": "600",
+            "C": "11",
+            "D": "55"
+          },
+          "answer": "A",
+          "explanation": "P(0) = 600/(1 + 11) = 50. The numerator 600 is the capacity."
+        },
+        {
+          "question": "A logistic population starts at P(0) = 0.3L. At that moment the solution curve is",
+          "choices": {
+            "A": "increasing and concave up",
+            "B": "increasing and concave down",
+            "C": "decreasing and concave up",
+            "D": "at an inflection point"
+          },
+          "answer": "A",
+          "explanation": "Below L: growing. Below L/2: growth still accelerating — concave up. The inflection waits at L/2."
+        }
+      ],
+      "frq": [
+        {
+          "question": "A lake's fish population satisfies dP/dt = 0.5P(1 - P/2000), P(0) = 200, t in years.\n(a) State the carrying capacity and lim t→∞ P(t), with a one-sentence justification from the equation.\n(b) Find the population at which the growth rate is maximal, and compute that maximal rate.\n(c) Is the solution curve concave up or down when P = 1500? Justify using the relationship between P and L/2.",
+          "rubric": [
+            "(a) L = 2000; limit 2000 — positive rate on (0, 2000) drives P up toward the attracting equilibrium",
+            "(b) P = 1000; rate = 0.5(1000)(1/2) = 250 fish/year",
+            "(c) 1500 > L/2 = 1000: past the inflection — concave down",
+            "Justifications reference the equation's structure, not the formula"
+          ],
+          "model_answer": "(a) The rate vanishes at P = 0 and P = 2000: carrying capacity L = 2000. Since dP/dt > 0 for 0 < P < 2000 and the population starts at 200, P increases toward the attracting equilibrium: lim t→∞ P = 2000. (b) The rate kP(1 - P/L) is a downward parabola in P maximized at L/2 = 1000 fish, where dP/dt = 0.5(1000)(1 - 1/2) = 250 fish per year. (c) At P = 1500 the population has passed L/2 = 1000, so the growth rate is now declining: P'' < 0 — the curve is concave down, in the flattening upper arm of the S."
+        },
+        {
+          "question": "A rumor spreads through a school of 1200 students at a rate proportional to the product of the number who have heard it and the number who have not. Initially 60 students have heard it.\n(a) Write the differential equation, defining your constant.\n(b) The solution has the form N = 1200/(1 + Ae^{-1200kt}). Find A from the initial condition.\n(c) When 300 students have heard the rumor, is the rumor spreading at an increasing or decreasing rate? When 900 have heard it? Justify both.",
+          "rubric": [
+            "(a) dN/dt = kN(1200 - N), k > 0 a proportionality constant",
+            "(b) 60 = 1200/(1 + A) → A = 19",
+            "(c) Inflection at 600: at N = 300 < 600, rate increasing; at N = 900 > 600, rate decreasing",
+            "Justification via the L/2 threshold (or sign of N'')"
+          ],
+          "model_answer": "(a) dN/dt = kN(1200 - N) with k > 0 — the verbal 'product of heard and not-heard' translated directly. (b) N(0) = 1200/(1 + A) = 60, so 1 + A = 20 and A = 19. (c) The spreading rate kN(1200 - N) peaks at half the school: N = 600. At N = 300 (below the waist), each new hearer accelerates the spread — the rate is still increasing (curve concave up). At N = 900 (above the waist), unheard students are scarce — the rate is decreasing (concave down). The rumor's fastest hour is the moment exactly half the school knows."
+        },
+        {
+          "question": "A logistic model has solution P(t) = 1000/(1 + 9e^{-kt}) with P(2) = 250, t in days.\n(a) Verify that the initial population is 100, and find k exactly.\n(b) Find the time at which the population reaches half its carrying capacity.\n(c) A second population follows the SAME equation but starts at P(0) = 1250. Describe its behavior for t > 0 — monotonicity, concavity, and limit — and state whether it ever passes an inflection point.",
+          "rubric": [
+            "(a) P(0) = 1000/10 = 100 ✓; 250 = 1000/(1 + 9e^{-2k}) → e^{-2k} = 1/3 → k = (ln 3)/2",
+            "(b) 500 = 1000/(1 + 9e^{-kt}) → e^{-kt} = 1/9 → t = ln 9/k = 4 days",
+            "(c) From above: decreasing, concave up, limit 1000",
+            "No inflection — the curve never crosses L/2 = 500 from above"
+          ],
+          "model_answer": "(a) P(0) = 1000/(1 + 9) = 100 ✓. From P(2) = 250: 1 + 9e^{-2k} = 4, e^{-2k} = 1/3, so k = (ln 3)/2 per day. (b) Half capacity is 500: 1 + 9e^{-kt} = 2 gives e^{-kt} = 1/9, t = ln 9/k = (2 ln 9)/(ln 3) = 4 days. (c) Starting at 1250 > L = 1000, the factor (1 - P/L) is negative: the population DECREASES toward the ceiling, with lim t→∞ P = 1000. Its rate's magnitude shrinks as P nears L, so the descent flattens — concave up throughout. It never passes an inflection: inflections live at L/2 = 500, and this branch never goes below 1000, let alone 500."
+        }
+      ]
+    }
+  },
+  {
+    "subject": "AP Calculus BC",
+    "category": "AP",
+    "unit_name": "Differential Equations",
+    "chapter_title": "Differential Equations on the AP Exam",
+    "hook": "One unit, five instruments: translate, field, step, separate, and analyze. The exam braids them into single FRQs — this closing chapter is the rehearsal room where you run the full program on complete, exam-shaped problems.",
+    "learning_objectives": [
+      "Recognize the standard DE FRQ architectures and their part-by-part rubrics",
+      "Switch fluently among field sketching, Euler stepping, and exact solving",
+      "Answer behavior questions from the equation when no solution is required",
+      "Avoid the unit's recurring deductions: lost constants, missing branches, unverified forms",
+      "Allocate time by recognizing which parts need formulas and which don't"
+    ],
+    "sections": [
+      {
+        "title": "The Three FRQ Architectures",
+        "subtitle": "Know the building before entering",
+        "body": "DE free-response questions arrive in three layouts. Architecture A — the braid: (a) slope field dashes, (b) tangent-line or Euler estimate, (c) separate and solve exactly. Architecture B — the model: (a) translate words to a DE, (b) behavior analysis (equilibria, limits, concavity) from the equation, (c) solve and predict. Architecture C — the logistic special: capacity, limits, L/2, concavity — often with NO solving at all.\n\nKnowing the architecture sets time allocation. In A, part (c) carries the most points and the most algebra — budget for it. In B, the middle part is often answerable in two sentences from the equation; overworking it starves part (c). In C, the entire question may be equation-reading: students who launch into partial fractions on a question that never asks for P(t) burn ten minutes for zero additional points.\n\nThe parts interlock deliberately: part (b)'s Euler estimate should be CONSISTENT with part (a)'s field (stepping in the dashes' directions), and part (c)'s exact solution evaluated at the estimate's x should land near it (same side as concavity predicts). Cross-checking across parts catches errors while they're still fixable — the braid is also a built-in answer key.\n\nCalculator policy shapes the work: DE FRQs appear in both sections. Calculator-active versions expect numeric integration or evaluation; no-calculator versions keep numbers humane (halves, small logs). The architecture is identical; only the arithmetic's outsourcing changes.",
+        "key_terms": [
+          [
+            "Architecture A/B/C",
+            "Braid (field-Euler-solve), Model (translate-analyze-solve), Logistic battery"
+          ],
+          [
+            "Time allocation",
+            "Points concentrate in the solve for A, spread evenly for B, avoid solving in C"
+          ],
+          [
+            "Cross-part consistency",
+            "Field, estimate, and exact solution must agree — a free self-check"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "Read ALL parts of a DE FRQ before starting (a): if part (c) never asks for an explicit solution, the question is equation-analysis throughout, and any separation work is unpaid labor. The thirty-second preview sets the whole question's strategy."
+          ]
+        ]
+      },
+      {
+        "title": "The Deduction Catalog",
+        "subtitle": "Where points actually die",
+        "body": "Unit-wide bookkeeping of the recurring deductions, each with its prevention. Lost +C: the constant must appear at the moment of integration, not retrofitted. Late or missing initial-condition application: pin C on the implicit line. Missing ± / branch choice: after exponentiating logs or taking square roots, the initial condition's SIGN selects, and the selection is stated. Lost equilibria: dividing by h(y) requires either noting h's roots or checking the anchor isn't one.\n\nForm-specific deductions: Euler tables missing the DE-evaluated slope column (method point gone); slope fields with uniform-tilt dashes (construction points gone); 'lim = L' answers without the positive-start hypothesis acknowledged when the stem makes it matter; separation shown without the actual SEPARATED LINE visible (the first rubric point of every solve).\n\nVerification-question deductions: computing only one side of the DE, or substituting the solution into itself. Concavity deductions: asserting the S-curve shape without the P-versus-L/2 comparison or the P'' computation. Domain deductions: reporting a solution formula whose denominator dies inside the claimed interval.\n\nThe catalog compresses to one habit: make every move VISIBLE — the separated line, the constant's birth, the condition's application, the branch's selection, both sides of every verification. DE rubrics are checklists of visible moves; invisible correct work and visible correct work score differently, and only one of them scores fully.",
+        "key_terms": [
+          [
+            "Constant discipline",
+            "C born at integration, pinned at the implicit stage, never retrofitted"
+          ],
+          [
+            "Branch and sign visibility",
+            "± after exponentiation, root choice by the anchor — stated, not implied"
+          ],
+          [
+            "Visible-move principle",
+            "DE rubrics check moves; work done invisibly earns invisibly"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "The five-second pre-submission audit for any DE solve: separated line visible? C present and pinned? Branch stated? Equilibrium checked? Domain sane? Five checks, five of the unit's most common deductions neutralized."
+          ]
+        ]
+      },
+      {
+        "title": "Worked Composite One",
+        "subtitle": "Architecture A, executed in full",
+        "body": "The problem: dy/dx = y²(1 + x), with the points (0, 1) marked on a grid. (a) Sketch dashes at (0, ±1), (1, ±1), (-1, ±1). (b) Tangent-line estimate of y(0.2) for the solution through (0, 1). (c) Solve exactly with y(0) = 1 and compute y(0.2).\n\n(a): slopes are y²(1 + x): at (0, ±1): 1 and 1 (y² kills sign); at (1, ±1): 2, 2; at (-1, ±1): 0, 0 — vertical line x = -1 carries flat dashes. Note y² makes the field symmetric in y: dashes above and below the axis match. (b): slope at (0,1) is 1: y(0.2) ≈ 1 + 0.2 = 1.2. (c): separate: y^{-2} dy = (1 + x) dx; integrate: -1/y = x + x²/2 + C; pin: -1 = C. Solve: y = 1/(1 - x - x²/2). Evaluate: y(0.2) = 1/(1 - 0.2 - 0.02) = 1/0.78 ≈ 1.282.\n\nThe cross-check in action: 1.2 (tangent) versus 1.282 (exact) — the estimate ran LOW, consistent with concavity: y'' = 2y y'(1+x) + y² > 0 near the anchor (everything positive), concave up, tangent lines undershoot. All three parts cohere; an estimate of 1.4 or an exact value below 1.2 would have flagged an error somewhere.\n\nDomain coda, the strongest finish: the solution lives while 1 - x - x²/2 > 0, i.e., up to the positive root x = √3 - 1 ≈ 0.732 — a finite-time blowup invisible in the original equation and revealed by the solve. Solutions of innocent-looking DEs can have short lives; the formula knows.",
+        "key_terms": [
+          [
+            "Composite execution",
+            "Field mechanics, tangent estimate, separation — one problem, three instruments"
+          ],
+          [
+            "Coherence check",
+            "Estimate vs exact vs concavity: all three must tell one story"
+          ],
+          [
+            "Finite-time blowup",
+            "Solutions can die at algebraic walls the equation never advertised"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "After solving exactly, ALWAYS evaluate at the estimate's x and compare: same side as concavity predicts, reasonable gap. Thirty seconds, and it has caught sign errors, dropped constants, and wrong branches on countless real exam papers."
+          ]
+        ]
+      },
+      {
+        "title": "Worked Composite Two and the Unit's Exit",
+        "subtitle": "Architecture B, then the road ahead",
+        "body": "The problem: 'Oxygen dissolves into a tank of water at a rate proportional to the difference between the saturation level 12 mg/L and the current concentration y.' y(0) = 3. (a) Write the DE. (b) Without solving: equilibrium, monotonicity, concavity, limit. (c) Solve; find when y = 9.\n\n(a): dy/dt = k(12 - y), k > 0 — cooling's twin with a positive gap. (b): equilibrium y = 12; for y < 12 the rate is positive — increasing; differentiating, y'' = -k y' < 0 — concave down (rising, flattening); lim t→∞ y = 12. Four facts, zero solving — the part (b) discipline. (c): separate dy/(12 - y) = k dt: -ln|12 - y| = kt + C; pin at (0, 3): C = -ln 9. Solve: 12 - y = 9e^{-kt}, y = 12 - 9e^{-kt}. When y = 9: 9e^{-kt} = 3, t = (ln 3)/k.\n\nNote what part (c) left symbolic: without a second data point, k stays a letter and the answer is (ln 3)/k — fully acceptable, and a reminder that 'solve' means 'express,' not 'decimalize.' Had the stem supplied y(2) = 7 — then 9e^{-2k} = 5 pins k = (1/2)ln(9/5), and the time becomes 2 ln 3/ln(9/5).\n\nThe unit's exit interview: you can now read a rate sentence into an equation, see every solution at once in a field, walk one numerically, name the nameable ones by separation, and extract behavior — equilibria, limits, concavity, inflections — straight from the equation. Unit 8 returns to accumulation with geometry (areas, volumes, arc length); the DE instruments rest until the exam reassembles them. They will reassemble.",
+        "key_terms": [
+          [
+            "Saturation model",
+            "dy/dt = k(L_sat - y): cooling's structure, rising flavor"
+          ],
+          [
+            "Part-(b) discipline",
+            "Equilibrium, monotonicity, concavity, limit — all pre-formula"
+          ],
+          [
+            "Symbolic answers",
+            "Constants without data stay letters; 'solve' ≠ 'decimalize'"
+          ]
+        ],
+        "boxes": [
+          [
+            "ap_alert",
+            "When a model has an unspecified k and the question asks for a time, the answer SHOULD contain k — e.g., t = (ln 3)/k. Inventing a value or refusing to answer are both wrong; symbolic answers in stated constants are complete and earn full credit."
+          ]
+        ]
+      }
+    ],
+    "generated_questions": {
+      "mcq": [
+        {
+          "question": "An FRQ part asks only: 'Find lim t→∞ P(t) for the solution of dP/dt = 0.2P(1 - P/600) with P(0) = 50.' The most efficient correct response is",
+          "choices": {
+            "A": "600, because P starts in (0, 600) where the rate is positive and 600 is the attracting equilibrium",
+            "B": "the full solution P(t) followed by the limit",
+            "C": "an Euler approximation with small h",
+            "D": "0, since the rate eventually decreases"
+          },
+          "answer": "A",
+          "explanation": "Equation-reading answers limit questions; solving is unpaid labor. (D confuses the rate's decline with the population's.)"
+        },
+        {
+          "question": "After integrating a separated equation to ln|y| = x² + C with y(0) = -4, the correct next move is",
+          "choices": {
+            "A": "|y| = e^C e^{x²}, so y = Ae^{x²} with A = ±e^C; the condition gives A = -4",
+            "B": "y = e^{x² + C} and C = ln 4",
+            "C": "y = e^{x²} - 4",
+            "D": "y = 4e^{x²}"
+          },
+          "answer": "A",
+          "explanation": "The ± consolidation lets A be negative — required here. B and D force positive y and lose the sign."
+        },
+        {
+          "question": "For dy/dx = x - y², which task can be completed exactly with this unit's tools?",
+          "choices": {
+            "A": "an Euler approximation of y(1) from y(0) = 0",
+            "B": "an explicit formula via separation",
+            "C": "the general solution in elementary functions",
+            "D": "none — the equation is unusable"
+          },
+          "answer": "A",
+          "explanation": "x - y² doesn't factor by variable: not separable. But Euler (and fields) need no formula — exactly their purpose."
+        },
+        {
+          "question": "A solution of a separable IVP comes out as y² = x² + 5 with y(2) = -3. The explicit solution is",
+          "choices": {
+            "A": "y = -√(x² + 5)",
+            "B": "y = √(x² + 5)",
+            "C": "y = ±√(x² + 5)",
+            "D": "y = x - 5"
+          },
+          "answer": "A",
+          "explanation": "The anchor's negative sign selects the negative branch — and stating the selection is part of the answer."
+        },
+        {
+          "question": "An Euler estimate gives y(1) ≈ 2.0; the exact solve gives y(1) = 1.7; the computed y'' is positive on the interval. This combination",
+          "choices": {
+            "A": "signals an error: concave up predicts the Euler estimate should be BELOW the exact value",
+            "B": "is consistent",
+            "C": "shows the exact solution is wrong by definition",
+            "D": "means h was too small"
+          },
+          "answer": "A",
+          "explanation": "Concave up ⟹ chords undershoot ⟹ Euler low. An overshooting Euler with positive y'' means one of the three computations is wrong — the cross-check did its job."
+        }
+      ],
+      "frq": [
+        {
+          "question": "Consider dy/dx = y²(1 + x) with the initial condition y(0) = 1.\n(a) On the axes provided, sketch the field's segments at the six points (0, ±1), (1, ±1), (-1, ±1), and state the field's symmetry in y.\n(b) Use a tangent-line approximation to estimate y(0.2).\n(c) Solve the IVP exactly, evaluate y(0.2), and reconcile the comparison with the solution's concavity near x = 0.",
+          "rubric": [
+            "(a) Slopes 1, 1, 2, 2, 0, 0 at the six points; y² makes dashes mirror across the x-axis",
+            "(b) Slope at (0,1) is 1: y(0.2) ≈ 1.2",
+            "(c) Separation: -1/y = x + x²/2 - 1 → y = 1/(1 - x - x²/2); y(0.2) = 1/0.78 ≈ 1.282",
+            "Reconciliation: y'' > 0 near 0 ⟹ tangent underestimates ⟹ 1.2 < 1.282 ✓"
+          ],
+          "model_answer": "(a) Slope = y²(1 + x): at (0, ±1): 1 and 1; at (1, ±1): 2 and 2; at (-1, ±1): 0 and 0. Because y enters only as y², the field is symmetric across the x-axis — mirrored points carry identical dashes. (b) y(0.2) ≈ y(0) + 0.2·y'(0) = 1 + 0.2(1) = 1.2. (c) Separate: y^{-2} dy = (1 + x) dx; integrate: -1/y = x + x²/2 + C; y(0) = 1 pins C = -1. So y = 1/(1 - x - x²/2), and y(0.2) = 1/(1 - 0.2 - 0.02) = 1/0.78 ≈ 1.282. Reconciliation: y'' = 2yy'(1 + x) + y² is positive near (0, 1) (all factors positive) — concave up — so the tangent line undershoots, exactly as 1.2 < 1.282 shows."
+        },
+        {
+          "question": "Oxygen dissolves into a tank at a rate proportional to the difference between the saturation concentration 12 mg/L and the current concentration y(t); y(0) = 3.\n(a) Write the differential equation.\n(b) WITHOUT solving, find the equilibrium, determine the solution's monotonicity and concavity for 3 ≤ y < 12, and state lim t→∞ y.\n(c) Solve the equation, and find the time at which y = 9 in terms of the constant k.",
+          "rubric": [
+            "(a) dy/dt = k(12 - y), k > 0",
+            "(b) Equilibrium 12; increasing (rate > 0 below 12); y'' = -k·y' < 0: concave down; limit 12",
+            "(c) y = 12 - 9e^{-kt}; 9 = 12 - 9e^{-kt} → e^{-kt} = 1/3 → t = (ln 3)/k",
+            "Symbolic-k answer presented as complete"
+          ],
+          "model_answer": "(a) dy/dt = k(12 - y) with k > 0. (b) The rate vanishes at y = 12: the equilibrium. For y < 12 the rate is positive, so the concentration increases. Differentiating: y'' = -k·y' < 0 (since y' > 0): concave down — rising steeply at first, flattening toward saturation. lim t→∞ y = 12. (c) Separate: dy/(12 - y) = k dt; -ln|12 - y| = kt + C; at (0, 3): C = -ln 9. Then 12 - y = 9e^{-kt}, so y = 12 - 9e^{-kt}. Setting y = 9: 9e^{-kt} = 3, e^{-kt} = 1/3, t = (ln 3)/k — complete as a symbolic answer since the stem provides no second data point to pin k."
+        },
+        {
+          "question": "A disease spreads through a town of 5000 according to dI/dt = kI(5000 - I), where I(t) is the number infected, I(0) = 100, and the infection is observed spreading fastest on day 14.\n(a) What is the number of infected people on day 14? Justify.\n(b) Sketch-describe the graph of I: concavity regions, the inflection, and the limit.\n(c) Public health intervention will begin when 4000 are infected. Will the rate of new infections at that moment be larger or smaller than at day 14? Compute the ratio of the two rates.",
+          "rubric": [
+            "(a) Fastest spread at half the town: I = 2500 on day 14 (L/2 property)",
+            "(b) Concave up to day 14 (I < 2500), inflection at (14, 2500), concave down after; lim = 5000",
+            "(c) Rates: k·4000·1000 vs k·2500·2500: ratio 4,000,000/6,250,000 = 16/25",
+            "Smaller at 4000 — 64% of the peak rate"
+          ],
+          "model_answer": "(a) The logistic rate kI(5000 - I) peaks when I = 5000/2 = 2500. 'Spreading fastest on day 14' therefore means I(14) = 2500 people. (b) The curve rises from 100, concave up while I < 2500 (accelerating spread), inflects at the point (14, 2500), then continues rising concave down (decelerating spread), approaching the ceiling: lim t→∞ I = 5000 — the full S. (c) Rate at I = 4000: k(4000)(1000) = 4,000,000k. Rate at the peak: k(2500)(2500) = 6,250,000k. Ratio: 4,000,000/6,250,000 = 16/25 = 0.64. The intervention begins when new infections run at only 64% of their day-14 peak — smaller, because 4000 is well past the half-town inflection."
+        }
+      ]
+    }
+  }
+]
