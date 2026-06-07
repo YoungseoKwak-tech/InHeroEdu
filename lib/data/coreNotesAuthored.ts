@@ -5623,4 +5623,114 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 8, lessonNum: 8,
+    unitName: "Aquatic and Terrestrial Pollution",
+    title: "Environmental Justice — Pollution Burden Distribution",
+    subtitle: "Pollution isn't shared equally — poor and minority communities bear far more of it.",
+    overview:
+      "Environmental justice is the principle that everyone deserves equal protection from environmental hazards. In reality, polluting facilities — landfills, factories, highways — are disproportionately located near low-income and minority communities, who suffer more health harm.",
+    objectives: [
+      "Define environmental justice.",
+      "Explain how pollution burdens are unequally distributed.",
+      "Give examples and connect to policy.",
+    ],
+    sections: [
+      {
+        title: "Unequal burdens",
+        body:
+          "Studies consistently find that hazardous facilities and pollution are concentrated near poorer and minority neighborhoods — these communities often have less political power to resist siting decisions. The result is higher exposure to toxins and worse health outcomes (asthma, lead poisoning, cancer clusters).",
+        keyIdea: "Environmental justice highlights that the COSTS of pollution fall hardest on those with the least power to avoid or fight it.",
+        terms: [
+          { term: "Environmental justice", def: "Fair treatment so no group bears a disproportionate share of environmental harm." },
+          { term: "Environmental racism", def: "Disproportionate environmental burdens placed on racial minority communities." },
+        ],
+      },
+      {
+        title: "Examples and response",
+        body:
+          "Flint, Michigan's lead-contaminated water crisis disproportionately harmed a low-income, majority-Black city. 'Cancer Alley' along the Mississippi concentrates petrochemical plants near poor communities. The movement pushes for fair facility siting, community input, and cleanup of overburdened areas.",
+        terms: [
+          { term: "Flint water crisis", def: "Lead-contamination disaster exemplifying environmental injustice." },
+        ],
+        traps: ["Environmental justice is about the UNEQUAL distribution of pollution burdens — not pollution levels overall."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 9, lessonNum: 1,
+    unitName: "Global Change",
+    title: "The Greenhouse Effect and Climate Science",
+    subtitle: "Earth is warming because we've thickened the atmosphere's heat-trapping blanket.",
+    overview:
+      "The greenhouse effect is a natural process that keeps Earth warm enough for life. The problem is that human emissions of greenhouse gases have intensified it, causing global warming and climate change. The evidence — rising CO₂ and temperatures — is unambiguous.",
+    objectives: [
+      "Explain the greenhouse effect and which gases cause it.",
+      "Distinguish the natural effect from human-enhanced warming.",
+      "Identify the main evidence for climate change.",
+    ],
+    diagram: "carbon-cycle",
+    sections: [
+      {
+        title: "How the greenhouse effect works",
+        body:
+          "Sunlight passes through the atmosphere and warms Earth's surface, which radiates heat back out as infrared. Greenhouse gases (CO₂, methane, water vapor, N₂O) absorb and re-emit that heat, keeping the planet ~33°C warmer than it would otherwise be. Without it, Earth would be frozen — the natural effect is essential.",
+        keyIdea: "The greenhouse effect is NATURAL and necessary. The problem is HUMAN emissions ENHANCING it — too much blanket, not the blanket itself.",
+        terms: [
+          { term: "Greenhouse effect", def: "Atmospheric gases trapping heat and warming the planet." },
+          { term: "Global warming", def: "The human-caused rise in Earth's average temperature from enhanced greenhouse gases." },
+        ],
+      },
+      {
+        title: "The evidence",
+        body:
+          "CO₂ has risen sharply since the Industrial Revolution (measured directly since 1958 — the Keeling Curve — and via ancient air in ice cores). Global average temperature is rising in step, along with melting ice, rising seas, and more extreme weather. The scientific consensus that humans are the cause is overwhelming.",
+        terms: [
+          { term: "Keeling Curve", def: "The record of steadily rising atmospheric CO₂ since 1958." },
+          { term: "Ice cores", def: "Ancient trapped air that reveals past CO₂ and temperature, confirming the recent spike." },
+        ],
+        traps: ["The greenhouse effect itself isn't 'bad' — it makes Earth livable. The issue is human-ENHANCED warming from extra greenhouse gases."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 9, lessonNum: 2,
+    unitName: "Global Change",
+    title: "Climate Feedbacks — Amplifying and Dampening",
+    subtitle: "Warming triggers changes that can speed it up (or, rarely, slow it) — the wildcard in climate predictions.",
+    overview:
+      "Feedback loops are responses to warming that either amplify it (positive feedback) or counteract it (negative feedback). Most major climate feedbacks are positive, which raises the risk of accelerating, hard-to-reverse change — and makes them central to the unit.",
+    objectives: [
+      "Distinguish positive (amplifying) from negative (dampening) feedbacks.",
+      "Give examples of key climate feedbacks.",
+      "Explain why positive feedbacks are concerning.",
+    ],
+    sections: [
+      {
+        title: "Positive vs. negative feedback",
+        body:
+          "A positive feedback amplifies the original change (more warming → more warming); a negative feedback counteracts it (more warming → some cooling). 'Positive' doesn't mean 'good' — it means self-reinforcing, which for climate is dangerous.",
+        table: {
+          headers: ["Feedback", "Type", "Effect"],
+          rows: [
+            ["Ice-albedo (melting ice)", "Positive", "Less reflection → more heat absorbed → more melting"],
+            ["Permafrost thaw → methane release", "Positive", "More greenhouse gas → more warming"],
+            ["Water vapor increase", "Positive", "Warmer air holds more vapor (a greenhouse gas)"],
+            ["More clouds reflecting sunlight", "Negative", "Can reflect more sunlight → some cooling"],
+          ],
+        },
+        keyIdea: "Most major climate feedbacks are POSITIVE (self-amplifying). 'Positive' ≠ good — it means the warming feeds on itself.",
+      },
+      {
+        title: "Why they matter",
+        body:
+          "Positive feedbacks like ice-albedo and permafrost methane release can push the climate past tipping points into runaway change that's hard to stop. They're a big source of uncertainty in climate models and a reason scientists warn about crossing thresholds.",
+        terms: [
+          { term: "Positive feedback", def: "A self-amplifying loop (a change causes more of the same change)." },
+          { term: "Tipping point", def: "A threshold beyond which change becomes self-sustaining and hard to reverse." },
+        ],
+        traps: ["'Positive feedback' means SELF-AMPLIFYING, not beneficial — the dangerous climate loops are the positive ones."],
+      },
+    ],
+  },
 ];
