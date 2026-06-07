@@ -31,6 +31,16 @@ interface KoNote { lessonId: string; subjectLabel: string; emoji: string; unit: 
 // AP Chemistry lessons are Korean-complete; the section pulls their openings.
 const FEATURED_KO_NOTES = ["ap-chemistry-u1-l1", "ap-chemistry-u2-l1", "ap-chemistry-u3-l1"];
 
+// Teaser cards for the Ivy "자료방" flip preview. These are category teasers for
+// the mentor room (locked) — NOT fabricated documents shown openly. Entering
+// (the button) gates to /mentors.
+const IVY_CARDS = [
+  { emoji: "✍️", tag: "합격 에세이", title: "아이비리그 합격 에세이 모음", desc: "Cornell · UPenn · Brown 합격생이 실제로 낸 에세이", bg: "linear-gradient(135deg,#1e1b4b,#4c1d95)" },
+  { emoji: "🏆", tag: "활동 프로필", title: "합격생 활동 리스트", desc: "리서치 · STEM 대회 · 봉사 — 합격 프로필 그대로", bg: "linear-gradient(135deg,#0c4a6e,#0369a1)" },
+  { emoji: "🗺️", tag: "합격 로드맵", title: "합격생 학년별 플랜", desc: "G9~G12, 합격생이 학년마다 실제로 한 것", bg: "linear-gradient(135deg,#064e3b,#047857)" },
+  { emoji: "💬", tag: "멘토 Q&A", title: "멘토 1:1 Q&A 아카이브", desc: "아이비리그 멘토에게 직접 물어본 질문과 답변", bg: "linear-gradient(135deg,#7c2d12,#b45309)" },
+];
+
 const TEXTBOOK_GLYPH: Record<string, string> = {
   "ap-bio-ultimate": "🧬", "ap-chem-ultimate": "⚗️", "ap-physics-ultimate": "⚛️",
   "ap-physics-2-ultimate": "🧲", "ap-calc-ab-ultimate": "∫", "ap-calc-bc-ultimate": "∫",
@@ -102,6 +112,7 @@ export default function ParentsClient() {
   const [slide, setSlide] = useState(0);
   const [textbooks, setTextbooks] = useState<Textbook[]>([]);
   const [koNotes, setKoNotes] = useState<KoNote[]>([]);
+  const [ivyFlip, setIvyFlip] = useState(0);
   const slideTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
@@ -119,6 +130,11 @@ export default function ParentsClient() {
   useEffect(() => {
     slideTimer.current = setInterval(() => setSlide((s) => (s + 1) % SLIDES.length), 5500);
     return () => { if (slideTimer.current) clearInterval(slideTimer.current); };
+  }, []);
+
+  useEffect(() => {
+    const t = setInterval(() => setIvyFlip((f) => (f + 1) % IVY_CARDS.length), 2600);
+    return () => clearInterval(t);
   }, []);
 
   const go = (route: string, gated: boolean) => {
@@ -281,6 +297,47 @@ export default function ParentsClient() {
               ))}
             </Board>
           </div>
+
+          {/* Ivy League student materials room — flip preview + gated entry */}
+          <section style={{ borderRadius: 16, overflow: "hidden", border: "1px solid #e2e6ea", background: "#fff" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) 300px", gap: 0, alignItems: "stretch" }} className="ivy-grid">
+              {/* copy + CTA */}
+              <div style={{ padding: "26px 26px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                  <h2 style={{ fontSize: 19, fontWeight: 800, margin: 0, letterSpacing: "-0.02em" }}>🎓 아이비리그 학생 자료방</h2>
+                  <span style={{ fontSize: 11, fontWeight: 800, color: "#7c3aed", background: "#f3eefe", borderRadius: 6, padding: "2px 9px" }}>멘토 전용</span>
+                </div>
+                <p style={{ fontSize: 14, color: "#475569", lineHeight: 1.75, margin: "0 0 18px" }}>
+                  아이비리그 재학생 멘토가 공유하는 <strong>합격 에세이 · 활동 리스트 · 학년별 플랜 · 1:1 Q&A</strong>.
+                  자녀에게 실제 합격생의 길을 그대로 보여주세요.
+                </p>
+                <button onClick={() => go("/mentors", true)}
+                  style={{ background: "#1a1a1f", color: "#fff", border: "none", borderRadius: 10, padding: "14px 26px", fontSize: 14.5, fontWeight: 800, cursor: "pointer" }}>
+                  🔒 아이비리그 학생 자료 보기 →
+                </button>
+                <p style={{ fontSize: 12, color: "#94a3b8", margin: "12px 0 0" }}>멘토 자료방은 가입 후 이용할 수 있습니다.</p>
+              </div>
+
+              {/* flip preview — 4 cards cycling */}
+              <button onClick={() => go("/mentors", true)} aria-label="아이비리그 학생 자료 보기"
+                style={{ position: "relative", border: "none", cursor: "pointer", padding: 22, background: "#0a0a14", perspective: "1000px", minHeight: 220 }}>
+                <div key={ivyFlip} style={{ animation: "ivyFlip 0.7s cubic-bezier(0.16,1,0.3,1)", transformStyle: "preserve-3d", height: "100%" }}>
+                  <div style={{ background: IVY_CARDS[ivyFlip].bg, borderRadius: 12, padding: "20px 20px", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", boxShadow: "0 12px 30px rgba(0,0,0,0.35)" }}>
+                    <div>
+                      <div style={{ fontSize: 30, marginBottom: 10 }}>{IVY_CARDS[ivyFlip].emoji}</div>
+                      <span style={{ fontSize: 10.5, fontWeight: 800, color: "#fff", background: "rgba(255,255,255,0.18)", borderRadius: 5, padding: "2px 8px" }}>{IVY_CARDS[ivyFlip].tag}</span>
+                      <h3 style={{ fontSize: 16.5, fontWeight: 800, color: "#fff", margin: "10px 0 6px", lineHeight: 1.3 }}>{IVY_CARDS[ivyFlip].title}</h3>
+                      <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.75)", lineHeight: 1.55, margin: 0 }}>{IVY_CARDS[ivyFlip].desc}</p>
+                    </div>
+                    <div style={{ display: "flex", gap: 5, marginTop: 14 }}>
+                      {IVY_CARDS.map((_, i) => <span key={i} style={{ width: i === ivyFlip ? 16 : 6, height: 6, borderRadius: 3, background: i === ivyFlip ? "#fff" : "rgba(255,255,255,0.4)", transition: "width 200ms" }} />)}
+                    </div>
+                  </div>
+                </div>
+                <span style={{ position: "absolute", top: 12, right: 14, fontSize: 11, fontWeight: 800, color: "rgba(255,255,255,0.6)" }}>🔒 미리보기</span>
+              </button>
+            </div>
+          </section>
         </main>
 
         {/* SIDEBAR */}
@@ -372,6 +429,8 @@ export default function ParentsClient() {
       </section>
 
       <style>{`
+        @keyframes ivyFlip { from { transform: rotateY(-90deg); opacity: 0; } to { transform: rotateY(0); opacity: 1; } }
+        @media (max-width: 620px) { .ivy-grid { grid-template-columns: 1fr !important; } }
         /* Tablet: drop the left rail into the flow above the main content. */
         @media (max-width: 1100px) {
           .parents-grid { grid-template-columns: minmax(0,1fr) 320px !important; }
