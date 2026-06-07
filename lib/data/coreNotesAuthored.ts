@@ -2910,4 +2910,114 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 8, lessonNum: 5,
+    unitName: "Cold War and Decolonization (c. 1900–present)",
+    title: "Cold War Proxy Conflicts — Korea, Vietnam, Angola",
+    subtitle: "The superpowers never fought each other directly — they fought through other countries' wars.",
+    overview:
+      "Because direct US–USSR war risked nuclear annihilation, the Cold War was waged through proxy conflicts: local wars where the superpowers backed opposing sides. Korea, Vietnam, and Angola became battlegrounds of the global contest between communism and capitalism.",
+    objectives: [
+      "Define a proxy war and explain why the Cold War relied on them.",
+      "Summarize the Korean, Vietnam, and Angolan conflicts.",
+      "Connect proxy wars to containment.",
+    ],
+    diagram: "cause-effect",
+    sections: [
+      {
+        title: "War by proxy",
+        body:
+          "A proxy war lets rival powers fight indirectly by supporting opposing local forces. The US, following containment, backed anti-communist sides; the USSR (and China) backed communist ones. The fighting was devastatingly real for the countries caught in the middle.",
+        table: {
+          headers: ["Conflict", "What happened"],
+          rows: [
+            ["Korea (1950–53)", "Communist North vs. US-backed South → divided at the DMZ"],
+            ["Vietnam (1955–75)", "US fails to stop communist North; reunified under communism"],
+            ["Angola", "Cold War-backed factions fight after independence from Portugal"],
+          ],
+        },
+        keyIdea: "Proxy wars kept the Cold War 'cold' between the superpowers while being brutally HOT for places like Korea and Vietnam.",
+      },
+      {
+        title: "Containment in action",
+        body:
+          "These wars were containment applied: the US intervened to stop communism from spreading, fearing a 'domino effect' (one country falling would topple neighbors). Vietnam showed containment's limits — a costly war that ended in communist victory and deep US division.",
+        terms: [
+          { term: "Proxy war", def: "A conflict where rival powers back opposing local sides instead of fighting directly." },
+          { term: "Domino theory", def: "The fear that one country turning communist would cause neighbors to follow." },
+        ],
+        traps: ["Proxy wars were real and deadly for the host nations — 'cold' only describes the US–USSR relationship, not these wars."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 8, lessonNum: 6,
+    unitName: "Cold War and Decolonization (c. 1900–present)",
+    title: "End of the Cold War — Soviet Collapse",
+    subtitle: "Economic stagnation, reform, and rising nationalism unraveled the USSR — and the Cold War ended without a shot between the superpowers.",
+    overview:
+      "By the 1980s the Soviet economy was failing. Gorbachev's reforms aimed to save the system but instead loosened control, and in 1991 the Soviet Union dissolved. The Cold War ended, leaving the United States as the sole superpower.",
+    objectives: [
+      "Explain the economic and political causes of Soviet collapse.",
+      "Describe Gorbachev's reforms and their effects.",
+      "Identify the consequences of the Cold War's end.",
+    ],
+    diagram: "cause-effect",
+    sections: [
+      {
+        title: "Why the USSR fell",
+        body:
+          "Decades of central planning left the Soviet economy stagnant, while the arms race drained resources. Mikhail Gorbachev introduced perestroika (economic restructuring) and glasnost (openness) to reform it — but openness exposed problems and emboldened nationalist movements in Soviet republics.",
+        keyIdea: "Gorbachev's reforms backfired: glasnost (openness) unleashed criticism and nationalism that the system couldn't survive.",
+        terms: [
+          { term: "Perestroika", def: "Gorbachev's restructuring of the Soviet economy." },
+          { term: "Glasnost", def: "Gorbachev's policy of openness; allowed criticism that weakened the regime." },
+        ],
+      },
+      {
+        title: "The end and after",
+        body:
+          "The Berlin Wall fell in 1989, communist governments collapsed across Eastern Europe, and the Soviet Union dissolved in 1991. The Cold War ended, leaving the US as the world's sole superpower and ushering in a more economically interconnected, US-led order.",
+        terms: [
+          { term: "Fall of the Berlin Wall (1989)", def: "Symbolic collapse of the divide between East and West." },
+          { term: "Dissolution of the USSR (1991)", def: "The breakup of the Soviet Union into independent states." },
+        ],
+        traps: ["The Cold War ended largely without direct superpower combat — internal collapse, not battlefield defeat, ended the USSR."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 8, lessonNum: 7,
+    unitName: "Cold War and Decolonization (c. 1900–present)",
+    title: "Apartheid and Post-Colonial State Challenges",
+    subtitle: "Independence was just the beginning — new nations faced racism, borders, debt, and unstable institutions.",
+    overview:
+      "Post-colonial states confronted enormous challenges. South Africa's apartheid enforced brutal racial segregation until a long struggle ended it. Across the formerly colonized world, arbitrary borders, weak institutions, and economic dependence bred conflict and instability.",
+    objectives: [
+      "Explain apartheid and how it ended.",
+      "Identify common challenges facing post-colonial states.",
+      "Connect colonial legacies to modern instability.",
+    ],
+    sections: [
+      {
+        title: "Apartheid in South Africa",
+        body:
+          "Apartheid was a legal system of racial segregation that gave South Africa's white minority power over the Black majority. Decades of resistance — led by figures like Nelson Mandela and the ANC, plus international sanctions — ended it, and Mandela became president in 1994.",
+        keyIdea: "Apartheid fell to a combination of internal resistance (Mandela, ANC) AND external pressure (global sanctions).",
+        terms: [
+          { term: "Apartheid", def: "South Africa's legal system of racial segregation and white-minority rule." },
+          { term: "Nelson Mandela", def: "Anti-apartheid leader who became South Africa's first Black president (1994)." },
+        ],
+      },
+      {
+        title: "Challenges of new nations",
+        body:
+          "Many post-colonial states struggled with borders drawn by colonizers (cutting across ethnic groups), economies dependent on a few exports, foreign debt, and weak institutions. These legacies fueled coups, civil wars, and authoritarian rule in numerous newly independent countries.",
+        terms: [
+          { term: "Neocolonialism", def: "Continued economic control of former colonies by powerful nations/corporations after independence." },
+        ],
+        traps: ["Many post-colonial problems (ethnic conflict, dependence) trace directly to COLONIAL borders and economic structures."],
+      },
+    ],
+  },
 ];
