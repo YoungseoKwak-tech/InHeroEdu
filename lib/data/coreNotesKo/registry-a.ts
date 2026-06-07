@@ -29,6 +29,8 @@ import { AP_CHEM_U8B_KO } from "./ap-chemistry-u8b";
 import { AP_CHEM_U8C_U9A_KO } from "./ap-chemistry-u8c-u9a";
 import { AP_CHEM_U9B_KO } from "./ap-chemistry-u9b";
 import { AP_CHEM_U9C_KO } from "./ap-chemistry-u9c";
+import { AP_CHEM_U9D_KO } from "./ap-chemistry-u9d";
+import { AP_ENV_U1A_KO } from "./ap-env-u1a";
 
 export const REGISTRY_A: CoreNote[] = [
   ...AP_CHEM_U1A_KO,
@@ -54,4 +56,6 @@ export const REGISTRY_A: CoreNote[] = [
   ...AP_CHEM_U8C_U9A_KO,
   ...AP_CHEM_U9B_KO,
   ...AP_CHEM_U9C_KO,
+  ...AP_CHEM_U9D_KO,
+  ...AP_ENV_U1A_KO,
 ];
