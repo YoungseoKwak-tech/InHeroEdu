@@ -2484,4 +2484,98 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 6, lessonNum: 6,
+    unitName: "Consequences of Industrialization (c. 1750–1900)",
+    title: "Social Darwinism and Racism as Imperial Ideology",
+    subtitle: "Empire needed a justification — and pseudo-science supplied a deadly one.",
+    overview:
+      "Imperialism wasn't only about economics and power; it was wrapped in ideology. Europeans justified conquest with Social Darwinism, the 'civilizing mission,' and scientific racism — beliefs that cast domination as natural, even benevolent.",
+    objectives: [
+      "Explain how Social Darwinism justified imperialism.",
+      "Define the 'civilizing mission' and scientific racism.",
+      "Analyze ideology as a tool of empire.",
+    ],
+    sections: [
+      {
+        title: "Ideologies that justified empire",
+        body:
+          "Social Darwinism misapplied Darwin's 'survival of the fittest' to human societies, claiming stronger 'races' and nations were naturally meant to rule weaker ones. This paired with the 'White Man's Burden' — the idea that Europeans had a duty to 'civilize' colonized peoples — and pseudo-scientific racism that ranked humans by race.",
+        keyIdea: "Ideology gave conquest a moral disguise: Social Darwinism + 'civilizing mission' made domination look natural and noble.",
+        terms: [
+          { term: "Social Darwinism", def: "The false application of 'survival of the fittest' to justify imperialism and racial hierarchy." },
+          { term: "White Man's Burden", def: "The racist notion that Europeans had a duty to 'civilize' colonized peoples." },
+          { term: "Scientific racism", def: "Pseudo-scientific claims used to rank human races and justify domination." },
+        ],
+        traps: ["Social Darwinism is a MISUSE of Darwin's biology — applied to societies, not species, to excuse cruelty."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 6, lessonNum: 7,
+    unitName: "Consequences of Industrialization (c. 1750–1900)",
+    title: "Women's Rights Movements in the 19th Century",
+    subtitle: "The age of revolutions and reform finally turned its ideals of equality toward women.",
+    overview:
+      "As industrial society and reform movements spread, women organized for their own rights — to vote, own property, and gain education. The 19th-century women's rights movement applied Enlightenment ideals of equality to gender, laying the groundwork for 20th-century suffrage.",
+    objectives: [
+      "Describe the goals of the 19th-century women's rights movement.",
+      "Identify key milestones (Seneca Falls).",
+      "Connect the movement to broader reform ideals.",
+    ],
+    sections: [
+      {
+        title: "Organizing for equality",
+        body:
+          "Women's rights activists, many of whom also worked in the abolition movement, demanded suffrage (the vote), property rights, and access to education. In the U.S., the Seneca Falls Convention (1848) launched the organized movement with its Declaration of Sentiments, echoing the Declaration of Independence.",
+        keyIdea: "Seneca Falls (1848) applied 'all men AND women are created equal' — extending revolutionary ideals to gender.",
+        terms: [
+          { term: "Seneca Falls Convention", def: "The 1848 meeting that launched the organized U.S. women's rights movement." },
+          { term: "Suffrage", def: "The right to vote — a central demand of the women's movement." },
+        ],
+        traps: ["The women's movement grew alongside ABOLITION — many leaders fought for both, applying the same equality logic."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 7, lessonNum: 1,
+    unitName: "Global Conflict (c. 1900–present)",
+    title: "Causes of World War I — MAIN and the Alliance System",
+    subtitle: "Four long-term pressures built a powder keg; one assassination lit it.",
+    overview:
+      "World War I had deep underlying causes, remembered by the acronym MAIN — Militarism, Alliances, Imperialism, Nationalism — plus an immediate trigger: the assassination of Archduke Franz Ferdinand. The exam wants you to distinguish the long-term causes from the spark.",
+    objectives: [
+      "Explain the four MAIN causes of World War I.",
+      "Describe how the alliance system escalated a local crisis.",
+      "Distinguish the trigger from the underlying causes.",
+    ],
+    diagram: "cause-effect",
+    sections: [
+      {
+        title: "The MAIN underlying causes",
+        body:
+          "Four long-building pressures made Europe dangerously unstable.",
+        table: {
+          headers: ["Cause", "Meaning"],
+          rows: [
+            ["Militarism", "Arms races and glorification of military power"],
+            ["Alliances", "Rival blocs that could drag everyone into war"],
+            ["Imperialism", "Competition for colonies and resources"],
+            ["Nationalism", "Aggressive pride and ethnic tensions"],
+          ],
+        },
+        keyIdea: "MAIN = Militarism, Alliances, Imperialism, Nationalism — the four UNDERLYING causes.",
+      },
+      {
+        title: "The spark and the alliance chain",
+        body:
+          "The immediate trigger was the 1914 assassination of Archduke Franz Ferdinand of Austria-Hungary by a Serbian nationalist. Because of the alliance system, a local Balkan dispute pulled in one nation after another until most of Europe was at war.",
+        terms: [
+          { term: "Alliance system", def: "Interlocking defensive pacts that turned a local crisis into a continental war." },
+          { term: "Assassination of Franz Ferdinand", def: "The 1914 spark that triggered WWI via the alliance system." },
+        ],
+        traps: ["The assassination was the TRIGGER, not the underlying cause. The deep causes were MAIN; the spark just set them off."],
+      },
+    ],
+  },
 ];
