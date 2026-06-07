@@ -7,7 +7,7 @@ import StudyProfileGate from "@/components/onboarding/StudyProfileGate";
 import SpaceBackground from "@/components/SpaceBackground";
 import SpaceCursor from "@/components/SpaceCursor";
 import { LanguageProvider, LANG_COOKIE, type Lang } from "@/app/contexts/LanguageContext";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
@@ -40,11 +40,16 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Read the locale the user picked (cookie) on the SERVER so <html lang> and
-  // the LanguageProvider start from the same value the client will hydrate
-  // with — no SSR/CSR mismatch. Defaults to English when no cookie is set.
+  // Locale for SSR. Prefer the `x-inhero-lang` header set by middleware.ts —
+  // on Vercel that's reliably populated from the cookie, whereas a direct
+  // cookies() read here is not, which used to cause a Korean visitor's first
+  // paint to flash English. Fall back to cookies() for local/non-middleware
+  // contexts. Both client and server start from this value → no mismatch.
+  const headerStore = await headers();
+  const headerLang = headerStore.get("x-inhero-lang");
   const cookieStore = await cookies();
-  const initialLang: Lang = cookieStore.get(LANG_COOKIE)?.value === "ko" ? "ko" : "en";
+  const cookieLang = cookieStore.get(LANG_COOKIE)?.value;
+  const initialLang: Lang = (headerLang ?? cookieLang) === "ko" ? "ko" : "en";
 
   return (
     <html lang={initialLang} suppressHydrationWarning className="dark">
