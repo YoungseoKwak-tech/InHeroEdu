@@ -4731,4 +4731,119 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 5, lessonNum: 8,
+    unitName: "Land and Water Use",
+    title: "Water Use, Diversion, and Irrigation Issues",
+    subtitle: "Humans move and consume staggering amounts of freshwater — mostly for farming — with big environmental costs.",
+    overview:
+      "Agriculture uses the lion's share of human freshwater, and we reshape rivers with dams and diversions to deliver it. These engineering feats provide water and power but disrupt ecosystems, and inefficient irrigation wastes water and damages soil.",
+    objectives: [
+      "Identify the largest uses of freshwater.",
+      "Explain the trade-offs of dams and diversions.",
+      "Compare irrigation methods and their problems.",
+    ],
+    sections: [
+      {
+        title: "Where the water goes — and how we move it",
+        body:
+          "Agriculture is by far the biggest water user (~70% globally). To supply it (and cities and power), we build dams and divert rivers. Dams provide water storage, flood control, and hydroelectric power — but they flood habitats, block fish migration, trap sediment, and can dry up rivers downstream (the Colorado River barely reaches the sea).",
+        keyIdea: "Agriculture is the #1 water user. Dams give water + power BUT block fish, trap sediment, and starve downstream ecosystems.",
+        terms: [
+          { term: "Dam / reservoir", def: "Structure storing water for supply, flood control, and hydropower — with major ecological costs." },
+          { term: "Water diversion", def: "Redirecting rivers/canals to supply farms and cities; can deplete the source." },
+        ],
+      },
+      {
+        title: "Irrigation methods and problems",
+        body:
+          "How you irrigate matters. Flood/furrow irrigation is cheap but wastes huge amounts to evaporation and runoff and worsens salinization; spray is better; drip irrigation delivers water right to roots and is the most efficient. Over-irrigation also causes waterlogging and salt buildup, and aquifer depletion when groundwater is over-pumped.",
+        table: {
+          headers: ["Method", "Efficiency"],
+          rows: [
+            ["Flood / furrow", "Low — much lost to evaporation/runoff; salinization risk"],
+            ["Spray (sprinkler)", "Moderate"],
+            ["Drip", "High — water delivered straight to roots"],
+          ],
+        },
+        keyIdea: "Drip irrigation is the most water-efficient method and minimizes salinization — the 'best practice' answer.",
+        traps: ["Inefficient (flood) irrigation drives SALINIZATION — evaporating water leaves salt that ruins soil over time."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 6, lessonNum: 1,
+    unitName: "Energy Resources and Consumption",
+    title: "Fossil Fuels — Formation, Extraction, Environmental Costs",
+    subtitle: "Ancient sunlight stored in coal, oil, and gas powers the modern world — and drives climate change.",
+    overview:
+      "Fossil fuels (coal, oil, natural gas) formed over millions of years from buried organic matter. They're energy-dense and convenient but nonrenewable, and burning them releases the CO₂ and pollutants at the heart of modern environmental problems.",
+    objectives: [
+      "Explain how fossil fuels form and why they're nonrenewable.",
+      "Compare coal, oil, and natural gas.",
+      "Describe the environmental costs of extraction and combustion.",
+    ],
+    sections: [
+      {
+        title: "The three fossil fuels",
+        body:
+          "All formed from organic matter buried under heat and pressure over millions of years — which is why they're nonrenewable on human timescales. They differ in form and 'cleanliness' when burned.",
+        table: {
+          headers: ["Fuel", "Note"],
+          rows: [
+            ["Coal", "Most abundant, but dirtiest (most CO₂ & pollutants per unit energy)"],
+            ["Oil (petroleum)", "Powers transport; spills and refining pollution"],
+            ["Natural gas", "Cleanest-burning fossil fuel, but extraction leaks methane"],
+          ],
+        },
+        keyIdea: "Coal is the dirtiest, natural gas the cleanest-burning — but ALL release CO₂ and are nonrenewable.",
+      },
+      {
+        title: "Extraction and combustion costs",
+        body:
+          "Extraction harms the environment: coal mining (including mountaintop removal), oil spills, and fracking (hydraulic fracturing) for gas, which can contaminate groundwater and release methane (a potent greenhouse gas). Burning fossil fuels emits CO₂ (driving climate change) plus pollutants causing smog and acid rain.",
+        terms: [
+          { term: "Fossil fuels", def: "Nonrenewable energy from ancient organic matter: coal, oil, natural gas." },
+          { term: "Fracking", def: "Hydraulic fracturing to extract gas/oil; risks groundwater contamination and methane leaks." },
+          { term: "Nonrenewable", def: "A resource used far faster than it forms (millions of years)." },
+        ],
+        traps: ["Natural gas burns 'cleaner' (less CO₂) but its extraction LEAKS methane — a far more potent greenhouse gas short-term."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 6, lessonNum: 2,
+    unitName: "Energy Resources and Consumption",
+    title: "Nuclear Energy — Fission, Waste, and Risk",
+    subtitle: "Splitting atoms makes huge, carbon-free energy — shadowed by radioactive waste and rare but severe accidents.",
+    overview:
+      "Nuclear power generates electricity by splitting uranium atoms (fission), releasing enormous heat with no CO₂ emissions. Its big drawbacks are long-lived radioactive waste, the risk of catastrophic accidents, and high cost.",
+    objectives: [
+      "Explain how nuclear fission generates power.",
+      "Weigh nuclear energy's benefits against its risks.",
+      "Identify the waste-disposal challenge and major accidents.",
+    ],
+    sections: [
+      {
+        title: "How it works and why it's appealing",
+        body:
+          "In fission, a neutron splits a uranium-235 nucleus, releasing heat (and more neutrons, sustaining a chain reaction). The heat boils water to spin a turbine. The huge advantage: it produces large, reliable, carbon-free electricity — no CO₂ — so it's attractive for fighting climate change.",
+        keyIdea: "Nuclear's headline benefit: massive electricity with ZERO CO₂ emissions — a low-carbon power source.",
+        terms: [
+          { term: "Nuclear fission", def: "Splitting a heavy nucleus (uranium-235) to release energy." },
+          { term: "Chain reaction", def: "Self-sustaining fission as released neutrons split more nuclei." },
+        ],
+      },
+      {
+        title: "Waste, risk, and cost",
+        body:
+          "The downsides are serious. Spent fuel is radioactive waste that stays dangerous for thousands of years, with no permanent disposal site in wide use. Accidents, though rare, can be catastrophic — Chernobyl and Fukushima released radiation over wide areas. Plants are also very expensive and slow to build.",
+        terms: [
+          { term: "Radioactive waste", def: "Spent nuclear fuel that remains hazardous for thousands of years." },
+          { term: "Meltdown", def: "Overheating of a reactor core that can release radiation (Chernobyl, Fukushima)." },
+        ],
+        traps: ["Nuclear emits NO CO₂, but its problems are different: long-lived radioactive WASTE and rare-but-severe accidents — not air pollution."],
+      },
+    ],
+  },
 ];
