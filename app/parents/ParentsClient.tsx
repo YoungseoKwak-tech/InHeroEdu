@@ -25,6 +25,11 @@ interface Question {
   view_count: number; answer_count: number; created_at: string;
 }
 interface Textbook { slug: string; title: string; subtitle: string | null; total_chapters: number | null; total_pages: number | null; }
+interface KoNote { lessonId: string; subjectLabel: string; emoji: string; unit: number | null; lessonNum: number | null; title: string; subtitle: string | null; overview: string | null; }
+
+// Korean 일타강사 notes to feature on the homepage — the killer content. These
+// AP Chemistry lessons are Korean-complete; the section pulls their openings.
+const FEATURED_KO_NOTES = ["ap-chemistry-u1-l1", "ap-chemistry-u2-l1", "ap-chemistry-u3-l1"];
 
 const TEXTBOOK_GLYPH: Record<string, string> = {
   "ap-bio-ultimate": "🧬", "ap-chem-ultimate": "⚗️", "ap-physics-ultimate": "⚛️",
@@ -96,6 +101,7 @@ export default function ParentsClient() {
   const [query, setQuery] = useState("");
   const [slide, setSlide] = useState(0);
   const [textbooks, setTextbooks] = useState<Textbook[]>([]);
+  const [koNotes, setKoNotes] = useState<KoNote[]>([]);
   const slideTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
@@ -104,6 +110,10 @@ export default function ParentsClient() {
       .then((r) => r.json()).then((d) => setQuestions(d?.questions ?? [])).catch(() => {});
     fetch("/api/textbooks")
       .then((r) => r.json()).then((d) => setTextbooks(d?.textbooks ?? [])).catch(() => {});
+    // Pull the featured Korean notes' openings to surface on the homepage.
+    Promise.all(FEATURED_KO_NOTES.map((id) =>
+      fetch(`/api/core-notes/korean?lessonId=${id}`).then((r) => r.json()).then((d) => d?.note as KoNote).catch(() => null)
+    )).then((notes) => setKoNotes(notes.filter(Boolean) as KoNote[]));
   }, []);
 
   useEffect(() => {
@@ -183,6 +193,55 @@ export default function ParentsClient() {
               </button>
             ))}
           </div>
+
+          {/* Featured Korean core notes — surface the killer 일타강사 content */}
+          {koNotes.length > 0 && (
+            <section style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "20px 22px" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 4, flexWrap: "wrap" }}>
+                <h2 style={{ fontSize: 16.5, fontWeight: 800, margin: 0, letterSpacing: "-0.01em", display: "flex", alignItems: "center", gap: 8 }}>
+                  📘 한국어 핵심 노트
+                  <span style={{ fontSize: 11.5, fontWeight: 800, color: "#7c3aed", background: "#f3eefe", borderRadius: 6, padding: "2px 9px" }}>일타강사 풀이</span>
+                </h2>
+                <Link href="/parents/core-notes" style={{ color: GREEN, fontSize: 13, fontWeight: 700, textDecoration: "none" }}>전체 노트 보기 →</Link>
+              </div>
+              <p style={{ fontSize: 13, color: "#94a3b8", margin: "0 0 16px" }}>개념을 한눈에 이해되게 풀어낸 한국어 노트. 클릭해서 이어 읽어보세요.</p>
+
+              {/* Hero note: title + subtitle + engaging opening with fade */}
+              <Link href="/parents/core-notes" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
+                <div style={{ borderRadius: 12, border: "1px solid #eef0f3", background: "linear-gradient(180deg,#fbfcfe,#fff)", padding: "18px 20px" }}>
+                  <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginBottom: 8 }}>
+                    <span style={{ fontSize: 11, fontWeight: 800, color: "#047a45", background: "#e9fbf2", borderRadius: 6, padding: "2px 8px" }}>🇰🇷 한국어</span>
+                    <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 600 }}>{koNotes[0].emoji} {koNotes[0].subjectLabel} · U{koNotes[0].unit}·L{koNotes[0].lessonNum}</span>
+                  </div>
+                  <h3 style={{ fontSize: 19, fontWeight: 800, margin: "0 0 5px", letterSpacing: "-0.02em" }}>{koNotes[0].title}</h3>
+                  {koNotes[0].subtitle && <p style={{ fontSize: 13, color: "#64748b", margin: "0 0 12px", lineHeight: 1.55 }}>{koNotes[0].subtitle}</p>}
+                  {koNotes[0].overview && (
+                    <div style={{ position: "relative", maxHeight: 132, overflow: "hidden" }}>
+                      <p style={{ fontSize: 14, color: "#334155", lineHeight: 1.85, margin: 0, whiteSpace: "pre-wrap" }}>
+                        {koNotes[0].overview.split(/\n\n+/).slice(0, 2).join("\n\n")}
+                      </p>
+                      <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 60, background: "linear-gradient(transparent,#fff)" }} />
+                    </div>
+                  )}
+                  <div style={{ marginTop: 12, display: "inline-block", color: GREEN, fontSize: 13.5, fontWeight: 800 }}>이어서 읽기 →</div>
+                </div>
+              </Link>
+
+              {/* More featured notes */}
+              {koNotes.length > 1 && (
+                <div style={{ marginTop: 12, display: "flex", flexDirection: "column" }}>
+                  {koNotes.slice(1).map((n) => (
+                    <Link key={n.lessonId} href="/parents/core-notes" style={{ ...rowStyle, color: "#1f2937" }}>
+                      <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        <span style={{ fontSize: 11, fontWeight: 800, color: "#047a45", marginRight: 7 }}>🇰🇷 한국어</span>{n.title}
+                      </span>
+                      <span style={{ color: "#cbd5e1", fontSize: 12, flexShrink: 0 }}>{n.emoji} U{n.unit}·L{n.lessonNum}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </section>
+          )}
 
           {/* Boards */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="board-grid">
