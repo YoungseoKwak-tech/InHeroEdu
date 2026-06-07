@@ -16,7 +16,6 @@
  */
 
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { KO } from '@/lib/i18n/ko'
 
 export type Lang = 'ko' | 'en'
@@ -45,31 +44,41 @@ export function LanguageProvider({
   initialLang?: Lang
   children: React.ReactNode
 }) {
-  const router = useRouter()
-  // initialLang comes from the server's cookie read — same on both sides.
+  // initialLang comes from the server. NOTE: on Vercel the layout's
+  // cookies() read does not reliably surface the locale cookie into SSR, so
+  // initialLang is effectively always "en". We therefore treat the cookie as
+  // the client-side source of truth and reconcile on mount (below).
   const [lang, setLangState] = useState<Lang>(initialLang)
 
-  // Next 16 statically optimizes the <html> shell, so its lang attribute can
-  // lag the cookie even when the (dynamic) body renders Korean. Correct it on
-  // the client after hydration. Safe because <html> carries
-  // suppressHydrationWarning — this is a benign post-mount attribute update,
-  // not a React-tracked hydration diff.
+  // Persistence fix: SSR renders English (cookies() unreliable on Vercel), so
+  // a returning Korean user would otherwise see English until they re-toggle.
+  // Read the cookie once after hydration and flip state to match. This runs
+  // AFTER the first paint, so the initial client render still matches the
+  // English SSR — no #418 hydration mismatch — then re-renders to Korean.
+  useEffect(() => {
+    const m = document.cookie.match(/(?:^|;\s*)inhero_lang=(ko|en)/)
+    const cookieLang = (m?.[1] as Lang | undefined)
+    if (cookieLang && cookieLang !== lang) setLangState(cookieLang)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // Keep <html lang> in sync with the active language for a11y/SEO. Safe
+  // because <html> carries suppressHydrationWarning — a benign post-mount
+  // attribute update, not a React-tracked hydration diff.
   useEffect(() => {
     document.documentElement.lang = lang
   }, [lang])
 
-  const setLang = useCallback(
-    (l: Lang) => {
-      // 1-year cookie, lax so top-level navigations send it; path=/ for whole site.
-      document.cookie = `${LANG_COOKIE}=${l}; path=/; max-age=31536000; samesite=lax`
-      // Reflect on <html> for a11y/SEO without waiting for the server round-trip.
-      document.documentElement.lang = l
-      setLangState(l)
-      // Re-render Server Components (metadata, server pages) in the new language.
-      router.refresh()
-    },
-    [router]
-  )
+  const setLang = useCallback((l: Lang) => {
+    // 1-year cookie, lax so top-level navigations send it; path=/ for whole site.
+    // This is the persisted source of truth — the mount effect above reads it
+    // back on the next load. (We intentionally do NOT router.refresh(): SSR
+    // can't read the cookie on Vercel, so a refresh would only repaint server
+    // content in English and flicker; the client state switch covers the UI.)
+    document.cookie = `${LANG_COOKIE}=${l}; path=/; max-age=31536000; samesite=lax`
+    document.documentElement.lang = l
+    setLangState(l)
+  }, [])
 
   const toggle = useCallback(() => {
     setLang(lang === 'ko' ? 'en' : 'ko')
