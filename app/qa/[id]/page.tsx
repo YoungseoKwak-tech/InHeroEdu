@@ -200,9 +200,27 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
   );
 
   const subjectColor = question.subject ? (SUBJECT_COLORS[question.subject] ?? "#1D9E75") : "#1D9E75";
+  // Parent-lounge posts arrive from the white /parents portal, so render this
+  // shared (otherwise dark/cosmic) detail page on a light background to match.
+  const isParent = question.subject === "parent-lounge";
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <div
+      className={isParent ? "qa-light min-h-screen" : "min-h-screen bg-gray-50 dark:bg-gray-950"}
+      style={isParent ? { background: "#eef1f4", position: "relative", zIndex: 10 } : undefined}
+    >
+      {isParent && (
+        <style>{`
+          .qa-light .card { background:#fff !important; border:1px solid #e2e6ea !important; box-shadow:0 1px 2px rgba(16,24,40,0.05) !important; }
+          .qa-light .dark\\:text-white { color:#0f172a !important; }
+          .qa-light .dark\\:text-gray-300 { color:#334155 !important; }
+          .qa-light .dark\\:bg-gray-900 { background:#fff !important; }
+          .qa-light .dark\\:bg-gray-800 { background:#fff !important; }
+          .qa-light .dark\\:bg-gray-950 { background:#eef1f4 !important; }
+          .qa-light .dark\\:border-gray-800 { border-color:#e6e8ec !important; }
+          .qa-light .dark\\:border-gray-700 { border-color:#e2e6ea !important; }
+        `}</style>
+      )}
       {/* Name prompt */}
       {showPrompt && (
         <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center px-4">
@@ -222,11 +240,11 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
       {/* Header */}
       <div className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4">
-          <Link href="/qa" className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-primary-500 transition-colors w-fit">
+          <Link href={isParent ? "/parents/lounge" : "/qa"} className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-primary-500 transition-colors w-fit">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            {copy.list}
+            {isParent ? "입시 Q&A" : copy.list}
           </Link>
         </div>
       </div>
@@ -234,7 +252,7 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 space-y-6">
         {/* Question */}
         <div className="card p-6">
-          {question.subject && (
+          {question.subject && !isParent && (
             <span className="inline-block text-xs font-semibold px-2.5 py-1 rounded-full text-white mb-3" style={{ backgroundColor: subjectColor }}>
               {question.subject}
             </span>
