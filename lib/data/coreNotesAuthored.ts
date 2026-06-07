@@ -6744,4 +6744,105 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-english-language", unit: 3, lessonNum: 2,
+    unitName: "Rhetorical Appeals",
+    title: "Logos: Logic and Evidence",
+    subtitle: "The appeal to the audience's reason — facts, data, and sound logic that make an argument hold up.",
+    overview:
+      "Logos is the rhetorical appeal to logic and reason. Writers use evidence, data, examples, and clear reasoning to convince an audience that their claim is rational and well-supported. It's the appeal most associated with proof.",
+    objectives: [
+      "Define logos and its components.",
+      "Identify how writers build logical appeals.",
+      "Distinguish strong logos from logical fallacies.",
+    ],
+    sections: [
+      {
+        title: "Appealing to reason",
+        body:
+          "Logos persuades through logic: facts, statistics, expert data, concrete examples, and a clear line of reasoning connecting evidence to claim. An audience that follows the logic and accepts the evidence is convinced on rational grounds.",
+        keyIdea: "Logos = the appeal to the audience's REASON. Evidence + sound reasoning that links it to the claim is logos in action.",
+        terms: [
+          { term: "Logos", def: "An appeal to logic and reason using evidence and sound argument." },
+          { term: "Inductive / deductive reasoning", def: "Reasoning from specifics to a general claim, or from a general principle to a conclusion." },
+        ],
+      },
+      {
+        title: "Strong logos vs. fallacies",
+        body:
+          "Real logos rests on relevant evidence and valid reasoning. When the 'logic' breaks down — a slippery slope, hasty generalization, false dilemma — it becomes a fallacy that only LOOKS like reasoning. Analyzing logos means checking whether the evidence truly supports the conclusion.",
+        terms: [
+          { term: "Line of reasoning", def: "The logical chain connecting evidence to the claim — the structure of logos." },
+        ],
+        traps: ["Logos isn't just having facts — it's the REASONING that connects them to the claim. Faulty reasoning with real facts is still weak logos."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-english-language", unit: 3, lessonNum: 3,
+    unitName: "Rhetorical Appeals",
+    title: "Pathos: Emotional Connection",
+    subtitle: "Moving the audience's feelings — used well, it motivates; overused, it manipulates.",
+    overview:
+      "Pathos is the rhetorical appeal to the audience's emotions. Writers use vivid language, imagery, anecdotes, and value-laden words to make an audience FEEL — and feeling often drives action. Used ethically it complements logic; overused it can manipulate.",
+    objectives: [
+      "Define pathos and how it's created.",
+      "Analyze emotional appeals in a text.",
+      "Distinguish effective pathos from manipulation.",
+    ],
+    sections: [
+      {
+        title: "Appealing to emotion",
+        body:
+          "Pathos works through vivid imagery, personal anecdotes, charged diction (connotation), and appeals to shared values (fear, hope, pride, compassion). A well-placed story can move an audience to act in ways statistics alone cannot.",
+        keyIdea: "Pathos = the appeal to the audience's EMOTIONS. Anecdotes and vivid, connotative language are its main tools.",
+        terms: [
+          { term: "Pathos", def: "An appeal to the audience's emotions." },
+          { term: "Connotation", def: "The emotional associations of a word, beyond its literal meaning." },
+        ],
+      },
+      {
+        title: "Effective vs. manipulative",
+        body:
+          "Pathos is powerful but double-edged. Ethical pathos supports a sound argument (a real story illustrating a true problem). Manipulative pathos substitutes emotion for evidence or exploits fear — which crosses into fallacy. The best persuasion balances pathos with logos and ethos.",
+        terms: [
+          { term: "Appeal to fear/pity", def: "Emotional appeals that become fallacious if they replace evidence." },
+        ],
+        traps: ["Pathos is legitimate UNLESS it replaces logic — analyze whether emotion supports the argument or substitutes for proof."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-english-language", unit: 3, lessonNum: 4,
+    unitName: "Rhetorical Appeals",
+    title: "Kairos and Timeliness",
+    subtitle: "The right argument at the wrong moment fails — kairos is the art of timing.",
+    overview:
+      "Kairos is the appeal of timeliness — making the right argument at the right moment, suited to the specific occasion. Even a strong argument can fall flat if poorly timed; seizing the opportune moment makes rhetoric land.",
+    objectives: [
+      "Define kairos.",
+      "Explain how timing affects persuasion.",
+      "Connect kairos to the rhetorical situation.",
+    ],
+    sections: [
+      {
+        title: "The opportune moment",
+        body:
+          "Kairos is about exploiting the right moment and context — addressing an issue when the audience is ready to hear it, or when events make the argument urgent. A call for reform right after a relevant crisis carries force it wouldn't otherwise have.",
+        keyIdea: "Kairos = TIMING. The same argument can succeed or fail depending on whether the moment is right.",
+        terms: [
+          { term: "Kairos", def: "The rhetorical appeal of timeliness — using the opportune moment." },
+        ],
+      },
+      {
+        title: "Kairos and the situation",
+        body:
+          "Kairos ties directly to the 'occasion' in SOAPS: skilled rhetors read the moment and shape their appeal to it. Analyzing kairos means asking why this argument, in this form, NOW — and whether the timing strengthens its impact.",
+        terms: [
+          { term: "Occasion", def: "The context/timing that kairos exploits (from the rhetorical situation)." },
+        ],
+        traps: ["Kairos is about WHEN and the context — don't reduce it to just ethos/logos/pathos; timing is its own strategic dimension."],
+      },
+    ],
+  },
 ];
