@@ -242,4 +242,153 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-psychology", unit: 2, lessonNum: 1,
+    unitName: "Biological Bases of Behavior",
+    title: "The Brain — Structures and Functions",
+    subtitle: "A tour from the survival machinery at the base to the thinking cap on top — and the tools that let us watch it work.",
+    overview:
+      "The brain is organized roughly bottom-to-top and oldest-to-newest: the lower, older structures handle automatic survival; the higher, newer cortex handles thought. Learn the map by that logic and it sticks.",
+    diagram: "brain-lobes",
+    objectives: [
+      "Locate the major brain structures and state each one's job.",
+      "Distinguish the brainstem, limbic system, and cerebral cortex.",
+      "Match the four cortical lobes to their functions.",
+      "Compare the tools (EEG, fMRI, lesion) used to study the brain.",
+    ],
+    sections: [
+      {
+        title: "Bottom to top: the brain's division of labor",
+        body:
+          "At the base, the brainstem runs automatic survival: the medulla controls heartbeat and breathing. The cerebellum ('little brain') coordinates balance and movement. Above sits the limbic system — the emotion-and-memory core. On top, the wrinkled cerebral cortex does perception, language, and reasoning.",
+        table: {
+          headers: ["Structure", "Main job"],
+          rows: [
+            ["Medulla", "Heartbeat, breathing (vital reflexes)"],
+            ["Cerebellum", "Balance, coordination, motor skills"],
+            ["Thalamus", "Sensory relay station (except smell)"],
+            ["Hypothalamus", "Hunger, thirst, temperature, the 4 F's"],
+            ["Amygdala", "Fear and emotional response"],
+            ["Hippocampus", "Forming new long-term memories"],
+            ["Cerebral cortex", "Thinking, perception, language"],
+          ],
+        },
+        keyIdea: "Lower = automatic survival; higher = flexible thought. The hippocampus makes memories; the amygdala makes fear.",
+      },
+      {
+        title: "The four lobes of the cortex",
+        body:
+          "The cortex splits into four lobes. The frontal lobe handles judgment, planning, and voluntary movement (and matures last — relevant to teen decision-making). The parietal lobe processes touch and space. The temporal lobe handles hearing and language. The occipital lobe, at the very back, processes vision.",
+        table: {
+          headers: ["Lobe", "Processes"],
+          rows: [
+            ["Frontal", "Judgment, planning, movement, personality"],
+            ["Parietal", "Touch and body position (somatosensory)"],
+            ["Temporal", "Hearing and language"],
+            ["Occipital", "Vision"],
+          ],
+        },
+        keyIdea: "Mnemonic: the occipital lobe is at the BACK — your eyes are in front, but vision is processed in the rear.",
+        traps: ["Damage to the occipital lobe can cause blindness even with perfectly healthy eyes — vision is built in the brain, not the eye."],
+      },
+      {
+        title: "Tools for studying the brain",
+        body:
+          "An EEG records electrical waves through scalp electrodes (great time resolution, used for sleep). An fMRI tracks blood-oxygen flow to show which areas are active (great spatial detail). Lesion studies destroy or observe damage to tissue to infer function.",
+        terms: [
+          { term: "EEG", def: "Records the brain's electrical activity via scalp electrodes; excellent timing." },
+          { term: "fMRI", def: "Shows brain activity by tracking blood flow; excellent location detail." },
+          { term: "Lesion", def: "Tissue damage (natural or induced) used to infer a region's function." },
+        ],
+      },
+    ],
+  },
+  {
+    courseId: "ap-psychology", unit: 2, lessonNum: 2,
+    unitName: "Biological Bases of Behavior",
+    title: "Genetics and Behavior — Nature vs. Nurture",
+    subtitle: "It was never nature OR nurture — the real question is how genes and experience interact.",
+    overview:
+      "Almost every trait — intelligence, personality, mental illness — comes from genes AND environment working together. Psychology's job is to estimate how much each contributes and how they interact, using clever natural experiments.",
+    objectives: [
+      "Explain why nature and nurture interact rather than compete.",
+      "Describe how twin and adoption studies separate genes from environment.",
+      "Interpret heritability correctly (a population statistic, not an individual one).",
+    ],
+    sections: [
+      {
+        title: "Nature interacts with nurture",
+        body:
+          "Genes set a range of possibilities; environment determines where in that range you land. Even gene expression responds to experience — the field of epigenetics shows that stress, diet, and care can switch genes on or off without changing the DNA itself.",
+        keyIdea: "Genes load the gun; environment pulls the trigger. Neither acts alone.",
+        terms: [
+          { term: "Heritability", def: "The proportion of variation in a trait, within a population, attributable to genes." },
+          { term: "Epigenetics", def: "How experience switches genes on/off without changing the DNA sequence." },
+          { term: "Temperament", def: "A person's inborn emotional reactivity and intensity, present early in life." },
+        ],
+      },
+      {
+        title: "How researchers tease them apart",
+        body:
+          "Because you can't randomly assign genes, psychologists use natural experiments. Twin studies compare identical twins (100% shared genes) with fraternal twins (~50%). Adoption studies compare adopted children with both their biological and adoptive families.",
+        table: {
+          headers: ["Study", "Compares", "What it isolates"],
+          rows: [
+            ["Identical twins", "Same genes, raised together/apart", "Effect of environment (genes held constant)"],
+            ["Twin (identical vs. fraternal)", "100% vs. ~50% shared genes", "Effect of genes (environment similar)"],
+            ["Adoption", "Child vs. biological & adoptive family", "Genes vs. rearing environment"],
+          ],
+        },
+        keyIdea: "Identical twins raised apart who still share a trait = strong evidence for a genetic influence on that trait.",
+        traps: ["Heritability describes VARIATION in a group, not an individual. '50% heritable' never means 'half of your height came from genes.'"],
+      },
+    ],
+  },
+  {
+    courseId: "ap-psychology", unit: 3, lessonNum: 1,
+    unitName: "Sensation and Perception",
+    title: "Sensation — Thresholds and Transduction",
+    subtitle: "How raw physical energy — light, sound, pressure — gets turned into signals your brain can read.",
+    overview:
+      "Sensation is detecting physical energy from the world; perception is interpreting it. This lesson is about the detecting side: how sense organs convert energy into neural signals (transduction) and the limits of what we can detect (thresholds).",
+    objectives: [
+      "Distinguish sensation from perception and define transduction.",
+      "Compare absolute threshold and difference threshold (and Weber's law).",
+      "Explain sensory adaptation and signal detection theory.",
+    ],
+    sections: [
+      {
+        title: "Sensation, perception, and transduction",
+        body:
+          "Every sense does the same basic trick: transduction — converting one form of energy (light waves, sound waves, pressure) into the electrochemical signals neurons use. The eye transduces light; the ear transduces sound. Sensation delivers the raw data; perception (next lesson) makes meaning of it.",
+        keyIdea: "Sensation = bottom-up raw detection. Perception = top-down interpretation. Transduction is the bridge.",
+        terms: [
+          { term: "Sensation", def: "Detecting physical energy from the environment with sense organs." },
+          { term: "Transduction", def: "Converting physical energy into neural signals the brain can use." },
+          { term: "Perception", def: "Organizing and interpreting sensory information into meaning." },
+        ],
+      },
+      {
+        title: "Thresholds: the limits of detection",
+        body:
+          "The absolute threshold is the minimum stimulus you can detect 50% of the time (e.g., a candle flame ~30 miles away on a clear night). The difference threshold (or just-noticeable difference, JND) is the smallest change you can detect. Weber's law says that change must be a constant PERCENTAGE, not a fixed amount — adding 1 lb is obvious on a 5-lb bag, invisible on a 100-lb load.",
+        table: {
+          headers: ["Threshold", "Means", "Example"],
+          rows: [
+            ["Absolute threshold", "Faintest stimulus detectable 50% of the time", "A faint ticking watch in a quiet room"],
+            ["Difference threshold (JND)", "Smallest detectable CHANGE", "Noticing one extra voice in a choir"],
+          ],
+        },
+        keyIdea: "Weber's law: we detect change as a percentage. A $5 difference matters on a $20 shirt, not on a $5,000 laptop.",
+        traps: ["Don't swap them: ABSOLUTE threshold = can you detect it at all; DIFFERENCE threshold = can you detect a change."],
+      },
+      {
+        title: "Sensory adaptation",
+        body:
+          "Keep a constant stimulus and your sensitivity to it fades — that's sensory adaptation. You stop feeling your clothes, smell your own room less, or stop hearing a steady hum. It's useful: it frees attention for changes, which are what usually matter.",
+        example:
+          "Walk into a bakery and the smell is overwhelming; ten minutes later you barely notice it. The molecules are still there — your receptors have adapted, dialing down a constant signal so changes stand out.",
+      },
+    ],
+  },
 ];
