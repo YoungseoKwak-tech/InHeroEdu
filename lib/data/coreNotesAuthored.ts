@@ -5074,4 +5074,113 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 7, lessonNum: 1,
+    unitName: "Atmospheric Pollution",
+    title: "Air Pollutants — Primary and Secondary",
+    subtitle: "Some pollutants are emitted directly; others form in the air afterward — and the difference is the key exam distinction.",
+    overview:
+      "Air pollution comes from primary pollutants emitted straight from a source and secondary pollutants that form when primaries react in the atmosphere. The Clean Air Act targets the major 'criteria' pollutants. Knowing the primary/secondary split unlocks the whole unit.",
+    objectives: [
+      "Distinguish primary from secondary pollutants.",
+      "Identify the major air pollutants and their sources.",
+      "Explain the role of the Clean Air Act.",
+    ],
+    sections: [
+      {
+        title: "Primary vs. secondary",
+        body:
+          "A primary pollutant is emitted directly (CO from cars, SO₂ from coal, NOx from combustion, particulates). A secondary pollutant forms later from chemical reactions in the air — ground-level ozone and smog are the classic examples, made when NOx and VOCs react in sunlight.",
+        table: {
+          headers: ["Type", "Examples", "Origin"],
+          rows: [
+            ["Primary", "CO, SO₂, NOx, particulates, VOCs", "Emitted directly from a source"],
+            ["Secondary", "Ground-level ozone (O₃), smog", "Form via reactions in the atmosphere"],
+          ],
+        },
+        keyIdea: "Primary = emitted directly; secondary = formed in the air afterward. Ground-level OZONE is the headline SECONDARY pollutant.",
+      },
+      {
+        title: "The major pollutants and the law",
+        body:
+          "Key pollutants and sources: carbon monoxide (incomplete combustion, cars), sulfur dioxide (burning coal → acid rain), nitrogen oxides (high-temp combustion → smog/acid rain), particulate matter (soot, dust → lung damage), and lead (historically gasoline). The Clean Air Act regulates these criteria pollutants and has dramatically cut US air pollution.",
+        terms: [
+          { term: "Primary pollutant", def: "A harmful substance emitted directly into the air (e.g., CO, SO₂)." },
+          { term: "Secondary pollutant", def: "A pollutant formed by reactions in the atmosphere (e.g., ground-level ozone)." },
+          { term: "Clean Air Act", def: "US law regulating major air pollutants; greatly reduced emissions." },
+        ],
+        traps: ["Ground-level ozone is a SECONDARY pollutant (and a lung irritant) — don't confuse it with the protective stratospheric ozone layer."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 7, lessonNum: 2,
+    unitName: "Atmospheric Pollution",
+    title: "Photochemical Smog Formation",
+    subtitle: "The brown haze over sunny cities is cooked up by car exhaust plus sunlight.",
+    overview:
+      "Photochemical smog is the brownish haze in cities like Los Angeles. It forms when pollutants from cars (NOx and VOCs) react in sunlight to produce ground-level ozone. It peaks on hot, sunny, calm afternoons and is worsened by temperature inversions.",
+    objectives: [
+      "Explain how photochemical smog forms.",
+      "Identify the conditions that worsen it.",
+      "Explain temperature inversions.",
+    ],
+    sections: [
+      {
+        title: "The recipe for smog",
+        body:
+          "Photochemical smog needs three ingredients: NOx and VOCs (mostly from vehicle exhaust) plus sunlight. The sunlight drives reactions that produce ground-level ozone, the main harmful component. That's why smog peaks on hot, sunny afternoons and in car-dependent cities.",
+        keyIdea: "Smog recipe = car exhaust (NOx + VOCs) + SUNLIGHT → ground-level ozone. Hot sunny cities with lots of traffic are worst.",
+        terms: [
+          { term: "Photochemical smog", def: "Haze formed when sunlight drives reactions among NOx and VOCs, producing ozone." },
+          { term: "VOCs", def: "Volatile organic compounds (from fuels, solvents) that help form smog." },
+        ],
+      },
+      {
+        title: "Temperature inversions trap it",
+        body:
+          "Normally warm air near the ground rises and disperses pollution. In a temperature inversion, a layer of warm air sits ABOVE cooler air, trapping pollutants near the ground like a lid — causing dangerous smog buildup in valleys and basins.",
+        terms: [
+          { term: "Temperature inversion", def: "Warm air over cool air that traps pollutants near the ground, worsening smog." },
+          { term: "Ground-level ozone", def: "The main harmful component of photochemical smog; a respiratory irritant." },
+        ],
+        traps: ["A temperature inversion TRAPS pollution (warm air lid over cool air) — it doesn't create the pollution, it concentrates it."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 7, lessonNum: 3,
+    unitName: "Atmospheric Pollution",
+    title: "Acid Deposition — Chemistry and Ecological Damage",
+    subtitle: "Sulfur and nitrogen pollution fall back to earth as acid — often hundreds of miles downwind.",
+    overview:
+      "Acid deposition ('acid rain') forms when SO₂ and NOx react with water in the atmosphere to make sulfuric and nitric acids. These fall as acidic rain, snow, or particles, damaging lakes, forests, and buildings — frequently far from the polluting source.",
+    objectives: [
+      "Explain the chemistry of acid deposition.",
+      "Describe its effects on ecosystems and structures.",
+      "Explain why it's a cross-boundary problem.",
+    ],
+    sections: [
+      {
+        title: "How acid deposition forms",
+        body:
+          "Burning coal releases sulfur dioxide (SO₂); high-temperature combustion releases nitrogen oxides (NOx). In the atmosphere these react with water to form sulfuric and nitric acid, which return to earth as acid rain, snow, fog, or dry particles — lowering the pH of whatever they land on.",
+        keyIdea: "SO₂ (from coal) + NOx (from combustion) + water → sulfuric & nitric ACID. Coal-burning is the main culprit.",
+        terms: [
+          { term: "Acid deposition", def: "Acidic rain/snow/particles formed from SO₂ and NOx reacting with water in the air." },
+          { term: "Sulfur dioxide (SO₂)", def: "Coal-burning pollutant that forms sulfuric acid — a key acid-rain cause." },
+        ],
+      },
+      {
+        title: "Damage — and where it lands",
+        body:
+          "Acid deposition acidifies lakes and streams (killing fish), leaches nutrients from soil, damages forests (especially at high elevations), and corrodes buildings and statues. Because winds carry the pollutants, the damage often hits regions far downwind of the source — making it an interstate and international issue.",
+        terms: [
+          { term: "Acidification", def: "Lowering of pH in water/soil from acid deposition, harming organisms." },
+          { term: "Buffering capacity", def: "A water body's ability to neutralize acid; low-buffer lakes are most vulnerable." },
+        ],
+        traps: ["Acid rain often damages areas FAR DOWNWIND of the source — a coal plant's pollution can acidify lakes in another state/country."],
+      },
+    ],
+  },
 ];
