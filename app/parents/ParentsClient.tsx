@@ -76,12 +76,12 @@ const dateShort = (iso: string) => new Date(iso).toLocaleDateString("ko-KR", { m
 const SLIDES = [
   { bg: "linear-gradient(120deg,#064e3b,#0b8a5b)", emoji: "📝", title: "AP 문제 11,975개 · 무료", sub: "College Board 스타일 실전 문제 · 틀리면 비슷한 문제로 복습", route: "/parents/question-bank", gated: false },
   { bg: "linear-gradient(120deg,#3b1d6e,#6d28d9)", emoji: "📚", title: "AP 디지털 교재 6권", sub: "Bio · Chem · Physics · Calc — 풀 커리큘럼 디지털 교재", route: "#textbooks", gated: false },
-  { bg: "linear-gradient(120deg,#831843,#be185d)", emoji: "🎯", title: `STEM 대회 ${COMPETITIONS.length}개 총정리`, sub: "USABO · USACO · ISEF · Conrad — 학년·난이도·시기·전공별", route: "/parents/competitions", gated: false },
+  { bg: "linear-gradient(120deg,#831843,#be185d)", emoji: "🎯", title: `미국 입시 대회 ${COMPETITIONS.length}개 총정리`, sub: "STEM·인문·토론·비즈니스·예술까지 — 분야·학년·시기·전공별", route: "/parents/competitions", gated: false },
 ];
 
 const NAV = [
   { label: "입시 Q&A", route: "/parents/lounge", gated: false },
-  { label: "STEM 대회", route: "/parents/competitions", gated: false },
+  { label: "미국 입시 대회", route: "/parents/competitions", gated: false },
   { label: "학년별 로드맵", route: "/parents/roadmap", gated: false },
   { label: "AP 과목 가이드", route: "/parents/ap-guide", gated: false },
   { label: "AP 문제은행", route: "/parents/question-bank", gated: false },
@@ -94,7 +94,7 @@ const NAV = [
 
 const QUICK = [
   { emoji: "💬", label: "입시 Q&A", route: "/parents/lounge", gated: false },
-  { emoji: "🎯", label: "STEM 대회", route: "/parents/competitions", gated: false },
+  { emoji: "🎯", label: "미국 입시 대회", route: "/parents/competitions", gated: false },
   { emoji: "🗺️", label: "학년별 로드맵", route: "/parents/roadmap", gated: false },
   { emoji: "📘", label: "AP 과목 가이드", route: "/parents/ap-guide", gated: false },
   { emoji: "📝", label: "AP 문제은행", route: "/parents/question-bank", gated: false },
@@ -110,7 +110,7 @@ const RESOURCES = [
   { title: "코넬 공대 합격 에세이 분석", desc: "실제 합격 에세이를 한 문단씩 — 무엇이 왜 잘 됐는지", route: "/parents/essay", tag: "합격에세이", views: 1000 },
   { title: "아이비리그 합격 엑스트라 활동 분석", desc: "합격생 활동 10개 + 직접 만드는 법 (책 출간·논문·웹)", route: "/parents/activities", tag: "합격활동", views: 942 },
   { title: "미국 대학 분석 — 인재상·입시·인턴십", desc: "하버드부터 UC까지, 학교별 인재상·합격률·취업 파이프라인", route: "/parents/colleges", tag: "대학분석", views: 874 },
-  { title: "미국 입시 STEM 대회 데이터베이스", desc: `USABO·USACO·ISEF 등 ${COMPETITIONS.length}개 대회 총정리`, route: "/parents/competitions", tag: "자료", views: 731 },
+  { title: "미국 입시 대회 데이터베이스 (전 분야)", desc: `USABO·NSDA·Scholastic 등 ${COMPETITIONS.length}개 대회 총정리`, route: "/parents/competitions", tag: "자료", views: 731 },
   { title: "학년별 로드맵 (G6–G12)", desc: "학업·시험·활동·에세이를 학년별로", route: "/parents/roadmap", tag: "가이드", views: 562 },
   { title: "전공별 AP 과목 선택 가이드", desc: "‘○○ 전공이면 AP 뭘?’ 8개 전공별 추천", route: "/parents/ap-guide", tag: "가이드", views: 418 },
 ];
