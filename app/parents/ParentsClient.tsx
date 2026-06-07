@@ -93,6 +93,7 @@ const QUICK = [
 ];
 
 const RESOURCES = [
+  { title: "코넬 공대 합격 에세이 분석", desc: "실제 합격 에세이를 한 문단씩 — 무엇이 왜 잘 됐는지", route: "/parents/essay", tag: "합격에세이" },
   { title: "미국 입시 STEM 대회 데이터베이스", desc: `USABO·USACO·ISEF 등 ${COMPETITIONS.length}개 대회 총정리`, route: "/parents/competitions", tag: "자료" },
   { title: "학년별 로드맵 (G9–G12)", desc: "학업·시험·활동·에세이를 학년별로", route: "/parents/roadmap", tag: "가이드" },
   { title: "전공별 AP 과목 선택 가이드", desc: "‘○○ 전공이면 AP 뭘?’ 8개 전공별 추천", route: "/parents/ap-guide", tag: "가이드" },
