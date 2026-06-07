@@ -1230,4 +1230,114 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 2, lessonNum: 1,
+    unitName: "Networks of Exchange (c. 1200–1450)",
+    title: "The Silk Roads — Goods, Ideas, and Disease",
+    subtitle: "The overland routes carried luxury goods, world religions, new technologies — and the Black Death.",
+    overview:
+      "The Silk Roads were a web of overland routes linking China to the Mediterranean. They moved more than silk: ideas, religions, technologies, and germs all traveled the same paths. As demand for Asian luxuries grew, so did the infrastructure that supported the trade.",
+    objectives: [
+      "Identify the goods, ideas, and diseases that traveled the Silk Roads.",
+      "Explain the technologies and institutions that expanded overland trade.",
+      "Analyze both the benefits and costs of increased connectivity.",
+    ],
+    sections: [
+      {
+        title: "What moved along the routes",
+        body:
+          "High-value, low-bulk luxuries dominated because they were worth the long journey. But the same routes carried religions, inventions, and — fatefully — disease.",
+        table: {
+          headers: ["Category", "Examples"],
+          rows: [
+            ["Goods", "Silk & porcelain (west); horses, gold, silver (east)"],
+            ["Ideas / religion", "Buddhism, Islam; papermaking, gunpowder tech"],
+            ["Disease", "The Black Death (bubonic plague) spread west"],
+          ],
+        },
+        keyIdea: "The very connectivity that spread goods and ideas also spread the plague — connection cuts both ways.",
+      },
+      {
+        title: "What made the trade work",
+        body:
+          "Long-distance trade needed support. Caravanserais — roadside inns — gave merchants and camels safe rest. Financial tools like Chinese paper money and 'flying cash' (credit) let traders move value without hauling coins. Camels and the camel saddle made desert stretches passable.",
+        terms: [
+          { term: "Caravanserai", def: "A roadside inn offering shelter and rest to merchants and caravans." },
+          { term: "Flying cash", def: "An early Chinese credit/paper-money system that eased long-distance trade." },
+        ],
+        traps: ["Silk Roads carried LUXURY goods, not bulk staples — the distance only paid off for high-value items."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 2, lessonNum: 2,
+    unitName: "Networks of Exchange (c. 1200–1450)",
+    title: "The Mongol Empire — Destruction, Unification, and the Pax Mongolica",
+    subtitle: "History's largest land empire was brutally violent in conquest — and then made Eurasian trade safer than ever.",
+    overview:
+      "The Mongols, united by Genghis Khan around 1206, conquered the largest contiguous land empire in history. The paradox the exam loves: their conquests were devastating, yet once in control they secured the trade routes and supercharged Eurasian exchange — the Pax Mongolica.",
+    objectives: [
+      "Describe Mongol conquest, organization, and the khanates.",
+      "Explain the Pax Mongolica and its effects on trade and exchange.",
+      "Analyze the Mongols as both destroyers and integrators.",
+    ],
+    diagram: "cause-effect",
+    sections: [
+      {
+        title: "Conquest and rule",
+        body:
+          "Genghis Khan unified the Mongol tribes and built a fearsome, mobile cavalry army. His successors expanded until the empire was divided into regional khanates; Kublai Khan ruled China as the Yuan Dynasty. Pragmatic rulers, the Mongols often adopted local administrators and tolerated local religions.",
+        keyIdea: "Conquest (brutal) → unification of Eurasia under one power → safer, busier trade routes. That causal chain is the lesson.",
+        terms: [
+          { term: "Genghis Khan", def: "United the Mongol tribes (~1206) and launched the conquests." },
+          { term: "Khanate", def: "A regional division of the Mongol Empire ruled by a khan." },
+          { term: "Yuan Dynasty", def: "Mongol-ruled dynasty of China under Kublai Khan." },
+        ],
+      },
+      {
+        title: "The Pax Mongolica",
+        body:
+          "Once the fighting stopped, the 'Mongol Peace' secured the Silk Roads under a single authority. Merchants, missionaries, and envoys (like Marco Polo) moved safely across Eurasia, spreading goods, technologies (gunpowder and printing moved west), and ideas — though the same open routes also helped spread the Black Death.",
+        terms: [
+          { term: "Pax Mongolica", def: "The period of stability under the Mongols that boosted Eurasian trade and exchange." },
+        ],
+        traps: ["Hold both truths: the Mongols were enormously DESTRUCTIVE in conquest AND enormously INTEGRATIVE for trade afterward."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 2, lessonNum: 3,
+    unitName: "Networks of Exchange (c. 1200–1450)",
+    title: "Indian Ocean Trade — Monsoon Routes and Swahili Coast",
+    subtitle: "The era's largest trade network ran on a wind that reversed with the seasons.",
+    overview:
+      "The Indian Ocean carried more trade by volume than the Silk Roads, and it ran on the monsoon winds — predictable seasonal winds that let ships sail east in one season and west in another. This maritime web enriched port cities and created blended coastal cultures.",
+    objectives: [
+      "Explain how monsoon winds and maritime technology structured Indian Ocean trade.",
+      "Describe the Swahili coast and merchant diaspora communities.",
+      "Compare Indian Ocean trade with the overland Silk Roads.",
+    ],
+    sections: [
+      {
+        title: "Trade on the monsoon clock",
+        body:
+          "Merchants timed voyages to the monsoons: sail one direction in summer, wait, and ride the reversed winds home in winter. Because ships could carry far more than camels, BULKIER goods (timber, textiles, spices in quantity) joined the luxuries. Vessels like the Arab dhow used lateen sails to work the winds.",
+        keyIdea: "Unlike the Silk Roads, sea trade could move HEAVY, bulky goods — volume was the Indian Ocean's advantage.",
+        terms: [
+          { term: "Monsoon winds", def: "Predictable seasonal winds that reversed direction, structuring Indian Ocean voyages." },
+          { term: "Dhow", def: "An Arab sailing ship using lateen sails for Indian Ocean trade." },
+        ],
+      },
+      {
+        title: "Swahili coast and diaspora communities",
+        body:
+          "On East Africa's coast, trade produced the Swahili city-states — a syncretic culture and language blending Bantu African and Arab/Islamic influences. Merchants who settled far from home formed diasporic communities, spreading their language, religion, and customs and lubricating trade across the network.",
+        terms: [
+          { term: "Swahili city-states", def: "East African coastal trading centers blending Bantu and Arab/Islamic culture." },
+          { term: "Diasporic community", def: "Merchants settled abroad who spread their culture and eased trade." },
+        ],
+        traps: ["Swahili culture is SYNCRETIC — African (Bantu) base + Arab/Islamic influence from trade, not one or the other."],
+      },
+    ],
+  },
 ];
