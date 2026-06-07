@@ -391,4 +391,149 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-psychology", unit: 3, lessonNum: 2,
+    unitName: "Sensation and Perception",
+    title: "Perception — Top-Down Processing and Gestalt Principles",
+    subtitle: "Your brain doesn't just receive the world — it actively builds it, using rules, expectations, and shortcuts.",
+    overview:
+      "Perception is where raw sensation becomes meaning. The big theme: your brain is not a passive camera. It organizes incomplete, messy input into whole objects using built-in rules (Gestalt principles) and prior knowledge (top-down processing).",
+    objectives: [
+      "Distinguish bottom-up from top-down processing.",
+      "Apply the Gestalt principles of perceptual organization.",
+      "Explain perceptual constancy and key depth cues.",
+    ],
+    sections: [
+      {
+        title: "Two directions of processing",
+        body:
+          "Bottom-up processing starts with the raw sensory data and builds up to a whole — useful for a brand-new stimulus. Top-down processing starts with your expectations and knowledge and works down, filling gaps. Reading sloppy handwriting works because top-down expectation tells you what the word probably is.",
+        keyIdea: "Bottom-up = data first. Top-down = expectation first. A schema (mental framework) is what powers top-down perception.",
+        terms: [
+          { term: "Bottom-up processing", def: "Building perception from raw sensory input upward." },
+          { term: "Top-down processing", def: "Using prior knowledge and expectations to interpret sensory input." },
+          { term: "Perceptual set", def: "A readiness to perceive things a certain way based on expectation/context." },
+        ],
+      },
+      {
+        title: "Gestalt principles: the whole > the parts",
+        body:
+          "Gestalt psychologists showed the brain organizes pieces into wholes using predictable rules. The most fundamental is figure-ground (picking an object out from its background); the rest group elements together.",
+        table: {
+          headers: ["Principle", "We tend to…"],
+          rows: [
+            ["Figure-ground", "Separate an object (figure) from its background"],
+            ["Proximity", "Group things that are close together"],
+            ["Similarity", "Group things that look alike"],
+            ["Closure", "Fill in gaps to see a complete object"],
+            ["Continuity", "See smooth, continuous lines rather than broken ones"],
+          ],
+        },
+        keyIdea: "'The whole is different from the sum of its parts' — Gestalt's core claim. You see a face, not a list of features.",
+      },
+      {
+        title: "Constancy and depth",
+        body:
+          "Perceptual constancy lets you see an object as stable even as its image changes — a door is still rectangular as it swings, a friend stays the same size as they walk away. We judge depth using binocular cues (needing both eyes, like retinal disparity — the slight difference between each eye's image) and monocular cues (one eye is enough, like relative size, interposition, and linear perspective).",
+        terms: [
+          { term: "Perceptual constancy", def: "Perceiving objects as unchanging (in size, shape, color) despite changing images." },
+          { term: "Retinal disparity", def: "A binocular depth cue: the brain compares the two eyes' slightly different images." },
+          { term: "Monocular cues", def: "Depth cues that work with one eye (relative size, interposition, linear perspective)." },
+        ],
+        traps: ["Bottom-up vs top-down: if the question stresses raw features assembling into a whole, it's bottom-up; if it stresses expectation/context shaping what you see, it's top-down."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-psychology", unit: 4, lessonNum: 1,
+    unitName: "Learning and Cognition",
+    title: "Classical Conditioning — Pavlov and Applications",
+    subtitle: "Learning that two things go together — until a neutral cue triggers a reflex on its own.",
+    overview:
+      "Classical conditioning is learning by association. A neutral stimulus gets paired with something that already triggers an automatic reflex, until the neutral stimulus alone triggers the reflex. Pavlov's dogs salivated to a bell because the bell had been paired with food.",
+    objectives: [
+      "Identify the UCS, UCR, CS, and CR in any conditioning scenario.",
+      "Explain acquisition, extinction, spontaneous recovery, generalization, and discrimination.",
+      "Recognize classical conditioning in real life (fears, advertising, taste aversions).",
+    ],
+    sections: [
+      {
+        title: "The four building blocks",
+        body:
+          "The whole topic rests on four terms. Before learning, food (the unconditioned stimulus) naturally causes salivation (the unconditioned response). A bell starts neutral. After pairing the bell with food repeatedly, the bell becomes the conditioned stimulus, and salivation to the bell is the conditioned response.",
+        table: {
+          headers: ["Term", "In Pavlov's study", "Rule of thumb"],
+          rows: [
+            ["UCS (unconditioned stimulus)", "Food", "Triggers the reflex naturally"],
+            ["UCR (unconditioned response)", "Salivation to food", "The automatic, unlearned reaction"],
+            ["CS (conditioned stimulus)", "Bell (after pairing)", "Was neutral; now triggers the response"],
+            ["CR (conditioned response)", "Salivation to bell", "The learned reaction (often same behavior as UCR)"],
+          ],
+        },
+        keyIdea: "Find the UCS first (what triggers the reflex without learning). The thing paired with it becomes the CS.",
+      },
+      {
+        title: "Key processes of conditioning",
+        body:
+          "Acquisition is the initial learning of the association. If you present the CS repeatedly without the UCS, the CR fades — extinction. After a rest, it can briefly return — spontaneous recovery. Generalization is responding to stimuli similar to the CS; discrimination is learning to respond only to the specific CS.",
+        terms: [
+          { term: "Acquisition", def: "Initial learning of the CS–UCS association." },
+          { term: "Extinction", def: "The CR weakens when the CS is repeatedly shown without the UCS." },
+          { term: "Spontaneous recovery", def: "Reappearance of an extinguished CR after a pause." },
+          { term: "Generalization / Discrimination", def: "Responding to similar stimuli vs. only the specific CS." },
+        ],
+        example:
+          "A child bitten by a dog (UCS → fear UCR) may fear that dog, then all dogs (generalization), even on TV. Over time, calm exposure to friendly dogs without harm can extinguish the fear.",
+        traps: ["The CS is whatever was NEUTRAL before pairing. Don't label the natural trigger (food, a loud noise) as the CS."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-psychology", unit: 4, lessonNum: 2,
+    unitName: "Learning and Cognition",
+    title: "Operant Conditioning — Reinforcement and Punishment",
+    subtitle: "Learning from consequences: behaviors that are rewarded repeat; behaviors that are punished fade.",
+    overview:
+      "Where classical conditioning links two stimuli, operant conditioning (Skinner) links a behavior to its consequence. Reinforcement makes a behavior more likely; punishment makes it less likely. The trick is that 'positive' and 'negative' mean ADD and REMOVE — not good and bad.",
+    objectives: [
+      "Distinguish the four consequences using the add/remove × increase/decrease grid.",
+      "Explain why negative reinforcement is not punishment.",
+      "Compare reinforcement schedules and their effects on behavior.",
+    ],
+    sections: [
+      {
+        title: "The four consequences — read it as a grid",
+        body:
+          "Two questions define every consequence. Does it INCREASE behavior (reinforcement) or DECREASE it (punishment)? And does it ADD a stimulus (positive) or REMOVE one (negative)? 'Positive' and 'negative' are math signs, not value judgments.",
+        table: {
+          headers: ["", "Add a stimulus (+)", "Remove a stimulus (−)"],
+          rows: [
+            ["Increase behavior (Reinforcement)", "Positive reinforcement: give a treat", "Negative reinforcement: stop a nagging alarm"],
+            ["Decrease behavior (Punishment)", "Positive punishment: add a scolding", "Negative punishment: take away the phone"],
+          ],
+        },
+        keyIdea: "Reinforcement always INCREASES behavior; punishment always DECREASES it. Positive = add, Negative = remove.",
+        traps: ["Negative reinforcement is NOT punishment. It removes something unpleasant to INCREASE a behavior (taking aspirin to end pain makes you take aspirin again)."],
+      },
+      {
+        title: "Schedules of reinforcement",
+        body:
+          "When you reinforce matters as much as whether you reinforce. Ratio schedules reward after a number of responses; interval schedules reward after time. Fixed is predictable; variable is unpredictable — and variable schedules produce the steadiest, most addiction-resistant responding (think slot machines).",
+        table: {
+          headers: ["Schedule", "Reward after…", "Everyday example"],
+          rows: [
+            ["Fixed-ratio", "A set # of responses", "Buy 10 coffees, get 1 free"],
+            ["Variable-ratio", "An unpredictable # of responses", "Slot machines (highest, steadiest rate)"],
+            ["Fixed-interval", "A set amount of time", "A weekly paycheck"],
+            ["Variable-interval", "An unpredictable amount of time", "Checking for a text reply"],
+          ],
+        },
+        keyIdea: "Variable-ratio is the most powerful schedule — unpredictable rewards are why gambling is so hard to quit.",
+        terms: [
+          { term: "Shaping", def: "Reinforcing successive approximations to build a complex behavior step by step." },
+          { term: "Primary vs. secondary reinforcer", def: "Satisfies a biological need (food) vs. gains value by association (money)." },
+        ],
+      },
+    ],
+  },
 ];
