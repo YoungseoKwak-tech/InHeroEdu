@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { useLang } from "@/app/contexts/LanguageContext";
 import AuthModal from "@/components/auth/AuthModal";
 import AdminNotificationBell from "@/components/admin/AdminNotificationBell";
 import NavbarStreakPill from "@/components/layout/NavbarStreakPill";
@@ -32,7 +32,7 @@ export default function Navbar() {
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [authRedirectTo, setAuthRedirectTo] = useState("/my-plan");
   const [scrolled, setScrolled] = useState(false);
-  const pathname = usePathname();
+  const { lang, toggle, t } = useLang();
   const supabase = createBrowserClient();
   const [user, setUser] = useState<{ email: string | undefined } | null>(null);
   // Defense-in-depth against React #418/#423 hydration mismatch — defer
@@ -42,9 +42,6 @@ export default function Navbar() {
   // from cookie before paint, the auth UI would diverge.
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
-  // Korean toggle dropped — site is English-only. /kr routes remain
-  // accessible by direct URL but aren't promoted in nav.
-  void pathname;
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -215,13 +212,35 @@ export default function Navbar() {
                 el.style.background = "transparent";
               }}
             >
-              {link.label}
+              {t(link.label)}
             </Link>
           ))}
         </div>
 
         {/* Desktop CTA */}
         <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 }} className="hidden md:flex">
+          {/* Language toggle — flips the whole site via a server-read cookie
+              (see LanguageContext). Shows the language you'd switch TO. */}
+          <button
+            onClick={toggle}
+            title={lang === "ko" ? "View the English site" : "한국어로 보기"}
+            aria-label={lang === "ko" ? "Switch to English" : "한국어로 전환"}
+            style={{
+              padding: "7px 10px",
+              borderRadius: "999px",
+              border: "1px solid rgba(0,255,136,0.18)",
+              background: "rgba(0,255,136,0.045)",
+              color: "#00FF88",
+              cursor: "none",
+              fontSize: "10.5px",
+              fontWeight: 800,
+              fontFamily: "'JetBrains Mono', monospace",
+              letterSpacing: "0.08em",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {lang === "ko" ? "EN" : "한국어"}
+          </button>
           {!mounted ? (
             <div aria-hidden="true" style={{ width: 120, height: 32 }} />
           ) : user ? (
@@ -238,7 +257,7 @@ export default function Navbar() {
                   letterSpacing: "0.08em",
                 }}
               >
-                Billing
+                {t("Billing")}
               </Link>
               <Link
                 href="/me"
@@ -271,7 +290,7 @@ export default function Navbar() {
                 onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#FF3B3B")}
                 onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#444466")}
               >
-                Log out
+                {t("Log out")}
               </button>
             </div>
           ) : (
@@ -293,7 +312,7 @@ export default function Navbar() {
                 onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#E8E8F0")}
                 onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#8888AA")}
               >
-                LOGIN
+                {t("Login")}
               </button>
               <button
                 onClick={() => { setAuthMode("signup"); setAuthOpen(true); }}
@@ -311,7 +330,7 @@ export default function Navbar() {
                   transition: "all 200ms cubic-bezier(0.16,1,0.3,1)",
                 }}
               >
-                LAUNCH →
+                {t("LAUNCH →")}
               </button>
             </>
           )}
@@ -355,6 +374,25 @@ export default function Navbar() {
             gap: "2px",
           }}
         >
+          {/* Language toggle (mobile) */}
+          <button
+            onClick={() => { toggle(); setMenuOpen(false); }}
+            style={{
+              alignSelf: "flex-start",
+              marginBottom: "6px",
+              padding: "7px 12px",
+              borderRadius: "999px",
+              border: "1px solid rgba(0,255,136,0.18)",
+              background: "rgba(0,255,136,0.045)",
+              color: "#00FF88",
+              fontSize: "11px",
+              fontWeight: 800,
+              fontFamily: "'JetBrains Mono', monospace",
+              letterSpacing: "0.08em",
+            }}
+          >
+            {lang === "ko" ? "EN" : "한국어"}
+          </button>
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -371,7 +409,7 @@ export default function Navbar() {
               }}
               onClick={() => setMenuOpen(false)}
             >
-              {link.label}
+              {t(link.label)}
             </Link>
           ))}
 
@@ -398,7 +436,7 @@ export default function Navbar() {
                   onClick={handleSignOut}
                   style={{ color: "#FF3B3B", background: "none", border: "none", fontSize: "12px", fontFamily: "'JetBrains Mono', monospace", cursor: "none", textAlign: "left", padding: "10px 4px" }}
                 >
-                  Log out
+                  {t("Log out")}
                 </button>
               </>
             ) : (
@@ -407,14 +445,14 @@ export default function Navbar() {
                   onClick={() => { setAuthMode("login"); setAuthOpen(true); setMenuOpen(false); }}
                   style={{ color: "#8888AA", background: "none", border: "none", fontSize: "12px", fontFamily: "'JetBrains Mono', monospace", cursor: "none", textAlign: "left", padding: "10px 4px" }}
                 >
-                  LOGIN
+                  {t("Login")}
                 </button>
                 <button
                   onClick={() => { setAuthMode("signup"); setAuthOpen(true); setMenuOpen(false); }}
                   className="hud-btn btn-primary"
                   style={{ width: "100%", justifyContent: "center", fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.1em" }}
                 >
-                  LAUNCH →
+                  {t("LAUNCH →")}
                 </button>
               </>
             )}

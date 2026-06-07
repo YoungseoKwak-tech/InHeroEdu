@@ -6,7 +6,8 @@ import HandleOnboardingModal from "@/components/auth/HandleOnboardingModal";
 import StudyProfileGate from "@/components/onboarding/StudyProfileGate";
 import SpaceBackground from "@/components/SpaceBackground";
 import SpaceCursor from "@/components/SpaceCursor";
-import { LanguageProvider } from "@/app/contexts/LanguageContext";
+import { LanguageProvider, LANG_COOKIE, type Lang } from "@/app/contexts/LanguageContext";
+import { cookies } from "next/headers";
 import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
@@ -28,13 +29,19 @@ export const metadata: Metadata = {
   icons: { icon: "/favicon.ico", apple: "/apple-touch-icon.png" },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Read the locale the user picked (cookie) on the SERVER so <html lang> and
+  // the LanguageProvider start from the same value the client will hydrate
+  // with — no SSR/CSR mismatch. Defaults to English when no cookie is set.
+  const cookieStore = await cookies();
+  const initialLang: Lang = cookieStore.get(LANG_COOKIE)?.value === "ko" ? "ko" : "en";
+
   return (
-    <html lang="en" suppressHydrationWarning className="dark">
+    <html lang={initialLang} suppressHydrationWarning className="dark">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -59,7 +66,7 @@ export default function RootLayout({
         />
         <SpaceBackground />
         <SpaceCursor />
-        <LanguageProvider>
+        <LanguageProvider initialLang={initialLang}>
           <Navbar />
           <main className="flex-1" style={{ position: 'relative' }}>{children}</main>
           <Footer />
