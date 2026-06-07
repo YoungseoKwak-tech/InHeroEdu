@@ -6300,4 +6300,114 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-us-government", unit: 4, lessonNum: 1,
+    unitName: "American Political Ideologies and Beliefs",
+    title: "Political Socialization and Public Opinion",
+    subtitle: "Where your political views come from — and how we (imperfectly) measure what the public thinks.",
+    overview:
+      "Political socialization is the lifelong process of forming political beliefs, shaped by family, school, media, and events. Public opinion — the aggregate of those beliefs — is measured by polls, which must be carefully designed to be accurate and influence policy and elections.",
+    objectives: [
+      "Identify agents of political socialization.",
+      "Explain how scientific polls work and their pitfalls.",
+      "Connect ideology to policy preferences.",
+    ],
+    sections: [
+      {
+        title: "Where beliefs come from",
+        body:
+          "Several agents of socialization shape political views: family (the strongest early influence), schools, peers, religion, media, and major events (wars, recessions) that can mark a whole generation. These shape where someone lands on the liberal–conservative spectrum.",
+        keyIdea: "FAMILY is the single strongest agent of political socialization, especially early in life.",
+        terms: [
+          { term: "Political socialization", def: "The lifelong process of acquiring political beliefs and values." },
+          { term: "Agents of socialization", def: "Family, school, peers, media, religion, and events that shape views." },
+        ],
+      },
+      {
+        title: "Measuring public opinion",
+        body:
+          "Scientific polls use a random sample so every person has an equal chance of selection, making results generalizable within a margin of error (smaller samples = larger error). Poor wording, biased samples, or non-representative respondents distort results. Reliable polls shape campaigns and policy.",
+        terms: [
+          { term: "Random sampling", def: "Each member of the population has an equal chance of being polled — key to a valid poll." },
+          { term: "Margin of error", def: "The range a poll's result may differ from the true value; shrinks with larger samples." },
+          { term: "Sampling bias", def: "A non-representative sample that skews poll results." },
+        ],
+        traps: ["A valid poll needs a RANDOM, representative sample — a huge but biased sample is worse than a small random one."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-us-government", unit: 5, lessonNum: 1,
+    unitName: "Political Participation",
+    title: "Political Parties — Functions and Realignment",
+    subtitle: "Parties organize politics — recruiting candidates, mobilizing voters, and occasionally reinventing their coalitions.",
+    overview:
+      "Political parties link citizens to government. They recruit and nominate candidates, mobilize voters, organize government, and offer a brand/platform. The U.S. two-party system is reinforced by its electoral rules, and party coalitions shift over time through realignments.",
+    objectives: [
+      "Describe the functions of political parties.",
+      "Explain why the U.S. has a two-party system.",
+      "Define party realignment.",
+    ],
+    sections: [
+      {
+        title: "What parties do",
+        body:
+          "Parties recruit and nominate candidates, mobilize and educate voters, organize the government (leadership, committees), and provide a label voters use as a shortcut. They're the main organizing force connecting citizens to elected officials.",
+        keyIdea: "Parties are intermediaries: they link voters to government by nominating candidates, mobilizing voters, and organizing the legislature.",
+        terms: [
+          { term: "Political party", def: "An organization that nominates candidates and seeks to control government." },
+          { term: "Party platform", def: "A party's stated positions and goals." },
+        ],
+      },
+      {
+        title: "Two parties and realignment",
+        body:
+          "The U.S. has a stable two-party system largely because of winner-take-all, single-member districts (Duverger's law) that squeeze out third parties. Occasionally, a critical election triggers a realignment — a lasting shift in which groups support which party (e.g., the New Deal coalition). Third parties rarely win but can raise issues and act as spoilers.",
+        terms: [
+          { term: "Winner-take-all", def: "Single-member-district system that favors two major parties (Duverger's law)." },
+          { term: "Realignment", def: "A durable shift in the parties' coalitions of supporters." },
+        ],
+        traps: ["The two-party system is caused mainly by WINNER-TAKE-ALL/single-member districts — not by any law banning third parties."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-us-government", unit: 5, lessonNum: 2,
+    unitName: "Political Participation",
+    title: "Interest Groups and Campaign Finance",
+    subtitle: "Organized money and influence — who shapes policy between elections, and the rules (and loopholes) governing campaign cash.",
+    overview:
+      "Interest groups represent shared concerns, influencing policy through lobbying, litigation, and elections. Campaign finance law tries to limit money's corrupting influence, but court rulings — especially Citizens United — opened the door to unlimited independent spending via PACs and super PACs.",
+    objectives: [
+      "Describe how interest groups influence policy.",
+      "Distinguish PACs from super PACs.",
+      "Explain the impact of Citizens United.",
+    ],
+    sections: [
+      {
+        title: "How interest groups work",
+        body:
+          "Interest groups influence government by lobbying (directly persuading officials), filing lawsuits and amicus briefs, mobilizing members, and rating/endorsing candidates. They give organized voices to causes and industries — raising concerns that well-funded groups have outsized influence.",
+        keyIdea: "Interest groups influence policy between elections via LOBBYING, litigation, and mobilizing members — not just by donating.",
+        terms: [
+          { term: "Interest group", def: "An organization that seeks to influence public policy for shared goals." },
+          { term: "Lobbying", def: "Directly trying to persuade government officials on policy." },
+        ],
+      },
+      {
+        title: "Campaign finance",
+        body:
+          "A PAC (political action committee) raises money to donate directly to candidates, with limits. A super PAC can raise and spend UNLIMITED money on independent ads but can't donate directly to or coordinate with campaigns. The Supreme Court's Citizens United v. FEC (2010) ruled that independent political spending is protected speech, unleashing super PACs.",
+        table: {
+          headers: ["", "PAC", "Super PAC"],
+          rows: [
+            ["Donate to candidates?", "Yes (limited)", "No (independent only)"],
+            ["Spending limit", "Limited", "Unlimited (independent)"],
+          ],
+        },
+        keyIdea: "Citizens United (2010) allowed UNLIMITED independent spending → the rise of super PACs (which can't donate directly to candidates).",
+        traps: ["Super PACs spend UNLIMITED money INDEPENDENTLY but cannot donate to or coordinate with a candidate — that's the legal line from Citizens United."],
+      },
+    ],
+  },
 ];
