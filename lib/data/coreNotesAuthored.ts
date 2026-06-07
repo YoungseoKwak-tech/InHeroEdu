@@ -6523,4 +6523,114 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-english-language", unit: 1, lessonNum: 3,
+    unitName: "Rhetorical Situation",
+    title: "Purpose and Claim",
+    subtitle: "Every argument is built on a clear, defensible claim aimed at a specific purpose.",
+    overview:
+      "An author writes with a purpose — to persuade, inform, or call to action — and that purpose is delivered through a claim: the central, arguable point. A strong claim (thesis) is debatable and specific, and everything in the text works to support it.",
+    objectives: [
+      "Distinguish purpose from claim.",
+      "Identify the qualities of a strong claim.",
+      "Connect a thesis to its supporting structure.",
+    ],
+    diagram: "argument-structure",
+    sections: [
+      {
+        title: "Purpose vs. claim",
+        body:
+          "Purpose is the WHY — what the author wants to accomplish (persuade, inform, satirize). The claim is the WHAT — the central arguable assertion (the thesis). A good claim is defensible (someone could disagree) and specific enough to prove within the text.",
+        keyIdea: "Purpose = the author's GOAL; claim/thesis = the arguable POINT that serves it. A claim must be debatable, not a fact.",
+        terms: [
+          { term: "Purpose", def: "What the author seeks to achieve (persuade, inform, call to action)." },
+          { term: "Claim (thesis)", def: "The central, arguable assertion a text defends." },
+        ],
+      },
+      {
+        title: "What makes a claim strong",
+        body:
+          "A strong claim is arguable (not a statement of fact), specific (narrow enough to support), and defensible with evidence. In your own writing, the thesis should also preview your line of reasoning — the logical path the argument will follow to prove the claim.",
+        terms: [
+          { term: "Defensible claim", def: "An arguable thesis that can be supported with evidence." },
+          { term: "Line of reasoning", def: "The logical sequence connecting claim, evidence, and commentary." },
+        ],
+        traps: ["A claim must be ARGUABLE — 'the sky is blue' is a fact, not a claim. If no one could reasonably disagree, it's not a thesis."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-english-language", unit: 2, lessonNum: 1,
+    unitName: "Claims, Evidence, and Commentary",
+    title: "Types of Claims",
+    subtitle: "Not all claims are the same — knowing the type tells you what kind of evidence you'll need.",
+    overview:
+      "Arguments rest on claims, and there are different kinds: claims of fact, value, and policy. Identifying the type matters because each requires different evidence and reasoning to defend.",
+    objectives: [
+      "Distinguish claims of fact, value, and policy.",
+      "Match each claim type to appropriate evidence.",
+      "Recognize main claims vs. sub-claims.",
+    ],
+    sections: [
+      {
+        title: "Three types of claims",
+        body:
+          "Each claim type asks a different question and needs different support.",
+        table: {
+          headers: ["Type", "Asserts", "Example"],
+          rows: [
+            ["Fact", "Something is/isn't true", "'Test scores have declined since 2010.'"],
+            ["Value", "Something is good/bad/moral", "'Standardized testing is unfair.'"],
+            ["Policy", "Something should be done", "'Schools should drop standardized tests.'"],
+          ],
+        },
+        keyIdea: "Fact = is it true? Value = is it good? Policy = should we act? Policy claims usually rest on fact AND value claims underneath.",
+      },
+      {
+        title: "Claims build on claims",
+        body:
+          "A text usually has one main claim (thesis) supported by several sub-claims, each backed by evidence. Recognizing this hierarchy helps you analyze structure and build your own line of reasoning.",
+        terms: [
+          { term: "Claim of fact / value / policy", def: "Assertions about what's true, what's good, or what should be done." },
+          { term: "Sub-claim", def: "A smaller claim that supports the main thesis." },
+        ],
+        traps: ["A POLICY claim ('we should…') usually depends on hidden fact and value claims — identify those to evaluate or attack it."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-english-language", unit: 2, lessonNum: 2,
+    unitName: "Claims, Evidence, and Commentary",
+    title: "Evidence Selection and Integration",
+    subtitle: "Evidence alone doesn't argue — your commentary connecting it to the claim does the persuading.",
+    overview:
+      "Strong arguments support claims with relevant, sufficient evidence — and crucially, with commentary that explains HOW the evidence proves the point. On AP Lang, the gap between average and great writing is almost always the quality of commentary, not the amount of evidence.",
+    objectives: [
+      "Identify types of evidence and judge relevance.",
+      "Explain the role of commentary.",
+      "Integrate evidence smoothly into reasoning.",
+    ],
+    sections: [
+      {
+        title: "Choosing good evidence",
+        body:
+          "Evidence can be facts/statistics, examples, expert testimony, anecdotes, or analogies. Good evidence is relevant (directly supports the claim), sufficient (enough to convince), and credible. The TYPE should fit the audience — data for skeptics, stories for emotional appeal.",
+        keyIdea: "Evidence must be RELEVANT and SUFFICIENT — piling on quotes doesn't help if they don't directly support the claim.",
+        terms: [
+          { term: "Evidence", def: "Facts, examples, testimony, or data used to support a claim." },
+          { term: "Relevance / sufficiency", def: "Whether evidence directly supports the claim and is enough to convince." },
+        ],
+      },
+      {
+        title: "Commentary is the engine",
+        body:
+          "Evidence doesn't speak for itself. Commentary is the writer's explanation of HOW and WHY the evidence supports the claim — the link that turns a fact into an argument. Weak essays 'drop' quotes; strong essays explain each piece's significance, building the line of reasoning.",
+        terms: [
+          { term: "Commentary", def: "Explanation of how/why evidence supports the claim — the analytical link." },
+          { term: "Dropped quote", def: "Evidence inserted without integration or explanation — a weakness to avoid." },
+        ],
+        traps: ["The #1 AP Lang fix: add COMMENTARY. Evidence without explanation of its significance does not make an argument."],
+      },
+    ],
+  },
 ];
