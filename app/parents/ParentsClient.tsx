@@ -80,6 +80,7 @@ const NAV = [
   { label: "AP 과목 가이드", route: "/parents/ap-guide", gated: false },
   { label: "AP 문제은행", route: "/parents/question-bank", gated: false },
   { label: "핵심노트", route: "/parents/core-notes", gated: false },
+  { label: "단어장", route: "/parents/vocab", gated: false },
   { label: "디지털 교재", route: "#textbooks", gated: false },
   { label: "미국 대학 분석", route: "/parents/colleges", gated: false },
 ];
@@ -91,6 +92,7 @@ const QUICK = [
   { emoji: "📘", label: "AP 과목 가이드", route: "/parents/ap-guide", gated: false },
   { emoji: "📝", label: "AP 문제은행", route: "/parents/question-bank", gated: false },
   { emoji: "📘", label: "핵심노트", route: "/parents/core-notes", gated: false },
+  { emoji: "📒", label: "단어장", route: "/parents/vocab", gated: false },
   { emoji: "📚", label: "디지털 교재", route: "#textbooks", gated: false },
   { emoji: "🏛️", label: "미국 대학 분석", route: "/parents/colleges", gated: false },
 ];

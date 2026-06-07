@@ -1,0 +1,28 @@
+"use client";
+
+/**
+ * /parents/vocab — WHITE 단어장 for the parent portal. Reuses the shared
+ * <VocabStudy> in light theme inside the standard ParentHubShell.
+ */
+
+import ParentHubShell from "@/components/parents/ParentHubShell";
+import VocabStudy from "@/components/vocab/VocabStudy";
+
+export default function VocabClient() {
+  return (
+    <ParentHubShell
+      eyebrow="📒 과목별 단어장"
+      title="한국어로 보고, 영어로 외우는 필수 단어장"
+      intro={
+        <>
+          미국 입시에서 가장 큰 약점 중 하나가 <strong>영어 어휘력</strong>입니다. 이미 아는 한국어 뜻에서
+          영어 용어를 떠올리는 연습으로, 과목별 필수 용어를 빠르게 자기 것으로 만드세요.
+          <br />
+          <span style={{ fontSize: 12.5, color: "#94a3b8" }}>※ 목록 · 플래시카드(암기) · 오늘의 단어 모드를 지원합니다. 한국어 핵심노트가 채워질수록 단어장도 자동으로 늘어납니다.</span>
+        </>
+      }
+    >
+      <VocabStudy theme="light" />
+    </ParentHubShell>
+  );
+}

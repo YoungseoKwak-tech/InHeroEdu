@@ -1,0 +1,309 @@
+"use client";
+
+/**
+ * VocabStudy — shared bilingual 단어장 UI used by both the dark /vocab page and
+ * the white /parents/vocab page (theme prop switches the palette only; all
+ * logic is shared).
+ *
+ * Subject tabs → unit filter → three modes:
+ *   📋 목록   list with an "영어 가리기" self-test
+ *   🎴 암기   flashcards over the filtered set (shuffle, self-grade, 오답 노트)
+ *   ☀️ 오늘   today's fixed N terms (deterministic per date), as flashcards
+ */
+
+import { useEffect, useMemo, useState } from "react";
+
+export interface VocabTerm { en: string; ko: string; def: string; unit: number | null }
+interface VocabSubject { courseId: string; label: string; emoji: string; count: number }
+
+type Theme = "dark" | "light";
+const DAILY_N = 20;
+
+function palette(theme: Theme) {
+  if (theme === "light") {
+    return {
+      accent: "#00b85f", text: "#1a1a1f", sub: "#475569", muted: "#94a3b8",
+      cardBg: "#fff", cardBorder: "#e6e8ec", chipBg: "#f1f3f5", chipBorder: "#e2e6ea",
+      accentBg: "rgba(0,184,95,0.12)", accentBorder: "rgba(0,184,95,0.45)",
+      studyCardBg: "linear-gradient(160deg, rgba(0,184,95,0.07), #fff)", studyCardBorder: "rgba(0,184,95,0.35)",
+      track: "#e6e8ec", wrong: "#dc2626", wrongBg: "rgba(220,38,38,0.08)",
+    };
+  }
+  return {
+    accent: "#00FFB2", text: "#fff", sub: "rgba(255,255,255,0.6)", muted: "rgba(255,255,255,0.35)",
+    cardBg: "rgba(255,255,255,0.02)", cardBorder: "rgba(255,255,255,0.08)", chipBg: "rgba(255,255,255,0.03)", chipBorder: "rgba(255,255,255,0.1)",
+    accentBg: "rgba(0,255,178,0.14)", accentBorder: "rgba(0,255,178,0.55)",
+    studyCardBg: "linear-gradient(160deg, rgba(0,255,178,0.06), rgba(255,255,255,0.02))", studyCardBorder: "rgba(0,255,178,0.25)",
+    track: "rgba(255,255,255,0.08)", wrong: "#ff8b8b", wrongBg: "rgba(255,107,107,0.1)",
+  };
+}
+type P = ReturnType<typeof palette>;
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Deterministic daily subset: same N terms all day, rotating by date + subject.
+function dailySubset(terms: VocabTerm[], subject: string): VocabTerm[] {
+  if (terms.length <= DAILY_N) return terms;
+  const d = new Date();
+  const seedStr = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}-${subject}`;
+  let h = 2166136261;
+  for (let i = 0; i < seedStr.length; i++) { h ^= seedStr.charCodeAt(i); h = Math.imul(h, 16777619); }
+  let rng = h >>> 0;
+  const next = () => { rng ^= rng << 13; rng ^= rng >>> 17; rng ^= rng << 5; return (rng >>> 0) / 4294967296; };
+  const idx = terms.map((_, i) => i);
+  for (let i = idx.length - 1; i > 0; i--) { const j = Math.floor(next() * (i + 1)); [idx[i], idx[j]] = [idx[j], idx[i]]; }
+  return idx.slice(0, DAILY_N).map((i) => terms[i]);
+}
+
+export default function VocabStudy({ theme }: { theme: Theme }) {
+  const Pa = palette(theme);
+  const [subjects, setSubjects] = useState<VocabSubject[]>([]);
+  const [total, setTotal] = useState(0);
+  const [active, setActive] = useState<string | null>(null);
+  const [terms, setTerms] = useState<VocabTerm[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [mode, setMode] = useState<"list" | "study" | "daily">("list");
+  const [unit, setUnit] = useState<number | null>(null);
+  const [hideEn, setHideEn] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/vocab?countOnly=true").then((r) => r.json())
+      .then((d) => {
+        setSubjects(d.subjects ?? []);
+        setTotal(d.total ?? 0);
+        if (d.subjects?.length) setActive(d.subjects[0].courseId); else setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    if (!active) return;
+    setLoading(true); setUnit(null);
+    fetch(`/api/vocab?subject=${encodeURIComponent(active)}`).then((r) => r.json())
+      .then((d) => setTerms(d.terms ?? []))
+      .catch(() => setTerms([]))
+      .finally(() => setLoading(false));
+  }, [active]);
+
+  const units = useMemo(() => {
+    const s = new Set<number>();
+    for (const t of terms) if (t.unit != null) s.add(t.unit);
+    return [...s].sort((a, b) => a - b);
+  }, [terms]);
+
+  const filtered = useMemo(
+    () => (unit == null ? terms : terms.filter((t) => t.unit === unit)),
+    [terms, unit]
+  );
+  const deckTerms = mode === "daily" ? dailySubset(filtered, active ?? "") : filtered;
+  const activeSubject = subjects.find((s) => s.courseId === active);
+
+  return (
+    <div>
+      {/* Subject chips */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
+        {subjects.length === 0 && !loading && (
+          <p style={{ color: Pa.muted, fontSize: 14 }}>아직 준비된 단어장이 없어요 — 과목이 순차적으로 추가됩니다.</p>
+        )}
+        {subjects.map((s) => {
+          const on = s.courseId === active;
+          return (
+            <button key={s.courseId} onClick={() => { setActive(s.courseId); setMode("list"); }}
+              style={chip(Pa, on)}>
+              <span>{s.emoji}</span>{s.label}<span style={{ opacity: 0.6, fontSize: 11 }}>{s.count}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {activeSubject && (
+        <>
+          {/* Unit filter */}
+          {units.length > 0 && (
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 14 }}>
+              <button onClick={() => setUnit(null)} style={unitChip(Pa, unit === null)}>전체</button>
+              {units.map((u) => (
+                <button key={u} onClick={() => setUnit(u)} style={unitChip(Pa, unit === u)}>U{u}</button>
+              ))}
+            </div>
+          )}
+
+          {/* Mode + tools */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 18 }}>
+            <div style={{ display: "inline-flex", padding: 3, gap: 2, borderRadius: 999, border: `1px solid ${Pa.chipBorder}`, background: Pa.chipBg }}>
+              {([["list", "📋 목록"], ["study", "🎴 암기"], ["daily", "☀️ 오늘"]] as const).map(([m, label]) => (
+                <button key={m} onClick={() => setMode(m)}
+                  style={{ padding: "6px 14px", borderRadius: 999, border: "none", cursor: "pointer", fontSize: 12.5, fontWeight: 800,
+                    background: mode === m ? Pa.accentBg : "transparent", color: mode === m ? Pa.accent : Pa.sub }}>
+                  {label}
+                </button>
+              ))}
+            </div>
+            {mode === "list" && (
+              <button onClick={() => setHideEn((v) => !v)}
+                style={{ padding: "7px 14px", borderRadius: 999, cursor: "pointer", fontSize: 12.5, fontWeight: 700,
+                  border: `1px solid ${Pa.chipBorder}`, background: hideEn ? Pa.accentBg : Pa.chipBg, color: hideEn ? Pa.accent : Pa.sub }}>
+                {hideEn ? "👁 영어 보이기" : "🙈 영어 가리기 (자가 테스트)"}
+              </button>
+            )}
+            <span style={{ marginLeft: "auto", fontSize: 12, color: Pa.muted }}>
+              {mode === "daily" ? `오늘의 ${deckTerms.length}개` : `${filtered.length}개 용어`}
+            </span>
+          </div>
+        </>
+      )}
+
+      {loading ? (
+        <p style={{ color: Pa.muted, fontSize: 14, padding: "40px 0", textAlign: "center" }}>불러오는 중…</p>
+      ) : !activeSubject ? null : deckTerms.length === 0 ? (
+        <p style={{ color: Pa.muted, fontSize: 14 }}>이 범위의 단어가 없어요.</p>
+      ) : mode === "list" ? (
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {filtered.map((t, i) => <TermRow key={`${t.en}-${i}`} t={t} hideEn={hideEn} Pa={Pa} />)}
+        </div>
+      ) : (
+        <StudyDeck key={`${active}-${unit}-${mode}`} terms={deckTerms} Pa={Pa} />
+      )}
+    </div>
+  );
+}
+
+function chip(Pa: P, on: boolean): React.CSSProperties {
+  return {
+    display: "inline-flex", alignItems: "center", gap: 7, padding: "8px 14px", borderRadius: 999,
+    fontSize: 13, fontWeight: 700, cursor: "pointer",
+    border: `1px solid ${on ? Pa.accentBorder : Pa.chipBorder}`,
+    background: on ? Pa.accentBg : Pa.chipBg, color: on ? Pa.accent : Pa.sub,
+  };
+}
+function unitChip(Pa: P, on: boolean): React.CSSProperties {
+  return {
+    padding: "5px 12px", borderRadius: 999, fontSize: 12, fontWeight: 700, cursor: "pointer",
+    border: `1px solid ${on ? Pa.accentBorder : Pa.chipBorder}`,
+    background: on ? Pa.accentBg : Pa.chipBg, color: on ? Pa.accent : Pa.sub,
+  };
+}
+
+function TermRow({ t, hideEn, Pa }: { t: VocabTerm; hideEn: boolean; Pa: P }) {
+  const [revealed, setRevealed] = useState(false);
+  const showEn = !hideEn || revealed;
+  return (
+    <div style={{ borderRadius: 14, border: `1px solid ${Pa.cardBorder}`, background: Pa.cardBg, padding: "16px 18px" }}>
+      <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
+        <span style={{ fontSize: 16, fontWeight: 800, color: Pa.text, letterSpacing: "-0.01em" }}>{t.ko}</span>
+        {t.unit != null && (
+          <span style={{ fontSize: 10, fontWeight: 700, color: Pa.muted, border: `1px solid ${Pa.chipBorder}`, borderRadius: 999, padding: "1px 8px" }}>U{t.unit}</span>
+        )}
+        <span style={{ marginLeft: "auto" }}>
+          {showEn ? (
+            <span style={{ fontSize: 15, fontWeight: 800, color: Pa.accent, letterSpacing: "-0.01em" }}>{t.en}</span>
+          ) : (
+            <button onClick={() => setRevealed(true)}
+              style={{ fontSize: 12.5, fontWeight: 700, color: Pa.accent, background: Pa.accentBg, border: `1px solid ${Pa.accentBorder}`, borderRadius: 8, padding: "4px 12px", cursor: "pointer" }}>
+              영어 확인
+            </button>
+          )}
+        </span>
+      </div>
+      <p style={{ fontSize: 13, color: Pa.sub, lineHeight: 1.6, margin: "8px 0 0" }}>{t.def}</p>
+    </div>
+  );
+}
+
+function StudyDeck({ terms, Pa }: { terms: VocabTerm[]; Pa: P }) {
+  const [deck, setDeck] = useState<VocabTerm[]>(() => shuffle(terms));
+  const [pos, setPos] = useState(0);
+  const [revealed, setRevealed] = useState(false);
+  const [wrong, setWrong] = useState<VocabTerm[]>([]);
+
+  const done = pos >= deck.length;
+  const card = !done ? deck[pos] : null;
+  const knownCount = deck.length - wrong.length - (deck.length - pos);
+
+  function grade(ok: boolean) {
+    if (!ok) setWrong((w) => [...w, deck[pos]]);
+    setRevealed(false);
+    setPos((p) => p + 1);
+  }
+  function restart(only?: VocabTerm[]) {
+    const src = only ?? terms;
+    setDeck(shuffle(src)); setPos(0); setRevealed(false); setWrong([]);
+  }
+
+  if (done) {
+    const correct = deck.length - wrong.length;
+    return (
+      <div style={{ textAlign: "center", padding: "44px 20px", borderRadius: 18, border: `1px solid ${Pa.studyCardBorder}`, background: Pa.accentBg }}>
+        <p style={{ fontSize: 34, margin: "0 0 8px" }}>🎉</p>
+        <p style={{ fontSize: 19, fontWeight: 850, color: Pa.text, margin: "0 0 6px" }}>한 바퀴 완료!</p>
+        <p style={{ fontSize: 14, color: Pa.sub, margin: "0 0 20px" }}>
+          외움 <strong style={{ color: Pa.accent }}>{correct}</strong> · 다시볼 것 <strong style={{ color: Pa.wrong }}>{wrong.length}</strong> / 총 {deck.length}개
+        </p>
+        <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
+          {wrong.length > 0 && (
+            <button onClick={() => restart(wrong)} style={studyBtn(Pa.wrong, true, Pa)}>📕 틀린 것만 다시 ({wrong.length})</button>
+          )}
+          <button onClick={() => restart()} style={studyBtn(Pa.accent, wrong.length === 0, Pa)}>🔄 전체 다시</button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14, fontSize: 12.5, color: Pa.sub }}>
+        <span>{pos + 1} / {deck.length}</span>
+        <div style={{ flex: 1, height: 6, borderRadius: 999, background: Pa.track, overflow: "hidden" }}>
+          <div style={{ width: `${(pos / deck.length) * 100}%`, height: "100%", background: Pa.accent, transition: "width .2s" }} />
+        </div>
+        <span style={{ color: Pa.accent }}>✓ {Math.max(0, knownCount)}</span>
+        <span style={{ color: Pa.wrong }}>✗ {wrong.length}</span>
+      </div>
+
+      <div onClick={() => !revealed && setRevealed(true)}
+        style={{ borderRadius: 20, border: `1px solid ${Pa.studyCardBorder}`, background: Pa.studyCardBg,
+          minHeight: 240, padding: "34px 26px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+          textAlign: "center", cursor: revealed ? "default" : "pointer" }}>
+        {card!.unit != null && (
+          <span style={{ fontSize: 10.5, fontWeight: 700, color: Pa.muted, border: `1px solid ${Pa.chipBorder}`, borderRadius: 999, padding: "2px 9px", marginBottom: 16 }}>Unit {card!.unit}</span>
+        )}
+        <p style={{ fontSize: 26, fontWeight: 850, color: Pa.text, letterSpacing: "-0.02em", margin: 0, lineHeight: 1.3 }}>{card!.ko}</p>
+        {!revealed ? (
+          <p style={{ fontSize: 13, color: Pa.accent, marginTop: 18 }}>영어 용어를 떠올려보고 — 탭하면 정답</p>
+        ) : (
+          <>
+            <div style={{ width: 60, height: 1, background: Pa.cardBorder, margin: "20px 0" }} />
+            <p style={{ fontSize: 24, fontWeight: 850, color: Pa.accent, letterSpacing: "-0.01em", margin: 0 }}>{card!.en}</p>
+            <p style={{ fontSize: 13.5, color: Pa.sub, lineHeight: 1.65, margin: "14px 0 0", maxWidth: 460 }}>{card!.def}</p>
+          </>
+        )}
+      </div>
+
+      <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
+        {!revealed ? (
+          <button onClick={() => setRevealed(true)} style={{ ...studyBtn(Pa.text, false, Pa), flex: 1 }}>정답 보기</button>
+        ) : (
+          <>
+            <button onClick={() => grade(false)} style={{ ...studyBtn(Pa.wrong, false, Pa), flex: 1 }}>✗ 다시 볼래요</button>
+            <button onClick={() => grade(true)} style={{ ...studyBtn(Pa.accent, true, Pa), flex: 1 }}>✓ 외웠어요</button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function studyBtn(color: string, filled: boolean, Pa: P): React.CSSProperties {
+  return {
+    padding: "13px 18px", borderRadius: 12, cursor: "pointer", fontSize: 14, fontWeight: 800,
+    border: `1px solid ${filled ? color : Pa.chipBorder}`,
+    background: filled ? `${color}22` : Pa.chipBg, color,
+  };
+}
