@@ -349,27 +349,38 @@ function Diagram({ kind }: { kind: string }) {
 // Universal fallback diagram: a hub-and-spoke concept map from the note's own
 // key terms (or objectives) — so every note gets a visual, not just quant ones.
 function ConceptMap({ title, nodes }: { title: string; nodes: string[] }) {
-  const clean = nodes.map((n) => n.split(/[:(]/)[0].trim()).filter(Boolean);
+  const seen = new Set<string>();
+  const clean = nodes
+    .map((n) => n.split(/[:(]/)[0].trim())
+    .filter((n) => n && !seen.has(n.toLowerCase()) && seen.add(n.toLowerCase()));
   const picked = clean.slice(0, 6);
   if (picked.length === 0) return null;
   const trunc = (s: string, n: number) => (s.length > n ? s.slice(0, n - 1) + "…" : s);
-  const slots = [[58, 34], [58, 90], [58, 146], [222, 34], [222, 90], [222, 146]];
+  // Balanced slots, ordered so fewer nodes still look even (corners first).
+  const cx = 180, cy = 96;
+  const order = [
+    [70, 44], [290, 44], [70, 148], [290, 148], [70, 96], [290, 96],
+  ].slice(0, picked.length);
+  const NW = 104, NH = 28;
   return (
     <figure style={{ margin: "22px 0 0", padding: "18px 18px 12px", borderRadius: 14, background: "#070b12", border: `1px solid ${BORDER}` }}>
       <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: INDIGO, marginBottom: 8 }}>▦ CONCEPT MAP</div>
-      <svg viewBox="0 0 280 180" width="100%" style={{ maxWidth: 420, display: "block", margin: "0 auto" }}>
-        {picked.map((_, i) => (
-          <line key={"l" + i} x1="140" y1="90" x2={slots[i][0]} y2={slots[i][1]} stroke={AXIS} strokeWidth="1.4" />
+      <svg viewBox="0 0 360 192" width="100%" style={{ maxWidth: 460, display: "block", margin: "0 auto" }}>
+        {/* spokes first — hidden under the opaque boxes drawn on top */}
+        {order.map((s, i) => (
+          <line key={"l" + i} x1={cx} y1={cy} x2={s[0]} y2={s[1]} stroke={AXIS} strokeWidth="1.4" />
         ))}
-        {picked.map((t, i) => (
+        {/* satellite term nodes (opaque) */}
+        {order.map((s, i) => (
           <g key={"n" + i}>
-            <rect x={slots[i][0] - 50} y={slots[i][1] - 13} width="100" height="26" rx="7"
-              fill="rgba(143,162,255,0.10)" stroke="rgba(143,162,255,0.5)" strokeWidth="1" />
-            <text x={slots[i][0]} y={slots[i][1] + 3.5} textAnchor="middle" fill="#dfe5f1" fontSize="9">{trunc(t, 18)}</text>
+            <rect x={s[0] - NW / 2} y={s[1] - NH / 2} width={NW} height={NH} rx="8"
+              fill="#0d1320" stroke="rgba(143,162,255,0.55)" strokeWidth="1.2" />
+            <text x={s[0]} y={s[1] + 3.5} textAnchor="middle" fill="#dde4ee" fontSize="9.5">{trunc(picked[i], 16)}</text>
           </g>
         ))}
-        <rect x="92" y="74" width="96" height="32" rx="9" fill="rgba(0,255,178,0.12)" stroke={MINT} strokeWidth="1.6" />
-        <text x="140" y="93.5" textAnchor="middle" fill="#eafff8" fontSize="10" fontWeight="700">{trunc(title, 17)}</text>
+        {/* center topic (opaque, on top so spokes tuck under it) */}
+        <rect x={cx - 56} y={cy - 16} width="112" height="32" rx="9" fill="#0b1f1a" stroke={MINT} strokeWidth="1.8" />
+        <text x={cx} y={cy + 4} textAnchor="middle" fill="#eafff8" fontSize="10.5" fontWeight="700">{trunc(title, 18)}</text>
       </svg>
       <figcaption style={{ textAlign: "center", fontSize: 12, color: DLABEL, marginTop: 6 }}>How the key ideas connect</figcaption>
     </figure>
