@@ -3816,4 +3816,124 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 2, lessonNum: 8,
+    unitName: "The Living World: Biodiversity",
+    title: "Endangered Species and International Agreements",
+    subtitle: "Saving species on the brink takes laws at home and treaties across borders.",
+    overview:
+      "When species approach extinction, protecting them requires legal action — national laws like the Endangered Species Act and international agreements like CITES. Because wildlife and trade cross borders, no single country can do it alone.",
+    objectives: [
+      "Distinguish threatened from endangered species.",
+      "Describe key conservation laws and treaties.",
+      "Explain why international cooperation is necessary.",
+    ],
+    sections: [
+      {
+        title: "Laws and treaties",
+        body:
+          "Protection happens at two levels. National laws (e.g., the US Endangered Species Act) make it illegal to harm listed species or their habitat. International treaties coordinate across borders — CITES regulates trade in endangered species, and other agreements protect habitats and migratory species.",
+        table: {
+          headers: ["Tool", "What it does"],
+          rows: [
+            ["Endangered Species Act (US)", "Lists and legally protects species & habitat"],
+            ["CITES", "Regulates international trade in endangered species"],
+            ["IUCN Red List", "Assesses and ranks extinction risk globally"],
+          ],
+        },
+        keyIdea: "CITES targets the TRADE in endangered species (ivory, exotic pets) — a cross-border problem needing a treaty.",
+      },
+      {
+        title: "Why cooperation matters",
+        body:
+          "Animals migrate, and the trade in wildlife is global, so one nation's protection fails if neighbors don't cooperate. International agreements also help fund conservation in biodiverse but lower-income countries, where much of Earth's biodiversity lives.",
+        terms: [
+          { term: "Endangered vs. threatened", def: "Endangered = at risk of extinction now; threatened = likely to become endangered soon." },
+          { term: "CITES", def: "Treaty regulating international trade in endangered species." },
+        ],
+        traps: ["Endangered (imminent extinction risk) is MORE severe than threatened (likely to become endangered) — don't swap them."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 3, lessonNum: 1,
+    unitName: "Populations",
+    title: "Population Dynamics — Growth Models",
+    subtitle: "Populations either grow explosively (J-curve) or level off at the environment's limit (S-curve).",
+    overview:
+      "Populations change through births, deaths, and migration. Two models capture how: exponential growth (a J-curve, unlimited) and logistic growth (an S-curve that levels off at carrying capacity). Recognizing which applies — and what limits growth — is the core of this unit.",
+    objectives: [
+      "Compare exponential and logistic growth.",
+      "Define carrying capacity and limiting factors.",
+      "Distinguish density-dependent and density-independent factors.",
+    ],
+    sections: [
+      {
+        title: "Two growth models",
+        body:
+          "Exponential growth (J-curve) happens when resources are unlimited — the population explodes. In reality, resources run short, so growth slows and levels off at the carrying capacity (K), producing the S-shaped logistic curve.",
+        table: {
+          headers: ["Model", "Shape", "When"],
+          rows: [
+            ["Exponential", "J-curve", "Unlimited resources (rare, temporary)"],
+            ["Logistic", "S-curve", "Growth slows to carrying capacity (K)"],
+          ],
+        },
+        keyIdea: "Exponential = J-curve (unlimited). Logistic = S-curve leveling at carrying capacity (K). Reality is usually logistic.",
+        terms: [
+          { term: "Carrying capacity (K)", def: "The maximum population an environment can sustain long-term." },
+          { term: "Exponential vs. logistic growth", def: "Unlimited J-curve vs. resource-limited S-curve." },
+        ],
+      },
+      {
+        title: "What limits growth",
+        body:
+          "Limiting factors keep populations near K. Density-dependent factors intensify as the population grows (disease, competition, predation); density-independent factors hit regardless of size (natural disasters, weather). Populations that overshoot K often crash (a die-off).",
+        terms: [
+          { term: "Density-dependent factor", def: "A limit that strengthens as population density rises (disease, competition)." },
+          { term: "Density-independent factor", def: "A limit that acts regardless of density (storms, fire, drought)." },
+        ],
+        traps: ["Density-DEPENDENT effects scale with crowding (disease); density-INDEPENDENT (a hurricane) hit any size population the same."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 3, lessonNum: 2,
+    unitName: "Populations",
+    title: "Population Density and Distribution Patterns",
+    subtitle: "It's not just how many — it's how crowded, and how they're spread out.",
+    overview:
+      "Beyond raw numbers, ecologists describe populations by their density (how many per area) and dispersion (how individuals are spread). These patterns reveal how organisms interact with resources and each other.",
+    objectives: [
+      "Define population density.",
+      "Compare the three dispersion patterns.",
+      "Explain what causes each pattern.",
+    ],
+    sections: [
+      {
+        title: "Density and dispersion",
+        body:
+          "Population density is the number of individuals per unit area. Dispersion describes their spatial arrangement — and the pattern tells you about resources and behavior.",
+        table: {
+          headers: ["Dispersion", "Pattern", "Cause"],
+          rows: [
+            ["Clumped", "Groups/clusters (most common)", "Patchy resources; social groups"],
+            ["Uniform", "Evenly spaced", "Territoriality / competition"],
+            ["Random", "No pattern (rare)", "Resources evenly available, no interaction"],
+          ],
+        },
+        keyIdea: "Clumped is the MOST common in nature — resources and mates are patchy, so organisms cluster.",
+      },
+      {
+        title: "Why patterns matter",
+        body:
+          "Dispersion reveals ecology: uniform spacing usually signals competition or territoriality (e.g., nesting birds); clumping signals patchy resources or herd/social behavior. Density affects how strongly density-dependent factors (like disease) act.",
+        terms: [
+          { term: "Population density", def: "The number of individuals per unit area or volume." },
+          { term: "Dispersion", def: "The spatial pattern of individuals: clumped, uniform, or random." },
+        ],
+        traps: ["Uniform dispersion usually means COMPETITION/territoriality; clumped means patchy resources or social grouping."],
+      },
+    ],
+  },
 ];
