@@ -266,18 +266,7 @@ function NoteView({ note }: { note: CoreNote }) {
         </div>
       )}
 
-      {note.diagram ? (
-        <Diagram kind={note.diagram} />
-      ) : (
-        <ConceptMap
-          title={note.title}
-          nodes={
-            note.sections.flatMap((s) => s.terms.map((t) => t.term)).length
-              ? note.sections.flatMap((s) => s.terms.map((t) => t.term))
-              : note.objectives
-          }
-        />
-      )}
+      {note.diagram && <Diagram kind={note.diagram} />}
 
       {note.sections.map((s, i) => (
         <section key={i} style={{ marginTop: 40 }}>
@@ -332,6 +321,12 @@ const DIAGRAM_TITLES: Record<string, string> = {
   "supply-demand": "Supply & Demand", "ad-as": "AD–AS Model", "ppc": "Production Possibilities Curve",
   "bell-curve": "Normal Distribution (68–95–99.7)", "scatter-regression": "Scatterplot & Regression Line",
   "boxplot": "Box-and-Whisker Plot", "tangent": "Tangent Line (Derivative)", "area-under-curve": "Area Under a Curve (Integral)",
+  "neuron": "Structure of a Neuron", "brain-lobes": "The Four Cortical Lobes",
+  "carbon-cycle": "The Carbon Cycle", "energy-pyramid": "Energy Pyramid (Trophic Levels)",
+  "dtm": "Demographic Transition Model", "population-pyramid": "Population Pyramid",
+  "three-branches": "Separation of Powers", "bill-to-law": "How a Bill Becomes Law",
+  "rhetorical-triangle": "The Rhetorical Triangle", "argument-structure": "Argument Structure",
+  "cause-effect": "Cause → Event → Effect",
 };
 
 function Diagram({ kind }: { kind: string }) {
@@ -342,47 +337,6 @@ function Diagram({ kind }: { kind: string }) {
       <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: INDIGO, marginBottom: 8 }}>▦ DIAGRAM</div>
       <svg viewBox="0 0 280 170" width="100%" style={{ maxWidth: 360, display: "block", margin: "0 auto" }}>{body}</svg>
       <figcaption style={{ textAlign: "center", fontSize: 12, color: DLABEL, marginTop: 6 }}>{DIAGRAM_TITLES[kind] ?? ""}</figcaption>
-    </figure>
-  );
-}
-
-// Universal fallback diagram: a hub-and-spoke concept map from the note's own
-// key terms (or objectives) — so every note gets a visual, not just quant ones.
-function ConceptMap({ title, nodes }: { title: string; nodes: string[] }) {
-  const seen = new Set<string>();
-  const clean = nodes
-    .map((n) => n.split(/[:(]/)[0].trim())
-    .filter((n) => n && !seen.has(n.toLowerCase()) && seen.add(n.toLowerCase()));
-  const picked = clean.slice(0, 6);
-  if (picked.length === 0) return null;
-  const trunc = (s: string, n: number) => (s.length > n ? s.slice(0, n - 1) + "…" : s);
-  // Balanced slots, ordered so fewer nodes still look even (corners first).
-  const cx = 180, cy = 96;
-  const order = [
-    [70, 44], [290, 44], [70, 148], [290, 148], [70, 96], [290, 96],
-  ].slice(0, picked.length);
-  const NW = 104, NH = 28;
-  return (
-    <figure style={{ margin: "22px 0 0", padding: "18px 18px 12px", borderRadius: 14, background: "#070b12", border: `1px solid ${BORDER}` }}>
-      <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: INDIGO, marginBottom: 8 }}>▦ CONCEPT MAP</div>
-      <svg viewBox="0 0 360 192" width="100%" style={{ maxWidth: 460, display: "block", margin: "0 auto" }}>
-        {/* spokes first — hidden under the opaque boxes drawn on top */}
-        {order.map((s, i) => (
-          <line key={"l" + i} x1={cx} y1={cy} x2={s[0]} y2={s[1]} stroke={AXIS} strokeWidth="1.4" />
-        ))}
-        {/* satellite term nodes (opaque) */}
-        {order.map((s, i) => (
-          <g key={"n" + i}>
-            <rect x={s[0] - NW / 2} y={s[1] - NH / 2} width={NW} height={NH} rx="8"
-              fill="#0d1320" stroke="rgba(143,162,255,0.55)" strokeWidth="1.2" />
-            <text x={s[0]} y={s[1] + 3.5} textAnchor="middle" fill="#dde4ee" fontSize="9.5">{trunc(picked[i], 16)}</text>
-          </g>
-        ))}
-        {/* center topic (opaque, on top so spokes tuck under it) */}
-        <rect x={cx - 56} y={cy - 16} width="112" height="32" rx="9" fill="#0b1f1a" stroke={MINT} strokeWidth="1.8" />
-        <text x={cx} y={cy + 4} textAnchor="middle" fill="#eafff8" fontSize="10.5" fontWeight="700">{trunc(title, 18)}</text>
-      </svg>
-      <figcaption style={{ textAlign: "center", fontSize: 12, color: DLABEL, marginTop: 6 }}>How the key ideas connect</figcaption>
     </figure>
   );
 }
@@ -469,6 +423,137 @@ function diagramBody(kind: string): React.ReactNode {
         <path d="M60,110 Q 140,40 230,95" fill="none" stroke={MINT} strokeWidth="2.2" />
         {lbl(118, 112, "∫ₐᵇ f(x) dx", MINT)}{lbl(56, 152, "a")}{lbl(224, 152, "b")}
       </>);
+    case "neuron":
+      return (<>
+        {/* dendrites */}
+        <path d="M30,60 L60,80 M30,100 L60,80 M30,80 L60,80" stroke={INDIGO} strokeWidth="1.6" fill="none" />
+        <circle cx="72" cy="80" r="14" fill="rgba(0,255,178,0.10)" stroke={MINT} strokeWidth="2" />
+        {/* axon with myelin */}
+        <line x1="86" y1="80" x2="210" y2="80" stroke={MINT} strokeWidth="2" />
+        {[110, 145, 180].map((x, i) => (<rect key={i} x={x} y="73" width="22" height="14" rx="7" fill="rgba(143,162,255,0.18)" stroke={INDIGO} strokeWidth="1" />))}
+        {/* terminals */}
+        <path d="M210,80 L235,66 M210,80 L235,94 M210,80 L238,80" stroke={MINT} strokeWidth="1.6" fill="none" />
+        {lbl(20, 50, "dendrites", INDIGO)}{lbl(58, 112, "soma")}{lbl(120, 64, "myelin", INDIGO)}{lbl(150, 105, "axon", MINT)}{lbl(214, 56, "terminals")}
+      </>);
+    case "brain-lobes":
+      return (<>
+        <path d="M55,95 C 45,55 95,30 150,32 C 215,34 245,60 240,92 C 238,118 200,132 150,132 C 100,132 62,124 55,95 Z"
+          fill="rgba(143,162,255,0.06)" stroke={AXIS} strokeWidth="1.6" />
+        <line x1="150" y1="34" x2="150" y2="130" stroke={AXIS} strokeDasharray="3 3" />
+        <line x1="60" y1="92" x2="240" y2="86" stroke={AXIS} strokeDasharray="3 3" />
+        {lbl(95, 62, "Frontal", MINT)}{lbl(178, 60, "Parietal", MINT)}{lbl(95, 116, "Temporal", INDIGO)}{lbl(196, 116, "Occipital", INDIGO)}
+      </>);
+    case "carbon-cycle": {
+      const box = (x: number, y: number, t: string, c: string) => (<>
+        <rect x={x - 38} y={y - 14} width="76" height="28" rx="8" fill="#0d1320" stroke={c} strokeWidth="1.4" />
+        <text x={x} y={y + 3.5} textAnchor="middle" fill="#dde4ee" fontSize="9">{t}</text>
+      </>);
+      return (<>
+        <defs><marker id="arr" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill={AXIS} /></marker></defs>
+        {box(140, 30, "Atmosphere CO₂", MINT)}
+        {box(60, 110, "Plants", INDIGO)}
+        {box(220, 110, "Animals", INDIGO)}
+        <path d="M110,40 Q 70,60 62,94" fill="none" stroke={AXIS} strokeWidth="1.4" markerEnd="url(#arr)" />
+        <path d="M98,110 L182,110" fill="none" stroke={AXIS} strokeWidth="1.4" markerEnd="url(#arr)" />
+        <path d="M222,96 Q 200,55 168,40" fill="none" stroke={AXIS} strokeWidth="1.4" markerEnd="url(#arr)" />
+        {lbl(40, 78, "photo-", INDIGO)}{lbl(40, 90, "synthesis", INDIGO)}{lbl(196, 70, "respiration", INDIGO)}
+      </>);
+    }
+    case "energy-pyramid": {
+      const tier = (y: number, w: number, label: string, pct: string) => (<>
+        <rect x={140 - w / 2} y={y} width={w} height="26" fill="rgba(0,255,178,0.08)" stroke={MINT} strokeWidth="1.4" />
+        <text x={140} y={y + 17} textAnchor="middle" fill="#dde4ee" fontSize="9">{label}</text>
+        <text x={140 + w / 2 + 6} y={y + 17} fill={DLABEL} fontSize="8">{pct}</text>
+      </>);
+      return (<>
+        {tier(30, 70, "Tertiary", "0.1%")}
+        {tier(62, 120, "Secondary", "1%")}
+        {tier(94, 170, "Primary", "10%")}
+        {tier(126, 220, "Producers", "100%")}
+        {lbl(20, 24, "energy ↓", MINT)}
+      </>);
+    }
+    case "dtm":
+      return (<>
+        {axes()}
+        <path d="M40,45 C 90,45 110,55 150,95 C 180,120 210,125 250,125" fill="none" stroke={INDIGO} strokeWidth="2.2" />
+        <path d="M40,70 C 80,72 95,110 150,120 C 200,128 220,128 250,126" fill="none" stroke={MINT} strokeWidth="2.2" />
+        {[80, 130, 185, 225].map((x, i) => (<line key={i} x1={x} y1="20" x2={x} y2="140" stroke={AXIS} strokeDasharray="2 4" />))}
+        {lbl(48, 40, "birth rate", INDIGO)}{lbl(150, 138, "death rate", MINT)}
+        {["1", "2", "3", "4"].map((s, i) => (<text key={i} x={[58, 105, 157, 205][i]} y="18" fill={DLABEL} fontSize="8">Stage {s}</text>))}
+      </>);
+    case "population-pyramid": {
+      const rows = [[70, 18], [60, 30], [44, 22], [30, 16], [18, 10]];
+      return (<>
+        <line x1="140" y1="28" x2="140" y2="142" stroke={AXIS} strokeWidth="1.4" />
+        {rows.map((r, i) => { const y = 30 + i * 22; return (<g key={i}>
+          <rect x={140 - r[0]} y={y} width={r[0]} height="18" fill="rgba(143,162,255,0.18)" stroke={INDIGO} strokeWidth="1" />
+          <rect x={140} y={y} width={r[1] + 30} height="18" fill="rgba(0,255,178,0.12)" stroke={MINT} strokeWidth="1" />
+        </g>); })}
+        {lbl(60, 22, "male", INDIGO)}{lbl(196, 22, "female", MINT)}{lbl(120, 156, "age structure")}
+      </>);
+    }
+    case "three-branches": {
+      const box = (x: number, t1: string, t2: string) => (<>
+        <rect x={x - 48} y="34" width="96" height="40" rx="9" fill="#0d1320" stroke={MINT} strokeWidth="1.5" />
+        <text x={x} y="52" textAnchor="middle" fill="#eafff8" fontSize="9.5" fontWeight="700">{t1}</text>
+        <text x={x} y="65" textAnchor="middle" fill={DLABEL} fontSize="8">{t2}</text>
+      </>);
+      return (<>
+        {box(65, "Legislative", "makes laws")}
+        {box(180, "Executive", "enforces")}
+        {box(265, "Judicial", "interprets")}
+        <path d="M65,80 Q 140,120 265,82 M265,86 Q 140,140 65,86 M113,54 L132,54 M228,54 L213,54" fill="none" stroke={AXIS} strokeWidth="1.3" strokeDasharray="3 3" />
+        {lbl(120, 134, "checks & balances")}
+      </>);
+    }
+    case "bill-to-law": {
+      const step = (x: number, t: string) => (<>
+        <rect x={x - 32} y="70" width="64" height="30" rx="8" fill="#0d1320" stroke={MINT} strokeWidth="1.4" />
+        <text x={x} y="89" textAnchor="middle" fill="#dde4ee" fontSize="9">{t}</text>
+      </>);
+      return (<>
+        <defs><marker id="a2" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill={MINT} /></marker></defs>
+        {step(45, "House")}{step(130, "Senate")}{step(215, "President")}
+        <line x1="78" y1="85" x2="96" y2="85" stroke={MINT} strokeWidth="1.5" markerEnd="url(#a2)" />
+        <line x1="163" y1="85" x2="181" y2="85" stroke={MINT} strokeWidth="1.5" markerEnd="url(#a2)" />
+        <line x1="247" y1="85" x2="262" y2="85" stroke={MINT} strokeWidth="1.5" markerEnd="url(#a2)" />
+        {lbl(258, 89, "✓ Law", MINT)}
+      </>);
+    }
+    case "rhetorical-triangle":
+      return (<>
+        <path d="M140,30 L55,135 L225,135 Z" fill="rgba(0,255,178,0.05)" stroke={MINT} strokeWidth="2" />
+        {lbl(120, 24, "ETHOS", MINT)}{lbl(28, 140, "PATHOS", INDIGO)}{lbl(196, 140, "LOGOS", INDIGO)}
+        {lbl(118, 88, "the message")}
+        {lbl(70, 70, "speaker", DLABEL)}{lbl(170, 70, "audience", DLABEL)}
+      </>);
+    case "argument-structure": {
+      const step = (y: number, t: string, c: string) => (<>
+        <rect x="80" y={y} width="120" height="26" rx="8" fill="#0d1320" stroke={c} strokeWidth="1.4" />
+        <text x="140" y={y + 17} textAnchor="middle" fill="#dde4ee" fontSize="9">{t}</text>
+      </>);
+      return (<>
+        <defs><marker id="a3" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill={AXIS} /></marker></defs>
+        {step(24, "Claim (thesis)", MINT)}
+        {step(72, "Evidence", INDIGO)}
+        {step(120, "Reasoning / Warrant", INDIGO)}
+        <line x1="140" y1="50" x2="140" y2="70" stroke={AXIS} strokeWidth="1.4" markerEnd="url(#a3)" />
+        <line x1="140" y1="98" x2="140" y2="118" stroke={AXIS} strokeWidth="1.4" markerEnd="url(#a3)" />
+      </>);
+    }
+    case "cause-effect": {
+      const box = (x: number, t: string, c: string) => (<>
+        <rect x={x - 40} y="68" width="80" height="34" rx="9" fill="#0d1320" stroke={c} strokeWidth="1.4" />
+        <text x={x} y="89" textAnchor="middle" fill="#dde4ee" fontSize="9">{t}</text>
+      </>);
+      return (<>
+        <defs><marker id="a4" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill={AXIS} /></marker></defs>
+        {box(50, "Cause", INDIGO)}{box(140, "Event", MINT)}{box(230, "Effect", INDIGO)}
+        <line x1="92" y1="85" x2="98" y2="85" stroke={AXIS} strokeWidth="1.5" markerEnd="url(#a4)" />
+        <line x1="182" y1="85" x2="188" y2="85" stroke={AXIS} strokeWidth="1.5" markerEnd="url(#a4)" />
+      </>);
+    }
     default:
       return null;
   }

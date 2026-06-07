@@ -77,6 +77,7 @@
   "objectives": [
    "Master Biological Bases of Behavior — The Neuron for the Scientific Foundations of Psychology unit."
   ],
+  "diagram": "neuron",
   "sections": [
    {
     "title": "Key concepts",
@@ -111,6 +112,7 @@
   "objectives": [
    "Master The Brain — Structures and Functions for the Biological Bases of Behavior unit."
   ],
+  "diagram": "brain-lobes",
   "sections": [
    {
     "title": "Key concepts",
@@ -922,6 +924,7 @@
    "Buddhism declining in India while spreading through Silk Roads to East/Southeast Asia",
    "Islam spreading through merchant networks, not conquest, in sub-Saharan Africa and Southeast Asia"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1127,6 +1130,7 @@
   "objectives": [
    "Caravel ship + magnetic compass + astrolabe enabling open-ocean sailing"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1157,6 +1161,7 @@
   "objectives": [
    "Horses transforming Plains Indian cultures — an unintended consequence of Spanish conquest"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1221,6 +1226,7 @@
   "objectives": [
    "Master Atlantic Slave Trade — Scale, Causes, and Effects for the Transoceanic Interconnections (c. 1450–c. 1750) unit."
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1387,6 +1393,7 @@
   "objectives": [
    "How Enlightenment ideas traveled through print culture to Atlantic world"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1417,6 +1424,7 @@
   "objectives": [
    "Both inspired by Enlightenment but produced opposite outcomes — why?"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1449,6 +1457,7 @@
    "French abolition of slavery (1794) creating the condition for Black soldiers fighting FOR France",
    "Haiti inspiring fear in slaveholder societies worldwide, restricting its diplomatic recognition"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Haitian Revolution — The Exception That Tests the Rule",
@@ -1471,6 +1480,7 @@
    "Creoles (American-born Spaniards) leading revolutions, not indigenous or mestizo populations",
    "Napoleon's invasion of Spain (1808) removing the legitimating authority colonial loyalty depended on"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1498,6 +1508,7 @@
    "Enclosure movement creating mobile landless labor force available for factory work",
    "Patent system protecting inventors; capital markets funding investment"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1524,6 +1535,7 @@
   "objectives": [
    "Master Social Effects of Industrialization for the Revolutions (c. 1750–c. 1900) unit."
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1558,6 +1570,7 @@
   "objectives": [
    "Master Nationalism — Unification and Fragmentation for the Revolutions (c. 1750–c. 1900) unit."
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1593,6 +1606,7 @@
    "Haitian Revolution making slaveholders fear abolition; American South defending slavery as 'positive good'",
    "British navy patrolling Atlantic after 1807 — enforcement gap between law and practice"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1619,6 +1633,7 @@
   "objectives": [
    "Master New Imperialism — Causes and the Scramble for Africa for the Consequences of Industrialization (c. 1750–c. 1900) unit."
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1653,6 +1668,7 @@
   "objectives": [
    "Master Imperialism in Asia — India and China Compared for the Consequences of Industrialization (c. 1750–c. 1900) unit."
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1687,6 +1703,7 @@
   "objectives": [
    "Master Responses to Imperialism — Accommodation and Resistance for the Consequences of Industrialization (c. 1750–c. 1900) unit."
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1721,6 +1738,7 @@
   "objectives": [
    "Master Economic Imperialism — Export Economies and Dependency for the Consequences of Industrialization (c. 1750–c. 1900) unit."
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1755,6 +1773,7 @@
   "objectives": [
    "Indian and Chinese contract labor (indenture) replacing enslaved labor in Caribbean and Pacific"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1785,6 +1804,7 @@
   "objectives": [
    "Herbert Spencer applying evolutionary theory to justify racial hierarchy ('survival of the fittest' society)"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1815,6 +1835,7 @@
   "objectives": [
    "Industrialization creating middle-class women with time and literacy for activism"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1845,6 +1866,7 @@
   "objectives": [
    "Alliance system converting local conflict into continental war (Austria-Serbia → world war)"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1875,6 +1897,7 @@
   "objectives": [
    "Master World War I — Total War and Its Effects for the Global Conflict (c. 1900–present) unit."
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1909,6 +1932,7 @@
   "objectives": [
    "Master The Russian Revolution — Two Revolutions, One Year for the Global Conflict (c. 1900–present) unit."
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1943,6 +1967,7 @@
   "objectives": [
    "Hitler's legal rise to power through elections, then consolidation through emergency laws"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -1973,6 +1998,7 @@
   "objectives": [
    "Master World War II — Global Scope and the Holocaust for the Global Conflict (c. 1900–present) unit."
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -2007,6 +2033,7 @@
   "objectives": [
    "Master Atomic Bombs and the End of Total War for the Global Conflict (c. 1900–present) unit."
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -2041,6 +2068,7 @@
   "objectives": [
    "Master The Cold War — Origins and Ideology for the Cold War and Decolonization (c. 1900–present) unit."
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -2075,6 +2103,7 @@
   "objectives": [
    "Master Decolonization — Africa and Asia for the Cold War and Decolonization (c. 1900–present) unit."
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -2109,6 +2138,7 @@
   "objectives": [
    "Third World as a political identity, not just economic description"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -2139,6 +2169,7 @@
   "objectives": [
    "Master China's Communist Revolution and Mao for the Cold War and Decolonization (c. 1900–present) unit."
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -2173,6 +2204,7 @@
   "objectives": [
    "Proxy wars drawing Third World nations into superpower competition regardless of local causes"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -2203,6 +2235,7 @@
   "objectives": [
    "Gorbachev's glasnost (openness) and perestroika (restructuring) unintentionally unleashing nationalism"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -2233,6 +2266,7 @@
   "objectives": [
    "Mandela's release (1990) and Truth and Reconciliation Commission as alternative to retribution"
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -2263,6 +2297,7 @@
   "objectives": [
    "Master Women and Decolonization — Promises and Limits for the Cold War and Decolonization (c. 1900–present) unit."
   ],
+  "diagram": "cause-effect",
   "sections": [
    {
     "title": "Key concepts",
@@ -2481,6 +2516,7 @@
    "Gross primary productivity (GPP) vs. net primary productivity (NPP)",
    "Why terrestrial ecosystems have higher NPP than open ocean"
   ],
+  "diagram": "energy-pyramid",
   "sections": [
    {
     "title": "Energy Flow and the 10% Rule",
@@ -2502,6 +2538,7 @@
   "objectives": [
    "Master Biogeochemical Cycles — Carbon, Nitrogen, Phosphorus, Water for the The Living World: Ecosystems unit."
   ],
+  "diagram": "carbon-cycle",
   "sections": [
    {
     "title": "Key concepts",
@@ -2784,6 +2821,7 @@
   "objectives": [
    "Sea otter / sea urchin / kelp as the canonical AP case study"
   ],
+  "diagram": "energy-pyramid",
   "sections": [
    {
     "title": "Key concepts",
@@ -4134,6 +4172,7 @@
   "objectives": [
    "Nitrogen and phosphorus runoff → algal bloom → decomposition → oxygen depletion"
   ],
+  "diagram": "energy-pyramid",
   "sections": [
    {
     "title": "Key concepts",
@@ -4715,6 +4754,7 @@
   "objectives": [
    "Master Congress — Structure, Powers, and Lawmaking for the Interactions Among Branches of Government unit."
   ],
+  "diagram": "bill-to-law",
   "sections": [
    {
     "title": "Key concepts",
@@ -4749,6 +4789,7 @@
   "objectives": [
    "Master The Presidency — Formal and Informal Powers for the Interactions Among Branches of Government unit."
   ],
+  "diagram": "three-branches",
   "sections": [
    {
     "title": "Key concepts",
@@ -4783,6 +4824,7 @@
   "objectives": [
    "Master The Federal Bureaucracy — Implementation and Accountability for the Interactions Among Branches of Government unit."
   ],
+  "diagram": "three-branches",
   "sections": [
    {
     "title": "Key concepts",
@@ -4817,6 +4859,7 @@
   "objectives": [
    "Master Federal Courts — Structure, Selection, and Judicial Review for the Interactions Among Branches of Government unit."
   ],
+  "diagram": "three-branches",
   "sections": [
    {
     "title": "Key concepts",
@@ -5015,6 +5058,7 @@
    "Exigence",
    "Constraints"
   ],
+  "diagram": "rhetorical-triangle",
   "sections": [
    {
     "title": "SOAPS and Context",
@@ -5038,6 +5082,7 @@
    "Formal vs. informal register",
    "Tone and audience relationship"
   ],
+  "diagram": "rhetorical-triangle",
   "sections": [
    {
     "title": "Audience and Register",
@@ -5061,6 +5106,7 @@
    "Thesis vs. claim",
    "Implicit vs. explicit purpose"
   ],
+  "diagram": "rhetorical-triangle",
   "sections": [
    {
     "title": "Purpose and Claim",
@@ -5084,6 +5130,7 @@
    "Thesis development",
    "Arguable vs. factual claims"
   ],
+  "diagram": "argument-structure",
   "sections": [
    {
     "title": "Types of Claims",
@@ -5107,6 +5154,7 @@
    "Embedding quotations",
    "Source credibility"
   ],
+  "diagram": "argument-structure",
   "sections": [
    {
     "title": "Evidence Selection and Integration",
@@ -5130,6 +5178,7 @@
    "Concession-refutation structure",
    "Straw man fallacy"
   ],
+  "diagram": "argument-structure",
   "sections": [
    {
     "title": "Counterargument and Concession",
@@ -5153,6 +5202,7 @@
    "Hasty generalization",
    "Appeal to tradition"
   ],
+  "diagram": "argument-structure",
   "sections": [
    {
     "title": "Logical Fallacies",
@@ -5176,6 +5226,7 @@
    "Shared values",
    "Acknowledging limitations"
   ],
+  "diagram": "rhetorical-triangle",
   "sections": [
    {
     "title": "Ethos: Credibility and Trust",
@@ -5199,6 +5250,7 @@
    "Analogical reasoning",
    "Data and statistics"
   ],
+  "diagram": "rhetorical-triangle",
   "sections": [
    {
     "title": "Logos: Logic and Evidence",
@@ -5222,6 +5274,7 @@
    "Vivid diction and imagery",
    "Shared values appeals"
   ],
+  "diagram": "rhetorical-triangle",
   "sections": [
    {
     "title": "Pathos: Emotional Connection",
@@ -5245,6 +5298,7 @@
    "Cultural context",
    "Exigence connection"
   ],
+  "diagram": "rhetorical-triangle",
   "sections": [
    {
     "title": "Kairos and Timeliness",
@@ -5268,6 +5322,7 @@
    "Parallelism and anaphora",
    "Fragments for effect"
   ],
+  "diagram": "rhetorical-triangle",
   "sections": [
    {
     "title": "Syntax and Sentence Structure",
@@ -5291,6 +5346,7 @@
    "Abstract vs. concrete diction",
    "Shifts in tone"
   ],
+  "diagram": "rhetorical-triangle",
   "sections": [
    {
     "title": "Diction and Tone",
@@ -5314,6 +5370,7 @@
    "Irony and satire",
    "Hyperbole and understatement"
   ],
+  "diagram": "rhetorical-triangle",
   "sections": [
    {
     "title": "Figurative Language",
@@ -5337,6 +5394,7 @@
    "Formal vs. colloquial voice",
    "Reliability of narrators"
   ],
+  "diagram": "rhetorical-triangle",
   "sections": [
    {
     "title": "Voice and Persona",
@@ -5360,6 +5418,7 @@
    "Cross-referencing sources",
    "Noting point of view"
   ],
+  "diagram": "argument-structure",
   "sections": [
    {
     "title": "Reading and Annotating Sources",
@@ -5383,6 +5442,7 @@
    "Integrating sources into your argument",
    "Avoiding summary"
   ],
+  "diagram": "argument-structure",
   "sections": [
    {
     "title": "Building a Synthesis Argument",
@@ -5406,6 +5466,7 @@
    "Attributing vs. citing",
    "Avoiding plagiarism"
   ],
+  "diagram": "argument-structure",
   "sections": [
    {
     "title": "Citation and Attribution",
@@ -5429,6 +5490,7 @@
    "Line of reasoning",
    "Evidence + commentary structure"
   ],
+  "diagram": "argument-structure",
   "sections": [
    {
     "title": "Crafting the Argument Essay",
@@ -5452,6 +5514,7 @@
    "Transitional logic",
    "Coherence at essay level"
   ],
+  "diagram": "argument-structure",
   "sections": [
    {
     "title": "Organization and Transitions",
@@ -5475,6 +5538,7 @@
    "Strengthening weak claims",
    "Checking evidence integration"
   ],
+  "diagram": "argument-structure",
   "sections": [
    {
     "title": "Revision and Editing Strategies",
@@ -5636,6 +5700,7 @@
    "CBR, CDR, NIR",
    "Stage 5 population decline"
   ],
+  "diagram": "dtm",
   "sections": [
    {
     "title": "Demographic Transition Model",
@@ -5659,6 +5724,7 @@
    "Dependency ratio",
    "Youth vs. elderly bulges"
   ],
+  "diagram": "population-pyramid",
   "sections": [
    {
     "title": "Population Pyramids and Structure",

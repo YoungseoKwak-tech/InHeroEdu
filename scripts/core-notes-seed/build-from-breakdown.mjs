@@ -75,6 +75,30 @@ function pickDiagram(courseId, unitTitle, lessonTitle) {
     if (/integral|integration|accumulation|area (under|between)|riemann|definite/.test(s)) return "area-under-curve";
     if (/derivative|tangent|differentiation|rate of change|slope/.test(s)) return "tangent";
   }
+  // Content subjects — specific diagrams only where they genuinely fit.
+  if (courseId === "ap-psychology") {
+    if (/neuron|neural|action potential|synap|nervous system|reflex/.test(s)) return "neuron";
+    if (/brain|lobe|cortex|cerebr|localization|hemisphere/.test(s)) return "brain-lobes";
+  }
+  if (courseId === "ap-environmental-science") {
+    if (/carbon cycle|biogeochemical|carbon/.test(s)) return "carbon-cycle";
+    if (/energy (flow|pyramid|transfer)|trophic|food (chain|web)|10%/.test(s)) return "energy-pyramid";
+  }
+  if (courseId === "ap-human-geography") {
+    if (/demographic transition|\bdtm\b/.test(s)) return "dtm";
+    if (/population (pyramid|structure|composition)|age structure|age-sex/.test(s)) return "population-pyramid";
+  }
+  if (courseId === "ap-us-government") {
+    if (/how a bill|legislative process|bill becomes|lawmaking/.test(s)) return "bill-to-law";
+    if (/branches|separation of powers|checks and balances|three branches/.test(s)) return "three-branches";
+  }
+  if (courseId === "ap-english-language") {
+    if (/rhetoric|ethos|pathos|logos|appeal|rhetorical situation/.test(s)) return "rhetorical-triangle";
+    if (/claim|argument|evidence|reasoning|thesis|line of reasoning/.test(s)) return "argument-structure";
+  }
+  if (courseId === "ap-world-history") {
+    if (/revolution|war|cause|consequence|conflict|effect|impact|rise (and|&) fall|collapse/.test(s)) return "cause-effect";
+  }
   return null;
 }
 
