@@ -5406,4 +5406,115 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 8, lessonNum: 2,
+    unitName: "Aquatic and Terrestrial Pollution",
+    title: "Eutrophication — Nutrient Pollution Mechanisms",
+    subtitle: "Too much fertilizer in water sets off a chain reaction that suffocates aquatic life.",
+    overview:
+      "Eutrophication is what happens when excess nutrients (nitrogen and phosphorus) flood a body of water. They trigger algal blooms, and when the algae die and decompose, bacteria consume the oxygen — creating low-oxygen 'dead zones' that kill fish and other life.",
+    objectives: [
+      "Explain the step-by-step mechanism of eutrophication.",
+      "Identify the nutrient sources responsible.",
+      "Describe dead zones and hypoxia.",
+    ],
+    sections: [
+      {
+        title: "The eutrophication chain",
+        body:
+          "Follow the steps: (1) excess N and P enter the water (from fertilizer runoff, sewage); (2) algae bloom explosively; (3) algae die and bacteria decompose them; (4) decomposition consumes dissolved oxygen; (5) oxygen-starved (hypoxic) water kills fish and other organisms — a dead zone.",
+        keyIdea: "It's the DECOMPOSITION that kills: dead algae feed bacteria that strip oxygen from the water. Excess nutrients → bloom → die-off → no oxygen.",
+        terms: [
+          { term: "Eutrophication", def: "Nutrient over-enrichment of water causing algal blooms and oxygen depletion." },
+          { term: "Algal bloom", def: "Rapid overgrowth of algae fueled by excess nutrients." },
+          { term: "Hypoxia / dead zone", def: "Low-oxygen water that suffocates aquatic life." },
+        ],
+      },
+      {
+        title: "Where the nutrients come from",
+        body:
+          "The main culprits are nitrogen and phosphorus from agricultural fertilizer runoff (the biggest source), animal waste, sewage, and detergents. The Gulf of Mexico dead zone, fed by Mississippi River farm runoff, is the classic example. Cutting fertilizer use and buffer strips reduce the inputs.",
+        terms: [
+          { term: "Nitrogen & phosphorus", def: "The limiting nutrients whose excess drives eutrophication." },
+          { term: "Cultural eutrophication", def: "Human-accelerated nutrient pollution (vs. slow natural eutrophication)." },
+        ],
+        traps: ["The fish die from LOW OXYGEN caused by bacterial decomposition of dead algae — not from the algae or nutrients directly poisoning them."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 8, lessonNum: 3,
+    unitName: "Aquatic and Terrestrial Pollution",
+    title: "Toxic Pollutants and Biomagnification",
+    subtitle: "Some toxins get more concentrated at every step up the food chain — so top predators get hit hardest.",
+    overview:
+      "Persistent toxic pollutants like mercury, DDT, and PCBs don't break down and aren't excreted, so they accumulate in organisms (bioaccumulation) and concentrate up the food chain (biomagnification). Top predators — including humans — end up with the highest, most dangerous doses.",
+    objectives: [
+      "Distinguish bioaccumulation from biomagnification.",
+      "Explain why persistent, fat-soluble toxins magnify.",
+      "Give examples (mercury, DDT) and their effects.",
+    ],
+    sections: [
+      {
+        title: "Bioaccumulation vs. biomagnification",
+        body:
+          "Bioaccumulation is the buildup of a toxin within a single organism over its life. Biomagnification is the increase in concentration up the food chain: each predator eats many contaminated prey, so the toxin gets more concentrated at each higher trophic level. This is why apex predators (eagles, tuna, humans) accumulate the most.",
+        keyIdea: "Bioaccumulation = builds up in ONE organism. Biomagnification = concentration INCREASES up the food chain. Top predators get the worst dose.",
+        terms: [
+          { term: "Bioaccumulation", def: "Buildup of a toxin within one organism over time." },
+          { term: "Biomagnification", def: "Increasing toxin concentration at higher trophic levels." },
+          { term: "Persistent pollutant", def: "A toxin that doesn't break down (e.g., DDT, PCBs, mercury)." },
+        ],
+      },
+      {
+        title: "Why these toxins, and their effects",
+        body:
+          "Toxins that biomagnify are persistent (don't degrade) and fat-soluble (stored in tissue, not excreted). DDT thinned bird eggshells (nearly wiping out bald eagles) and was banned after Rachel Carson's Silent Spring. Mercury in fish causes neurological damage — which is why pregnant people are warned to limit certain fish.",
+        terms: [
+          { term: "DDT", def: "A persistent pesticide that biomagnified, thinning bird eggshells; now banned in the US." },
+          { term: "Mercury", def: "A toxic metal that biomagnifies in fish, causing neurological harm." },
+        ],
+        traps: ["Only PERSISTENT, fat-soluble toxins biomagnify — substances that break down or are excreted do not concentrate up the chain."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 8, lessonNum: 4,
+    unitName: "Aquatic and Terrestrial Pollution",
+    title: "Solid Waste — Types, Disposal, Reduction",
+    subtitle: "We generate enormous trash — and where it goes (landfill, incinerator, or back into use) has very different impacts.",
+    overview:
+      "Solid waste is everything we throw away. Most goes to landfills or incinerators, each with drawbacks. The best strategy follows the waste hierarchy — reduce, reuse, recycle — which cuts waste at the source before disposal is even needed.",
+    objectives: [
+      "Compare landfills and incineration.",
+      "Explain the waste-reduction hierarchy.",
+      "Identify hazards like leachate and e-waste.",
+    ],
+    sections: [
+      {
+        title: "Disposal methods",
+        body:
+          "Sanitary landfills bury waste with liners to contain leachate (toxic liquid that can pollute groundwater) and capture methane. Incineration burns waste, reducing volume and generating energy (waste-to-energy) but releasing air pollutants and toxic ash. Both are 'end of pipe' — they manage waste rather than prevent it.",
+        table: {
+          headers: ["Method", "Pro", "Con"],
+          rows: [
+            ["Landfill", "Cheap, contains waste", "Leachate, methane, takes land"],
+            ["Incineration", "Cuts volume, makes energy", "Air pollution, toxic ash"],
+          ],
+        },
+        keyIdea: "Landfill leachate threatens GROUNDWATER; incineration threatens AIR. Both are last resorts vs. reducing waste upstream.",
+      },
+      {
+        title: "The waste hierarchy",
+        body:
+          "The preferred order is reduce → reuse → recycle → (then) dispose. Reducing consumption is best (no waste created); reuse extends product life; recycling reclaims materials (but costs energy). Composting handles organic waste. Special hazards like e-waste (electronics with heavy metals) need careful handling.",
+        terms: [
+          { term: "Leachate", def: "Toxic liquid draining from a landfill that can contaminate groundwater." },
+          { term: "Waste hierarchy", def: "Reduce > reuse > recycle > dispose — preferred order for managing waste." },
+          { term: "E-waste", def: "Discarded electronics containing toxic heavy metals; needs special disposal." },
+        ],
+        traps: ["The hierarchy's TOP priority is REDUCE (prevent waste), not recycle — recycling still uses energy and is a later resort."],
+      },
+    ],
+  },
 ];
