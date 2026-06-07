@@ -14,10 +14,13 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://inheroedu.com"),
   applicationName: "인히어로",
   title: {
-    default: "인히어로 — SAT·AP 입시 AI 학습 플랫폼 | 요점 강의 · AP 교재 · 모의고사 · 유학생 커뮤니티",
+    default: "인히어로 에듀 | 아이비리그생이 정리한 미국 최대 입시·AP·SAT·IB 핵심 자료실",
     template: "%s | 인히어로",
   },
   description: "SAT·AP를 준비하는 유학생을 위한 AI 학습 플랫폼. 핵심만 짚는 요점 강의, AP 디지털 교재, 실전 모의고사, 유학생 커뮤니티까지. 13개 AP를 독학으로 마스터한 창업자의 학습법을 AI에 담았습니다.",
+  verification: {
+    google: "nVM24H_JWQ9aKChk5MuED5bpQBRkqQ-hqmrS50G49GQ",
+  },
   openGraph: {
     type: "website",
     siteName: "인히어로",
