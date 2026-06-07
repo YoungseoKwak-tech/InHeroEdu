@@ -51,6 +51,9 @@ export default function QuestionBankPage() {
   const [questions, setQuestions] = useState<BankQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [accessMessage, setAccessMessage] = useState<string | null>(null);
+  // Unit rail: per-unit counts for the active subject, plus the selected tab.
+  const [units, setUnits] = useState<{ unit: number; count: number }[]>([]);
+  const [unit, setUnit] = useState<number | null>(null);
 
   useEffect(() => {
     authFetch("/api/question-bank/bank?countOnly=true")
@@ -77,7 +80,10 @@ export default function QuestionBankPage() {
 
   useEffect(() => {
     setLoading(true);
-    const q = active ? `?subject=${encodeURIComponent(active)}` : "";
+    const params = new URLSearchParams();
+    if (active) params.set("subject", active);
+    if (active && unit != null) params.set("unit", String(unit));
+    const q = params.size > 0 ? `?${params.toString()}` : "";
     authFetch(`/api/question-bank/bank${q}`)
       .then(async (r) => {
         const d = await r.json();
@@ -91,14 +97,16 @@ export default function QuestionBankPage() {
       .then((d) => {
         setQuestions(d?.questions ?? []);
         setFilteredTotal(d?.total ?? (d?.questions?.length ?? 0));
+        setUnits(active ? (d?.units ?? []) : []);
       })
       .catch(() => {
         setAccessMessage("Could not load your question-bank access. Try again in a moment.");
         setQuestions([]);
         setFilteredTotal(0);
+        setUnits([]);
       })
       .finally(() => setLoading(false));
-  }, [active]);
+  }, [active, unit]);
 
   // API already caps the payload; render what it sent. Free/answerable
   // questions render as normal cards; locked ones stack blurred behind a
@@ -124,12 +132,12 @@ export default function QuestionBankPage() {
 
         {/* Subject filter chips */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 34 }}>
-          <Chip active={active === null} onClick={() => setActive(null)} label="All" emoji="🏦" count={total} />
+          <Chip active={active === null} onClick={() => { setActive(null); setUnit(null); }} label="All" emoji="🏦" count={total} />
           {subjects.map((s) => (
             <Chip
               key={s.courseId ?? s.label}
               active={active === s.courseId}
-              onClick={() => setActive(s.courseId)}
+              onClick={() => { setActive(s.courseId); setUnit(null); }}
               label={s.label}
               emoji={s.emoji}
               count={s.count}
@@ -137,6 +145,26 @@ export default function QuestionBankPage() {
           ))}
         </div>
 
+        {/* Unit rail (left) + questions: rail renders only inside a subject
+            with unit-tagged questions. On narrow screens the rail collapses
+            into a horizontal scroll row above the cards. */}
+        <div className={units.length > 0 ? "qb-layout" : undefined}>
+        {units.length > 0 && (
+          <nav className="qb-unit-rail" aria-label="Units">
+            <UnitTab active={unit === null} onClick={() => setUnit(null)} label="All units"
+              count={units.reduce((sum, u) => sum + u.count, 0)} />
+            {units.map((u) => (
+              <UnitTab
+                key={u.unit}
+                active={unit === u.unit}
+                onClick={() => setUnit(u.unit)}
+                label={`Unit ${u.unit}`}
+                count={u.count}
+              />
+            ))}
+          </nav>
+        )}
+        <div style={{ flex: 1, minWidth: 0 }}>
         {/* Questions */}
         {accessMessage ? (
           <div
@@ -178,8 +206,54 @@ export default function QuestionBankPage() {
             )}
           </div>
         )}
+        </div>
+        </div>
+        <style>{`
+          .qb-layout { display: flex; gap: 22px; align-items: flex-start; }
+          .qb-unit-rail {
+            position: sticky; top: 86px;
+            width: 168px; flex-shrink: 0;
+            display: flex; flex-direction: column; gap: 6px;
+            max-height: calc(100vh - 110px); overflow-y: auto;
+            padding-right: 2px;
+          }
+          @media (max-width: 860px) {
+            .qb-layout { display: block; }
+            .qb-unit-rail {
+              position: static; width: 100%; max-height: none;
+              flex-direction: row; overflow-x: auto;
+              padding-bottom: 10px; margin-bottom: 18px;
+            }
+            .qb-unit-rail > button { flex-shrink: 0; }
+          }
+        `}</style>
       </div>
     </div>
+  );
+}
+
+/** One tab in the unit rail — sticky left on desktop, scroll row on mobile. */
+function UnitTab({ active, onClick, label, count }: { active: boolean; onClick: () => void; label: string; count: number }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10,
+        padding: "9px 13px",
+        borderRadius: 11,
+        border: active ? "1px solid rgba(0,255,178,0.55)" : "1px solid rgba(255,255,255,0.1)",
+        background: active ? "rgba(0,255,178,0.1)" : "rgba(255,255,255,0.03)",
+        color: active ? "#00FFB2" : "rgba(255,255,255,0.62)",
+        fontSize: 13, fontWeight: active ? 800 : 600,
+        cursor: "pointer", textAlign: "left", whiteSpace: "nowrap",
+        transition: "border-color 150ms ease, background 150ms ease, color 150ms ease",
+      }}
+    >
+      <span>{label}</span>
+      <span style={{ fontSize: 11, fontWeight: 700, color: active ? "rgba(0,255,178,0.75)" : "rgba(255,255,255,0.3)" }}>
+        {count.toLocaleString()}
+      </span>
+    </button>
   );
 }
 

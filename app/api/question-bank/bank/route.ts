@@ -1,6 +1,7 @@
 /**
  * GET /api/question-bank/bank
  *   ?subject=ap-biology   filter by course id (optional)
+ *   ?unit=3               filter by unit number within the subject (optional)
  *   ?countOnly=true       return per-subject counts only
  *
  * Serves the aggregated bank built from lesson overlays + the admin
@@ -74,7 +75,24 @@ export async function GET(req: NextRequest) {
       Number.isFinite(limitParam) && limitParam > 0 ? limitParam : DEFAULT_LIMIT
     );
 
-    const questions = await buildBankQuestions(normalizedSubject ?? undefined);
+    const allInSubject = await buildBankQuestions(normalizedSubject ?? undefined);
+
+    // Per-unit counts for the subject (pre-unit-filter) so the page's unit
+    // rail can show every unit with its full count regardless of the active
+    // unit tab. Questions without a unit fall under the "All units" tab only.
+    const unitCountMap = new Map<number, number>();
+    for (const q of allInSubject) {
+      if (q.unit != null) unitCountMap.set(q.unit, (unitCountMap.get(q.unit) ?? 0) + 1);
+    }
+    const units = [...unitCountMap.entries()]
+      .map(([unit, count]) => ({ unit, count }))
+      .sort((a, b) => a.unit - b.unit);
+
+    const unitParam = parseInt(searchParams.get("unit") ?? "", 10);
+    const questions = Number.isFinite(unitParam)
+      ? allInSubject.filter((q) => q.unit === unitParam)
+      : allInSubject;
+
     // Paid subjects come through untouched. For everything else the first
     // couple of questions per subject stay answerable as a free taste and
     // the rest go out locked (no answers/explanations in the payload).
@@ -94,6 +112,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       questions: shaped,
       total: questions.length,
+      units,
     });
   } catch (e) {
     console.error("[question-bank/bank]", e);
