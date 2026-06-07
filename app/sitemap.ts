@@ -39,6 +39,20 @@ export default function sitemap() {
       priority: 0.8,
     },
     {
+      // Flagship "핵심 자료실" content — actively filled by the Core Notes loop,
+      // so crawl it often.
+      url: `${baseUrl}/core-notes`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/question-bank`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/ai-companion`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
