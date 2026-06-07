@@ -2688,4 +2688,115 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 7, lessonNum: 5,
+    unitName: "Global Conflict (c. 1900–present)",
+    title: "World War II — Global Scope and the Holocaust",
+    subtitle: "A truly global war of unprecedented destruction — including the industrialized genocide of the Holocaust.",
+    overview:
+      "WWII pitted the Allies against the Axis across Europe, Africa, Asia, and the Pacific. It was total war taken to a horrifying extreme: civilians were deliberately targeted, and Nazi Germany carried out the Holocaust, the systematic murder of six million Jews and millions of others.",
+    objectives: [
+      "Explain the causes of WWII, including appeasement.",
+      "Describe the war's global scope and total-war nature.",
+      "Explain the Holocaust as state-organized genocide.",
+    ],
+    diagram: "cause-effect",
+    sections: [
+      {
+        title: "A global, total war",
+        body:
+          "Fascist aggression — and the failure of appeasement (giving in to Hitler's demands) — triggered war in 1939. Germany's blitzkrieg ('lightning war') overran Europe; Japan expanded across the Pacific. As total war, it mobilized entire economies and deliberately targeted civilians (bombing of cities), killing tens of millions.",
+        keyIdea: "Appeasement failed: conceding to Hitler (Munich, 1938) didn't satisfy him — it emboldened more aggression.",
+        terms: [
+          { term: "Appeasement", def: "Giving in to an aggressor's demands to avoid war — failed to stop Hitler." },
+          { term: "Blitzkrieg", def: "Germany's fast, combined-arms 'lightning war' tactics." },
+          { term: "Axis vs. Allies", def: "Germany, Italy, Japan vs. Britain, USSR, US, and others." },
+        ],
+      },
+      {
+        title: "The Holocaust",
+        body:
+          "The Holocaust was the Nazi regime's systematic, industrialized genocide: six million Jews, plus Roma, disabled people, and others, were murdered in concentration and death camps. It represents the most extreme expression of the racism and totalitarianism behind fascism.",
+        terms: [
+          { term: "Holocaust", def: "The Nazi genocide of six million Jews and millions of other targeted groups." },
+          { term: "Genocide", def: "The deliberate, systematic destruction of a people." },
+        ],
+        traps: ["The Holocaust was STATE-ORGANIZED and industrialized — the deliberate machinery of a totalitarian regime, not wartime chaos."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 7, lessonNum: 6,
+    unitName: "Global Conflict (c. 1900–present)",
+    title: "Atomic Bombs and the End of Total War",
+    subtitle: "Two bombs ended the deadliest war in history — and opened the nuclear age.",
+    overview:
+      "In August 1945 the United States dropped atomic bombs on Hiroshima and Nagasaki, and Japan surrendered, ending WWII. The bomb closed one era of total war and opened another: a nuclear age that would define the Cold War's terrifying balance.",
+    objectives: [
+      "Explain the role of the atomic bombs in ending WWII.",
+      "Describe the Manhattan Project.",
+      "Connect nuclear weapons to the coming Cold War.",
+    ],
+    sections: [
+      {
+        title: "The bomb ends the war",
+        body:
+          "The secret Manhattan Project developed the atomic bomb. After devastating Hiroshima and then Nagasaki — killing well over a hundred thousand people, mostly civilians — Japan surrendered, ending the war without a costly invasion. The decision remains historically debated.",
+        keyIdea: "The atomic bomb ended WWII immediately — and made the next great-power conflict (the Cold War) unthinkably dangerous.",
+        terms: [
+          { term: "Manhattan Project", def: "The secret US program that developed the atomic bomb." },
+          { term: "Hiroshima & Nagasaki", def: "The two Japanese cities atomic-bombed in 1945, ending WWII." },
+        ],
+      },
+      {
+        title: "A new, nuclear era",
+        body:
+          "Nuclear weapons changed warfare forever. In the Cold War, both superpowers built arsenals so destructive that direct war risked mutually assured destruction (MAD) — a key reason the US–USSR conflict stayed 'cold.'",
+        terms: [
+          { term: "Mutually assured destruction (MAD)", def: "The doctrine that nuclear war would destroy both sides, deterring direct conflict." },
+        ],
+        traps: ["The bomb's biggest long-term effect was strategic: nuclear deterrence (MAD) shaped the entire Cold War."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 8, lessonNum: 1,
+    unitName: "Cold War and Decolonization (c. 1900–present)",
+    title: "The Cold War — Origins and Ideology",
+    subtitle: "Two superpowers, two opposed systems, and a global rivalry that never became direct war.",
+    overview:
+      "After WWII, the United States and the Soviet Union emerged as rival superpowers locked in the Cold War — an ideological, political, and military struggle between capitalism/democracy and communism. It was 'cold' because the two never fought each other directly, deterred by nuclear weapons.",
+    objectives: [
+      "Contrast the ideologies and alliances of the US and USSR.",
+      "Explain the origins of the Cold War.",
+      "Define containment and key early policies.",
+    ],
+    sections: [
+      {
+        title: "Two superpowers, two systems",
+        body:
+          "The wartime alliance collapsed into rivalry as two incompatible systems faced off.",
+        table: {
+          headers: ["", "United States", "Soviet Union"],
+          rows: [
+            ["Economy", "Capitalism", "Communism (state-controlled)"],
+            ["Politics", "Democracy", "One-party rule"],
+            ["Alliance", "NATO", "Warsaw Pact"],
+          ],
+        },
+        keyIdea: "The Cold War was an IDEOLOGICAL contest (capitalism vs. communism) as much as a military one.",
+      },
+      {
+        title: "Origins and containment",
+        body:
+          "Distrust, Soviet expansion in Eastern Europe (the 'Iron Curtain'), and a postwar power vacuum sparked the conflict. The US adopted containment — stopping the spread of communism — through the Truman Doctrine (aid to resist communism) and the Marshall Plan (rebuilding Western Europe to resist it).",
+        terms: [
+          { term: "Containment", def: "The US policy of preventing the spread of communism." },
+          { term: "Iron Curtain", def: "The divide between communist Eastern and democratic Western Europe." },
+          { term: "Marshall Plan", def: "US aid to rebuild Western Europe and resist communism." },
+        ],
+        traps: ["'Cold' means the US and USSR never fought DIRECTLY — they clashed through proxy wars and an arms race instead."],
+      },
+    ],
+  },
 ];
