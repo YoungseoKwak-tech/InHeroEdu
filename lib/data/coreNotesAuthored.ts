@@ -1673,4 +1673,125 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 4, lessonNum: 1,
+    unitName: "Transoceanic Interconnections (c. 1450–1750)",
+    title: "European Maritime Expansion — Causes and Technology",
+    subtitle: "Why a few small kingdoms on Europe's edge suddenly sailed across the world's oceans — and what made it possible.",
+    overview:
+      "Around 1450, European states began long-distance ocean voyages that would reshape the globe. The motives are summed up as 'God, gold, and glory,' and a new toolkit of borrowed sailing technologies made the voyages survivable.",
+    objectives: [
+      "Explain the economic, religious, and political motives for exploration.",
+      "Identify the technologies that enabled oceanic voyages.",
+      "Explain why states sponsored exploration.",
+    ],
+    sections: [
+      {
+        title: "Why Europe took to the sea",
+        body:
+          "Several pressures pushed Europe outward. The Ottomans controlled the overland routes to Asia, so Europeans sought a SEA route to the lucrative spice trade. Rulers wanted wealth and power, and missionaries wanted converts.",
+        table: {
+          headers: ["Motive", "Drive"],
+          rows: [
+            ["Gold (economic)", "Direct sea access to Asian spices & wealth"],
+            ["God (religious)", "Spread Christianity"],
+            ["Glory (political)", "National prestige and rival competition"],
+          ],
+        },
+        keyIdea: "Ottoman control of land routes to Asia is what pushed Europeans to gamble on a SEA route — a key cause.",
+      },
+      {
+        title: "The enabling technology",
+        body:
+          "Europeans combined borrowed innovations: the caravel (a maneuverable ship), the lateen sail (to sail against the wind), and the magnetic compass and astrolabe (for navigation out of sight of land). State sponsorship — and soon joint-stock companies — funded the risky voyages.",
+        terms: [
+          { term: "Caravel", def: "A small, maneuverable European ship suited to ocean exploration." },
+          { term: "Astrolabe", def: "Instrument for finding latitude from the stars, aiding open-sea navigation." },
+          { term: "Joint-stock company", def: "A business pooling investors' money to fund (and share the risk of) voyages." },
+        ],
+        traps: ["Much exploration tech (compass, lateen sail) was ADOPTED from other cultures via trade — not invented from scratch in Europe."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 4, lessonNum: 2,
+    unitName: "Transoceanic Interconnections (c. 1450–1750)",
+    title: "The Columbian Exchange — Biological Consequences",
+    subtitle: "The largest biological event in human history: continents that had been separate for millennia suddenly swapped crops, animals, and germs.",
+    overview:
+      "After 1492, the Americas and Afro-Eurasia exchanged plants, animals, and diseases on a massive scale — the Columbian Exchange. Its biological consequences reshaped populations on every continent, for better in the Old World and catastrophically in the New.",
+    objectives: [
+      "Identify what was exchanged between hemispheres.",
+      "Explain the demographic catastrophe in the Americas.",
+      "Explain how American crops boosted Old World populations.",
+    ],
+    diagram: "cause-effect",
+    sections: [
+      {
+        title: "What crossed the ocean",
+        body:
+          "Goods flowed both ways. From the Old World came horses, cattle, wheat, sugar — and deadly diseases. From the Americas came calorie-rich crops that would transform global diets.",
+        table: {
+          headers: ["Old World → Americas", "Americas → Old World"],
+          rows: [
+            ["Horses, cattle, pigs", "Potatoes, maize (corn)"],
+            ["Wheat, sugar, coffee", "Tomatoes, cacao, tobacco"],
+            ["Smallpox, measles (disease)", "(few diseases went east)"],
+          ],
+        },
+        keyIdea: "The exchange was lopsided: the Old World sent devastating DISEASES; the Americas sent transformative CROPS.",
+      },
+      {
+        title: "A demographic earthquake",
+        body:
+          "Old World diseases like smallpox — to which Native Americans had no immunity — killed an estimated 80–90% of the indigenous population, the largest demographic catastrophe in history, and it enabled European conquest. Meanwhile, American crops (especially the potato and maize) caused population BOOMS across Europe, Africa, and Asia.",
+        terms: [
+          { term: "Columbian Exchange", def: "The transfer of plants, animals, and diseases between the hemispheres after 1492." },
+          { term: "Smallpox", def: "An Old World disease that devastated immunity-lacking Native American populations." },
+        ],
+        traps: ["The disease deaths were UNINTENTIONAL but decisive — they, more than weapons, made conquest possible."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 4, lessonNum: 3,
+    unitName: "Transoceanic Interconnections (c. 1450–1750)",
+    title: "Spanish Colonialism — Encomienda and Casta System",
+    subtitle: "How Spain ran its American empire: coerced indigenous labor and a rigid, race-based social ladder.",
+    overview:
+      "Spain built a vast American empire after conquering the Aztec and Inca. It extracted wealth through coerced labor systems like the encomienda and ordered society with the casta system, a hierarchy based on race and birthplace.",
+    objectives: [
+      "Describe Spanish conquest and the encomienda labor system.",
+      "Explain the casta racial hierarchy.",
+      "Connect coerced labor to the demographic collapse.",
+    ],
+    sections: [
+      {
+        title: "Conquest and coerced labor",
+        body:
+          "Conquistadors toppled the Aztec and Inca, helped massively by disease. To exploit the land, Spain used the encomienda, which granted colonists the right to demand labor and tribute from indigenous people — brutal in practice. As the native population collapsed, Spain turned increasingly to enslaved Africans.",
+        keyIdea: "Indigenous population collapse (disease) + labor demand → the encomienda, and then the Atlantic slave trade.",
+        terms: [
+          { term: "Conquistadors", def: "Spanish soldiers who conquered the American empires." },
+          { term: "Encomienda", def: "A grant giving Spanish colonists the right to demand indigenous labor and tribute." },
+        ],
+      },
+      {
+        title: "The casta system",
+        body:
+          "Spanish America was organized by a racial hierarchy, the casta system. Birthplace and ancestry determined status and rights, with European-born at the top.",
+        table: {
+          headers: ["Group", "Who"],
+          rows: [
+            ["Peninsulares", "Spanish-born; highest status and offices"],
+            ["Creoles", "American-born of Spanish parents; wealthy but blocked from top posts"],
+            ["Mestizos", "Mixed European–indigenous ancestry"],
+            ["Indigenous & enslaved Africans", "Bottom of the hierarchy"],
+          ],
+        },
+        keyIdea: "Resentment of creoles (rich but barred from the top by peninsulares) would later fuel Latin American independence.",
+        traps: ["The casta system ranked people by RACE and BIRTHPLACE — a rigid social order, not just informal prejudice."],
+      },
+    ],
+  },
 ];
