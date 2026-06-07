@@ -2364,4 +2364,124 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-world-history", unit: 6, lessonNum: 3,
+    unitName: "Consequences of Industrialization (c. 1750–1900)",
+    title: "Responses to Imperialism — Accommodation and Resistance",
+    subtitle: "Colonized peoples were not passive: they rebelled, reformed, and built nationalist movements — and a few even won.",
+    overview:
+      "People under imperial pressure responded in three broad ways: armed resistance, reform and modernization (trying to beat the imperialists at their own game), and organized nationalism. A few states resisted successfully — most famously Japan and Ethiopia.",
+    objectives: [
+      "Categorize the main responses to imperialism.",
+      "Give examples of resistance, reform, and nationalism.",
+      "Explain why Japan and Ethiopia were exceptions.",
+    ],
+    sections: [
+      {
+        title: "Three kinds of response",
+        body:
+          "Responses ranged from violent rebellion to deliberate self-modernization to political organizing.",
+        table: {
+          headers: ["Response", "Examples"],
+          rows: [
+            ["Armed resistance", "Sepoy Rebellion (India), Boxer Rebellion (China)"],
+            ["Reform / modernize", "Meiji Japan, Ottoman Tanzimat, China's Self-Strengthening"],
+            ["Nationalism", "Indian National Congress organizing for self-rule"],
+            ["Successful resistance", "Ethiopia defeats Italy at Adwa (1896); Japan industrializes"],
+          ],
+        },
+        keyIdea: "Japan didn't just resist — it INDUSTRIALIZED (Meiji) and became an imperial power itself. Ethiopia militarily defeated Italy.",
+      },
+      {
+        title: "Why some succeeded",
+        body:
+          "Japan's Meiji Restoration adopted Western technology, industry, and military methods rapidly enough to avoid colonization — and then to colonize others. Ethiopia, under Menelik II, modernized its army and defeated invading Italy at Adwa. Most reform efforts (late Qing China, the Ottomans) came too slowly to prevent decline.",
+        terms: [
+          { term: "Meiji Restoration", def: "Japan's rapid, top-down modernization that let it resist imperialism and become a power." },
+          { term: "Self-Strengthening Movement", def: "China's limited, ultimately insufficient attempt to modernize." },
+        ],
+        traps: ["Reform ≠ automatic success — Japan's worked; China's and the Ottomans' were too slow and partial."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 6, lessonNum: 4,
+    unitName: "Consequences of Industrialization (c. 1750–1900)",
+    title: "Economic Imperialism — Export Economies and Dependency",
+    subtitle: "You didn't have to be a colony to be controlled — industrial powers dominated whole regions through trade and debt.",
+    overview:
+      "Beyond formal colonies, industrial powers reshaped economies worldwide. Regions were pushed into producing a few raw materials or cash crops for European factories and buying European manufactured goods — creating export economies dependent on volatile world prices.",
+    objectives: [
+      "Define economic imperialism and export economies.",
+      "Explain the dependency that resulted.",
+      "Give examples (cash crops, deindustrialization).",
+    ],
+    sections: [
+      {
+        title: "Export economies",
+        body:
+          "Colonized and semi-colonized regions were steered toward producing single raw materials or cash crops for export, rather than diversified economies. They then bought finished goods from the industrial powers.",
+        table: {
+          headers: ["Region", "Forced export"],
+          rows: [
+            ["India", "Cotton (raw) — while its textile industry was undercut"],
+            ["Caribbean / Brazil", "Sugar, coffee"],
+            ["West Africa", "Palm oil, cacao"],
+            ["Latin America", "Minerals, beef, guano"],
+          ],
+        },
+        keyIdea: "Export economies traded diversification for dependence — wealth flowed out, and one bad price swing could wreck the economy.",
+      },
+      {
+        title: "Dependency and deindustrialization",
+        body:
+          "Relying on one or two exports left economies vulnerable to global price swings (dependency). Worse, cheap British factory cloth flooded India and destroyed its once-dominant textile industry — deindustrialization. The pattern enriched the industrial core and locked the periphery into supplying raw materials.",
+        terms: [
+          { term: "Economic imperialism", def: "Controlling a region's economy through trade, investment, and debt rather than direct rule." },
+          { term: "Dependency", def: "Reliance on exporting a few commodities, leaving an economy vulnerable to price swings." },
+        ],
+        traps: ["Economic imperialism didn't require a flag — Latin America was politically independent yet economically dominated."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-world-history", unit: 6, lessonNum: 5,
+    unitName: "Consequences of Industrialization (c. 1750–1900)",
+    title: "Migration in the Industrial Age",
+    subtitle: "Industrialization set the world in motion — across oceans for work, and from countryside to city.",
+    overview:
+      "The industrial era triggered mass migration on an unprecedented scale: Europeans to the Americas, Asian indentured laborers across the globe, and rural people flooding into cities. New transport (steamships, railroads) made it possible, and it reshaped societies on both ends.",
+    objectives: [
+      "Identify the major migration patterns of the industrial age.",
+      "Explain the push and pull factors driving them.",
+      "Describe the social effects of mass migration.",
+    ],
+    sections: [
+      {
+        title: "Who moved where",
+        body:
+          "Migration flowed along several major channels, powered by steamships and railroads.",
+        table: {
+          headers: ["Migration", "Driver"],
+          rows: [
+            ["Europeans → Americas", "Escaping poverty; seeking land and jobs"],
+            ["Indian & Chinese indentured → Caribbean, Africa, SE Asia", "Replacing enslaved plantation labor"],
+            ["Rural → urban (internal)", "Factory jobs in growing cities"],
+          ],
+        },
+        keyIdea: "After abolition, INDENTURED Asian laborers (India, China) became the new global workforce on plantations.",
+      },
+      {
+        title: "Social effects",
+        body:
+          "Migrants formed ethnic enclaves in destination cities and sent remittances home. Migration often skewed gender ratios (many migrants were young men) and provoked nativism — backlash and discrimination against newcomers (e.g., the Chinese Exclusion Act).",
+        terms: [
+          { term: "Ethnic enclave", def: "A neighborhood with a high concentration of one ethnic/immigrant group." },
+          { term: "Nativism", def: "Hostility and policy discrimination against immigrants by established residents." },
+          { term: "Remittances", def: "Money migrants send back to family in their home country." },
+        ],
+        traps: ["Migration reshaped BOTH origin (remittances, gender imbalance) and destination (enclaves, nativism) societies."],
+      },
+    ],
+  },
 ];
