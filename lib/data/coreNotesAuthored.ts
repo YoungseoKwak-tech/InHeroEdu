@@ -5294,4 +5294,116 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-environmental-science", unit: 7, lessonNum: 7,
+    unitName: "Atmospheric Pollution",
+    title: "Noise and Light Pollution",
+    subtitle: "Less obvious than smog, but unwanted sound and artificial light disrupt both humans and wildlife.",
+    overview:
+      "Pollution isn't only chemical. Noise pollution (unwanted sound) and light pollution (excess artificial light) are growing environmental problems that stress people and disrupt animal behavior — from migrating birds to nesting sea turtles.",
+    objectives: [
+      "Define noise and light pollution and their sources.",
+      "Explain their effects on humans and wildlife.",
+      "Identify mitigation strategies.",
+    ],
+    sections: [
+      {
+        title: "Noise and light as pollutants",
+        body:
+          "Noise pollution from traffic, industry, and aircraft causes hearing loss, stress, and sleep disruption in humans, and interferes with animal communication and navigation (e.g., sonar harming whales). Light pollution from cities brightens the night sky, wasting energy and disrupting circadian rhythms.",
+        keyIdea: "Noise and light are 'pollution' because they're unwanted byproducts of human activity that harm organisms — even without chemicals.",
+        terms: [
+          { term: "Noise pollution", def: "Unwanted/harmful sound that stresses humans and disrupts wildlife." },
+          { term: "Light pollution", def: "Excess artificial light that disrupts ecosystems and circadian rhythms." },
+        ],
+      },
+      {
+        title: "Effects on wildlife",
+        body:
+          "Light pollution disorients animals: hatchling sea turtles head toward city lights instead of the sea, and migrating birds are drawn off course. Noise masks the calls animals use to find mates, prey, and warn of danger. Solutions include shielded/downward lighting, quiet zones, and noise barriers.",
+        terms: [
+          { term: "Circadian rhythm", def: "An organism's internal day/night cycle, disrupted by artificial light." },
+        ],
+        traps: ["Light pollution has real ECOLOGICAL effects (disoriented turtles, birds) — it's not just an aesthetic loss of dark skies."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 7, lessonNum: 8,
+    unitName: "Atmospheric Pollution",
+    title: "Climate Change and Atmospheric Pollution Linkages",
+    subtitle: "Air pollution and climate change share sources — so cutting one often helps the other.",
+    overview:
+      "Atmospheric pollution and climate change are tightly linked because both come largely from burning fossil fuels. Greenhouse gases trap heat (warming), while some pollutants also affect climate. Understanding the connections clarifies why energy choices drive both problems.",
+    objectives: [
+      "Distinguish greenhouse gases from criteria air pollutants.",
+      "Explain the greenhouse effect.",
+      "Connect shared sources to combined solutions.",
+    ],
+    sections: [
+      {
+        title: "The greenhouse effect and gases",
+        body:
+          "Greenhouse gases (CO₂, methane, nitrous oxide, water vapor) let sunlight in but trap outgoing heat, warming the planet — the natural greenhouse effect, intensified by human emissions. CO₂ (from burning fossil fuels) is the biggest driver; methane (from livestock, landfills, gas leaks) is less abundant but far more potent per molecule.",
+        table: {
+          headers: ["Greenhouse gas", "Main source"],
+          rows: [
+            ["Carbon dioxide (CO₂)", "Burning fossil fuels, deforestation"],
+            ["Methane (CH₄)", "Livestock, landfills, natural gas leaks (very potent)"],
+            ["Nitrous oxide (N₂O)", "Fertilizers, combustion"],
+          ],
+        },
+        keyIdea: "CO₂ is the LARGEST driver of warming; methane is FAR more potent per molecule but shorter-lived. Both come largely from fossil fuels.",
+      },
+      {
+        title: "Shared sources, shared solutions",
+        body:
+          "Because fossil fuel combustion produces BOTH greenhouse gases and criteria pollutants, the same actions — efficiency, renewables, less driving — cut air pollution AND slow climate change ('co-benefits'). Note the distinction: criteria pollutants (like SO₂, smog) mainly harm health locally; greenhouse gases warm the whole planet.",
+        terms: [
+          { term: "Greenhouse effect", def: "Trapping of heat by atmospheric gases; intensified by human emissions." },
+          { term: "Greenhouse gas vs. criteria pollutant", def: "Gases that warm the planet vs. pollutants that harm local health/air quality." },
+        ],
+        traps: ["CO₂ is a GREENHOUSE GAS (warms the planet), not a 'criteria' air pollutant like SO₂ or smog that harms local health — keep the categories separate."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-environmental-science", unit: 8, lessonNum: 1,
+    unitName: "Aquatic and Terrestrial Pollution",
+    title: "Water Pollution — Point vs. Nonpoint Sources",
+    subtitle: "The hardest pollution to fix is the kind with no single pipe to plug.",
+    overview:
+      "Water pollution is classified by where it comes from: point sources (a single, identifiable outlet) and nonpoint sources (diffuse runoff from many places). Nonpoint pollution — especially agricultural runoff — is the leading cause of water-quality problems and the hardest to control.",
+    objectives: [
+      "Distinguish point and nonpoint pollution sources.",
+      "Identify major water pollutants.",
+      "Explain why nonpoint pollution is hard to regulate.",
+    ],
+    sections: [
+      {
+        title: "Point vs. nonpoint",
+        body:
+          "A point source discharges from a single, identifiable spot — a factory pipe or sewage outfall — so it's easy to locate and regulate. A nonpoint source is diffuse runoff from a broad area: fertilizer and pesticides off farm fields, oil off roads, lawn chemicals. Because it has no single outlet, it's far harder to control.",
+        table: {
+          headers: ["Source", "Example", "Regulation"],
+          rows: [
+            ["Point", "Factory pipe, sewage outfall", "Easy to identify & permit"],
+            ["Nonpoint", "Farm/urban runoff (diffuse)", "Hard — no single outlet to plug"],
+          ],
+        },
+        keyIdea: "Nonpoint runoff (especially from AGRICULTURE) is the #1 water-pollution problem — and the hardest to fix because there's no single pipe.",
+      },
+      {
+        title: "Major pollutants",
+        body:
+          "Key water pollutants include nutrients (N, P from fertilizer/sewage → eutrophication and dead zones), pathogens (from sewage/animal waste → disease), toxic chemicals and heavy metals, sediment (from erosion), and thermal pollution (heated water from power plants lowering dissolved oxygen).",
+        terms: [
+          { term: "Point source", def: "Pollution from a single, identifiable discharge point." },
+          { term: "Nonpoint source", def: "Diffuse pollution from runoff over a wide area; the leading water-quality problem." },
+          { term: "Thermal pollution", def: "Heated water discharge that lowers dissolved oxygen, stressing aquatic life." },
+        ],
+        traps: ["Agricultural runoff is NONPOINT — it's the biggest water-pollution source precisely because it can't be traced to one pipe."],
+      },
+    ],
+  },
 ];
