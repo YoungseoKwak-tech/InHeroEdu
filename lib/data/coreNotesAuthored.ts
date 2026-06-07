@@ -6410,4 +6410,117 @@ export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
       },
     ],
   },
+  {
+    courseId: "ap-us-government", unit: 5, lessonNum: 3,
+    unitName: "Political Participation",
+    title: "Elections and Voting Behavior",
+    subtitle: "How Americans choose leaders — the rules of elections and what actually drives whether and how people vote.",
+    overview:
+      "Elections translate public preferences into power. The presidential race runs through the Electoral College, not a national popular vote. Voter turnout and choices are shaped by demographics, party loyalty, candidates, and structural factors that raise or lower participation.",
+    objectives: [
+      "Explain the Electoral College and its consequences.",
+      "Identify factors affecting voter turnout.",
+      "Describe what influences how people vote.",
+    ],
+    sections: [
+      {
+        title: "The Electoral College",
+        body:
+          "Presidents are chosen by the Electoral College: each state gets electors equal to its members of Congress, and (in most states) winner-take-all awards all of a state's electors to the popular-vote winner. A candidate needs 270 of 538. This means a candidate can win the presidency while LOSING the national popular vote, and it focuses campaigns on swing states.",
+        keyIdea: "You need 270 electoral votes — and because of winner-take-all, you can WIN the presidency while LOSING the national popular vote.",
+        terms: [
+          { term: "Electoral College", def: "The body that formally elects the president; 538 electors, 270 to win." },
+          { term: "Swing state", def: "A competitive state that decides close elections and draws campaign attention." },
+        ],
+      },
+      {
+        title: "Who votes, and why they choose",
+        body:
+          "Turnout rises with education, income, and age (older people vote more) and is shaped by laws (registration rules, ID laws) and the type of election (presidential years draw more than midterms). Vote choice is driven by party identification (the strongest predictor), candidate traits, issues, and retrospective judgments about the economy.",
+        terms: [
+          { term: "Voter turnout", def: "The share of eligible voters who actually vote; higher among older, wealthier, educated citizens." },
+          { term: "Party identification", def: "A voter's attachment to a party — the single strongest predictor of vote choice." },
+          { term: "Rational/retrospective voting", def: "Choosing based on issues or on how things (e.g., the economy) have gone." },
+        ],
+        traps: ["Party identification is the STRONGEST predictor of how someone votes. Turnout is higher in PRESIDENTIAL years than midterms."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-english-language", unit: 1, lessonNum: 1,
+    unitName: "Rhetorical Situation",
+    title: "SOAPS and Context",
+    subtitle: "Before you analyze any text, map its rhetorical situation — who's speaking, to whom, and why.",
+    overview:
+      "Every text is created in a specific rhetorical situation. The SOAPS framework breaks it down — Speaker, Occasion, Audience, Purpose, Subject — so you can analyze HOW and WHY a writer makes choices, not just what they say. Context shapes every rhetorical decision.",
+    objectives: [
+      "Define the rhetorical situation.",
+      "Apply the SOAPS framework to a text.",
+      "Explain how context shapes rhetorical choices.",
+    ],
+    diagram: "rhetorical-triangle",
+    sections: [
+      {
+        title: "The SOAPS framework",
+        body:
+          "SOAPS is a checklist for unpacking any text's rhetorical situation. Identifying these elements reveals why an author made specific choices.",
+        table: {
+          headers: ["Letter", "Element", "Ask"],
+          rows: [
+            ["S", "Speaker", "Who is the author/persona, and what's their credibility?"],
+            ["O", "Occasion", "What event/context prompted this text?"],
+            ["A", "Audience", "Who is it aimed at?"],
+            ["P", "Purpose", "What does the author want to achieve?"],
+            ["S", "Subject", "What is the topic?"],
+          ],
+        },
+        keyIdea: "SOAPS = Speaker, Occasion, Audience, Purpose, Subject — your map of any text's rhetorical situation.",
+      },
+      {
+        title: "Why context matters",
+        body:
+          "The same argument lands differently depending on context. A speaker adjusts tone, evidence, and appeals based on the occasion and audience. Strong rhetorical analysis explains HOW these situational factors drive an author's choices — the heart of AP Lang.",
+        terms: [
+          { term: "Rhetorical situation", def: "The context (speaker, audience, purpose, occasion) shaping a text." },
+          { term: "Context", def: "The circumstances surrounding a text that influence its meaning and choices." },
+        ],
+        traps: ["AP Lang rewards analyzing HOW and WHY an author makes choices for their situation — not just summarizing WHAT the text says."],
+      },
+    ],
+  },
+  {
+    courseId: "ap-english-language", unit: 1, lessonNum: 2,
+    unitName: "Rhetorical Situation",
+    title: "Audience and Register",
+    subtitle: "Good writers shape every word to their specific audience — and match the formality (register) to the moment.",
+    overview:
+      "Audience is the center of rhetoric: effective writers tailor their content, evidence, tone, and level of formality (register) to who they're addressing. Recognizing how a text adapts to its audience is a core analytical skill.",
+    objectives: [
+      "Explain how writers adapt to their audience.",
+      "Define register and identify its levels.",
+      "Analyze tone as an audience-shaped choice.",
+    ],
+    sections: [
+      {
+        title: "Writing for an audience",
+        body:
+          "Writers make different choices for different audiences: the evidence that persuades scientists differs from what moves voters; the tone for a eulogy differs from a satire. Analyzing a text means asking how the author's choices fit (or strategically challenge) the intended audience.",
+        keyIdea: "Audience drives EVERYTHING — content, evidence, tone, and formality all shift to fit who's listening.",
+        terms: [
+          { term: "Audience", def: "The intended readers/listeners a text is shaped to reach." },
+          { term: "Tone", def: "The author's attitude toward the subject or audience, conveyed by word choice." },
+        ],
+      },
+      {
+        title: "Register and formality",
+        body:
+          "Register is the level of formality in language, ranging from formal (academic essays, speeches) to informal (texts, casual blogs). Writers choose register to suit the occasion and audience; a mismatch (too casual for a serious topic) undercuts credibility. Diction (word choice) is the main signal of register.",
+        terms: [
+          { term: "Register", def: "The level of formality in language, from formal to informal." },
+          { term: "Diction", def: "Word choice, which signals tone and register." },
+        ],
+        traps: ["Register must FIT the rhetorical situation — analyze whether an author's level of formality serves their purpose and audience."],
+      },
+    ],
+  },
 ];
