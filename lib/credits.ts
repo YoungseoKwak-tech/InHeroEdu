@@ -11,9 +11,8 @@
 
 const BAL_KEY = "inhero-credits";
 const UNLOCK_KEY = "inhero-credits-unlocked";
-const LOGIN_BONUS_KEY = "inhero-credits-login-bonus";
-export const WELCOME_CREDITS = 20;
-export const LOGIN_BONUS = 200;
+const MIGRATION_KEY = "inhero-credits-v2";
+export const WELCOME_CREDITS = 200;
 export const CREDIT_EVENT = "inhero:credits-changed";
 
 function emit() {
@@ -24,11 +23,14 @@ function emit() {
 export function getBalance(): number {
   if (typeof window === "undefined") return 0;
   const raw = localStorage.getItem(BAL_KEY);
-  if (raw === null) {
-    localStorage.setItem(BAL_KEY, String(WELCOME_CREDITS));
-    return WELCOME_CREDITS;
+  let bal = raw === null ? WELCOME_CREDITS : (Number(raw) || 0);
+  if (raw === null) localStorage.setItem(BAL_KEY, String(WELCOME_CREDITS));
+  // One-time top-up for early testers who received the old 20-credit welcome.
+  if (!localStorage.getItem(MIGRATION_KEY)) {
+    localStorage.setItem(MIGRATION_KEY, "1");
+    if (bal < WELCOME_CREDITS) { bal = WELCOME_CREDITS; localStorage.setItem(BAL_KEY, String(bal)); }
   }
-  return Number(raw) || 0;
+  return bal;
 }
 
 function setBalance(n: number) {
@@ -39,14 +41,6 @@ function setBalance(n: number) {
 
 export function addCredits(n: number) {
   setBalance(getBalance() + n);
-}
-
-/** One-time login bonus — grants 200 credits the first time a user signs in. */
-export function grantLoginBonus() {
-  if (typeof window === "undefined") return;
-  if (localStorage.getItem(LOGIN_BONUS_KEY)) return;
-  localStorage.setItem(LOGIN_BONUS_KEY, "1");
-  addCredits(LOGIN_BONUS);
 }
 
 export function getUnlocked(): Set<string> {

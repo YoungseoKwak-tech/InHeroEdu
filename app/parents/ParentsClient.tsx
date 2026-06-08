@@ -467,7 +467,7 @@ export default function ParentsClient() {
                 <button onClick={() => go("/question-bank", true)} style={{ width: "100%", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "12px", fontWeight: 800, fontSize: 14, cursor: "pointer", marginBottom: 8 }}>
                   무료 가입 + 웰컴 크레딧 받기
                 </button>
-                <p style={{ fontSize: 11.5, color: "#94a3b8", textAlign: "center", margin: 0 }}>가입 시 웰컴 크레딧 20개 · 카드 필요 없음</p>
+                <p style={{ fontSize: 11.5, color: "#94a3b8", textAlign: "center", margin: 0 }}>가입 시 웰컴 크레딧 200개 · 카드 필요 없음</p>
               </>
             )}
           </div>
