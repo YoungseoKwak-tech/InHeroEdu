@@ -77,7 +77,7 @@ function timeAgo(iso: string): string {
 const dateShort = (iso: string) => new Date(iso).toLocaleDateString("ko-KR", { month: "2-digit", day: "2-digit" });
 
 const SLIDES = [
-  { bg: "linear-gradient(135deg,#0a0a14,#1b1340 55%,#2d1a5e)", emoji: "🎓", title: "아이비리그 공대 합격생, 자기주도로 간 스토리", sub: "사교육 없이 Cornell 공대에 간 공학도의 입시 수기 — 목차부터 프롤로그까지 읽어보세요", route: "/parents/story", gated: false, cta: "스토리 읽기 →" },
+  { bg: "linear-gradient(135deg,#0a0a14,#1b1340 55%,#2d1a5e)", emoji: "🎓", title: "아이비리그 공대 합격생, 자기주도로 간 스토리", sub: "수강과목부터 리서치·액티비티·에세이 전략·유학생활까지 다 녹여낸 230페이지 책", route: "/parents/story", gated: false, cta: "스토리 읽기 →" },
 ];
 
 const NAV = [
