@@ -18,7 +18,8 @@ import Link from "next/link";
 import { authFetch, getClientSession } from "@/lib/client-auth";
 import { COMPETITIONS } from "./competitions/data";
 import CreditWidget from "@/components/parents/CreditWidget";
-import { isUnlocked, spendAndUnlock, CREDIT_EVENT } from "@/lib/credits";
+import ReferralPrompt from "@/components/parents/ReferralPrompt";
+import { isUnlocked, spendAndUnlock, CREDIT_EVENT, CREDIT_COSTS } from "@/lib/credits";
 import TextbookFlipPreview from "@/components/parents/TextbookFlipPreview";
 
 const GREEN = "#00b85f";
@@ -114,9 +115,9 @@ const QUICK = [
 // Sorted by views (trending) — the board renders this order as-is.
 const RESOURCES = [
   { title: "내가 아이비리그 공대에 오기까지", desc: "아이비리그 공대 합격생이 직접 쓴 합격 수기 — 리더뷰로 읽기", route: "/parents/story", tag: "합격수기", views: 1180, cost: 0 },
-  { title: "코넬 공대 합격 에세이 분석", desc: "실제 합격 에세이를 한 문단씩 — 무엇이 왜 잘 됐는지", route: "/parents/essay", tag: "합격에세이", views: 1000, cost: 25 },
-  { title: "아이비리그 합격 엑스트라 활동 분석", desc: "합격생 활동 10개 + 직접 만드는 법 (책 출간·논문·웹)", route: "/parents/activities", tag: "합격활동", views: 942, cost: 25 },
-  { title: "미국 대학 분석 — 인재상·입시·인턴십", desc: "하버드부터 UC까지, 학교별 인재상·합격률·취업 파이프라인", route: "/parents/colleges", tag: "대학분석", views: 874, cost: 20 },
+  { title: "코넬 공대 합격 에세이 분석", desc: "실제 합격 에세이를 한 문단씩 — 무엇이 왜 잘 됐는지", route: "/parents/essay", tag: "합격에세이", views: 1000, cost: 250 },
+  { title: "아이비리그 합격 엑스트라 활동 분석", desc: "합격생 활동 10개 + 직접 만드는 법 (책 출간·논문·웹)", route: "/parents/activities", tag: "합격활동", views: 942, cost: 250 },
+  { title: "미국 대학 분석 — 인재상·입시·인턴십", desc: "하버드부터 UC까지, 학교별 인재상·합격률·취업 파이프라인", route: "/parents/colleges", tag: "대학분석", views: 874, cost: 250 },
   { title: "미국 입시 대회 데이터베이스 (전 분야)", desc: `USABO·NSDA·Scholastic 등 ${COMPETITIONS.length}개 대회 총정리`, route: "/parents/competitions", tag: "자료", views: 731, cost: 0 },
   { title: "학년별 로드맵 (G6–G12)", desc: "학업·시험·활동·에세이를 학년별로", route: "/parents/roadmap", tag: "가이드", views: 562, cost: 0 },
   { title: "전공별 AP 과목 선택 가이드", desc: "‘○○ 전공이면 AP 뭘?’ 8개 전공별 추천", route: "/parents/ap-guide", tag: "가이드", views: 418, cost: 0 },
@@ -205,8 +206,9 @@ export default function ParentsClient() {
     else window.dispatchEvent(new CustomEvent("inhero:open-charge"));
   };
 
-  // Digital textbooks: login required, then 100 credits to unlock each book.
-  const BOOK_COST = 100;
+  // Digital textbooks (1,000p each): login required, then 500 credits (HEAVY
+  // tier — one-subject-pass value) to unlock each book.
+  const BOOK_COST = CREDIT_COSTS.TEXTBOOK;
   const openBook = (b: { slug: string; title: string }) => {
     const route = `/textbooks/${b.slug}`;
     if (!loggedIn) { requireLogin(route); return; }
@@ -223,6 +225,7 @@ export default function ParentsClient() {
 
   return (
     <div style={{ position: "relative", zIndex: 10, minHeight: "100vh", background: "#eef1f4", color: "#1a1a1f", cursor: "auto", fontFamily: "'Inter', -apple-system, sans-serif" }}>
+      <ReferralPrompt loggedIn={loggedIn} />
       {/* ── Top bar ── */}
       <header style={{ background: "#fff", borderBottom: "1px solid #e2e6ea" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "16px 20px", display: "flex", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
@@ -600,7 +603,7 @@ export default function ParentsClient() {
                 <div style={{ position: "relative", height: 218, background: "linear-gradient(135deg,#0a0a14,#1e1e2e)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 56, overflow: "hidden" }}>
                   <span style={{ position: "absolute", top: 8, right: 8, zIndex: 2, fontSize: 10.5, fontWeight: 800, borderRadius: 999, padding: "2px 9px",
                     color: bookOwned ? "#fff" : "#a16207", background: bookOwned ? GREEN : "rgba(255,251,235,0.95)", border: bookOwned ? "none" : "1px solid #f1d27a" }}>
-                    {bookOwned ? "✓ 보유" : "🔒 100 크레딧"}
+                    {bookOwned ? "✓ 보유" : "🔒 500 크레딧"}
                   </span>
                   <span aria-hidden="true">{TEXTBOOK_GLYPH[b.slug] ?? "📘"}</span>
                   {TEXTBOOK_COVER[b.slug] && (
