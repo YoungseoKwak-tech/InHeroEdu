@@ -14,10 +14,9 @@ import Link from "next/link";
 
 const GREEN = "#00b85f";
 
-interface EnSection { title: string; subtitle?: string | null; body?: string | null; terms?: { term: string; def: string }[]; traps?: string[]; example?: string | null; }
-interface ListNote { lessonId: string; emoji: string; subjectLabel: string; unit: number | null; lessonNum: number | null; unitName?: string | null; title: string; subtitle?: string | null; objectives: string[]; sections: EnSection[]; }
-interface KoSection { title: string; subtitle?: string | null; body?: string | null; }
-interface KoNote { title: string; subtitle?: string | null; overview?: string | null; objectives: string[]; sections: KoSection[]; }
+interface NoteSection { title: string; subtitle?: string | null; body?: string | null; keyIdea?: string | null; table?: { headers: string[]; rows: string[][] } | null; terms?: { term: string; def: string }[]; traps?: string[]; example?: string | null; }
+interface ListNote { lessonId: string; emoji: string; subjectLabel: string; unit: number | null; lessonNum: number | null; unitName?: string | null; title: string; subtitle?: string | null; objectives: string[]; sections: NoteSection[]; }
+interface KoNote { title: string; subtitle?: string | null; overview?: string | null; objectives: string[]; sections: NoteSection[]; }
 interface SubjectCount { courseId: string | null; label: string; emoji: string; count: number; }
 
 export default function CoreNotesClient() {
@@ -148,36 +147,11 @@ export default function CoreNotesClient() {
 
                   {isKo && (ko as KoNote).overview && <Paragraphs text={(ko as KoNote).overview!} />}
 
-                  {isKo
-                    ? (ko as KoNote).sections.map((s, i) => (
-                        <Section key={i} title={s.title} subtitle={s.subtitle}>{s.body && <Paragraphs text={s.body} />}</Section>
-                      ))
-                    : note.sections.map((s, i) => (
-                        <Section key={i} title={s.title} subtitle={s.subtitle}>
-                          {s.body && <Paragraphs text={s.body} />}
-                          {s.terms && s.terms.length > 0 && (
-                            <dl style={{ margin: "8px 0" }}>
-                              {s.terms.map((t, k) => (
-                                <div key={k} style={{ marginBottom: 8 }}>
-                                  <dt style={{ fontSize: 14, fontWeight: 800, color: "#1a1a1f" }}>{t.term}</dt>
-                                  <dd style={{ margin: 0, fontSize: 14, color: "#475569", lineHeight: 1.7 }}>{t.def}</dd>
-                                </div>
-                              ))}
-                            </dl>
-                          )}
-                          {s.traps && s.traps.length > 0 && (
-                            <div style={{ background: "#fff7ed", borderLeft: "3px solid #f97316", borderRadius: 8, padding: "10px 13px", margin: "8px 0" }}>
-                              <div style={{ fontSize: 12, fontWeight: 800, color: "#c2410c", marginBottom: 5 }}>⚠️ 함정 주의</div>
-                              {s.traps.map((tr, k) => <p key={k} style={{ fontSize: 13.5, color: "#7c2d12", lineHeight: 1.6, margin: "0 0 4px" }}>{tr}</p>)}
-                            </div>
-                          )}
-                          {s.example && (
-                            <div style={{ background: "#f7f8fa", borderRadius: 8, padding: "10px 13px", margin: "8px 0", fontSize: 13.5, color: "#334155", lineHeight: 1.7 }}>
-                              <span style={{ fontWeight: 800, color: "#475569" }}>예시 · </span>{s.example}
-                            </div>
-                          )}
-                        </Section>
-                      ))}
+                  {(isKo ? (ko as KoNote).sections : note.sections).map((s, i) => (
+                    <Section key={i} title={s.title} subtitle={s.subtitle}>
+                      <SectionBody s={s} />
+                    </Section>
+                  ))}
 
                   {/* Bottom English CTA */}
                   <Link href="/core-notes" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, textDecoration: "none", marginTop: 26, color: "#1a1a1f", border: "1.5px solid #1a1a1f", borderRadius: 10, padding: "13px 22px", fontSize: 14.5, fontWeight: 800 }}>
@@ -229,6 +203,62 @@ function Paragraphs({ text }: { text: string }) {
       {text.split(/\n\n+/).map((p, i) => (
         <p key={i} style={{ fontSize: 14.5, color: "#334155", lineHeight: 1.9, margin: "0 0 13px", whiteSpace: "pre-wrap" }}>{p}</p>
       ))}
+    </>
+  );
+}
+
+// Renders the full body of a section (Korean or English): body prose, key idea,
+// table, term definitions, exam traps, and example. Both language views use this
+// so the Korean view shows its terms/traps/examples (not just the body).
+function SectionBody({ s }: { s: NoteSection }) {
+  return (
+    <>
+      {s.body && <Paragraphs text={s.body} />}
+      {s.keyIdea && (
+        <div style={{ background: "#eef2ff", borderLeft: "3px solid #7c3aed", borderRadius: 8, padding: "10px 13px", margin: "8px 0" }}>
+          <span style={{ fontSize: 12, fontWeight: 800, color: "#5b21b6" }}>💡 핵심 · </span>
+          <span style={{ fontSize: 13.5, color: "#3730a3", lineHeight: 1.7 }}>{s.keyIdea}</span>
+        </div>
+      )}
+      {s.table && s.table.headers && s.table.headers.length > 0 && (
+        <div style={{ overflowX: "auto", margin: "10px 0" }}>
+          <table style={{ borderCollapse: "collapse", width: "100%", fontSize: 13 }}>
+            <thead>
+              <tr>{s.table.headers.map((h, k) => (
+                <th key={k} style={{ textAlign: "left", padding: "7px 10px", background: "#f1f5f9", color: "#1a1a1f", fontWeight: 800, border: "1px solid #e2e8f0" }}>{h}</th>
+              ))}</tr>
+            </thead>
+            <tbody>
+              {s.table.rows.map((row, r) => (
+                <tr key={r}>{row.map((cell, c) => (
+                  <td key={c} style={{ padding: "7px 10px", color: "#334155", border: "1px solid #e2e8f0", lineHeight: 1.6 }}>{cell}</td>
+                ))}</tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      {s.terms && s.terms.length > 0 && (
+        <dl style={{ margin: "8px 0" }}>
+          {s.terms.map((t, k) => (
+            <div key={k} style={{ marginBottom: 8 }}>
+              <dt style={{ fontSize: 14, fontWeight: 800, color: "#1a1a1f" }}>{t.term}</dt>
+              <dd style={{ margin: 0, fontSize: 14, color: "#475569", lineHeight: 1.7 }}>{t.def}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+      {s.traps && s.traps.length > 0 && (
+        <div style={{ background: "#fff7ed", borderLeft: "3px solid #f97316", borderRadius: 8, padding: "10px 13px", margin: "8px 0" }}>
+          <div style={{ fontSize: 12, fontWeight: 800, color: "#c2410c", marginBottom: 5 }}>⚠️ 함정 주의</div>
+          {s.traps.map((tr, k) => <p key={k} style={{ fontSize: 13.5, color: "#7c2d12", lineHeight: 1.6, margin: "0 0 4px" }}>{tr}</p>)}
+        </div>
+      )}
+      {s.example && (
+        <div style={{ background: "#f7f8fa", borderRadius: 8, padding: "10px 13px", margin: "8px 0", fontSize: 13.5, color: "#334155", lineHeight: 1.7 }}>
+          <span style={{ fontWeight: 800, color: "#475569" }}>예시 · </span>{s.example}
+        </div>
+      )}
     </>
   );
 }
