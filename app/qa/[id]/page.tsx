@@ -101,7 +101,8 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
   const [anon, setAnon]           = useState(false);
 
   useEffect(() => {
-    if (!getStoredUsername()) setShowPrompt(true);
+    // Don't auto-open the name modal on load — its backdrop covered the answer
+    // box so typing did nothing. We collect the name at submit time instead.
     loadData();
   }, [id]);
 
@@ -149,6 +150,9 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
 
   async function handleSubmitAnswer() {
     if (!answerText.trim() || submitting) return;
+    // Need a display name unless answering anonymously — prompt now (at submit),
+    // so the answer box itself is never blocked by the modal backdrop.
+    if (!anon && !username) { setShowPrompt(true); return; }
     const nick = anon ? copy.anonymous : (username || copy.anonymous);
     setSubmitting(true);
     try {
