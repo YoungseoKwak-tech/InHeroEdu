@@ -91,8 +91,8 @@ export default function MathClient() {
         </Section>
 
         {/* 2) US course topics */}
-        <Section emoji="📚" title="미국 과목별 배우는 단원"
-          desc="각 과정에서 다루는 핵심 단원입니다. 영어 용어 옆에 한국어 뜻을 함께 적었어요. 과목을 눌러 펼쳐보세요.">
+        <Section emoji="📚" title="미국 과목별 단원 + 꼭 알아야 할 개념"
+          desc="각 과정에서 다루는 단원(영어+한국어)과, 학생이 반드시 이해해야 할 핵심 개념을 일타강사처럼 풀어 썼습니다. 과목을 눌러 펼쳐보세요.">
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {US_COURSE_TOPICS.map((c) => {
               const open = openCourse === c.course;
@@ -108,13 +108,29 @@ export default function MathClient() {
                     <span style={{ marginLeft: "auto", fontSize: 18, color: "#94a3b8", transform: open ? "rotate(90deg)" : "none", transition: "transform 180ms" }}>›</span>
                   </button>
                   {open && (
-                    <div style={{ padding: "0 18px 18px", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))", gap: 8 }}>
-                      {c.topics.map((t) => (
-                        <div key={t.en} style={{ display: "flex", flexDirection: "column", gap: 2, background: "#f5f8fd", border: "1px solid #e3ebf6", borderRadius: 9, padding: "9px 12px" }}>
-                          <span style={{ fontSize: 13.5, fontWeight: 700, color: "#1a1a1f" }}>{t.en}</span>
-                          <span style={{ fontSize: 12.5, color: "#5b6b7f" }}>{t.ko}</span>
-                        </div>
-                      ))}
+                    <div style={{ padding: "0 18px 18px" }}>
+                      <div style={{ fontSize: 12, fontWeight: 800, color: "#94a3b8", letterSpacing: "0.04em", margin: "0 0 8px" }}>다루는 단원</div>
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))", gap: 8, marginBottom: 18 }}>
+                        {c.topics.map((t) => (
+                          <div key={t.en} style={{ display: "flex", flexDirection: "column", gap: 2, background: "#f5f8fd", border: "1px solid #e3ebf6", borderRadius: 9, padding: "9px 12px" }}>
+                            <span style={{ fontSize: 13.5, fontWeight: 700, color: "#1a1a1f" }}>{t.en}</span>
+                            <span style={{ fontSize: 12.5, color: "#5b6b7f" }}>{t.ko}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div style={{ fontSize: 12, fontWeight: 800, color: "#2563eb", letterSpacing: "0.04em", margin: "0 0 10px" }}>💡 꼭 알아야 할 핵심 개념</div>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                        {c.mustKnow.map((m, idx) => (
+                          <div key={m.title} style={{ background: "#fbfdff", border: "1px solid #e3ebf6", borderRadius: 11, padding: "14px 16px" }}>
+                            <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 6 }}>
+                              <span style={{ flexShrink: 0, fontSize: 11, fontWeight: 800, color: "#fff", background: "#2563eb", borderRadius: 6, padding: "2px 7px" }}>{idx + 1}</span>
+                              <h4 style={{ fontSize: 14.5, fontWeight: 800, color: "#1a1a1f", margin: 0, letterSpacing: "-0.01em", lineHeight: 1.4 }}>{m.title}</h4>
+                            </div>
+                            <p style={{ fontSize: 13.5, color: "#334155", lineHeight: 1.85, margin: 0 }}>{m.body}</p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
