@@ -12,9 +12,25 @@ interface Props {
   onClose: () => void
   defaultMode?: 'login' | 'signup'
   redirectTo?: string
+  /** 'parent' renders the Korean 학부모 signup (자녀 학년 G2–G12 + 학교 유형). */
+  audience?: 'student' | 'parent'
 }
 
-export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redirectTo = '/dashboard' }: Props) {
+// 자녀 학년 — Grade 2 through Grade 12.
+const GRADE_OPTIONS = Array.from({ length: 11 }, (_, i) => `G${i + 2}`)
+// 자녀 학교 유형 — stored as-is in profiles.school so it shows in /admin/students.
+const SCHOOL_TYPE_OPTIONS = [
+  '국제학교',
+  '보딩스쿨 (Boarding)',
+  '외국인학교',
+  '미국 현지 학교',
+  '특목고·자사고',
+  '일반고',
+  '홈스쿨링',
+  '기타',
+]
+
+export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redirectTo = '/dashboard', audience = 'student' }: Props) {
   const { lang } = useLang()
   const supabase = createBrowserClient()
   const [mode, setMode] = useState<'login' | 'signup'>(defaultMode)
@@ -57,7 +73,9 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
   // English branch. The Korean strings stay in the file as dead code rather
   // than ripping them out wholesale; safer to revert one line than 30+.
   void lang;
-  const ko = false
+  // Parent hub is a Korean portal — force Korean copy for 학부모 signups.
+  const isParent = audience === 'parent'
+  const ko = isParent
 
   const inputStyle = {
     width: '100%',
@@ -80,6 +98,17 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
     marginBottom: '6px',
     letterSpacing: '0.08em',
     textTransform: 'uppercase' as const,
+  }
+
+  const selectStyle = {
+    ...inputStyle,
+    appearance: 'none' as const,
+    cursor: 'pointer',
+    backgroundImage:
+      "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path fill='%23ffffff88' d='M2 4l4 4 4-4z'/></svg>\")",
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'right 14px center',
+    paddingRight: '36px',
   }
 
   const focusInput = (element: HTMLInputElement, active: boolean) => {
@@ -265,17 +294,19 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px', marginBottom: '20px' }}>
             <div>
               <div style={{ fontSize: '11px', fontWeight: 700, color: '#1D9E75', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '7px' }}>
-                {mode === 'login' ? (ko ? '로그인' : 'Sign in') : (ko ? '학생 정보와 함께 가입' : 'Join with your student profile')}
+                {mode === 'login'
+                  ? (isParent ? '학부모 로그인' : ko ? '로그인' : 'Sign in')
+                  : (isParent ? '학부모 가입' : ko ? '학생 정보와 함께 가입' : 'Join with your student profile')}
               </div>
               <h2 style={{ fontSize: '22px', fontWeight: 800, color: '#fff', margin: 0, lineHeight: 1.25 }}>
                 {mode === 'login'
-                  ? (ko ? '정중앙에서 바로 로그인하세요' : 'Sign in right here')
-                  : (ko ? '한 번에 가입하고 바로 시작하세요' : 'Create everything in one step')}
+                  ? (isParent ? '인히어로 학부모 로그인' : ko ? '정중앙에서 바로 로그인하세요' : 'Sign in right here')
+                  : (isParent ? '자녀 정보로 가입하고 자료를 받아보세요' : ko ? '한 번에 가입하고 바로 시작하세요' : 'Create everything in one step')}
               </h2>
               <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.42)', margin: '6px 0 0' }}>
                 {mode === 'login'
-                  ? (ko ? '이메일과 비밀번호로 바로 들어갈 수 있어요.' : 'Use your email and password to continue.')
-                  : (ko ? '이름, 학년, 학교를 같이 저장해서 관리자 페이지에도 바로 보이게 합니다.' : 'We save your name, grade, and school together so admin can see them immediately.')}
+                  ? (isParent ? '가입하신 이메일과 비밀번호로 로그인하세요.' : ko ? '이메일과 비밀번호로 바로 들어갈 수 있어요.' : 'Use your email and password to continue.')
+                  : (isParent ? '자녀 학년·학교 유형을 함께 입력하면 맞춤 입시 자료와 알림을 받아보실 수 있어요.' : ko ? '이름, 학년, 학교를 같이 저장해서 관리자 페이지에도 바로 보이게 합니다.' : 'We save your name, grade, and school together so admin can see them immediately.')}
               </p>
             </div>
             <button
@@ -334,10 +365,10 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '14px' }}>
             {mode === 'signup' && (
               <div>
-                <label style={labelStyle}>{ko ? '이름' : 'Name'}</label>
+                <label style={labelStyle}>{isParent ? '학부모 성함' : ko ? '이름' : 'Name'}</label>
                 <input
                   type="text"
-                  placeholder={ko ? '홍길동' : 'John Doe'}
+                  placeholder={isParent ? '예: 김인히' : ko ? '홍길동' : 'John Doe'}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   style={inputStyle}
@@ -347,7 +378,38 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
               </div>
             )}
 
-            {mode === 'signup' && (
+            {mode === 'signup' && isParent && (
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div>
+                  <label style={labelStyle}>자녀 학년</label>
+                  <select
+                    value={grade}
+                    onChange={(e) => setGrade(e.target.value)}
+                    style={{ ...selectStyle, color: grade ? '#fff' : 'rgba(255,255,255,0.4)' }}
+                  >
+                    <option value="" style={{ color: '#000' }}>선택</option>
+                    {GRADE_OPTIONS.map((g) => (
+                      <option key={g} value={g} style={{ color: '#000' }}>{g}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label style={labelStyle}>자녀 학교 유형</label>
+                  <select
+                    value={school}
+                    onChange={(e) => setSchool(e.target.value)}
+                    style={{ ...selectStyle, color: school ? '#fff' : 'rgba(255,255,255,0.4)' }}
+                  >
+                    <option value="" style={{ color: '#000' }}>선택</option>
+                    {SCHOOL_TYPE_OPTIONS.map((s) => (
+                      <option key={s} value={s} style={{ color: '#000' }}>{s}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            )}
+
+            {mode === 'signup' && !isParent && (
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <div>
                   <label style={labelStyle}>{ko ? '학년' : 'Grade'}</label>
@@ -376,7 +438,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
               </div>
             )}
 
-            {mode === 'signup' && (
+            {mode === 'signup' && !isParent && (
               <div>
                 <label style={labelStyle}>{ko ? '추천학생 이메일' : 'Referral student email'}</label>
                 <input

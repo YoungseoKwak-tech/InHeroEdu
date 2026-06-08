@@ -138,6 +138,7 @@ export default function Navbar() {
         onClose={() => setAuthOpen(false)}
         defaultMode={authMode}
         redirectTo={authRedirectTo}
+        audience="parent"
       />
     );
   }

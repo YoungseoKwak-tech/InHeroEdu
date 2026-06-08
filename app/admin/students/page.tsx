@@ -11,7 +11,7 @@ interface Student {
   pattern: { hero_code_core: string; hero_code_state: number; hero_code_status: string; total_hours: number; processing_style: string } | null
   moments: { moment_text: string; moment_type: string; subject: string; created_at: string }[]
   evolution: { prev_code: string; new_code: string; delta_note: string; created_at: string }[]
-  profile: { name: string | null; grade: string | null; school: string | null } | null
+  profile: { name: string | null; grade: string | null; school: string | null; phone?: string | null; marketing_consent?: boolean } | null
 }
 
 const coreColors: Record<string, string> = {
@@ -54,6 +54,7 @@ export default function AdminStudentsPage() {
       s.profile?.name,
       s.profile?.grade,
       s.profile?.school,
+      s.profile?.phone,
     ]
       .filter(Boolean)
       .some(value => value!.toLowerCase().includes(search.toLowerCase()))
@@ -139,6 +140,16 @@ export default function AdminStudentsPage() {
                     {s.profile?.school && (
                       <span className="text-[11px] px-2 py-1 rounded-full" style={{ color: 'rgba(255,255,255,0.7)', background: 'rgba(255,255,255,0.06)' }}>
                         {s.profile.school}
+                      </span>
+                    )}
+                    {s.profile?.phone && (
+                      <span className="text-[11px] px-2 py-1 rounded-full" style={{ color: '#7DD3FC', background: 'rgba(125,211,252,0.12)' }}>
+                        📱 {s.profile.phone}
+                      </span>
+                    )}
+                    {s.profile?.marketing_consent && (
+                      <span className="text-[11px] px-2 py-1 rounded-full" style={{ color: '#86EFAC', background: 'rgba(134,239,172,0.12)' }} title="카카오 광고 수신동의">
+                        카톡 수신동의
                       </span>
                     )}
                   </div>
