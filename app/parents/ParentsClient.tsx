@@ -170,13 +170,19 @@ export default function ParentsClient() {
     return () => clearInterval(t);
   }, []);
 
-  const go = (route: string, gated: boolean) => {
+  // Open the login/signup modal for a destination.
+  const requireLogin = (redirectTo: string) =>
+    window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo } }));
+
+  // Everything requires login now: a logged-out click never opens content
+  // directly — it prompts sign-in first. (In-page anchors still just scroll.)
+  const go = (route: string, _gated?: boolean) => {
     if (route.startsWith("#")) {
       document.getElementById(route.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
-    if (!gated || loggedIn) router.push(route);
-    else window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: route } }));
+    if (loggedIn) router.push(route);
+    else requireLogin(route);
   };
 
   // Re-render credit lock badges when the balance / unlocked set changes.
@@ -188,13 +194,26 @@ export default function ParentsClient() {
     return () => window.removeEventListener(CREDIT_EVENT, bump);
   }, []);
 
-  // Open a resource: free ones go straight through; priced ones unlock with
-  // credits (once), else pop the charge modal.
+  // Open a resource: login required first; free ones then go through, priced
+  // ones unlock with credits (once), else pop the charge modal.
   const openResource = (r: { route: string; cost: number; title: string }) => {
+    if (!loggedIn) { requireLogin(r.route); return; }
     if (!r.cost || isUnlocked(`res:${r.route}`)) { router.push(r.route); return; }
     const ok = window.confirm(`'${r.title}'을(를) ${r.cost} 크레딧으로 잠금 해제할까요?`);
     if (!ok) return;
     if (spendAndUnlock(`res:${r.route}`, r.cost)) router.push(r.route);
+    else window.dispatchEvent(new CustomEvent("inhero:open-charge"));
+  };
+
+  // Digital textbooks: login required, then 100 credits to unlock each book.
+  const BOOK_COST = 100;
+  const openBook = (b: { slug: string; title: string }) => {
+    const route = `/textbooks/${b.slug}`;
+    if (!loggedIn) { requireLogin(route); return; }
+    if (isUnlocked(`book:${b.slug}`)) { router.push(route); return; }
+    const ok = window.confirm(`'${b.title}'을(를) ${BOOK_COST} 크레딧으로 잠금 해제할까요?`);
+    if (!ok) return;
+    if (spendAndUnlock(`book:${b.slug}`, BOOK_COST)) router.push(route);
     else window.dispatchEvent(new CustomEvent("inhero:open-charge"));
   };
 
@@ -552,12 +571,18 @@ export default function ParentsClient() {
           <TextbookFlipPreview />
 
           <div className="tb-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(168px, 1fr))", gap: 16 }}>
-            {textbooks.map((b) => (
-              <button key={b.slug} onClick={() => go(`/textbooks/${b.slug}`, true)}
+            {textbooks.map((b) => {
+              const bookOwned = isUnlocked(`book:${b.slug}`);
+              return (
+              <button key={`${b.slug}-${creditTick}`} onClick={() => openBook(b)}
                 style={{ textAlign: "left", background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, overflow: "hidden", cursor: "pointer", padding: 0, boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 180ms, box-shadow 200ms" }}
                 onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 36px rgba(16,24,40,0.12)"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 1px 2px rgba(16,24,40,0.04)"; }}>
                 <div style={{ position: "relative", height: 218, background: "linear-gradient(135deg,#0a0a14,#1e1e2e)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 56, overflow: "hidden" }}>
+                  <span style={{ position: "absolute", top: 8, right: 8, zIndex: 2, fontSize: 10.5, fontWeight: 800, borderRadius: 999, padding: "2px 9px",
+                    color: bookOwned ? "#fff" : "#a16207", background: bookOwned ? GREEN : "rgba(255,251,235,0.95)", border: bookOwned ? "none" : "1px solid #f1d27a" }}>
+                    {bookOwned ? "✓ 보유" : "🔒 100 크레딧"}
+                  </span>
                   <span aria-hidden="true">{TEXTBOOK_GLYPH[b.slug] ?? "📘"}</span>
                   {TEXTBOOK_COVER[b.slug] && (
                     /* eslint-disable-next-line @next/next/no-img-element */
@@ -572,7 +597,8 @@ export default function ParentsClient() {
                   <div style={{ fontSize: 12, color: "#64748b", marginTop: 8, fontWeight: 600 }}>{b.total_chapters ? `${b.total_chapters}개 챕터` : "디지털 교재"}</div>
                 </div>
               </button>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

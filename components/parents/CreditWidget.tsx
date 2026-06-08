@@ -7,7 +7,7 @@
  */
 
 import { useEffect, useState } from "react";
-import { getBalance, addCredits, CREDIT_EVENT, WELCOME_CREDITS } from "@/lib/credits";
+import { getBalance, addCredits, grantLoginBonus, CREDIT_EVENT, WELCOME_CREDITS, LOGIN_BONUS } from "@/lib/credits";
 import { createBrowserClient } from "@/lib/supabase";
 
 const GREEN = "#00b85f";
@@ -21,6 +21,12 @@ const PACKAGES = [
 export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
   const [balance, setBalance] = useState<number | null>(null);
   const [charge, setCharge] = useState(false);
+
+  // Grant the one-time 200-credit login bonus as soon as the user is signed in.
+  useEffect(() => {
+    if (loggedIn) grantLoginBonus();
+    setBalance(getBalance());
+  }, [loggedIn]);
 
   useEffect(() => {
     setBalance(getBalance());
@@ -84,7 +90,7 @@ export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
               ))}
             </div>
             <p style={{ fontSize: 11.5, color: "#94a3b8", marginTop: 14, lineHeight: 1.6 }}>
-              ※ 데모 충전입니다(결제 연동 전). 회원가입 시 {WELCOME_CREDITS} 크레딧을 드리며, 입시 데이터 제공·Q&A 채택 답변으로도 크레딧을 모을 수 있어요.
+              ※ 데모 충전입니다(결제 연동 전). 로그인하면 {LOGIN_BONUS} 크레딧을 즉시 드리고(가입 전 둘러보기 {WELCOME_CREDITS}), 입시 데이터 제공·Q&A 채택 답변으로도 크레딧을 모을 수 있어요.
             </p>
           </div>
         </div>

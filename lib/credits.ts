@@ -11,7 +11,9 @@
 
 const BAL_KEY = "inhero-credits";
 const UNLOCK_KEY = "inhero-credits-unlocked";
+const LOGIN_BONUS_KEY = "inhero-credits-login-bonus";
 export const WELCOME_CREDITS = 20;
+export const LOGIN_BONUS = 200;
 export const CREDIT_EVENT = "inhero:credits-changed";
 
 function emit() {
@@ -37,6 +39,14 @@ function setBalance(n: number) {
 
 export function addCredits(n: number) {
   setBalance(getBalance() + n);
+}
+
+/** One-time login bonus — grants 200 credits the first time a user signs in. */
+export function grantLoginBonus() {
+  if (typeof window === "undefined") return;
+  if (localStorage.getItem(LOGIN_BONUS_KEY)) return;
+  localStorage.setItem(LOGIN_BONUS_KEY, "1");
+  addCredits(LOGIN_BONUS);
 }
 
 export function getUnlocked(): Set<string> {
