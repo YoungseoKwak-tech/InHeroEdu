@@ -16,7 +16,9 @@ import { getClientSession } from "@/lib/client-auth";
 import { spendAndUnlock } from "@/lib/credits";
 
 const SUBJECT = "parent-lounge";
-const POST_COST = 5; // 질문 등록 1건당 크레딧
+const FREE_POSTS = 3;  // 처음 3회 질문 등록은 무료
+const POST_COST = 5;   // 이후 질문 등록 1건당 크레딧
+const postCountKey = (uid: string) => `inhero-qa-posts:${uid}`;
 
 interface Question {
   id: string;
@@ -45,6 +47,7 @@ export default function LoungeClient() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [posting, setPosting] = useState(false);
+  const [freeUsed, setFreeUsed] = useState(0);
 
   useEffect(() => {
     getClientSession().then((s) => {
@@ -52,6 +55,7 @@ export default function LoungeClient() {
         const m = (s.user.user_metadata ?? {}) as Record<string, unknown>;
         const nickname = (m.handle as string) || (m.name as string) || s.user.email?.split("@")[0] || "학부모";
         setUser({ id: s.user.id, nickname });
+        try { setFreeUsed(Number(localStorage.getItem(postCountKey(s.user.id)) || "0")); } catch { /* ignore */ }
       }
     }).catch(() => {});
     load();
@@ -76,9 +80,13 @@ export default function LoungeClient() {
 
   async function submit() {
     if (!user || !title.trim() || !content.trim() || posting) return;
-    // 질문 등록은 5크레딧 (등록 1건마다 고유 키로 차감 → 매번 부과 + 계정 동기화)
-    const paid = spendAndUnlock(`qa-post:${user.id}:${Date.now()}`, POST_COST);
-    if (!paid) { window.dispatchEvent(new Event("inhero:open-charge")); return; }
+    const key = postCountKey(user.id);
+    const used = Number(localStorage.getItem(key) || "0");
+    // 처음 3회는 무료, 이후부터 건당 5크레딧 차감 (고유 키로 매번 부과 + 계정 동기화)
+    if (used >= FREE_POSTS) {
+      const paid = spendAndUnlock(`qa-post:${user.id}:${Date.now()}`, POST_COST);
+      if (!paid) { window.dispatchEvent(new Event("inhero:open-charge")); return; }
+    }
     setPosting(true);
     try {
       const res = await fetch("/api/qa/questions", {
@@ -90,6 +98,8 @@ export default function LoungeClient() {
       if (d?.question) {
         setQuestions((q) => [d.question, ...q]);
         setTitle(""); setContent(""); setShowForm(false);
+        try { localStorage.setItem(key, String(used + 1)); } catch { /* ignore */ }
+        setFreeUsed(used + 1);
       }
     } finally {
       setPosting(false);
@@ -131,7 +141,7 @@ export default function LoungeClient() {
               <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
                 <button onClick={submit} disabled={posting || !title.trim() || !content.trim()}
                   style={{ background: posting || !title.trim() || !content.trim() ? "#cbd5e1" : "#1a1a1f", color: "#fff", border: "none", borderRadius: 8, padding: "10px 22px", fontWeight: 800, fontSize: 13.5, cursor: posting ? "default" : "pointer" }}>
-                  {posting ? "등록 중…" : `질문 등록 (${POST_COST}크레딧)`}
+                  {posting ? "등록 중…" : freeUsed < FREE_POSTS ? `질문 등록 (무료 ${FREE_POSTS - freeUsed}회 남음)` : `질문 등록 (${POST_COST}크레딧)`}
                 </button>
               </div>
             </div>
