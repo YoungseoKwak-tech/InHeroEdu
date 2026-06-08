@@ -345,8 +345,8 @@ function Results({ form, rwM2, mathM2, rwHard, mathHard, answers }: {
         )}
 
         <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-          <Link href="/sat/test" style={ctaBtn(true)}>🔁 다시 풀기</Link>
-          <Link href="/sat" style={ctaBtn(false)}>SAT 홈으로</Link>
+          <Link href={`/sat/test?form=${form.id}`} style={ctaBtn(true)}>🔁 다시 풀기</Link>
+          <Link href="/sat" style={ctaBtn(false)}>다른 테스트 선택</Link>
         </div>
       </div>
     </div>

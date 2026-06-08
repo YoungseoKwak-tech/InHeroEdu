@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SAT_FORM_1 } from "@/lib/sat/form1";
+import { SAT_FORMS, formCounts } from "@/lib/sat/forms";
 
 export const metadata = {
   title: "디지털 SAT 적응형 모의고사 — InHero",
@@ -19,9 +19,6 @@ const FEATURES = [
 ];
 
 export default function SatLandingPage() {
-  const rwTotal = SAT_FORM_1.rw.m1.length + SAT_FORM_1.rw.m2easy.length;
-  const mathTotal = SAT_FORM_1.math.m1.length + SAT_FORM_1.math.m2easy.length;
-
   return (
     <div style={{ background: "#05070d", minHeight: "100vh", color: "#e8edf4", padding: "72px 22px 120px", fontFamily: "Inter, sans-serif" }}>
       <div style={{ maxWidth: 820, margin: "0 auto" }}>
@@ -31,18 +28,32 @@ export default function SatLandingPage() {
         <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 850, color: "#fff", letterSpacing: "-0.04em", lineHeight: 1.05, marginBottom: 16 }}>
           실제 Bluebook처럼,<br />적응형으로 풀어본다.
         </h1>
-        <p style={{ fontSize: 15.5, color: "rgba(255,255,255,0.55)", lineHeight: 1.75, marginBottom: 28, maxWidth: 620 }}>
+        <p style={{ fontSize: 15.5, color: "rgba(255,255,255,0.55)", lineHeight: 1.75, marginBottom: 30, maxWidth: 620 }}>
           디지털 SAT와 동일한 구조의 적응형 모의고사예요. Reading & Writing → Math, 각 섹션이 2개의 타이머 모듈로 진행되고,
           모듈 1 성적에 따라 모듈 2 난이도가 갈립니다. (College Board 기출이 아닌 동일 형식의 오리지널 문항)
         </p>
 
-        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 36 }}>
-          <Link href="/sat/test" style={{ textDecoration: "none", background: MINT, color: "#05070d", fontWeight: 850, fontSize: 15, borderRadius: 999, padding: "14px 30px" }}>
-            모의고사 시작하기 →
-          </Link>
-          <span style={{ display: "inline-flex", alignItems: "center", fontSize: 13, color: "rgba(255,255,255,0.4)" }}>
-            Practice Test 1 · R&W {rwTotal}문항 · Math {mathTotal}문항 · 적응형
-          </span>
+        {/* Test picker */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 40 }}>
+          {SAT_FORMS.map((f, i) => {
+            const c = formCounts(f);
+            const full = c.rw >= 50;
+            return (
+              <Link key={f.id} href={`/sat/test?form=${f.id}`} style={{
+                textDecoration: "none", display: "flex", alignItems: "center", gap: 16,
+                borderRadius: 16, border: "1px solid rgba(0,255,178,0.22)", background: "rgba(0,255,178,0.04)", padding: "18px 20px",
+              }}>
+                <span style={{ fontSize: 22, fontWeight: 900, color: MINT, width: 40, flexShrink: 0 }}>{i + 1}</span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: "#fff" }}>
+                    Practice Test {i + 1}{full && <span style={{ marginLeft: 8, fontSize: 11, fontWeight: 800, color: "#05070d", background: MINT, borderRadius: 999, padding: "2px 8px" }}>FULL-LENGTH</span>}
+                  </div>
+                  <div style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", marginTop: 3 }}>R&W {c.rw}문항 · Math {c.math}문항 · 적응형</div>
+                </div>
+                <span style={{ fontSize: 13.5, fontWeight: 800, color: MINT }}>시작하기 →</span>
+              </Link>
+            );
+          })}
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 14 }}>
@@ -56,7 +67,7 @@ export default function SatLandingPage() {
         </div>
 
         <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.35)", lineHeight: 1.7, marginTop: 30 }}>
-          ※ 예상 점수는 적응형 경로를 반영한 추정치이며 실제 College Board 점수와 다를 수 있어요. v1은 Practice Test 1 한 세트로 시작하고, 문항은 계속 추가됩니다.
+          ※ 예상 점수는 적응형 경로를 반영한 추정치이며 실제 College Board 점수와 다를 수 있어요. Practice Test 1은 풀 렝스(R&W 54 · Math 44), Test 2·3은 추가 세트로 계속 확장됩니다.
         </p>
       </div>
     </div>
