@@ -11,8 +11,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import CreditGate from "@/components/parents/CreditGate";
+import { CREDIT_COSTS } from "@/lib/credits";
 
 const GREEN = "#00b85f";
+const CN_ALL_KEY = "parents:core-notes"; // all-subjects pass for Korean core notes
 
 interface NoteSection { title: string; subtitle?: string | null; body?: string | null; keyIdea?: string | null; table?: { headers: string[]; rows: string[][] } | null; terms?: { term: string; def: string }[]; traps?: string[]; example?: string | null; }
 interface ListNote { lessonId: string; emoji: string; subjectLabel: string; unit: number | null; lessonNum: number | null; unitName?: string | null; title: string; subtitle?: string | null; objectives: string[]; sections: NoteSection[]; }
@@ -147,11 +150,30 @@ export default function CoreNotesClient() {
 
                   {isKo && (ko as KoNote).overview && <Paragraphs text={(ko as KoNote).overview!} />}
 
-                  {(isKo ? (ko as KoNote).sections : note.sections).map((s, i) => (
-                    <Section key={i} title={s.title} subtitle={s.subtitle}>
-                      <SectionBody s={s} />
-                    </Section>
-                  ))}
+                  {(() => {
+                    const sectionsEl = (isKo ? (ko as KoNote).sections : note.sections).map((s, i) => (
+                      <Section key={i} title={s.title} subtitle={s.subtitle}>
+                        <SectionBody s={s} />
+                      </Section>
+                    ));
+                    // First lesson of each subject is a free taster; the rest of
+                    // the subject is gated: 이 과목 200 / 전 과목 1,000.
+                    const isTaster = notes.length > 0 && notes[0].lessonId === selected;
+                    if (isTaster || !active) return sectionsEl;
+                    return (
+                      <CreditGate
+                        gateKey={`${CN_ALL_KEY}:${active}`}
+                        cost={CREDIT_COSTS.SUBJECT}
+                        bundleKey={CN_ALL_KEY}
+                        bundleCost={CREDIT_COSTS.ALL_SUBJECTS}
+                        bundleLabel="전 과목 한 번에"
+                        title={`${note.emoji} ${note.subjectLabel} 한국어 핵심노트 잠금해제`}
+                        desc={`${note.subjectLabel} 전 단원의 한국어 일타강사 노트(용어·함정·예시)를 볼 수 있어요. 첫 레슨은 무료 맛보기예요. (이 과목 200 · 전 과목 1,000)`}
+                      >
+                        {sectionsEl}
+                      </CreditGate>
+                    );
+                  })()}
 
                   {/* Bottom English CTA */}
                   <Link href="/core-notes" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, textDecoration: "none", marginTop: 26, color: "#1a1a1f", border: "1.5px solid #1a1a1f", borderRadius: 10, padding: "13px 22px", fontSize: 14.5, fontWeight: 800 }}>

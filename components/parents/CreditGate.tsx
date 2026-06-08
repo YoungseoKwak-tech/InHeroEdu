@@ -17,24 +17,36 @@ const GREEN = "#00b85f";
 
 export default function CreditGate({
   gateKey, cost, title, desc, children,
-}: { gateKey: string; cost: number; title: string; desc?: string; children: ReactNode }) {
+  bundleKey, bundleCost, bundleLabel,
+}: {
+  gateKey: string; cost: number; title: string; desc?: string; children: ReactNode;
+  // Optional "unlock everything" bundle (e.g. 전 과목 한 번에 · 1000). If the
+  // bundle key is already unlocked, this gate counts as unlocked too.
+  bundleKey?: string; bundleCost?: number; bundleLabel?: string;
+}) {
   const [unlocked, setUnlocked] = useState<boolean | null>(null);
   const [balance, setBalance] = useState(0);
 
   useEffect(() => {
-    const sync = () => { setUnlocked(isUnlocked(gateKey)); setBalance(getBalance()); };
+    const sync = () => {
+      setUnlocked(isUnlocked(gateKey) || (!!bundleKey && isUnlocked(bundleKey)));
+      setBalance(getBalance());
+    };
     sync();
     window.addEventListener(CREDIT_EVENT, sync);
     return () => window.removeEventListener(CREDIT_EVENT, sync);
-  }, [gateKey]);
+  }, [gateKey, bundleKey]);
 
   // Avoid SSR/first-paint flash — decide only after reading localStorage.
   if (unlocked === null) return null;
   if (unlocked) return <>{children}</>;
 
   const enough = balance >= cost;
-  const handleUnlock = () => {
-    if (spendAndUnlock(gateKey, cost)) setUnlocked(true);
+  const bundleEnough = bundleKey ? balance >= (bundleCost ?? cost) : false;
+  const handleUnlock = (bundle?: boolean) => {
+    const k = bundle && bundleKey ? bundleKey : gateKey;
+    const c = bundle && bundleKey ? (bundleCost ?? cost) : cost;
+    if (spendAndUnlock(k, c)) setUnlocked(true);
     else window.dispatchEvent(new Event("inhero:open-charge"));
   };
 
@@ -51,12 +63,19 @@ export default function CreditGate({
         <span style={{ fontSize: 12.5, color: enough ? "#64748b" : "#dc2626" }}>보유 {balance.toLocaleString()}</span>
       </div>
 
-      <div>
-        <button onClick={handleUnlock} style={{ background: enough ? GREEN : "#1a1a1f", color: "#fff", border: "none", borderRadius: 10, padding: "13px 28px", fontWeight: 800, fontSize: 14.5, cursor: "pointer" }}>
-          {enough ? `잠금 해제 · ${cost.toLocaleString()} 크레딧 사용` : "크레딧 충전하기 →"}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center" }}>
+        <button onClick={() => handleUnlock(false)} style={{ background: enough ? GREEN : "#1a1a1f", color: "#fff", border: "none", borderRadius: 10, padding: "13px 24px", fontWeight: 800, fontSize: 14.5, cursor: "pointer" }}>
+          {enough ? `잠금 해제 · ${cost.toLocaleString()} 크레딧` : "크레딧 충전하기 →"}
         </button>
+        {bundleKey && (
+          <button onClick={() => handleUnlock(true)} style={{ background: "#fff", color: "#1a1a1f", border: "1.5px solid #1a1a1f", borderRadius: 10, padding: "13px 24px", fontWeight: 800, fontSize: 14.5, cursor: "pointer" }}>
+            {bundleLabel ?? "전 과목 한 번에"} · {(bundleCost ?? cost).toLocaleString()} 크레딧{!bundleEnough ? " →" : ""}
+          </button>
+        )}
       </div>
-      <p style={{ fontSize: 11.5, color: "#b0b8c1", marginTop: 14 }}>한 번 열면 계속 볼 수 있어요 · 충전은 마이페이지 크레딧에서</p>
+      <p style={{ fontSize: 11.5, color: "#b0b8c1", marginTop: 14 }}>
+        {bundleKey ? "원하는 과목만 200, 전 과목은 1,000 크레딧 · " : ""}한 번 열면 계속 볼 수 있어요 · 충전은 마이페이지 크레딧에서
+      </p>
     </div>
   );
 }
