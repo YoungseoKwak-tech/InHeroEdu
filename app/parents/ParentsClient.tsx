@@ -375,6 +375,13 @@ export default function ParentsClient() {
                   </span>
                 </Link>
               ))}
+              <button onClick={() => go("/parents/lounge", false)}
+                style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", textAlign: "left", marginTop: 10, background: "#f0fdf6", border: "1px solid #c8f2dc", borderRadius: 10, padding: "11px 13px", cursor: "pointer" }}>
+                <span style={{ fontSize: 16, flexShrink: 0 }}>💬</span>
+                <span style={{ fontSize: 12.5, color: "#1f5138", lineHeight: 1.5, fontWeight: 600 }}>
+                  질문 주시면 <strong style={{ color: "#047a45" }}>아이비리그생과 전문 컨설턴트</strong>가 24시간 안에 답변 드립니다.
+                </span>
+              </button>
             </Board>
 
             {/* 추천 자료 — trending order, view counts visible */}
