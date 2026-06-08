@@ -295,45 +295,9 @@ export default function ParentsClient() {
         </nav>
       </header>
 
-      {/* ── Hero (SEO h1 + trust indicators) ── */}
-      <section style={{ background: "linear-gradient(180deg,#ffffff,#f3f7f4)", borderBottom: "1px solid #e2e6ea" }}>
-        <div style={{ maxWidth: 1180, margin: "0 auto", padding: "40px 20px 32px", textAlign: "center" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#eafff3", border: "1px solid #c8f2dc", color: "#047a45", borderRadius: 999, padding: "6px 14px", fontSize: 12.5, fontWeight: 800, marginBottom: 16 }}>
-            🎓 아이비리그 재학생이 직접 만든 미국 입시 플랫폼
-          </div>
-          <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.9rem, 4.5vw, 3rem)", fontWeight: 850, letterSpacing: "-0.03em", lineHeight: 1.12, margin: "0 0 14px", color: "#0f172a" }}>
-            아이비리그생이 만든<br />AP·SAT·미국 입시 자료 허브
-          </h1>
-          <p style={{ fontSize: "clamp(14px, 2vw, 17px)", color: "#475569", lineHeight: 1.7, maxWidth: 640, margin: "0 auto 22px" }}>
-            AP 실전문제, SAT 자료, 미국 대학 지원 전략, 아이비리그 합격생 노하우를 <strong style={{ color: "#047a45" }}>무료로</strong> 만나보세요.
-          </p>
-          <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap", marginBottom: 24 }}>
-            <button onClick={() => go("/parents/question-bank", false)}
-              style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 10, padding: "13px 28px", fontSize: 15, fontWeight: 850, cursor: "pointer" }}>
-              {loggedIn ? "자료 둘러보기 →" : "무료로 시작하기 →"}
-            </button>
-            <button onClick={() => go("#textbooks", false)}
-              style={{ background: "#fff", color: "#1a1a1f", border: "1.5px solid #d7dce2", borderRadius: 10, padding: "13px 24px", fontSize: 15, fontWeight: 800, cursor: "pointer" }}>
-              📚 자료 전체 보기
-            </button>
-          </div>
-          <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-            {[
-              ["🎓", "아이비리그 재학생 제작"],
-              ["📚", "AP 실전문제 11,975+"],
-              ["👨‍👩‍👧‍👦", "학부모 커뮤니티 운영"],
-              ["🇺🇸", "미국 대학 입시 정보 제공"],
-            ].map(([emoji, label]) => (
-              <span key={label} style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "#fff", border: "1px solid #e6e8ec", borderRadius: 999, padding: "8px 14px", fontSize: 12.5, fontWeight: 700, color: "#334155", boxShadow: "0 1px 2px rgba(16,24,40,0.04)" }}>
-                <span style={{ fontSize: 15 }}>{emoji}</span>{label}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Body: main + sidebar ── */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "22px 20px 80px", display: "grid", gridTemplateColumns: "300px minmax(0,1fr) 320px", gap: 20, alignItems: "start" }} className="parents-grid">
+      {/* ── Body: main + sidebar (hero sits at the top of the center column, so
+            the left/right rails flank it and everything stays pulled up) ── */}
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "14px 20px 80px", display: "grid", gridTemplateColumns: "300px minmax(0,1fr) 320px", gap: 20, alignItems: "start" }} className="parents-grid">
         {/* LEFT RAIL — Korean 일타강사 core notes (the killer content) */}
         <aside style={{ position: "sticky", top: 80, display: "flex", flexDirection: "column", gap: 14 }} className="parents-left">
           {/* Student-site link — sits above the Korean notes */}
@@ -404,6 +368,31 @@ export default function ParentsClient() {
 
         {/* MAIN */}
         <main className="parents-main" style={{ display: "flex", flexDirection: "column", gap: 18, minWidth: 0 }}>
+          {/* Compact SEO hero — top of the center column, flanked by the rails */}
+          <section style={{ background: "linear-gradient(135deg,#ffffff,#eef7f1)", border: "1px solid #e2e6ea", borderRadius: 14, padding: "16px 18px" }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#eafff3", border: "1px solid #c8f2dc", color: "#047a45", borderRadius: 999, padding: "4px 11px", fontSize: 11.5, fontWeight: 800, marginBottom: 9 }}>
+              🎓 아이비리그 재학생이 직접 만든 미국 입시 플랫폼
+            </div>
+            <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.4rem, 2.6vw, 2rem)", fontWeight: 850, letterSpacing: "-0.03em", lineHeight: 1.18, margin: "0 0 8px", color: "#0f172a" }}>
+              아이비리그생이 만든 AP·SAT·미국 입시 자료 허브
+            </h1>
+            <p style={{ fontSize: 13.5, color: "#475569", lineHeight: 1.6, margin: "0 0 12px" }}>
+              AP 실전문제, SAT 자료, 미국 대학 지원 전략, 아이비리그 합격생 노하우를 <strong style={{ color: "#047a45" }}>무료로</strong> 만나보세요.
+            </p>
+            <div style={{ display: "flex", gap: 7, flexWrap: "wrap" }}>
+              {[
+                ["🎓", "아이비리그 재학생 제작"],
+                ["📚", "AP 실전문제 11,975+"],
+                ["👨‍👩‍👧‍👦", "학부모 커뮤니티 운영"],
+                ["🇺🇸", "미국 대학 입시 정보 제공"],
+              ].map(([emoji, label]) => (
+                <span key={label} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#fff", border: "1px solid #e6e8ec", borderRadius: 999, padding: "6px 11px", fontSize: 11.5, fontWeight: 700, color: "#334155" }}>
+                  <span style={{ fontSize: 14 }}>{emoji}</span>{label}
+                </span>
+              ))}
+            </div>
+          </section>
+
           {/* Hero carousel */}
           <div style={{ position: "relative", borderRadius: 14, overflow: "hidden", height: 230 }}>
             {SLIDES.map((s, i) => (
