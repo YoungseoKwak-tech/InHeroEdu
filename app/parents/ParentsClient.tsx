@@ -84,6 +84,7 @@ const SLIDES = [
 
 const NAV = [
   { label: "입시 Q&A", route: "/parents/lounge", gated: false },
+  { label: "합격 수기", route: "/parents/story", gated: false },
   { label: "미국 입시 대회", route: "/parents/competitions", gated: false },
   { label: "학년별 로드맵", route: "/parents/roadmap", gated: false },
   { label: "수학 교육", route: "/parents/math", gated: false },
@@ -98,6 +99,7 @@ const NAV = [
 
 const QUICK = [
   { emoji: "💬", label: "입시 Q&A", route: "/parents/lounge", gated: false },
+  { emoji: "🎓", label: "합격 수기", route: "/parents/story", gated: false },
   { emoji: "🎯", label: "미국 입시 대회", route: "/parents/competitions", gated: false },
   { emoji: "🗺️", label: "학년별 로드맵", route: "/parents/roadmap", gated: false },
   { emoji: "📐", label: "수학 교육", route: "/parents/math", gated: false },
@@ -113,6 +115,7 @@ const QUICK = [
 
 // Sorted by views (trending) — the board renders this order as-is.
 const RESOURCES = [
+  { title: "내가 아이비리그 공대에 오기까지", desc: "아이비리그 공대 합격생이 직접 쓴 합격 수기 — 리더뷰로 읽기", route: "/parents/story", tag: "합격수기", views: 1180, cost: 0 },
   { title: "코넬 공대 합격 에세이 분석", desc: "실제 합격 에세이를 한 문단씩 — 무엇이 왜 잘 됐는지", route: "/parents/essay", tag: "합격에세이", views: 1000, cost: 25 },
   { title: "아이비리그 합격 엑스트라 활동 분석", desc: "합격생 활동 10개 + 직접 만드는 법 (책 출간·논문·웹)", route: "/parents/activities", tag: "합격활동", views: 942, cost: 25 },
   { title: "미국 대학 분석 — 인재상·입시·인턴십", desc: "하버드부터 UC까지, 학교별 인재상·합격률·취업 파이프라인", route: "/parents/colleges", tag: "대학분석", views: 874, cost: 20 },
@@ -127,6 +130,7 @@ const NOTICES = [
   { title: "AP 디지털 교재 6권 추가 (Calc BC 포함)", route: "#textbooks", gated: false },
   { title: "미국 대학 분석 데이터베이스 오픈 (인재상·인턴십)", route: "/parents/colleges", gated: false },
   { title: "아이비리그 합격 엑스트라 활동 분석 공개 (실행 가이드)", route: "/parents/activities", gated: false },
+  { title: "합격 수기 ‘내가 아이비리그 공대에 오기까지’ 공개", route: "/parents/story", gated: false },
 ];
 
 export default function ParentsClient() {
