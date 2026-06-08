@@ -1,4 +1,8 @@
 import type { SatForm, SatQuestion } from "./types";
+import {
+  T2_RW_M1_B, T2_RW_M2E_B, T2_RW_M2H_B, T2_M_M1_B, T2_M_M2E_B, T2_M_M2H_B,
+  T3_RW_M1_B, T3_RW_M2E_B, T3_RW_M2H_B, T3_M_M1_B, T3_M_M2E_B, T3_M_M2H_B,
+} from "./forms-extra-b";
 
 /**
  * Practice Tests 2 and 3 — additional adaptive forms (original, hand-verified
@@ -65,8 +69,8 @@ const T2_M_M2H: SatQuestion[] = [
 export const SAT_FORM_2: SatForm = {
   id: "practice-2",
   title: "InHero SAT Practice Test 2",
-  rw: { m1: T2_RW_M1, m2easy: T2_RW_M2E, m2hard: T2_RW_M2H, timeSec: 600 },
-  math: { m1: T2_M_M1, m2easy: T2_M_M2E, m2hard: T2_M_M2H, timeSec: 600 },
+  rw: { m1: [...T2_RW_M1, ...T2_RW_M1_B], m2easy: [...T2_RW_M2E, ...T2_RW_M2E_B], m2hard: [...T2_RW_M2H, ...T2_RW_M2H_B], timeSec: 780 },
+  math: { m1: [...T2_M_M1, ...T2_M_M1_B], m2easy: [...T2_M_M2E, ...T2_M_M2E_B], m2hard: [...T2_M_M2H, ...T2_M_M2H_B], timeSec: 720 },
 };
 
 // ─────────────────────────── PRACTICE TEST 3 ───────────────────────────

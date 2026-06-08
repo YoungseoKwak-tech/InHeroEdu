@@ -11,11 +11,18 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { SatForm, SatQuestion } from "@/lib/sat/types";
 import { gridMatches } from "@/lib/sat/types";
+import { appendSatAttempt } from "@/lib/sat/history";
+import SatHistory from "@/components/sat/SatHistory";
 
 interface Answer { choice?: number; grid?: string }
 type AnswerMap = Record<string, Answer>;
 
 const ADAPT_THRESHOLD = 0.6;
+
+/** Split a passage into sentence chunks (delimiters kept) for click-to-highlight. */
+function splitSentences(text: string): string[] {
+  return text.match(/[^.!?]+[.!?]*\s*/g) ?? [text];
+}
 
 function isCorrect(q: SatQuestion, a: Answer | undefined): boolean {
   if (!a) return false;
@@ -86,6 +93,8 @@ function ModuleRunner({
   const [review, setReview] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
   const [showCalc, setShowCalc] = useState(false);
+  const [hlMode, setHlMode] = useState(false);
+  const [hl, setHl] = useState<Record<string, Set<number>>>({});
   const [left, setLeft] = useState(timeSec);
   const submitted = useRef(false);
 
@@ -106,6 +115,7 @@ function ModuleRunner({
   function setChoice(i: number) { setAns((p) => ({ ...p, [q.id]: { choice: i } })); }
   function setGrid(v: string) { setAns((p) => ({ ...p, [q.id]: { grid: v } })); }
   function toggleMark() { setMarked((p) => { const n = new Set(p); n.has(q.id) ? n.delete(q.id) : n.add(q.id); return n; }); }
+  function toggleHl(i: number) { setHl((p) => { const s = new Set(p[q.id] ?? []); s.has(i) ? s.delete(i) : s.add(i); return { ...p, [q.id]: s }; }); }
 
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 50, background: "#fff", color: "#0f172a", display: "flex", flexDirection: "column", fontFamily: "Inter, sans-serif" }}>
@@ -132,8 +142,26 @@ function ModuleRunner({
         <div style={{ flex: 1, overflowY: "auto" }}>
           <div style={{ maxWidth: q.passage ? 1040 : 720, margin: "0 auto", padding: "26px 22px 40px", display: q.passage ? "grid" : "block", gridTemplateColumns: q.passage ? "1fr 1fr" : undefined, gap: 28 }}>
             {q.passage && (
-              <div style={{ fontSize: 15.5, lineHeight: 1.8, color: "#1f2937", borderRight: "1px solid #eceff3", paddingRight: 24 }}>
-                {q.passage}
+              <div>
+                <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 8 }}>
+                  <button onClick={() => setHlMode((v) => !v)} style={{
+                    fontSize: 12, fontWeight: 700, cursor: "pointer", borderRadius: 8, padding: "5px 11px",
+                    border: `1px solid ${hlMode ? "#f59e0b" : "#d6dbe2"}`,
+                    background: hlMode ? "#fef3c7" : "#fff", color: hlMode ? "#b45309" : "#64748b",
+                  }}>🖍 하이라이트{hlMode ? " ON" : ""}</button>
+                </div>
+                <div style={{ fontSize: 15.5, lineHeight: 1.85, color: "#1f2937", borderRight: "1px solid #eceff3", paddingRight: 24 }}>
+                  {splitSentences(q.passage).map((s, i) => {
+                    const on = (hl[q.id] ?? new Set<number>()).has(i);
+                    return (
+                      <span key={i} onClick={hlMode ? () => toggleHl(i) : undefined} style={{
+                        background: on ? "rgba(250,204,21,0.55)" : "transparent",
+                        cursor: hlMode ? "pointer" : "text", borderRadius: 3,
+                      }}>{s}</span>
+                    );
+                  })}
+                </div>
+                {hlMode && <p style={{ fontSize: 11.5, color: "#94a3b8", marginTop: 8 }}>문장을 눌러 형광펜 표시 · 다시 누르면 해제</p>}
               </div>
             )}
             <div>
@@ -314,6 +342,16 @@ function Results({ form, rwM2, mathM2, rwHard, mathHard, answers }: {
   const mathScore = sectionScore(mathCorrect, mathQs.length, mathHard);
   const total = rwScore + mathScore;
 
+  // Save this attempt to local history once, then refresh the trend chart.
+  const savedRef = useRef(false);
+  const [histKey, setHistKey] = useState(0);
+  useEffect(() => {
+    if (savedRef.current) return;
+    savedRef.current = true;
+    appendSatAttempt({ formId: form.id, formTitle: form.title, rw: rwScore, math: mathScore, total });
+    setHistKey((k) => k + 1);
+  }, [form.id, form.title, rwScore, mathScore, total]);
+
   const [showReview, setShowReview] = useState<"rw" | "math" | null>(null);
   const reviewQs = showReview === "rw" ? rwQs : showReview === "math" ? mathQs : [];
 
@@ -331,6 +369,8 @@ function Results({ form, rwM2, mathM2, rwHard, mathHard, answers }: {
           <ScoreCard label="Reading & Writing" score={rwScore} correct={rwCorrect} total={rwQs.length} hard={rwHard} onReview={() => setShowReview("rw")} />
           <ScoreCard label="Math" score={mathScore} correct={mathCorrect} total={mathQs.length} hard={mathHard} onReview={() => setShowReview("math")} />
         </div>
+
+        <SatHistory theme="dark" refreshKey={histKey} />
 
         {showReview && (
           <div style={{ marginBottom: 28 }}>

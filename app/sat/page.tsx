@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SAT_FORMS, formCounts } from "@/lib/sat/forms";
+import SatHistory from "@/components/sat/SatHistory";
 
 export const metadata = {
   title: "디지털 SAT 적응형 모의고사 — InHero",
@@ -32,6 +33,8 @@ export default function SatLandingPage() {
           디지털 SAT와 동일한 구조의 적응형 모의고사예요. Reading & Writing → Math, 각 섹션이 2개의 타이머 모듈로 진행되고,
           모듈 1 성적에 따라 모듈 2 난이도가 갈립니다. (College Board 기출이 아닌 동일 형식의 오리지널 문항)
         </p>
+
+        <SatHistory theme="dark" />
 
         {/* Test picker */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 40 }}>

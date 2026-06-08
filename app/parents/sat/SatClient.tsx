@@ -8,6 +8,7 @@
 import Link from "next/link";
 import ParentHubShell from "@/components/parents/ParentHubShell";
 import { SAT_FORMS, formCounts } from "@/lib/sat/forms";
+import SatHistory from "@/components/sat/SatHistory";
 
 const GREEN = "#00b85f";
 
@@ -34,6 +35,8 @@ export default function SatClient() {
         </>
       }
     >
+      <SatHistory theme="light" />
+
       {/* Test picker */}
       <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 28 }}>
         {SAT_FORMS.map((f, i) => {
