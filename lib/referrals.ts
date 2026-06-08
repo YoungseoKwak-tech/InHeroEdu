@@ -7,7 +7,8 @@
  * tracks the flow per device so the UX/receipt works end-to-end.
  */
 
-import { addCredits } from "./credits";
+import { addCredits, hydrateCredits } from "./credits";
+import { authFetch } from "@/lib/client-auth";
 
 export const REFERRAL_REWARD = 20;
 
@@ -37,12 +38,40 @@ export function getReferredBy(): string | null {
   return typeof window === "undefined" ? null : localStorage.getItem(REF_BY_KEY);
 }
 
-/** Record the new user's answer to the login referral prompt (once). */
+/** Record the new user's answer to the login referral prompt (once). When
+ *  signed in, this also tells the server, which credits the referrer +20. */
 export function answerReferral(code: string) {
   if (typeof window === "undefined") return;
   localStorage.setItem(REF_ANSWERED_KEY, "1");
   const c = code.trim();
   if (c) localStorage.setItem(REF_BY_KEY, c);
+  authFetch("/api/credits/referral", {
+    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code: c }),
+  }).then(() => hydrateCredits()).catch(() => {});
+}
+
+export interface ServerReferralState {
+  migrated: boolean;
+  code?: string | null;
+  referredBy?: string | null;
+  referrals?: Referral[];
+}
+
+/** Account-backed referral state for My Page (receipt + code). */
+export async function getServerReferralState(): Promise<ServerReferralState> {
+  try {
+    const r = await authFetch("/api/credits");
+    const d = await r.json();
+    if (!d?.migrated) return { migrated: false };
+    return {
+      migrated: true,
+      code: d.code ?? null,
+      referredBy: d.referredBy ?? null,
+      referrals: (d.referrals ?? []).map((x: { name: string; date: string; reward: number }) => ({ name: x.name, date: x.date, reward: x.reward })),
+    };
+  } catch {
+    return { migrated: false };
+  }
 }
 
 export function getReferrals(): Referral[] {

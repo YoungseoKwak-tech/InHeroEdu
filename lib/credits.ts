@@ -9,6 +9,8 @@
  *   Heavy  (합격 에세이·활동 분석·대학 분석)   20–30+
  */
 
+import { authFetch } from "@/lib/client-auth";
+
 const BAL_KEY = "inhero-credits";
 const UNLOCK_KEY = "inhero-credits-unlocked";
 const MIGRATION_KEY = "inhero-credits-v2";
@@ -43,6 +45,38 @@ export function addCredits(n: number) {
   setBalance(getBalance() + n);
 }
 
+// ── Account-backed sync (when signed in + schema migrated) ─────────────────
+let serverBacked = false;
+export function isServerBacked() { return serverBacked; }
+
+/** Pull balance + unlocks from the account; silently keeps local if not. */
+export async function hydrateCredits(): Promise<void> {
+  if (typeof window === "undefined") return;
+  try {
+    const r = await authFetch("/api/credits");
+    const d = await r.json();
+    if (!d?.migrated) return;
+    serverBacked = true;
+    localStorage.setItem(BAL_KEY, String(d.balance ?? WELCOME_CREDITS));
+    localStorage.setItem(UNLOCK_KEY, JSON.stringify(d.unlocks ?? []));
+    emit();
+  } catch { /* offline / signed out → keep local cache */ }
+}
+
+/** Top up through the account (demo); falls back to local if not server-backed. */
+export async function chargeServer(amount: number): Promise<void> {
+  if (serverBacked) {
+    try {
+      const r = await authFetch("/api/credits/charge", {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ credits: amount }),
+      });
+      const d = await r.json();
+      if (d?.migrated) { localStorage.setItem(BAL_KEY, String(d.balance)); emit(); return; }
+    } catch { /* fall through */ }
+  }
+  addCredits(amount);
+}
+
 export function getUnlocked(): Set<string> {
   if (typeof window === "undefined") return new Set();
   try {
@@ -72,6 +106,11 @@ export function spendAndUnlock(key: string, cost: number): boolean {
   if (b < cost) return false;
   setBalance(b - cost);
   unlock(key);
+  if (serverBacked) {
+    authFetch("/api/credits/spend", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ itemKey: key, cost }),
+    }).catch(() => {});
+  }
   return true;
 }
 

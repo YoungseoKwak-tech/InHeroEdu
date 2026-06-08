@@ -7,7 +7,7 @@
  */
 
 import { useEffect, useState } from "react";
-import { getBalance, addCredits, CREDIT_EVENT, WELCOME_CREDITS } from "@/lib/credits";
+import { getBalance, chargeServer, hydrateCredits, CREDIT_EVENT, WELCOME_CREDITS } from "@/lib/credits";
 import { createBrowserClient } from "@/lib/supabase";
 import { checkoutNotice } from "@/lib/legal";
 
@@ -24,6 +24,9 @@ const PACKAGES = [
 export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
   const [balance, setBalance] = useState<number | null>(null);
   const [charge, setCharge] = useState(false);
+
+  // Pull the account balance/unlocks when signed in (cross-device persistence).
+  useEffect(() => { if (loggedIn) hydrateCredits(); }, [loggedIn]);
 
   useEffect(() => {
     setBalance(getBalance());
@@ -79,7 +82,7 @@ export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
                     <div style={{ fontSize: 15, fontWeight: 800, color: "#1a1a1f" }}>🪙 {p.credits} 크레딧 {p.best && <span style={{ fontSize: 10.5, fontWeight: 800, color: "#fff", background: GREEN, borderRadius: 999, padding: "2px 8px", marginLeft: 4 }}>BEST</span>}</div>
                     <div style={{ fontSize: 12.5, color: "#64748b", marginTop: 2 }}>{p.price} · {p.note}</div>
                   </div>
-                  <button onClick={() => { addCredits(p.credits); setCharge(false); }}
+                  <button onClick={() => { chargeServer(p.credits); setCharge(false); }}
                     style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 9, padding: "9px 16px", fontSize: 13, fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap" }}>
                     충전
                   </button>

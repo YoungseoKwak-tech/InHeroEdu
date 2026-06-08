@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { authFetch, getClientSession } from "@/lib/client-auth";
-import { getMyCode, getReferrals, addReferral, totalReferralCredits, getReferredBy, REFERRAL_REWARD, type Referral } from "@/lib/referrals";
+import { getMyCode, getReferrals, addReferral, getReferredBy, getServerReferralState, REFERRAL_REWARD, type Referral } from "@/lib/referrals";
 
 const GREEN = "#00b85f";
 const GRADE_OPTIONS = Array.from({ length: 11 }, (_, i) => `G${i + 2}`);
@@ -47,11 +47,20 @@ export default function MeClient() {
   const [myCode, setMyCode] = useState("");
   const [referredBy, setReferredBy] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [serverBacked, setServerBacked] = useState(false);
 
   useEffect(() => {
     setReferrals(getReferrals());
     setMyCode(getMyCode());
     setReferredBy(getReferredBy());
+    // Prefer the account-backed receipt when the schema is migrated.
+    getServerReferralState().then((s) => {
+      if (!s.migrated) return;
+      setServerBacked(true);
+      if (s.code) setMyCode(s.code);
+      setReferredBy(s.referredBy ?? null);
+      setReferrals(s.referrals ?? []);
+    });
   }, []);
 
   useEffect(() => {
@@ -198,7 +207,7 @@ export default function MeClient() {
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, flexWrap: "wrap" }}>
                 <h2 style={{ fontSize: 15, fontWeight: 800, margin: 0 }}>🎁 추천 영수증</h2>
                 <span style={{ marginLeft: "auto", fontSize: 12.5, color: "#64748b" }}>
-                  추천으로 받은 크레딧 <strong style={{ color: "#a16207" }}>🪙 {totalReferralCredits().toLocaleString()}</strong>
+                  추천으로 받은 크레딧 <strong style={{ color: "#a16207" }}>🪙 {referrals.reduce((n, r) => n + r.reward, 0).toLocaleString()}</strong>
                 </span>
               </div>
               <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.6, margin: "0 0 14px" }}>
@@ -207,8 +216,8 @@ export default function MeClient() {
 
               <div style={{ display: "flex", gap: 10, alignItems: "center", background: "#f7f8fa", border: "1px dashed #cbd5e1", borderRadius: 10, padding: "12px 14px", marginBottom: 14 }}>
                 <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 700 }}>내 추천 코드</span>
-                <span style={{ fontSize: 16, fontWeight: 850, color: "#1a1a1f", letterSpacing: "0.04em" }}>{(name.trim() || myCode) || "—"}</span>
-                <button onClick={() => { navigator.clipboard?.writeText(name.trim() || myCode).catch(() => {}); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
+                <span style={{ fontSize: 16, fontWeight: 850, color: "#1a1a1f", letterSpacing: "0.04em" }}>{myCode || "—"}</span>
+                <button onClick={() => { navigator.clipboard?.writeText(myCode).catch(() => {}); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
                   style={{ marginLeft: "auto", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "7px 14px", fontSize: 12.5, fontWeight: 800, cursor: "pointer" }}>
                   {copied ? "복사됨!" : "복사"}
                 </button>
@@ -228,10 +237,12 @@ export default function MeClient() {
                 </div>
               )}
 
-              <button onClick={() => setReferrals(addReferral(`친구 ${referrals.length + 1}`))}
-                style={{ marginTop: 14, width: "100%", background: "#fffbeb", border: "1.5px solid #f1d27a", color: "#a16207", borderRadius: 10, padding: "11px", fontWeight: 800, fontSize: 13, cursor: "pointer" }}>
-                ＋ 데모: 내 코드로 가입 시뮬레이션 (+{REFERRAL_REWARD} 크레딧)
-              </button>
+              {!serverBacked && (
+                <button onClick={() => setReferrals(addReferral(`친구 ${referrals.length + 1}`))}
+                  style={{ marginTop: 14, width: "100%", background: "#fffbeb", border: "1.5px solid #f1d27a", color: "#a16207", borderRadius: 10, padding: "11px", fontWeight: 800, fontSize: 13, cursor: "pointer" }}>
+                  ＋ 데모: 내 코드로 가입 시뮬레이션 (+{REFERRAL_REWARD} 크레딧)
+                </button>
+              )}
               {referredBy && (
                 <p style={{ fontSize: 12, color: "#94a3b8", textAlign: "center", margin: "12px 0 0" }}>가입 시 입력한 추천인: <strong style={{ color: "#475569" }}>{referredBy}</strong></p>
               )}
