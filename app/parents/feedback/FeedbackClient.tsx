@@ -117,10 +117,10 @@ export default function FeedbackClient() {
           </div>
 
           <input value={nickname} onChange={(e) => setNickname(e.target.value)} placeholder="닉네임 (선택)"
-            style={{ width: "100%", border: "1.5px solid #d7dce2", borderRadius: 10, padding: "11px 13px", fontSize: 14.5, outline: "none", boxSizing: "border-box", marginBottom: 10 }} />
+            style={{ width: "100%", border: "1.5px solid #d7dce2", borderRadius: 10, padding: "11px 13px", fontSize: 14.5, outline: "none", boxSizing: "border-box", marginBottom: 10, background: "#fff", color: "#1a1a1f" }} />
           <textarea value={text} onChange={(e) => setText(e.target.value)} rows={4} maxLength={2000}
             placeholder={kind === "request" ? "예: AP Physics C 한국어 개념정리가 있으면 좋겠어요." : kind === "feedback" ? "예: 단어장에 발음 듣기 기능이 있으면 좋겠어요." : "예: 문제은행에서 채점이 안 되는 문항이 있어요."}
-            style={{ width: "100%", border: "1.5px solid #d7dce2", borderRadius: 10, padding: "12px 13px", fontSize: 14.5, outline: "none", boxSizing: "border-box", resize: "vertical", lineHeight: 1.6, fontFamily: "inherit" }} />
+            style={{ width: "100%", border: "1.5px solid #d7dce2", borderRadius: 10, padding: "12px 13px", fontSize: 14.5, outline: "none", boxSizing: "border-box", resize: "vertical", lineHeight: 1.6, fontFamily: "inherit", background: "#fff", color: "#1a1a1f" }} />
 
           {msg && <div style={{ marginTop: 12, fontSize: 13.5, fontWeight: 600, color: msg.kind === "ok" ? "#047a45" : "#dc2626" }}>{msg.text}</div>}
 

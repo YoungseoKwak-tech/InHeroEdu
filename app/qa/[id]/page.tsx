@@ -240,7 +240,7 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
             <input autoFocus value={nameInput} onChange={(e) => setNameInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSetName()}
               placeholder="e.g. yk_apbio"
-              className="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-400 mb-4"
+              className="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-400 mb-4"
             />
             <button onClick={handleSetName} disabled={!nameInput.trim()} className="w-full btn-primary disabled:opacity-40">Confirm</button>
           </div>
@@ -357,7 +357,7 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
             onChange={(e) => setAnswerText(e.target.value)}
             placeholder={copy.answerPlaceholder}
             rows={4}
-            className="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-400 resize-none mb-3"
+            className="w-full border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-400 resize-none mb-3"
           />
           <div className="flex items-center justify-between flex-wrap gap-2">
             <label className="flex items-center gap-2 cursor-pointer text-sm text-gray-600 dark:text-gray-300">

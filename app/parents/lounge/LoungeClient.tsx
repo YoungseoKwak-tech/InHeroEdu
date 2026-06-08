@@ -135,9 +135,9 @@ export default function LoungeClient() {
           {showForm && user && (
             <div style={{ marginTop: 12, background: "#fff", border: "1px solid #e6e8ec", borderRadius: 12, padding: 16 }}>
               <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="제목 (예: G10 자녀, AP 몇 개가 적당할까요?)" maxLength={120}
-                style={{ width: "100%", border: "1px solid #e6e8ec", borderRadius: 8, padding: "11px 13px", fontSize: 14.5, marginBottom: 10, outline: "none", boxSizing: "border-box" }} />
+                style={{ width: "100%", border: "1px solid #e6e8ec", borderRadius: 8, padding: "11px 13px", fontSize: 14.5, marginBottom: 10, outline: "none", boxSizing: "border-box", background: "#fff", color: "#1a1a1f" }} />
               <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="자세한 내용을 적어주세요. (자녀 학년, 관심 전공 등을 함께 적으면 더 좋은 답을 받을 수 있어요.)" rows={4}
-                style={{ width: "100%", border: "1px solid #e6e8ec", borderRadius: 8, padding: "11px 13px", fontSize: 14, marginBottom: 12, outline: "none", resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+                style={{ width: "100%", border: "1px solid #e6e8ec", borderRadius: 8, padding: "11px 13px", fontSize: 14, marginBottom: 12, outline: "none", resize: "vertical", boxSizing: "border-box", fontFamily: "inherit", background: "#fff", color: "#1a1a1f" }} />
               <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
                 <button onClick={submit} disabled={posting || !title.trim() || !content.trim()}
                   style={{ background: posting || !title.trim() || !content.trim() ? "#cbd5e1" : "#1a1a1f", color: "#fff", border: "none", borderRadius: 8, padding: "10px 22px", fontWeight: 800, fontSize: 13.5, cursor: posting ? "default" : "pointer" }}>
