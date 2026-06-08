@@ -597,6 +597,14 @@ export default function ParentsClient() {
           <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 6, flexWrap: "wrap" }}>
             <h2 style={{ fontSize: 22, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>📚 AP 디지털 교재</h2>
             <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 600 }}>{textbooks.length}권 · 풀 커리큘럼</span>
+            <span style={{
+              display: "inline-flex", alignItems: "center", gap: 6,
+              fontSize: 12, fontWeight: 800, color: "#92400e",
+              background: "#fef3c7", border: "1px solid #fcd34d",
+              borderRadius: 999, padding: "5px 12px", letterSpacing: "-0.01em",
+            }}>
+              ✍️ 아이비리그생 손필기 + 노하우
+            </span>
           </div>
           <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.7, marginBottom: 22 }}>
             Limits부터 무한급수까지, AP 전 범위를 담은 디지털 교재입니다. 표지를 눌러 바로 읽어보세요.
