@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { authFetch } from "@/lib/client-auth";
 import {
   DOC_GROUP_EMOJI,
@@ -80,6 +80,7 @@ function spreadForPage(page: number): number {
 }
 
 export default function PdfReader({ source }: Props = {}) {
+  const router = useRouter();
   const params = useParams<{ resourceId: string }>();
   // When a source prop is provided, the resourceId-from-URL path is
   // bypassed entirely. We still keep the local var defined so the
@@ -109,9 +110,13 @@ export default function PdfReader({ source }: Props = {}) {
   const [error, setError] = useState<string | null>(null);
   // Purchase gate: the textbook /file proxy answers 403
   // { error: "elite_required" } when the signed-in student hasn't
-  // bought this subject's Elite pass. Render an upgrade screen
-  // instead of the generic error.
+  // bought this subject's Elite pass. Send them straight to /pricing
+  // (the state just keeps the skeleton up during navigation).
   const [eliteRequired, setEliteRequired] = useState(false);
+  // Auth gate: both file proxies answer 401 { error: "unauthorized" }
+  // for logged-out visitors. Render a sign-in screen (with a redirect
+  // back to this page) instead of the generic error.
+  const [loginRequired, setLoginRequired] = useState(false);
   // PDF zoom — multiplier on top of the auto-fit base scale so + / −
   // actually grow / shrink the rendered canvas. Defaults to 1 (100%).
   const [zoomLevel, setZoomLevel] = useState(1);
@@ -185,6 +190,10 @@ export default function PdfReader({ source }: Props = {}) {
         const raw = await res.text();
         let json: { resource?: Resource; error?: string } = {};
         try { json = raw ? JSON.parse(raw) : {}; } catch { /* ignore */ }
+        if (res.status === 401) {
+          if (!cancelled) setLoginRequired(true);
+          return;
+        }
         if (!res.ok || !json.resource) {
           throw new Error(json.error ?? `HTTP ${res.status}`);
         }
@@ -228,8 +237,22 @@ export default function PdfReader({ source }: Props = {}) {
         });
         if (!response.ok) {
           const text = await response.text().catch(() => "");
+          if (response.status === 401) {
+            if (!cancelled) setLoginRequired(true);
+            return;
+          }
           if (response.status === 403 && text.includes("elite_required")) {
-            if (!cancelled) setEliteRequired(true);
+            if (!cancelled) {
+              setEliteRequired(true);
+              // The reader also runs inside the lesson-page split-view
+              // iframe — escape to the top window there so /pricing
+              // doesn't render inside the pane.
+              if (window.top && window.top !== window.self) {
+                window.top.location.href = "/pricing";
+              } else {
+                router.replace("/pricing");
+              }
+            }
             return;
           }
           throw new Error(`Failed to load PDF (${response.status}) ${text.slice(0, 200)}`);
@@ -271,7 +294,7 @@ export default function PdfReader({ source }: Props = {}) {
       }
     })();
     return () => { cancelled = true; };
-  }, [resource, source, resourceId]);
+  }, [resource, source, resourceId, router]);
 
   // Current pair (depends on viewMode).
   const { leftPage, rightPage } = useMemo<{ leftPage: number | null; rightPage: number | null }>(() => {
@@ -296,11 +319,17 @@ export default function PdfReader({ source }: Props = {}) {
       if (!pdf) return;
       const page = await pdf.getPage(pageNum);
       const baseViewport = page.getViewport({ scale: 1 });
-      // Apply the user-controlled zoom on top of the auto-fit scale.
-      const scale = Math.min(2.0, maxWidth / baseViewport.width) * zoomLevel;
-      const viewport = page.getViewport({ scale });
+      // Auto-fit to the container with the user-controlled zoom on top.
+      const fit = Math.min(2.0, maxWidth / baseViewport.width) * zoomLevel;
+      // Render at the device pixel ratio so text is crisp on retina screens;
+      // the canvas is then displayed at the fit (CSS) size, so layout is
+      // unchanged but the backing store has 2× the pixels.
+      const dpr = Math.min(typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1, 2);
+      const viewport = page.getViewport({ scale: fit * dpr });
       canvas.width = viewport.width;
       canvas.height = viewport.height;
+      canvas.style.width = `${viewport.width / dpr}px`;
+      canvas.style.height = `${viewport.height / dpr}px`;
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -397,13 +426,15 @@ export default function PdfReader({ source }: Props = {}) {
   }, [goPrev, goNext, toggleFullscreen]);
 
   if (metaLoading) return <ReaderSkeleton />;
-  if (eliteRequired)
+  if (loginRequired)
     return (
-      <ReaderLocked
-        title={source?.title ?? resource?.title ?? "This textbook"}
+      <ReaderLoginRequired
+        title={source?.title ?? resource?.title ?? "this resource"}
         backHref={source?.backHref ?? "/library"}
       />
     );
+  // Redirecting to /pricing — keep the skeleton up so nothing flashes.
+  if (eliteRequired) return <ReaderSkeleton />;
   if (error || !resource) return <ReaderError message={error} resourceId={resourceId ?? undefined} />;
 
   // Back arrow + close × destinations. Source mode (textbook
@@ -506,6 +537,18 @@ export default function PdfReader({ source }: Props = {}) {
           >
             ⤢
           </button>
+          {(source?.fileUrl ?? resource.attachmentUrl) && (
+            <a
+              href={source?.fileUrl ?? resource.attachmentUrl}
+              download={`${resource.title}.pdf`}
+              className="rd-icon-btn"
+              title="원본 PDF 다운로드"
+              aria-label="Download PDF"
+              style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", justifyContent: "center" }}
+            >
+              📥
+            </a>
+          )}
           <button
             type="button"
             disabled
@@ -986,19 +1029,22 @@ function ReaderSkeleton() {
   );
 }
 
-function ReaderLocked({ title, backHref }: { title: string; backHref: string }) {
+function ReaderLoginRequired({ title, backHref }: { title: string; backHref: string }) {
+  // Send the student back to this exact reader page after sign-in.
+  const redirect =
+    typeof window !== "undefined"
+      ? encodeURIComponent(window.location.pathname)
+      : "%2Flibrary";
   return (
     <main className="rlock-root">
-      <div className="rlock-badge">ELITE PASS REQUIRED</div>
-      <h1>Unlock {title}</h1>
+      <div className="rlock-badge">SIGN IN REQUIRED</div>
+      <h1>Log in to read {title}</h1>
       <p>
-        Reading InHero Original textbooks is part of the Elite pass.
-        One Subject Elite (<strong>$49/mo</strong>) unlocks this subject&apos;s
-        textbook and course — All Subject Elite (<strong>$199/mo</strong>)
-        unlocks every textbook and every course.
+        The reader is available after sign-in. Log in (or create a free
+        account) and you&apos;ll come right back to this page.
       </p>
       <div className="rlock-actions">
-        <Link href="/pricing" className="rlock-cta">See Elite plans →</Link>
+        <Link href={`/auth/login?redirect=${redirect}`} className="rlock-cta">Sign in →</Link>
         <Link href={backHref} className="rlock-back">← Back</Link>
       </div>
       <style jsx>{`
@@ -1014,8 +1060,8 @@ function ReaderLocked({ title, backHref }: { title: string; backHref: string }) 
           display: inline-block;
           font-family: ui-monospace, monospace;
           font-size: 0.62rem; font-weight: 800; letter-spacing: 0.22em;
-          color: #C9A84C;
-          border: 1px solid rgba(201,168,76,0.45);
+          color: #5eead4;
+          border: 1px solid rgba(94,234,212,0.45);
           border-radius: 999px;
           padding: 0.4rem 0.9rem;
           margin-bottom: 1.1rem;
@@ -1032,7 +1078,6 @@ function ReaderLocked({ title, backHref }: { title: string; backHref: string }) 
           font-size: 0.93rem;
           line-height: 1.7;
         }
-        p strong { color: #e8d9a8; }
         .rlock-actions {
           display: flex;
           justify-content: center;
@@ -1044,12 +1089,12 @@ function ReaderLocked({ title, backHref }: { title: string; backHref: string }) 
           display: inline-block;
           font-family: ui-monospace, monospace;
           font-size: 0.74rem; font-weight: 800; letter-spacing: 0.12em;
-          color: #001;
-          background: #C9A84C;
+          color: #062320;
+          background: #5eead4;
           padding: 0.7rem 1.3rem;
           border-radius: 999px;
           text-decoration: none;
-          box-shadow: 0 0 26px rgba(201,168,76,0.25);
+          box-shadow: 0 0 26px rgba(94,234,212,0.25);
         }
         .rlock-back {
           display: inline-block;
