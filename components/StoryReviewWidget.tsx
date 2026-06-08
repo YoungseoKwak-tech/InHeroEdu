@@ -9,9 +9,12 @@
 
 import { useEffect, useState } from "react";
 import { getStoredUserId, getStoredUsername } from "@/lib/username";
+import { addCredits } from "@/lib/credits";
 
 const GREEN = "#00b85f";
 const SUBJECT = "story-review";
+const REVIEW_REWARD = 5;                      // 후기 작성 적립 크레딧
+const REWARD_KEY = "inhero-review-rewarded";  // 1회만 적립(어뷰징 방지)
 
 type Review = { id: string; nickname: string | null; title: string | null; content: string; created_at?: string };
 
@@ -24,12 +27,15 @@ export default function StoryReviewWidget() {
   const [rating, setRating]       = useState(5);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone]           = useState(false);
+  const [gotReward, setGotReward] = useState(false);
+  const [rewarded, setRewarded]   = useState(true); // assume claimed until localStorage says otherwise
 
   useEffect(() => {
     const f = () => setIsWide(window.innerWidth >= 1100);
     f();
     window.addEventListener("resize", f);
     setName(getStoredUsername() || "");
+    try { setRewarded(localStorage.getItem(REWARD_KEY) === "1"); } catch { /* ignore */ }
     return () => window.removeEventListener("resize", f);
   }, []);
 
@@ -58,8 +64,15 @@ export default function StoryReviewWidget() {
       if (data.question) {
         setReviews((prev) => [data.question, ...prev]);
         setText("");
+        // 첫 후기에 한해 5크레딧 적립
+        if (!rewarded) {
+          addCredits(REVIEW_REWARD);
+          try { localStorage.setItem(REWARD_KEY, "1"); } catch { /* ignore */ }
+          setRewarded(true);
+          setGotReward(true);
+        }
         setDone(true);
-        setTimeout(() => setDone(false), 2200);
+        setTimeout(() => { setDone(false); setGotReward(false); }, 2600);
       }
     } finally {
       setSubmitting(false);
@@ -78,7 +91,7 @@ export default function StoryReviewWidget() {
           boxShadow: "0 8px 22px rgba(0,184,95,0.35)",
         }}
       >
-        ✍️ 후기 남기기
+        {rewarded ? "✍️ 후기 남기기" : "🎁 후기 쓰고 5크레딧"}
       </button>
     );
   }
@@ -114,6 +127,11 @@ export default function StoryReviewWidget() {
 
       {/* composer */}
       <div style={{ borderTop: "1px solid #eef0f3", padding: "10px 12px", background: "#fafbfc" }}>
+        {!rewarded && (
+          <div style={{ display: "flex", alignItems: "center", gap: 6, background: "#fef3c7", border: "1px solid #fcd34d", borderRadius: 8, padding: "6px 10px", marginBottom: 8, fontSize: 11.5, fontWeight: 800, color: "#92400e" }}>
+            🎁 후기 남기면 5크레딧 적립!
+          </div>
+        )}
         {/* star picker */}
         <div style={{ display: "flex", gap: 2, marginBottom: 7 }}>
           {[1, 2, 3, 4, 5].map((n) => (
@@ -139,7 +157,7 @@ export default function StoryReviewWidget() {
             disabled={!text.trim() || submitting}
             style={{ flexShrink: 0, background: done ? "#475569" : GREEN, color: done ? "#fff" : "#03120c", border: "none", borderRadius: 9, padding: "8px 14px", fontSize: 12.5, fontWeight: 800, cursor: text.trim() && !submitting ? "pointer" : "default", opacity: !text.trim() || submitting ? 0.45 : 1 }}
           >
-            {done ? "감사합니다!" : submitting ? "등록 중…" : "등록"}
+            {done ? (gotReward ? "🎉 +5 크레딧!" : "감사합니다!") : submitting ? "등록 중…" : "등록"}
           </button>
         </div>
       </div>
