@@ -114,10 +114,10 @@ const QUICK = [
 
 // Sorted by views (trending) — the board renders this order as-is.
 const RESOURCES = [
-  { title: "내가 아이비리그 공대에 오기까지", desc: "아이비리그 공대 합격생이 직접 쓴 합격 수기 — 리더뷰로 읽기", route: "/parents/story", tag: "합격수기", views: 1180, cost: 0 },
-  { title: "코넬 공대 합격 에세이 분석", desc: "실제 합격 에세이를 한 문단씩 — 무엇이 왜 잘 됐는지", route: "/parents/essay", tag: "합격에세이", views: 1000, cost: 250 },
-  { title: "아이비리그 합격 엑스트라 활동 분석", desc: "합격생 활동 10개 + 직접 만드는 법 (책 출간·논문·웹)", route: "/parents/activities", tag: "합격활동", views: 942, cost: 250 },
-  { title: "미국 대학 분석 — 인재상·입시·인턴십", desc: "하버드부터 UC까지, 학교별 인재상·합격률·취업 파이프라인", route: "/parents/colleges", tag: "대학분석", views: 874, cost: 250 },
+  { title: "내가 아이비리그 공대에 오기까지", desc: "아이비리그 공대 합격생이 직접 쓴 합격 수기 — 리더뷰로 읽기", route: "/parents/story", tag: "합격수기", views: 1180, cost: 200 },
+  { title: "코넬 공대 합격 에세이 분석", desc: "실제 합격 에세이를 한 문단씩 — 무엇이 왜 잘 됐는지", route: "/parents/essay", tag: "합격에세이", views: 1000, cost: 25 },
+  { title: "아이비리그 합격 엑스트라 활동 분석", desc: "합격생 활동 10개 + 직접 만드는 법 (책 출간·논문·웹)", route: "/parents/activities", tag: "합격활동", views: 942, cost: 25 },
+  { title: "미국 대학 분석 — 인재상·입시·인턴십", desc: "하버드부터 UC까지, 학교별 인재상·합격률·취업 파이프라인", route: "/parents/colleges", tag: "대학분석", views: 874, cost: 25 },
   { title: "미국 입시 대회 데이터베이스 (전 분야)", desc: `USABO·NSDA·Scholastic 등 ${COMPETITIONS.length}개 대회 총정리`, route: "/parents/competitions", tag: "자료", views: 731, cost: 0 },
   { title: "학년별 로드맵 (G6–G12)", desc: "학업·시험·활동·에세이를 학년별로", route: "/parents/roadmap", tag: "가이드", views: 562, cost: 0 },
   { title: "전공별 AP 과목 선택 가이드", desc: "‘○○ 전공이면 AP 뭘?’ 8개 전공별 추천", route: "/parents/ap-guide", tag: "가이드", views: 418, cost: 0 },
@@ -180,6 +180,12 @@ export default function ParentsClient() {
   const go = (route: string, _gated?: boolean) => {
     if (route.startsWith("#")) {
       document.getElementById(route.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    // 합격 수기(스토리)는 어느 진입점(배너·네비·퀵)에서 들어와도 200 크레딧으로
+    // 잠금 — 자료 보드와 동일한 키(res:/parents/story)라 한 번 풀면 전부 열림.
+    if (route === "/parents/story") {
+      requestUnlock({ key: "res:/parents/story", cost: CREDIT_COSTS.SUBJECT, title: "내가 아이비리그 공대에 오기까지", proceed: () => router.push(route), loginRedirect: route });
       return;
     }
     if (loggedIn) router.push(route);
