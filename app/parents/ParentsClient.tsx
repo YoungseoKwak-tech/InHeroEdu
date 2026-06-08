@@ -648,8 +648,9 @@ export default function ParentsClient() {
           <TextbookFlipPreview />
 
           <div className="tb-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(168px, 1fr))", gap: 16 }}>
-            {textbooks.map((b) => {
+            {[...textbooks].sort((a, b) => (a.slug === "ap-bio-ultimate" ? -1 : b.slug === "ap-bio-ultimate" ? 1 : 0)).map((b) => {
               const bookOwned = isUnlocked(`book:${b.slug}`);
+              const isBio = b.slug === "ap-bio-ultimate";
               return (
               <button key={`${b.slug}-${creditTick}`} onClick={() => openBook(b)}
                 style={{ textAlign: "left", background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, overflow: "hidden", cursor: "pointer", padding: 0, boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 180ms, box-shadow 200ms" }}
@@ -660,6 +661,9 @@ export default function ParentsClient() {
                     color: bookOwned ? "#fff" : "#a16207", background: bookOwned ? GREEN : "rgba(255,251,235,0.95)", border: bookOwned ? "none" : "1px solid #f1d27a" }}>
                     {bookOwned ? "✓ 보유" : "🔒 500 크레딧"}
                   </span>
+                  {isBio && (
+                    <span style={{ position: "absolute", top: 8, left: 8, zIndex: 2, fontSize: 11, fontWeight: 900, color: "#fff", background: "linear-gradient(135deg,#f97316,#dc2626)", borderRadius: 999, padding: "3px 9px", boxShadow: "0 2px 8px rgba(220,38,38,0.4)" }}>🔥 인기</span>
+                  )}
                   <span aria-hidden="true">{TEXTBOOK_GLYPH[b.slug] ?? "📘"}</span>
                   {TEXTBOOK_COVER[b.slug] && (
                     /* eslint-disable-next-line @next/next/no-img-element */
@@ -669,7 +673,7 @@ export default function ParentsClient() {
                   )}
                 </div>
                 <div style={{ padding: "13px 14px 15px" }}>
-                  <div style={{ fontSize: 14.5, fontWeight: 800, color: "#1a1a1f", letterSpacing: "-0.01em", lineHeight: 1.3 }}>{b.title}</div>
+                  <div style={{ fontSize: 14.5, fontWeight: 800, color: "#1a1a1f", letterSpacing: "-0.01em", lineHeight: 1.3 }}>{b.title}{isBio && " 🔥"}</div>
                   {b.subtitle && <div style={{ fontSize: 11.5, color: "#94a3b8", marginTop: 2 }}>{b.subtitle}</div>}
                   <div style={{ fontSize: 12, color: "#64748b", marginTop: 8, fontWeight: 600 }}>{b.total_chapters ? `${b.total_chapters}개 챕터` : "디지털 교재"}</div>
                 </div>
