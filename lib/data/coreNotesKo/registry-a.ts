@@ -119,6 +119,16 @@ import { AP_COMPUTER_SCIENCE_A_U3_KO } from "./ap-computer-science-a-u3";
 import { AP_COMPUTER_SCIENCE_A_U4_KO } from "./ap-computer-science-a-u4";
 import { AP_COMPUTER_SCIENCE_A_U5_KO } from "./ap-computer-science-a-u5";
 import { AP_COMPUTER_SCIENCE_A_U6_KO } from "./ap-computer-science-a-u6";
+import { AP_COMPUTER_SCIENCE_A_U7_KO } from "./ap-computer-science-a-u7";
+import { AP_COMPUTER_SCIENCE_A_U8_KO } from "./ap-computer-science-a-u8";
+import { AP_COMPUTER_SCIENCE_A_U9_KO } from "./ap-computer-science-a-u9";
+import { AP_COMPUTER_SCIENCE_A_U10_KO } from "./ap-computer-science-a-u10";
+import { AP_HUMAN_GEOGRAPHY_U1_KO } from "./ap-human-geography-u1";
+import { AP_HUMAN_GEOGRAPHY_U2_KO } from "./ap-human-geography-u2";
+import { AP_HUMAN_GEOGRAPHY_U3_KO } from "./ap-human-geography-u3";
+import { AP_HUMAN_GEOGRAPHY_U4_KO } from "./ap-human-geography-u4";
+import { AP_HUMAN_GEOGRAPHY_U5_KO } from "./ap-human-geography-u5";
+import { AP_HUMAN_GEOGRAPHY_U6_KO } from "./ap-human-geography-u6";
 
 export const REGISTRY_A: CoreNote[] = [
   ...AP_CHEM_U1A_KO,
@@ -234,4 +244,14 @@ export const REGISTRY_A: CoreNote[] = [
   ...AP_COMPUTER_SCIENCE_A_U4_KO,
   ...AP_COMPUTER_SCIENCE_A_U5_KO,
   ...AP_COMPUTER_SCIENCE_A_U6_KO,
+  ...AP_COMPUTER_SCIENCE_A_U7_KO,
+  ...AP_COMPUTER_SCIENCE_A_U8_KO,
+  ...AP_COMPUTER_SCIENCE_A_U9_KO,
+  ...AP_COMPUTER_SCIENCE_A_U10_KO,
+  ...AP_HUMAN_GEOGRAPHY_U1_KO,
+  ...AP_HUMAN_GEOGRAPHY_U2_KO,
+  ...AP_HUMAN_GEOGRAPHY_U3_KO,
+  ...AP_HUMAN_GEOGRAPHY_U4_KO,
+  ...AP_HUMAN_GEOGRAPHY_U5_KO,
+  ...AP_HUMAN_GEOGRAPHY_U6_KO,
 ];
