@@ -360,6 +360,18 @@ export default function ParentsClient() {
             ))}
           </div>
 
+          {/* 우리 아이 학습 진단 — quiz CTA (not a nav tab) */}
+          <button onClick={() => router.push("/parents/diagnosis")}
+            style={{ textAlign: "left", cursor: "pointer", border: "none", borderRadius: 16, padding: "22px 24px", background: "linear-gradient(120deg,#0b3b2e,#0e7c54 60%,#16a36b)", color: "#fff", boxShadow: "0 10px 28px rgba(14,124,84,0.26)", display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
+            <span style={{ fontSize: 40, lineHeight: 1 }}>🧪</span>
+            <span style={{ flex: 1, minWidth: 200 }}>
+              <span style={{ display: "inline-block", fontSize: 11, fontWeight: 800, color: "#bbf7d0", background: "rgba(255,255,255,0.14)", borderRadius: 6, padding: "3px 9px", marginBottom: 8 }}>무료 · 2분 · 로그인 불필요</span>
+              <span style={{ display: "block", fontSize: 19, fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1.3 }}>우리 아이 학습 진단</span>
+              <span style={{ display: "block", fontSize: 13.5, color: "rgba(255,255,255,0.82)", marginTop: 5, lineHeight: 1.55 }}>12개 질문으로 학습 유형을 진단하고, 강점·보완점과 학부모 코칭 팁까지 받아보세요.</span>
+            </span>
+            <span style={{ flexShrink: 0, background: "#fff", color: "#0e7c54", borderRadius: 9, padding: "11px 20px", fontSize: 14, fontWeight: 800, whiteSpace: "nowrap" }}>진단 시작 →</span>
+          </button>
+
           {/* Boards */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="board-grid">
             {/* 입시 Q&A */}
