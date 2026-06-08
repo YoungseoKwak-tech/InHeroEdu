@@ -74,3 +74,23 @@ export function spendAndUnlock(key: string, cost: number): boolean {
   unlock(key);
   return true;
 }
+
+/**
+ * Canonical content credit costs (master plan, ₩1,550/$). Keep gating costs
+ * referencing these so pricing stays consistent across the portal.
+ *   FREE   소통(Q&A)·합격수기 텍스트            0
+ *   LIGHT  한국어 핵심노트(단원)·단어장          50–100
+ *   MEDIUM 합격 에세이 원문·합격 활동 분석        250
+ *   HEAVY  AP 디지털 교재 1권(1,000p)            500
+ *   ULTRA  AP 문제은행 전체·SAT 모의고사 패키지   1,000
+ */
+export const CREDIT_COSTS = {
+  FREE: 0,
+  NOTE_UNIT: 50,
+  VOCAB: 100,
+  ESSAY: 250,
+  ACTIVITIES: 250,
+  TEXTBOOK: 500,     // one 1,000-page digital textbook
+  QUESTION_BANK: 1000,
+  SAT_MOCK: 1000,
+} as const;
