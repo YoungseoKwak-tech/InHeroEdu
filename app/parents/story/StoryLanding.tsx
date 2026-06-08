@@ -1,20 +1,63 @@
 "use client";
 
 /**
- * /parents/story — 합격 수기 landing. Shows the cover, 목차, and 프롤로그;
- * the reader (PDF) opens only on the explicit "책 읽기" click → /parents/story/read.
+ * /parents/story — 합격 수기 landing. The cover, 목차, and 프롤로그 are FREE.
+ * The 200-credit charge happens only when the reader is opened via a "책 읽기"
+ * button (→ /parents/story/read), gated by a shared res:/parents/story unlock
+ * so it's bought once.
  */
 
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import StoryReviewWidget from "@/components/StoryReviewWidget";
+import { getClientSession } from "@/lib/client-auth";
+import { isUnlocked, spendAndUnlock, getBalance, CREDIT_EVENT, CREDIT_COSTS } from "@/lib/credits";
 import {
   STORY_META, TOC_PROLOGUE, TOC_PARTS, TOC_EPILOGUE, TOC_APPENDIX,
   PROLOGUE_OPENING, PROLOGUE_BODY,
 } from "./data";
 
 const GREEN = "#00b85f";
+const READ_KEY = "res:/parents/story";
+const READ_COST = CREDIT_COSTS.SUBJECT; // 200
+const READ_HREF = "/parents/story/read";
 
 export default function StoryLanding() {
+  const router = useRouter();
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [owned, setOwned] = useState(false);
+  const [balance, setBalance] = useState(0);
+  const [showGate, setShowGate] = useState(false);
+
+  useEffect(() => {
+    getClientSession().then((s) => setLoggedIn(!!s?.user)).catch(() => {});
+    const sync = () => { setOwned(isUnlocked(READ_KEY)); setBalance(getBalance()); };
+    sync();
+    window.addEventListener(CREDIT_EVENT, sync);
+    return () => window.removeEventListener(CREDIT_EVENT, sync);
+  }, []);
+
+  // "책 읽기" — free landing, but opening the reader costs 200 credits (once).
+  function readBook() {
+    if (!loggedIn) {
+      window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: READ_HREF } }));
+      return;
+    }
+    if (owned || isUnlocked(READ_KEY)) { router.push(READ_HREF); return; }
+    setShowGate(true);
+  }
+
+  function confirmSpend() {
+    setShowGate(false);
+    if (spendAndUnlock(READ_KEY, READ_COST)) {
+      setOwned(true);
+      router.push(READ_HREF);
+    } else {
+      window.dispatchEvent(new CustomEvent("inhero:open-charge"));
+    }
+  }
+
   return (
     <div style={{ position: "relative", zIndex: 10, minHeight: "100vh", background: "#f7f8fa", color: "#1a1a1f", cursor: "auto" }}>
       {/* Top bar */}
@@ -38,11 +81,13 @@ export default function StoryLanding() {
           <p style={{ fontSize: 15.5, fontWeight: 700, color: "#a78bfa", lineHeight: 1.6, margin: 0 }}>{STORY_META.sub2}</p>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", margin: "18px 0 0" }}>{STORY_META.tagline}</p>
 
-          <Link href="/parents/story/read"
-            style={{ display: "inline-flex", alignItems: "center", gap: 9, marginTop: 26, background: GREEN, color: "#03120c", textDecoration: "none", borderRadius: 12, padding: "15px 34px", fontSize: 16, fontWeight: 800, boxShadow: "0 10px 26px rgba(0,184,95,0.32)" }}>
-            📖 책 읽기 <span aria-hidden="true">→</span>
-          </Link>
-          <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.4)", margin: "12px 0 0" }}>버튼을 누르면 리더에서 바로 읽을 수 있어요</p>
+          <button onClick={readBook}
+            style={{ display: "inline-flex", alignItems: "center", gap: 9, marginTop: 26, background: GREEN, color: "#03120c", border: "none", cursor: "pointer", borderRadius: 12, padding: "15px 34px", fontSize: 16, fontWeight: 800, boxShadow: "0 10px 26px rgba(0,184,95,0.32)" }}>
+            📖 {owned ? "책 읽기" : "책 읽기 (200 크레딧)"} <span aria-hidden="true">→</span>
+          </button>
+          <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.4)", margin: "12px 0 0" }}>
+            {owned ? "이미 잠금 해제됨 · 바로 읽을 수 있어요" : "목차·프롤로그는 무료 · 전체 책은 200 크레딧으로 한 번만 잠금 해제"}
+          </p>
         </section>
 
         {/* Prologue */}
@@ -58,10 +103,10 @@ export default function StoryLanding() {
               <p key={i} style={{ fontSize: 14.5, color: "#334155", lineHeight: 1.9, margin: 0 }}>{para}</p>
             ))}
           </div>
-          <Link href="/parents/story/read"
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 22, color: GREEN, fontWeight: 800, fontSize: 14.5, textDecoration: "none" }}>
+          <button onClick={readBook}
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 22, color: GREEN, background: "none", border: "none", cursor: "pointer", fontWeight: 800, fontSize: 14.5 }}>
             이어서 읽기 (전체 책) →
-          </Link>
+          </button>
         </section>
 
         {/* Table of contents */}
@@ -97,12 +142,30 @@ export default function StoryLanding() {
             </div>
           </div>
 
-          <Link href="/parents/story/read"
-            style={{ display: "block", textAlign: "center", marginTop: 26, background: "#1a1a1f", color: "#fff", textDecoration: "none", borderRadius: 10, padding: "15px", fontSize: 15, fontWeight: 800 }}>
-            📖 지금 책 읽기 →
-          </Link>
+          <button onClick={readBook}
+            style={{ display: "block", width: "100%", textAlign: "center", marginTop: 26, background: "#1a1a1f", color: "#fff", border: "none", cursor: "pointer", borderRadius: 10, padding: "15px", fontSize: 15, fontWeight: 800 }}>
+            📖 {owned ? "지금 책 읽기 →" : "전체 책 읽기 (200 크레딧) →"}
+          </button>
         </section>
       </div>
+
+      {/* Credit confirm modal */}
+      {showGate && (
+        <div onClick={() => setShowGate(false)}
+          style={{ position: "fixed", inset: 0, zIndex: 60, background: "rgba(10,10,20,0.55)", backdropFilter: "blur(3px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+          <div onClick={(e) => e.stopPropagation()}
+            style={{ background: "#fff", borderRadius: 18, padding: "26px 26px", maxWidth: 380, width: "100%", textAlign: "center", boxShadow: "0 20px 50px rgba(0,0,0,0.3)" }}>
+            <div style={{ fontSize: 38 }}>📖</div>
+            <h3 style={{ fontSize: 18, fontWeight: 850, margin: "10px 0 6px", color: "#1a1a1f" }}>전체 책을 200 크레딧으로 읽으시겠습니까?</h3>
+            <p style={{ fontSize: 13.5, color: "#64748b", lineHeight: 1.6, margin: "0 0 6px" }}>‘내가 아이비리그 공대에 오기까지’ 전체 본문(230페이지)이 열립니다.</p>
+            <p style={{ fontSize: 12.5, color: "#94a3b8", margin: "0 0 18px" }}>보유 크레딧 {balance.toLocaleString()}개 · 한 번만 차감되고 이후엔 무료로 다시 읽기</p>
+            <div style={{ display: "flex", gap: 10 }}>
+              <button onClick={() => setShowGate(false)} style={{ flex: 1, background: "#f1f5f9", color: "#475569", border: "none", borderRadius: 10, padding: "12px", fontWeight: 800, fontSize: 14, cursor: "pointer" }}>취소</button>
+              <button onClick={confirmSpend} style={{ flex: 2, background: GREEN, color: "#fff", border: "none", borderRadius: 10, padding: "12px", fontWeight: 800, fontSize: 14, cursor: "pointer" }}>🪙 200 크레딧 사용</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Reader reviews — small docked widget on the right */}
       <StoryReviewWidget />
