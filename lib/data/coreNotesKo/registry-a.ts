@@ -109,6 +109,16 @@ import { AP_PHYSICS_2_U7_KO } from "./ap-physics-2-u7";
 import { AP_PHYSICS_1_U1_KO } from "./ap-physics-1-u1";
 import { AP_PHYSICS_1_U2_KO } from "./ap-physics-1-u2";
 import { AP_PHYSICS_1_U3_KO } from "./ap-physics-1-u3";
+import { AP_PHYSICS_1_U4_KO } from "./ap-physics-1-u4";
+import { AP_PHYSICS_1_U5_KO } from "./ap-physics-1-u5";
+import { AP_PHYSICS_1_U6_KO } from "./ap-physics-1-u6";
+import { AP_PHYSICS_1_U7_KO } from "./ap-physics-1-u7";
+import { AP_COMPUTER_SCIENCE_A_U1_KO } from "./ap-computer-science-a-u1";
+import { AP_COMPUTER_SCIENCE_A_U2_KO } from "./ap-computer-science-a-u2";
+import { AP_COMPUTER_SCIENCE_A_U3_KO } from "./ap-computer-science-a-u3";
+import { AP_COMPUTER_SCIENCE_A_U4_KO } from "./ap-computer-science-a-u4";
+import { AP_COMPUTER_SCIENCE_A_U5_KO } from "./ap-computer-science-a-u5";
+import { AP_COMPUTER_SCIENCE_A_U6_KO } from "./ap-computer-science-a-u6";
 
 export const REGISTRY_A: CoreNote[] = [
   ...AP_CHEM_U1A_KO,
@@ -214,4 +224,14 @@ export const REGISTRY_A: CoreNote[] = [
   ...AP_PHYSICS_1_U1_KO,
   ...AP_PHYSICS_1_U2_KO,
   ...AP_PHYSICS_1_U3_KO,
+  ...AP_PHYSICS_1_U4_KO,
+  ...AP_PHYSICS_1_U5_KO,
+  ...AP_PHYSICS_1_U6_KO,
+  ...AP_PHYSICS_1_U7_KO,
+  ...AP_COMPUTER_SCIENCE_A_U1_KO,
+  ...AP_COMPUTER_SCIENCE_A_U2_KO,
+  ...AP_COMPUTER_SCIENCE_A_U3_KO,
+  ...AP_COMPUTER_SCIENCE_A_U4_KO,
+  ...AP_COMPUTER_SCIENCE_A_U5_KO,
+  ...AP_COMPUTER_SCIENCE_A_U6_KO,
 ];
