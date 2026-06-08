@@ -6,6 +6,7 @@
  */
 
 import Link from "next/link";
+import StoryReviewWidget from "@/components/StoryReviewWidget";
 import {
   STORY_META, TOC_PROLOGUE, TOC_PARTS, TOC_EPILOGUE, TOC_APPENDIX,
   PROLOGUE_OPENING, PROLOGUE_BODY,
@@ -102,6 +103,9 @@ export default function StoryLanding() {
           </Link>
         </section>
       </div>
+
+      {/* Reader reviews — small docked widget on the right */}
+      <StoryReviewWidget />
     </div>
   );
 }
