@@ -7,6 +7,10 @@ import {
   RW_M1_X2, RW_M2_EASY_X2, RW_M2_HARD_X2,
   MATH_M1_X2, MATH_M2_EASY_X2, MATH_M2_HARD_X2,
 } from "./form1-extra2";
+import {
+  RW_M1_X3, RW_M2_EASY_X3, RW_M2_HARD_X3,
+  MATH_M1_X3, MATH_M2_EASY_X3, MATH_M2_HARD_X3,
+} from "./form1-extra3";
 
 /**
  * Practice Test 1 — original Digital-SAT-format items. Each section has a
@@ -257,15 +261,15 @@ export const SAT_FORM_1: SatForm = {
   id: "practice-1",
   title: "InHero SAT Practice Test 1",
   rw: {
-    m1: [...RW_M1, ...RW_M1_X, ...RW_M1_X2],
-    m2easy: [...RW_M2_EASY, ...RW_M2_EASY_X, ...RW_M2_EASY_X2],
-    m2hard: [...RW_M2_HARD, ...RW_M2_HARD_X, ...RW_M2_HARD_X2],
-    timeSec: 1200,
+    m1: [...RW_M1, ...RW_M1_X, ...RW_M1_X2, ...RW_M1_X3],
+    m2easy: [...RW_M2_EASY, ...RW_M2_EASY_X, ...RW_M2_EASY_X2, ...RW_M2_EASY_X3],
+    m2hard: [...RW_M2_HARD, ...RW_M2_HARD_X, ...RW_M2_HARD_X2, ...RW_M2_HARD_X3],
+    timeSec: 1920,
   },
   math: {
-    m1: [...MATH_M1, ...MATH_M1_X, ...MATH_M1_X2],
-    m2easy: [...MATH_M2_EASY, ...MATH_M2_EASY_X, ...MATH_M2_EASY_X2],
-    m2hard: [...MATH_M2_HARD, ...MATH_M2_HARD_X, ...MATH_M2_HARD_X2],
-    timeSec: 1380,
+    m1: [...MATH_M1, ...MATH_M1_X, ...MATH_M1_X2, ...MATH_M1_X3],
+    m2easy: [...MATH_M2_EASY, ...MATH_M2_EASY_X, ...MATH_M2_EASY_X2, ...MATH_M2_EASY_X3],
+    m2hard: [...MATH_M2_HARD, ...MATH_M2_HARD_X, ...MATH_M2_HARD_X2, ...MATH_M2_HARD_X3],
+    timeSec: 2100,
   },
 };
