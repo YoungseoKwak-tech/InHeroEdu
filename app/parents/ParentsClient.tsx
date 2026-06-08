@@ -83,7 +83,6 @@ const NAV = [
   { label: "입시 Q&A", route: "/parents/lounge", gated: false },
   { label: "미국 입시 대회", route: "/parents/competitions", gated: false },
   { label: "학년별 로드맵", route: "/parents/roadmap", gated: false },
-  { label: "AP 과목 가이드", route: "/parents/ap-guide", gated: false },
   { label: "AP 문제은행", route: "/parents/question-bank", gated: false },
   { label: "AP 개념정리", route: "/parents/core-notes", gated: false },
   { label: "단어장", route: "/parents/vocab", gated: false },

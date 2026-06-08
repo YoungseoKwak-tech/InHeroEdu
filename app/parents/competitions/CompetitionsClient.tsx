@@ -70,9 +70,19 @@ export default function CompetitionsClient() {
           STEM뿐 아니라 <strong>인문·글쓰기 · 토론·스피치 · 비즈니스·경제 · 사회·역사 · 예술 · 언어</strong>까지,
           학부모가 가장 많이 묻는 {COMPETITIONS.length}개 주요 대회를 <strong>분야 · 학년 · 난이도 · 신청 시기 · 추천 전공</strong>으로 정리했습니다.
         </p>
-        <p style={{ fontSize: 12.5, color: "#94a3b8", lineHeight: 1.7, marginBottom: 28 }}>
+        <p style={{ fontSize: 12.5, color: "#94a3b8", lineHeight: 1.7, marginBottom: 18 }}>
           ※ 신청·대회 시기는 해마다 조금씩 달라질 수 있으니 각 대회 공식 사이트에서 최신 일정을 확인하세요.
         </p>
+
+        {/* AMC prep CTA */}
+        <Link href="/parents/amc" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, textDecoration: "none",
+          background: "linear-gradient(135deg,#1e1b4b,#4338ca)", color: "#fff", borderRadius: 14, padding: "18px 22px", marginBottom: 16 }}>
+          <div>
+            <div style={{ fontSize: 15.5, fontWeight: 800, marginBottom: 3 }}>➗ AMC 10/12 연습문제 풀어보기</div>
+            <div style={{ fontSize: 13, color: "rgba(255,255,255,0.72)" }}>난이도별 AMC 스타일 문제 + 한국어 풀이 — 바로 채점</div>
+          </div>
+          <span style={{ fontSize: 13, fontWeight: 800, background: "rgba(255,255,255,0.16)", border: "1px solid rgba(255,255,255,0.3)", borderRadius: 8, padding: "9px 16px", whiteSpace: "nowrap" }}>풀러가기 →</span>
+        </Link>
 
         {/* Inline signup CTA */}
         <div style={{ background: "linear-gradient(135deg,#0a0a14,#13131f)", borderRadius: 14, padding: "20px 22px", marginBottom: 36, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
