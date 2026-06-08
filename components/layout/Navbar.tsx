@@ -35,6 +35,10 @@ export default function Navbar() {
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [authRedirectTo, setAuthRedirectTo] = useState("/my-plan");
   const [scrolled, setScrolled] = useState(false);
+  // Parent-portal questions open on the shared /qa/[id] route; that page signals
+  // (inhero:chrome) when it's a parent-lounge thread so we hide the cosmic
+  // chrome there too and keep the user inside the /parents world.
+  const [parentChrome, setParentChrome] = useState(false);
   const pathname = usePathname();
   const { lang, toggle, t } = useLang();
   const supabase = createBrowserClient();
@@ -46,6 +50,16 @@ export default function Navbar() {
   // from cookie before paint, the auth UI would diverge.
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
+
+  // Listen for the parent-chrome signal from parent-lounge /qa pages.
+  useEffect(() => {
+    const onChrome = (e: Event) => setParentChrome(!!(e as CustomEvent).detail?.parent);
+    window.addEventListener("inhero:chrome", onChrome as EventListener);
+    return () => window.removeEventListener("inhero:chrome", onChrome as EventListener);
+  }, []);
+  // Any real route change clears the parent-chrome override (the new page
+  // re-signals if it's also a parent thread).
+  useEffect(() => { setParentChrome(false); }, [pathname]);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -131,7 +145,8 @@ export default function Navbar() {
   // The parent hub (/parents/*) is a self-contained white community portal
   // with its own header — hide the cosmic site chrome there, but keep the
   // AuthModal mounted so the signup gate (inhero:open-auth) still works.
-  if (pathname?.startsWith("/parents")) {
+  // Parent-lounge Q&A threads live on /qa/[id] but should feel like /parents too.
+  if (pathname?.startsWith("/parents") || parentChrome) {
     return (
       <AuthModal
         isOpen={authOpen}

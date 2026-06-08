@@ -28,6 +28,10 @@ const nextConfig = {
     "pdf-parse",
     "pdfjs-dist",
   ],
+  // Ship the private (non-public) gated PDF with its API route on Vercel.
+  outputFileTracingIncludes: {
+    "/api/parents/story/file": ["./private-docs/ivy-engineering-journey.pdf"],
+  },
 };
 
 export default nextConfig;

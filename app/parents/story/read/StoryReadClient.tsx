@@ -53,7 +53,7 @@ export default function StoryReadClient() {
   return (
     <PdfReader
       source={{
-        fileUrl: "/parents-docs/ivy-engineering-journey.pdf",
+        fileUrl: "/api/parents/story/file",
         title: "내가 아이비리그 공대에 오기까지",
         subtitle: "아이비리그 코넬 공대 자기주도로 간 사람의 이야기",
         eyebrow: "🎓 합격 수기",
