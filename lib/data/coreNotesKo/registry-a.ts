@@ -89,6 +89,16 @@ import { AP_CALC_AB_U6B_KO } from "./ap-calc-ab-u6b";
 import { AP_CALC_AB_U7A_KO } from "./ap-calc-ab-u7a";
 import { AP_CALC_AB_U7B_KO } from "./ap-calc-ab-u7b";
 import { AP_CALC_AB_U8A_KO } from "./ap-calc-ab-u8a";
+import { AP_CALC_AB_U8B_KO } from "./ap-calc-ab-u8b";
+import { AP_WORLD_HISTORY_U1_KO } from "./ap-world-history-u1";
+import { AP_WORLD_HISTORY_U2_KO } from "./ap-world-history-u2";
+import { AP_WORLD_HISTORY_U3_KO } from "./ap-world-history-u3";
+import { AP_WORLD_HISTORY_U4_KO } from "./ap-world-history-u4";
+import { AP_WORLD_HISTORY_U5_KO } from "./ap-world-history-u5";
+import { AP_WORLD_HISTORY_U6_KO } from "./ap-world-history-u6";
+import { AP_WORLD_HISTORY_U7_KO } from "./ap-world-history-u7";
+import { AP_WORLD_HISTORY_U8_KO } from "./ap-world-history-u8";
+import { AP_WORLD_HISTORY_U9_KO } from "./ap-world-history-u9";
 
 export const REGISTRY_A: CoreNote[] = [
   ...AP_CHEM_U1A_KO,
@@ -174,4 +184,14 @@ export const REGISTRY_A: CoreNote[] = [
   ...AP_CALC_AB_U7A_KO,
   ...AP_CALC_AB_U7B_KO,
   ...AP_CALC_AB_U8A_KO,
+  ...AP_CALC_AB_U8B_KO,
+  ...AP_WORLD_HISTORY_U1_KO,
+  ...AP_WORLD_HISTORY_U2_KO,
+  ...AP_WORLD_HISTORY_U3_KO,
+  ...AP_WORLD_HISTORY_U4_KO,
+  ...AP_WORLD_HISTORY_U5_KO,
+  ...AP_WORLD_HISTORY_U6_KO,
+  ...AP_WORLD_HISTORY_U7_KO,
+  ...AP_WORLD_HISTORY_U8_KO,
+  ...AP_WORLD_HISTORY_U9_KO,
 ];
