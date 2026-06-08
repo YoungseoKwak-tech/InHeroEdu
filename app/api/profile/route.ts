@@ -6,6 +6,24 @@ import { sendWelcomeAlimtalk } from "@/lib/solapi";
 
 export const runtime = "nodejs";
 
+/** GET /api/profile — the signed-in user's own profile (for 나의 페이지). */
+export async function GET(req: NextRequest) {
+  const user = await requireAuthenticatedUser(req);
+  if (user instanceof NextResponse) return user;
+
+  const supabase = createAdminClient();
+  const { data } = await supabase
+    .from("profiles")
+    .select("name, grade, school, phone, marketing_consent")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  return NextResponse.json({
+    email: user.email,
+    profile: data ?? { name: null, grade: null, school: null, phone: null, marketing_consent: false },
+  });
+}
+
 export async function POST(req: NextRequest) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;

@@ -185,11 +185,17 @@ export default function ParentsClient() {
             <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 24, letterSpacing: "-0.03em", color: "#111" }}>In<span style={{ color: GREEN }}>Hero</span></span>
             <span style={{ fontSize: 12, color: "#94a3b8", fontWeight: 600 }}>유학·미국입시 자료실</span>
           </Link>
-          <form onSubmit={(e) => { e.preventDefault(); }} style={{ flex: 1, minWidth: 220, display: "flex", maxWidth: 560, marginLeft: "auto" }}>
+          <form onSubmit={(e) => { e.preventDefault(); }} style={{ flex: 1, minWidth: 220, display: "flex", maxWidth: 480, marginLeft: "auto" }}>
             <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="게시글, 자료, AP 검색"
               style={{ flex: 1, border: "2px solid #1a1a1f", borderRight: "none", borderRadius: "8px 0 0 8px", padding: "10px 14px", fontSize: 14, outline: "none" }} />
             <button type="submit" aria-label="검색" style={{ background: "#1a1a1f", color: "#fff", border: "none", borderRadius: "0 8px 8px 0", padding: "0 18px", fontSize: 16, cursor: "pointer" }}>🔍</button>
           </form>
+          <button onClick={() => go("/parents/me", true)}
+            style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#fff", border: `1.5px solid ${GREEN}`, color: GREEN, borderRadius: 9, padding: "9px 16px", fontSize: 13.5, fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 }}
+            onMouseEnter={(e) => { const t = e.currentTarget as HTMLElement; t.style.background = GREEN; t.style.color = "#fff"; }}
+            onMouseLeave={(e) => { const t = e.currentTarget as HTMLElement; t.style.background = "#fff"; t.style.color = GREEN; }}>
+            👤 {loggedIn ? "나의 페이지" : "로그인"}
+          </button>
         </div>
         {/* Nav tabs */}
         <nav style={{ maxWidth: 1180, margin: "0 auto", padding: "0 20px", display: "flex", gap: 4, overflowX: "auto" }}>
