@@ -125,7 +125,7 @@ const RESOURCES = [
 
 const NOTICES = [
   { title: "InHero 학부모 자료실 오픈 안내", route: "/parents" },
-  { title: "AP 문제은행 11,975개 무료 공개", route: "/parents/question-bank", gated: false },
+  { title: "AP 문제은행 11,975개 — 12문항 무료 맛보기", route: "/parents/question-bank", gated: false },
   { title: "AP 디지털 교재 6권 추가 (Calc BC 포함)", route: "#textbooks", gated: false },
   { title: "미국 대학 분석 데이터베이스 오픈 (인재상·인턴십)", route: "/parents/colleges", gated: false },
   { title: "아이비리그 합격 엑스트라 활동 분석 공개 (실행 가이드)", route: "/parents/activities", gated: false },

@@ -13,6 +13,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { authFetch } from "@/lib/client-auth";
+import CreditGate from "@/components/parents/CreditGate";
+import { CREDIT_COSTS } from "@/lib/credits";
 
 const GREEN = "#00b85f";
 
@@ -93,7 +95,18 @@ export default function QuestionBankClient() {
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {unlocked.map((q, i) => <QuestionCard key={q.id} q={q} index={i} />)}
-            {hasLocked && <LockedCTA onClick={gateSignup} remaining={filteredTotal - unlocked.length} />}
+            {hasLocked && (
+              <CreditGate
+                gateKey="parents:question-bank"
+                cost={CREDIT_COSTS.QUESTION_BANK}
+                title="AP 문제은행 전체 이용권"
+                desc={`College Board 스타일 ${total.toLocaleString()}개 전 과목 문항 풀 액세스. 위 ${unlocked.length}문항은 무료 맛보기예요.`}
+              >
+                <Link href="/question-bank" style={{ display: "block", textAlign: "center", textDecoration: "none", background: "#0a0a14", color: "#fff", borderRadius: 12, padding: "16px 22px", fontWeight: 800, fontSize: 15 }}>
+                  ✓ 전체 이용권 보유 · {total.toLocaleString()}문항 풀러가기 →
+                </Link>
+              </CreditGate>
+            )}
           </div>
         )}
       </div>
