@@ -17,7 +17,9 @@ const GREEN = "#00b85f";
 
 // Real checkout is on when NicePay is enabled; otherwise the buttons fall back
 // to the demo top-up so the flow still works in dev.
-const NICEPAY_ENABLED = process.env.NEXT_PUBLIC_NICEPAY_ENABLED === "true";
+// Match the project convention (PaymentButton): NicePay is on unless the flag
+// is explicitly "false".
+const NICEPAY_ENABLED = process.env.NEXT_PUBLIC_NICEPAY_ENABLED !== "false";
 const NICEPAY_SDK_URL = "https://pay.nicepay.co.kr/v1/js/";
 
 function loadNicePayScript(): Promise<void> {
