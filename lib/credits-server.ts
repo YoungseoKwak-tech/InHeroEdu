@@ -1,5 +1,6 @@
 import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { parseCreditServiceId } from "./creditPackages";
 
 export const WELCOME_CREDITS = 200;
 export const REFERRAL_REWARD = 20;
@@ -58,4 +59,17 @@ export async function ensureCreditProfile(
     referred_by: (data.referred_by as string | null) ?? null,
     credit_unlocks: Array.isArray(data.credit_unlocks) ? (data.credit_unlocks as string[]) : [],
   };
+}
+
+/** Grant the credits for a paid `credits:<id>` order (called from approve). */
+export async function grantPurchasedCredits(
+  supabase: SupabaseClient,
+  userId: string,
+  serviceId: string
+): Promise<void> {
+  const pkg = parseCreditServiceId(serviceId);
+  if (!pkg) return;
+  const profile = await ensureCreditProfile(supabase, userId);
+  if (!profile) return;
+  await supabase.from("profiles").update({ credits: profile.credits + pkg.credits }).eq("id", userId);
 }

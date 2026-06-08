@@ -9,21 +9,69 @@
 import { useEffect, useState } from "react";
 import { getBalance, chargeServer, hydrateCredits, CREDIT_EVENT, WELCOME_CREDITS } from "@/lib/credits";
 import { createBrowserClient } from "@/lib/supabase";
+import { authFetch } from "@/lib/client-auth";
+import { CREDIT_PACKAGES, type CreditPackage } from "@/lib/creditPackages";
 import { checkoutNotice } from "@/lib/legal";
 
 const GREEN = "#00b85f";
 
-// Pricing benchmarked to the student passes at ₩1,550/$: 500 credits ≈ a
-// one-subject pass ($49 ≈ ₩75,000). Round 원 endings for parent checkout.
-const PACKAGES = [
-  { credits: 200, price: "33,000원", note: "단발 충전" },
-  { credits: 500, price: "75,000원", note: "★ 한 과목 전체패스 가치", best: true },
-  { credits: 1000, price: "139,000원", note: "전 과목 가기 전 징검다리" },
-];
+// Real checkout is on when NicePay is enabled; otherwise the buttons fall back
+// to the demo top-up so the flow still works in dev.
+const NICEPAY_ENABLED = process.env.NEXT_PUBLIC_NICEPAY_ENABLED === "true";
+const NICEPAY_SDK_URL = "https://pay.nicepay.co.kr/v1/js/";
+
+function loadNicePayScript(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const w = window as unknown as { AUTHNICE?: unknown };
+    if (w.AUTHNICE) return resolve();
+    const existing = document.querySelector(`script[src="${NICEPAY_SDK_URL}"]`) as HTMLScriptElement | null;
+    if (existing) {
+      existing.addEventListener("load", () => resolve());
+      existing.addEventListener("error", () => reject(new Error("NICEPAY SDK load failed")));
+      return;
+    }
+    const s = document.createElement("script");
+    s.src = NICEPAY_SDK_URL; s.async = true;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error("NICEPAY SDK load failed"));
+    document.head.appendChild(s);
+  });
+}
 
 export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
   const [balance, setBalance] = useState<number | null>(null);
   const [charge, setCharge] = useState(false);
+  const [buying, setBuying] = useState<string | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+
+  // Buy a credit package via NicePay (real); demo top-up if NicePay is off.
+  async function buyPackage(pkg: CreditPackage) {
+    if (!NICEPAY_ENABLED) { chargeServer(pkg.credits); setCharge(false); return; }
+    setBuying(pkg.id); setErr(null);
+    try {
+      const res = await authFetch("/api/payments/nicepay/credits-prepare", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ packageId: pkg.id, returnTo: "/parents" }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.clientId || !data.orderId) throw new Error(data.error || "결제 준비에 실패했어요.");
+      await loadNicePayScript();
+      const w = window as unknown as { AUTHNICE?: { requestPay: (p: Record<string, unknown>) => void } };
+      if (!w.AUTHNICE) throw new Error("결제 모듈을 불러오지 못했어요.");
+      w.AUTHNICE.requestPay({
+        clientId: data.clientId, method: data.method ?? "card", orderId: data.orderId,
+        amount: data.amount, goodsName: data.goodsName, returnUrl: data.returnUrl,
+        ...(data.mallReserved ? { mallReserved: data.mallReserved } : {}),
+        fnError: (r: { errorMsg?: string; errorCode?: string }) => {
+          setBuying(null);
+          setErr(r?.errorMsg || (r?.errorCode ? `결제 오류: ${r.errorCode}` : "결제가 취소되었습니다."));
+        },
+      });
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "결제 중 오류가 발생했어요.");
+      setBuying(null);
+    }
+  }
 
   // Pull the account balance/unlocks when signed in (cross-device persistence).
   useEffect(() => { if (loggedIn) hydrateCredits(); }, [loggedIn]);
@@ -76,25 +124,26 @@ export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
               현재 잔액 <strong style={{ color: "#a16207" }}>🪙 {balance ?? 0}</strong> · 프리미엄 자료(합격 에세이·활동 분석 등)를 크레딧으로 잠금 해제하세요.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {PACKAGES.map((p) => (
-                <div key={p.credits} style={{ display: "flex", alignItems: "center", gap: 12, border: `1.5px solid ${p.best ? GREEN : "#e6e8ec"}`, borderRadius: 12, padding: "12px 14px", background: p.best ? "rgba(0,184,95,0.05)" : "#fff" }}>
+              {CREDIT_PACKAGES.map((p) => (
+                <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 12, border: `1.5px solid ${p.best ? GREEN : "#e6e8ec"}`, borderRadius: 12, padding: "12px 14px", background: p.best ? "rgba(0,184,95,0.05)" : "#fff" }}>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 15, fontWeight: 800, color: "#1a1a1f" }}>🪙 {p.credits} 크레딧 {p.best && <span style={{ fontSize: 10.5, fontWeight: 800, color: "#fff", background: GREEN, borderRadius: 999, padding: "2px 8px", marginLeft: 4 }}>BEST</span>}</div>
-                    <div style={{ fontSize: 12.5, color: "#64748b", marginTop: 2 }}>{p.price} · {p.note}</div>
+                    <div style={{ fontSize: 12.5, color: "#64748b", marginTop: 2 }}>{p.krw.toLocaleString()}원 · {p.note}</div>
                   </div>
-                  <button onClick={() => { chargeServer(p.credits); setCharge(false); }}
-                    style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 9, padding: "9px 16px", fontSize: 13, fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap" }}>
-                    충전
+                  <button onClick={() => buyPackage(p)} disabled={buying === p.id}
+                    style={{ background: buying === p.id ? "#9ca3af" : GREEN, color: "#fff", border: "none", borderRadius: 9, padding: "9px 16px", fontSize: 13, fontWeight: 800, cursor: buying === p.id ? "default" : "pointer", whiteSpace: "nowrap" }}>
+                    {buying === p.id ? "결제 중…" : NICEPAY_ENABLED ? "결제" : "충전"}
                   </button>
                 </div>
               ))}
             </div>
+            {err && <p style={{ fontSize: 12.5, color: "#dc2626", marginTop: 10 }}>{err}</p>}
             <p style={{ fontSize: 11.5, color: "#64748b", marginTop: 14, lineHeight: 1.7, background: "#f7f8fa", borderRadius: 8, padding: "10px 12px" }}>
               모든 가격은 <strong>VAT 포함</strong>입니다. 자료실 정기 구독권: 월 29,000원(VAT 포함·매월 자동 결제).<br />
               ※ {checkoutNotice}
             </p>
             <p style={{ fontSize: 11, color: "#94a3b8", marginTop: 10, lineHeight: 1.6 }}>
-              데모 충전입니다(실결제 연동 전). 가입 시 웰컴 크레딧 {WELCOME_CREDITS}개를 즉시 드려요.{" "}
+              {NICEPAY_ENABLED ? "NicePay 안전 결제(카드)로 진행됩니다." : "데모 충전입니다(실결제 비활성)."} 가입 시 웰컴 크레딧 {WELCOME_CREDITS}개를 즉시 드려요.{" "}
               <a href="/terms" target="_blank" rel="noopener" style={{ color: "#64748b", textDecoration: "underline" }}>이용약관</a>
               {" · "}
               <a href="/refund" target="_blank" rel="noopener" style={{ color: "#64748b", textDecoration: "underline" }}>환불정책</a>

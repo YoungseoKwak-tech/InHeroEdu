@@ -5,6 +5,7 @@ import {
   markStoredOrderFailed,
   markStoredOrderPaid,
 } from "@/lib/orderStore";
+import { grantPurchasedCredits } from "@/lib/credits-server";
 import {
   approveNicePayPayment,
   getNicePayAmount,
@@ -287,6 +288,15 @@ async function handleNicePayApproval(req: NextRequest) {
       approval,
     },
   });
+
+  // Credit-package orders: grant the purchased credits to the account.
+  if (storedOrder.serviceId.startsWith("credits:") && storedOrder.userId) {
+    try {
+      await grantPurchasedCredits(supabase, storedOrder.userId, storedOrder.serviceId);
+    } catch (e) {
+      console.error("[nicepay/approve] grantPurchasedCredits failed", e);
+    }
+  }
 
   return NextResponse.redirect(
     buildSuccessUrl(req, {
