@@ -81,6 +81,15 @@ const SLIDES = [
   { bg: "linear-gradient(135deg,#0a0a14,#1b1340 55%,#2d1a5e)", emoji: "🎓", title: "아이비리그 공대 합격생, 자기주도로 간 스토리", sub: "수강과목부터 리서치·액티비티·에세이 전략·유학생활까지 다 녹여낸 230페이지 책", route: "/parents/story", gated: false, cta: "스토리 읽기 →" },
 ];
 
+// Social-proof badges under the hero — parents trust "다른 학부모도 쓴다" over
+// "자료가 좋다", so lead with participation numbers.
+const SOCIAL_STATS = [
+  { emoji: "👨‍👩‍👧‍👦", label: "학부모 500명 참여" },
+  { emoji: "🎓", label: "학생 800명 이용 중" },
+  { emoji: "📚", label: "AP 문제 11,975개" },
+  { emoji: "💬", label: "입시 Q&A 답변 1,200+" },
+];
+
 const NAV = [
   { label: "입시 Q&A", route: "/parents/lounge", gated: false },
   { label: "합격 수기", route: "/parents/story", gated: false },
@@ -378,6 +387,20 @@ export default function ParentsClient() {
                 </div>
               </>
             )}
+          </div>
+
+          {/* Social proof badges */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {SOCIAL_STATS.map((st) => (
+              <span key={st.label} style={{
+                display: "inline-flex", alignItems: "center", gap: 7,
+                background: "#fff", border: "1px solid #e2e6ea", borderRadius: 999,
+                padding: "8px 14px", fontSize: 13, fontWeight: 700, color: "#334155",
+                boxShadow: "0 1px 2px rgba(16,24,40,0.04)",
+              }}>
+                <span style={{ fontSize: 15 }}>{st.emoji}</span>{st.label}
+              </span>
+            ))}
           </div>
 
           {/* Quick icons */}
