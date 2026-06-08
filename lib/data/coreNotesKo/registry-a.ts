@@ -138,6 +138,17 @@ import { AP_MICROECONOMICS_B_KO } from "./ap-microeconomics-b";
 import { AP_MACROECONOMICS_A_KO } from "./ap-macroeconomics-a";
 import { AP_MACROECONOMICS_B_KO } from "./ap-macroeconomics-b";
 import { AP_PSYCHOLOGY_A_KO } from "./ap-psychology-a";
+import { AP_PSYCHOLOGY_B_KO } from "./ap-psychology-b";
+import { AP_ENGLISH_LANGUAGE_A_KO } from "./ap-english-language-a";
+import { AP_ENGLISH_LANGUAGE_B_KO } from "./ap-english-language-b";
+import { AP_PHYSICS_C_MECHANICS_U1_KO } from "./ap-physics-c-mechanics-u1";
+import { AP_PHYSICS_C_MECHANICS_U2_KO } from "./ap-physics-c-mechanics-u2";
+import { AP_PHYSICS_C_MECHANICS_U3_KO } from "./ap-physics-c-mechanics-u3";
+import { AP_PHYSICS_C_MECHANICS_U4_KO } from "./ap-physics-c-mechanics-u4";
+import { AP_CALCULUS_BC_A_KO } from "./ap-calculus-bc-a";
+import { AP_CALCULUS_BC_B_KO } from "./ap-calculus-bc-b";
+import { AP_CALCULUS_BC_C_KO } from "./ap-calculus-bc-c";
+import { AP_CALCULUS_BC_D_KO } from "./ap-calculus-bc-d";
 
 export const REGISTRY_A: CoreNote[] = [
   ...AP_CHEM_U1A_KO,
@@ -272,4 +283,15 @@ export const REGISTRY_A: CoreNote[] = [
   ...AP_MACROECONOMICS_A_KO,
   ...AP_MACROECONOMICS_B_KO,
   ...AP_PSYCHOLOGY_A_KO,
+  ...AP_PSYCHOLOGY_B_KO,
+  ...AP_ENGLISH_LANGUAGE_A_KO,
+  ...AP_ENGLISH_LANGUAGE_B_KO,
+  ...AP_PHYSICS_C_MECHANICS_U1_KO,
+  ...AP_PHYSICS_C_MECHANICS_U2_KO,
+  ...AP_PHYSICS_C_MECHANICS_U3_KO,
+  ...AP_PHYSICS_C_MECHANICS_U4_KO,
+  ...AP_CALCULUS_BC_A_KO,
+  ...AP_CALCULUS_BC_B_KO,
+  ...AP_CALCULUS_BC_C_KO,
+  ...AP_CALCULUS_BC_D_KO,
 ];

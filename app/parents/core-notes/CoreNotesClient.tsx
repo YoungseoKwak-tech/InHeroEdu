@@ -81,7 +81,7 @@ export default function CoreNotesClient() {
           {total.toLocaleString()}개 AP 개념정리, 일타강사처럼
         </h1>
         <p style={{ fontSize: 14, color: "#475569", lineHeight: 1.7, marginBottom: 18 }}>
-          Chemistry · 환경과학 · 통계 · 생물 · 미적분 AB · 세계사 · 물리 2 · 물리 1 · 컴퓨터과학 A · 인문지리 · 미국사 · 미국정부 · 미시경제 · 거시경제 — <strong>14개 과목이 한국어로 완성</strong>됐고, 나머지(심리·영어·물리 C·미적분 BC)도 빠르게 한국어화 중입니다. 과목을 고르고 왼쪽에서 단원별로 골라 읽어보세요.
+          <strong>전 18개 과목 {total.toLocaleString()}개 레슨이 모두 한국어로 완성</strong>됐습니다 — 일타강사처럼 풀어 쓴 개념·함정·예시까지. 과목을 고르고 왼쪽에서 단원별로 골라 읽어보세요.
         </p>
 
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 22 }}>
