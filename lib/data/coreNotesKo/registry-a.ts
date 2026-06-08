@@ -129,6 +129,15 @@ import { AP_HUMAN_GEOGRAPHY_U3_KO } from "./ap-human-geography-u3";
 import { AP_HUMAN_GEOGRAPHY_U4_KO } from "./ap-human-geography-u4";
 import { AP_HUMAN_GEOGRAPHY_U5_KO } from "./ap-human-geography-u5";
 import { AP_HUMAN_GEOGRAPHY_U6_KO } from "./ap-human-geography-u6";
+import { AP_HUMAN_GEOGRAPHY_U7_KO } from "./ap-human-geography-u7";
+import { AP_US_HISTORY_A_KO } from "./ap-us-history-a";
+import { AP_US_GOVERNMENT_A_KO } from "./ap-us-government-a";
+import { AP_US_GOVERNMENT_B_KO } from "./ap-us-government-b";
+import { AP_MICROECONOMICS_A_KO } from "./ap-microeconomics-a";
+import { AP_MICROECONOMICS_B_KO } from "./ap-microeconomics-b";
+import { AP_MACROECONOMICS_A_KO } from "./ap-macroeconomics-a";
+import { AP_MACROECONOMICS_B_KO } from "./ap-macroeconomics-b";
+import { AP_PSYCHOLOGY_A_KO } from "./ap-psychology-a";
 
 export const REGISTRY_A: CoreNote[] = [
   ...AP_CHEM_U1A_KO,
@@ -254,4 +263,13 @@ export const REGISTRY_A: CoreNote[] = [
   ...AP_HUMAN_GEOGRAPHY_U4_KO,
   ...AP_HUMAN_GEOGRAPHY_U5_KO,
   ...AP_HUMAN_GEOGRAPHY_U6_KO,
+  ...AP_HUMAN_GEOGRAPHY_U7_KO,
+  ...AP_US_HISTORY_A_KO,
+  ...AP_US_GOVERNMENT_A_KO,
+  ...AP_US_GOVERNMENT_B_KO,
+  ...AP_MICROECONOMICS_A_KO,
+  ...AP_MICROECONOMICS_B_KO,
+  ...AP_MACROECONOMICS_A_KO,
+  ...AP_MACROECONOMICS_B_KO,
+  ...AP_PSYCHOLOGY_A_KO,
 ];
