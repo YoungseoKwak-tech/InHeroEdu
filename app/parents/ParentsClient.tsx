@@ -77,9 +77,7 @@ function timeAgo(iso: string): string {
 const dateShort = (iso: string) => new Date(iso).toLocaleDateString("ko-KR", { month: "2-digit", day: "2-digit" });
 
 const SLIDES = [
-  { bg: "linear-gradient(120deg,#064e3b,#0b8a5b)", emoji: "📝", title: "AP 문제 11,975개 · 무료", sub: "College Board 스타일 실전 문제 · 틀리면 비슷한 문제로 복습", route: "/parents/question-bank", gated: false },
-  { bg: "linear-gradient(120deg,#3b1d6e,#6d28d9)", emoji: "📚", title: "AP 디지털 교재 6권", sub: "Bio · Chem · Physics · Calc — 풀 커리큘럼 디지털 교재", route: "#textbooks", gated: false },
-  { bg: "linear-gradient(120deg,#831843,#be185d)", emoji: "🎯", title: `미국 입시 대회 ${COMPETITIONS.length}개 총정리`, sub: "STEM·인문·토론·비즈니스·예술까지 — 분야·학년·시기·전공별", route: "/parents/competitions", gated: false },
+  { bg: "linear-gradient(135deg,#0a0a14,#1b1340 55%,#2d1a5e)", emoji: "🎓", title: "아이비리그 공대 합격생, 자기주도로 간 스토리", sub: "사교육 없이 Cornell 공대에 간 공학도의 입시 수기 — 목차부터 프롤로그까지 읽어보세요", route: "/parents/story", gated: false, cta: "스토리 읽기 →" },
 ];
 
 const NAV = [
@@ -319,14 +317,18 @@ export default function ParentsClient() {
                 <div style={{ fontSize: 34, marginBottom: 10 }}>{s.emoji}</div>
                 <div style={{ color: "#fff", fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.5rem,3.4vw,2.2rem)", fontWeight: 800, letterSpacing: "-0.02em", marginBottom: 8 }}>{s.title}</div>
                 <div style={{ color: "rgba(255,255,255,0.82)", fontSize: 14.5 }}>{s.sub}</div>
-                <div style={{ marginTop: 16, display: "inline-block", color: "#fff", border: "1.5px solid rgba(255,255,255,0.55)", borderRadius: 8, padding: "8px 18px", fontSize: 13, fontWeight: 700, alignSelf: "flex-start" }}>{s.gated ? "무료 가입하고 보기 →" : "바로 보기 →"}</div>
+                <div style={{ marginTop: 16, display: "inline-block", color: "#fff", border: "1.5px solid rgba(255,255,255,0.55)", borderRadius: 8, padding: "8px 18px", fontSize: 13, fontWeight: 700, alignSelf: "flex-start" }}>{("cta" in s && s.cta) ? s.cta : s.gated ? "무료 가입하고 보기 →" : "바로 보기 →"}</div>
               </button>
             ))}
-            <button aria-label="이전" onClick={() => setSlide((slide - 1 + SLIDES.length) % SLIDES.length)} style={navArrow("left")}>‹</button>
-            <button aria-label="다음" onClick={() => setSlide((slide + 1) % SLIDES.length)} style={navArrow("right")}>›</button>
-            <div style={{ position: "absolute", bottom: 12, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 6 }}>
-              {SLIDES.map((_, i) => <span key={i} onClick={() => setSlide(i)} style={{ width: i === slide ? 18 : 7, height: 7, borderRadius: 4, background: i === slide ? "#fff" : "rgba(255,255,255,0.5)", cursor: "pointer", transition: "width 200ms" }} />)}
-            </div>
+            {SLIDES.length > 1 && (
+              <>
+                <button aria-label="이전" onClick={() => setSlide((slide - 1 + SLIDES.length) % SLIDES.length)} style={navArrow("left")}>‹</button>
+                <button aria-label="다음" onClick={() => setSlide((slide + 1) % SLIDES.length)} style={navArrow("right")}>›</button>
+                <div style={{ position: "absolute", bottom: 12, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 6 }}>
+                  {SLIDES.map((_, i) => <span key={i} onClick={() => setSlide(i)} style={{ width: i === slide ? 18 : 7, height: 7, borderRadius: 4, background: i === slide ? "#fff" : "rgba(255,255,255,0.5)", cursor: "pointer", transition: "width 200ms" }} />)}
+                </div>
+              </>
+            )}
           </div>
 
           {/* Quick icons */}
