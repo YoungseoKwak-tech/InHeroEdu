@@ -9,6 +9,13 @@ export default function sitemap() {
       priority: 1,
     },
     {
+      // Korean parent/student hub — AP·SAT·미국 입시 SEO landing.
+      url: `${baseUrl}/parents`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.95,
+    },
+    {
       url: `${baseUrl}/kr`,
       lastModified: new Date(),
       changeFrequency: 'weekly',

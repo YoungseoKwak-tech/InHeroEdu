@@ -55,7 +55,7 @@ export default function StoryReadClient() {
       source={{
         fileUrl: "/api/parents/story/file",
         title: "내가 아이비리그 공대에 오기까지",
-        subtitle: "아이비리그 코넬 공대 자기주도로 간 사람의 이야기",
+        subtitle: "아이비리그 코넬 공대 사교육 없이 자기주도로 간 사람의 이야기",
         eyebrow: "🎓 합격 수기",
         backHref: "/parents/story",
         closeHref: "/parents/story",
