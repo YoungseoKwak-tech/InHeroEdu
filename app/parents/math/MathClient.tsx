@@ -128,6 +128,33 @@ export default function MathClient() {
                               <h4 style={{ fontSize: 14.5, fontWeight: 800, color: "#1a1a1f", margin: 0, letterSpacing: "-0.01em", lineHeight: 1.4 }}>{m.title}</h4>
                             </div>
                             <p style={{ fontSize: 13.5, color: "#334155", lineHeight: 1.85, margin: 0 }}>{m.body}</p>
+
+                            {m.formulas && m.formulas.length > 0 && (
+                              <div style={{ marginTop: 10, background: "#0f172a", borderRadius: 8, padding: "10px 13px" }}>
+                                <div style={{ fontSize: 10.5, fontWeight: 800, color: "#7dd3fc", letterSpacing: "0.05em", marginBottom: 5 }}>핵심 공식</div>
+                                {m.formulas.map((f) => (
+                                  <div key={f} style={{ fontSize: 13, color: "#e2e8f0", fontFamily: "'JetBrains Mono', ui-monospace, monospace", lineHeight: 1.7 }}>{f}</div>
+                                ))}
+                              </div>
+                            )}
+
+                            {m.example && (
+                              <div style={{ marginTop: 10, background: "#f0f7ff", border: "1px solid #d4e6fb", borderRadius: 8, padding: "10px 13px" }}>
+                                <div style={{ fontSize: 12.5, color: "#1a1a1f", lineHeight: 1.7 }}>
+                                  <span style={{ fontWeight: 800, color: "#2563eb" }}>예제 </span>{m.example.q}
+                                </div>
+                                <div style={{ fontSize: 12.5, color: "#334155", lineHeight: 1.7, marginTop: 4 }}>
+                                  <span style={{ fontWeight: 800, color: "#047a45" }}>풀이 </span>{m.example.a}
+                                </div>
+                              </div>
+                            )}
+
+                            {m.pitfall && (
+                              <div style={{ marginTop: 10, display: "flex", gap: 7, background: "#fff7ed", border: "1px solid #fde0c0", borderRadius: 8, padding: "9px 12px" }}>
+                                <span style={{ flexShrink: 0, fontSize: 13 }}>⚠️</span>
+                                <span style={{ fontSize: 12.5, color: "#9a3412", lineHeight: 1.65 }}><span style={{ fontWeight: 800 }}>자주 하는 실수 · </span>{m.pitfall}</span>
+                              </div>
+                            )}
                           </div>
                         ))}
                       </div>
