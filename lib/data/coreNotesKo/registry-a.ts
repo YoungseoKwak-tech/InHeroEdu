@@ -99,6 +99,16 @@ import { AP_WORLD_HISTORY_U6_KO } from "./ap-world-history-u6";
 import { AP_WORLD_HISTORY_U7_KO } from "./ap-world-history-u7";
 import { AP_WORLD_HISTORY_U8_KO } from "./ap-world-history-u8";
 import { AP_WORLD_HISTORY_U9_KO } from "./ap-world-history-u9";
+import { AP_PHYSICS_2_U1_KO } from "./ap-physics-2-u1";
+import { AP_PHYSICS_2_U2_KO } from "./ap-physics-2-u2";
+import { AP_PHYSICS_2_U3_KO } from "./ap-physics-2-u3";
+import { AP_PHYSICS_2_U4_KO } from "./ap-physics-2-u4";
+import { AP_PHYSICS_2_U5_KO } from "./ap-physics-2-u5";
+import { AP_PHYSICS_2_U6_KO } from "./ap-physics-2-u6";
+import { AP_PHYSICS_2_U7_KO } from "./ap-physics-2-u7";
+import { AP_PHYSICS_1_U1_KO } from "./ap-physics-1-u1";
+import { AP_PHYSICS_1_U2_KO } from "./ap-physics-1-u2";
+import { AP_PHYSICS_1_U3_KO } from "./ap-physics-1-u3";
 
 export const REGISTRY_A: CoreNote[] = [
   ...AP_CHEM_U1A_KO,
@@ -194,4 +204,14 @@ export const REGISTRY_A: CoreNote[] = [
   ...AP_WORLD_HISTORY_U7_KO,
   ...AP_WORLD_HISTORY_U8_KO,
   ...AP_WORLD_HISTORY_U9_KO,
+  ...AP_PHYSICS_2_U1_KO,
+  ...AP_PHYSICS_2_U2_KO,
+  ...AP_PHYSICS_2_U3_KO,
+  ...AP_PHYSICS_2_U4_KO,
+  ...AP_PHYSICS_2_U5_KO,
+  ...AP_PHYSICS_2_U6_KO,
+  ...AP_PHYSICS_2_U7_KO,
+  ...AP_PHYSICS_1_U1_KO,
+  ...AP_PHYSICS_1_U2_KO,
+  ...AP_PHYSICS_1_U3_KO,
 ];
