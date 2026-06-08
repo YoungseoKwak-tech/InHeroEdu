@@ -375,17 +375,6 @@ export default function ParentsClient() {
             <span style={{ flexShrink: 0, background: "#fff", color: "#0e7c54", borderRadius: 9, padding: "11px 20px", fontSize: 14, fontWeight: 800, whiteSpace: "nowrap" }}>진단 시작 →</span>
           </button>
 
-          {/* 자료요청 & 피드백 — submit board CTA (not a nav tab) */}
-          <button onClick={() => router.push("/parents/feedback")}
-            style={{ textAlign: "left", cursor: "pointer", borderRadius: 16, padding: "20px 22px", background: "#fff", border: "1.5px solid #e2e6ea", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
-            <span style={{ fontSize: 34, lineHeight: 1 }}>📮</span>
-            <span style={{ flex: 1, minWidth: 200 }}>
-              <span style={{ display: "block", fontSize: 17, fontWeight: 800, letterSpacing: "-0.01em", color: "#1a1a1f" }}>자료요청 &amp; 피드백</span>
-              <span style={{ display: "block", fontSize: 13, color: "#64748b", marginTop: 4, lineHeight: 1.55 }}>필요한 AP 과목·자료, 개선 아이디어, 오류를 남기면 목록에 바로 반영됩니다.</span>
-            </span>
-            <span style={{ flexShrink: 0, background: GREEN, color: "#fff", borderRadius: 9, padding: "10px 18px", fontSize: 13.5, fontWeight: 800, whiteSpace: "nowrap" }}>요청하기 →</span>
-          </button>
-
           {/* Boards */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="board-grid">
             {/* 입시 Q&A */}
@@ -533,6 +522,19 @@ export default function ParentsClient() {
           </p>
         </aside>
       </div>
+
+      {/* 자료요청 & 피드백 — full-width box below the boards/sidebar */}
+      <section style={{ maxWidth: 1180, margin: "0 auto", padding: "8px 20px 4px" }}>
+        <button onClick={() => router.push("/parents/feedback")}
+          style={{ width: "100%", textAlign: "left", cursor: "pointer", borderRadius: 16, padding: "22px 26px", background: "#fff", border: "1.5px solid #e2e6ea", display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap", boxShadow: "0 1px 2px rgba(16,24,40,0.04)" }}>
+          <span style={{ fontSize: 38, lineHeight: 1 }}>📮</span>
+          <span style={{ flex: 1, minWidth: 220 }}>
+            <span style={{ display: "block", fontSize: 18, fontWeight: 800, letterSpacing: "-0.01em", color: "#1a1a1f" }}>자료요청 &amp; 피드백</span>
+            <span style={{ display: "block", fontSize: 13.5, color: "#64748b", marginTop: 4, lineHeight: 1.55 }}>필요한 AP 과목·자료, 개선 아이디어, 오류를 남기면 목록에 바로 반영됩니다.</span>
+          </span>
+          <span style={{ flexShrink: 0, background: GREEN, color: "#fff", borderRadius: 9, padding: "12px 22px", fontSize: 14, fontWeight: 800, whiteSpace: "nowrap" }}>요청하기 →</span>
+        </button>
+      </section>
 
       {/* ── Ivy student materials preview (above the textbooks section) ── */}
       <section style={{ background: "#fff", borderTop: "1px solid #e2e6ea" }}>
