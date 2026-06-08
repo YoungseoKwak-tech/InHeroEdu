@@ -148,12 +148,14 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
     }
   }
 
-  async function handleSubmitAnswer() {
+  async function handleSubmitAnswer(nameOverride?: string) {
     if (!answerText.trim() || submitting) return;
     // Need a display name unless answering anonymously — prompt now (at submit),
-    // so the answer box itself is never blocked by the modal backdrop.
-    if (!anon && !username) { setShowPrompt(true); return; }
-    const nick = anon ? copy.anonymous : (username || copy.anonymous);
+    // so the answer box itself is never blocked by the modal backdrop. Once the
+    // user confirms a name we re-enter here with nameOverride and post directly.
+    const resolvedName = anon ? copy.anonymous : (nameOverride || username);
+    if (!anon && !resolvedName) { setShowPrompt(true); return; }
+    const nick = anon ? copy.anonymous : (resolvedName || copy.anonymous);
     setSubmitting(true);
     try {
       const res  = await fetch("/api/qa/answers", {
@@ -182,9 +184,13 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
 
   function handleSetName() {
     if (!nameInput.trim()) return;
-    saveUsername(nameInput.trim());
-    setUsername(nameInput.trim());
+    const name = nameInput.trim();
+    saveUsername(name);
+    setUsername(name);
     setShowPrompt(false);
+    // Auto-post the answer the user already wrote, using the just-chosen name
+    // (state update is async, so pass the name explicitly).
+    void handleSubmitAnswer(name);
   }
 
   if (loading) return (
@@ -360,7 +366,7 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
               {!anon && username && <span className="text-xs text-gray-400">({username})</span>}
             </label>
             <button
-              onClick={handleSubmitAnswer}
+              onClick={() => handleSubmitAnswer()}
               disabled={!answerText.trim() || submitting}
               className="btn-primary text-sm py-2 px-5 disabled:opacity-40"
             >
