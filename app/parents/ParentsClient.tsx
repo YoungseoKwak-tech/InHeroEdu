@@ -17,6 +17,9 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { authFetch, getClientSession } from "@/lib/client-auth";
 import { COMPETITIONS } from "./competitions/data";
+import CreditWidget from "@/components/parents/CreditWidget";
+import { isUnlocked, spendAndUnlock, CREDIT_EVENT } from "@/lib/credits";
+import TextbookFlipPreview from "@/components/parents/TextbookFlipPreview";
 
 const GREEN = "#00b85f";
 
@@ -108,12 +111,12 @@ const QUICK = [
 
 // Sorted by views (trending) — the board renders this order as-is.
 const RESOURCES = [
-  { title: "코넬 공대 합격 에세이 분석", desc: "실제 합격 에세이를 한 문단씩 — 무엇이 왜 잘 됐는지", route: "/parents/essay", tag: "합격에세이", views: 1000 },
-  { title: "아이비리그 합격 엑스트라 활동 분석", desc: "합격생 활동 10개 + 직접 만드는 법 (책 출간·논문·웹)", route: "/parents/activities", tag: "합격활동", views: 942 },
-  { title: "미국 대학 분석 — 인재상·입시·인턴십", desc: "하버드부터 UC까지, 학교별 인재상·합격률·취업 파이프라인", route: "/parents/colleges", tag: "대학분석", views: 874 },
-  { title: "미국 입시 대회 데이터베이스 (전 분야)", desc: `USABO·NSDA·Scholastic 등 ${COMPETITIONS.length}개 대회 총정리`, route: "/parents/competitions", tag: "자료", views: 731 },
-  { title: "학년별 로드맵 (G6–G12)", desc: "학업·시험·활동·에세이를 학년별로", route: "/parents/roadmap", tag: "가이드", views: 562 },
-  { title: "전공별 AP 과목 선택 가이드", desc: "‘○○ 전공이면 AP 뭘?’ 8개 전공별 추천", route: "/parents/ap-guide", tag: "가이드", views: 418 },
+  { title: "코넬 공대 합격 에세이 분석", desc: "실제 합격 에세이를 한 문단씩 — 무엇이 왜 잘 됐는지", route: "/parents/essay", tag: "합격에세이", views: 1000, cost: 25 },
+  { title: "아이비리그 합격 엑스트라 활동 분석", desc: "합격생 활동 10개 + 직접 만드는 법 (책 출간·논문·웹)", route: "/parents/activities", tag: "합격활동", views: 942, cost: 25 },
+  { title: "미국 대학 분석 — 인재상·입시·인턴십", desc: "하버드부터 UC까지, 학교별 인재상·합격률·취업 파이프라인", route: "/parents/colleges", tag: "대학분석", views: 874, cost: 20 },
+  { title: "미국 입시 대회 데이터베이스 (전 분야)", desc: `USABO·NSDA·Scholastic 등 ${COMPETITIONS.length}개 대회 총정리`, route: "/parents/competitions", tag: "자료", views: 731, cost: 0 },
+  { title: "학년별 로드맵 (G6–G12)", desc: "학업·시험·활동·에세이를 학년별로", route: "/parents/roadmap", tag: "가이드", views: 562, cost: 0 },
+  { title: "전공별 AP 과목 선택 가이드", desc: "‘○○ 전공이면 AP 뭘?’ 8개 전공별 추천", route: "/parents/ap-guide", tag: "가이드", views: 418, cost: 0 },
 ];
 
 const NOTICES = [
@@ -172,6 +175,25 @@ export default function ParentsClient() {
     else window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: route } }));
   };
 
+  // Re-render credit lock badges when the balance / unlocked set changes.
+  const [creditTick, setCreditTick] = useState(0);
+  useEffect(() => {
+    const bump = () => setCreditTick((t) => t + 1);
+    window.addEventListener(CREDIT_EVENT, bump);
+    bump(); // sync after mount (localStorage is client-only)
+    return () => window.removeEventListener(CREDIT_EVENT, bump);
+  }, []);
+
+  // Open a resource: free ones go straight through; priced ones unlock with
+  // credits (once), else pop the charge modal.
+  const openResource = (r: { route: string; cost: number; title: string }) => {
+    if (!r.cost || isUnlocked(`res:${r.route}`)) { router.push(r.route); return; }
+    const ok = window.confirm(`'${r.title}'을(를) ${r.cost} 크레딧으로 잠금 해제할까요?`);
+    if (!ok) return;
+    if (spendAndUnlock(`res:${r.route}`, r.cost)) router.push(r.route);
+    else window.dispatchEvent(new CustomEvent("inhero:open-charge"));
+  };
+
   const filtered = query.trim()
     ? questions.filter((q) => (q.title + q.content).toLowerCase().includes(query.trim().toLowerCase()))
     : questions;
@@ -190,6 +212,7 @@ export default function ParentsClient() {
               style={{ flex: 1, border: "2px solid #1a1a1f", borderRight: "none", borderRadius: "8px 0 0 8px", padding: "10px 14px", fontSize: 14, outline: "none" }} />
             <button type="submit" aria-label="검색" style={{ background: "#1a1a1f", color: "#fff", border: "none", borderRadius: "0 8px 8px 0", padding: "0 18px", fontSize: 16, cursor: "pointer" }}>🔍</button>
           </form>
+          <CreditWidget loggedIn={loggedIn} />
           <button onClick={() => go("/parents/me", true)}
             style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#fff", border: `1.5px solid ${GREEN}`, color: GREEN, borderRadius: 9, padding: "9px 16px", fontSize: 13.5, fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 }}
             onMouseEnter={(e) => { const t = e.currentTarget as HTMLElement; t.style.background = GREEN; t.style.color = "#fff"; }}
@@ -329,17 +352,26 @@ export default function ParentsClient() {
 
             {/* 추천 자료 — trending order, view counts visible */}
             <Board title="추천 자료" moreHref="/parents/competitions">
-              {RESOURCES.map((r, i) => (
-                <Link key={r.route} href={r.route} style={{ ...rowStyle, alignItems: "flex-start", flexDirection: "column", gap: 2 }}>
+              {RESOURCES.map((r, i) => {
+                const owned = r.cost > 0 && isUnlocked(`res:${r.route}`);
+                return (
+                <div key={`${r.route}-${creditTick}`} onClick={() => openResource(r)} role="button" tabIndex={0}
+                  style={{ ...rowStyle, alignItems: "flex-start", flexDirection: "column", gap: 2, cursor: "pointer" }}>
                   <span style={{ display: "flex", gap: 6, alignItems: "center", width: "100%" }}>
                     {i === 0 && <span style={{ fontSize: 11 }}>🔥</span>}
                     <span style={{ fontSize: 10.5, fontWeight: 800, color: "#7c3aed", background: "#f3eefe", borderRadius: 4, padding: "1px 6px" }}>{r.tag}</span>
                     <span style={{ color: "#1f2937", fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.title}</span>
+                    {r.cost > 0 && (
+                      owned
+                        ? <span style={{ flexShrink: 0, fontSize: 10.5, fontWeight: 800, color: GREEN, background: "rgba(0,184,95,0.1)", border: `1px solid ${GREEN}`, borderRadius: 999, padding: "1px 8px" }}>✓ 보유</span>
+                        : <span style={{ flexShrink: 0, fontSize: 10.5, fontWeight: 800, color: "#a16207", background: "#fffbeb", border: "1px solid #f1d27a", borderRadius: 999, padding: "1px 8px" }}>🔒 {r.cost} 크레딧</span>
+                    )}
                     <span style={{ marginLeft: "auto", flexShrink: 0, color: "#94a3b8", fontSize: 11.5, fontWeight: 600 }}>👁 {r.views.toLocaleString()}</span>
                   </span>
                   <span style={{ color: "#94a3b8", fontSize: 12.5, paddingLeft: 2 }}>{r.desc}</span>
-                </Link>
-              ))}
+                </div>
+                );
+              })}
             </Board>
           </div>
 
@@ -390,13 +422,18 @@ export default function ParentsClient() {
           {/* Login / signup */}
           <div style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: 18 }}>
             {loggedIn ? (
-              <div style={{ fontSize: 13.5, color: "#334155", textAlign: "center" }}>로그인되어 있습니다. 모든 자료를 이용하세요.</div>
+              <div style={{ textAlign: "center" }}>
+                <div style={{ fontSize: 13.5, color: "#334155", marginBottom: 10 }}>기본 자료는 무료, 프리미엄 자료는 🪙 크레딧으로 잠금 해제하세요.</div>
+                <button onClick={() => window.dispatchEvent(new CustomEvent("inhero:open-charge"))} style={{ width: "100%", background: "#fffbeb", color: "#a16207", border: "1.5px solid #f1d27a", borderRadius: 8, padding: "11px", fontWeight: 800, fontSize: 13.5, cursor: "pointer" }}>
+                  🪙 크레딧 충전하기
+                </button>
+              </div>
             ) : (
               <>
                 <button onClick={() => go("/question-bank", true)} style={{ width: "100%", background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "12px", fontWeight: 800, fontSize: 14, cursor: "pointer", marginBottom: 8 }}>
-                  무료 가입하고 모든 자료 보기
+                  무료 가입 + 웰컴 크레딧 받기
                 </button>
-                <p style={{ fontSize: 11.5, color: "#94a3b8", textAlign: "center", margin: 0 }}>가입 한 번이면 문제·노트·교재 전부 · 카드 필요 없음</p>
+                <p style={{ fontSize: 11.5, color: "#94a3b8", textAlign: "center", margin: 0 }}>가입 시 웰컴 크레딧 20개 · 카드 필요 없음</p>
               </>
             )}
           </div>
@@ -502,6 +539,10 @@ export default function ParentsClient() {
           <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.7, marginBottom: 22 }}>
             Limits부터 무한급수까지, AP 전 범위를 담은 디지털 교재입니다. 표지를 눌러 바로 읽어보세요.
           </p>
+
+          {/* Flip preview of the textbook spreads (typed page + handwritten notes) */}
+          <TextbookFlipPreview />
+
           <div className="tb-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(168px, 1fr))", gap: 16 }}>
             {textbooks.map((b) => (
               <button key={b.slug} onClick={() => go(`/textbooks/${b.slug}`, true)}
