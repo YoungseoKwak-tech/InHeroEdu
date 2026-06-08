@@ -4,6 +4,17 @@ import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { getStoredUserId, getStoredUsername, saveUsername } from "@/lib/username";
 import { useLang } from "@/app/contexts/LanguageContext";
+import { resolveAuthor } from "@/lib/specialAuthors";
+
+/** 👑 crown badge for special author personas (코넬맘). */
+function CrownBadge() {
+  return (
+    <span className="inline-flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded-full"
+      style={{ background: "linear-gradient(135deg,#fef3c7,#fde68a)", color: "#92400e", border: "1px solid #fcd34d" }}>
+      👑 코넬맘
+    </span>
+  );
+}
 
 interface Question {
   id: string;
@@ -105,6 +116,14 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
     // box so typing did nothing. We collect the name at submit time instead.
     loadData();
   }, [id]);
+
+  // Tell the global navbar to hide its cosmic chrome for parent-lounge threads,
+  // so "back/home" keeps the user inside the /parents portal (not the root site).
+  useEffect(() => {
+    const isParentThread = question?.subject === "parent-lounge";
+    window.dispatchEvent(new CustomEvent("inhero:chrome", { detail: { parent: isParentThread } }));
+    return () => { window.dispatchEvent(new CustomEvent("inhero:chrome", { detail: { parent: false } })); };
+  }, [question?.subject]);
 
   async function loadData() {
     setLoading(true);
@@ -270,7 +289,12 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
           <h1 className="text-xl font-extrabold text-gray-900 dark:text-white mb-4">{question.title}</h1>
           <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">{question.content}</p>
           <div className="flex items-center gap-3 mt-5 pt-5 border-t border-gray-100 dark:border-gray-800 text-xs text-gray-400">
-            <span className="font-semibold text-gray-600 dark:text-gray-300">{question.nickname}</span>
+            {(() => {
+              const ra = resolveAuthor({ userId: question.user_id, nickname: question.nickname });
+              return ra.crown
+                ? <CrownBadge />
+                : <span className="font-semibold text-gray-600 dark:text-gray-300">{ra.name}</span>;
+            })()}
             <span>·</span>
             <span>{new Date(question.created_at).toLocaleString(lang === "ko" ? "ko-KR" : "en-US", { dateStyle: "medium", timeStyle: "short" })}</span>
             <span>·</span>
@@ -310,11 +334,14 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
             <div className="space-y-4">
               {answers.map((a) => (
                 <div key={a.id} className={`card p-5 ${a.is_accepted ? "ring-2 ring-emerald-400" : a.is_ai ? "ring-1 ring-primary-200 dark:ring-primary-800" : ""}`}>
+                  {(() => { const ra = resolveAuthor({ userId: a.user_id, nickname: a.nickname }); return (
                   <div className="flex items-center gap-2 mb-3 flex-wrap">
-                    <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white ${a.is_ai ? "bg-primary-500" : a.is_expert ? "bg-emerald-500" : "bg-gray-400"}`}>
-                      {a.is_ai ? "AI" : a.nickname.slice(0, 1).toUpperCase()}
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white ${a.is_ai ? "bg-primary-500" : ra.crown ? "bg-amber-500" : a.is_expert ? "bg-emerald-500" : "bg-gray-400"}`}>
+                      {a.is_ai ? "AI" : ra.crown ? "👑" : ra.name.slice(0, 1).toUpperCase()}
                     </div>
-                    <span className="text-sm font-bold text-gray-900 dark:text-white">{a.nickname}</span>
+                    {ra.crown
+                      ? <CrownBadge />
+                      : <span className="text-sm font-bold text-gray-900 dark:text-white">{ra.name}</span>}
                     {a.is_ai && (
                       <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400">
                         {copy.aiAnswer}
@@ -334,6 +361,7 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
                       {new Date(a.created_at).toLocaleString(lang === "ko" ? "ko-KR" : "en-US", { dateStyle: "short", timeStyle: "short" })}
                     </span>
                   </div>
+                  ); })()}
                   <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">{a.content}</p>
                   <div className="flex items-center gap-3 mt-4 pt-3 border-t border-gray-50 dark:border-gray-800">
                     <button
