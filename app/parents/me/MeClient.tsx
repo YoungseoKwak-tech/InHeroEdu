@@ -126,8 +126,8 @@ export default function MeClient() {
                 <div style={{ fontSize: 14.5, color: "#475569", padding: "11px 0" }}>{email}</div>
               </Field>
 
-              <Field label="학부모 성함">
-                <input value={name} onChange={(e) => setName(e.target.value)} placeholder="예: 김인히" style={inputStyle} />
+              <Field label="아이디">
+                <input value={name} onChange={(e) => setName(e.target.value)} placeholder="아이디" style={inputStyle} />
               </Field>
 
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>

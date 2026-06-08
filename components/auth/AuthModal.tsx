@@ -365,10 +365,10 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '14px' }}>
             {mode === 'signup' && (
               <div>
-                <label style={labelStyle}>{isParent ? '학부모 성함' : ko ? '이름' : 'Name'}</label>
+                <label style={labelStyle}>{isParent ? '아이디' : ko ? '이름' : 'Name'}</label>
                 <input
                   type="text"
-                  placeholder={isParent ? '예: 김인히' : ko ? '홍길동' : 'John Doe'}
+                  placeholder={isParent ? '아이디' : ko ? '홍길동' : 'John Doe'}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   style={inputStyle}
