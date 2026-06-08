@@ -9,13 +9,16 @@
 import { useEffect, useState } from "react";
 import { getBalance, addCredits, CREDIT_EVENT, WELCOME_CREDITS } from "@/lib/credits";
 import { createBrowserClient } from "@/lib/supabase";
+import { checkoutNotice } from "@/lib/legal";
 
 const GREEN = "#00b85f";
 
+// Pricing benchmarked to the student passes at ₩1,550/$: 500 credits ≈ a
+// one-subject pass ($49 ≈ ₩75,000). Round 원 endings for parent checkout.
 const PACKAGES = [
-  { credits: 100, price: "10,000원", note: "단발 충전" },
-  { credits: 250, price: "19,000원 / 월", note: "구독 · 20%+ 더 ", best: true },
-  { credits: 500, price: "45,000원", note: "단발 충전" },
+  { credits: 200, price: "33,000원", note: "단발 충전" },
+  { credits: 500, price: "75,000원", note: "★ 한 과목 전체패스 가치", best: true },
+  { credits: 1000, price: "139,000원", note: "전 과목 가기 전 징검다리" },
 ];
 
 export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
@@ -83,8 +86,15 @@ export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
                 </div>
               ))}
             </div>
-            <p style={{ fontSize: 11.5, color: "#94a3b8", marginTop: 14, lineHeight: 1.6 }}>
-              ※ 데모 충전입니다(결제 연동 전). 가입 시 웰컴 크레딧 {WELCOME_CREDITS}개를 즉시 드리고, 입시 데이터 제공·Q&A 채택 답변으로도 크레딧을 모을 수 있어요.
+            <p style={{ fontSize: 11.5, color: "#64748b", marginTop: 14, lineHeight: 1.7, background: "#f7f8fa", borderRadius: 8, padding: "10px 12px" }}>
+              모든 가격은 <strong>VAT 포함</strong>입니다. 자료실 정기 구독권: 월 29,000원(VAT 포함·매월 자동 결제).<br />
+              ※ {checkoutNotice}
+            </p>
+            <p style={{ fontSize: 11, color: "#94a3b8", marginTop: 10, lineHeight: 1.6 }}>
+              데모 충전입니다(실결제 연동 전). 가입 시 웰컴 크레딧 {WELCOME_CREDITS}개를 즉시 드려요.{" "}
+              <a href="/terms" target="_blank" rel="noopener" style={{ color: "#64748b", textDecoration: "underline" }}>이용약관</a>
+              {" · "}
+              <a href="/refund" target="_blank" rel="noopener" style={{ color: "#64748b", textDecoration: "underline" }}>환불정책</a>
             </p>
           </div>
         </div>

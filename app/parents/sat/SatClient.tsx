@@ -9,6 +9,8 @@ import Link from "next/link";
 import ParentHubShell from "@/components/parents/ParentHubShell";
 import { SAT_FORMS, formCounts } from "@/lib/sat/forms";
 import SatHistory from "@/components/sat/SatHistory";
+import CreditGate from "@/components/parents/CreditGate";
+import { CREDIT_COSTS } from "@/lib/credits";
 
 const GREEN = "#00b85f";
 
@@ -37,7 +39,13 @@ export default function SatClient() {
     >
       <SatHistory theme="light" />
 
-      {/* Test picker */}
+      {/* Test picker — paid (ULTRA tier). Unlock once to access all forms. */}
+      <CreditGate
+        gateKey="parents:sat-mock"
+        cost={CREDIT_COSTS.SAT_MOCK}
+        title="SAT 모의고사 패키지"
+        desc="College Board와 동일한 적응형 디지털 SAT 모의고사 전체 이용권입니다. 한 번 열면 모든 회차를 계속 응시할 수 있어요."
+      >
       <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 28 }}>
         {SAT_FORMS.map((f, i) => {
           const c = formCounts(f);
@@ -61,6 +69,7 @@ export default function SatClient() {
           );
         })}
       </div>
+      </CreditGate>
 
       <div style={{ borderRadius: 14, border: "1px solid #e6e8ec", background: "#f7f8fa", padding: "18px 20px" }}>
         <div style={{ fontSize: 13, fontWeight: 800, color: "#1a1a1f", marginBottom: 10 }}>실제 시험과 동일한 기능</div>

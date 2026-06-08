@@ -36,8 +36,30 @@ const cols = [
 
 export default function Footer() {
   const pathname = usePathname();
-  // Parent hub has its own self-contained portal footer.
-  if (pathname?.startsWith("/parents")) return null;
+  // Parent hub is a white portal — render a light business-info footer (required
+  // for Korean PG/payment review) instead of the cosmic site footer.
+  if (pathname?.startsWith("/parents")) {
+    return (
+      <footer style={{ background: "#fff", borderTop: "1px solid #e2e6ea", position: "relative", zIndex: 10 }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "26px 22px 34px", color: "#64748b", fontSize: 12.5, lineHeight: 1.85 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "4px 14px", fontWeight: 700, color: "#475569", marginBottom: 8 }}>
+            <Link href="/terms" style={{ color: "#475569", textDecoration: "none" }}>이용약관</Link>
+            <span style={{ color: "#cbd5e1" }}>|</span>
+            <Link href="/privacy" style={{ color: "#475569", textDecoration: "none" }}>개인정보처리방침</Link>
+            <span style={{ color: "#cbd5e1" }}>|</span>
+            <Link href="/refund" style={{ color: "#475569", textDecoration: "none" }}>환불정책</Link>
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0 10px" }}>
+            <span>상호명: {merchantInfo.companyName}</span>
+            <span>· 대표자명: {merchantInfo.representative}</span>
+            <span>· 사업자등록번호: {merchantInfo.businessRegistrationNumber}</span>
+            <span>· 이메일: {merchantInfo.email}</span>
+          </div>
+          <div style={{ marginTop: 8, color: "#94a3b8" }}>© {new Date().getFullYear()} InHero Edu. All rights reserved.</div>
+        </div>
+      </footer>
+    );
+  }
   return (
     <footer style={{ background: "#05050F", borderTop: "1px solid rgba(0,255,136,0.06)", position: "relative", zIndex: 10 }}>
       {/* Scanline */}
