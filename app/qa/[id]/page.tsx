@@ -4,7 +4,8 @@ import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { getStoredUserId, getStoredUsername, saveUsername } from "@/lib/username";
 import { useLang } from "@/app/contexts/LanguageContext";
-import { resolveAuthor } from "@/lib/specialAuthors";
+import { getClientSession } from "@/lib/client-auth";
+import { resolveAuthor, specialAuthorForEmail, type SpecialAuthor } from "@/lib/specialAuthors";
 
 /** 👑 crown badge for special author personas (코넬맘). */
 function CrownBadge() {
@@ -110,6 +111,12 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
   const [showPrompt, setShowPrompt] = useState(false);
   const [nameInput, setNameInput]   = useState("");
   const [anon, setAnon]           = useState(false);
+  // Persona for the signed-in account (코넬맘 👑 for the founder) — forces the
+  // author name on everything this account posts.
+  const [persona, setPersona]     = useState<SpecialAuthor | null>(null);
+  useEffect(() => {
+    getClientSession().then((s) => setPersona(specialAuthorForEmail(s?.user?.email))).catch(() => {});
+  }, []);
 
   useEffect(() => {
     // Don't auto-open the name modal on load — its backdrop covered the answer
@@ -172,9 +179,10 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
     // Need a display name unless answering anonymously — prompt now (at submit),
     // so the answer box itself is never blocked by the modal backdrop. Once the
     // user confirms a name we re-enter here with nameOverride and post directly.
-    const resolvedName = anon ? copy.anonymous : (nameOverride || username);
-    if (!anon && !resolvedName) { setShowPrompt(true); return; }
-    const nick = anon ? copy.anonymous : (resolvedName || copy.anonymous);
+    // Founder account always posts as its persona (코넬맘) — skip the name prompt.
+    const resolvedName = persona ? persona.name : anon ? copy.anonymous : (nameOverride || username);
+    if (!persona && !anon && !resolvedName) { setShowPrompt(true); return; }
+    const nick = persona ? persona.name : anon ? copy.anonymous : (resolvedName || copy.anonymous);
     setSubmitting(true);
     try {
       const res  = await fetch("/api/qa/answers", {

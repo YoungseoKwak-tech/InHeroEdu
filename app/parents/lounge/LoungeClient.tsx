@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getClientSession } from "@/lib/client-auth";
+import { resolveAuthor, specialAuthorForEmail } from "@/lib/specialAuthors";
 import { spendAndUnlock } from "@/lib/credits";
 
 const SUBJECT = "parent-lounge";
@@ -53,7 +54,8 @@ export default function LoungeClient() {
     getClientSession().then((s) => {
       if (s?.user) {
         const m = (s.user.user_metadata ?? {}) as Record<string, unknown>;
-        const nickname = (m.handle as string) || (m.name as string) || s.user.email?.split("@")[0] || "학부모";
+        const persona = specialAuthorForEmail(s.user.email);
+        const nickname = persona?.name || (m.handle as string) || (m.name as string) || s.user.email?.split("@")[0] || "학부모";
         setUser({ id: s.user.id, nickname });
         try { setFreeUsed(Number(localStorage.getItem(postCountKey(s.user.id)) || "0")); } catch { /* ignore */ }
       }
@@ -169,7 +171,10 @@ export default function LoungeClient() {
                   <div style={{ minWidth: 0, flex: 1 }}>
                     <p style={{ fontSize: 15, fontWeight: 700, margin: "0 0 4px", color: "#1a1a1f", lineHeight: 1.4 }}>{q.title}</p>
                     <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.55, margin: "0 0 8px", overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{q.content}</p>
-                    <div style={{ fontSize: 12, color: "#94a3b8" }}>{q.nickname} · {timeAgo(q.created_at)} · 조회 {q.view_count}</div>
+                    <div style={{ fontSize: 12, color: "#94a3b8" }}>
+                      {resolveAuthor({ nickname: q.nickname }).crown
+                        ? <span style={{ fontWeight: 800, color: "#92400e" }}>👑 코넬맘</span>
+                        : q.nickname} · {timeAgo(q.created_at)} · 조회 {q.view_count}</div>
                   </div>
                 </article>
               </Link>
