@@ -195,28 +195,40 @@ export default function ParentsClient() {
     return () => window.removeEventListener(CREDIT_EVENT, bump);
   }, []);
 
-  // Open a resource: login required first; free ones then go through, priced
-  // ones unlock with credits (once), else pop the charge modal.
-  const openResource = (r: { route: string; cost: number; title: string }) => {
-    if (!loggedIn) { requireLogin(r.route); return; }
-    if (!r.cost || isUnlocked(`res:${r.route}`)) { router.push(r.route); return; }
-    const ok = window.confirm(`'${r.title}'을(를) ${r.cost} 크레딧으로 잠금 해제할까요?`);
-    if (!ok) return;
-    if (spendAndUnlock(`res:${r.route}`, r.cost)) router.push(r.route);
-    else window.dispatchEvent(new CustomEvent("inhero:open-charge"));
-  };
-
-  // Digital textbooks (1,000p each): login required, then 500 credits (HEAVY
-  // tier — one-subject-pass value) to unlock each book.
+  // Unified credit unlock: login required first; free / already-unlocked go
+  // straight through, otherwise a styled confirm modal asks before spending.
+  const MATERIAL_COST = CREDIT_COSTS.NOTE_UNIT; // 아이비리그 학생 자료 = 50 크레딧
   const BOOK_COST = CREDIT_COSTS.TEXTBOOK;
+  const [gate, setGate] = useState<null | { title: string; cost: number; onConfirm: () => void }>(null);
+
+  function requestUnlock(opts: { key: string; cost: number; title: string; proceed: () => void; loginRedirect: string }) {
+    if (!loggedIn) { requireLogin(opts.loginRedirect); return; }
+    if (!opts.cost || isUnlocked(opts.key)) { opts.proceed(); return; }
+    setGate({
+      title: opts.title,
+      cost: opts.cost,
+      onConfirm: () => {
+        setGate(null);
+        if (spendAndUnlock(opts.key, opts.cost)) opts.proceed();
+        else window.dispatchEvent(new CustomEvent("inhero:open-charge"));
+      },
+    });
+  }
+
+  const openResource = (r: { route: string; cost: number; title: string }) =>
+    requestUnlock({ key: `res:${r.route}`, cost: r.cost, title: r.title, proceed: () => router.push(r.route), loginRedirect: r.route });
+
   const openBook = (b: { slug: string; title: string }) => {
     const route = `/textbooks/${b.slug}`;
-    if (!loggedIn) { requireLogin(route); return; }
-    if (isUnlocked(`book:${b.slug}`)) { router.push(route); return; }
-    const ok = window.confirm(`'${b.title}'을(를) ${BOOK_COST} 크레딧으로 잠금 해제할까요?`);
-    if (!ok) return;
-    if (spendAndUnlock(`book:${b.slug}`, BOOK_COST)) router.push(route);
-    else window.dispatchEvent(new CustomEvent("inhero:open-charge"));
+    requestUnlock({ key: `book:${b.slug}`, cost: BOOK_COST, title: b.title, proceed: () => router.push(route), loginRedirect: route });
+  };
+
+  const openMaterial = (m: Material) => {
+    const proceed = () => {
+      if (isLargeFile(m.fileSize)) window.location.href = downloadHref(m.attachmentUrl, m.title);
+      else router.push(`/library/${m.id}/read`);
+    };
+    requestUnlock({ key: `material:${m.id}`, cost: MATERIAL_COST, title: m.title, proceed, loginRedirect: `/library/${m.id}/read` });
   };
 
   const filtered = query.trim()
@@ -226,6 +238,21 @@ export default function ParentsClient() {
   return (
     <div style={{ position: "relative", zIndex: 10, minHeight: "100vh", background: "#eef1f4", color: "#1a1a1f", cursor: "auto", fontFamily: "'Inter', -apple-system, sans-serif" }}>
       <ReferralPrompt loggedIn={loggedIn} />
+      {gate && (
+        <div onClick={() => setGate(null)} style={{ position: "fixed", inset: 0, zIndex: 220, background: "rgba(15,23,42,0.55)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: "min(400px, 96vw)", background: "#fff", borderRadius: 16, padding: "26px 24px", boxShadow: "0 20px 60px rgba(0,0,0,0.3)", textAlign: "center" }}>
+            <p style={{ fontSize: 30, margin: "0 0 8px" }}>🔓</p>
+            <h3 style={{ fontSize: 18, fontWeight: 850, margin: "0 0 8px", color: "#1a1a1f" }}>여기에 {gate.cost} 크레딧을 사용하시겠습니까?</h3>
+            <p style={{ fontSize: 13.5, color: "#64748b", lineHeight: 1.6, margin: "0 0 18px" }}>
+              <strong style={{ color: "#1a1a1f" }}>{gate.title}</strong><br />한 번 잠금 해제하면 계속 볼 수 있어요.
+            </p>
+            <div style={{ display: "flex", gap: 10 }}>
+              <button onClick={() => setGate(null)} style={{ flex: 1, background: "#fff", border: "1.5px solid #e2e6ea", color: "#64748b", borderRadius: 10, padding: "12px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>취소</button>
+              <button onClick={gate.onConfirm} style={{ flex: 2, background: GREEN, color: "#fff", border: "none", borderRadius: 10, padding: "12px", fontWeight: 800, fontSize: 14, cursor: "pointer" }}>🪙 {gate.cost} 크레딧 사용</button>
+            </div>
+          </div>
+        </div>
+      )}
       {/* ── Top bar ── */}
       <header style={{ background: "#fff", borderBottom: "1px solid #e2e6ea" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "16px 20px", display: "flex", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
@@ -565,6 +592,12 @@ export default function ParentsClient() {
                       {!!m.totalPages && m.totalPages > 1 && (
                         <span style={{ position: "absolute", top: 9, right: 9, fontSize: 10.5, fontWeight: 900, color: "#fff", background: "#dc2626", borderRadius: 6, padding: "3px 8px", boxShadow: "0 2px 8px rgba(220,38,38,0.4)" }}>📄 {m.totalPages}p</span>
                       )}
+                      <span style={{ position: "absolute", bottom: 9, right: 9, fontSize: 10.5, fontWeight: 800, borderRadius: 999, padding: "2px 9px",
+                        color: isUnlocked(`material:${m.id}`) ? "#fff" : "#a16207",
+                        background: isUnlocked(`material:${m.id}`) ? GREEN : "rgba(255,251,235,0.95)",
+                        border: isUnlocked(`material:${m.id}`) ? "none" : "1px solid #f1d27a" }}>
+                        {isUnlocked(`material:${m.id}`) ? "✓ 보유" : `🔒 ${MATERIAL_COST} 크레딧`}
+                      </span>
                     </div>
                     <div style={{ padding: "12px 14px 14px" }}>
                       <div style={{ fontSize: 13.5, fontWeight: 800, color: "#1a1a1f", lineHeight: 1.35, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", minHeight: 37 }}>{m.title}</div>
@@ -576,10 +609,11 @@ export default function ParentsClient() {
                     </div>
                   </article>
                 );
-                return large ? (
-                  <a key={m.id} href={downloadHref(m.attachmentUrl, m.title)} style={{ textDecoration: "none", color: "inherit" }}>{inner}</a>
-                ) : (
-                  <Link key={m.id} href={`/library/${m.id}/read`} style={{ textDecoration: "none", color: "inherit" }}>{inner}</Link>
+                return (
+                  <button key={`${m.id}-${creditTick}`} onClick={() => openMaterial(m)}
+                    style={{ textAlign: "left", border: "none", background: "none", padding: 0, cursor: "pointer", color: "inherit", display: "block", width: "100%" }}>
+                    {inner}
+                  </button>
                 );
               })}
             </div>
@@ -645,6 +679,33 @@ export default function ParentsClient() {
           </div>
         </div>
       </section>
+
+      {/* ── Footer: KakaoTalk channel contact ── */}
+      <footer style={{ background: "#1a1a1f", color: "#fff", borderTop: "1px solid #e2e6ea" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto", padding: "40px 20px 44px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, flexWrap: "wrap" }}>
+          <div style={{ minWidth: 240 }}>
+            <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 22, letterSpacing: "-0.03em", marginBottom: 8 }}>In<span style={{ color: GREEN }}>Hero</span> <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 600 }}>인히어로에듀</span></div>
+            <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.62)", lineHeight: 1.7, margin: 0, maxWidth: 420 }}>
+              문의사항이나 문제가 있으시면 카카오톡 채널로 연락 주세요. <strong style={{ color: "#fff" }}>늦어도 24시간 안에 답장</strong>드립니다.
+            </p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-start" }}>
+            <a href="http://pf.kakao.com/_ZchdX/chat" target="_blank" rel="noopener noreferrer"
+              style={{ display: "inline-flex", alignItems: "center", gap: 9, background: "#FEE500", color: "#191600", textDecoration: "none", borderRadius: 12, padding: "13px 24px", fontSize: 15, fontWeight: 800, boxShadow: "0 8px 22px rgba(254,229,0,0.22)" }}>
+              <span style={{ fontSize: 18 }}>💬</span> 카카오톡으로 문의하기
+            </a>
+            <a href="http://pf.kakao.com/_ZchdX" target="_blank" rel="noopener noreferrer"
+              style={{ fontSize: 12.5, color: "#cbd5e1", textDecoration: "none" }}>
+              채널 추가하기 · @inhero →
+            </a>
+          </div>
+        </div>
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+          <div style={{ maxWidth: 1180, margin: "0 auto", padding: "14px 20px", fontSize: 11.5, color: "rgba(255,255,255,0.4)" }}>
+            © {new Date().getFullYear()} InHero 인히어로에듀 · 유학·미국입시 자료실
+          </div>
+        </div>
+      </footer>
 
       <style>{`
         @keyframes ivyFlip { from { transform: rotateY(-90deg); opacity: 0; } to { transform: rotateY(0); opacity: 1; } }
