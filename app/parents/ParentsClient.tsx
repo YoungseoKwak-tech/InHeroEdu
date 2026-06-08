@@ -375,6 +375,17 @@ export default function ParentsClient() {
             <span style={{ flexShrink: 0, background: "#fff", color: "#0e7c54", borderRadius: 9, padding: "11px 20px", fontSize: 14, fontWeight: 800, whiteSpace: "nowrap" }}>진단 시작 →</span>
           </button>
 
+          {/* 자료요청 & 피드백 — submit board CTA (not a nav tab) */}
+          <button onClick={() => router.push("/parents/feedback")}
+            style={{ textAlign: "left", cursor: "pointer", borderRadius: 16, padding: "20px 22px", background: "#fff", border: "1.5px solid #e2e6ea", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+            <span style={{ fontSize: 34, lineHeight: 1 }}>📮</span>
+            <span style={{ flex: 1, minWidth: 200 }}>
+              <span style={{ display: "block", fontSize: 17, fontWeight: 800, letterSpacing: "-0.01em", color: "#1a1a1f" }}>자료요청 &amp; 피드백</span>
+              <span style={{ display: "block", fontSize: 13, color: "#64748b", marginTop: 4, lineHeight: 1.55 }}>필요한 AP 과목·자료, 개선 아이디어, 오류를 남기면 목록에 바로 반영됩니다.</span>
+            </span>
+            <span style={{ flexShrink: 0, background: GREEN, color: "#fff", borderRadius: 9, padding: "10px 18px", fontSize: 13.5, fontWeight: 800, whiteSpace: "nowrap" }}>요청하기 →</span>
+          </button>
+
           {/* Boards */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="board-grid">
             {/* 입시 Q&A */}
