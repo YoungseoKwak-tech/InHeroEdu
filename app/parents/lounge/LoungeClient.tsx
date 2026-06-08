@@ -13,8 +13,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getClientSession } from "@/lib/client-auth";
+import { spendAndUnlock } from "@/lib/credits";
 
 const SUBJECT = "parent-lounge";
+const POST_COST = 5; // 질문 등록 1건당 크레딧
 
 interface Question {
   id: string;
@@ -74,6 +76,9 @@ export default function LoungeClient() {
 
   async function submit() {
     if (!user || !title.trim() || !content.trim() || posting) return;
+    // 질문 등록은 5크레딧 (등록 1건마다 고유 키로 차감 → 매번 부과 + 계정 동기화)
+    const paid = spendAndUnlock(`qa-post:${user.id}:${Date.now()}`, POST_COST);
+    if (!paid) { window.dispatchEvent(new Event("inhero:open-charge")); return; }
     setPosting(true);
     try {
       const res = await fetch("/api/qa/questions", {
@@ -126,7 +131,7 @@ export default function LoungeClient() {
               <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
                 <button onClick={submit} disabled={posting || !title.trim() || !content.trim()}
                   style={{ background: posting || !title.trim() || !content.trim() ? "#cbd5e1" : "#1a1a1f", color: "#fff", border: "none", borderRadius: 8, padding: "10px 22px", fontWeight: 800, fontSize: 13.5, cursor: posting ? "default" : "pointer" }}>
-                  {posting ? "등록 중…" : "질문 등록"}
+                  {posting ? "등록 중…" : `질문 등록 (${POST_COST}크레딧)`}
                 </button>
               </div>
             </div>
