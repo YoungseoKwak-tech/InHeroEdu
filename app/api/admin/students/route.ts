@@ -93,7 +93,12 @@ export async function GET(req: Request) {
     evolutionMap.set(userId, existing)
   }
 
-  const studentData = users.map((u) => {
+  // Newest signups first.
+  const usersByNewest = [...users].sort(
+    (a, b) => new Date(b.created_at ?? 0).getTime() - new Date(a.created_at ?? 0).getTime()
+  )
+
+  const studentData = usersByNewest.map((u) => {
     const authProfile = normalizeProfileFields(u.user_metadata ?? {})
     const mergedProfile = mergeProfileFields(
       (profileMap.get(u.id) as Parameters<typeof mergeProfileFields>[0]) ?? null,

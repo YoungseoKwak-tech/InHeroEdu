@@ -132,6 +132,11 @@ export default function AdminStudentsPage() {
                     )}
                   </div>
                   <div className="mt-2 flex items-center gap-2 flex-wrap">
+                    {s.createdAt && (
+                      <span className="text-[11px] px-2 py-1 rounded-full" style={{ color: '#C4B5FD', background: 'rgba(167,139,250,0.14)' }} title="가입일">
+                        🆕 {formatDate(s.createdAt)}
+                      </span>
+                    )}
                     {s.profile?.grade && (
                       <span className="text-[11px] px-2 py-1 rounded-full" style={{ color: '#C9A84C', background: 'rgba(201,168,76,0.12)' }}>
                         {s.profile.grade}
