@@ -79,6 +79,16 @@ import { AP_CALC_AB_U1B_KO } from "./ap-calc-ab-u1b";
 import { AP_CALC_AB_U2A_KO } from "./ap-calc-ab-u2a";
 import { AP_CALC_AB_U2B_KO } from "./ap-calc-ab-u2b";
 import { AP_CALC_AB_U3A_KO } from "./ap-calc-ab-u3a";
+import { AP_CALC_AB_U3B_KO } from "./ap-calc-ab-u3b";
+import { AP_CALC_AB_U4A_KO } from "./ap-calc-ab-u4a";
+import { AP_CALC_AB_U4B_KO } from "./ap-calc-ab-u4b";
+import { AP_CALC_AB_U5A_KO } from "./ap-calc-ab-u5a";
+import { AP_CALC_AB_U5B_KO } from "./ap-calc-ab-u5b";
+import { AP_CALC_AB_U6A_KO } from "./ap-calc-ab-u6a";
+import { AP_CALC_AB_U6B_KO } from "./ap-calc-ab-u6b";
+import { AP_CALC_AB_U7A_KO } from "./ap-calc-ab-u7a";
+import { AP_CALC_AB_U7B_KO } from "./ap-calc-ab-u7b";
+import { AP_CALC_AB_U8A_KO } from "./ap-calc-ab-u8a";
 
 export const REGISTRY_A: CoreNote[] = [
   ...AP_CHEM_U1A_KO,
@@ -154,4 +164,14 @@ export const REGISTRY_A: CoreNote[] = [
   ...AP_CALC_AB_U2A_KO,
   ...AP_CALC_AB_U2B_KO,
   ...AP_CALC_AB_U3A_KO,
+  ...AP_CALC_AB_U3B_KO,
+  ...AP_CALC_AB_U4A_KO,
+  ...AP_CALC_AB_U4B_KO,
+  ...AP_CALC_AB_U5A_KO,
+  ...AP_CALC_AB_U5B_KO,
+  ...AP_CALC_AB_U6A_KO,
+  ...AP_CALC_AB_U6B_KO,
+  ...AP_CALC_AB_U7A_KO,
+  ...AP_CALC_AB_U7B_KO,
+  ...AP_CALC_AB_U8A_KO,
 ];
