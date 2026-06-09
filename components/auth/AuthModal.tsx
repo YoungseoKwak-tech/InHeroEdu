@@ -131,46 +131,47 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
           phone,
           marketing_consent: marketingConsent,
         })
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: { data: profile },
+        // Create the account server-side (email-confirmed, no confirmation email
+        // sent) so signup isn't blocked by Supabase's email send rate limit.
+        const signupRes = await fetch('/api/auth/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password, profile }),
         })
 
-        if (error) throw error
-
-        if (data.user && data.user.identities && data.user.identities.length === 0) {
+        if (signupRes.status === 409) {
           setError(ko ? '이미 가입된 이메일이에요. 로그인해주세요.' : 'Email already registered. Please log in.')
           setMode('login')
           setLoading(false)
           return
         }
-
-        if (data.session) {
-          const profileRes = await authFetch('/api/profile', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(profile),
-          })
-
-          if (!profileRes.ok) {
-            setSuccess(
-              ko
-                ? '가입은 완료됐지만 프로필 저장 중 문제가 생겼어요. 다시 로그인하면 자동으로 복구됩니다.'
-                : 'Signup completed, but profile sync needs one more login to finish.'
-            )
-          }
+        if (!signupRes.ok) {
+          const j = await signupRes.json().catch(() => ({}))
+          throw new Error(j.error || (ko ? '가입에 실패했어요. 잠시 후 다시 시도해주세요.' : 'Signup failed. Please try again.'))
         }
 
-        if (data.session) {
-          setSuccess(ko ? '✅ 가입 완료! 바로 시작할 수 있어요.' : '✅ Signup complete! You can start right away.')
-          setTimeout(() => {
-            onClose()
-            window.location.reload()
-          }, 800)
-        } else {
-          setSuccess(ko ? '✅ 가입 완료! 이메일을 확인해주세요.' : '✅ Check your email to confirm!')
+        // Account is confirmed — sign in immediately to establish a session.
+        const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
+        if (signInError) throw signInError
+
+        const profileRes = await authFetch('/api/profile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(profile),
+        })
+        if (!profileRes.ok) {
+          setSuccess(
+            ko
+              ? '가입은 완료됐지만 프로필 저장 중 문제가 생겼어요. 다시 로그인하면 자동으로 복구됩니다.'
+              : 'Signup completed, but profile sync needs one more login to finish.'
+          )
         }
+
+        setSuccess(ko ? '✅ 가입 완료! 바로 시작할 수 있어요.' : '✅ Signup complete! You can start right away.')
+        setTimeout(() => {
+          onClose()
+          window.location.reload()
+        }, 800)
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password })
         if (error) throw error
