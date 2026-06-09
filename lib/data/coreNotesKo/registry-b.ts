@@ -35,6 +35,19 @@ import { IB_PSYCHOLOGY_U2_KO } from "./ib-psychology-u2";
 import { IB_ESS_U2_KO } from "./ib-ess-u2";
 import { IB_CS_U2_KO } from "./ib-cs-u2";
 
+// IB Diploma Programme — Unit 3 ────────────────────────────────
+import { IB_BIOLOGY_U3_KO } from "./ib-biology-u3";
+import { IB_CHEMISTRY_U3_KO } from "./ib-chemistry-u3";
+import { IB_PHYSICS_U3_KO } from "./ib-physics-u3";
+import { IB_MATH_AA_U3_KO } from "./ib-math-aa-u3";
+import { IB_MATH_AI_U3_KO } from "./ib-math-ai-u3";
+import { IB_ENGLISH_U3_KO } from "./ib-english-u3";
+import { IB_HISTORY_U3_KO } from "./ib-history-u3";
+import { IB_ECONOMICS_U3_KO } from "./ib-economics-u3";
+import { IB_PSYCHOLOGY_U3_KO } from "./ib-psychology-u3";
+import { IB_ESS_U3_KO } from "./ib-ess-u3";
+import { IB_CS_U3_KO } from "./ib-cs-u3";
+
 export const REGISTRY_B: CoreNote[] = [
   ...HONORS_BIOLOGY_U1_KO,
   ...IB_BIOLOGY_U1_KO,
@@ -59,4 +72,15 @@ export const REGISTRY_B: CoreNote[] = [
   ...IB_PSYCHOLOGY_U2_KO,
   ...IB_ESS_U2_KO,
   ...IB_CS_U2_KO,
+  ...IB_BIOLOGY_U3_KO,
+  ...IB_CHEMISTRY_U3_KO,
+  ...IB_PHYSICS_U3_KO,
+  ...IB_MATH_AA_U3_KO,
+  ...IB_MATH_AI_U3_KO,
+  ...IB_ENGLISH_U3_KO,
+  ...IB_HISTORY_U3_KO,
+  ...IB_ECONOMICS_U3_KO,
+  ...IB_PSYCHOLOGY_U3_KO,
+  ...IB_ESS_U3_KO,
+  ...IB_CS_U3_KO,
 ];
