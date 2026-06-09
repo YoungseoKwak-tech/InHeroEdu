@@ -39,6 +39,13 @@ const NICEPAY_SDK_URL = "https://pay.nicepay.co.kr/v1/js/";
 const nicePayPrimary = process.env.NEXT_PUBLIC_NICEPAY_ENABLED !== "false";
 const nicePaySupportedServices = new Set(["one_subject", "all_subjects"]);
 
+// No payment provider is wired (both NicePay + PayPal public keys empty) →
+// render a clean "준비 중" state instead of a button that 503s on click.
+const PAYMENT_CONFIGURED = Boolean(
+  (process.env.NEXT_PUBLIC_NICEPAY_CLIENT_ID || "").trim() ||
+  (process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "").trim()
+);
+
 declare global {
   interface Window {
     AUTHNICE?: {
@@ -247,6 +254,25 @@ export default function PaymentButton({
     const customer = await getSignedInCustomer();
     if (!customer) return;
     await launchPayPal(customer.userName, customer.userEmail);
+  }
+
+  // Payment not configured yet → clean disabled state, no failing checkout.
+  if (!PAYMENT_CONFIGURED) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: 8, width: style?.width ?? "auto" }}>
+        <button
+          type="button"
+          disabled
+          className={style ? undefined : className}
+          style={style ? { ...style, opacity: 0.55, cursor: "not-allowed" } : { opacity: 0.55, cursor: "not-allowed" }}
+        >
+          결제 준비 중 · Coming soon
+        </button>
+        <div style={{ color: "rgba(255,255,255,0.42)", fontSize: 11, lineHeight: 1.45, fontFamily: "ui-monospace, monospace" }}>
+          결제 연동 준비 중입니다. 곧 이용하실 수 있어요.
+        </div>
+      </div>
+    );
   }
 
   const loading = loadingProvider !== null;
