@@ -50,22 +50,6 @@ const COVERS = [
   ["상황 진단", "내 아이가 지금 어디서 막혀 있는지 정확히 짚는 5가지 질문"],
 ];
 
-// Real messages from students/parents (transcribed; identities withheld).
-const TESTIMONIALS: { quote: string; who: string; tag?: string }[] = [
-  { quote: "해외입시를 제가 잘 몰라서 앞이 캄캄했는데 한 줄기 빛을 만난 것 같아요. 너무 감사해요 🥹", who: "과외 어머님", tag: "학부모" },
-  { quote: "정말 하버드에 입학하게 되어 실감이 나지 않습니다.. 영서님 덕분에 정말 입학하게 되어서 감사하게 생각합니다.", who: "하버드 합격생 어머님", tag: "🎓 하버드 합격" },
-  { quote: "쌤 붙었어요!!  진짜 너무 축하해ㅠㅠ!! 이거 경쟁률도 이번에 쎘다던데 너무 잘됐다!", who: "프로그램 합격 학생", tag: "합격" },
-  { quote: "쌤!!! 덕분에 calculus BC 5점 나왔어요!!! 넘 감사해요 ㅠㅠ", who: "AP Calculus BC 학생", tag: "AP 5점" },
-  { quote: "AP 캠 5점 나왔습니다!! 학원가에서 이름난 왠만한 선생님들 수업보다 훨씬 논리적이고 귀에 쏙쏙 박힌다고 아이가 극찬을 하네요 ㅠㅠ", who: "AP 수강생 어머님", tag: "AP 5점" },
-  { quote: "선생님 덕분에 내일부터 삼성병원 봉사활동을 시작하게 되었습니다. 정말 감사드립니다 😊", who: "활동 지도 어머님", tag: "활동" },
-  { quote: "아이가 선생님 덕분에 mathcounts 팀에 들어갔어요. 잘 가르쳐 주셔서 정말 감사드려요 💚", who: "Mathcounts 학생 어머님", tag: "대회" },
-  { quote: "선생님께서 알아봐 주신 덕분에 존스홉킨스 프로그램도 참여하게 되어 아이에게 좋은 자극과 경험이 될 것 같습니다. 늘 감사드립니다 😊🙏", who: "JHU 프로그램 어머님", tag: "프로그램" },
-  { quote: "아이가 선생님 수업 어떤지 물어보면 엄지척 👍 제스처를 보여주더라구요. 꼼꼼하게 신경 써 주셔서 정말 감사드립니다 🙏", who: "과외 어머님", tag: "학부모" },
-  { quote: "제가 어려운 한국 단어에 약해서 이해 못 할 때에도 당황하지 않으시고 영어로 잘 설명해주셨어요. 되게 착하시고 다방면으로 만족스러운 선생님입니다. ⭐ 5.0", who: "유학 컨설팅 후기", tag: "컨설팅 ⭐5.0" },
-  { quote: "마치 교수님의 수업을 참관하신 것처럼 정확히 잘 정리해주셨네요.", who: "과외 어머님", tag: "학부모" },
-  { quote: "어싸인먼트는 덕분에 100/100으로 마무리하겠습니다. 감사합니다.", who: "수강 학생", tag: "성적" },
-];
-
 const CURRICULUM: { period: string; title: string; points: string[] }[] = [
   { period: "1교시", title: "상황 진단: 내 아이는 지금 어디 있는가", points: [
     "나 자신을 하나의 시스템으로 보는 법 (입력 → 처리 → 출력)",
@@ -367,18 +351,6 @@ export default function SeminarClient() {
             // eslint-disable-next-line @next/next/no-img-element
             <img key={i} src={src} alt={`학부모·학생 실제 후기 ${i + 1}`} loading="lazy"
               style={{ width: "100%", height: "auto", borderRadius: 14, border: "1px solid #e6ebf0", display: "block", boxShadow: "0 4px 16px rgba(16,24,40,0.06)" }} />
-          ))}
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 12, marginTop: 16 }}>
-          {TESTIMONIALS.map((t, i) => (
-            <div key={i} style={{ background: "#fff", border: "1px solid #e6ebf0", borderRadius: 14, padding: "18px 18px", display: "flex", flexDirection: "column" }}>
-              {t.tag && (
-                <span style={{ alignSelf: "flex-start", fontSize: 11, fontWeight: 800, color: "#047a45", background: "#e9fbf2", borderRadius: 6, padding: "3px 9px", marginBottom: 10 }}>{t.tag}</span>
-              )}
-              <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.8, color: INK, whiteSpace: "pre-line" }}>“{t.quote}”</p>
-              <span style={{ marginTop: 12, fontSize: 12.5, color: SUB, fontWeight: 600 }}>— {t.who}</span>
-            </div>
           ))}
         </div>
         <p style={{ fontSize: 12, color: SUB, marginTop: 14, lineHeight: 1.6 }}>※ 개인정보 보호를 위해 학생·학부모 정보는 비공개 처리했습니다.</p>
