@@ -356,11 +356,21 @@ export default function SeminarClient() {
         </div>
       </section>
 
-      {/* Real testimonials — 학부모·학생 후기 */}
+      {/* Real testimonials — 학부모·학생 후기 (실제 카톡 캡처 + 텍스트) */}
       <section style={{ maxWidth: 860, margin: "0 auto", padding: "46px 20px 10px" }}>
         <h2 style={{ fontSize: 25, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>실제 학부모·학생 후기</h2>
         <p style={{ fontSize: 14.5, color: SUB, marginTop: 8 }}>직접 지도한 학생·학부모님들이 보내주신 실제 메시지입니다.</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 12, marginTop: 22 }}>
+
+        {/* Real KakaoTalk screenshots */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 16, marginTop: 22 }}>
+          {["/parents-docs/reviews/review-1.png", "/parents-docs/reviews/review-2.png"].map((src, i) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={i} src={src} alt={`학부모·학생 실제 후기 ${i + 1}`} loading="lazy"
+              style={{ width: "100%", height: "auto", borderRadius: 14, border: "1px solid #e6ebf0", display: "block", boxShadow: "0 4px 16px rgba(16,24,40,0.06)" }} />
+          ))}
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 12, marginTop: 16 }}>
           {TESTIMONIALS.map((t, i) => (
             <div key={i} style={{ background: "#fff", border: "1px solid #e6ebf0", borderRadius: 14, padding: "18px 18px", display: "flex", flexDirection: "column" }}>
               {t.tag && (
