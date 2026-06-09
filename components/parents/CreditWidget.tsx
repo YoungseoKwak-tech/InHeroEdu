@@ -17,9 +17,10 @@ const GREEN = "#00b85f";
 
 // Real checkout is on when NicePay is enabled; otherwise the buttons fall back
 // to the demo top-up so the flow still works in dev.
-// Match the project convention (PaymentButton): NicePay is on unless the flag
-// is explicitly "false".
-const NICEPAY_ENABLED = process.env.NEXT_PUBLIC_NICEPAY_ENABLED !== "false";
+// Demo charge mode by default — real NicePay payment only when the flag is
+// explicitly "true". (Production NicePay credentials are empty, so defaulting
+// to "on" surfaced a "결제 준비 실패" error; demo mode is clean until keys are set.)
+const NICEPAY_ENABLED = process.env.NEXT_PUBLIC_NICEPAY_ENABLED === "true";
 const NICEPAY_SDK_URL = "https://pay.nicepay.co.kr/v1/js/";
 
 function loadNicePayScript(): Promise<void> {
@@ -130,7 +131,7 @@ export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
                 <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 12, border: `1.5px solid ${p.best ? GREEN : "#e6e8ec"}`, borderRadius: 12, padding: "12px 14px", background: p.best ? "rgba(0,184,95,0.05)" : "#fff" }}>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 15, fontWeight: 800, color: "#1a1a1f" }}>🪙 {p.credits} 크레딧 {p.best && <span style={{ fontSize: 10.5, fontWeight: 800, color: "#fff", background: GREEN, borderRadius: 999, padding: "2px 8px", marginLeft: 4 }}>BEST</span>}</div>
-                    <div style={{ fontSize: 12.5, color: "#64748b", marginTop: 2 }}>{p.krw.toLocaleString()}원 · {p.note}</div>
+                    <div style={{ fontSize: 12.5, color: "#64748b", marginTop: 2 }}>{NICEPAY_ENABLED ? `${p.krw.toLocaleString()}원 · ${p.note}` : `데모 모드 · 무료 충전 · ${p.note}`}</div>
                   </div>
                   <button onClick={() => buyPackage(p)} disabled={buying === p.id}
                     style={{ background: buying === p.id ? "#9ca3af" : GREEN, color: "#fff", border: "none", borderRadius: 9, padding: "9px 16px", fontSize: 13, fontWeight: 800, cursor: buying === p.id ? "default" : "pointer", whiteSpace: "nowrap" }}>
@@ -140,15 +141,23 @@ export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
               ))}
             </div>
             {err && <p style={{ fontSize: 12.5, color: "#dc2626", marginTop: 10 }}>{err}</p>}
-            <p style={{ fontSize: 11.5, color: "#64748b", marginTop: 14, lineHeight: 1.7, background: "#f7f8fa", borderRadius: 8, padding: "10px 12px" }}>
-              모든 가격은 <strong>VAT 포함</strong>입니다. 자료실 정기 구독권: 월 29,000원(VAT 포함·매월 자동 결제).<br />
-              ※ {checkoutNotice}
-            </p>
+            {NICEPAY_ENABLED && (
+              <p style={{ fontSize: 11.5, color: "#64748b", marginTop: 14, lineHeight: 1.7, background: "#f7f8fa", borderRadius: 8, padding: "10px 12px" }}>
+                모든 가격은 <strong>VAT 포함</strong>입니다. 자료실 정기 구독권: 월 29,000원(VAT 포함·매월 자동 결제).<br />
+                ※ {checkoutNotice}
+              </p>
+            )}
             <p style={{ fontSize: 11, color: "#94a3b8", marginTop: 10, lineHeight: 1.6 }}>
-              {NICEPAY_ENABLED ? "NicePay 안전 결제(카드)로 진행됩니다." : "데모 충전입니다(실결제 비활성)."} 가입 시 웰컴 크레딧 {WELCOME_CREDITS}개를 즉시 드려요.{" "}
-              <a href="/terms" target="_blank" rel="noopener" style={{ color: "#64748b", textDecoration: "underline" }}>이용약관</a>
-              {" · "}
-              <a href="/refund" target="_blank" rel="noopener" style={{ color: "#64748b", textDecoration: "underline" }}>환불정책</a>
+              {NICEPAY_ENABLED ? (
+                <>
+                  NicePay 안전 결제(카드)로 진행됩니다. 가입 시 웰컴 크레딧 {WELCOME_CREDITS}개를 즉시 드려요.{" "}
+                  <a href="/terms" target="_blank" rel="noopener" style={{ color: "#64748b", textDecoration: "underline" }}>이용약관</a>
+                  {" · "}
+                  <a href="/refund" target="_blank" rel="noopener" style={{ color: "#64748b", textDecoration: "underline" }}>환불정책</a>
+                </>
+              ) : (
+                <>현재 <strong>데모 충전 모드</strong>입니다 — 버튼을 누르면 크레딧이 무료로 충전됩니다(실결제 없음). 가입 시 웰컴 크레딧 {WELCOME_CREDITS}개를 즉시 드려요.</>
+              )}
             </p>
           </div>
         </div>
