@@ -355,22 +355,6 @@ export default function SeminarClient() {
         </div>
       </section>
 
-      {/* Real testimonials — 학부모·학생 후기 (실제 카톡 캡처 + 텍스트) */}
-      <section style={{ maxWidth: 860, margin: "0 auto", padding: "46px 20px 10px" }}>
-        <h2 style={{ fontSize: 25, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>실제 학부모·학생 후기</h2>
-        <p style={{ fontSize: 14.5, color: SUB, marginTop: 8 }}>직접 지도한 학생·학부모님들이 보내주신 실제 메시지입니다.</p>
-
-        {/* Real KakaoTalk screenshots */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 16, marginTop: 22 }}>
-          {["/parents-docs/reviews/review-1.png", "/parents-docs/reviews/review-2.png"].map((src, i) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img key={i} src={src} alt={`학부모·학생 실제 후기 ${i + 1}`} loading="lazy"
-              style={{ width: "100%", height: "auto", borderRadius: 14, border: "1px solid #e6ebf0", display: "block", boxShadow: "0 4px 16px rgba(16,24,40,0.06)" }} />
-          ))}
-        </div>
-        <p style={{ fontSize: 12, color: SUB, marginTop: 14, lineHeight: 1.6 }}>※ 개인정보 보호를 위해 학생·학부모 정보는 비공개 처리했습니다.</p>
-      </section>
-
       {/* Curriculum */}
       <section style={{ maxWidth: 860, margin: "0 auto", padding: "46px 20px 10px" }}>
         <h2 style={{ fontSize: 25, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>세션 커리큘럼</h2>
