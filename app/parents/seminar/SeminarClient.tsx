@@ -11,6 +11,7 @@
  */
 
 import { useEffect, useState } from "react";
+import { getClientSession } from "@/lib/client-auth";
 
 const GREEN = "#00b85f";
 const DARK = "#0b1622";
@@ -113,26 +114,57 @@ const CRED = [
   "코넬대 전기컴퓨터공학과(ECE) 합격",
 ];
 
-function CTAButton({ block, label = "선착순 무료 신청하기" }: { block?: boolean; label?: string }) {
+// Applying requires login. If not signed in, open the global auth modal and
+// return the user to this page; once signed in, proceed to the signup link.
+async function handleApply() {
+  const session = await getClientSession();
+  if (!session?.user) {
+    window.dispatchEvent(
+      new CustomEvent("inhero:open-auth", {
+        detail: { mode: "signup", source: "seminar", redirectTo: "/parents/seminar" },
+      })
+    );
+    return;
+  }
+  if (APPLY_URL && APPLY_URL !== "#apply") {
+    window.location.href = APPLY_URL;
+  } else {
+    document.getElementById("apply")?.scrollIntoView({ behavior: "smooth" });
+  }
+}
+
+function CTAButton({ block, label }: { block?: boolean; label?: string }) {
+  const [authed, setAuthed] = useState<boolean | null>(null);
+  useEffect(() => {
+    let alive = true;
+    getClientSession().then((s) => alive && setAuthed(!!s?.user));
+    const onAuth = () => getClientSession().then((s) => alive && setAuthed(!!s?.user));
+    window.addEventListener("inhero:auth-changed", onAuth);
+    return () => { alive = false; window.removeEventListener("inhero:auth-changed", onAuth); };
+  }, []);
+  const text = label ?? (authed === false ? "로그인하고 무료 신청하기" : "선착순 무료 신청하기");
   return (
-    <a
-      href={APPLY_URL}
+    <button
+      type="button"
+      onClick={handleApply}
       style={{
         display: block ? "block" : "inline-block",
+        width: block ? "100%" : undefined,
         textAlign: "center",
         background: GREEN,
         color: "#fff",
         fontWeight: 800,
         fontSize: 17,
         padding: "16px 34px",
+        border: "none",
         borderRadius: 12,
-        textDecoration: "none",
+        cursor: "pointer",
         boxShadow: "0 8px 24px rgba(0,184,95,0.32)",
         letterSpacing: "-0.01em",
       }}
     >
-      {label} →
-    </a>
+      {text} →
+    </button>
   );
 }
 
