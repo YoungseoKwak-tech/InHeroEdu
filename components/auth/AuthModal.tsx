@@ -292,23 +292,27 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
           </div>
 
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px', marginBottom: '20px' }}>
-            <div>
-              <div style={{ fontSize: '11px', fontWeight: 700, color: '#1D9E75', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '7px' }}>
-                {mode === 'login'
-                  ? (isParent ? '학부모 로그인' : ko ? '로그인' : 'Sign in')
-                  : (isParent ? '학부모 가입' : ko ? '학생 정보와 함께 가입' : 'Join with your student profile')}
+            {isParent && mode === 'signup' ? (
+              <div />
+            ) : (
+              <div>
+                <div style={{ fontSize: '11px', fontWeight: 700, color: '#1D9E75', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '7px' }}>
+                  {mode === 'login'
+                    ? (isParent ? '학부모 로그인' : ko ? '로그인' : 'Sign in')
+                    : (ko ? '학생 정보와 함께 가입' : 'Join with your student profile')}
+                </div>
+                <h2 style={{ fontSize: '22px', fontWeight: 800, color: '#fff', margin: 0, lineHeight: 1.25 }}>
+                  {mode === 'login'
+                    ? (isParent ? '인히어로 학부모 로그인' : ko ? '정중앙에서 바로 로그인하세요' : 'Sign in right here')
+                    : (ko ? '한 번에 가입하고 바로 시작하세요' : 'Create everything in one step')}
+                </h2>
+                <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.42)', margin: '6px 0 0' }}>
+                  {mode === 'login'
+                    ? (isParent ? '가입하신 이메일과 비밀번호로 로그인하세요.' : ko ? '이메일과 비밀번호로 바로 들어갈 수 있어요.' : 'Use your email and password to continue.')
+                    : (ko ? '이름, 학년, 학교를 같이 저장해서 관리자 페이지에도 바로 보이게 합니다.' : 'We save your name, grade, and school together so admin can see them immediately.')}
+                </p>
               </div>
-              <h2 style={{ fontSize: '22px', fontWeight: 800, color: '#fff', margin: 0, lineHeight: 1.25 }}>
-                {mode === 'login'
-                  ? (isParent ? '인히어로 학부모 로그인' : ko ? '정중앙에서 바로 로그인하세요' : 'Sign in right here')
-                  : (isParent ? '자녀 정보로 가입하고 자료를 받아보세요' : ko ? '한 번에 가입하고 바로 시작하세요' : 'Create everything in one step')}
-              </h2>
-              <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.42)', margin: '6px 0 0' }}>
-                {mode === 'login'
-                  ? (isParent ? '가입하신 이메일과 비밀번호로 로그인하세요.' : ko ? '이메일과 비밀번호로 바로 들어갈 수 있어요.' : 'Use your email and password to continue.')
-                  : (isParent ? '자녀 학년·학교 유형을 함께 입력하면 맞춤 입시 자료와 알림을 받아보실 수 있어요.' : ko ? '이름, 학년, 학교를 같이 저장해서 관리자 페이지에도 바로 보이게 합니다.' : 'We save your name, grade, and school together so admin can see them immediately.')}
-              </p>
-            </div>
+            )}
             <button
               onClick={onClose}
               style={{
