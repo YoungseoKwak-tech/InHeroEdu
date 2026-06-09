@@ -15,6 +15,7 @@ import { inferCourseIdFromLessonId } from "@/lib/learning-tracking";
 import { courses } from "@/lib/data/courses";
 import coreNotesSeed from "@/lib/data/coreNotesSeed.json";
 import { CORE_NOTES_AUTHORED } from "@/lib/data/coreNotesAuthored";
+import { CORE_NOTES_KO } from "@/lib/data/coreNotesKo";
 
 export interface NoteTerm {
   term: string;
@@ -254,6 +255,13 @@ async function rebuild(): Promise<CoreNote[]> {
   const authored = (CORE_NOTES_AUTHORED as unknown as SeedNote[]).map(seedToNote);
   const authoredKeys = new Set(authored.map((n) => `${n.courseId}|${n.unit}|${n.lessonNum}`));
   notes = notes.filter((n) => !authoredKeys.has(`${n.courseId}|${n.unit}|${n.lessonNum}`)).concat(authored);
+
+  // Korean-only curricula (Honors / IB) live only in the 한국어 registry and have
+  // no English source — surface those subjects directly so they appear as
+  // their own chips/lessons (the notes are already complete Korean CoreNotes).
+  const englishCourses = new Set(notes.map((n) => n.courseId));
+  const koOnly = [...CORE_NOTES_KO.values()].filter((n) => n.courseId && !englishCourses.has(n.courseId));
+  notes = notes.concat(koOnly);
 
   // Some scripts carry the same title in two units (data error, e.g. "Carbon:
   // The Backbone of Life" in both u1 and u7). Keep the earliest unit/lesson.
