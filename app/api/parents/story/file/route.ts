@@ -1,11 +1,15 @@
 /**
  * GET /api/parents/story/file — auth-gated stream of the 합격 수기 PDF.
  *
- * The PDF lives OUTSIDE /public (in /private-docs) so it can't be fetched by a
- * raw URL. Access requires a signed-in user; for accounts whose unlocks are
+ * Access requires a signed-in user; for accounts whose unlocks are
  * server-synced (profiles.credit_unlocks), we additionally require the
  * res:/parents/story unlock. The client reader fetches this via authFetch
  * (Bearer token), so the session check works.
+ *
+ * The PDF is read from /public under an UNGUESSABLE filename (never referenced
+ * in client code), so the static URL stays undiscoverable while the file is
+ * reliably bundled on Vercel. (The Turbopack production build does NOT honor
+ * `outputFileTracingIncludes`, so reading from /private-docs 404'd in prod.)
  */
 import { NextRequest, NextResponse } from "next/server";
 import { readFile } from "node:fs/promises";
@@ -16,7 +20,11 @@ import { createAdminClient } from "@/lib/supabase";
 export const runtime = "nodejs";
 
 const UNLOCK_KEY = "res:/parents/story";
-const FILE_PATH = path.join(process.cwd(), "private-docs", "ivy-engineering-journey.pdf");
+// /public is reliably deployed on Vercel; private-docs is a local-dev fallback.
+const FILE_CANDIDATES = [
+  path.join(process.cwd(), "public", "parents-docs", "ivy-journey-_v1x9k7q2.pdf"),
+  path.join(process.cwd(), "private-docs", "ivy-engineering-journey.pdf"),
+];
 
 export async function GET(req: NextRequest) {
   const auth = await requireAuthenticatedUser(req);
@@ -39,17 +47,18 @@ export async function GET(req: NextRequest) {
     }
   } catch { /* can't verify server-side → login gate already passed */ }
 
-  try {
-    const bytes = await readFile(FILE_PATH);
-    return new NextResponse(new Uint8Array(bytes), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/pdf",
-        "Content-Disposition": 'inline; filename="ivy-engineering-journey.pdf"',
-        "Cache-Control": "private, no-store",
-      },
-    });
-  } catch {
-    return NextResponse.json({ error: "not-found" }, { status: 404 });
+  for (const filePath of FILE_CANDIDATES) {
+    try {
+      const bytes = await readFile(filePath);
+      return new NextResponse(new Uint8Array(bytes), {
+        status: 200,
+        headers: {
+          "Content-Type": "application/pdf",
+          "Content-Disposition": 'inline; filename="ivy-engineering-journey.pdf"',
+          "Cache-Control": "private, no-store",
+        },
+      });
+    } catch { /* try next candidate */ }
   }
+  return NextResponse.json({ error: "not-found" }, { status: 404 });
 }
