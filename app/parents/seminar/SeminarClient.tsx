@@ -227,16 +227,28 @@ export default function SeminarClient() {
   const [applyState, setApplyState] = useState<ApplyState>("idle");
   const [modalToken, setModalToken] = useState<string | null>(null);
 
-  // On load, if signed in, check whether they've already applied.
+  const INTENT_KEY = "inhero-seminar-apply-intent";
+
+  // On load, if signed in, check whether they've already applied. If the user
+  // just signed up to apply (intent flag set before the auth reload), auto-open
+  // the apply form so they don't drop off after only signing up.
   useEffect(() => {
     let alive = true;
     (async () => {
       const s = await getClientSession();
       if (!alive || !s?.user) return;
+      let applied = false;
       try {
         const r = await fetch("/api/seminar/apply", { headers: { authorization: `Bearer ${s.access_token}` } });
-        if (r.ok) { const d = await r.json(); if (alive && d.applied) setApplyState("applied"); }
+        if (r.ok) { const d = await r.json(); applied = !!d.applied; if (alive && applied) setApplyState("applied"); }
       } catch { /* ignore */ }
+      if (!alive) return;
+      let intent = false;
+      try { intent = sessionStorage.getItem(INTENT_KEY) === "1"; } catch { /* ignore */ }
+      if (intent && !applied) {
+        try { sessionStorage.removeItem(INTENT_KEY); } catch { /* ignore */ }
+        setModalToken(s.access_token); // 가입 직후 신청 팝업 자동 오픈
+      }
     })();
     return () => { alive = false; };
   }, []);
@@ -246,6 +258,9 @@ export default function SeminarClient() {
     if (applyState !== "idle") return;
     const s = await getClientSession();
     if (!s?.user) {
+      // Remember the intent across the post-signup reload so the apply popup
+      // opens automatically once they're back, signed in.
+      try { sessionStorage.setItem(INTENT_KEY, "1"); } catch { /* ignore */ }
       window.dispatchEvent(new CustomEvent("inhero:open-auth", {
         detail: { mode: "signup", source: "seminar", redirectTo: "/parents/seminar" },
       }));
