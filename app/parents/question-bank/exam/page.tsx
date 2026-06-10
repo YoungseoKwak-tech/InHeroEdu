@@ -41,7 +41,7 @@ export default function ExamPage() {
   const [phase, setPhase] = useState<"start" | "directions" | "exam">("start");
   const [subjects, setSubjects] = useState<SubjectCount[]>([]);
   const [subject, setSubject] = useState<string>("");
-  const [gate, setGate] = useState<"" | "login" | "paid" | "empty">("");
+  const [gate, setGate] = useState<"" | "login" | "paid" | "empty" | "nosubject">("");
   const [starting, setStarting] = useState<number | null>(null);
 
   // Loaded test
@@ -74,7 +74,12 @@ export default function ExamPage() {
       .then((d) => {
         const list: SubjectCount[] = (d?.subjects ?? []).filter((x: SubjectCount) => x.courseId);
         setSubjects(list);
-        if (!s && list[0]?.courseId) setSubject(list[0].courseId);
+        // Default to the first subject unless the URL ?subject= names a valid
+        // one. Otherwise the <select> renders blank (value matches no option)
+        // and "시작하기" silently no-ops because `subject` isn't a real course.
+        if (list.length && !list.some((x) => x.courseId === s)) {
+          setSubject(list[0].courseId!);
+        }
       })
       .catch(() => {});
   }, []);
@@ -90,7 +95,12 @@ export default function ExamPage() {
   }, [phase, submitted, questions.length]);
 
   async function startSet(n: number) {
-    if (!subject) return;
+    if (!subject) {
+      // No valid subject picked — guide the user instead of silently doing nothing.
+      if (subjects[0]?.courseId) { setSubject(subjects[0].courseId); }
+      else { setGate("nosubject"); }
+      return;
+    }
     setStarting(n); setGate("");
     try {
       const r = await authFetch(`/api/question-bank/exam-set?subject=${encodeURIComponent(subject)}&set=${n}`);
@@ -168,6 +178,7 @@ export default function ExamPage() {
           <label style={{ display: "block", marginTop: 22, fontSize: 13, fontWeight: 700, color: "#3a4756", marginBottom: 6 }}>과목</label>
           <select value={subject} onChange={(e) => { setSubject(e.target.value); setGate(""); }}
             style={{ width: "100%", padding: "12px 12px", border: "1px solid #d8dee5", borderRadius: 10, fontSize: 15, background: "#fff" }}>
+            <option value="" disabled>{subjects.length ? "과목을 선택하세요" : "과목 불러오는 중…"}</option>
             {subjects.map((s) => <option key={s.courseId!} value={s.courseId!}>{s.emoji} {s.label} ({s.count})</option>)}
           </select>
 
@@ -198,6 +209,7 @@ export default function ExamPage() {
             </GateBox>
           )}
           {gate === "empty" && <GateBox text="이 과목의 문제가 아직 충분하지 않아요. 다른 과목을 선택해 주세요." />}
+          {gate === "nosubject" && <GateBox text="먼저 위에서 과목을 선택해 주세요." />}
         </div>
       </div>
     );
