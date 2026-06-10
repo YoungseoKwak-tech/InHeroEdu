@@ -12,8 +12,11 @@ import { createBrowserClient } from "@/lib/supabase";
 import { authFetch } from "@/lib/client-auth";
 import { CREDIT_PACKAGES, type CreditPackage } from "@/lib/creditPackages";
 import { checkoutNotice } from "@/lib/legal";
+import { getClientSession } from "@/lib/client-auth";
 
 const GREEN = "#00b85f";
+// adminOnly packages (e.g. the 1,000원 real-payment test) only show to the founder.
+const FOUNDER_EMAILS = new Set(["yeongseo0802@gmail.com"]);
 
 // Real checkout is on when NicePay is enabled; otherwise the buttons fall back
 // to the demo top-up so the flow still works in dev.
@@ -46,6 +49,11 @@ export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
   const [charge, setCharge] = useState(false);
   const [buying, setBuying] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
+  const [isFounder, setIsFounder] = useState(false);
+  useEffect(() => {
+    getClientSession().then((s) => setIsFounder(!!s?.user?.email && FOUNDER_EMAILS.has(s.user.email.toLowerCase()))).catch(() => {});
+  }, []);
+  const packages = CREDIT_PACKAGES.filter((p) => !p.adminOnly || isFounder);
 
   // Buy a credit package via NicePay (real); demo top-up if NicePay is off.
   async function buyPackage(pkg: CreditPackage) {
@@ -127,7 +135,7 @@ export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
               현재 잔액 <strong style={{ color: "#a16207" }}>🪙 {balance ?? 0}</strong> · 프리미엄 자료(합격 에세이·활동 분석 등)를 크레딧으로 잠금 해제하세요.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {CREDIT_PACKAGES.map((p) => (
+              {packages.map((p) => (
                 <div key={p.id} style={{ display: "flex", alignItems: "center", gap: 12, border: `1.5px solid ${p.best ? GREEN : "#e6e8ec"}`, borderRadius: 12, padding: "12px 14px", background: p.best ? "rgba(0,184,95,0.05)" : "#fff" }}>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 15, fontWeight: 800, color: "#1a1a1f" }}>🪙 {p.credits} 크레딧 {p.best && <span style={{ fontSize: 10.5, fontWeight: 800, color: "#fff", background: GREEN, borderRadius: 999, padding: "2px 8px", marginLeft: 4 }}>BEST</span>}</div>

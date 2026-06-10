@@ -11,9 +11,12 @@ export interface CreditPackage {
   name: string;
   note?: string;
   best?: boolean;
+  /** Only shown to the founder account (real-payment test). */
+  adminOnly?: boolean;
 }
 
 export const CREDIT_PACKAGES: CreditPackage[] = [
+  { id: "credits-test", credits: 10, krw: 1000, name: "테스트 충전 (1,000원)", note: "결제 테스트용 · 관리자 전용", adminOnly: true },
   { id: "credits-200", credits: 200, krw: 33000, name: "InHero 크레딧 200", note: "단발 충전" },
   { id: "credits-500", credits: 500, krw: 75000, name: "InHero 크레딧 500", note: "★ 한 과목 전체패스 가치", best: true },
   { id: "credits-1000", credits: 1000, krw: 139000, name: "InHero 크레딧 1000", note: "전 과목 가기 전 징검다리" },
