@@ -80,9 +80,17 @@ export default function QuestionBankClient() {
         <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.7rem,4vw,2.4rem)", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: 12 }}>
           {total.toLocaleString()}개 AP 실전 문제, 지금 풀어보세요
         </h1>
-        <p style={{ fontSize: 14.5, color: "#475569", lineHeight: 1.75, marginBottom: 22 }}>
+        <p style={{ fontSize: 14.5, color: "#475569", lineHeight: 1.75, marginBottom: 16 }}>
           College Board 스타일 실전 문제입니다. 보기를 눌러 바로 채점하고 해설을 확인하세요. 무료 과목은 가입 없이도 풀 수 있습니다.
         </p>
+
+        {/* Bluebook-style exam mode */}
+        <Link
+          href={`/parents/question-bank/exam${active ? `?subject=${active}` : ""}`}
+          style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#1f6feb", color: "#fff", textDecoration: "none", borderRadius: 12, padding: "12px 20px", fontWeight: 800, fontSize: 14.5, marginBottom: 24, boxShadow: "0 6px 18px rgba(31,111,235,0.28)" }}
+        >
+          🖥️ 실전 모드로 풀기 (Bluebook · 실제 디지털 AP 화면)
+        </Link>
 
         {/* Subject chips */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 26 }}>
