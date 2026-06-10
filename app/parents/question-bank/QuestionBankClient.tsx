@@ -38,7 +38,7 @@ export default function QuestionBankClient() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/question-bank/bank?countOnly=true")
+    fetch("/api/question-bank/subjects")
       .then((r) => r.json())
       .then((d) => { setSubjects(d?.subjects ?? []); setTotal(d?.total ?? 0); })
       .catch(() => {});

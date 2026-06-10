@@ -69,7 +69,7 @@ export default function ExamPage() {
   useEffect(() => {
     const s = new URLSearchParams(window.location.search).get("subject") ?? "";
     setSubject(s);
-    fetch("/api/question-bank/bank?countOnly=true")
+    fetch("/api/question-bank/subjects")
       .then((r) => r.json())
       .then((d) => {
         const list: SubjectCount[] = (d?.subjects ?? []).filter((x: SubjectCount) => x.courseId);
