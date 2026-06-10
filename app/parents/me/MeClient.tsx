@@ -11,6 +11,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { authFetch, getClientSession } from "@/lib/client-auth";
+import { createBrowserClient } from "@/lib/supabase";
+import { TierBadge } from "@/components/parents/TierBadge";
+import { tierFromMetadata, TIER_META, type Tier } from "@/lib/tier";
 import { getMyCode, getReferrals, addReferral, getReferredBy, getServerReferralState, REFERRAL_REWARD, type Referral } from "@/lib/referrals";
 
 const GREEN = "#00b85f";
@@ -48,6 +51,18 @@ export default function MeClient() {
   const [referredBy, setReferredBy] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [serverBacked, setServerBacked] = useState(false);
+  const [tier, setTier] = useState<Tier | null>(null);
+  const [savingTier, setSavingTier] = useState(false);
+
+  async function chooseTier(r: Tier) {
+    setSavingTier(true);
+    try {
+      const sb = createBrowserClient();
+      await sb.auth.updateUser({ data: { role: r } });
+      setTier(r);
+    } catch { /* ignore */ }
+    finally { setSavingTier(false); }
+  }
 
   useEffect(() => {
     setReferrals(getReferrals());
@@ -75,6 +90,7 @@ export default function MeClient() {
         const res = await authFetch("/api/profile");
         const json = await res.json();
         setEmail(json.email ?? session.user.email ?? null);
+        setTier(tierFromMetadata(session.user.user_metadata as Record<string, unknown>));
         const p: Profile = json.profile ?? {};
         setName(p.name ?? "");
         setGrade(p.grade ?? "");
@@ -128,6 +144,25 @@ export default function MeClient() {
         <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.7, marginBottom: 26 }}>
           가입 시 입력한 정보를 언제든 수정할 수 있어요. 자녀 학년·학교 유형을 정확히 입력하면 맞춤 입시 자료와 알림을 받아보실 수 있습니다.
         </p>
+
+        {!loading && email && (
+          <div style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: 14, padding: "18px 20px", marginBottom: 18 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 12 }}>
+              <span style={{ fontSize: 13.5, fontWeight: 800, color: "#1a1a1f" }}>내 등급</span>
+              {tier ? <TierBadge tier={tier} /> : <span style={{ fontSize: 12.5, color: "#94a3b8" }}>아직 선택 안 함</span>}
+            </div>
+            <div style={{ display: "flex", gap: 8 }}>
+              {(["student", "parent"] as Tier[]).map((r) => (
+                <button key={r} onClick={() => chooseTier(r)} disabled={savingTier}
+                  style={{ flex: 1, padding: "11px", borderRadius: 10, cursor: savingTier ? "default" : "pointer", fontSize: 14, fontWeight: 800,
+                    border: tier === r ? `1.5px solid ${TIER_META[r].color}` : "1px solid #e2e6ea",
+                    background: tier === r ? TIER_META[r].bg : "#fff", color: tier === r ? TIER_META[r].color : "#64748b" }}>
+                  {TIER_META[r].emoji} {TIER_META[r].label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {loading ? (
           <p style={{ fontSize: 14, color: "#94a3b8", padding: "30px 0", textAlign: "center" }}>불러오는 중…</p>

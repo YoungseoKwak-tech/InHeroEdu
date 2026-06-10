@@ -18,6 +18,7 @@ import Link from "next/link";
 import { authFetch, getClientSession } from "@/lib/client-auth";
 import { COMPETITIONS } from "./competitions/data";
 import CreditWidget from "@/components/parents/CreditWidget";
+import MyTierBadge from "@/components/parents/TierBadge";
 import ReferralPrompt from "@/components/parents/ReferralPrompt";
 import { isUnlocked, spendAndUnlock, CREDIT_EVENT, CREDIT_COSTS } from "@/lib/credits";
 import TextbookFlipPreview from "@/components/parents/TextbookFlipPreview";
@@ -278,6 +279,7 @@ export default function ParentsClient() {
               style={{ flex: 1, border: "2px solid #1a1a1f", borderRight: "none", borderRadius: "8px 0 0 8px", padding: "10px 14px", fontSize: 14, outline: "none" }} />
             <button type="submit" aria-label="검색" style={{ background: "#1a1a1f", color: "#fff", border: "none", borderRadius: "0 8px 8px 0", padding: "0 18px", fontSize: 16, cursor: "pointer" }}>🔍</button>
           </form>
+          {loggedIn && <MyTierBadge />}
           <CreditWidget loggedIn={loggedIn} />
           <button onClick={() => go("/parents/me", true)}
             style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#fff", border: `1.5px solid ${GREEN}`, color: GREEN, borderRadius: 9, padding: "9px 16px", fontSize: 13.5, fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 }}

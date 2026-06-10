@@ -42,6 +42,8 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
   const [referralStudentEmail, setReferralStudentEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [marketingConsent, setMarketingConsent] = useState(false)
+  // 가입 티어 — 학생/학부모. 학부모 포털 가입은 기본 '학부모'.
+  const [role, setRole] = useState<'student' | 'parent'>(audience === 'parent' ? 'parent' : 'student')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
@@ -50,7 +52,8 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
     setMode(defaultMode)
     setError('')
     setSuccess('')
-  }, [defaultMode, isOpen])
+    setRole(audience === 'parent' ? 'parent' : 'student')
+  }, [defaultMode, isOpen, audience])
 
   useEffect(() => {
     if (isOpen) {
@@ -123,14 +126,18 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
 
     try {
       if (mode === 'signup') {
-        const profile = normalizeProfileFields({
-          name,
-          grade,
-          school,
-          referral_student_email: referralStudentEmail,
-          phone,
-          marketing_consent: marketingConsent,
-        })
+        // role(학생/학부모)은 profiles 컬럼이 아니라 user_metadata에 저장된다.
+        const profile = {
+          ...normalizeProfileFields({
+            name,
+            grade,
+            school,
+            referral_student_email: referralStudentEmail,
+            phone,
+            marketing_consent: marketingConsent,
+          }),
+          role,
+        }
         // Create the account server-side (email-confirmed, no confirmation email
         // sent) so signup isn't blocked by Supabase's email send rate limit.
         const signupRes = await fetch('/api/auth/signup', {
@@ -368,6 +375,29 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '14px' }}>
+            {mode === 'signup' && (
+              <div>
+                <label style={labelStyle}>{ko ? '가입 유형' : 'I am a'}</label>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  {(['student', 'parent'] as const).map((r) => (
+                    <button
+                      key={r}
+                      type="button"
+                      onClick={() => setRole(r)}
+                      style={{
+                        flex: 1, padding: '11px', borderRadius: '10px', cursor: 'pointer',
+                        fontSize: '14px', fontWeight: 800,
+                        border: role === r ? '1.5px solid #00b85f' : '1px solid rgba(255,255,255,0.18)',
+                        background: role === r ? 'rgba(0,184,95,0.16)' : 'rgba(255,255,255,0.04)',
+                        color: role === r ? '#fff' : 'rgba(255,255,255,0.6)',
+                      }}
+                    >
+                      {r === 'student' ? (ko ? '🎓 학생' : '🎓 Student') : (ko ? '👨‍👩‍👧‍👦 학부모' : '👨‍👩‍👧‍👦 Parent')}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
             {mode === 'signup' && (
               <div>
                 <label style={labelStyle}>{isParent ? '아이디' : ko ? '이름' : 'Name'}</label>
