@@ -19,7 +19,7 @@ interface BankQuestion {
   id: string; subjectLabel: string; emoji: string; unit: number | null;
   prompt: string; options: BankOption[]; explanation?: string | null;
 }
-interface SubjectCount { courseId: string | null; label: string; emoji: string; count: number; }
+interface SubjectCount { courseId: string | null; label: string; emoji: string; count: number; examReady?: boolean; examPool?: number; }
 
 const BLUE = "#1f6feb";
 const LETTERS = ["A", "B", "C", "D", "E", "F"];
@@ -72,7 +72,9 @@ export default function ExamPage() {
     fetch("/api/question-bank/subjects")
       .then((r) => r.json())
       .then((d) => {
-        const list: SubjectCount[] = (d?.subjects ?? []).filter((x: SubjectCount) => x.courseId);
+        // Only subjects with enough real MCQs to actually build a test.
+        // (examReady undefined → keep, so a stale cache never empties the list.)
+        const list: SubjectCount[] = (d?.subjects ?? []).filter((x: SubjectCount) => x.courseId && (x.examReady ?? true));
         setSubjects(list);
         // Default to the first subject unless the URL ?subject= names a valid
         // one. Otherwise the <select> renders blank (value matches no option)
