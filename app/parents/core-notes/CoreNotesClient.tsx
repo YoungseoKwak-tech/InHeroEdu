@@ -30,6 +30,7 @@ export default function CoreNotesClient() {
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<string | null>(null);
   const [koCache, setKoCache] = useState<Record<string, KoNote | "none">>({});
+  const [view, setView] = useState<"ko" | "en" | "split">("split");
 
   useEffect(() => {
     fetch("/api/core-notes?countOnly=true").then((r) => r.json())
@@ -67,6 +68,56 @@ export default function CoreNotesClient() {
   const note = notes.find((n) => n.lessonId === selected) ?? null;
   const ko = selected ? koCache[selected] : undefined;
   const isKo = ko && ko !== "none";
+  const isTaster = notes.length > 0 && notes[0]?.lessonId === selected;
+
+  // Render one language column (English or Korean) for the reader / split view.
+  const renderColumn = (kind: "en" | "ko") => {
+    if (!note) return null;
+    const meta = `${note.emoji} ${note.subjectLabel} · U${note.unit}·L${note.lessonNum}`;
+    if (kind === "ko" && !isKo) {
+      return (
+        <div>
+          <ColBadge kind="ko" meta={meta} />
+          <p style={{ color: "#94a3b8", fontSize: 14, lineHeight: 1.75, marginTop: 14 }}>
+            이 레슨의 한국어 일타강사 버전은 순차적으로 추가되고 있어요. 왼쪽 영어 원문을 먼저 확인하세요.
+          </p>
+        </div>
+      );
+    }
+    const src = kind === "en" ? note : (ko as KoNote);
+    const overview = kind === "ko" ? (ko as KoNote).overview : null;
+    const sectionsEl = (src.sections ?? []).map((s, i) => (
+      <Section key={i} title={s.title} subtitle={s.subtitle}><SectionBody s={s} /></Section>
+    ));
+    const gated = (isTaster || !active) ? sectionsEl : (
+      <CreditGate
+        gateKey={`${CN_ALL_KEY}:${active}`}
+        cost={CREDIT_COSTS.SUBJECT}
+        bundleKey={CN_ALL_KEY}
+        bundleCost={CREDIT_COSTS.ALL_SUBJECTS}
+        bundleLabel="전 과목 한 번에"
+        title={`${note.emoji} ${note.subjectLabel} 핵심노트 잠금해제`}
+        desc={`${note.subjectLabel} 전 단원의 노트(개념·용어·함정·예시)를 볼 수 있어요. 첫 레슨은 무료 맛보기예요. (이 과목 200 · 전 과목 1,000)`}
+      >{sectionsEl}</CreditGate>
+    );
+    return (
+      <div>
+        <ColBadge kind={kind} meta={meta} />
+        <h2 style={{ fontSize: "clamp(1.25rem,2.2vw,1.7rem)", fontWeight: 800, letterSpacing: "-0.02em", margin: "8px 0 6px", lineHeight: 1.25 }}>{src.title}</h2>
+        {src.subtitle && <p style={{ fontSize: 14, color: "#64748b", margin: "0 0 16px", lineHeight: 1.6 }}>{src.subtitle}</p>}
+        {(src.objectives ?? []).length > 0 && (
+          <div style={{ background: "#faf7ff", border: "1px solid #efe7fe", borderRadius: 12, padding: "13px 15px", margin: "0 0 18px" }}>
+            <div style={{ fontSize: 12, fontWeight: 800, color: "#7c3aed", marginBottom: 8 }}>학습 목표</div>
+            <ul style={{ margin: 0, paddingLeft: 18, display: "flex", flexDirection: "column", gap: 6 }}>
+              {(src.objectives ?? []).map((o, i) => <li key={i} style={{ fontSize: 13.5, color: "#475569", lineHeight: 1.65 }}>{o}</li>)}
+            </ul>
+          </div>
+        )}
+        {overview && <Paragraphs text={overview} />}
+        {gated}
+      </div>
+    );
+  };
 
   return (
     <div style={{ position: "relative", zIndex: 10, minHeight: "100vh", background: "#eef1f4", color: "#1a1a1f", cursor: "auto", fontFamily: "'Inter', sans-serif" }}>
@@ -129,57 +180,21 @@ export default function CoreNotesClient() {
               {!note ? (
                 <p style={{ color: "#94a3b8", fontSize: 14 }}>이 과목의 노트가 아직 없습니다.</p>
               ) : (
-                <article style={{ background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, padding: "26px 28px" }}>
-                  <div style={{ display: "flex", gap: 9, alignItems: "center", flexWrap: "wrap", marginBottom: 8 }}>
-                    <span style={{ fontSize: 11, fontWeight: 800, color: isKo ? "#047a45" : "#64748b", background: isKo ? "#e9fbf2" : "#f1f5f9", borderRadius: 6, padding: "2px 9px" }}>{isKo ? "🇰🇷 한국어" : "EN"}</span>
-                    <span style={{ fontSize: 12.5, color: "#94a3b8", fontWeight: 600 }}>{note.emoji} {note.subjectLabel} · U{note.unit}·L{note.lessonNum}</span>
-                  </div>
-                  <h2 style={{ fontSize: "clamp(1.4rem,2.6vw,1.9rem)", fontWeight: 800, letterSpacing: "-0.02em", margin: "0 0 6px", lineHeight: 1.25 }}>{isKo ? (ko as KoNote).title : note.title}</h2>
-                  {(isKo ? (ko as KoNote).subtitle : note.subtitle) && (
-                    <p style={{ fontSize: 14.5, color: "#64748b", margin: "0 0 18px", lineHeight: 1.6 }}>{isKo ? (ko as KoNote).subtitle : note.subtitle}</p>
-                  )}
-
-                  {(isKo ? (ko as KoNote).objectives : note.objectives)?.length > 0 && (
-                    <div style={{ background: "#faf7ff", border: "1px solid #efe7fe", borderRadius: 12, padding: "14px 16px", margin: "0 0 20px" }}>
-                      <div style={{ fontSize: 12, fontWeight: 800, color: "#7c3aed", marginBottom: 9 }}>학습 목표</div>
-                      <ul style={{ margin: 0, paddingLeft: 18, display: "flex", flexDirection: "column", gap: 6 }}>
-                        {(isKo ? (ko as KoNote).objectives : note.objectives).map((o, i) => <li key={i} style={{ fontSize: 13.5, color: "#475569", lineHeight: 1.65 }}>{o}</li>)}
-                      </ul>
+                <>
+                  <ViewToggle view={view} onChange={setView} />
+                  {view === "split" ? (
+                    <div className="cn-split" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, alignItems: "start" }}>
+                      <article style={cardStyle}>{renderColumn("en")}</article>
+                      <article style={cardStyle}>{renderColumn("ko")}</article>
                     </div>
+                  ) : (
+                    <article style={cardStyle}>{renderColumn(view)}</article>
                   )}
 
-                  {isKo && (ko as KoNote).overview && <Paragraphs text={(ko as KoNote).overview!} />}
-
-                  {(() => {
-                    const sectionsEl = (isKo ? (ko as KoNote).sections : note.sections).map((s, i) => (
-                      <Section key={i} title={s.title} subtitle={s.subtitle}>
-                        <SectionBody s={s} />
-                      </Section>
-                    ));
-                    // First lesson of each subject is a free taster; the rest of
-                    // the subject is gated: 이 과목 200 / 전 과목 1,000.
-                    const isTaster = notes.length > 0 && notes[0].lessonId === selected;
-                    if (isTaster || !active) return sectionsEl;
-                    return (
-                      <CreditGate
-                        gateKey={`${CN_ALL_KEY}:${active}`}
-                        cost={CREDIT_COSTS.SUBJECT}
-                        bundleKey={CN_ALL_KEY}
-                        bundleCost={CREDIT_COSTS.ALL_SUBJECTS}
-                        bundleLabel="전 과목 한 번에"
-                        title={`${note.emoji} ${note.subjectLabel} 한국어 핵심노트 잠금해제`}
-                        desc={`${note.subjectLabel} 전 단원의 한국어 일타강사 노트(용어·함정·예시)를 볼 수 있어요. 첫 레슨은 무료 맛보기예요. (이 과목 200 · 전 과목 1,000)`}
-                      >
-                        {sectionsEl}
-                      </CreditGate>
-                    );
-                  })()}
-
-                  {/* Bottom English CTA */}
-                  <Link href="/core-notes" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, textDecoration: "none", marginTop: 26, color: "#1a1a1f", border: "1.5px solid #1a1a1f", borderRadius: 10, padding: "13px 22px", fontSize: 14.5, fontWeight: 800 }}>
+                  <Link href="/core-notes" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, textDecoration: "none", marginTop: 18, color: "#1a1a1f", border: "1.5px solid #1a1a1f", borderRadius: 10, padding: "13px 22px", fontSize: 14.5, fontWeight: 800 }}>
                     🌐 영어 원문(전체 버전) 보러가기 →
                   </Link>
-                </article>
+                </>
               )}
             </div>
           </div>
@@ -190,6 +205,9 @@ export default function CoreNotesClient() {
         @media (max-width: 820px) {
           .cn-grid { grid-template-columns: 1fr !important; }
           .cn-rail { position: static !important; max-height: 320px; }
+        }
+        @media (max-width: 980px) {
+          .cn-split { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>
@@ -206,6 +224,39 @@ function Chip({ active, onClick, label, emoji, count }: { active: boolean; onCli
       <span>{emoji} {label}</span>
       <span style={{ fontSize: 11, color: active ? "#16a34a" : "#94a3b8" }}>{count.toLocaleString()}</span>
     </button>
+  );
+}
+
+const cardStyle: React.CSSProperties = { background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, padding: "22px 22px", minWidth: 0 };
+
+function ViewToggle({ view, onChange }: { view: "ko" | "en" | "split"; onChange: (v: "ko" | "en" | "split") => void }) {
+  const opts: { v: "split" | "en" | "ko"; label: string }[] = [
+    { v: "split", label: "📖 영어 + 한국어" },
+    { v: "en", label: "🇺🇸 영어" },
+    { v: "ko", label: "🇰🇷 한국어" },
+  ];
+  return (
+    <div style={{ display: "inline-flex", gap: 4, background: "#fff", border: "1px solid #e2e6ea", borderRadius: 999, padding: 4, marginBottom: 14 }}>
+      {opts.map((o) => {
+        const on = o.v === view;
+        return (
+          <button key={o.v} onClick={() => onChange(o.v)}
+            style={{ border: "none", borderRadius: 999, padding: "7px 14px", fontSize: 13, fontWeight: 800, cursor: "pointer", background: on ? GREEN : "transparent", color: on ? "#fff" : "#475569" }}>
+            {o.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function ColBadge({ kind, meta }: { kind: "en" | "ko"; meta: string }) {
+  const ko = kind === "ko";
+  return (
+    <div style={{ display: "flex", gap: 9, alignItems: "center", flexWrap: "wrap", marginBottom: 4 }}>
+      <span style={{ fontSize: 11, fontWeight: 800, color: ko ? "#047a45" : "#1d4ed8", background: ko ? "#e9fbf2" : "#eff4ff", borderRadius: 6, padding: "2px 9px" }}>{ko ? "🇰🇷 한국어" : "🇺🇸 EN"}</span>
+      <span style={{ fontSize: 12.5, color: "#94a3b8", fontWeight: 600 }}>{meta}</span>
+    </div>
   );
 }
 
