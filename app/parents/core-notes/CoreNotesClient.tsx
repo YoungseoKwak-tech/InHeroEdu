@@ -131,10 +131,21 @@ export default function CoreNotesClient() {
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 20px 90px" }}>
         <p style={{ fontSize: 13, fontWeight: 700, color: "#7c3aed", marginBottom: 10 }}>📘 AP 개념정리</p>
         <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.6rem,3.6vw,2.2rem)", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: 10 }}>
-          {total.toLocaleString()}개 AP 개념정리, 일타강사처럼
+          아이비리그생 + 일타강사의 노하우로<br />이해하기 쉽게 풀어 쓴 AP 개념
         </h1>
-        <p style={{ fontSize: 14, color: "#475569", lineHeight: 1.7, marginBottom: 18 }}>
-          <strong>전 18개 과목 {total.toLocaleString()}개 레슨이 모두 한국어로 완성</strong>됐습니다 — 일타강사처럼 풀어 쓴 개념·함정·예시까지. 과목을 고르고 왼쪽에서 단원별로 골라 읽어보세요.
+        <p style={{ fontSize: 14, color: "#475569", lineHeight: 1.7, marginBottom: 14 }}>
+          AP는 결국 <strong>영어로 시험</strong>을 봅니다. 영어 원문을 파고들기 전, <strong>한국어로 큰 흐름부터 잡는 게 가장 중요</strong>해요.
+          그 흐름을 잡아주는, 아이비리그생과 일타강사의 노하우가 담긴 한국어 개념정리입니다.
+        </p>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#faf7ff", border: "1px solid #efe7fe", borderRadius: 999, padding: "7px 14px", marginBottom: 18 }}>
+          <span style={{ fontSize: 13, fontWeight: 800, color: "#7c3aed" }}>🇰🇷 한국어로 흐름 잡기</span>
+          <span style={{ fontSize: 12, color: "#cbd5e1" }}>→</span>
+          <span style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>🌐 영어 원문으로 정복</span>
+          <span style={{ fontSize: 12, color: "#cbd5e1" }}>·</span>
+          <span style={{ fontSize: 12.5, color: "#94a3b8" }}>전 18과목 {total.toLocaleString()}개</span>
+        </div>
+        <p style={{ fontSize: 13.5, color: "#94a3b8", lineHeight: 1.7, marginBottom: 18 }}>
+          과목을 고르고 왼쪽에서 단원별로 골라 읽어보세요.
         </p>
 
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 22 }}>
