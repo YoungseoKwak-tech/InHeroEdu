@@ -13,6 +13,7 @@ import { authFetch } from "@/lib/client-auth";
 import { CREDIT_PACKAGES, type CreditPackage } from "@/lib/creditPackages";
 import { checkoutNotice } from "@/lib/legal";
 import { getClientSession } from "@/lib/client-auth";
+import { getMyCode, REFERRAL_REWARD } from "@/lib/referrals";
 
 const GREEN = "#00b85f";
 // adminOnly packages (e.g. the 1,000원 real-payment test) only show to the founder.
@@ -50,6 +51,17 @@ export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
   const [buying, setBuying] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [isFounder, setIsFounder] = useState(false);
+  const [refCode, setRefCode] = useState("");
+  const [refCopied, setRefCopied] = useState(false);
+
+  useEffect(() => { try { setRefCode(getMyCode()); } catch { /* ignore */ } }, []);
+
+  function copyReferral() {
+    const msg = `InHero 학부모 자료실 — 제 추천 코드 "${refCode}"로 가입하면 둘 다 크레딧 받아요! https://inheroedu.com/parents`;
+    navigator.clipboard?.writeText(msg).catch(() => {});
+    setRefCopied(true);
+    setTimeout(() => setRefCopied(false), 1600);
+  }
   useEffect(() => {
     getClientSession().then((s) => setIsFounder(!!s?.user?.email && FOUNDER_EMAILS.has(s.user.email.toLowerCase()))).catch(() => {});
   }, []);
@@ -148,6 +160,22 @@ export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
                 </div>
               ))}
             </div>
+
+            {/* Referral reward */}
+            <div style={{ marginTop: 14, background: "#fffbeb", border: "1px solid #fcd34d", borderRadius: 12, padding: "13px 14px" }}>
+              <div style={{ fontSize: 13.5, fontWeight: 800, color: "#92400e", marginBottom: 4 }}>🎁 지인 추천하고 크레딧 받기</div>
+              <p style={{ fontSize: 12.5, color: "#a16207", lineHeight: 1.6, margin: "0 0 10px" }}>
+                지인이 내 추천 코드로 가입하면 <strong>🪙 {REFERRAL_REWARD} 크레딧</strong>이 바로 적립돼요. (가입 한 명당)
+              </p>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <code style={{ flex: 1, minWidth: 0, fontSize: 14, fontWeight: 800, color: "#1a1a1f", background: "#fff", border: "1px dashed #fcd34d", borderRadius: 8, padding: "9px 12px", letterSpacing: "0.04em", overflow: "hidden", textOverflow: "ellipsis" }}>{refCode || "…"}</code>
+                <button onClick={copyReferral}
+                  style={{ flexShrink: 0, background: refCopied ? "#475569" : "#92400e", color: "#fff", border: "none", borderRadius: 8, padding: "9px 16px", fontSize: 12.5, fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap" }}>
+                  {refCopied ? "복사됨!" : "추천 링크 복사"}
+                </button>
+              </div>
+            </div>
+
             {err && <p style={{ fontSize: 12.5, color: "#dc2626", marginTop: 10 }}>{err}</p>}
             {NICEPAY_ENABLED && (
               <p style={{ fontSize: 11.5, color: "#64748b", marginTop: 14, lineHeight: 1.7, background: "#f7f8fa", borderRadius: 8, padding: "10px 12px" }}>
