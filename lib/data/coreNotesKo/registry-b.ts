@@ -8,6 +8,14 @@ import type { CoreNote } from "@/lib/coreNotes";
 
 // Honors (9–12) ────────────────────────────────────────────────
 import { HONORS_BIOLOGY_U1_KO } from "./honors-biology-u1";
+import { HONORS_CHEMISTRY_U1_KO } from "./honors-chemistry-u1";
+import { HONORS_PHYSICS_U1_KO } from "./honors-physics-u1";
+import { HONORS_ALGEBRA_2_U1_KO } from "./honors-algebra-2-u1";
+import { HONORS_GEOMETRY_U1_KO } from "./honors-geometry-u1";
+import { HONORS_PRECALCULUS_U1_KO } from "./honors-precalculus-u1";
+import { HONORS_ENGLISH_9_U1_KO } from "./honors-english-9-u1";
+import { HONORS_WORLD_HISTORY_U1_KO } from "./honors-world-history-u1";
+import { HONORS_US_HISTORY_U1_KO } from "./honors-us-history-u1";
 
 // IB Diploma Programme ─────────────────────────────────────────
 import { IB_BIOLOGY_U1_KO } from "./ib-biology-u1";
@@ -94,6 +102,14 @@ import { IB_CHEMISTRY_U11_KO } from "./ib-chemistry-u11";
 
 export const REGISTRY_B: CoreNote[] = [
   ...HONORS_BIOLOGY_U1_KO,
+  ...HONORS_CHEMISTRY_U1_KO,
+  ...HONORS_PHYSICS_U1_KO,
+  ...HONORS_ALGEBRA_2_U1_KO,
+  ...HONORS_GEOMETRY_U1_KO,
+  ...HONORS_PRECALCULUS_U1_KO,
+  ...HONORS_ENGLISH_9_U1_KO,
+  ...HONORS_WORLD_HISTORY_U1_KO,
+  ...HONORS_US_HISTORY_U1_KO,
   ...IB_BIOLOGY_U1_KO,
   ...IB_CHEMISTRY_U1_KO,
   ...IB_PHYSICS_U1_KO,
