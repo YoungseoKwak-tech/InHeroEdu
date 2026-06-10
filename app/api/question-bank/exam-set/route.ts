@@ -17,6 +17,9 @@ import { examSpecFor, PRACTICE_SETS } from "@/lib/apExamConfig";
 
 export const dynamic = "force-dynamic";
 
+// Free preview length for users without paid access to the subject.
+const PREVIEW_MCQ = 10;
+
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
@@ -27,24 +30,23 @@ export async function GET(req: NextRequest) {
     const setNum = Math.max(1, Math.min(PRACTICE_SETS, parseInt(searchParams.get("set") ?? "1", 10) || 1));
     const metaOnly = searchParams.get("meta") === "true";
 
+    // Paid access → full-length test. Otherwise everyone (incl. signed-out)
+    // still gets a short free preview of the exam experience (lead magnet).
     const user = await getAuthenticatedUser(req);
-    if (!user) {
-      return NextResponse.json({ error: "sign in required", reason: "sign_in_required" }, { status: 401 });
-    }
-    const accessIds = await getPaidSubjectAccessIds(user);
-    if (!hasPaidSubjectAccess(accessIds, courseId)) {
-      return NextResponse.json({ error: "subject not in plan", reason: "paid_plan_required" }, { status: 403 });
-    }
+    const accessIds = user ? await getPaidSubjectAccessIds(user) : new Set<string>();
+    const hasAccess = hasPaidSubjectAccess(accessIds, courseId);
 
     const spec = examSpecFor(courseId);
     const pool = (await buildBankQuestions(courseId)).filter((q) => Array.isArray(q.options) && q.options.length >= 2);
 
-    const size = Math.min(spec.mcq, pool.length);
+    const fullSize = Math.min(spec.mcq, pool.length);
+    const size = hasAccess ? fullSize : Math.min(PREVIEW_MCQ, pool.length);
+    const minutes = hasAccess ? spec.minutes : Math.max(5, Math.ceil(size * 1.5));
     const totalSets = Math.max(1, Math.min(PRACTICE_SETS, Math.floor(pool.length / Math.max(1, size))));
     const label = pool[0]?.subjectLabel ?? courseId;
 
     if (metaOnly) {
-      return NextResponse.json({ subject: courseId, label, totalSets, mcq: size, minutes: spec.minutes, poolSize: pool.length });
+      return NextResponse.json({ subject: courseId, label, totalSets, mcq: size, fullMcq: fullSize, minutes, preview: !hasAccess, poolSize: pool.length });
     }
 
     const effectiveSet = Math.min(setNum, totalSets);
@@ -56,7 +58,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       subject: courseId, label, setNumber: effectiveSet, totalSets,
-      mcq: questions.length, minutes: spec.minutes, questions,
+      mcq: questions.length, fullMcq: fullSize, minutes, preview: !hasAccess, questions,
     });
   } catch (e) {
     console.error("[question-bank/exam-set]", e);

@@ -24,6 +24,13 @@ interface SubjectCount { courseId: string | null; label: string; emoji: string; 
 const BLUE = "#1f6feb";
 const LETTERS = ["A", "B", "C", "D", "E", "F"];
 
+// Subjects that allow a calculator on the real AP exam (graphing/scientific).
+const CALC_SUBJECTS = new Set([
+  "ap-calculus-ab", "ap-calculus-bc", "ap-statistics",
+  "ap-physics-1", "ap-physics-2", "ap-physics-c-mechanics",
+  "ap-chemistry", "ap-biology", "ap-environmental-science",
+]);
+
 function fmt(sec: number) {
   const m = Math.max(0, Math.floor(sec / 60));
   const s = Math.max(0, sec % 60);
@@ -31,7 +38,7 @@ function fmt(sec: number) {
 }
 
 export default function ExamPage() {
-  const [phase, setPhase] = useState<"start" | "exam">("start");
+  const [phase, setPhase] = useState<"start" | "directions" | "exam">("start");
   const [subjects, setSubjects] = useState<SubjectCount[]>([]);
   const [subject, setSubject] = useState<string>("");
   const [gate, setGate] = useState<"" | "login" | "paid" | "empty">("");
@@ -41,6 +48,10 @@ export default function ExamPage() {
   const [questions, setQuestions] = useState<BankQuestion[]>([]);
   const [subjectLabel, setSubjectLabel] = useState("AP Practice");
   const [setNumber, setSetNumber] = useState(1);
+  const [preview, setPreview] = useState(false);
+  const [fullMcq, setFullMcq] = useState(0);
+  const [examMinutes, setExamMinutes] = useState(0);
+  const [calcOpen, setCalcOpen] = useState(false);
 
   // Player state
   const [idx, setIdx] = useState(0);
@@ -91,11 +102,15 @@ export default function ExamPage() {
       setQuestions(qs);
       setSubjectLabel(d.label ?? "AP Practice");
       setSetNumber(d.setNumber ?? n);
+      setPreview(!!d.preview);
+      setFullMcq(d.fullMcq ?? qs.length);
+      setExamMinutes(d.minutes ?? examSpecFor(subject).minutes);
       setRemaining((d.minutes ?? examSpecFor(subject).minutes) * 60);
       // reset player
       setIdx(0); setAnswers({}); setMarked({}); setCrossed({}); setCrossMode(false);
       setNavOpen(false); setReview(false); setSubmitted(false); submittedRef.current = false;
-      setPhase("exam");
+      setCalcOpen(false);
+      setPhase("directions");
       window.scrollTo({ top: 0 });
     } catch {
       setGate("empty"); setStarting(null);
@@ -188,6 +203,33 @@ export default function ExamPage() {
     );
   }
 
+  // ---------- DIRECTIONS ----------
+  if (phase === "directions") {
+    const calc = CALC_SUBJECTS.has(subject);
+    return (
+      <div style={{ minHeight: "100vh", background: "#fff", color: "#1d2733", display: "flex", flexDirection: "column" }}>
+        <TopBar subject={subjectLabel} setNumber={setNumber} center={<span style={{ fontWeight: 700 }}>지시사항 (Directions)</span>} />
+        <div style={{ flex: 1, maxWidth: 680, margin: "0 auto", padding: "36px 20px", width: "100%" }}>
+          <h2 style={{ fontSize: 24, fontWeight: 800, margin: 0, letterSpacing: "-0.02em" }}>{subjectLabel} — Practice Test {setNumber}</h2>
+          <p style={{ color: "#5b6b7b", marginTop: 8, fontSize: 14.5 }}>Section I · 객관식 {total}문항 · {examMinutes}분{preview ? " (무료 미리보기)" : ""}</p>
+          <ul style={{ marginTop: 22, paddingLeft: 0, listStyle: "none", display: "grid", gap: 12, fontSize: 14.5, color: "#3a4756", lineHeight: 1.6 }}>
+            <li>• 각 문항에서 4개 보기 중 정답 1개를 고릅니다.</li>
+            <li>• 상단 <b>타이머</b>가 0이 되면 자동 제출됩니다. (숨기기 가능)</li>
+            <li>• <b>보기 지우기</b>로 오답 후보를 소거하고, <b>🚩 검토 표시</b>로 다시 볼 문항을 표시하세요.</li>
+            <li>• 하단 <b>문항 네비게이터</b>로 자유롭게 이동하고, 마지막에 <b>검토 페이지</b>에서 제출합니다.</li>
+            {calc && <li>• 이 과목은 <b>계산기(Desmos)</b>를 쓸 수 있어요. (우측 하단 🖩 버튼)</li>}
+            <li>• 제출하면 <b>채점 결과 + 문항별 해설</b>을 볼 수 있습니다.</li>
+          </ul>
+          <p style={{ fontSize: 13, color: "#90a0b0", marginTop: 18 }}>준비되면 시작하세요. 타이머는 시작과 동시에 작동합니다.</p>
+        </div>
+        <BottomBar
+          left={<button onClick={backToStart} style={btnOutline}>← 뒤로</button>}
+          right={<button onClick={() => { setPhase("exam"); window.scrollTo({ top: 0 }); }} style={btnBlue}>시험 시작 →</button>}
+        />
+      </div>
+    );
+  }
+
   // ---------- RESULTS ----------
   if (submitted) {
     const pct = total ? Math.round((score / total) * 100) : 0;
@@ -240,6 +282,12 @@ export default function ExamPage() {
               );
             })}
           </div>
+          {preview && (
+            <div style={{ marginTop: 24, background: "#fff7e6", border: "1px solid #f0c36d", borderLeft: "4px solid #e0a32e", borderRadius: 12, padding: "16px 18px" }}>
+              <p style={{ margin: 0, fontSize: 14.5, color: "#3a4756", lineHeight: 1.6 }}>지금은 <b>무료 미리보기 {total}문항</b>이에요. 실제 시험과 동일한 <b>{fullMcq}문항 풀세트(Test 1·2·3)</b>는 전체 액세스에서 풀 수 있어요.</p>
+              <Link href="/question-bank" style={{ ...gateBtn, textDecoration: "none", display: "inline-block", marginTop: 12 }}>전체 액세스 보기</Link>
+            </div>
+          )}
           <div style={{ display: "flex", gap: 10, marginTop: 26 }}>
             <button onClick={() => startSet(setNumber)} style={btnBlue}>다시 풀기</button>
             <button onClick={backToStart} style={btnOutline}>다른 테스트 선택</button>
@@ -288,6 +336,12 @@ export default function ExamPage() {
             <span style={{ textDecoration: "line-through" }}>ABC</span> 보기 지우기
           </button>
         } />
+
+      {preview && (
+        <div style={{ background: "#fff7e6", borderBottom: "1px solid #f0c36d", color: "#7a5b16", fontSize: 12.5, fontWeight: 700, textAlign: "center", padding: "8px 12px" }}>
+          무료 미리보기 · {total}문항 (실제 시험 {fullMcq}문항) · 전체 풀세트는 전체 액세스에서
+        </div>
+      )}
 
       <div style={{ flex: 1, width: "100%", maxWidth: 720, margin: "0 auto", padding: "20px 20px 24px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid #eef2f5", paddingBottom: 12 }}>
@@ -357,6 +411,12 @@ export default function ExamPage() {
               : <button onClick={() => setReview(true)} style={btnBlue}>검토 및 제출 →</button>}
           </div>
         } />
+
+      {CALC_SUBJECTS.has(subject) && !calcOpen && (
+        <button onClick={() => setCalcOpen(true)} title="계산기"
+          style={{ position: "fixed", right: 18, bottom: 84, width: 52, height: 52, borderRadius: "50%", background: BLUE, color: "#fff", border: "none", fontSize: 22, cursor: "pointer", boxShadow: "0 8px 22px rgba(0,0,0,0.25)", zIndex: 901 }}>🖩</button>
+      )}
+      {CALC_SUBJECTS.has(subject) && calcOpen && <Calculator onClose={() => setCalcOpen(false)} />}
     </div>
   );
 }
@@ -384,6 +444,38 @@ function BottomBar({ left, right }: { left: React.ReactNode; right: React.ReactN
   return (
     <div style={{ height: 68, borderTop: "1px solid #e6ebf0", background: "#fff", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 18px" }}>
       <div>{left}</div><div>{right}</div>
+    </div>
+  );
+}
+
+function Calculator({ onClose }: { onClose: () => void }) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    let calc: { destroy?: () => void } | null = null;
+    const w = window as unknown as { Desmos?: { GraphingCalculator: (el: HTMLElement, opts?: unknown) => { destroy: () => void } } };
+    const init = () => { if (ref.current && w.Desmos) calc = w.Desmos.GraphingCalculator(ref.current, { expressionsCollapsed: true, settingsMenu: false, border: false }); };
+    if (w.Desmos) init();
+    else {
+      const id = "desmos-api-js";
+      const existing = document.getElementById(id) as HTMLScriptElement | null;
+      if (existing) existing.addEventListener("load", init);
+      else {
+        const sc = document.createElement("script");
+        sc.id = id;
+        sc.src = "https://www.desmos.com/api/v1.10/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6";
+        sc.async = true; sc.onload = init;
+        document.head.appendChild(sc);
+      }
+    }
+    return () => { try { calc?.destroy?.(); } catch { /* ignore */ } };
+  }, []);
+  return (
+    <div style={{ position: "fixed", right: 18, bottom: 84, width: 360, height: 440, background: "#fff", borderRadius: 14, boxShadow: "0 16px 50px rgba(0,0,0,0.28)", border: "1px solid #d8dee5", zIndex: 902, overflow: "hidden", display: "flex", flexDirection: "column" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 12px", borderBottom: "1px solid #eef2f5" }}>
+        <span style={{ fontWeight: 800, fontSize: 13 }}>계산기 (Desmos)</span>
+        <button onClick={onClose} style={{ background: "none", border: "none", fontSize: 18, color: "#9aa6b2", cursor: "pointer" }}>×</button>
+      </div>
+      <div ref={ref} style={{ flex: 1 }} />
     </div>
   );
 }
