@@ -53,6 +53,35 @@ const ESSAY_STRUCT = [
   { part: "통찰 (~200자)", desc: "이 경험이 나/전공/미래와 어떻게 연결되는가. 진실하면 된다." },
 ];
 
+// 보충 에세이 — 아이비리그 학교별 핵심 특성
+const IVY_WHY = [
+  ["Harvard", "리더십·사회 기여 — 내 능력을 세상에 어떻게 쓸 것인가"],
+  ["Yale", "지적 호기심·커뮤니티 — 학문 간 연결, 학교 문화 기여"],
+  ["Princeton", "연구 중심·독립심 — 학부 연구 기회, 구체적 학문 목표"],
+  ["Columbia", "도시와의 연결·다양성 — Core Curriculum, 뉴욕 환경"],
+  ["Penn", "실용성·학제간 — Wharton 연계, 실질적 임팩트"],
+  ["Dartmouth", "커뮤니티·전통 — 긴밀한 학교 문화, D-plan 유연성"],
+  ["Brown", "자기주도·Open Curriculum — 내가 설계하는 교육"],
+  ["Cornell", "실용 공학·다양성 — 분야 간 연결, 구체적 연구/산업 목표"],
+];
+
+// 리서치 주제 찾는 3가지 길
+const RESEARCH_FIND = [
+  { t: "Future Work에서", d: "관심 분야 최근 논문의 ‘Future Work’ 섹션 — 아직 안 풀린 것에서 주제가 나온다." },
+  { t: "주변 문제에서", d: "학교·집·지역의 해결 안 된 문제를, 내 기술·지식으로 접근할 수 있는가." },
+  { t: "두 분야 교차점", d: "공학×생물, 수학×경제처럼 두 분야가 만나는 곳에 탐구되지 않은 것이 많다." },
+];
+
+// 교수 컨택 이메일 3단락
+const EMAIL_STRUCT = [
+  ["1단락 (2~3문장)", "나는 누구·왜 연락했나 — 교수의 특정 논문을 읽었고, 내 관심사와 어떻게 연결되는지 한 문장."],
+  ["2단락 (3~4문장)", "지금 하는 것과 막힌 것 — 내 프로젝트를 구체적으로, 진지하게 공부한 흔적이 보이게."],
+  ["3단락 (1~2문장)", "구체적 요청 — ‘30분 미팅 가능한지’. 교수 시간을 최소로 요청해야 답장률이 오른다."],
+];
+
+// 고등학생 참가 가능 학술 대회
+const COMPETITIONS = ["Intel ISEF", "Regeneron STS", "Siemens Competition", "JSHS", "NANO Korea", "과학 전람회"];
+
 // 학년별 로드맵
 const ROADMAP = [
   ["9학년", "전부의 시작 — GPA 습관과 관심 탐색의 토대를 만든다"],
@@ -194,6 +223,65 @@ export default function StoryDesignClient() {
               형용사(amazing·passionate)는 지우고, 그걸 보여주는 장면으로 바꾼다.
             </p>
           </div>
+        </Card>
+
+        {/* Supplemental / Why essay */}
+        <Card>
+          <H2>🏫 보충 에세이 — Why Essay 전략</H2>
+          <Sub>“Why Essay는 학교 설명이 아니다. 내가 왜 ‘거기서만’ 할 수 있는지다.” 구체성이 진지함의 증거. (학교 이름을 바꿔 끼울 수 없는 에세이여야 한다)</Sub>
+          <div style={{ display: "flex", flexDirection: "column", gap: 7, marginBottom: 14 }}>
+            {IVY_WHY.map(([s, d]) => (
+              <div key={s} style={{ display: "flex", gap: 12, alignItems: "baseline", padding: "9px 0", borderBottom: "1px solid #f1f3f5" }}>
+                <span style={{ flexShrink: 0, minWidth: 84, fontSize: 13, fontWeight: 800, color: PURPLE }}>{s}</span>
+                <span style={{ fontSize: 13, color: "#475569", lineHeight: 1.55 }}>{d}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{ background: "#faf7ff", border: "1px solid #efe7fe", borderRadius: 10, padding: "12px 14px" }}>
+            <div style={{ fontSize: 12.5, fontWeight: 800, color: PURPLE, marginBottom: 4 }}>모든 에세이를 하나로 묶는 법</div>
+            <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.7, margin: 0 }}>
+              쓰기 전에 한 문장을 적는다 — <b>“나는 ____하는 사람이다.”</b> 그 빈칸을 채우면, 모든 에세이가 그 한 문장을 서로 다른 방식으로 보여주게 쓴다.
+              짧은 에세이는 <b>하나만, 구체적으로.</b>
+            </p>
+          </div>
+        </Card>
+
+        {/* Research */}
+        <Card>
+          <H2>🔬 리서치 들어가는 법</H2>
+          <Sub>“독립 리서치는 규모가 아니라 구조의 문제.” 질문 → 방법 설계 → 실행 → 기록 → 다음 질문. 실험실이 없어도 인터넷 리서치·데이터 분석도 리서치다.</Sub>
+
+          <div style={{ fontSize: 13, fontWeight: 800, color: "#1a1a1f", margin: "4px 0 8px" }}>주제 찾는 3가지 길</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px,1fr))", gap: 10, marginBottom: 16 }}>
+            {RESEARCH_FIND.map((r) => (
+              <div key={r.t} style={{ background: "#f7f8fa", border: "1px solid #e6e8ec", borderRadius: 11, padding: "13px 14px" }}>
+                <div style={{ fontSize: 13.5, fontWeight: 800, marginBottom: 4 }}>{r.t}</div>
+                <p style={{ fontSize: 12.5, color: "#475569", lineHeight: 1.6, margin: 0 }}>{r.d}</p>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ fontSize: 13, fontWeight: 800, color: "#1a1a1f", margin: "4px 0 8px" }}>교수 컨택 이메일 구조 (300~400단어)</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 7, marginBottom: 14 }}>
+            {EMAIL_STRUCT.map(([a, b]) => (
+              <div key={a} style={{ display: "flex", gap: 12, alignItems: "baseline", padding: "8px 0", borderBottom: "1px solid #f5f6f8" }}>
+                <span style={{ flexShrink: 0, minWidth: 104, fontSize: 12.5, fontWeight: 800, color: PURPLE }}>{a}</span>
+                <span style={{ fontSize: 13, color: "#475569", lineHeight: 1.55 }}>{b}</span>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontSize: 12.5, color: "#64748b", lineHeight: 1.7, margin: "0 0 14px", background: "#eef2ff", borderRadius: 8, padding: "10px 12px" }}>
+            연구실은 ‘교수가 받을 이유’가 있어야 한다 — <b>① 관련 사전 경험(완벽 안 해도 됨) ② 바로 쓸 기술 ③ 구체적 관심.</b>
+            경험이 없으면 학교 학부연구 프로그램(URGE 등)이나 TA·Grader부터 관계를 만든다.
+          </p>
+
+          <div style={{ fontSize: 13, fontWeight: 800, color: "#1a1a1f", marginBottom: 8 }}>발표로 완결 — 참가 가능 대회</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
+            {COMPETITIONS.map((c) => (
+              <span key={c} style={{ fontSize: 12, fontWeight: 700, color: "#1e3a8a", background: "#eef2ff", border: "1px solid #e0e7ff", borderRadius: 999, padding: "5px 12px" }}>{c}</span>
+            ))}
+          </div>
+          <p style={{ fontSize: 12, color: "#94a3b8", margin: "10px 0 0" }}>“발표가 완결을 만들고, 완결이 증거가 된다.”</p>
         </Card>
 
         {/* Roadmap */}
