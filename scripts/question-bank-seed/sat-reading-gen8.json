@@ -1,0 +1,203 @@
+{
+ "subject": "sat-reading",
+ "questions": [
+  {
+   "topic": "Subject-verb agreement",
+   "difficulty": "medium",
+   "question_text": "The team of researchers ___ publishing its findings.",
+   "option_a": "be",
+   "option_b": "is",
+   "option_c": "were",
+   "option_d": "are",
+   "correct_answer": "B",
+   "explanation": "A singular collective subject 'team' takes a singular verb 'is'."
+  },
+  {
+   "topic": "Pronoun-antecedent",
+   "difficulty": "medium",
+   "question_text": "Each student must submit ___ own essay.",
+   "option_a": "their",
+   "option_b": "its",
+   "option_c": "his or her",
+   "option_d": "they're",
+   "correct_answer": "C",
+   "explanation": "'Each' is singular, so a singular pronoun 'his or her' agrees."
+  },
+  {
+   "topic": "Comma splice",
+   "difficulty": "medium",
+   "question_text": "Choose the correctly punctuated sentence.",
+   "option_a": "She studied hard; she passed the exam.",
+   "option_b": "She studied hard: she passed, the exam.",
+   "option_c": "She studied hard, she passed the exam.",
+   "option_d": "She studied hard she passed the exam.",
+   "correct_answer": "A",
+   "explanation": "Two independent clauses need a semicolon (or conjunction), not just a comma."
+  },
+  {
+   "topic": "Apostrophes",
+   "difficulty": "medium",
+   "question_text": "Which is correct?",
+   "option_a": "The dogs' bowls were empty.",
+   "option_b": "The dogs's bowls were empty.",
+   "option_c": "The dogs bowls were empty.",
+   "option_d": "The dog's bowls' were empty.",
+   "correct_answer": "A",
+   "explanation": "Plural possessive of 'dogs' is 'dogs'' (apostrophe after the s)."
+  },
+  {
+   "topic": "Modifier placement",
+   "difficulty": "medium",
+   "question_text": "Walking to school, ___",
+   "option_a": "the rainbow appeared to Maria walking.",
+   "option_b": "Maria saw a rainbow.",
+   "option_c": "a rainbow was seen by Maria.",
+   "option_d": "it was a rainbow Maria saw.",
+   "correct_answer": "B",
+   "explanation": "The modifier 'walking to school' must attach to 'Maria', the one walking."
+  },
+  {
+   "topic": "Parallel structure",
+   "difficulty": "medium",
+   "question_text": "She likes hiking, swimming, and ___.",
+   "option_a": "cycling",
+   "option_b": "to cycle",
+   "option_c": "cycled",
+   "option_d": "cycle",
+   "correct_answer": "A",
+   "explanation": "Parallel lists keep the same form: hiking, swimming, cycling."
+  },
+  {
+   "topic": "Transitions (contrast)",
+   "difficulty": "medium",
+   "question_text": "The plan was popular; ___, it was never funded.",
+   "option_a": "however",
+   "option_b": "thus",
+   "option_c": "moreover",
+   "option_d": "therefore",
+   "correct_answer": "A",
+   "explanation": "'However' signals the contrast between popularity and lack of funding."
+  },
+  {
+   "topic": "Transitions (cause)",
+   "difficulty": "medium",
+   "question_text": "Sales fell sharply; ___, the store closed.",
+   "option_a": "instead",
+   "option_b": "however",
+   "option_c": "nevertheless",
+   "option_d": "therefore",
+   "correct_answer": "D",
+   "explanation": "'Therefore' signals the cause-and-effect result."
+  },
+  {
+   "topic": "Verb tense",
+   "difficulty": "medium",
+   "question_text": "By next year, she ___ for a decade.",
+   "option_a": "will have taught",
+   "option_b": "taught",
+   "option_c": "has taught",
+   "option_d": "will teach",
+   "correct_answer": "A",
+   "explanation": "The future-perfect 'will have taught' fits 'by next year ... for a decade'."
+  },
+  {
+   "topic": "Its vs it's",
+   "difficulty": "medium",
+   "question_text": "Choose the correct sentence.",
+   "option_a": "The cat licked its paw.",
+   "option_b": "The cat licked its' paw.",
+   "option_c": "The cat licked it is paw.",
+   "option_d": "The cat licked it's paw.",
+   "correct_answer": "A",
+   "explanation": "'Its' is the possessive; 'it's' means 'it is'."
+  },
+  {
+   "topic": "Who vs whom",
+   "difficulty": "medium",
+   "question_text": "To ___ should I address the letter?",
+   "option_a": "whose",
+   "option_b": "whom",
+   "option_c": "who's",
+   "option_d": "who",
+   "correct_answer": "B",
+   "explanation": "'Whom' is the object of the preposition 'to'."
+  },
+  {
+   "topic": "Colon usage",
+   "difficulty": "medium",
+   "question_text": "Which sentence uses the colon correctly?",
+   "option_a": "She packed three things: a map, water, and snacks.",
+   "option_b": "She packed: a map, water, and snacks.",
+   "option_c": "She packed three things; a map, water, and snacks.",
+   "option_d": "She packed three things, a map: water, and snacks.",
+   "correct_answer": "A",
+   "explanation": "A colon follows a complete clause to introduce a list."
+  },
+  {
+   "topic": "Concision",
+   "difficulty": "medium",
+   "question_text": "Choose the most concise option.",
+   "option_a": "Because of the rain, we left.",
+   "option_b": "Due to the fact that it was raining, we left.",
+   "option_c": "In light of the raining situation, we left.",
+   "option_d": "On account of the rain that was falling, we left.",
+   "correct_answer": "A",
+   "explanation": "'Because of the rain' is the clearest, most concise."
+  },
+  {
+   "topic": "Comparison (than)",
+   "difficulty": "medium",
+   "question_text": "She is taller than ___.",
+   "option_a": "myself",
+   "option_b": "I",
+   "option_c": "mine",
+   "option_d": "me",
+   "correct_answer": "B",
+   "explanation": "In a comparison the subject pronoun 'I' is correct (taller than I am)."
+  },
+  {
+   "topic": "Subject-verb (intervening)",
+   "difficulty": "medium",
+   "question_text": "The box of chocolates ___ on the table.",
+   "option_a": "were",
+   "option_b": "is",
+   "option_c": "are",
+   "option_d": "have",
+   "correct_answer": "B",
+   "explanation": "The subject is singular 'box', so 'is' agrees (ignore 'of chocolates')."
+  },
+  {
+   "topic": "Semicolon list",
+   "difficulty": "medium",
+   "question_text": "Which correctly separates list items with internal commas?",
+   "option_a": "We visited Paris, France; Rome, Italy; and Bern, Switzerland.",
+   "option_b": "We visited Paris, France, Rome, Italy, and Bern, Switzerland.",
+   "option_c": "We visited: Paris, France, Rome, Italy.",
+   "option_d": "We visited Paris; France, Rome; Italy.",
+   "correct_answer": "A",
+   "explanation": "Semicolons separate list items that themselves contain commas."
+  },
+  {
+   "topic": "Redundancy",
+   "difficulty": "medium",
+   "question_text": "Choose the best revision.",
+   "option_a": "They returned the gift.",
+   "option_b": "They returned back the gift again.",
+   "option_c": "They gave back the gift in return.",
+   "option_d": "They returned the gift back.",
+   "correct_answer": "A",
+   "explanation": "'Returned' already means 'gave back', so 'back' is redundant."
+  },
+  {
+   "topic": "Faulty parallelism",
+   "difficulty": "medium",
+   "question_text": "Choose the parallel version.",
+   "option_a": "The job requires reports written and calls answered.",
+   "option_b": "The job requires writing reports and to answer calls.",
+   "option_c": "The job requires to write reports and answering calls.",
+   "option_d": "The job requires writing reports and answering calls.",
+   "correct_answer": "D",
+   "explanation": "Both gerunds 'writing' and 'answering' keep the list parallel."
+  }
+ ]
+}
