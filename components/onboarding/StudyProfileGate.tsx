@@ -40,6 +40,7 @@ const SKIP_PATH_PREFIXES = [
   "/payment",
   "/admin",
   "/study-type",
+  "/parents", // Korean parent portal — student grade/AP setup doesn't apply
 ];
 const DISMISS_KEY = "spg_dismissed_session";
 
