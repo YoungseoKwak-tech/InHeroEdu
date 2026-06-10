@@ -87,7 +87,7 @@ export default function StoryLanding() {
       {/* Top bar */}
       <div style={{ position: "sticky", top: 0, zIndex: 20, background: "rgba(255,255,255,0.92)", backdropFilter: "blur(8px)", borderBottom: "1px solid #e6e8ec" }}>
         <div style={{ maxWidth: 820, margin: "0 auto", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Link href="/parents" style={{ color: "#475569", textDecoration: "none", fontSize: 14, fontWeight: 600 }}>← 자료실</Link>
+          <Link href="/parents/story" style={{ color: "#475569", textDecoration: "none", fontSize: 14, fontWeight: 600 }}>← 합격 수기</Link>
           <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 15, letterSpacing: "-0.02em" }}>
             In<span style={{ color: GREEN }}>Hero</span> · 학부모
           </span>
