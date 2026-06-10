@@ -160,7 +160,12 @@ async function nicePayFetch<T>(
 
 export function getNicePayResultCode(payload: Record<string, unknown>) {
   return String(
-    payload.resultCode ??
+    // Auth callback (브라우저 returnUrl) uses authResultCode; the server
+    // approval response uses resultCode. Read both so a successful card auth
+    // (authResultCode "0000") isn't misread as auth_failed.
+    payload.authResultCode ??
+      payload.AuthResultCode ??
+      payload.resultCode ??
       payload.ResultCode ??
       payload.result_code ??
       payload.code ??
@@ -170,7 +175,9 @@ export function getNicePayResultCode(payload: Record<string, unknown>) {
 
 export function getNicePayResultMessage(payload: Record<string, unknown>) {
   return String(
-    payload.resultMsg ??
+    payload.authResultMsg ??
+      payload.AuthResultMsg ??
+      payload.resultMsg ??
       payload.ResultMsg ??
       payload.result_message ??
       payload.message ??
