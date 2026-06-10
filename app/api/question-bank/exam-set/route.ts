@@ -10,6 +10,7 @@
  */
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthenticatedUser } from "@/lib/auth";
+import { isAdminEmail } from "@/lib/adminEmails";
 import { normalizeCourseAccessSubjectId } from "@/lib/course-access";
 import { getPaidSubjectAccessIds, hasPaidSubjectAccess } from "@/lib/paid-subject-access";
 import { buildBankQuestions } from "@/lib/questionBank";
@@ -34,7 +35,8 @@ export async function GET(req: NextRequest) {
     // still gets a short free preview of the exam experience (lead magnet).
     const user = await getAuthenticatedUser(req);
     const accessIds = user ? await getPaidSubjectAccessIds(user) : new Set<string>();
-    const hasAccess = hasPaidSubjectAccess(accessIds, courseId);
+    // Admins get the full-length set credit-free.
+    const hasAccess = isAdminEmail(user?.email) || hasPaidSubjectAccess(accessIds, courseId);
 
     const spec = examSpecFor(courseId);
     const pool = (await buildBankQuestions(courseId)).filter((q) => Array.isArray(q.options) && q.options.length >= 2);
