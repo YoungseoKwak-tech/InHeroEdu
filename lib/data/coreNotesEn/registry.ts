@@ -19,6 +19,19 @@ import { IB_PSYCHOLOGY_U1_EN } from "./ib-psychology-u1";
 import { IB_ESS_U1_EN } from "./ib-ess-u1";
 import { IB_CS_U1_EN } from "./ib-cs-u1";
 
+// IB Diploma Programme — Unit 2 ────────────────────────────────
+import { IB_BIOLOGY_U2_EN } from "./ib-biology-u2";
+import { IB_CHEMISTRY_U2_EN } from "./ib-chemistry-u2";
+import { IB_PHYSICS_U2_EN } from "./ib-physics-u2";
+import { IB_MATH_AA_U2_EN } from "./ib-math-aa-u2";
+import { IB_MATH_AI_U2_EN } from "./ib-math-ai-u2";
+import { IB_ENGLISH_U2_EN } from "./ib-english-u2";
+import { IB_HISTORY_U2_EN } from "./ib-history-u2";
+import { IB_ECONOMICS_U2_EN } from "./ib-economics-u2";
+import { IB_PSYCHOLOGY_U2_EN } from "./ib-psychology-u2";
+import { IB_ESS_U2_EN } from "./ib-ess-u2";
+import { IB_CS_U2_EN } from "./ib-cs-u2";
+
 export const CORE_NOTES_EN_LIST: CoreNote[] = [
   ...IB_BIOLOGY_U1_EN,
   ...IB_CHEMISTRY_U1_EN,
@@ -31,4 +44,15 @@ export const CORE_NOTES_EN_LIST: CoreNote[] = [
   ...IB_PSYCHOLOGY_U1_EN,
   ...IB_ESS_U1_EN,
   ...IB_CS_U1_EN,
+  ...IB_BIOLOGY_U2_EN,
+  ...IB_CHEMISTRY_U2_EN,
+  ...IB_PHYSICS_U2_EN,
+  ...IB_MATH_AA_U2_EN,
+  ...IB_MATH_AI_U2_EN,
+  ...IB_ENGLISH_U2_EN,
+  ...IB_HISTORY_U2_EN,
+  ...IB_ECONOMICS_U2_EN,
+  ...IB_PSYCHOLOGY_U2_EN,
+  ...IB_ESS_U2_EN,
+  ...IB_CS_U2_EN,
 ];
