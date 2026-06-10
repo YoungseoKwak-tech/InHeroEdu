@@ -27,7 +27,24 @@ export default function MathClient() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [openCourse, setOpenCourse] = useState<string | null>(US_COURSE_TOPICS[0]?.course ?? null);
 
+  const [isWide, setIsWide] = useState(false);
+
   useEffect(() => { getClientSession().then((s) => setLoggedIn(!!s?.user)).catch(() => {}); }, []);
+  useEffect(() => {
+    const f = () => setIsWide(window.innerWidth >= 1300);
+    f();
+    window.addEventListener("resize", f);
+    return () => window.removeEventListener("resize", f);
+  }, []);
+
+  // Side quick-jump: open a course accordion and scroll it into view.
+  const courseSlug = (c: string) => c.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  function jumpToCourse(course: string) {
+    setOpenCourse(course);
+    setTimeout(() => {
+      document.getElementById(`course-${courseSlug(course)}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 60);
+  }
 
   const gateToTools = () => {
     if (loggedIn) router.push("/parents/question-bank");
@@ -36,6 +53,26 @@ export default function MathClient() {
 
   return (
     <div style={{ position: "relative", zIndex: 10, minHeight: "100vh", background: "#f7f8fa", color: "#1a1a1f", cursor: "auto" }}>
+      {/* Right-side quick jump into the EN/KO math concept summary */}
+      {isWide && (
+        <nav style={{ position: "fixed", top: 90, right: 24, width: 214, zIndex: 15, background: "#fff", border: "1px solid #e6e8ec", borderRadius: 14, boxShadow: "0 8px 24px rgba(16,24,40,0.08)", padding: "14px 12px", maxHeight: "calc(100vh - 130px)", overflowY: "auto" }}>
+          <div style={{ fontSize: 12.5, fontWeight: 800, color: "#2563eb", letterSpacing: "-0.01em", padding: "0 4px 8px" }}>📐 수학 개념 바로가기</div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            {US_COURSE_TOPICS.map((c) => {
+              const active = openCourse === c.course;
+              return (
+                <button key={c.course} onClick={() => jumpToCourse(c.course)}
+                  style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", textAlign: "left", border: "none", cursor: "pointer", borderRadius: 8, padding: "8px 10px",
+                    background: active ? "#eef3fb" : "transparent", color: active ? "#1e3a5f" : "#475569", fontSize: 13, fontWeight: active ? 800 : 600 }}>
+                  <span style={{ fontSize: 15 }}>{c.emoji}</span>
+                  <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.course}</span>
+                </button>
+              );
+            })}
+          </div>
+        </nav>
+      )}
+
       {/* Top bar */}
       <div style={{ position: "sticky", top: 0, zIndex: 20, background: "rgba(255,255,255,0.92)", backdropFilter: "blur(8px)", borderBottom: "1px solid #e6e8ec" }}>
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -97,7 +134,7 @@ export default function MathClient() {
             {US_COURSE_TOPICS.map((c) => {
               const open = openCourse === c.course;
               return (
-                <div key={c.course} style={{ border: open ? "1.5px solid #2563eb" : "1px solid #e6e8ec", borderRadius: 12, background: "#fff", overflow: "hidden" }}>
+                <div key={c.course} id={`course-${courseSlug(c.course)}`} style={{ border: open ? "1.5px solid #2563eb" : "1px solid #e6e8ec", borderRadius: 12, background: "#fff", overflow: "hidden", scrollMarginTop: 70 }}>
                   <button onClick={() => setOpenCourse(open ? null : c.course)} aria-expanded={open}
                     style={{ width: "100%", textAlign: "left", background: "none", border: "none", cursor: "pointer", padding: "15px 18px", display: "flex", alignItems: "center", gap: 12 }}>
                     <span style={{ fontSize: 22 }}>{c.emoji}</span>
