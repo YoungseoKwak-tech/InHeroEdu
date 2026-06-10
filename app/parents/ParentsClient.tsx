@@ -93,6 +93,7 @@ const SOCIAL_STATS = [
 const NAV = [
   { label: "입시 Q&A", route: "/parents/lounge", gated: false },
   { label: "합격 수기", route: "/parents/story", gated: false },
+  { label: "아이비리그 스토리 설계", route: "/parents/story-design", gated: false },
   { label: "미국 입시 대회", route: "/parents/competitions", gated: false },
   { label: "학년별 로드맵", route: "/parents/roadmap", gated: false },
   { label: "수학 교육", route: "/parents/math", gated: false },
@@ -108,6 +109,7 @@ const NAV = [
 const QUICK = [
   { emoji: "💬", label: "입시 Q&A", route: "/parents/lounge", gated: false },
   { emoji: "🎓", label: "합격 수기", route: "/parents/story", gated: false },
+  { emoji: "🧭", label: "아이비리그 스토리 설계", route: "/parents/story-design", gated: false },
   { emoji: "🎯", label: "미국 입시 대회", route: "/parents/competitions", gated: false },
   { emoji: "🗺️", label: "학년별 로드맵", route: "/parents/roadmap", gated: false },
   { emoji: "📐", label: "수학 교육", route: "/parents/math", gated: false },
