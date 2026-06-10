@@ -80,6 +80,8 @@ export default function AdminStudentsPage() {
             <h1 className="text-2xl font-extrabold text-white">👥 Student History</h1>
             <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
               {students.length} students joined
+              {' · '}
+              <a href="/admin/credits" style={{ color: '#FCD34D', textDecoration: 'none', fontWeight: 700 }}>💳 크레딧 사용 내역 →</a>
             </p>
           </div>
           <input

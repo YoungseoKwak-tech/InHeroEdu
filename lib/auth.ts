@@ -7,7 +7,7 @@ const AUTH_USER_TIMEOUT_MS = 5_000;
 // admin, regardless of environment. The Vercel ADMIN_EMAILS env var
 // can still extend the list for other team members without touching
 // code.
-const OWNER_EMAIL_FALLBACK = "yk777@cornell.edu,hyeonjei@gmail.com";
+const OWNER_EMAIL_FALLBACK = "yk777@cornell.edu,junginlee0904@gmail.com";
 
 const ADMIN_EMAILS = (
   [process.env.ADMIN_EMAILS ?? "", OWNER_EMAIL_FALLBACK].join(",")
