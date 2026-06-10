@@ -16,6 +16,7 @@ import { courses } from "@/lib/data/courses";
 import coreNotesSeed from "@/lib/data/coreNotesSeed.json";
 import { CORE_NOTES_AUTHORED } from "@/lib/data/coreNotesAuthored";
 import { CORE_NOTES_KO } from "@/lib/data/coreNotesKo";
+import { CORE_NOTES_EN } from "@/lib/data/coreNotesEn";
 
 export interface NoteTerm {
   term: string;
@@ -261,7 +262,9 @@ async function rebuild(): Promise<CoreNote[]> {
   // their own chips/lessons (the notes are already complete Korean CoreNotes).
   const englishCourses = new Set(notes.map((n) => n.courseId));
   const koOnly = [...CORE_NOTES_KO.values()].filter((n) => n.courseId && !englishCourses.has(n.courseId));
-  notes = notes.concat(koOnly);
+  // Prefer the English version as the base note so the split-view "EN" column
+  // shows real English; fall back to the Korean note until its translation lands.
+  notes = notes.concat(koOnly.map((ko) => CORE_NOTES_EN.get(ko.lessonId) ?? ko));
 
   // Some scripts carry the same title in two units (data error, e.g. "Carbon:
   // The Backbone of Life" in both u1 and u7). Keep the earliest unit/lesson.
