@@ -6,6 +6,7 @@ import { getStoredUserId, getStoredUsername, saveUsername } from "@/lib/username
 import { useLang } from "@/app/contexts/LanguageContext";
 import { getClientSession } from "@/lib/client-auth";
 import { resolveAuthor, specialAuthorForEmail, type SpecialAuthor } from "@/lib/specialAuthors";
+import { TierBadge } from "@/components/parents/TierBadge";
 
 /** 👑 crown badge for special author personas (코넬맘). */
 function CrownBadge() {
@@ -27,6 +28,7 @@ interface Question {
   view_count: number;
   answer_count: number;
   created_at: string;
+  role?: "student" | "parent" | null;
 }
 
 interface Answer {
@@ -40,6 +42,7 @@ interface Answer {
   is_accepted: boolean;
   likes: number;
   created_at: string;
+  role?: "student" | "parent" | null;
 }
 
 const SUBJECT_COLORS: Record<string, string> = {
@@ -303,6 +306,7 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
                 ? <CrownBadge />
                 : <span className="font-semibold text-gray-600 dark:text-gray-300">{ra.name}</span>;
             })()}
+            {question.role && <TierBadge tier={question.role} size="sm" />}
             <span>·</span>
             <span>{new Date(question.created_at).toLocaleString(lang === "ko" ? "ko-KR" : "en-US", { dateStyle: "medium", timeStyle: "short" })}</span>
             <span>·</span>
@@ -350,6 +354,7 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
                     {ra.crown
                       ? <CrownBadge />
                       : <span className="text-sm font-bold text-gray-900 dark:text-white">{ra.name}</span>}
+                    {!a.is_ai && a.role && <TierBadge tier={a.role} size="sm" />}
                     {a.is_ai && (
                       <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400">
                         {copy.aiAnswer}

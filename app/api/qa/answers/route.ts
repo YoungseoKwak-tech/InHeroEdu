@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
+import { rolesByUserId } from "@/lib/qaRoles";
 
 export async function GET(req: NextRequest) {
   const questionId = new URL(req.url).searchParams.get("questionId");
@@ -15,7 +16,9 @@ export async function GET(req: NextRequest) {
     .order("created_at", { ascending: true });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ answers: data ?? [] });
+  const roles = await rolesByUserId(supabase, (data ?? []).map((a) => a.user_id));
+  const answers = (data ?? []).map((a) => ({ ...a, role: roles[a.user_id] ?? null }));
+  return NextResponse.json({ answers });
 }
 
 export async function POST(req: NextRequest) {

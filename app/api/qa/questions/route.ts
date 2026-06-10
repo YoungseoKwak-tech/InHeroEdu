@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
+import { rolesByUserId } from "@/lib/qaRoles";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -23,7 +24,8 @@ export async function GET(req: NextRequest) {
         .update({ view_count: (data.view_count ?? 0) + 1 })
         .eq("id", id);
     }
-    return NextResponse.json({ question: data ?? null });
+    const roles = data ? await rolesByUserId(supabase, [data.user_id]) : {};
+    return NextResponse.json({ question: data ? { ...data, role: roles[data.user_id] ?? null } : null });
   }
 
   // List
@@ -37,7 +39,9 @@ export async function GET(req: NextRequest) {
 
   const { data, error } = await query;
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ questions: data ?? [] });
+  const roles = await rolesByUserId(supabase, (data ?? []).map((q) => q.user_id));
+  const questions = (data ?? []).map((q) => ({ ...q, role: roles[q.user_id] ?? null }));
+  return NextResponse.json({ questions });
 }
 
 export async function POST(req: NextRequest) {

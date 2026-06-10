@@ -16,6 +16,7 @@ import { getClientSession } from "@/lib/client-auth";
 import { resolveAuthor, specialAuthorForEmail } from "@/lib/specialAuthors";
 import { spendAndUnlock } from "@/lib/credits";
 import { isAdminEmail } from "@/lib/adminEmails";
+import { TierBadge } from "@/components/parents/TierBadge";
 
 const SUBJECT = "parent-lounge";
 const FREE_POSTS = 3;  // 처음 3회 질문 등록은 무료
@@ -30,6 +31,7 @@ interface Question {
   view_count: number;
   answer_count: number;
   created_at: string;
+  role?: "student" | "parent" | null;
 }
 
 function timeAgo(iso: string): string {
@@ -175,10 +177,13 @@ export default function LoungeClient() {
                   <div style={{ minWidth: 0, flex: 1 }}>
                     <p style={{ fontSize: 15, fontWeight: 700, margin: "0 0 4px", color: "#1a1a1f", lineHeight: 1.4 }}>{q.title}</p>
                     <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.55, margin: "0 0 8px", overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{q.content}</p>
-                    <div style={{ fontSize: 12, color: "#94a3b8" }}>
+                    <div style={{ fontSize: 12, color: "#94a3b8", display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
                       {resolveAuthor({ nickname: q.nickname }).crown
                         ? <span style={{ fontWeight: 800, color: "#92400e" }}>👑 코넬맘</span>
-                        : q.nickname} · {timeAgo(q.created_at)} · 조회 {q.view_count}</div>
+                        : <span>{q.nickname}</span>}
+                      {q.role && <TierBadge tier={q.role} size="sm" />}
+                      <span>· {timeAgo(q.created_at)} · 조회 {q.view_count}</span>
+                    </div>
                   </div>
                 </article>
               </Link>
