@@ -40,10 +40,12 @@ export async function GET(req: NextRequest) {
       .select("credit_unlocks")
       .eq("id", user.id)
       .maybeSingle();
-    if (!error && data && Array.isArray(data.credit_unlocks)) {
-      if (!data.credit_unlocks.includes(UNLOCK_KEY)) {
-        return NextResponse.json({ error: "locked" }, { status: 403 });
-      }
+    // Only enforce when the account actually has server-recorded unlocks. The
+    // column defaults to '[]' for everyone, so requiring the key on an empty
+    // array 403'd legitimate readers whose unlock lived only in localStorage.
+    const unlocks = data?.credit_unlocks;
+    if (!error && Array.isArray(unlocks) && unlocks.length > 0 && !unlocks.includes(UNLOCK_KEY)) {
+      return NextResponse.json({ error: "locked" }, { status: 403 });
     }
   } catch { /* can't verify server-side → login gate already passed */ }
 

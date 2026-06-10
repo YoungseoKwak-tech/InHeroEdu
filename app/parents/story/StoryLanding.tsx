@@ -11,8 +11,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import StoryReviewWidget from "@/components/StoryReviewWidget";
-import { getClientSession } from "@/lib/client-auth";
-import { isUnlocked, spendAndUnlock, getBalance, CREDIT_EVENT, CREDIT_COSTS } from "@/lib/credits";
+import { authFetch, getClientSession } from "@/lib/client-auth";
+import { isUnlocked, spendAndUnlock, getBalance, hydrateCredits, CREDIT_EVENT, CREDIT_COSTS } from "@/lib/credits";
 import {
   STORY_META, TOC_PROLOGUE, TOC_PARTS, TOC_EPILOGUE, TOC_APPENDIX,
   PROLOGUE_OPENING, PROLOGUE_BODY,
@@ -31,10 +31,15 @@ export default function StoryLanding() {
   const [showGate, setShowGate] = useState(false);
 
   useEffect(() => {
-    getClientSession().then((s) => setLoggedIn(!!s?.user)).catch(() => {});
     const sync = () => { setOwned(isUnlocked(READ_KEY)); setBalance(getBalance()); };
     sync();
     window.addEventListener(CREDIT_EVENT, sync);
+    getClientSession().then(async (s) => {
+      setLoggedIn(!!s?.user);
+      // Pull server-side credits/unlocks so spending syncs to the account and
+      // the gated reader (which checks profiles.credit_unlocks) doesn't 403.
+      if (s?.user) { await hydrateCredits().catch(() => {}); sync(); }
+    }).catch(() => {});
     return () => window.removeEventListener(CREDIT_EVENT, sync);
   }, []);
 
@@ -48,13 +53,29 @@ export default function StoryLanding() {
     setShowGate(true);
   }
 
-  function confirmSpend() {
+  // Spend server-authoritatively so profiles.credit_unlocks records the unlock
+  // BEFORE the reader's file API checks it — otherwise it 403s ("locked").
+  async function confirmSpend() {
     setShowGate(false);
-    if (spendAndUnlock(READ_KEY, READ_COST)) {
+    try {
+      const res = await authFetch("/api/credits/spend", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ itemKey: READ_KEY, cost: READ_COST }),
+      });
+      const d = await res.json().catch(() => ({}));
+      if (d?.migrated === false) {
+        // Account credits not server-backed → local fallback.
+        if (!spendAndUnlock(READ_KEY, READ_COST)) { window.dispatchEvent(new CustomEvent("inhero:open-charge")); return; }
+      } else if (!d?.ok) {
+        window.dispatchEvent(new CustomEvent("inhero:open-charge")); return; // insufficient on server
+      } else {
+        await hydrateCredits().catch(() => {}); // mirror server unlock + balance locally
+      }
       setOwned(true);
       router.push(READ_HREF);
-    } else {
-      window.dispatchEvent(new CustomEvent("inhero:open-charge"));
+    } catch {
+      if (spendAndUnlock(READ_KEY, READ_COST)) { setOwned(true); router.push(READ_HREF); }
+      else window.dispatchEvent(new CustomEvent("inhero:open-charge"));
     }
   }
 
