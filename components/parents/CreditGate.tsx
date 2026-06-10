@@ -12,6 +12,8 @@
 
 import { useEffect, useState, type ReactNode } from "react";
 import { getBalance, isUnlocked, spendAndUnlock, CREDIT_EVENT } from "@/lib/credits";
+import { getClientSession } from "@/lib/client-auth";
+import { isAdminEmail } from "@/lib/adminEmails";
 
 const GREEN = "#00b85f";
 
@@ -26,6 +28,7 @@ export default function CreditGate({
 }) {
   const [unlocked, setUnlocked] = useState<boolean | null>(null);
   const [balance, setBalance] = useState(0);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const sync = () => {
@@ -37,9 +40,14 @@ export default function CreditGate({
     return () => window.removeEventListener(CREDIT_EVENT, sync);
   }, [gateKey, bundleKey]);
 
+  // Admins get every gated item credit-free.
+  useEffect(() => {
+    getClientSession().then((s) => setIsAdmin(isAdminEmail(s?.user?.email))).catch(() => {});
+  }, []);
+
   // Avoid SSR/first-paint flash — decide only after reading localStorage.
   if (unlocked === null) return null;
-  if (unlocked) return <>{children}</>;
+  if (unlocked || isAdmin) return <>{children}</>;
 
   const enough = balance >= cost;
   const bundleEnough = bundleKey ? balance >= (bundleCost ?? cost) : false;

@@ -15,6 +15,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { requireAuthenticatedUser } from "@/lib/auth";
+import { isAdminEmail } from "@/lib/adminEmails";
 import { createAdminClient } from "@/lib/supabase";
 
 export const runtime = "nodejs";
@@ -31,9 +32,12 @@ export async function GET(req: NextRequest) {
   if (auth instanceof NextResponse) return auth; // 401 if not signed in
   const user = auth;
 
+  // Admins read everything credit-free.
+  const admin = isAdminEmail(user.email);
+
   // If this account's unlocks are tracked server-side, enforce the purchase.
   // If we can't read them (older schema / no row), fall back to login-only.
-  try {
+  if (!admin) try {
     const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("profiles")

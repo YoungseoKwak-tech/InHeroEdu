@@ -13,6 +13,7 @@ import Link from "next/link";
 import StoryReviewWidget from "@/components/StoryReviewWidget";
 import { authFetch, getClientSession } from "@/lib/client-auth";
 import { isUnlocked, spendAndUnlock, getBalance, hydrateCredits, CREDIT_EVENT, CREDIT_COSTS } from "@/lib/credits";
+import { isAdminEmail } from "@/lib/adminEmails";
 import {
   STORY_META, TOC_PROLOGUE, TOC_PARTS, TOC_EPILOGUE, TOC_APPENDIX,
   PROLOGUE_OPENING, PROLOGUE_BODY,
@@ -36,6 +37,8 @@ export default function StoryLanding() {
     window.addEventListener(CREDIT_EVENT, sync);
     getClientSession().then(async (s) => {
       setLoggedIn(!!s?.user);
+      // Admins read everything credit-free — treat as already owned.
+      if (isAdminEmail(s?.user?.email)) { setOwned(true); return; }
       // Pull server-side credits/unlocks so spending syncs to the account and
       // the gated reader (which checks profiles.credit_unlocks) doesn't 403.
       if (s?.user) { await hydrateCredits().catch(() => {}); sync(); }

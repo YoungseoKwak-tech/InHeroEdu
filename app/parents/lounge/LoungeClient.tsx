@@ -15,6 +15,7 @@ import Link from "next/link";
 import { getClientSession } from "@/lib/client-auth";
 import { resolveAuthor, specialAuthorForEmail } from "@/lib/specialAuthors";
 import { spendAndUnlock } from "@/lib/credits";
+import { isAdminEmail } from "@/lib/adminEmails";
 
 const SUBJECT = "parent-lounge";
 const FREE_POSTS = 3;  // 처음 3회 질문 등록은 무료
@@ -49,6 +50,7 @@ export default function LoungeClient() {
   const [content, setContent] = useState("");
   const [posting, setPosting] = useState(false);
   const [freeUsed, setFreeUsed] = useState(0);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     getClientSession().then((s) => {
@@ -57,6 +59,7 @@ export default function LoungeClient() {
         const persona = specialAuthorForEmail(s.user.email);
         const nickname = persona?.name || (m.handle as string) || (m.name as string) || s.user.email?.split("@")[0] || "학부모";
         setUser({ id: s.user.id, nickname });
+        setIsAdmin(isAdminEmail(s.user.email));
         try { setFreeUsed(Number(localStorage.getItem(postCountKey(s.user.id)) || "0")); } catch { /* ignore */ }
       }
     }).catch(() => {});
@@ -84,8 +87,9 @@ export default function LoungeClient() {
     if (!user || !title.trim() || !content.trim() || posting) return;
     const key = postCountKey(user.id);
     const used = Number(localStorage.getItem(key) || "0");
-    // 처음 3회는 무료, 이후부터 건당 5크레딧 차감 (고유 키로 매번 부과 + 계정 동기화)
-    if (used >= FREE_POSTS) {
+    // 처음 3회는 무료, 이후부터 건당 5크레딧 차감 (고유 키로 매번 부과 + 계정 동기화).
+    // 관리자는 크레딧 없이 무제한.
+    if (!isAdmin && used >= FREE_POSTS) {
       const paid = spendAndUnlock(`qa-post:${user.id}:${Date.now()}`, POST_COST);
       if (!paid) { window.dispatchEvent(new Event("inhero:open-charge")); return; }
     }
@@ -143,7 +147,7 @@ export default function LoungeClient() {
               <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
                 <button onClick={submit} disabled={posting || !title.trim() || !content.trim()}
                   style={{ background: posting || !title.trim() || !content.trim() ? "#cbd5e1" : "#1a1a1f", color: "#fff", border: "none", borderRadius: 8, padding: "10px 22px", fontWeight: 800, fontSize: 13.5, cursor: posting ? "default" : "pointer" }}>
-                  {posting ? "등록 중…" : freeUsed < FREE_POSTS ? `질문 등록 (무료 ${FREE_POSTS - freeUsed}회 남음)` : `질문 등록 (${POST_COST}크레딧)`}
+                  {posting ? "등록 중…" : isAdmin ? "질문 등록" : freeUsed < FREE_POSTS ? `질문 등록 (무료 ${FREE_POSTS - freeUsed}회 남음)` : `질문 등록 (${POST_COST}크레딧)`}
                 </button>
               </div>
             </div>

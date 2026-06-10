@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import PdfReader from "@/app/library/[resourceId]/read/PdfReader";
 import { getClientSession } from "@/lib/client-auth";
 import { isUnlocked } from "@/lib/credits";
+import { isAdminEmail } from "@/lib/adminEmails";
 
 const READ_KEY = "res:/parents/story";
 
@@ -25,7 +26,7 @@ export default function StoryReadClient() {
     (async () => {
       const session = await getClientSession().catch(() => null);
       const signedIn = !!session?.user;
-      const owns = isUnlocked(READ_KEY);
+      const owns = isUnlocked(READ_KEY) || isAdminEmail(session?.user?.email);
       if (cancelled) return;
       if (signedIn && owns) {
         setAllowed(true);
