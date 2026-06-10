@@ -179,7 +179,7 @@ export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
             {err && <p style={{ fontSize: 12.5, color: "#dc2626", marginTop: 10 }}>{err}</p>}
             {NICEPAY_ENABLED && (
               <p style={{ fontSize: 11.5, color: "#64748b", marginTop: 14, lineHeight: 1.7, background: "#f7f8fa", borderRadius: 8, padding: "10px 12px" }}>
-                모든 가격은 <strong>VAT 포함</strong>입니다. 자료실 정기 구독권: 월 29,000원(VAT 포함·매월 자동 결제).<br />
+                모든 가격은 <strong>VAT 포함</strong>이며, 일회성 크레딧 충전입니다(자동 결제·정기 구독 없음).<br />
                 ※ {checkoutNotice}
               </p>
             )}
