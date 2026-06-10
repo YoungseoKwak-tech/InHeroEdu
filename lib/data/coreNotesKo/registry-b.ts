@@ -59,6 +59,16 @@ import { IB_ECONOMICS_U4_KO } from "./ib-economics-u4";
 import { IB_ESS_U4_KO } from "./ib-ess-u4";
 import { IB_CS_U4_KO } from "./ib-cs-u4";
 
+// IB Diploma Programme — Unit 5 (Math AA·AI complete at U5; Econ done at U4) ─
+import { IB_BIOLOGY_U5_KO } from "./ib-biology-u5";
+import { IB_CHEMISTRY_U5_KO } from "./ib-chemistry-u5";
+import { IB_PHYSICS_U5_KO } from "./ib-physics-u5";
+import { IB_MATH_AA_U5_KO } from "./ib-math-aa-u5";
+import { IB_MATH_AI_U5_KO } from "./ib-math-ai-u5";
+import { IB_HISTORY_U5_KO } from "./ib-history-u5";
+import { IB_ESS_U5_KO } from "./ib-ess-u5";
+import { IB_CS_U5_KO } from "./ib-cs-u5";
+
 export const REGISTRY_B: CoreNote[] = [
   ...HONORS_BIOLOGY_U1_KO,
   ...IB_BIOLOGY_U1_KO,
@@ -103,4 +113,12 @@ export const REGISTRY_B: CoreNote[] = [
   ...IB_ECONOMICS_U4_KO,
   ...IB_ESS_U4_KO,
   ...IB_CS_U4_KO,
+  ...IB_BIOLOGY_U5_KO,
+  ...IB_CHEMISTRY_U5_KO,
+  ...IB_PHYSICS_U5_KO,
+  ...IB_MATH_AA_U5_KO,
+  ...IB_MATH_AI_U5_KO,
+  ...IB_HISTORY_U5_KO,
+  ...IB_ESS_U5_KO,
+  ...IB_CS_U5_KO,
 ];

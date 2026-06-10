@@ -53,6 +53,35 @@ export async function GET(req: Request) {
   }
   const pmap = new Map(profiles.map((p) => [String(p.id), p]));
 
+  // Real payments (credit top-ups / purchases) live in the `orders` table with
+  // paid_at timestamps — surface those so admins see WHEN each user paid.
+  type Payment = { paidAt: string | null; amount: number; currency: string; serviceId: string; orderName: string | null; provider: string | null };
+  const paymentsByUser = new Map<string, Payment[]>();
+  for (const part of chunk(ids, 200)) {
+    const { data } = await supabase
+      .from("orders")
+      .select("user_id, service_id, order_name, amount, amount_krw, currency, status, paid_at, created_at, provider")
+      .eq("status", "paid")
+      .in("user_id", part);
+    for (const o of (data ?? []) as Record<string, unknown>[]) {
+      const uid = String(o.user_id ?? "");
+      if (!uid) continue;
+      const list = paymentsByUser.get(uid) ?? [];
+      list.push({
+        paidAt: (typeof o.paid_at === "string" ? o.paid_at : null) ?? (typeof o.created_at === "string" ? o.created_at : null),
+        amount: Number(o.amount ?? o.amount_krw ?? 0),
+        currency: typeof o.currency === "string" ? o.currency : "KRW",
+        serviceId: typeof o.service_id === "string" ? o.service_id : "",
+        orderName: typeof o.order_name === "string" ? o.order_name : null,
+        provider: typeof o.provider === "string" ? o.provider : null,
+      });
+      paymentsByUser.set(uid, list);
+    }
+  }
+  for (const list of paymentsByUser.values()) {
+    list.sort((a, b) => new Date(b.paidAt ?? 0).getTime() - new Date(a.paidAt ?? 0).getTime());
+  }
+
   const rows = users.map((u) => {
     const p = pmap.get(u.id) as { name?: string; grade?: string; school?: string; credits?: number; credit_unlocks?: unknown } | undefined;
     const unlocks = Array.isArray(p?.credit_unlocks) ? (p!.credit_unlocks as string[]) : [];
@@ -64,12 +93,13 @@ export async function GET(req: Request) {
       school: p?.school ?? null,
       credits: Number(p?.credits ?? 0),
       unlocks,
+      payments: paymentsByUser.get(u.id) ?? [],
       createdAt: u.created_at ?? null,
     };
   });
 
-  // Most active spenders first (then newest).
-  rows.sort((a, b) => b.unlocks.length - a.unlocks.length || new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime());
+  // Most active spenders/payers first (then newest).
+  rows.sort((a, b) => (b.unlocks.length + b.payments.length) - (a.unlocks.length + a.payments.length) || new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime());
 
   return NextResponse.json({ users: rows });
 }

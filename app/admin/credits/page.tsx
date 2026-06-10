@@ -19,7 +19,24 @@ interface CreditUser {
   school: string | null;
   credits: number;
   unlocks: string[];
+  payments: Payment[];
   createdAt: string | null;
+}
+
+interface Payment {
+  paidAt: string | null;
+  amount: number;
+  currency: string;
+  serviceId: string;
+  orderName: string | null;
+  provider: string | null;
+}
+
+function fmtDateTime(iso: string | null): string {
+  if (!iso) return "시각 미상";
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return "시각 미상";
+  return d.toLocaleString("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false });
 }
 
 type Decoded = { label: string; cost: number; cat: string };
@@ -84,7 +101,7 @@ export default function AdminCreditsPage() {
     const q = search.trim().toLowerCase();
     return users
       .map((u) => ({ u, b: breakdown(u.unlocks) }))
-      .filter(({ u, b }) => (onlySpenders ? b.total > 0 : true))
+      .filter(({ u, b }) => (onlySpenders ? (b.total > 0 || u.payments.length > 0) : true))
       .filter(({ u }) => !q || [u.email, u.name, u.grade, u.school].filter(Boolean).some((s) => String(s).toLowerCase().includes(q)));
   }, [users, search, onlySpenders]);
 
@@ -150,6 +167,21 @@ export default function AdminCreditsPage() {
                         {it.label}{it.count > 1 ? ` ×${it.count}` : ""} · {it.total.toLocaleString()}
                       </span>
                     ))}
+                  </div>
+                )}
+                {u.payments.length > 0 && (
+                  <div style={{ marginTop: 12, borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 10 }}>
+                    <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginBottom: 6 }}>💳 실결제 내역 (충전·구매)</div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                      {u.payments.map((pm, i) => (
+                        <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10, fontSize: 12.5, flexWrap: "wrap" }}>
+                          <span style={{ color: "#86EFAC", fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>🕒 {fmtDateTime(pm.paidAt)}</span>
+                          <span style={{ color: "rgba(255,255,255,0.78)" }}>
+                            {pm.orderName ?? pm.serviceId} · <strong>{pm.amount.toLocaleString()}{pm.currency === "KRW" ? "원" : ` ${pm.currency}`}</strong>{pm.provider ? ` · ${pm.provider}` : ""}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
