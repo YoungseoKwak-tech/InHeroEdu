@@ -48,6 +48,17 @@ import { IB_PSYCHOLOGY_U3_KO } from "./ib-psychology-u3";
 import { IB_ESS_U3_KO } from "./ib-ess-u3";
 import { IB_CS_U3_KO } from "./ib-cs-u3";
 
+// IB Diploma Programme — Unit 4 (English·Psychology core completed at U3) ─
+import { IB_BIOLOGY_U4_KO } from "./ib-biology-u4";
+import { IB_CHEMISTRY_U4_KO } from "./ib-chemistry-u4";
+import { IB_PHYSICS_U4_KO } from "./ib-physics-u4";
+import { IB_MATH_AA_U4_KO } from "./ib-math-aa-u4";
+import { IB_MATH_AI_U4_KO } from "./ib-math-ai-u4";
+import { IB_HISTORY_U4_KO } from "./ib-history-u4";
+import { IB_ECONOMICS_U4_KO } from "./ib-economics-u4";
+import { IB_ESS_U4_KO } from "./ib-ess-u4";
+import { IB_CS_U4_KO } from "./ib-cs-u4";
+
 export const REGISTRY_B: CoreNote[] = [
   ...HONORS_BIOLOGY_U1_KO,
   ...IB_BIOLOGY_U1_KO,
@@ -83,4 +94,13 @@ export const REGISTRY_B: CoreNote[] = [
   ...IB_PSYCHOLOGY_U3_KO,
   ...IB_ESS_U3_KO,
   ...IB_CS_U3_KO,
+  ...IB_BIOLOGY_U4_KO,
+  ...IB_CHEMISTRY_U4_KO,
+  ...IB_PHYSICS_U4_KO,
+  ...IB_MATH_AA_U4_KO,
+  ...IB_MATH_AI_U4_KO,
+  ...IB_HISTORY_U4_KO,
+  ...IB_ECONOMICS_U4_KO,
+  ...IB_ESS_U4_KO,
+  ...IB_CS_U4_KO,
 ];
