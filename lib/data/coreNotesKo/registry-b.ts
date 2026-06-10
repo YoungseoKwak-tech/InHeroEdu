@@ -69,6 +69,13 @@ import { IB_HISTORY_U5_KO } from "./ib-history-u5";
 import { IB_ESS_U5_KO } from "./ib-ess-u5";
 import { IB_CS_U5_KO } from "./ib-cs-u5";
 
+// IB Diploma Programme — Unit 6 (Bio SL complete at U6) ────────
+import { IB_BIOLOGY_U6_KO } from "./ib-biology-u6";
+import { IB_CHEMISTRY_U6_KO } from "./ib-chemistry-u6";
+import { IB_PHYSICS_U6_KO } from "./ib-physics-u6";
+import { IB_ESS_U6_KO } from "./ib-ess-u6";
+import { IB_CS_U6_KO } from "./ib-cs-u6";
+
 export const REGISTRY_B: CoreNote[] = [
   ...HONORS_BIOLOGY_U1_KO,
   ...IB_BIOLOGY_U1_KO,
@@ -121,4 +128,9 @@ export const REGISTRY_B: CoreNote[] = [
   ...IB_HISTORY_U5_KO,
   ...IB_ESS_U5_KO,
   ...IB_CS_U5_KO,
+  ...IB_BIOLOGY_U6_KO,
+  ...IB_CHEMISTRY_U6_KO,
+  ...IB_PHYSICS_U6_KO,
+  ...IB_ESS_U6_KO,
+  ...IB_CS_U6_KO,
 ];
