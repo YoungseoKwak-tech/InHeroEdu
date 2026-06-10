@@ -124,6 +124,38 @@ const TOOLS = [
   { emoji: "✏️", label: "SAT 모의고사", route: "/parents/sat", note: "시간 압박 실전 연습" },
 ];
 
+// 학년별 공부 전략
+const GRADE_PLAN = [
+  { g: "9학년", tag: "토대", items: ["GPA는 첫 학기부터 — 한 번 무너지면 회복이 가장 어렵다", "단권화 자체 교재 ‘만드는 연습’ 시작 (작게)", "관심 분야 탐색 — 스파이크의 씨앗 찾기", "공부 루틴·수면 습관 정착 (밤샘 금지부터)"] },
+  { g: "10학년", tag: "설계", items: ["전공 관련 AP 1~2개 도전 → 5점 목표", "관심을 ‘프로젝트’로 — 독립 리서치/제작 시작", "SAT 진단 1회 + 단어 간격반복 시작", "수학 강하면 AMC 도전 (AoPS·기출)"] },
+  { g: "11학년", tag: "결정", items: ["전공 관련 AP 집중 — 반드시 5점", "SAT 본격 — 12주 계획(진단→약점→실전→시간단축)", "추천서 선생님 관계 강화 (학기 초부터)", "리서치 확장 + 발표/대회로 완결"] },
+  { g: "12학년", tag: "클로징", items: ["남은 AP 마무리, 성적 안정", "에세이 클로징 — 흩어진 점을 하나의 서사로", "보충(Why) 에세이 학교별 맞춤", "추천서·원서 일정 관리"] },
+];
+
+// 과목별 공부법
+const SUBJECT_PLAN = [
+  {
+    emoji: "📘", name: "AP (전 과목)", color: "#2563eb",
+    items: ["단권화 5구조: 핵심개념→내 말 설명→연결관계→빈출유형→오답노트", "전공 관련 AP는 반드시 5점, 관련 낮으면 4점이면 충분", "개수가 아니라 ‘선택과 결과’ — AP 10개 3점 < AP 5개 5점", "학교에 없으면 커뮤니티컬리지/독학으로 길을 만든다"],
+  },
+  {
+    emoji: "🔢", name: "SAT 수학 (800 루틴)", color: "#0f6e56",
+    items: ["문제 읽으며 핵심 조건 밑줄 · 질문(what is X) 동그라미 · 단위 확인", "암산 금지 — 계산은 전부 종이에. 답 구한 뒤 ‘질문이 뭐였나’ 재확인", "한 문제 3분 룰 — 막히면 표시하고 넘어가, 쉬운 것부터", "틀리는 건 대개 개념 부족이 아니라 ‘잘못 읽기/계산 실수’"],
+  },
+  {
+    emoji: "📖", name: "SAT 독해 (근거 추적)", color: "#854f0b",
+    items: ["정답은 반드시 텍스트 안에 — 배경지식·추론으로 메우면 함정", "고를 때마다 근거 문장 밑줄, 못 그으면 그 답은 틀린 것", "‘always·never·completely’ 극단 표현 선택지는 거의 오답", "문제 먼저 읽고 해당 부분만 정확히 — 전체 정독은 비효율"],
+  },
+  {
+    emoji: "📐", name: "수학 · AMC", color: "#7c3aed",
+    items: ["이해 > 암기 — 외운 건 시험 끝나면 사라지고, 이해한 건 연결된다", "AMC: AoPS 교재 + 최근 5년 기출(처음엔 시간無, 나중 75분)", "한 문제, 두 가지 풀이 — 다른 방법으로 다시 풀어 사고 확장", "AMC 준비하면 SAT 수학은 자연히 오른다 (역은 성립 안 함)"],
+  },
+  {
+    emoji: "⚛️", name: "과학 · STEM", color: "#993556",
+    items: ["공식 암기 전 ‘직관 먼저’ — 이게 무엇을 하는가를 그림으로", "계산만 하면 ‘왜 이 답이 말이 되는가’ 응용에서 막힌다", "교재 예제만 풀면 처음 보는 유형에서 멈춘다 — 변형 연습", "AP Calc·Stats는 시험용이 아니라 실제 도구(ML=수학)"],
+  },
+];
+
 function Card({ children }: { children: React.ReactNode }) {
   return <section style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: 16, padding: "26px 26px", margin: "20px 0" }}>{children}</section>;
 }
@@ -167,15 +199,50 @@ export default function StudyMethodClient() {
             세계적 공부법 <span style={{ color: "#93c5fd" }}>×</span> 아이비리그 자기주도 실전
           </h1>
           <p style={{ fontSize: 14.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.8, maxWidth: 580, margin: "0 auto" }}>
-            파인만 테크닉·포모도로·간격 반복·딥 워크처럼 검증된 공부법을,
-            합격 수기 《내가 아이비리그 공대에 오기까지》의 저자가 학원 없이 어떻게 실전에 적용했는지 엮었습니다.
+            <strong style={{ color: "#fff" }}>학년별·과목별</strong>로 정리한 자기주도 공부 전략 —
+            합격 수기 《내가 아이비리그 공대에 오기까지》의 저자가 학원 없이 검증된 공부법을 어떻게 실전에 적용했는지 담았습니다.
           </p>
         </section>
 
-        {/* WOVEN — famous method × book application */}
+        {/* 학년별 공부 전략 */}
         <Card>
-          <H2>🌍 검증된 공부법 × 책의 실전</H2>
-          <Sub>왼쪽은 세계적으로 입증된 공부법, 아래 📖는 합격 수기 저자가 그걸 자기주도로 적용한 방식.</Sub>
+          <H2>📅 학년별 공부 전략</H2>
+          <Sub>같은 공부법도 학년마다 우선순위가 다르다. 우리 아이 학년부터 확인하세요.</Sub>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px,1fr))", gap: 12 }}>
+            {GRADE_PLAN.map((gp) => (
+              <div key={gp.g} style={{ background: "#f5f8fd", border: "1px solid #e3ebf6", borderRadius: 13, padding: "16px 16px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+                  <span style={{ fontSize: 16, fontWeight: 900, color: "#1a1a1f" }}>{gp.g}</span>
+                  <span style={{ fontSize: 10.5, fontWeight: 800, color: "#fff", background: BLUE, borderRadius: 999, padding: "2px 9px" }}>{gp.tag}</span>
+                </div>
+                <ul style={{ margin: 0, paddingLeft: 16, display: "flex", flexDirection: "column", gap: 6 }}>
+                  {gp.items.map((it, i) => <li key={i} style={{ fontSize: 12.5, color: "#334155", lineHeight: 1.6 }}>{it}</li>)}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        {/* 과목별 공부법 */}
+        <Card>
+          <H2>📚 과목별 공부법</H2>
+          <Sub>과목마다 ‘틀리는 이유’가 다르다 — 과목별로 다르게 공략한다.</Sub>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {SUBJECT_PLAN.map((s) => (
+              <div key={s.name} style={{ border: "1px solid #e6e8ec", borderLeft: `4px solid ${s.color}`, borderRadius: 12, padding: "16px 18px", background: "#fff" }}>
+                <div style={{ fontSize: 15.5, fontWeight: 800, marginBottom: 8 }}>{s.emoji} {s.name}</div>
+                <ul style={{ margin: 0, paddingLeft: 16, display: "flex", flexDirection: "column", gap: 6 }}>
+                  {s.items.map((it, i) => <li key={i} style={{ fontSize: 13, color: "#334155", lineHeight: 1.6 }}>{it}</li>)}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        {/* WOVEN — famous method × book application (기본 원리) */}
+        <Card>
+          <H2>🌍 공부의 기본 원리 (검증된 공부법 × 책 실전)</H2>
+          <Sub>학년·과목을 관통하는 토대. 왼쪽은 세계적으로 입증된 공부법, 아래 📖는 합격 수기 저자의 자기주도 적용.</Sub>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {WOVEN.map((w) => (
               <div key={w.method} style={{ background: "#f7f8fa", border: "1px solid #e6e8ec", borderRadius: 13, padding: "16px 18px" }}>
