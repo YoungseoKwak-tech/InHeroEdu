@@ -44,7 +44,14 @@ export async function GET(req: Request) {
   if (admin instanceof NextResponse) return admin
 
   const adminSupabase = createAdminClient()
-  const users = await listAllAuthUsers()
+  const allUsers = await listAllAuthUsers()
+  // Drop synthetic diagnostic/test accounts (e.g. payment smoke-tests at
+  // diag-pay-…@inhero-diag.test). `.test` is a reserved TLD that can never be a
+  // real signup, so these only pollute the roster + the "students joined" count.
+  const users = allUsers.filter((u) => {
+    const email = (u.email ?? '').toLowerCase()
+    return !!email && !email.endsWith('.test') && !email.includes('@inhero-diag.')
+  })
   const userIds = users.map((u) => u.id)
 
   if (userIds.length === 0) {
