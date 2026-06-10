@@ -50,7 +50,7 @@ export default function CoreNotesPage() {
   const [loading, setLoading] = useState(true);
   // Korean storytelling mode — fetched per lesson on demand, kept in a map so
   // toggling EN ↔ 한국어 and revisiting lessons is instant.
-  const [lang, setLang] = useState<Lang>("en");
+  const [view, setView] = useState<"en" | "ko" | "split">("split");
   const [koNotes, setKoNotes] = useState<Record<string, CoreNote>>({});
   const [koErrors, setKoErrors] = useState<Record<string, string>>({});
 
@@ -82,7 +82,7 @@ export default function CoreNotesPage() {
   // Fetch the Korean storytelling version when 한국어 is on and not cached yet.
   // First request per note generates it (slow once); after that it's instant.
   useEffect(() => {
-    if (lang !== "ko" || !activeLesson || koNotes[activeLesson] || koErrors[activeLesson]) return;
+    if (view === "en" || !activeLesson || koNotes[activeLesson] || koErrors[activeLesson]) return;
     let cancelled = false;
     fetch(`/api/core-notes/korean?lessonId=${encodeURIComponent(activeLesson)}`)
       .then((r) => r.json())
@@ -97,7 +97,7 @@ export default function CoreNotesPage() {
     return () => {
       cancelled = true;
     };
-  }, [lang, activeLesson, koNotes, koErrors]);
+  }, [view, activeLesson, koNotes, koErrors]);
 
   // Group the subject's notes by unit for the left rail.
   const units = useMemo(() => {
@@ -219,49 +219,49 @@ export default function CoreNotesPage() {
 
         {/* Main: one focused note */}
         <main style={{ flex: 1, minWidth: 0, padding: "34px 40px 120px", display: "flex", justifyContent: "center" }}>
-          <div style={{ width: "100%", maxWidth: 720 }}>
+          <div style={{ width: "100%", maxWidth: view === "split" ? 1180 : 720 }}>
             {loading ? (
               <NoteSkeleton />
             ) : current ? (
               (() => {
-                const koNote = lang === "ko" ? koNotes[current.lessonId] : undefined;
-                const koError = lang === "ko" ? koErrors[current.lessonId] : undefined;
+                const renderPane = (kind: "en" | "ko") => {
+                  if (kind === "en") return <NoteView note={current} lang="en" />;
+                  const koNote = koNotes[current.lessonId];
+                  const koError = koErrors[current.lessonId];
+                  if (koNote) return <NoteView note={koNote} lang="ko" />;
+                  if (!koError) return <KoLoadingPanel />;
+                  if (koError === "not-ready") return (
+                    <div style={{ margin: "0 0 22px", padding: "16px 20px", borderRadius: 14, border: `1px solid rgba(0,255,178,0.25)`, background: "rgba(0,255,178,0.05)" }}>
+                      <p style={{ margin: 0, fontSize: 14, color: "#cfe9df", lineHeight: 1.6 }}>
+                        🎙️ 이 노트의 한국어 버전은 아직 준비 중이에요 — 순차적으로 추가되고 있습니다.
+                      </p>
+                    </div>
+                  );
+                  return (
+                    <div style={{ padding: "18px 22px", borderRadius: 14, border: `1px solid rgba(255,107,107,0.32)`, background: "rgba(255,107,107,0.06)" }}>
+                      <p style={{ margin: 0, fontSize: 14.5, color: "#f3dede", lineHeight: 1.6 }}>한국어 버전을 불러오지 못했어요.</p>
+                      <button
+                        onClick={() => setKoErrors((m) => { const { [current.lessonId]: _drop, ...rest } = m; return rest; })}
+                        style={{ marginTop: 10, padding: "7px 14px", borderRadius: 999, border: `1px solid ${MINT}`, background: "transparent", color: MINT, fontSize: 13, fontWeight: 600, cursor: "pointer" }}
+                      >다시 시도</button>
+                    </div>
+                  );
+                };
+                const PaneLabel = ({ ko }: { ko: boolean }) => (
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 6, marginBottom: 12, padding: "4px 11px", borderRadius: 999, fontSize: 11.5, fontWeight: 800, border: `1px solid ${BORDER}`, background: PANEL, color: ko ? MINT : SUBTLE }}>
+                    {ko ? "🇰🇷 한국어" : "🇺🇸 EN"}
+                  </div>
+                );
                 return (
                   <>
-                    <LangToggle lang={lang} onChange={setLang} />
-                    {lang === "ko" && !koNote ? (
-                      !koError ? (
-                        <KoLoadingPanel />
-                      ) : koError === "not-ready" ? (
-                        <>
-                          <div style={{ margin: "0 0 22px", padding: "16px 20px", borderRadius: 14, border: `1px solid rgba(0,255,178,0.25)`, background: "rgba(0,255,178,0.05)" }}>
-                            <p style={{ margin: 0, fontSize: 14, color: "#cfe9df", lineHeight: 1.6 }}>
-                              🎙️ 이 노트의 한국어 스토리 버전은 아직 준비 중이에요 — 순차적으로 추가되고 있습니다. 아래는 영어 원본입니다.
-                            </p>
-                          </div>
-                          <NoteView note={current} lang="en" />
-                        </>
-                      ) : (
-                        <div style={{ marginTop: 24, padding: "18px 22px", borderRadius: 14, border: `1px solid rgba(255,107,107,0.32)`, background: "rgba(255,107,107,0.06)" }}>
-                          <p style={{ margin: 0, fontSize: 14.5, color: "#f3dede", lineHeight: 1.6 }}>
-                            한국어 버전을 불러오지 못했어요. 네트워크를 확인해 주세요.
-                          </p>
-                          <button
-                            onClick={() =>
-                              setKoErrors((m) => {
-                                const { [current.lessonId]: _drop, ...rest } = m;
-                                return rest;
-                              })
-                            }
-                            style={{ marginTop: 10, padding: "7px 14px", borderRadius: 999, border: `1px solid ${MINT}`, background: "transparent", color: MINT, fontSize: 13, fontWeight: 600, cursor: "pointer" }}
-                          >
-                            다시 시도
-                          </button>
-                        </div>
-                      )
-                    ) : (
-                      <NoteView note={koNote ?? current} lang={koNote ? "ko" : "en"} />
-                    )}
+                    <LangToggle view={view} onChange={setView} />
+                    {view === "split" ? (
+                      <div className="cn-split2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28, alignItems: "start" }}>
+                        <div style={{ minWidth: 0 }}><PaneLabel ko={false} />{renderPane("en")}</div>
+                        <div style={{ minWidth: 0 }}><PaneLabel ko={true} />{renderPane("ko")}</div>
+                      </div>
+                    ) : renderPane(view)}
+                    <style>{`@media (max-width: 1000px){ .cn-split2 { grid-template-columns: 1fr !important; } }`}</style>
                   </>
                 );
               })()
@@ -275,16 +275,17 @@ export default function CoreNotesPage() {
   );
 }
 
-function LangToggle({ lang, onChange }: { lang: Lang; onChange: (l: Lang) => void }) {
-  const opts: { value: Lang; label: string }[] = [
+function LangToggle({ view, onChange }: { view: "en" | "ko" | "split"; onChange: (v: "en" | "ko" | "split") => void }) {
+  const opts: { value: "en" | "ko" | "split"; label: string }[] = [
+    { value: "split", label: "📖 EN + 한국어" },
     { value: "en", label: "EN" },
-    { value: "ko", label: "🇰🇷 한국어 스토리" },
+    { value: "ko", label: "🇰🇷 한국어" },
   ];
   return (
     <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 14 }}>
       <div style={{ display: "inline-flex", padding: 3, gap: 2, borderRadius: 999, border: `1px solid ${BORDER}`, background: PANEL }}>
         {opts.map((o) => {
-          const on = o.value === lang;
+          const on = o.value === view;
           return (
             <button
               key={o.value}
