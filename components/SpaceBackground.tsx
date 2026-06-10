@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 /* ── Ship SVGs ─────────────────────────────────────────────── */
 
@@ -227,6 +228,7 @@ export default function SpaceBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const rafRef = useRef<number>(0);
+  const pathname = usePathname();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -294,6 +296,9 @@ export default function SpaceBackground() {
       window.removeEventListener("mousemove", handleMouse);
     };
   }, []);
+
+  // The /parents portal is a clean white community surface — no cosmic ships.
+  if (pathname?.startsWith("/parents")) return null;
 
   return (
     <>
