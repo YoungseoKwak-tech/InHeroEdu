@@ -87,6 +87,11 @@ import { IB_CHEMISTRY_U8_KO } from "./ib-chemistry-u8";
 import { IB_PHYSICS_U8_KO } from "./ib-physics-u8";
 import { IB_ESS_U8_KO } from "./ib-ess-u8";
 
+// IB Diploma Programme — Chemistry U9–U11 (Chemistry 11 topics COMPLETE) ─
+import { IB_CHEMISTRY_U9_KO } from "./ib-chemistry-u9";
+import { IB_CHEMISTRY_U10_KO } from "./ib-chemistry-u10";
+import { IB_CHEMISTRY_U11_KO } from "./ib-chemistry-u11";
+
 export const REGISTRY_B: CoreNote[] = [
   ...HONORS_BIOLOGY_U1_KO,
   ...IB_BIOLOGY_U1_KO,
@@ -151,4 +156,7 @@ export const REGISTRY_B: CoreNote[] = [
   ...IB_CHEMISTRY_U8_KO,
   ...IB_PHYSICS_U8_KO,
   ...IB_ESS_U8_KO,
+  ...IB_CHEMISTRY_U9_KO,
+  ...IB_CHEMISTRY_U10_KO,
+  ...IB_CHEMISTRY_U11_KO,
 ];
