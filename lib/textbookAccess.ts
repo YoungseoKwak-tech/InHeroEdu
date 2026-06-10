@@ -25,7 +25,7 @@ export function getStaticCompEmails(): string[] {
   const comp = parseEmailList(process.env.COMP_TEXTBOOK_EMAILS);
   // Owner-email fallback applies in every environment so the founders
   // never lose access in prod when the Vercel env var is unset.
-  const ownerFallback = "yk777@cornell.edu,junginlee0904@gmail.com";
+  const ownerFallback = "yk777@cornell.edu,junginlee0904@gmail.com,yeongseo0802@gmail.com";
   const admins = parseEmailList(
     [process.env.ADMIN_EMAILS ?? "", ownerFallback].join(",")
   );

@@ -221,7 +221,7 @@ export async function hydrateCommentsWithAuthors(
 export function isAdminEmail(email: string | null | undefined): boolean {
   // Owner fallback applies in every environment so founders keep access even
   // when the Vercel ADMIN_EMAILS env var is unset.
-  const ownerFallback = "yk777@cornell.edu,junginlee0904@gmail.com";
+  const ownerFallback = "yk777@cornell.edu,junginlee0904@gmail.com,yeongseo0802@gmail.com";
   const list = [process.env.ADMIN_EMAILS ?? "", ownerFallback]
     .join(",")
     .split(",")

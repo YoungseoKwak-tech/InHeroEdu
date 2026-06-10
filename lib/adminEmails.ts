@@ -7,6 +7,7 @@
 export const ADMIN_EMAILS_BASE = [
   "yk777@cornell.edu",
   "junginlee0904@gmail.com",
+  "yeongseo0802@gmail.com",
 ];
 
 export function isAdminEmail(email?: string | null): boolean {
