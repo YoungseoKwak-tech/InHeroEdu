@@ -82,6 +82,23 @@ const EMAIL_STRUCT = [
 // 고등학생 참가 가능 학술 대회
 const COMPETITIONS = ["Intel ISEF", "Regeneron STS", "Siemens Competition", "JSHS", "NANO Korea", "과학 전람회"];
 
+// 리더십을 숫자로 — 전환 질문
+const LEADERSHIP_NUMQ = [
+  "참여 전과 후, 무엇이 달라졌는가?",
+  "내 기여로 몇 명이 영향을 받았는가?",
+  "내가 만든 것의 규모는 어떻게 측정하나?",
+  "이전 vs 현재 데이터로 성장이 보이는가?",
+];
+
+// 클럽 창설 5단계
+const CLUB_STEPS = [
+  "왜 이 클럽이 필요한가 정의 — 없던 이유 + 생기면 뭐가 달라지나",
+  "학교 승인 — 신청서 + 담당 선생님 서명 (목적·활동계획·첫 미팅 날짜)",
+  "첫 미팅 전 최소 5~10명 확보 — 한 명씩 직접 권유가 가장 효과적",
+  "첫 미팅 제대로 — 목적·활동 계획·역할 분담. 첫 미팅이 기준을 만든다",
+  "활동 기록 — 사진·참가자 수·결과. 나중에 입시의 증거가 된다",
+];
+
 // 학년별 로드맵
 const ROADMAP = [
   ["9학년", "전부의 시작 — GPA 습관과 관심 탐색의 토대를 만든다"],
@@ -282,6 +299,52 @@ export default function StoryDesignClient() {
             ))}
           </div>
           <p style={{ fontSize: 12, color: "#94a3b8", margin: "10px 0 0" }}>“발표가 완결을 만들고, 완결이 증거가 된다.”</p>
+        </Card>
+
+        {/* Leadership */}
+        <Card>
+          <H2>👑 리더십 만드는 법</H2>
+          <Sub>“직책은 리더십이 아니다. 문제를 해결하는 것이 리더십. 그리고 없는 것을 만드는 게 가장 강한 리더십.” (멤버 → TEDx 대표 3년 — 직책은 문제를 풀다 보니 따라온 결과)</Sub>
+          <div style={{ background: "#faf7ff", border: "1px solid #efe7fe", borderRadius: 10, padding: "13px 14px", marginBottom: 14 }}>
+            <div style={{ fontSize: 12.5, fontWeight: 800, color: PURPLE, marginBottom: 5 }}>리더십을 ‘숫자’로</div>
+            <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.7, margin: "0 0 8px" }}>
+              ‘TEDx 대표’(말) ✗ → ‘TEDx 대표 · 인스타 도달률 <b>400%↑</b> · 스피커 지원 <b>1,000명</b> · 펀드 <b>300%↑</b>’(증거) ✓. 참여 전/후를 비교하면 거의 항상 숫자가 나온다.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px,1fr))", gap: 6 }}>
+              {LEADERSHIP_NUMQ.map((q, i) => (
+                <div key={i} style={{ fontSize: 12.5, color: "#5b21b6", lineHeight: 1.5 }}>· {q}</div>
+              ))}
+            </div>
+          </div>
+          <div style={{ fontSize: 13, fontWeight: 800, color: "#1a1a1f", marginBottom: 8 }}>클럽 창설 5단계 (0→1이 가장 강한 이야기)</div>
+          <ol style={{ margin: 0, paddingLeft: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 8 }}>
+            {CLUB_STEPS.map((s, i) => (
+              <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", background: "#f7f8fa", borderRadius: 10, padding: "11px 13px" }}>
+                <span style={{ flexShrink: 0, width: 22, height: 22, borderRadius: 999, background: PURPLE, color: "#fff", fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>{i + 1}</span>
+                <span style={{ fontSize: 13, color: "#334155", lineHeight: 1.6 }}>{s}</span>
+              </li>
+            ))}
+          </ol>
+        </Card>
+
+        {/* Recommendation letters */}
+        <Card>
+          <H2>✉️ 추천서 전략 — 선생님을 자산으로</H2>
+          <Sub>“이 학생은 수업을 잘 들었습니다”는 의미 없다. “이런 질문을 했고, 이렇게 생각하며, 이런 관점을 가졌다” 같은 <b>구체적·개인적</b> 추천서가 강하다. 그러려면 선생님이 나를 ‘개인’으로 알아야 한다.</Sub>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 12 }}>
+            <div style={{ background: "#f7f8fa", borderRadius: 10, padding: "12px 14px" }}>
+              <div style={{ fontSize: 13.5, fontWeight: 800, marginBottom: 3 }}>관계 만드는 법</div>
+              <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.65, margin: 0 }}>수업 후 남아서 질문 — 단, <b>수업 내용을 넘어서는</b> 질문 (“오늘 이 개념이 ○○ 분야에도 적용되나요?”). 선생님은 ‘수업 이상을 생각하는 학생’을 기억한다.</p>
+            </div>
+            <div style={{ background: "#f7f8fa", borderRadius: 10, padding: "12px 14px" }}>
+              <div style={{ fontSize: 13.5, fontWeight: 800, marginBottom: 3 }}>타이밍</div>
+              <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.65, margin: 0 }}>추천서 선생님은 <b>11학년 시작 전</b>에 이미 정해둔다 → 11학년 첫 학기부터 적극 참여·교류 → 12학년 초 갑자기 부탁하면 좋은 추천서가 안 나온다.</p>
+            </div>
+            <div style={{ background: "#f7f8fa", borderRadius: 10, padding: "12px 14px" }}>
+              <div style={{ fontSize: 13.5, fontWeight: 800, marginBottom: 3 }}>선생님은 네트워크다</div>
+              <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.65, margin: 0 }}>추천서뿐 아니라 리서치·인턴십·컨퍼런스 기회가 선생님을 통해 온다. (대학에선 Office Hours가 같은 역할)</p>
+            </div>
+          </div>
         </Card>
 
         {/* Roadmap */}
