@@ -82,6 +82,11 @@ import { IB_PHYSICS_U7_KO } from "./ib-physics-u7";
 import { IB_ESS_U7_KO } from "./ib-ess-u7";
 import { IB_CS_U7_KO } from "./ib-cs-u7";
 
+// IB Diploma Programme — Unit 8 (Physics & ESS complete at U8) ─
+import { IB_CHEMISTRY_U8_KO } from "./ib-chemistry-u8";
+import { IB_PHYSICS_U8_KO } from "./ib-physics-u8";
+import { IB_ESS_U8_KO } from "./ib-ess-u8";
+
 export const REGISTRY_B: CoreNote[] = [
   ...HONORS_BIOLOGY_U1_KO,
   ...IB_BIOLOGY_U1_KO,
@@ -143,4 +148,7 @@ export const REGISTRY_B: CoreNote[] = [
   ...IB_PHYSICS_U7_KO,
   ...IB_ESS_U7_KO,
   ...IB_CS_U7_KO,
+  ...IB_CHEMISTRY_U8_KO,
+  ...IB_PHYSICS_U8_KO,
+  ...IB_ESS_U8_KO,
 ];
