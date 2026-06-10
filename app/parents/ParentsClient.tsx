@@ -318,9 +318,9 @@ export default function ParentsClient() {
           {koNotes.length > 0 ? (
             <section style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "16px 16px 8px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 3 }}>
-                <h2 style={{ fontSize: 15.5, fontWeight: 800, margin: 0, letterSpacing: "-0.01em" }}>📘 한국어 핵심 노트</h2>
+                <h2 style={{ fontSize: 15.5, fontWeight: 800, margin: 0, letterSpacing: "-0.01em" }}>📘 영어 + 한국어 핵심 노트</h2>
               </div>
-              <p style={{ fontSize: 12, color: "#7c3aed", fontWeight: 700, margin: "0 0 14px" }}>일타강사처럼 풀어낸 AP 개념</p>
+              <p style={{ fontSize: 12, color: "#7c3aed", fontWeight: 700, margin: "0 0 14px" }}>한국어로 흐름 잡고 → 영어 원문으로 정복</p>
 
               <Link href="/parents/core-notes" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
                 <div style={{ borderRadius: 12, border: "1px solid #eef0f3", background: "linear-gradient(180deg,#fbfcfe,#fff)", padding: "14px 15px" }}>
@@ -353,8 +353,8 @@ export default function ParentsClient() {
             </section>
           ) : (
             <section style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "18px 16px" }}>
-              <h2 style={{ fontSize: 15.5, fontWeight: 800, margin: "0 0 8px" }}>📘 한국어 핵심 노트</h2>
-              <p style={{ fontSize: 12.5, color: "#94a3b8", lineHeight: 1.6, margin: 0 }}>일타강사처럼 풀어낸 AP 개념 노트를 불러오는 중…</p>
+              <h2 style={{ fontSize: 15.5, fontWeight: 800, margin: "0 0 8px" }}>📘 영어 + 한국어 핵심 노트</h2>
+              <p style={{ fontSize: 12.5, color: "#94a3b8", lineHeight: 1.6, margin: 0 }}>한국어로 흐름 잡고 → 영어 원문으로 정복하는 AP 개념 노트를 불러오는 중…</p>
             </section>
           )}
 
