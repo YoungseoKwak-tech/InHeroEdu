@@ -148,9 +148,22 @@ export default function CoreNotesClient() {
           과목을 고르고 왼쪽에서 단원별로 골라 읽어보세요.
         </p>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 22 }}>
-          {subjects.map((s) => (
-            <Chip key={s.courseId ?? s.label} active={active === s.courseId} onClick={() => setActive(s.courseId)} label={s.label} emoji={s.emoji} count={s.count} />
+        <div style={{ marginBottom: 22 }}>
+          {[
+            { key: "ap", label: "AP 과정", items: subjects.filter((s) => { const c = s.courseId ?? ""; return !c.startsWith("ib-") && !c.startsWith("honors-"); }) },
+            { key: "ib", label: "IB Diploma", items: subjects.filter((s) => (s.courseId ?? "").startsWith("ib-")) },
+            { key: "honors", label: "Honors (9–12학년)", items: subjects.filter((s) => (s.courseId ?? "").startsWith("honors-")) },
+          ].filter((g) => g.items.length > 0).map((g) => (
+            <div key={g.key} style={{ marginBottom: 16 }}>
+              <div style={{ fontSize: 11.5, fontWeight: 800, color: "#94a3b8", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 9 }}>
+                {g.label} <span style={{ color: "#cbd5e1" }}>· {g.items.length}과목</span>
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {g.items.map((s) => (
+                  <Chip key={s.courseId ?? s.label} active={active === s.courseId} onClick={() => setActive(s.courseId)} label={s.label} emoji={s.emoji} count={s.count} />
+                ))}
+              </div>
+            </div>
           ))}
         </div>
 
