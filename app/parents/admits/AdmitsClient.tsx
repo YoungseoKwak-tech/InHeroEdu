@@ -6,14 +6,16 @@
  * supplemental essays. Sign-in gated like the rest of the parent portal.
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getClientSession } from "@/lib/client-auth";
 import { ADMITS, type Admit } from "@/lib/data/admits";
 import { TAG_COLOR } from "@/lib/data/cornellMainEssay";
+import { isUnlocked, spendAndUnlockAccount, hydrateCredits, getBalance, CREDIT_EVENT, CREDIT_COSTS } from "@/lib/credits";
 
 const GREEN = "#00b85f";
+const SUPP_COST = CREDIT_COSTS.SUPPLEMENTALS; // 1000
 
 export default function AdmitsClient() {
   const router = useRouter();
@@ -21,6 +23,16 @@ export default function AdmitsClient() {
   const [activeId, setActiveId] = useState(ADMITS[0]?.id);
   const [zoom, setZoom] = useState<string | null>(null);
   const [showAnalysis, setShowAnalysis] = useState(false);
+  const [tick, setTick] = useState(0);       // bump to re-read credits/unlocks
+  const [needCharge, setNeedCharge] = useState(false);
+
+  // Pull account credits/unlocks once signed in, and refresh on credit changes.
+  useEffect(() => { if (allowed) hydrateCredits().then(() => setTick((t) => t + 1)).catch(() => {}); }, [allowed]);
+  useEffect(() => {
+    const r = () => setTick((t) => t + 1);
+    window.addEventListener(CREDIT_EVENT, r);
+    return () => window.removeEventListener(CREDIT_EVENT, r);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -36,6 +48,18 @@ export default function AdmitsClient() {
   }, [router]);
 
   const admit: Admit | undefined = ADMITS.find((a) => a.id === activeId) ?? ADMITS[0];
+
+  // Per-school supplemental-essay unlock (1000 credits).
+  const suppKey = admit ? `admit-supplements:${admit.id}` : "";
+  const suppUnlocked = useMemo(() => !!suppKey && isUnlocked(suppKey), [suppKey, tick]);
+  const balance = useMemo(() => getBalance(), [tick]);
+  async function unlockSupp() {
+    setNeedCharge(false);
+    if (balance < SUPP_COST) { setNeedCharge(true); return; }
+    const res = await spendAndUnlockAccount(suppKey, SUPP_COST);
+    if (res.ok) setTick((t) => t + 1);
+    else setNeedCharge(true);
+  }
 
   if (allowed !== true) {
     return (
@@ -70,7 +94,7 @@ export default function AdmitsClient() {
           {ADMITS.map((a) => {
             const on = a.id === admit.id;
             return (
-              <button key={a.id} onClick={() => setActiveId(a.id)}
+              <button key={a.id} onClick={() => { setActiveId(a.id); setNeedCharge(false); setShowAnalysis(false); }}
                 style={{ display: "inline-flex", alignItems: "center", gap: 7, background: on ? "#fff" : "#f6f7f9", border: `1.5px solid ${on ? a.accent : "#e2e6ea"}`, borderRadius: 999, padding: "9px 15px", fontSize: 13.5, fontWeight: 800, color: on ? a.accent : "#475569", cursor: "pointer", boxShadow: on ? `0 2px 10px ${a.accent}22` : "none" }}>
                 <span style={{ fontSize: 16 }}>{a.emoji}</span>{a.school}
               </button>
@@ -169,28 +193,66 @@ export default function AdmitsClient() {
               )}
             </div>
 
-            {/* Supplemental essays */}
+            {/* Supplemental essays — gated at 1000 credits per school */}
             <div>
               <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10, marginBottom: 12 }}>
-                <h3 style={{ fontSize: 17, fontWeight: 850, margin: 0, letterSpacing: "-0.01em" }}>✍️ Supplemental 에세이 <span style={{ color: "#94a3b8", fontWeight: 700, fontSize: 14 }}>{admit.supplements.length}편</span></h3>
-                {admit.supplementFile && (
+                <h3 style={{ fontSize: 17, fontWeight: 850, margin: 0, letterSpacing: "-0.01em" }}>✍️ Supplemental 에세이 <span style={{ color: "#94a3b8", fontWeight: 700, fontSize: 14 }}>{admit.supplements.length}편</span>{suppUnlocked && <span style={{ fontSize: 12, fontWeight: 800, color: "#047a45", marginLeft: 8 }}>✓ 보유</span>}</h3>
+                {suppUnlocked && admit.supplementFile && (
                   <a href={admit.supplementFile} download style={{ fontSize: 12, fontWeight: 700, color: "#7c3aed", textDecoration: "none" }}>⬇ 원본 받기</a>
                 )}
               </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                {admit.supplements.map((e, i) => (
-                  <article key={i} style={{ background: "#fff", borderRadius: 16, border: "1px solid #e2e6ea", padding: "20px 22px" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10, flexWrap: "wrap" }}>
-                      <span style={{ fontSize: 11.5, fontWeight: 900, color: "#fff", background: admit.accent, borderRadius: 7, padding: "3px 10px" }}>Essay {i + 1}</span>
-                      {e.wordLimit && <span style={{ fontSize: 11.5, fontWeight: 700, color: "#94a3b8" }}>{e.wordLimit}</span>}
-                    </div>
-                    <p style={{ fontSize: 13, color: "#64748b", fontStyle: "italic", lineHeight: 1.65, margin: "0 0 14px", paddingLeft: 12, borderLeft: `3px solid ${admit.accent}33` }}>{e.prompt}</p>
-                    {e.paragraphs.map((p, j) => (
-                      <p key={j} style={{ fontSize: 14.5, color: "#1f2937", lineHeight: 1.85, margin: j === 0 ? 0 : "12px 0 0" }}>{p}</p>
+
+              {suppUnlocked ? (
+                <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                  {admit.supplements.map((e, i) => (
+                    <article key={i} style={{ background: "#fff", borderRadius: 16, border: "1px solid #e2e6ea", padding: "20px 22px" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10, flexWrap: "wrap" }}>
+                        <span style={{ fontSize: 11.5, fontWeight: 900, color: "#fff", background: admit.accent, borderRadius: 7, padding: "3px 10px" }}>Essay {i + 1}</span>
+                        {e.wordLimit && <span style={{ fontSize: 11.5, fontWeight: 700, color: "#94a3b8" }}>{e.wordLimit}</span>}
+                      </div>
+                      <p style={{ fontSize: 13, color: "#64748b", fontStyle: "italic", lineHeight: 1.65, margin: "0 0 14px", paddingLeft: 12, borderLeft: `3px solid ${admit.accent}33` }}>{e.prompt}</p>
+                      {e.paragraphs.map((p, j) => (
+                        <p key={j} style={{ fontSize: 14.5, color: "#1f2937", lineHeight: 1.85, margin: j === 0 ? 0 : "12px 0 0" }}>{p}</p>
+                      ))}
+                    </article>
+                  ))}
+                </div>
+              ) : (
+                /* Locked: teaser prompts + unlock CTA */
+                <div style={{ background: "#fff", borderRadius: 16, border: "1px solid #e2e6ea", padding: "22px", textAlign: "center" }}>
+                  <p style={{ fontSize: 30, margin: "0 0 6px" }}>🔒</p>
+                  <h4 style={{ fontSize: 16.5, fontWeight: 850, margin: "0 0 6px" }}>{admit.school} Supplemental 에세이 {admit.supplements.length}편</h4>
+                  <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.6, margin: "0 0 16px" }}>합격을 만든 보충 에세이 <strong>원본 전문</strong>을 잠금 해제하세요. 한 번 열면 이 학교 에세이는 계속 볼 수 있어요.</p>
+
+                  {/* What's inside — prompt teasers */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 8, textAlign: "left", margin: "0 0 18px" }}>
+                    {admit.supplements.map((e, i) => (
+                      <div key={i} style={{ background: "#f8fafc", border: "1px solid #eef0f3", borderRadius: 10, padding: "11px 13px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                          <span style={{ fontSize: 10.5, fontWeight: 900, color: "#fff", background: admit.accent, borderRadius: 6, padding: "2px 8px" }}>Essay {i + 1}</span>
+                          {e.wordLimit && <span style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8" }}>{e.wordLimit}</span>}
+                        </div>
+                        <p style={{ fontSize: 12.5, color: "#64748b", lineHeight: 1.55, margin: 0, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{e.prompt}</p>
+                      </div>
                     ))}
-                  </article>
-                ))}
-              </div>
+                  </div>
+
+                  <button onClick={unlockSupp}
+                    style={{ width: "100%", background: GREEN, color: "#fff", border: "none", borderRadius: 12, padding: "14px", fontSize: 15, fontWeight: 850, cursor: "pointer" }}>
+                    🔓 {SUPP_COST.toLocaleString()} 크레딧으로 잠금 해제
+                  </button>
+                  <p style={{ fontSize: 12, color: "#94a3b8", margin: "10px 0 0" }}>내 잔액 🪙 {balance.toLocaleString()}</p>
+
+                  {needCharge && (
+                    <div style={{ marginTop: 12, background: "#fff7ed", border: "1px solid #fed7aa", borderRadius: 10, padding: "12px 14px", textAlign: "left" }}>
+                      <p style={{ fontSize: 13, fontWeight: 800, color: "#c2410c", margin: "0 0 4px" }}>🪙 크레딧이 {(SUPP_COST - balance).toLocaleString()}개 부족해요</p>
+                      <p style={{ fontSize: 12, color: "#9a3412", lineHeight: 1.6, margin: 0 }}>
+                        <Link href="/parents/me" style={{ color: "#7c3aed", fontWeight: 700 }}>친구 추천(+20)</Link> 하거나 <Link href="/parents" style={{ color: "#7c3aed", fontWeight: 700 }}>자료실에서 충전</Link>해서 채워보세요.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

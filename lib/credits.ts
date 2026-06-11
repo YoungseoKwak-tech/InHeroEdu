@@ -219,4 +219,5 @@ export const CREDIT_COSTS = {
   QUESTION_BANK: 1000,     // legacy alias = whole question bank (= ALL_SUBJECTS)
   CORE_NOTES: 1000,        // alias = all Korean core notes
   SAT_MOCK: 1000,
+  SUPPLEMENTALS: 1000,     // one school's supplemental admit essays (per 합격 프로필)
 } as const;
