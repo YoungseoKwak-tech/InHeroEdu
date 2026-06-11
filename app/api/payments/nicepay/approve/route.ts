@@ -140,6 +140,25 @@ async function handleNicePayApproval(req: NextRequest) {
   }
 
   if (storedOrder.status === "paid") {
+    if (storedOrder.serviceId.startsWith("credits:") && storedOrder.userId) {
+      try {
+        const grant = await grantPurchasedCredits(
+          supabase,
+          storedOrder.userId,
+          storedOrder.serviceId,
+          localOrderId
+        );
+        if (!grant.ok) {
+          console.error("[nicepay/approve] paid credit order grant repair failed", {
+            localOrderId,
+            reason: grant.reason,
+          });
+        }
+      } catch (e) {
+        console.error("[nicepay/approve] paid credit order grant repair threw", e);
+      }
+    }
+
     return NextResponse.redirect(
       buildSuccessUrl(req, {
         localOrderId,
@@ -292,7 +311,18 @@ async function handleNicePayApproval(req: NextRequest) {
   // Credit-package orders: grant the purchased credits to the account.
   if (storedOrder.serviceId.startsWith("credits:") && storedOrder.userId) {
     try {
-      await grantPurchasedCredits(supabase, storedOrder.userId, storedOrder.serviceId);
+      const grant = await grantPurchasedCredits(
+        supabase,
+        storedOrder.userId,
+        storedOrder.serviceId,
+        localOrderId
+      );
+      if (!grant.ok) {
+        console.error("[nicepay/approve] grantPurchasedCredits failed", {
+          localOrderId,
+          reason: grant.reason,
+        });
+      }
     } catch (e) {
       console.error("[nicepay/approve] grantPurchasedCredits failed", e);
     }

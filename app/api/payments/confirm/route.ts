@@ -7,6 +7,7 @@ import {
   markStoredOrderPaid,
   type StoredOrder,
 } from "@/lib/orderStore";
+import { grantPurchasedCredits } from "@/lib/credits-server";
 import {
   activatePayPalSubscription,
   capturePayPalOrder,
@@ -390,16 +391,46 @@ async function confirmNicePayPayment({
     return NextResponse.json({ error: "order not found" }, { status: 404 });
   }
 
-  const ownershipError = ensureOrderBelongsToUser(storedOrder, userId);
-  if (ownershipError) return ownershipError;
-
   if (storedOrder.status === "paid") {
+    if (userId) {
+      const ownershipError = ensureOrderBelongsToUser(storedOrder, userId);
+      if (ownershipError) return ownershipError;
+    }
+
+    if (storedOrder.serviceId.startsWith("credits:")) {
+      if (!storedOrder.userId) {
+        return NextResponse.json(
+          { error: "paid credit order is missing user id" },
+          { status: 500 }
+        );
+      }
+
+      const grant = await grantPurchasedCredits(
+        supabase,
+        storedOrder.userId,
+        storedOrder.serviceId,
+        localOrderId
+      );
+      if (!grant.ok) {
+        return NextResponse.json(
+          {
+            error: "payment confirmed but credits could not be granted",
+            reason: grant.reason,
+          },
+          { status: 500 }
+        );
+      }
+    }
+
     return NextResponse.json({
       success: true,
       provider: "nicepay",
       order: mapStoredOrderForResponse(storedOrder),
     });
   }
+
+  const ownershipError = ensureOrderBelongsToUser(storedOrder, userId);
+  if (ownershipError) return ownershipError;
 
   return NextResponse.json(
     { error: "payment is still processing" },

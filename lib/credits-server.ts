@@ -22,6 +22,14 @@ interface CreditProfile {
   credit_unlocks: string[];
 }
 
+export interface CreditGrantResult {
+  ok: boolean;
+  grantedCredits: number;
+  balance?: number;
+  alreadyGranted?: boolean;
+  reason?: string;
+}
+
 /**
  * Reads the user's credit profile, creating the row / welcome grant / referral
  * code as needed. Returns null if the schema isn't migrated yet (caller should
@@ -61,15 +69,66 @@ export async function ensureCreditProfile(
   };
 }
 
-/** Grant the credits for a paid `credits:<id>` order (called from approve). */
+function creditPurchaseMarker(orderId: string) {
+  return `credit_purchase:${orderId}`;
+}
+
+/** Grant the credits for a paid `credits:<id>` order (called from approve/confirm). */
 export async function grantPurchasedCredits(
   supabase: SupabaseClient,
   userId: string,
-  serviceId: string
-): Promise<void> {
+  serviceId: string,
+  orderId?: string
+): Promise<CreditGrantResult> {
   const pkg = parseCreditServiceId(serviceId);
-  if (!pkg) return;
+  if (!pkg) return { ok: true, grantedCredits: 0, reason: "not_credit_order" };
+
   const profile = await ensureCreditProfile(supabase, userId);
-  if (!profile) return;
-  await supabase.from("profiles").update({ credits: profile.credits + pkg.credits }).eq("id", userId);
+  if (!profile) {
+    return {
+      ok: false,
+      grantedCredits: 0,
+      reason: "credits_schema_missing",
+    };
+  }
+
+  const marker = orderId ? creditPurchaseMarker(orderId) : null;
+  if (marker && profile.credit_unlocks.includes(marker)) {
+    return {
+      ok: true,
+      grantedCredits: 0,
+      balance: profile.credits,
+      alreadyGranted: true,
+    };
+  }
+
+  const nextBalance = profile.credits + pkg.credits;
+  const nextUnlocks = marker
+    ? [...profile.credit_unlocks, marker]
+    : profile.credit_unlocks;
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({
+      credits: nextBalance,
+      ...(marker ? { credit_unlocks: nextUnlocks } : {}),
+    })
+    .eq("id", userId);
+
+  if (error) {
+    if (isSchemaMissing(error)) {
+      return {
+        ok: false,
+        grantedCredits: 0,
+        reason: "credits_schema_missing",
+      };
+    }
+    throw error;
+  }
+
+  return {
+    ok: true,
+    grantedCredits: pkg.credits,
+    balance: nextBalance,
+  };
 }
