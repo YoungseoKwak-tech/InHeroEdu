@@ -1298,4 +1298,34 @@ export const courses: Course[] = [
       },
     ],
   },
+  {
+    id: "ib-physics", subject: "IB Physics", subjectEn: "IB Physics", category: "IB",
+    curriculum: "IB", ibGroup: 4, ibLevels: ["HL", "SL"],
+    description: "IB Physics HL/SL — mechanics, thermal, waves, fields, electromagnetism, and modern physics with computed practice.",
+    topicCount: 12, difficulty: "Intermediate", color: "from-sky-500 to-blue-600", icon: "🔬", lessonIds: [],
+  },
+  {
+    id: "ib-psychology", subject: "IB Psychology", subjectEn: "IB Psychology", category: "IB",
+    curriculum: "IB", ibGroup: 3, ibLevels: ["HL", "SL"],
+    description: "IB Psychology HL/SL — biological, cognitive, and sociocultural approaches plus research methods.",
+    topicCount: 10, difficulty: "Intermediate", color: "from-violet-500 to-purple-600", icon: "🧠", lessonIds: [],
+  },
+  {
+    id: "ib-history", subject: "IB History", subjectEn: "IB History", category: "IB",
+    curriculum: "IB", ibGroup: 3, ibLevels: ["HL", "SL"],
+    description: "IB History HL/SL — authoritarian states, causes of conflict, the Cold War, and source analysis skills.",
+    topicCount: 10, difficulty: "Intermediate", color: "from-amber-600 to-red-600", icon: "📜", lessonIds: [],
+  },
+  {
+    id: "ib-english", subject: "IB English A", subjectEn: "IB English A: Lang & Lit", category: "IB",
+    curriculum: "IB", ibGroup: 1, ibLevels: ["HL", "SL"],
+    description: "IB English A HL/SL — literary devices, analysis, poetry, and rhetoric for the language & literature course.",
+    topicCount: 10, difficulty: "Intermediate", color: "from-rose-500 to-pink-600", icon: "📖", lessonIds: [],
+  },
+  {
+    id: "ib-math-ai", subject: "IB Math AI", subjectEn: "IB Math: Applications & Interpretation", category: "IB",
+    curriculum: "IB", ibGroup: 5, ibLevels: ["HL", "SL"],
+    description: "IB Math AI HL/SL — statistics, modelling, geometry, probability, and applied calculus with computed practice.",
+    topicCount: 12, difficulty: "Intermediate", color: "from-teal-500 to-emerald-600", icon: "📐", lessonIds: [],
+  },
 ];
