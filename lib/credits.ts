@@ -212,7 +212,7 @@ export const CREDIT_COSTS = {
   VOCAB: 100,
   ESSAY: 250,
   ACTIVITIES: 250,
-  TEXTBOOK: 500,     // one 1,000-page digital textbook
+  TEXTBOOK: 220,     // one digital textbook — 200 welcome + 20 referral reward = exactly 1 book (drives 지인 추천)
   // 한국어 핵심노트 & 문제은행: 과목당 200 / 전 과목 1000 (원하는 과목만 선택 잠금해제)
   SUBJECT: 200,            // unlock one subject (core notes OR question bank)
   ALL_SUBJECTS: 1000,      // unlock every subject of that product

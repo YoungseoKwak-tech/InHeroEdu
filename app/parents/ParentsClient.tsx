@@ -20,7 +20,7 @@ import { COMPETITIONS } from "./competitions/data";
 import CreditWidget from "@/components/parents/CreditWidget";
 import MyTierBadge from "@/components/parents/TierBadge";
 import ReferralPrompt from "@/components/parents/ReferralPrompt";
-import { isUnlocked, spendAndUnlockAccount, hydrateCredits, CREDIT_EVENT, CREDIT_COSTS } from "@/lib/credits";
+import { isUnlocked, spendAndUnlockAccount, hydrateCredits, CREDIT_EVENT, CREDIT_COSTS, getBalance } from "@/lib/credits";
 import TextbookFlipPreview from "@/components/parents/TextbookFlipPreview";
 
 const GREEN = "#00b85f";
@@ -284,9 +284,22 @@ export default function ParentsClient() {
           <div onClick={(e) => e.stopPropagation()} style={{ width: "min(400px, 96vw)", background: "#fff", borderRadius: 16, padding: "26px 24px", boxShadow: "0 20px 60px rgba(0,0,0,0.3)", textAlign: "center" }}>
             <p style={{ fontSize: 30, margin: "0 0 8px" }}>🔓</p>
             <h3 style={{ fontSize: 18, fontWeight: 850, margin: "0 0 8px", color: "#1a1a1f" }}>여기에 {gate.cost} 크레딧을 사용하시겠습니까?</h3>
-            <p style={{ fontSize: 13.5, color: "#64748b", lineHeight: 1.6, margin: "0 0 18px" }}>
+            <p style={{ fontSize: 13.5, color: "#64748b", lineHeight: 1.6, margin: "0 0 14px" }}>
               <strong style={{ color: "#1a1a1f" }}>{gate.title}</strong><br />한 번 잠금 해제하면 계속 볼 수 있어요.
             </p>
+            {/* 지인 추천 넛지 — 잔액이 부족하면 강조, 충분해도 안내 */}
+            <button
+              onClick={() => { setGate(null); router.push("/parents/me"); }}
+              style={{ width: "100%", textAlign: "left", background: getBalance() < gate.cost ? "#fff7ed" : "#f6f4ff", border: `1px solid ${getBalance() < gate.cost ? "#fed7aa" : "#e9defe"}`, borderRadius: 10, padding: "10px 12px", margin: "0 0 16px", cursor: "pointer" }}>
+              <div style={{ fontSize: 12.5, fontWeight: 800, color: getBalance() < gate.cost ? "#c2410c" : "#7c3aed", marginBottom: 2 }}>
+                {getBalance() < gate.cost
+                  ? `🪙 ${gate.cost - getBalance()}크레딧 부족 — 친구 1명 추천하면 +20!`
+                  : "💌 친구를 추천하고 +20 크레딧 받으세요"}
+              </div>
+              <div style={{ fontSize: 11.5, color: "#94a3b8", lineHeight: 1.5 }}>
+                지인이 내 추천코드로 가입하면 둘 다 보너스 · 웰컴 200 + 추천 20 = 책 1권 <span style={{ color: "#7c3aed", fontWeight: 700 }}>내 추천코드 보기 →</span>
+              </div>
+            </button>
             <div style={{ display: "flex", gap: 10 }}>
               <button onClick={() => setGate(null)} style={{ flex: 1, background: "#fff", border: "1.5px solid #e2e6ea", color: "#64748b", borderRadius: 10, padding: "12px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>취소</button>
               <button onClick={gate.onConfirm} style={{ flex: 2, background: GREEN, color: "#fff", border: "none", borderRadius: 10, padding: "12px", fontWeight: 800, fontSize: 14, cursor: "pointer" }}>🪙 {gate.cost} 크레딧 사용</button>
