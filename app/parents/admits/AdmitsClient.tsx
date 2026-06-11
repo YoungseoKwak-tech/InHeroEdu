@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getClientSession } from "@/lib/client-auth";
 import { ADMITS, type Admit } from "@/lib/data/admits";
+import { TAG_COLOR } from "@/lib/data/cornellMainEssay";
 
 const GREEN = "#00b85f";
 
@@ -19,6 +20,7 @@ export default function AdmitsClient() {
   const [allowed, setAllowed] = useState<boolean | null>(null);
   const [activeId, setActiveId] = useState(ADMITS[0]?.id);
   const [zoom, setZoom] = useState<string | null>(null);
+  const [showAnalysis, setShowAnalysis] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -129,6 +131,42 @@ export default function AdmitsClient() {
                   <a href={admit.commonApp.pdf} target="_blank" rel="noopener noreferrer" style={{ background: "#fff", color: "#1a1a1f", border: "1.5px solid #e2e6ea", borderRadius: 10, padding: "10px 16px", fontSize: 13, fontWeight: 800, textDecoration: "none" }}>📄 원문 PDF</a>
                 )}
               </div>
+
+              {/* Inline 한국어 문단별 분석 */}
+              {admit.commonApp.analysis && admit.commonApp.analysis.length > 0 && (
+                <div style={{ marginTop: 16, borderTop: "1px dashed #e2e6ea", paddingTop: 14 }}>
+                  <button onClick={() => setShowAnalysis((v) => !v)}
+                    style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, background: showAnalysis ? "#f6f4ff" : "#faf7ff", border: "1px solid #e9defe", borderRadius: 10, padding: "11px 14px", cursor: "pointer", textAlign: "left" }}>
+                    <span style={{ fontSize: 13.5, fontWeight: 800, color: "#7c3aed" }}>📖 한국어 문단별 분석 — 무엇이 왜 잘 됐나 <span style={{ color: "#a78bda" }}>({admit.commonApp.analysis.length}문단)</span></span>
+                    <span style={{ fontSize: 13, color: "#7c3aed", fontWeight: 800 }}>{showAnalysis ? "접기 ▲" : "펼치기 ▼"}</span>
+                  </button>
+
+                  {showAnalysis && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 14 }}>
+                      {admit.commonApp.analysis.map((seg, i) => (
+                        <div key={i} style={{ borderLeft: "3px solid #efe7fe", paddingLeft: 14 }}>
+                          <h4 style={{ fontSize: 14.5, fontWeight: 850, color: "#7c3aed", margin: "0 0 4px" }}>{seg.label}</h4>
+                          <p style={{ fontSize: 12.5, color: "#94a3b8", lineHeight: 1.6, margin: "0 0 10px" }}>{seg.gist}</p>
+                          <p style={{ fontSize: 13.5, color: "#334155", fontStyle: "italic", lineHeight: 1.75, margin: "0 0 12px", background: "#f8fafc", borderRadius: 8, padding: "11px 13px" }}>“{seg.en}”</p>
+                          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                            {seg.notes.map((n, k) => (
+                              <div key={k}>
+                                <span style={{ display: "inline-block", fontSize: 11, fontWeight: 800, color: "#fff", background: TAG_COLOR[n.tag] ?? "#475569", borderRadius: 6, padding: "2px 9px", marginBottom: 6 }}>{n.tag}</span>
+                                <p style={{ fontSize: 13.5, color: "#1f2937", lineHeight: 1.8, margin: 0 }}>{n.text}</p>
+                                {n.weak && (
+                                  <p style={{ fontSize: 12.5, color: "#9f1239", lineHeight: 1.7, margin: "7px 0 0", background: "#fff1f2", border: "1px solid #fecdd3", borderRadius: 8, padding: "8px 11px" }}>
+                                    <strong>✗ 약한 예:</strong> {n.weak}
+                                  </p>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Supplemental essays */}

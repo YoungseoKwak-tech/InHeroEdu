@@ -5,6 +5,10 @@
  * Admit object. Assets live under /public/parents/admits.
  */
 
+import { SEGMENTS as CORNELL_MAIN_ESSAY, type Segment } from "@/lib/data/cornellMainEssay";
+
+export type { Segment };
+
 export interface AdmitEssay {
   prompt: string;
   wordLimit?: string;
@@ -34,6 +38,8 @@ export interface Admit {
     analysisHref?: string;
     /** Raw essay PDF. */
     pdf?: string;
+    /** Inline paragraph-by-paragraph Korean analysis (rendered on the profile). */
+    analysis?: Segment[];
   };
   supplements: AdmitEssay[];
   /** Original supplemental file for download. */
@@ -58,6 +64,7 @@ export const ADMITS: Admit[] = [
       blurb: "속초 해변의 죽은 해파리에서 출발해 생의공학 적합성·이민 정체성을 잇는 메인 에세이. 한 문단씩 쪼갠 한국어 분석을 함께 제공합니다.",
       analysisHref: "/parents/essay",
       pdf: "/parents/cornell-bme-essay.pdf",
+      analysis: CORNELL_MAIN_ESSAY,
     },
     supplementFile: "/parents/admits/cornell-supplemental.docx",
     supplements: [
