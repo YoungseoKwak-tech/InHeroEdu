@@ -19,7 +19,7 @@ function mk(subject){const qs=[];const seen=new Set();
 }
 function physics(B,level){
   // F = ma
-  for(let k=0;k<40;k++){const m=ri(2,40),a=ri(1,15);const F=m*a;
+  for(let k=0;k<40;k++){const m=ri(2,80),a=ri(1,25);const F=m*a;
     B.add("Mechanics",`A ${m} kg object accelerates at ${a} m/s². What net force acts on it?`,`${F} N`,[`${m+a} N`,`${fmt(m/a)} N`,`${m*a*2} N`],`F = ma = ${m}×${a} = ${F} N.`,"easy",level);}
   // KE
   for(let k=0;k<30;k++){const m=ri(2,12),v=ri(2,10);const KE=0.5*m*v*v;

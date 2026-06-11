@@ -25,7 +25,7 @@ function mk(){ const qs=[]; const seen=new Set();
 // ───────── SAT MATH (computed) ─────────
 const M = mk();
 // Linear equation solve
-for(let k=0;k<60;k++){const a=ri(2,12),b=ri(1,40),c=ri(b+1,120);const x=(c-b)/a;if(!Number.isInteger(x))continue;
+for(let k=0;k<60;k++){const a=ri(2,18),b=ri(1,80),c=ri(b+1,260);const x=(c-b)/a;if(!Number.isInteger(x))continue;
   M.add("Heart of Algebra",`If ${a}x + ${b} = ${c}, what is the value of x?`,x,[x+1,x-1,(c+b)/a],`${a}x = ${c}−${b} = ${c-b}; x = ${c-b}/${a} = ${x}.`,"easy");}
 // Slope from two points
 for(let k=0;k<40;k++){const x1=ri(-4,4),y1=ri(-4,4),dx=ri(1,4),dy=ri(-6,6);const x2=x1+dx,y2=y1+dy;const m=dy/dx;if(!Number.isInteger(m))continue;

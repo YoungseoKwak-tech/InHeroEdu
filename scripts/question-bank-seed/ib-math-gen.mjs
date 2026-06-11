@@ -34,7 +34,7 @@ function add(level, topic, question_text, correct, distractors, explanation, dif
 
 // ─────────────────────── SL templates ───────────────────────
 // Power-rule derivative at a point
-for (let k=0;k<60;k++){ const a=ri(2,14),b=ri(1,12),p=ri(2,5),c=ri(1,9);
+for (let k=0;k<60;k++){ const a=ri(2,22),b=ri(1,20),p=ri(2,5),c=ri(1,15);
   const dval=a*p*Math.pow(c,p-1)+b;
   add("SL","Differentiation",`If f(x) = ${a}x^${p} + ${b}x, then f'(${c}) =`,dval,
     [a*p*Math.pow(c,p)+b, a*Math.pow(c,p-1)+b, a*p*Math.pow(c,p-1)],
@@ -46,7 +46,7 @@ for (let k=0;k<50;k++){ const a=ri(1,6),p=ri(1,3),hi=ri(1,4);
     [fmt(a*Math.pow(hi,p)), fmt(a*Math.pow(hi,p+1)/(p+1)*0+a*hi), fmt(a*Math.pow(hi,p))],
     `∫${a}x^${p} dx = ${a}/${p+1}·x^${p+1}; evaluate 0→${hi} = ${fmt(val)}.`); }
 // Arithmetic sequence nth term
-for (let k=0;k<40;k++){ const a1=ri(2,20),d=ri(2,15),n=ri(5,30);
+for (let k=0;k<40;k++){ const a1=ri(2,40),d=ri(2,25),n=ri(5,50);
   const an=a1+(n-1)*d;
   add("SL","Sequences & Series",`An arithmetic sequence has first term ${a1} and common difference ${d}. The ${n}th term is:`,an,
     [a1+n*d, a1*d*n, a1+(n-1)*(d+1)],
@@ -168,7 +168,7 @@ for(let k=0;k<15;k++){const a=ri(1,6),b=ri(1,6),c=ri(1,6),d=ri(1,6);const det=a*
 
 // ─── batch-3 SL templates ───
 // Linear equation solve (one-step variety)
-for(let k=0;k<40;k++){const a=ri(2,12),x=ri(2,15),b=ri(1,30);const c=a*x+b;
+for(let k=0;k<40;k++){const a=ri(2,18),x=ri(2,30),b=ri(1,60);const c=a*x+b;
   add("SL","Functions & Equations",`Solve for x: ${a}x + ${b} = ${c}.`,x,[x+1,x-1,c-b],`${a}x = ${c}−${b} = ${c-b}; x = ${c-b}/${a} = ${x}.`,"easy");}
 // Cosine rule (find side²)
 for(let k=0;k<25;k++){const a=ri(3,12),b=ri(3,12),C=pick([60,90,120]);const cosC={60:0.5,90:0,120:-0.5}[C];const c2=a*a+b*b-2*a*b*cosC;
