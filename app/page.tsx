@@ -9,7 +9,6 @@ import ClickSeries from "@/components/landing/ClickSeries";
 import Features from "@/components/landing/Features";
 import SubjectGrid from "@/components/landing/SubjectGrid";
 import Testimonials from "@/components/landing/Testimonials";
-import SignedInRedirector from "@/components/landing/SignedInRedirector";
 import WelcomePopup from "@/components/landing/WelcomePopup";
 import Link from "next/link";
 import { useLang } from "@/app/contexts/LanguageContext";
@@ -18,9 +17,40 @@ export default function HomePage() {
   const { lang, t } = useLang();
   return (
     <>
-      <SignedInRedirector />
       <WelcomePopup />
       <HomeHeroDualPath locale={lang} />
+
+      {/* ── 한국어 학부모 자료실 — big shortcut ── */}
+      <section style={{ padding: "44px 24px 0", position: "relative", zIndex: 10 }}>
+        <Link
+          href="/parents"
+          style={{
+            display: "block", maxWidth: 1100, margin: "0 auto", textDecoration: "none",
+            background: "linear-gradient(135deg, rgba(0,255,178,0.16), rgba(124,58,237,0.18))",
+            border: "1px solid rgba(0,255,178,0.45)", borderRadius: 20,
+            padding: "clamp(28px,5vw,48px)", boxShadow: "0 20px 60px rgba(0,255,178,0.12)",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, flexWrap: "wrap" }}>
+            <div style={{ minWidth: 260, flex: 1 }}>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, fontWeight: 700, letterSpacing: "0.15em", color: "#00FFB2", marginBottom: 12 }}>📚 학부모 전용 · 한국어</div>
+              <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.9rem,4.4vw,3rem)", fontWeight: 800, color: "#fff", lineHeight: 1.12, letterSpacing: "-0.02em" }}>
+                한국어 입시 자료실 바로가기
+              </div>
+              <div style={{ fontSize: "clamp(14px,1.6vw,17px)", color: "#b9c2d0", marginTop: 14, lineHeight: 1.7, maxWidth: 640 }}>
+                AP 개념정리(영어+한국어) · 문제은행 11,975문항 · 합격수기·활동·에세이 · SAT 모의고사까지 — 학부모를 위한 한국어 자료를 한 곳에서.
+              </div>
+            </div>
+            <span style={{
+              flexShrink: 0, display: "inline-flex", alignItems: "center", gap: 10,
+              background: "#00FFB2", color: "#001a12", fontWeight: 800,
+              fontSize: "clamp(16px,1.8vw,21px)", padding: "18px 36px", borderRadius: 14,
+              boxShadow: "0 10px 30px rgba(0,255,178,0.35)", whiteSpace: "nowrap",
+            }}>바로가기 →</span>
+          </div>
+        </Link>
+      </section>
+
       <FacultyLineup />
       <AcademyCampus />
       <DropFeaturedCard />
