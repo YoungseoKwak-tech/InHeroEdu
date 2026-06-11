@@ -229,8 +229,29 @@ export default function ParentsClient() {
     });
   }
 
-  const openResource = (r: { route: string; cost: number; title: string }) =>
+  // Real view counts — load absolute counts, count one unique view per resource
+  // per session on open. Falls back to the in-code baseline if the table/API is
+  // unavailable so the board never shows 0.
+  const [viewCounts, setViewCounts] = useState<Record<string, number>>({});
+  const viewedRef = useRef<Set<string>>(new Set());
+  useEffect(() => {
+    fetch("/api/parents/resource-views").then((r) => r.json())
+      .then((d) => setViewCounts(d?.views ?? {})).catch(() => {});
+  }, []);
+  function trackView(route: string, baseline: number) {
+    if (viewedRef.current.has(route)) return;
+    viewedRef.current.add(route);
+    setViewCounts((m) => ({ ...m, [route]: (m[route] ?? baseline) + 1 }));
+    fetch("/api/parents/resource-views", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key: route, baseline }),
+    }).catch(() => {});
+  }
+
+  const openResource = (r: { route: string; cost: number; title: string; views?: number }) => {
+    trackView(r.route, r.views ?? 0);
     requestUnlock({ key: `res:${r.route}`, cost: r.cost, title: r.title, proceed: () => router.push(r.route), loginRedirect: r.route });
+  };
 
   const openBook = (b: { slug: string; title: string }) => {
     const route = `/textbooks/${b.slug}`;
@@ -500,7 +521,7 @@ export default function ParentsClient() {
                         ? <span style={{ flexShrink: 0, fontSize: 10.5, fontWeight: 800, color: GREEN, background: "rgba(0,184,95,0.1)", border: `1px solid ${GREEN}`, borderRadius: 999, padding: "1px 8px" }}>✓ 보유</span>
                         : <span style={{ flexShrink: 0, fontSize: 10.5, fontWeight: 800, color: "#a16207", background: "#fffbeb", border: "1px solid #f1d27a", borderRadius: 999, padding: "1px 8px" }}>🔒 {r.cost} 크레딧</span>
                     )}
-                    <span style={{ marginLeft: "auto", flexShrink: 0, color: "#94a3b8", fontSize: 11.5, fontWeight: 600 }}>👁 {r.views.toLocaleString()}</span>
+                    <span style={{ marginLeft: "auto", flexShrink: 0, color: "#94a3b8", fontSize: 11.5, fontWeight: 600 }}>👁 {(viewCounts[r.route] ?? r.views).toLocaleString()}</span>
                   </span>
                   <span style={{ color: "#94a3b8", fontSize: 12.5, paddingLeft: 2 }}>{r.desc}</span>
                 </div>
