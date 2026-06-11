@@ -39,6 +39,17 @@ import { HONORS_ENGLISH_9_U3_KO } from "./honors-english-9-u3";
 import { HONORS_WORLD_HISTORY_U3_KO } from "./honors-world-history-u3";
 import { HONORS_US_HISTORY_U3_KO } from "./honors-us-history-u3";
 
+// Honors — Unit 4 ──────────────────────────────────────────────
+import { HONORS_BIOLOGY_U4_KO } from "./honors-biology-u4";
+import { HONORS_CHEMISTRY_U4_KO } from "./honors-chemistry-u4";
+import { HONORS_PHYSICS_U4_KO } from "./honors-physics-u4";
+import { HONORS_ALGEBRA_2_U4_KO } from "./honors-algebra-2-u4";
+import { HONORS_GEOMETRY_U4_KO } from "./honors-geometry-u4";
+import { HONORS_PRECALCULUS_U4_KO } from "./honors-precalculus-u4";
+import { HONORS_ENGLISH_9_U4_KO } from "./honors-english-9-u4";
+import { HONORS_WORLD_HISTORY_U4_KO } from "./honors-world-history-u4";
+import { HONORS_US_HISTORY_U4_KO } from "./honors-us-history-u4";
+
 // IB Diploma Programme ─────────────────────────────────────────
 import { IB_BIOLOGY_U1_KO } from "./ib-biology-u1";
 import { IB_CHEMISTRY_U1_KO } from "./ib-chemistry-u1";
@@ -150,6 +161,15 @@ export const REGISTRY_B: CoreNote[] = [
   ...HONORS_ENGLISH_9_U3_KO,
   ...HONORS_WORLD_HISTORY_U3_KO,
   ...HONORS_US_HISTORY_U3_KO,
+  ...HONORS_BIOLOGY_U4_KO,
+  ...HONORS_CHEMISTRY_U4_KO,
+  ...HONORS_PHYSICS_U4_KO,
+  ...HONORS_ALGEBRA_2_U4_KO,
+  ...HONORS_GEOMETRY_U4_KO,
+  ...HONORS_PRECALCULUS_U4_KO,
+  ...HONORS_ENGLISH_9_U4_KO,
+  ...HONORS_WORLD_HISTORY_U4_KO,
+  ...HONORS_US_HISTORY_U4_KO,
   ...IB_BIOLOGY_U1_KO,
   ...IB_CHEMISTRY_U1_KO,
   ...IB_PHYSICS_U1_KO,
