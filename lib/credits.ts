@@ -96,6 +96,15 @@ function unlock(key: string) {
   if (typeof window !== "undefined") localStorage.setItem(UNLOCK_KEY, JSON.stringify([...s]));
 }
 
+function mirrorServerCredits(balance: number, unlocks?: unknown) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(BAL_KEY, String(Math.max(0, Math.round(Number(balance) || 0))));
+  if (Array.isArray(unlocks)) {
+    localStorage.setItem(UNLOCK_KEY, JSON.stringify(unlocks));
+  }
+  emit();
+}
+
 /**
  * Spend `cost` credits to unlock `key`. Returns true if already unlocked or the
  * spend succeeded; false if the balance is insufficient.
@@ -112,6 +121,80 @@ export function spendAndUnlock(key: string, cost: number): boolean {
     }).catch(() => {});
   }
   return true;
+}
+
+export interface SpendCreditsResult {
+  ok: boolean;
+  balance: number;
+  unlocks?: string[];
+  reason?: string;
+  serverBacked: boolean;
+}
+
+/**
+ * Account-safe spend path. If the signed-in user's credits are server-backed,
+ * the server must confirm the deduction before localStorage is updated. This
+ * avoids the "looks deducted, refresh restores it" bug caused by fire-and-forget
+ * writes.
+ */
+export async function spendAndUnlockAccount(key: string, cost: number): Promise<SpendCreditsResult> {
+  if (cost <= 0) {
+    return { ok: true, balance: getBalance(), unlocks: [...getUnlocked()], serverBacked };
+  }
+
+  await hydrateCredits().catch(() => {});
+
+  if (isUnlocked(key)) {
+    unlock(key);
+    return { ok: true, balance: getBalance(), unlocks: [...getUnlocked()], serverBacked };
+  }
+
+  if (serverBacked) {
+    try {
+      const r = await authFetch("/api/credits/spend", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ itemKey: key, cost }),
+      });
+      const d = await r.json().catch(() => ({}));
+
+      if (d?.migrated === false) {
+        serverBacked = false;
+      } else if (r.ok && typeof d?.balance === "number") {
+        mirrorServerCredits(d.balance, d.unlocks);
+        return {
+          ok: !!d.ok,
+          balance: d.balance,
+          unlocks: Array.isArray(d.unlocks) ? d.unlocks : [...getUnlocked()],
+          reason: d.reason,
+          serverBacked: true,
+        };
+      } else {
+        return {
+          ok: false,
+          balance: getBalance(),
+          reason: d?.error || "server_error",
+          serverBacked: true,
+        };
+      }
+    } catch {
+      return {
+        ok: false,
+        balance: getBalance(),
+        reason: "network_error",
+        serverBacked: true,
+      };
+    }
+  }
+
+  const ok = spendAndUnlock(key, cost);
+  return {
+    ok,
+    balance: getBalance(),
+    unlocks: [...getUnlocked()],
+    reason: ok ? undefined : "insufficient",
+    serverBacked: false,
+  };
 }
 
 /**

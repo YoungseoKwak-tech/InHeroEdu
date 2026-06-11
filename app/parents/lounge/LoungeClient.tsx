@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getClientSession } from "@/lib/client-auth";
 import { resolveAuthor, specialAuthorForEmail } from "@/lib/specialAuthors";
-import { spendAndUnlock } from "@/lib/credits";
+import { spendAndUnlockAccount } from "@/lib/credits";
 import { isAdminEmail } from "@/lib/adminEmails";
 import { TierBadge } from "@/components/parents/TierBadge";
 
@@ -92,8 +92,12 @@ export default function LoungeClient() {
     // 처음 3회는 무료, 이후부터 건당 5크레딧 차감 (고유 키로 매번 부과 + 계정 동기화).
     // 관리자는 크레딧 없이 무제한.
     if (!isAdmin && used >= FREE_POSTS) {
-      const paid = spendAndUnlock(`qa-post:${user.id}:${Date.now()}`, POST_COST);
-      if (!paid) { window.dispatchEvent(new Event("inhero:open-charge")); return; }
+      const paid = await spendAndUnlockAccount(`qa-post:${user.id}:${Date.now()}`, POST_COST);
+      if (!paid.ok) {
+        if (paid.reason === "insufficient") window.dispatchEvent(new Event("inhero:open-charge"));
+        else window.alert("크레딧 차감 확인 중 오류가 발생했어요. 잠시 후 다시 시도해 주세요.");
+        return;
+      }
     }
     setPosting(true);
     try {

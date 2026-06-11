@@ -11,8 +11,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import StoryReviewWidget from "@/components/StoryReviewWidget";
-import { authFetch, getClientSession } from "@/lib/client-auth";
-import { isUnlocked, spendAndUnlock, getBalance, hydrateCredits, CREDIT_EVENT, CREDIT_COSTS } from "@/lib/credits";
+import { getClientSession } from "@/lib/client-auth";
+import { isUnlocked, spendAndUnlockAccount, getBalance, hydrateCredits, CREDIT_EVENT, CREDIT_COSTS } from "@/lib/credits";
 import { isAdminEmail } from "@/lib/adminEmails";
 import {
   STORY_META, TOC_PROLOGUE, TOC_PARTS, TOC_EPILOGUE, TOC_APPENDIX,
@@ -61,24 +61,16 @@ export default function StoryLanding() {
   async function confirmSpend() {
     setShowGate(false);
     try {
-      const res = await authFetch("/api/credits/spend", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ itemKey: READ_KEY, cost: READ_COST }),
-      });
-      const d = await res.json().catch(() => ({}));
-      if (d?.migrated === false) {
-        // Account credits not server-backed → local fallback.
-        if (!spendAndUnlock(READ_KEY, READ_COST)) { window.dispatchEvent(new CustomEvent("inhero:open-charge")); return; }
-      } else if (!d?.ok) {
-        window.dispatchEvent(new CustomEvent("inhero:open-charge")); return; // insufficient on server
-      } else {
-        await hydrateCredits().catch(() => {}); // mirror server unlock + balance locally
+      const result = await spendAndUnlockAccount(READ_KEY, READ_COST);
+      if (!result.ok) {
+        if (result.reason === "insufficient") window.dispatchEvent(new CustomEvent("inhero:open-charge"));
+        else window.alert("크레딧 차감 확인 중 오류가 발생했어요. 잠시 후 다시 시도해 주세요.");
+        return;
       }
       setOwned(true);
       router.push(READ_HREF);
     } catch {
-      if (spendAndUnlock(READ_KEY, READ_COST)) { setOwned(true); router.push(READ_HREF); }
-      else window.dispatchEvent(new CustomEvent("inhero:open-charge"));
+      window.alert("크레딧 차감 확인 중 오류가 발생했어요. 잠시 후 다시 시도해 주세요.");
     }
   }
 

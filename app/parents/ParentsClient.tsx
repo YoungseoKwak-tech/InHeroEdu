@@ -20,7 +20,7 @@ import { COMPETITIONS } from "./competitions/data";
 import CreditWidget from "@/components/parents/CreditWidget";
 import MyTierBadge from "@/components/parents/TierBadge";
 import ReferralPrompt from "@/components/parents/ReferralPrompt";
-import { isUnlocked, spendAndUnlock, CREDIT_EVENT, CREDIT_COSTS } from "@/lib/credits";
+import { isUnlocked, spendAndUnlockAccount, hydrateCredits, CREDIT_EVENT, CREDIT_COSTS } from "@/lib/credits";
 import TextbookFlipPreview from "@/components/parents/TextbookFlipPreview";
 
 const GREEN = "#00b85f";
@@ -215,16 +215,22 @@ export default function ParentsClient() {
   const BOOK_COST = CREDIT_COSTS.TEXTBOOK;
   const [gate, setGate] = useState<null | { title: string; cost: number; onConfirm: () => void }>(null);
 
-  function requestUnlock(opts: { key: string; cost: number; title: string; proceed: () => void; loginRedirect: string }) {
+  async function requestUnlock(opts: { key: string; cost: number; title: string; proceed: () => void; loginRedirect: string }) {
     if (!loggedIn) { requireLogin(opts.loginRedirect); return; }
-    if (!opts.cost || isUnlocked(opts.key)) { opts.proceed(); return; }
+    if (!opts.cost) { opts.proceed(); return; }
+    if (isUnlocked(opts.key)) {
+      await hydrateCredits().catch(() => {});
+      if (isUnlocked(opts.key)) { opts.proceed(); return; }
+    }
     setGate({
       title: opts.title,
       cost: opts.cost,
-      onConfirm: () => {
+      onConfirm: async () => {
         setGate(null);
-        if (spendAndUnlock(opts.key, opts.cost)) opts.proceed();
-        else window.dispatchEvent(new CustomEvent("inhero:open-charge"));
+        const result = await spendAndUnlockAccount(opts.key, opts.cost);
+        if (result.ok) opts.proceed();
+        else if (result.reason === "insufficient") window.dispatchEvent(new CustomEvent("inhero:open-charge"));
+        else window.alert("크레딧 차감 확인 중 오류가 발생했어요. 잠시 후 다시 시도해 주세요.");
       },
     });
   }

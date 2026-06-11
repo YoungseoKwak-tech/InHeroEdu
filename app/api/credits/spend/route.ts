@@ -11,7 +11,15 @@ export async function POST(req: NextRequest) {
   if (user instanceof NextResponse) return user;
 
   const { itemKey, cost } = await req.json().catch(() => ({}));
-  if (!itemKey || typeof cost !== "number" || cost < 0) {
+  if (
+    typeof itemKey !== "string" ||
+    !itemKey.trim() ||
+    itemKey.length > 240 ||
+    typeof cost !== "number" ||
+    !Number.isFinite(cost) ||
+    cost < 0 ||
+    !Number.isInteger(cost)
+  ) {
     return NextResponse.json({ error: "itemKey and cost required" }, { status: 400 });
   }
 
@@ -29,11 +37,29 @@ export async function POST(req: NextRequest) {
 
   const nextBalance = profile.credits - cost;
   const nextUnlocks = [...profile.credit_unlocks, itemKey];
-  const { error } = await supabase
+  const { data: updated, error } = await supabase
     .from("profiles")
     .update({ credits: nextBalance, credit_unlocks: nextUnlocks })
-    .eq("id", user.id);
+    .eq("id", user.id)
+    .gte("credits", cost)
+    .not("credit_unlocks", "cs", JSON.stringify([itemKey]))
+    .select("credits, credit_unlocks")
+    .maybeSingle();
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  return NextResponse.json({ migrated: true, ok: true, balance: nextBalance, unlocks: nextUnlocks });
+  if (!updated) {
+    const fresh = await ensureCreditProfile(supabase, user.id);
+    if (!fresh) return NextResponse.json({ migrated: false });
+    if (fresh.credit_unlocks.includes(itemKey)) {
+      return NextResponse.json({ migrated: true, ok: true, balance: fresh.credits, unlocks: fresh.credit_unlocks });
+    }
+    return NextResponse.json({ migrated: true, ok: false, reason: "insufficient", balance: fresh.credits, unlocks: fresh.credit_unlocks });
+  }
+
+  return NextResponse.json({
+    migrated: true,
+    ok: true,
+    balance: Number(updated.credits ?? nextBalance),
+    unlocks: Array.isArray(updated.credit_unlocks) ? updated.credit_unlocks : nextUnlocks,
+  });
 }

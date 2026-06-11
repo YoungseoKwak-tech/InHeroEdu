@@ -11,7 +11,7 @@
  */
 
 import { useEffect, useState, type ReactNode } from "react";
-import { getBalance, isUnlocked, spendAndUnlock, CREDIT_EVENT } from "@/lib/credits";
+import { getBalance, isUnlocked, spendAndUnlockAccount, hydrateCredits, CREDIT_EVENT } from "@/lib/credits";
 import { getClientSession } from "@/lib/client-auth";
 import { isAdminEmail } from "@/lib/adminEmails";
 
@@ -29,15 +29,21 @@ export default function CreditGate({
   const [unlocked, setUnlocked] = useState<boolean | null>(null);
   const [balance, setBalance] = useState(0);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [pending, setPending] = useState(false);
 
   useEffect(() => {
+    let alive = true;
     const sync = () => {
+      if (!alive) return;
       setUnlocked(isUnlocked(gateKey) || (!!bundleKey && isUnlocked(bundleKey)));
       setBalance(getBalance());
     };
-    sync();
+    hydrateCredits().catch(() => {}).finally(sync);
     window.addEventListener(CREDIT_EVENT, sync);
-    return () => window.removeEventListener(CREDIT_EVENT, sync);
+    return () => {
+      alive = false;
+      window.removeEventListener(CREDIT_EVENT, sync);
+    };
   }, [gateKey, bundleKey]);
 
   // Admins get every gated item credit-free.
@@ -51,11 +57,20 @@ export default function CreditGate({
 
   const enough = balance >= cost;
   const bundleEnough = bundleKey ? balance >= (bundleCost ?? cost) : false;
-  const handleUnlock = (bundle?: boolean) => {
+  const handleUnlock = async (bundle?: boolean) => {
+    if (pending) return;
     const k = bundle && bundleKey ? bundleKey : gateKey;
     const c = bundle && bundleKey ? (bundleCost ?? cost) : cost;
-    if (spendAndUnlock(k, c)) setUnlocked(true);
-    else window.dispatchEvent(new Event("inhero:open-charge"));
+    setPending(true);
+    try {
+      const result = await spendAndUnlockAccount(k, c);
+      setBalance(result.balance);
+      if (result.ok) setUnlocked(true);
+      else if (result.reason === "insufficient") window.dispatchEvent(new Event("inhero:open-charge"));
+      else window.alert("크레딧 차감 확인 중 오류가 발생했어요. 잠시 후 다시 시도해 주세요.");
+    } finally {
+      setPending(false);
+    }
   };
 
   return (
@@ -72,11 +87,11 @@ export default function CreditGate({
       </div>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center" }}>
-        <button onClick={() => handleUnlock(false)} style={{ background: enough ? GREEN : "#1a1a1f", color: "#fff", border: "none", borderRadius: 10, padding: "13px 24px", fontWeight: 800, fontSize: 14.5, cursor: "pointer" }}>
-          {enough ? `잠금 해제 · ${cost.toLocaleString()} 크레딧` : "크레딧 충전하기 →"}
+        <button disabled={pending} onClick={() => handleUnlock(false)} style={{ background: enough ? GREEN : "#1a1a1f", color: "#fff", border: "none", borderRadius: 10, padding: "13px 24px", fontWeight: 800, fontSize: 14.5, cursor: pending ? "default" : "pointer", opacity: pending ? 0.72 : 1 }}>
+          {pending ? "확인 중…" : enough ? `잠금 해제 · ${cost.toLocaleString()} 크레딧` : "크레딧 충전하기 →"}
         </button>
         {bundleKey && (
-          <button onClick={() => handleUnlock(true)} style={{ background: "#fff", color: "#1a1a1f", border: "1.5px solid #1a1a1f", borderRadius: 10, padding: "13px 24px", fontWeight: 800, fontSize: 14.5, cursor: "pointer" }}>
+          <button disabled={pending} onClick={() => handleUnlock(true)} style={{ background: "#fff", color: "#1a1a1f", border: "1.5px solid #1a1a1f", borderRadius: 10, padding: "13px 24px", fontWeight: 800, fontSize: 14.5, cursor: pending ? "default" : "pointer", opacity: pending ? 0.72 : 1 }}>
             {bundleLabel ?? "전 과목 한 번에"} · {(bundleCost ?? cost).toLocaleString()} 크레딧{!bundleEnough ? " →" : ""}
           </button>
         )}
