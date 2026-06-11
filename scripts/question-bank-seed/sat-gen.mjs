@@ -65,6 +65,28 @@ for(let k=0;k<15;k++){const nums=Array.from({length:5},()=>ri(10,90));const mean
 for(let k=0;k<15;k++){const fav=ri(1,5),tot=ri(fav+3,12);const g=(a,b)=>b?g(b,a%b):a;const d=g(fav,tot);
   M.add("Problem Solving & Data",`A bag has ${tot} marbles, ${fav} of which are red. What is the probability of drawing a red marble?`,`${fav/d}/${tot/d}`,[`${tot/d}/${fav/d}`,`${fav}/${tot+fav}`,`${fav-1}/${tot}`],`P(red) = ${fav}/${tot} = ${fav/d}/${tot/d}.`);}
 
+// Linear inequality (greatest integer)
+for(let k=0;k<30;k++){const a=ri(2,8),b=ri(1,20),c=ri(b+a,80);if((c-b)<=0)continue;
+  M.add("Heart of Algebra",`What is the greatest integer x satisfying ${a}x + ${b} ≤ ${c}?`,Math.floor((c-b)/a),[Math.floor((c-b)/a)+1,Math.ceil((c+b)/a),c-b],`${a}x ≤ ${c-b}; x ≤ ${fmt((c-b)/a)}; greatest integer is ${Math.floor((c-b)/a)}.`);}
+// Exponential growth
+for(let k=0;k<25;k++){const P=ri(2,9)*ri(10,50),r=ri(2,5),t=ri(2,3);const A=P*Math.pow(1+r/100,t);
+  M.add("Advanced Math",`A population of ${P} grows ${r}% per year. After ${t} years it is (nearest whole):`,Math.round(A),[P+r*t,Math.round(P*(1+r*t/100)),P*r],`A = ${P}(1+${r}/100)^${t} ≈ ${Math.round(A)}.`);}
+// Unit rate
+for(let k=0;k<25;k++){const units=ri(2,12),rate=ri(2,20),total=units*rate;
+  M.add("Problem Solving & Data",`If ${units} items cost $${total}, what is the cost per item?`,`$${rate}`,[`$${total-units}`,`$${rate+1}`,`$${rate+2}`],`Rate = ${total}/${units} = $${rate} per item.`,"easy");}
+// Median of 5
+for(let k=0;k<20;k++){const nums=Array.from({length:5},()=>ri(5,60));const sorted=[...nums].sort((a,b)=>a-b);const med=sorted[2];
+  M.add("Problem Solving & Data",`Find the median of: ${nums.join(", ")}.`,med,[Math.round(nums.reduce((s,x)=>s+x,0)/5),sorted[0],sorted[4]],`Ordered: ${sorted.join(", ")}; the middle value is ${med}.`,"easy");}
+// Function vertical shift
+for(let k=0;k<20;k++){const a=ri(2,5),x=ri(1,5),shift=ri(1,9);const gx=a*x+shift;
+  M.add("Advanced Math",`If f(x) = ${a}x and g(x) = f(x) + ${shift}, what is g(${x})?`,gx,[a*x,a*(x+shift),a*x*shift],`g(${x}) = ${a}·${x} + ${shift} = ${gx}.`);}
+// Distance = speed × time
+for(let k=0;k<20;k++){const s=ri(20,80),t=ri(2,6);const d=s*t;
+  M.add("Problem Solving & Data",`A car travels at ${s} mph for ${t} hours. How far does it go?`,`${d} miles`,[`${s+t} miles`,`${fmt(s/t)} miles`,`${d*2} miles`],`distance = speed × time = ${s} × ${t} = ${d} miles.`,"easy");}
+// Absolute value
+for(let k=0;k<15;k++){const a=ri(1,9),x=ri(2,12);if(x<=a)continue;const val=x-a;
+  M.add("Advanced Math",`If |x − ${a}| = ${val} and x > ${a}, what is x?`,x,[a-val,a,val],`x − ${a} = ${val} (since x>${a}), so x = ${x}.`);}
+
 // ───────── SAT READING & WRITING (grammar rules) ─────────
 const R = mk();
 const grammar=[

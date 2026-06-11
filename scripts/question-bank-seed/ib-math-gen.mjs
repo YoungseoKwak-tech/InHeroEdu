@@ -166,6 +166,45 @@ for(let k=0;k<15;k++){const n=ri(5,8),r=ri(2,3);const choose=(N,R)=>{let v=1;for
 for(let k=0;k<15;k++){const a=ri(1,6),b=ri(1,6),c=ri(1,6),d=ri(1,6);const det=a*d-b*c;
   add("HL","Matrices (HL)",`Find the determinant of the matrix [[${a}, ${b}], [${c}, ${d}]].`,det,[a*d+b*c,a*c-b*d,a+d-b-c],`det = ad − bc = ${a}·${d} − ${b}·${c} = ${det}.`);}
 
+// ─── batch-3 SL templates ───
+// Linear equation solve (one-step variety)
+for(let k=0;k<40;k++){const a=ri(2,12),x=ri(2,15),b=ri(1,30);const c=a*x+b;
+  add("SL","Functions & Equations",`Solve for x: ${a}x + ${b} = ${c}.`,x,[x+1,x-1,c-b],`${a}x = ${c}−${b} = ${c-b}; x = ${c-b}/${a} = ${x}.`,"easy");}
+// Cosine rule (find side²)
+for(let k=0;k<25;k++){const a=ri(3,12),b=ri(3,12),C=pick([60,90,120]);const cosC={60:0.5,90:0,120:-0.5}[C];const c2=a*a+b*b-2*a*b*cosC;
+  add("SL","Trigonometry",`In a triangle, a=${a}, b=${b}, and angle C=${C}°. Find c² (cosine rule).`,fmt(c2),[fmt(a*a+b*b),fmt(a*a+b*b+2*a*b*cosC),fmt(a*a-b*b)],`c² = a²+b²−2ab·cosC = ${a*a}+${b*b}−2·${a}·${b}·${cosC} = ${fmt(c2)}.`);}
+// Area of triangle ½ab sinC
+for(let k=0;k<20;k++){const a=ri(3,14),b=ri(3,14),C=pick([30,90]);const sinC={30:0.5,90:1}[C];const area=0.5*a*b*sinC;
+  add("SL","Trigonometry",`A triangle has sides a=${a}, b=${b} with included angle ${C}°. Its area is:`,fmt(area),[fmt(0.5*a*b),fmt(a*b*sinC),fmt(a*b)],`Area = ½ab·sinC = ½·${a}·${b}·${sinC} = ${fmt(area)}.`);}
+// Logarithm laws
+for(let k=0;k<20;k++){const a=ri(2,5),b=ri(2,5);add("SL","Exponents & Logarithms",`Simplify log(${a}) + log(${b}) as a single logarithm.`,`log(${a*b})`,[`log(${a+b})`,`log(${a}/${b})`,`${a*b}`],`log a + log b = log(ab) = log(${a*b}).`);}
+// Percentage of (reverse)
+for(let k=0;k<20;k++){const pct=pick([10,20,25,50]),part=ri(2,20);const whole=part*100/pct;if(!Number.isInteger(whole))continue;
+  add("SL","Statistics",`${part} is ${pct}% of what number?`,whole,[part*pct,whole/2,part+pct],`whole = ${part}/(${pct}/100) = ${whole}.`);}
+// Solve quadratic by factoring (positive root)
+for(let k=0;k<20;k++){const r1=ri(1,9),r2=ri(1,9);const b=r1+r2,c=r1*r2;
+  add("SL","Functions & Equations",`What are the roots of x² − ${b}x + ${c} = 0?`,`${r1} and ${r2}`,[`${-r1} and ${-r2}`,`${b} and ${c}`,`${r1} and ${-r2}`],`Factors as (x−${r1})(x−${r2}); roots ${r1} and ${r2}.`);}
+// Compound interest value vs simple
+for(let k=0;k<15;k++){const P=ri(2,9)*100,r=ri(2,6),t=ri(2,4);const A=P*Math.pow(1+r/100,t);
+  add("SL","Financial Math",`$${P} grows at ${r}% compounded annually for ${t} years. Final value (2 d.p.):`,fmt(A),[fmt(P+P*r*t/100),fmt(P*r*t),fmt(P*(1+r/100))],`A = ${P}(1+${r}/100)^${t} = ${fmt(A)}.`);}
+
+// ─── batch-3 HL templates ───
+// Quotient rule simple (d/dx of (ax+b)/x at x)
+for(let k=0;k<20;k++){const a=ri(2,6),b=ri(1,8),x=ri(1,5);
+  // f=(ax+b)/x = a + b/x → f' = -b/x²
+  const dval=-b/(x*x);add("HL","Differentiation (HL)",`If f(x) = (${a}x + ${b})/x, find f'(${x}).`,fmt(dval),[fmt(a),fmt(b/(x*x)),fmt(-b/x)],`f(x)=${a}+${b}/x; f'(x)=−${b}/x²; at x=${x}: ${fmt(dval)}.`);}
+// Derivative of sin/cos at standard pts (value of cos for d/dx sin)
+for(let k=0;k<15;k++){const a=ri(2,6);add("HL","Differentiation (HL)",`d/dx[sin(${a}x)] =`,`${a}cos(${a}x)`,[`cos(${a}x)`,`−${a}cos(${a}x)`,`${a}sin(${a}x)`],`d/dx[sin(kx)] = k·cos(kx) = ${a}cos(${a}x).`,"easy");}
+for(let k=0;k<15;k++){const a=ri(2,6);add("HL","Differentiation (HL)",`d/dx[cos(${a}x)] =`,`−${a}sin(${a}x)`,[`${a}sin(${a}x)`,`−sin(${a}x)`,`${a}cos(${a}x)`],`d/dx[cos(kx)] = −k·sin(kx) = −${a}sin(${a}x).`,"easy");}
+// Definite integral of e^{ax} 0→1 coefficient form
+for(let k=0;k<15;k++){const a=ri(2,5);add("HL","Integration (HL)",`∫ e^(${a}x) dx =`,`(1/${a})e^(${a}x) + C`,[`${a}e^(${a}x) + C`,`e^(${a}x) + C`,`(1/${a})e^(${a-1}x) + C`],`∫e^(kx)dx = (1/k)e^(kx)+C.`,"easy");}
+// Sum of squares formula
+for(let k=0;k<15;k++){const n=ri(3,12);const S=n*(n+1)*(2*n+1)/6;
+  add("HL","Sequences & Series (HL)",`Find the sum 1² + 2² + ... + ${n}².`,S,[n*(n+1)/2,n*n,(n*(n+1)/2)**2],`Σk² = n(n+1)(2n+1)/6 = ${n}·${n+1}·${2*n+1}/6 = ${S}.`);}
+// Modulus-argument: argument of pure cases
+for(let k=0;k<10;k++){const cases=[["1 + i","45°"],["−1 + i","135°"],["i","90°"],["−i","270°"],["1 − i","315°"]];const [z,arg]=cases[ri(0,4)];
+  add("HL","Complex Numbers (HL)",`What is the argument (in degrees, 0°–360°) of the complex number ${z}?`,arg,sample(["45°","135°","90°","270°","315°","225°"].filter(a=>a!==arg),3),`Plotting ${z} on the Argand diagram gives argument ${arg}.`);}
+
 // ── write ──
 const out = { subject: "ib-math-aa", questions: qs };
 fs.writeFileSync(`${OUT}ib-math-aa-gen${seed}.json`, JSON.stringify(out, null, 1));
