@@ -34,7 +34,7 @@ function add(level, topic, question_text, correct, distractors, explanation, dif
 
 // ─────────────────────── SL templates ───────────────────────
 // Power-rule derivative at a point
-for (let k=0;k<60;k++){ const a=ri(2,9),b=ri(1,9),p=ri(2,4),c=ri(1,5);
+for (let k=0;k<60;k++){ const a=ri(2,14),b=ri(1,12),p=ri(2,5),c=ri(1,9);
   const dval=a*p*Math.pow(c,p-1)+b;
   add("SL","Differentiation",`If f(x) = ${a}x^${p} + ${b}x, then f'(${c}) =`,dval,
     [a*p*Math.pow(c,p)+b, a*Math.pow(c,p-1)+b, a*p*Math.pow(c,p-1)],
@@ -46,7 +46,7 @@ for (let k=0;k<50;k++){ const a=ri(1,6),p=ri(1,3),hi=ri(1,4);
     [fmt(a*Math.pow(hi,p)), fmt(a*Math.pow(hi,p+1)/(p+1)*0+a*hi), fmt(a*Math.pow(hi,p))],
     `∫${a}x^${p} dx = ${a}/${p+1}·x^${p+1}; evaluate 0→${hi} = ${fmt(val)}.`); }
 // Arithmetic sequence nth term
-for (let k=0;k<40;k++){ const a1=ri(2,12),d=ri(2,9),n=ri(5,20);
+for (let k=0;k<40;k++){ const a1=ri(2,20),d=ri(2,15),n=ri(5,30);
   const an=a1+(n-1)*d;
   add("SL","Sequences & Series",`An arithmetic sequence has first term ${a1} and common difference ${d}. The ${n}th term is:`,an,
     [a1+n*d, a1*d*n, a1+(n-1)*(d+1)],

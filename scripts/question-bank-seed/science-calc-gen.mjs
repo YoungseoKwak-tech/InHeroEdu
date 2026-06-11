@@ -19,7 +19,7 @@ function mk(subject){const qs=[];const seen=new Set();
 }
 function physics(B,level){
   // F = ma
-  for(let k=0;k<40;k++){const m=ri(2,20),a=ri(1,9);const F=m*a;
+  for(let k=0;k<40;k++){const m=ri(2,40),a=ri(1,15);const F=m*a;
     B.add("Mechanics",`A ${m} kg object accelerates at ${a} m/s². What net force acts on it?`,`${F} N`,[`${m+a} N`,`${fmt(m/a)} N`,`${m*a*2} N`],`F = ma = ${m}×${a} = ${F} N.`,"easy",level);}
   // KE
   for(let k=0;k<30;k++){const m=ri(2,12),v=ri(2,10);const KE=0.5*m*v*v;
@@ -48,7 +48,7 @@ function physics(B,level){
 }
 function chemistry(B,level){
   // moles = mass/Mr
-  for(let k=0;k<35;k++){const Mr=ri(2,10)*ri(2,12),mass=Mr*ri(1,6);const n=mass/Mr;
+  for(let k=0;k<35;k++){const Mr=ri(2,18)*ri(2,14),mass=Mr*ri(1,9);const n=mass/Mr;
     B.add("Stoichiometry",`How many moles are in ${mass} g of a substance with molar mass ${Mr} g/mol?`,`${fmt(n)} mol`,[`${fmt(Mr/mass)} mol`,`${mass*Mr} mol`,`${fmt(n*2)} mol`],`n = mass/Mr = ${mass}/${Mr} = ${fmt(n)} mol.`,"easy",level);}
   // mass = n*Mr
   for(let k=0;k<25;k++){const Mr=ri(10,60),n=ri(1,6);const mass=n*Mr;
