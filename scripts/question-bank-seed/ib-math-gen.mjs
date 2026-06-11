@@ -13,6 +13,7 @@ function mulberry32(a){return function(){a|=0;a=(a+0x6D2B79F5)|0;let t=Math.imul
 const rnd = mulberry32(seed*2654435761+101);
 const ri = (lo,hi)=>lo+Math.floor(rnd()*(hi-lo+1));
 const pick = (arr)=>arr[Math.floor(rnd()*arr.length)];
+const sample = (arr,n)=>{const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a.slice(0,n);};
 const fmt = (n)=>Number.isInteger(n)?String(n):(Math.round(n*1000)/1000).toString();
 
 const qs = [];
@@ -130,6 +131,40 @@ for (let k=0;k<15;k++){ const num=ri(1,6),den=ri(2,5)*2; const a1=num; const r=1
   add("HL","Sequences & Series (HL)",`Find the sum to infinity of the geometric series with first term ${a1} and common ratio 1/${den}.`,fmt(S),
     [fmt(a1*den), fmt(a1/den), fmt(a1*(1-r))],
     `S∞ = a/(1−r) = ${a1}/(1−1/${den}) = ${fmt(S)} (since |r|<1).`); }
+
+// ─── extra SL templates ───
+// Second derivative at a point
+for(let k=0;k<35;k++){const a=ri(2,7),p=ri(2,4),b=ri(1,8),x=ri(1,4);const d2=a*p*(p-1)*Math.pow(x,p-2);
+  add("SL","Differentiation",`If f(x) = ${a}x^${p} + ${b}x, find f''(${x}).`,d2,[a*p*Math.pow(x,p-1)+b,a*p*(p-1)*Math.pow(x,p-1),d2+b],`f'(x)=${a*p}x^${p-1}+${b}; f''(x)=${a*p*(p-1)}x^${p-2}; at x=${x}: ${d2}.`);}
+// Definite integral a→b
+for(let k=0;k<35;k++){const a=ri(1,5),p=ri(1,2),lo=ri(0,2),hi=ri(3,5);const F=(x)=>a*Math.pow(x,p+1)/(p+1);const v=F(hi)-F(lo);
+  add("SL","Integration",`∫_${lo}^${hi} ${a}x^${p} dx =`,fmt(v),[fmt(F(hi)),fmt(F(hi)+F(lo)),fmt(a*(hi-lo))],`Antiderivative ${a}/${p+1}·x^${p+1}; evaluate ${lo}→${hi} = ${fmt(v)}.`);}
+// Exact trig values (degrees)
+const trigvals={"sin 30°":"1/2","sin 60°":"√3/2","sin 45°":"√2/2","cos 60°":"1/2","cos 30°":"√3/2","cos 0°":"1","sin 90°":"1","cos 90°":"0","tan 45°":"1","sin 0°":"0"};
+const tkeys=Object.keys(trigvals);
+for(let k=0;k<25;k++){const key=pick(tkeys);const v=trigvals[key];const wrong=tkeys.map(x=>trigvals[x]).filter(x=>x!==v);
+  add("SL","Trigonometry",`What is the exact value of ${key}?`,v,sample([...new Set(wrong)],3,v),`${key} = ${v} (standard exact value).`,"easy");}
+// Mean of arithmetic series (average of endpoints)
+for(let k=0;k<20;k++){const a1=ri(2,10),d=ri(2,7),n=ri(6,14);const an=a1+(n-1)*d;const sum=n*(a1+an)/2;
+  add("SL","Sequences & Series",`Find the sum of the first ${n} terms of an arithmetic sequence with first term ${a1} and last term ${an}.`,sum,[n*a1,(a1+an)/2,n*(a1+an)],`Sₙ = n(u₁+uₙ)/2 = ${n}(${a1}+${an})/2 = ${sum}.`);}
+// Percentage / compound interest
+for(let k=0;k<20;k++){const P=ri(100,500)*ri(1,4),r=ri(2,8),t=ri(1,3);const A=P*Math.pow(1+r/100,t);
+  add("SL","Financial Math",`$${P} is invested at ${r}% per year compounded annually. Its value after ${t} years is (2 d.p.):`,fmt(A),[fmt(P*(1+r*t/100)),fmt(P+r*t),fmt(P*Math.pow(1+r/100,t+1))],`A = P(1+r)^t = ${P}(1+${r}/100)^${t} = ${fmt(A)}.`);}
+
+// ─── extra HL templates ───
+// Derivative of e^{ax}
+for(let k=0;k<20;k++){const a=ri(2,6);add("HL","Differentiation (HL)",`d/dx[e^(${a}x)] =`,`${a}e^(${a}x)`,[`e^(${a}x)`,`${a}x·e^(${a}x)`,`${a}e^(${a-1}x)`],`d/dx[e^(kx)] = k·e^(kx), so ${a}e^(${a}x).`,"easy");}
+// Derivative of ln
+for(let k=0;k<15;k++){const a=ri(2,6);add("HL","Differentiation (HL)",`d/dx[ln(${a}x)] =`,`1/x`,[`${a}/x`,`1/(${a}x)`,`ln(${a})`],`d/dx[ln(ax)] = a/(ax) = 1/x.`);}
+// Binomial expansion specific term coefficient
+for(let k=0;k<20;k++){const n=ri(4,6),r=ri(1,3);const choose=(N,R)=>{let v=1;for(let i=0;i<R;i++)v=v*(N-i)/(i+1);return Math.round(v);};const coef=choose(n,r);
+  add("HL","Binomial Theorem (HL)",`In the expansion of (1 + x)^${n}, what is the coefficient of x^${r}?`,coef,[choose(n,r+1),n*r,coef+n],`Coefficient of x^${r} is C(${n},${r}) = ${coef}.`);}
+// Probability: combinations
+for(let k=0;k<15;k++){const n=ri(5,8),r=ri(2,3);const choose=(N,R)=>{let v=1;for(let i=0;i<R;i++)v=v*(N-i)/(i+1);return Math.round(v);};const c=choose(n,r);
+  add("HL","Probability (HL)",`In how many ways can ${r} items be chosen from ${n} distinct items (order not important)?`,c,[Math.round(c*r),n*r,choose(n,r-1)],`C(${n},${r}) = ${c}.`);}
+// System via determinant (2x2)
+for(let k=0;k<15;k++){const a=ri(1,6),b=ri(1,6),c=ri(1,6),d=ri(1,6);const det=a*d-b*c;
+  add("HL","Matrices (HL)",`Find the determinant of the matrix [[${a}, ${b}], [${c}, ${d}]].`,det,[a*d+b*c,a*c-b*d,a+d-b-c],`det = ad − bc = ${a}·${d} − ${b}·${c} = ${det}.`);}
 
 // ── write ──
 const out = { subject: "ib-math-aa", questions: qs };
