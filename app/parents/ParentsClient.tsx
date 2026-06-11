@@ -339,9 +339,28 @@ export default function ParentsClient() {
           </a>
 
           {koNotes.length > 0 ? (
-            <section style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "16px 16px 8px" }}>
+            <section className="cn-spark-card" style={{ position: "relative", overflow: "hidden", background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "16px 16px 8px" }}>
+              <style>{`
+                @keyframes cnSparkGlow {
+                  0%,100% { box-shadow: 0 0 0 1px rgba(124,58,237,0.14), 0 6px 22px rgba(124,58,237,0.10), 0 0 16px rgba(0,184,95,0.10); }
+                  50%     { box-shadow: 0 0 0 1px rgba(0,184,95,0.38), 0 12px 34px rgba(0,184,95,0.24), 0 0 34px rgba(124,58,237,0.26); }
+                }
+                @keyframes cnSparkSweep { 0% { transform: translateX(-130%) skewX(-18deg); } 55%,100% { transform: translateX(240%) skewX(-18deg); } }
+                @keyframes cnSparkTwinkle { 0%,100% { opacity:.3; transform:scale(.8); } 50% { opacity:1; transform:scale(1.25); } }
+                .cn-spark-card { animation: cnSparkGlow 3.2s ease-in-out infinite; }
+                .cn-spark-sweep { position:absolute; top:0; bottom:0; left:0; width:36%; pointer-events:none; z-index:1;
+                  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.7), rgba(186,230,253,0.45), transparent);
+                  animation: cnSparkSweep 3.6s ease-in-out infinite; }
+                .cn-spark-star { display:inline-block; animation: cnSparkTwinkle 1.8s ease-in-out infinite; }
+                .cn-spark-star.s2 { animation-delay:.6s; } .cn-spark-star.s3 { animation-delay:1.2s; }
+                @media (prefers-reduced-motion: reduce){ .cn-spark-card,.cn-spark-sweep,.cn-spark-star{ animation:none !important; } }
+              `}</style>
+              <div className="cn-spark-sweep" aria-hidden="true" />
+              <div style={{ position: "relative", zIndex: 2 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 3 }}>
-                <h2 style={{ fontSize: 15.5, fontWeight: 800, margin: 0, letterSpacing: "-0.01em" }}>📘 영어 + 한국어 핵심 노트</h2>
+                <h2 style={{ fontSize: 15.5, fontWeight: 800, margin: 0, letterSpacing: "-0.01em" }}>
+                  <span className="cn-spark-star" aria-hidden="true">✨</span> 영어 + 한국어 핵심 노트 <span className="cn-spark-star s2" aria-hidden="true">✨</span>
+                </h2>
               </div>
               <p style={{ fontSize: 12, color: "#7c3aed", fontWeight: 700, margin: "0 0 14px" }}>한국어로 흐름 잡고 → 영어 원문으로 정복</p>
 
@@ -372,7 +391,8 @@ export default function ParentsClient() {
                   </span>
                 </Link>
               ))}
-              <Link href="/parents/core-notes" style={{ display: "block", textAlign: "center", color: GREEN, fontSize: 12.5, fontWeight: 700, textDecoration: "none", padding: "12px 0 6px" }}>전체 노트 보기 →</Link>
+              <Link href="/parents/core-notes" style={{ display: "block", textAlign: "center", color: GREEN, fontSize: 12.5, fontWeight: 700, textDecoration: "none", padding: "12px 0 6px" }}>전체 노트 보기 <span className="cn-spark-star s3" aria-hidden="true">✨</span> →</Link>
+              </div>
             </section>
           ) : (
             <section style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "18px 16px" }}>
