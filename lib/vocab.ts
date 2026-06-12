@@ -1,5 +1,6 @@
 import "server-only";
 import { CORE_NOTES_KO } from "@/lib/data/coreNotesKo";
+import { MATH_VOCAB } from "@/lib/data/vocabMathTerms";
 
 /**
  * Subject vocabulary 단어장 — built from the Korean Core Notes, whose terms are
@@ -65,6 +66,20 @@ function build(): Map<string, Bucket> {
           b.seen.set(key, { en: s.en, ko: s.ko, def: t.def, unit: note.unit ?? null });
         }
       }
+    }
+  }
+
+  // Merge curated 수학 개념용어 — math notes carry few term cards, so these
+  // ensure a real 수학 단어장 (creates the math buckets if absent).
+  for (const [cid, mv] of Object.entries(MATH_VOCAB)) {
+    let b = acc.get(cid);
+    if (!b) {
+      b = { courseId: cid, label: mv.label, emoji: mv.emoji, seen: new Map() };
+      acc.set(cid, b);
+    }
+    for (const t of mv.terms) {
+      const key = t.en.toLowerCase();
+      if (!b.seen.has(key)) b.seen.set(key, { en: t.en, ko: t.ko, def: t.def, unit: t.unit ?? null });
     }
   }
 
