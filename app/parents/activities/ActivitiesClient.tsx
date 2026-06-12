@@ -14,9 +14,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getClientSession } from "@/lib/client-auth";
+import CreditGate from "@/components/parents/CreditGate";
 import { ACTIVITIES, STRATEGY_POINTS, COMMONAPP_RULES, DEEP_GUIDES, type ActivityEntry, type DeepGuide } from "./data";
 
 const GREEN = "#00b85f";
+const GUIDE_COST = 500; // each deep guide unlocks individually for 500 credits
 
 export default function ActivitiesClient() {
   const router = useRouter();
@@ -263,6 +265,13 @@ function DeepGuideCard({ guide: g }: { guide: DeepGuide }) {
           </div>
           <p style={{ fontSize: 14, color: "#334155", lineHeight: 1.85, margin: "0 0 18px" }}>{g.overview}</p>
 
+          <CreditGate
+            gateKey={`res:/parents/activities/guide:${g.id}`}
+            cost={GUIDE_COST}
+            title={`${g.emoji} ${g.title} — 잠금해제`}
+            desc={`${g.tagline} — 6단계 상세 가이드 + 링크·흔한 실수·Common App 기재법까지. 500 크레딧으로 한 번만 잠금 해제.`}
+          >
+
           {g.table && (
             <div style={{ overflowX: "auto", margin: "0 0 18px" }}>
               <table style={{ borderCollapse: "collapse", width: "100%", fontSize: 12.5 }}>
@@ -326,6 +335,8 @@ function DeepGuideCard({ guide: g }: { guide: DeepGuide }) {
             <span style={{ fontSize: 12, fontWeight: 800, color: "#7c3aed" }}>✍️ 에세이 스토리로</span>
             <p style={{ fontSize: 13, color: "#334155", lineHeight: 1.75, margin: "5px 0 0" }}>{g.storyTip}</p>
           </div>
+
+          </CreditGate>
         </div>
       )}
     </article>
