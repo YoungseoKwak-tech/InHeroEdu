@@ -370,6 +370,8 @@ function Results({ form, rwM2, mathM2, rwHard, mathHard, answers }: {
           <ScoreCard label="Math" score={mathScore} correct={mathCorrect} total={mathQs.length} hard={mathHard} onReview={() => setShowReview("math")} />
         </div>
 
+        <DomainAnalysis rwQs={rwQs} mathQs={mathQs} answers={answers} onReview={(s) => setShowReview(s)} />
+
         <SatHistory theme="dark" refreshKey={histKey} />
 
         {showReview && (
@@ -389,6 +391,78 @@ function Results({ form, rwM2, mathM2, rwHard, mathHard, answers }: {
           <Link href="/sat" style={ctaBtn(false)}>다른 테스트 선택</Link>
         </div>
       </div>
+    </div>
+  );
+}
+
+// Per-domain breakdown so the student sees exactly which SAT skills to drill.
+function breakdown(qs: SatQuestion[], answers: AnswerMap) {
+  const m = new Map<string, { correct: number; total: number }>();
+  for (const q of qs) {
+    const d = q.domain || "기타";
+    const e = m.get(d) ?? { correct: 0, total: 0 };
+    e.total++;
+    if (isCorrect(q, answers[q.id])) e.correct++;
+    m.set(d, e);
+  }
+  return [...m.entries()]
+    .map(([domain, { correct, total }]) => ({ domain, correct, total, pct: total ? correct / total : 0 }))
+    .sort((a, b) => a.pct - b.pct);
+}
+
+function DomainAnalysis({ rwQs, mathQs, answers, onReview }: {
+  rwQs: SatQuestion[]; mathQs: SatQuestion[]; answers: AnswerMap; onReview: (s: "rw" | "math") => void;
+}) {
+  const rw = breakdown(rwQs, answers);
+  const math = breakdown(mathQs, answers);
+  // Weakest 3 domains across both sections → focus list.
+  const focus = [...rw.map((d) => ({ ...d, sec: "rw" as const })), ...math.map((d) => ({ ...d, sec: "math" as const }))]
+    .filter((d) => d.pct < 1)
+    .sort((a, b) => a.pct - b.pct)
+    .slice(0, 3);
+
+  const Row = ({ d }: { d: { domain: string; correct: number; total: number; pct: number } }) => {
+    const color = d.pct >= 0.8 ? "#5eead4" : d.pct >= 0.5 ? "#fbbf24" : "#ff8b8b";
+    return (
+      <div style={{ marginBottom: 12 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5, marginBottom: 5 }}>
+          <span style={{ color: "rgba(255,255,255,0.78)" }}>{d.domain}</span>
+          <span style={{ color, fontWeight: 800 }}>{d.correct}/{d.total} · {Math.round(d.pct * 100)}%</span>
+        </div>
+        <div style={{ height: 7, borderRadius: 5, background: "rgba(255,255,255,0.08)", overflow: "hidden" }}>
+          <div style={{ height: "100%", width: `${Math.round(d.pct * 100)}%`, background: color, borderRadius: 5, transition: "width .4s" }} />
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div style={{ borderRadius: 18, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)", padding: "22px 22px 24px", marginBottom: 28 }}>
+      <h3 style={{ fontSize: 16, fontWeight: 850, margin: "0 0 4px", color: "#fff" }}>📊 영역별 분석</h3>
+      <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.45)", margin: "0 0 18px" }}>SAT 도메인별 정답률 — 약한 영역을 정확히 짚어줍니다.</p>
+
+      <div style={{ fontSize: 12.5, fontWeight: 800, color: "rgba(94,234,212,0.85)", letterSpacing: "0.05em", textTransform: "uppercase", margin: "0 0 10px" }}>Reading & Writing</div>
+      {rw.map((d) => <Row key={d.domain} d={d} />)}
+
+      <div style={{ fontSize: 12.5, fontWeight: 800, color: "rgba(94,234,212,0.85)", letterSpacing: "0.05em", textTransform: "uppercase", margin: "18px 0 10px" }}>Math</div>
+      {math.map((d) => <Row key={d.domain} d={d} />)}
+
+      {focus.length > 0 && (
+        <div style={{ marginTop: 20, borderRadius: 12, background: "rgba(255,139,139,0.07)", border: "1px solid rgba(255,139,139,0.22)", padding: "14px 16px" }}>
+          <div style={{ fontSize: 13, fontWeight: 850, color: "#ffb3b3", marginBottom: 8 }}>🎯 집중 학습 영역</div>
+          <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, color: "rgba(255,255,255,0.72)", lineHeight: 1.7 }}>
+            {focus.map((d) => (
+              <li key={d.sec + d.domain}>
+                <strong style={{ color: "#fff" }}>{d.domain}</strong> ({d.sec === "rw" ? "R&W" : "Math"}) — {d.correct}/{d.total} 정답.{" "}
+                <button onClick={() => onReview(d.sec)} style={{ background: "none", border: "none", color: "#5eead4", fontWeight: 700, cursor: "pointer", padding: 0, fontSize: 13, textDecoration: "underline" }}>풀이 보기</button>
+              </li>
+            ))}
+          </ul>
+          <p style={{ margin: "10px 0 0", fontSize: 12, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>
+            이 영역들을 우선 복습하고, 문제은행에서 같은 도메인 문제를 더 풀어보세요.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
