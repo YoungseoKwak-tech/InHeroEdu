@@ -317,3 +317,192 @@ export const COMMONAPP_RULES = [
   "학년(9–12)·시기(연중/학기 중/방학)·주당 시간·연간 주수를 함께 입력",
   "중요한 활동부터 위에서 아래로 — 순서 자체가 메시지",
 ];
+
+/** Deep "직접 만드는 법" guides — rendered as standalone expandable boxes. */
+export interface DeepGuide {
+  id: string;
+  emoji: string;
+  title: string;
+  tagline: string;
+  meta: { label: string; value: string }[];
+  overview: string;
+  table?: { headers: string[]; rows: string[][] };
+  phases: { title: string; steps: string[] }[];
+  links: { label: string; url: string }[];
+  pitfalls: string[];
+  commonApp: string;
+  storyTip: string;
+}
+
+export const DEEP_GUIDES: DeepGuide[] = [
+  {
+    id: "kdp",
+    emoji: "📚",
+    title: "Amazon KDP — 책 출간 완벽 가이드",
+    tagline: "고등학생도 무료로 아마존에 전자책·종이책을 출간하고 “저자”가 되는 전 과정",
+    meta: [
+      { label: "비용", value: "출간 자체 무료 (종이책은 주문제작·인세 차감)" },
+      { label: "소요", value: "집필 제외 2~6주 / 검토 24~72시간" },
+      { label: "난이도", value: "★★☆ (편집·표지가 관건)" },
+    ],
+    overview:
+      "Amazon KDP(Kindle Direct Publishing)는 누구나 무료로 전자책(Kindle)과 종이책(Print on Demand)을 전 세계 아마존에 출간할 수 있는 자가출판 플랫폼입니다. 출판사를 거치지 않으므로 고등학생도 ‘출판 저자(Published Author)’가 될 수 있고, 전공 스파이크와 연결하면 Common App에서 매우 강력한 활동이 됩니다. 핵심은 ‘책을 냈다’가 아니라 ‘왜 이 책을, 누구를 위해 썼는가’입니다.",
+    phases: [
+      {
+        title: "1단계 · 기획 & 주제 선정",
+        steps: [
+          "전공/스파이크와 일직선인 주제를 고른다 (예: AI 입문, 수학철학, ‘청소년을 위한 ○○’ 입문서).",
+          "독자를 명확히 정의한다 — ‘누구의 어떤 결핍을 채우는 책인가’가 곧 출간 이유이자 에세이 소재.",
+          "목차를 먼저 잡는다 (8~15장). 장당 분량을 배분하면 집필이 빨라진다.",
+          "분량 기준: 전자책 1만~3만 단어 / 입문서·워크북·그림책은 페이지 중심이면 더 짧아도 무방.",
+        ],
+      },
+      {
+        title: "2단계 · 집필 & 원고 준비",
+        steps: [
+          "Google Docs나 Word로 한 챕터씩 작성한다. 반드시 직접 쓰고 본인 전문성을 담는다(통째 AI 생성 금지).",
+          "이미지·도표는 본인이 제작하거나 저작권 free 소스(Unsplash, 본인 그래프)를 쓴다.",
+          "초고 → 자가 퇴고 → 가능하면 멘토/교사 피드백 1회. 오탈자·문법은 Grammarly로 1차 점검.",
+        ],
+      },
+      {
+        title: "3단계 · 편집 & 포맷팅",
+        steps: [
+          "전자책: 무료 도구 Kindle Create로 챕터·목차·서식을 잡거나 Word를 EPUB/KPF로 변환. 텍스트형(reflowable)을 권장.",
+          "종이책: 판형 결정(예: 6×9인치), 여백·페이지 번호·표제지 설정 후 PDF로 업로드.",
+          "표지: KDP Cover Creator 또는 Canva(무료)로 제작. 전자책은 1600×2560px 이상, 제목·부제·저자명이 썸네일에서도 읽히게.",
+        ],
+      },
+      {
+        title: "4단계 · KDP 계정 & 메타데이터",
+        steps: [
+          "kdp.amazon.com에 가입한다. 만 18세 미만은 부모 명의/동의로 진행하고 세금정보·은행정보를 입력한다.",
+          "제목·부제·저자명, 책 소개(설득력 있는 200~400단어), 카테고리 2개, 검색 키워드 7개를 입력한다(노출에 직결).",
+          "ISBN: 전자책은 불필요, 종이책은 KDP 무료 ISBN 또는 자체 ISBN 선택.",
+          "가격·인세: 전자책은 35% 또는 70% 인세(70%는 보통 $2.99~9.99 가격대). 필요시 KDP Select로 추가 노출.",
+        ],
+      },
+      {
+        title: "5단계 · 검토 & 출간",
+        steps: [
+          "Previewer로 모든 기기(폰·태블릿·Kindle)에서 레이아웃을 확인한다.",
+          "제출 후 아마존 검토는 보통 24~72시간 → 라이브.",
+          "종이책은 교정쇄(proof copy)를 주문해 실물 인쇄·여백을 반드시 확인한다.",
+        ],
+      },
+      {
+        title: "6단계 · 출간 후 & 활동 기재",
+        steps: [
+          "Author Central(아마존 저자 페이지)을 개설하고 ASIN/ISBN을 확보한다.",
+          "Common App 활동란: ‘Author, 「책 제목」 (Amazon, ASIN/ISBN)’ — Activity Type은 Other/Academic.",
+          "다운로드·판매 수치, 진짜 독자 리뷰는 보너스 증빙. 단, 가짜 리뷰·키워드 스터핑은 금지.",
+        ],
+      },
+    ],
+    links: [
+      { label: "KDP 가입·출간 (kdp.amazon.com)", url: "https://kdp.amazon.com" },
+      { label: "Kindle Create (무료 편집기)", url: "https://kdp.amazon.com/en_US/help/topic/GHU4YEWXQGNLU94T" },
+      { label: "Canva — 표지 제작(무료)", url: "https://www.canva.com" },
+      { label: "Author Central — 저자 페이지", url: "https://author.amazon.com" },
+    ],
+    pitfalls: [
+      "AI로 통째 생성한 티가 나는 저품질 책은 역효과 — 검토 거부·신뢰도 하락. 반드시 직접 쓰고 본인 전문성을 담을 것.",
+      "표지·편집이 조잡하면 ‘출판’의 무게가 사라진다. 표지에 가장 공들일 것.",
+      "미성년자 계정·세금/은행 정보는 부모와 함께 처리.",
+      "판매량 자체를 목표로 삼지 말 것 — 메시지·전문성이 평가 포인트.",
+    ],
+    commonApp:
+      "단순 ‘책을 냈다’가 아니라 ‘내가 부족하다고 느낀 자료를 직접 만들어 누군가에게 남겼다’는 서사로 적는다. 직책 칸엔 ‘Author & Self-Publisher’, 단체명 칸엔 책 제목+플랫폼, 설명엔 주제·대상·임팩트(다운로드/리뷰)를 전보문체로.",
+    storyTip:
+      "책 주제가 본인 스파이크(전공 스토리)와 한 줄로 이어져야 한다. 에세이에서 ‘세상에 없던 자료를 내가 만들었다’는 능동성으로 연결하면 강력하다.",
+  },
+  {
+    id: "journal",
+    emoji: "📄",
+    title: "JEI · JSR — 논문 출간 완벽 가이드",
+    tagline: "고등학생이 동료심사(peer-review) 저널에 연구 논문을 출판하는 전 과정",
+    meta: [
+      { label: "비용", value: "JEI 무료 / JSR 약 $50 게재료" },
+      { label: "소요", value: "연구 제외 3~9개월 (심사·수정 포함)" },
+      { label: "난이도", value: "★★★ (멘토·데이터·재투고 끈기 필요)" },
+    ],
+    overview:
+      "고등학생도 동료심사 저널에 논문을 출판할 수 있습니다. 대표적으로 JEI(Journal of Emerging Investigators)는 중·고등학생 전용 무료 저널로, 대학원생·박사급 멘토가 다회에 걸쳐 심사합니다. JSR(Journal of Student Research)은 고교생~학부생 대상의 유료(약 $50) 저널입니다. 연구 경험과 ‘출판 실적’을 동시에 얻을 수 있고, 평가의 핵심은 ‘출판했다’가 아니라 ‘어떤 질문을 어떻게 검증하고 무엇을 발견했나’입니다.",
+    table: {
+      headers: ["", "JEI", "JSR"],
+      rows: [
+        ["대상", "중·고등학생", "고교생~학부생"],
+        ["비용", "무료", "게재료 약 $50"],
+        ["형식", "원저 연구(가설·실험·데이터) 위주", "연구·리뷰 논문 가능"],
+        ["심사", "멘토 매칭 + 다회 동료심사(엄격·교육적)", "동료심사(상대적으로 빠름)"],
+        ["출판까지", "보통 4~9개월", "보통 2~5개월"],
+      ],
+    },
+    phases: [
+      {
+        title: "1단계 · 연구 주제 & 멘토 확보",
+        steps: [
+          "‘데이터로 검증 가능한 작은 질문(가설)’ 하나를 정한다 — 거창함보다 검증 가능성이 핵심.",
+          "멘토를 구한다(학교 과학·수학 교사, 대학 연구실, 온라인 멘토). JEI는 멘토 정보 제공을 권장한다.",
+          "Google Scholar로 선행연구를 조사하고, 같은 분야의 기존 논문 3~5편을 정독한다.",
+        ],
+      },
+      {
+        title: "2단계 · 연구 수행 & 데이터",
+        steps: [
+          "재현 가능하도록 방법을 설계한다(변수·대조군·표본수). 인간 대상 연구는 동의·윤리를 반드시 지킨다.",
+          "데이터를 체계적으로 수집·기록한다(스프레드시트).",
+          "통계 분석을 한다 — 평균·표준편차·유의검정(p값) 등. ‘수학 개념용어 단어책’의 통계 용어가 그대로 쓰인다.",
+        ],
+      },
+      {
+        title: "3단계 · 논문 작성 (IMRaD 구조)",
+        steps: [
+          "Title → Abstract(약 250단어) → Introduction(배경·선행연구·가설) 순으로 뼈대를 잡는다.",
+          "Methods는 ‘남이 그대로 재현 가능’할 만큼 구체적으로, Results는 그림·표 중심으로 객관적으로 쓴다.",
+          "Discussion에서 결과 해석·한계·의의를 논하고, References는 APA 등 일관된 인용 형식으로 정리한다.",
+          "학술 영어 톤(1인칭 최소화), 그림 캡션·번호를 정확히 단다.",
+        ],
+      },
+      {
+        title: "4단계 · 저널 선택 & 투고",
+        steps: [
+          "JEI: emerginginvestigators.org에서 저자 가이드라인을 확인하고 온라인 제출 → 멘토 매칭 → 심사 진행.",
+          "JSR: jsr.org에서 템플릿·게재료를 확인하고 제출한다.",
+          "저널의 범위(scope)·형식에 원고를 정확히 맞춘다(형식 불일치는 즉시 반려 사유).",
+        ],
+      },
+      {
+        title: "5단계 · 동료심사 & 수정 (가장 중요)",
+        steps: [
+          "리뷰어 코멘트에 항목별로 답하는 response letter를 쓰고 원고를 수정한다.",
+          "보통 1~3라운드의 수정을 거친다. 거절·대수정은 정상 — 재투고하거나 다른 저널로 옮긴다.",
+          "데이터·해석을 보강하라는 요구가 많으므로, 원자료를 잘 보관해 둔다.",
+        ],
+      },
+      {
+        title: "6단계 · 게재 & 활동 기재",
+        steps: [
+          "게재되면 DOI/논문 페이지 URL을 확보한다.",
+          "Common App: ‘Author, 「논문 제목」, JEI/JSR (연도)’ — Activity Type은 Research.",
+          "교내·지역 심포지엄 발표로 활동을 확장하면 리더십·전파력까지 더해진다.",
+        ],
+      },
+    ],
+    links: [
+      { label: "JEI — Journal of Emerging Investigators", url: "https://emerginginvestigators.org" },
+      { label: "JSR — Journal of Student Research", url: "https://www.jsr.org" },
+      { label: "Google Scholar — 선행연구 검색", url: "https://scholar.google.com" },
+    ],
+    pitfalls: [
+      "데이터 없는 ‘에세이형’ 글은 JEI에서 거절된다 — 반드시 가설 + 검증(데이터)이 있어야 한다.",
+      "표절·데이터 조작은 치명적. 한 번의 부정으로 신뢰가 무너진다.",
+      "멘토 없이 혼자 무리하면 심사 통과가 어렵다 — 작게 시작해 끝까지 마무리하는 게 낫다.",
+      "게재료만 받고 심사가 부실한 ‘약탈적 저널(predatory journal)’은 피한다. JEI·JSR처럼 검증된 곳을 택할 것.",
+    ],
+    commonApp:
+      "‘논문을 냈다’보다 ‘어떤 질문을 던지고, 어떻게 검증했으며, 무엇을 발견했는가’를 드러낸다. 연구의 독립성·끈기(재투고)가 평가 포인트. Activity Type은 Research, 단체명 칸에 저널명+연도, 설명에 발견·임팩트를 압축.",
+    storyTip:
+      "연구 질문이 개인 경험에서 출발하면 에세이와 강하게 연결된다(예: 가족의 질환 → 관련 데이터 연구). ‘왜 하필 이 질문이었나’가 곧 너의 이야기다.",
+  },
+];

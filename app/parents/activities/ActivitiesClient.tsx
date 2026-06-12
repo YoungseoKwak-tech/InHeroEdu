@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getClientSession } from "@/lib/client-auth";
-import { ACTIVITIES, STRATEGY_POINTS, COMMONAPP_RULES, type ActivityEntry } from "./data";
+import { ACTIVITIES, STRATEGY_POINTS, COMMONAPP_RULES, DEEP_GUIDES, type ActivityEntry, type DeepGuide } from "./data";
 
 const GREEN = "#00b85f";
 
@@ -44,7 +44,21 @@ export default function ActivitiesClient() {
 
       <div style={{ maxWidth: 880, margin: "0 auto", padding: "40px 20px 100px" }}>
         {/* Header */}
-        <p style={{ fontSize: 13, fontWeight: 700, color: "#7c3aed", letterSpacing: "0.04em", marginBottom: 10 }}>🏆 아이비리그 합격 엑스트라 활동</p>
+        <p style={{ fontSize: 13, fontWeight: 700, color: "#7c3aed", letterSpacing: "0.04em", marginBottom: 14 }}>🏆 아이비리그 합격 엑스트라 활동</p>
+
+        {/* Big credential banner */}
+        <div style={{ background: "linear-gradient(135deg,#1e1b4b,#4c1d95)", borderRadius: 16, padding: "26px 28px", marginBottom: 20, boxShadow: "0 12px 30px rgba(76,29,149,0.25)" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+            <span style={{ fontSize: 11.5, fontWeight: 800, color: "#fff", background: "rgba(255,255,255,0.18)", borderRadius: 6, padding: "3px 10px", letterSpacing: "0.03em" }}>✅ 실제 합격 사례</span>
+          </div>
+          <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2.1rem, 5.5vw, 3.4rem)", fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", lineHeight: 1.08 }}>
+            아이비리그 <span style={{ color: "#a78bfa" }}>공대 합격생</span>
+          </div>
+          <p style={{ fontSize: 14.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.7, margin: "12px 0 0" }}>
+            생명과학·공학 트랙으로 아이비리그 공과대학에 합격한 학생의 실제 활동 리스트입니다.
+          </p>
+        </div>
+
         <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
           합격생의 활동 10개, 그리고 <span style={{ color: "#7c3aed" }}>어떻게 만드는지</span>
         </h1>
@@ -90,6 +104,19 @@ export default function ActivitiesClient() {
             무료 가입 →
           </button>
         </div>
+
+        {/* Deep build guides — KDP & journals */}
+        <section style={{ marginBottom: 38 }}>
+          <h2 style={{ fontSize: 16, fontWeight: 800, color: "#0f172a", letterSpacing: "0.02em", paddingBottom: 8, borderBottom: "2px solid #047a45", marginBottom: 8, display: "inline-block" }}>
+            🚀 핵심 활동, 직접 만드는 법 <span style={{ color: "#94a3b8", fontWeight: 600 }}>· 단계별 완벽 가이드</span>
+          </h2>
+          <p style={{ fontSize: 14, color: "#475569", lineHeight: 1.75, margin: "0 0 16px" }}>
+            가장 강력한 두 활동 — <strong>아마존 KDP 책 출간</strong>과 <strong>JEI·JSR 논문 출판</strong>을 기획부터 게재·활동 기재까지 그대로 따라 할 수 있게 정리했어요. 박스를 눌러 펼치세요.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {DEEP_GUIDES.map((g) => <DeepGuideCard key={g.id} guide={g} />)}
+          </div>
+        </section>
 
         {/* Activity cards */}
         <h2 style={{ fontSize: 16, fontWeight: 800, color: "#0f172a", letterSpacing: "0.02em", paddingBottom: 8, borderBottom: "2px solid #1a1a1f", marginBottom: 18, display: "inline-block" }}>
@@ -205,6 +232,103 @@ function Field({ label, value }: { label: string; value: string }) {
       <span style={{ fontSize: 10.5, fontWeight: 700, color: "#475569", letterSpacing: "0.04em" }}>{label}: </span>
       <span style={{ fontSize: 12.5, color: "#e2e8f0", lineHeight: 1.5 }}>{value}</span>
     </div>
+  );
+}
+
+function DeepGuideCard({ guide: g }: { guide: DeepGuide }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <article style={{ background: "#fff", border: open ? "1.5px solid #047a45" : "1px solid #e6e8ec", borderRadius: 14, overflow: "hidden", boxShadow: open ? "0 10px 28px rgba(4,122,69,0.10)" : "0 1px 2px rgba(16,24,40,0.04)", transition: "box-shadow 200ms" }}>
+      <button onClick={() => setOpen(!open)} aria-expanded={open}
+        style={{ width: "100%", textAlign: "left", background: open ? "#f0fdf6" : "#fff", border: "none", cursor: "pointer", padding: "18px 20px", display: "block" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <span style={{ fontSize: 26 }}>{g.emoji}</span>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 16.5, fontWeight: 800, letterSpacing: "-0.01em" }}>{g.title}</div>
+            <div style={{ fontSize: 13, color: "#475569", marginTop: 3, lineHeight: 1.5 }}>{g.tagline}</div>
+          </div>
+          <span style={{ flexShrink: 0, fontSize: 11.5, fontWeight: 800, color: "#047a45", background: "#e6f6ee", borderRadius: 999, padding: "4px 11px", whiteSpace: "nowrap" }}>{open ? "닫기" : "자세히 보기"}</span>
+          <span style={{ flexShrink: 0, fontSize: 18, color: "#94a3b8", transform: open ? "rotate(90deg)" : "none", transition: "transform 180ms", lineHeight: 1 }}>›</span>
+        </div>
+      </button>
+
+      {open && (
+        <div style={{ padding: "4px 20px 24px" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, margin: "8px 0 16px" }}>
+            {g.meta.map((m) => (
+              <span key={m.label} style={{ fontSize: 12, color: "#334155", background: "#f1f5f9", borderRadius: 8, padding: "6px 11px" }}>
+                <b style={{ color: "#0f172a" }}>{m.label}</b> · {m.value}
+              </span>
+            ))}
+          </div>
+          <p style={{ fontSize: 14, color: "#334155", lineHeight: 1.85, margin: "0 0 18px" }}>{g.overview}</p>
+
+          {g.table && (
+            <div style={{ overflowX: "auto", margin: "0 0 18px" }}>
+              <table style={{ borderCollapse: "collapse", width: "100%", fontSize: 12.5 }}>
+                <thead>
+                  <tr>{g.table.headers.map((h, i) => (
+                    <th key={i} style={{ textAlign: "left", padding: "8px 10px", background: "#f1f5f9", color: "#0f172a", fontWeight: 800, border: "1px solid #e2e8f0" }}>{h}</th>
+                  ))}</tr>
+                </thead>
+                <tbody>
+                  {g.table.rows.map((row, r) => (
+                    <tr key={r}>{row.map((c, ci) => (
+                      <td key={ci} style={{ padding: "8px 10px", color: ci === 0 ? "#0f172a" : "#334155", fontWeight: ci === 0 ? 800 : 400, border: "1px solid #e2e8f0", lineHeight: 1.5 }}>{c}</td>
+                    ))}</tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {g.phases.map((p, i) => (
+            <div key={i} style={{ marginBottom: 16 }}>
+              <div style={{ fontSize: 14.5, fontWeight: 800, color: "#047a45", marginBottom: 10 }}>{p.title}</div>
+              <ol style={{ margin: 0, paddingLeft: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 8 }}>
+                {p.steps.map((s, j) => (
+                  <li key={j} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                    <span style={{ flexShrink: 0, width: 22, height: 22, borderRadius: "50%", background: GREEN, color: "#fff", fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center" }}>{j + 1}</span>
+                    <span style={{ fontSize: 13.5, color: "#334155", lineHeight: 1.7, paddingTop: 1 }}>{s}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          ))}
+
+          {g.links.length > 0 && (
+            <>
+              <div style={{ fontSize: 11.5, fontWeight: 800, color: "#0369a1", letterSpacing: "0.04em", margin: "6px 0 8px" }}>🔗 바로 쓰는 링크</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 18 }}>
+                {g.links.map((l) => (
+                  <a key={l.url} href={l.url} target="_blank" rel="noopener noreferrer"
+                    style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 700, color: "#0369a1", textDecoration: "none", background: "#f0f9ff", border: "1px solid #bae6fd", borderRadius: 8, padding: "9px 12px" }}>
+                    <span>↗</span><span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{l.label}</span>
+                  </a>
+                ))}
+              </div>
+            </>
+          )}
+
+          <div style={{ background: "#fff7ed", border: "1px solid #fed7aa", borderRadius: 10, padding: "14px 16px", marginBottom: 14 }}>
+            <div style={{ fontSize: 12.5, fontWeight: 800, color: "#c2410c", marginBottom: 8 }}>⚠️ 흔한 실수</div>
+            <ul style={{ margin: 0, paddingLeft: 16, display: "flex", flexDirection: "column", gap: 6 }}>
+              {g.pitfalls.map((p, i) => <li key={i} style={{ fontSize: 13, color: "#7c2d12", lineHeight: 1.65 }}>{p}</li>)}
+            </ul>
+          </div>
+
+          <div style={{ background: "#f5f3ff", border: "1px solid #e0d7fb", borderRadius: 10, padding: "14px 16px", marginBottom: 12 }}>
+            <div style={{ fontSize: 12.5, fontWeight: 800, color: "#6d28d9", marginBottom: 6 }}>📋 Common App에 적는 법</div>
+            <p style={{ fontSize: 13, color: "#4c1d95", lineHeight: 1.7, margin: 0 }}>{g.commonApp}</p>
+          </div>
+
+          <div style={{ background: "#fff", border: "1px dashed #7cc9a3", borderRadius: 10, padding: "14px 16px" }}>
+            <span style={{ fontSize: 12, fontWeight: 800, color: "#7c3aed" }}>✍️ 에세이 스토리로</span>
+            <p style={{ fontSize: 13, color: "#334155", lineHeight: 1.75, margin: "5px 0 0" }}>{g.storyTip}</p>
+          </div>
+        </div>
+      )}
+    </article>
   );
 }
 
