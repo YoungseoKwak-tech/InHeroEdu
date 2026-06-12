@@ -69,18 +69,18 @@ function build(): Map<string, Bucket> {
     }
   }
 
-  // Merge curated 수학 개념용어 — math notes carry few term cards, so these
-  // ensure a real 수학 단어장 (creates the math buckets if absent).
-  for (const [cid, mv] of Object.entries(MATH_VOCAB)) {
-    let b = acc.get(cid);
-    if (!b) {
-      b = { courseId: cid, label: mv.label, emoji: mv.emoji, seen: new Map() };
-      acc.set(cid, b);
-    }
+  // Dedicated, CLEAN 수학 개념용어 단어책 — only the curated standard math terms
+  // (한글 보고 → 영어 떠올리기), deduped across calculus + statistics. Kept as
+  // its own subject so it isn't diluted by the noisier auto-extracted decks.
+  const mathSeen = new Map<string, VocabTerm>();
+  for (const mv of Object.values(MATH_VOCAB)) {
     for (const t of mv.terms) {
       const key = t.en.toLowerCase();
-      if (!b.seen.has(key)) b.seen.set(key, { en: t.en, ko: t.ko, def: t.def, unit: t.unit ?? null });
+      if (!mathSeen.has(key)) mathSeen.set(key, { en: t.en, ko: t.ko, def: t.def, unit: t.unit ?? null });
     }
+  }
+  if (mathSeen.size > 0) {
+    acc.set("math-concepts", { courseId: "math-concepts", label: "수학 개념용어", emoji: "🔢", seen: mathSeen });
   }
 
   const out = new Map<string, Bucket>();
