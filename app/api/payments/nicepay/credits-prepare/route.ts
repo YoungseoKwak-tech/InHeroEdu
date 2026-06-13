@@ -27,6 +27,14 @@ function getSafeReturnTo(value: unknown) {
   }
 }
 
+function getBuyerName(customerName: unknown, fallbackEmail?: string | null) {
+  if (typeof customerName === "string" && customerName.trim()) {
+    return customerName.trim();
+  }
+
+  return fallbackEmail?.split("@")[0] || "InHero Student";
+}
+
 /** POST /api/payments/nicepay/credits-prepare { packageId, returnTo } */
 export async function POST(req: NextRequest) {
   try {
@@ -44,6 +52,8 @@ export async function POST(req: NextRequest) {
     const serviceId = creditServiceId(pkg.id);
     const localOrderId = randomUUID();
     const safeReturnTo = getSafeReturnTo(returnTo) ?? "/parents";
+    const buyerEmail = user.email ?? null;
+    const buyerName = getBuyerName(customerName, buyerEmail);
 
     const supabase = createAdminClient();
     await createPendingOrder(supabase, {
@@ -55,8 +65,8 @@ export async function POST(req: NextRequest) {
       currency: "KRW",
       kind: "one_time",
       provider: "nicepay",
-      customerName,
-      customerEmail: user.email ?? undefined,
+      customerName: buyerName,
+      customerEmail: buyerEmail ?? undefined,
     });
 
     const returnUrl = new URL("/api/payments/nicepay/approve", req.nextUrl.origin);
@@ -71,6 +81,8 @@ export async function POST(req: NextRequest) {
       amount: pkg.krw,
       currency: "KRW",
       goodsName: pkg.name,
+      buyerName,
+      buyerEmail,
       returnUrl: returnUrl.toString(),
       mallReserved: buildNicePayReservedData({
         localOrderId,

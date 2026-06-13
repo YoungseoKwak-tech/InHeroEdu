@@ -8,10 +8,33 @@ export const dynamic = "force-dynamic";
 interface BillingKeyRow {
   id: string;
   user_id: string;
+  provider: string | null;
   service_id: string;
   subject_id: string | null;
   status: string;
   next_billing_at: string | null;
+  last_billed_at: string | null;
+  last_order_id: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+}
+
+function mapSubscriptionResponse(row: Omit<BillingKeyRow, "user_id">) {
+  return {
+    id: row.id,
+    provider: row.provider ?? "nicepay",
+    service_id: row.service_id,
+    subject_id: row.subject_id,
+    status: row.status,
+    next_billing_at: row.next_billing_at,
+    last_billed_at: row.last_billed_at,
+    last_order_id: row.last_order_id,
+    created_at: row.created_at,
+    updated_at: row.updated_at,
+    access_through: row.next_billing_at,
+    can_cancel: row.status.toLowerCase() === "active",
+    manage_url: null,
+  };
 }
 
 export async function POST(
@@ -27,7 +50,7 @@ export async function POST(
 
   const { data, error } = await supabase
     .from("nicepay_billing_keys")
-    .select("id, user_id, service_id, subject_id, status, next_billing_at")
+    .select("id, user_id, provider, service_id, subject_id, status, next_billing_at, last_billed_at, last_order_id, created_at, updated_at")
     .eq("id", subscriptionId)
     .eq("user_id", user.id)
     .maybeSingle();
@@ -41,16 +64,10 @@ export async function POST(
   }
 
   const billingKey = data as BillingKeyRow;
-  if (billingKey.status !== "active") {
+  if (billingKey.status.toLowerCase() !== "active") {
     return NextResponse.json({
       ok: true,
-      subscription: {
-        id: billingKey.id,
-        service_id: billingKey.service_id,
-        subject_id: billingKey.subject_id,
-        status: billingKey.status,
-        access_through: billingKey.next_billing_at,
-      },
+      subscription: mapSubscriptionResponse(billingKey),
     });
   }
 
@@ -65,7 +82,7 @@ export async function POST(
     .eq("id", billingKey.id)
     .eq("user_id", user.id)
     .eq("status", "active")
-    .select("id, service_id, subject_id, status, next_billing_at")
+    .select("id, provider, service_id, subject_id, status, next_billing_at, last_billed_at, last_order_id, created_at, updated_at")
     .single();
 
   if (updateError) {
@@ -74,12 +91,17 @@ export async function POST(
 
   return NextResponse.json({
     ok: true,
-    subscription: {
+    subscription: mapSubscriptionResponse({
       id: updated.id,
+      provider: updated.provider,
       service_id: updated.service_id,
       subject_id: updated.subject_id,
       status: updated.status,
-      access_through: billingKey.next_billing_at,
-    },
+      next_billing_at: updated.next_billing_at,
+      last_billed_at: updated.last_billed_at,
+      last_order_id: updated.last_order_id,
+      created_at: updated.created_at,
+      updated_at: updated.updated_at,
+    }),
   });
 }

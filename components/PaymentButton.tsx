@@ -23,6 +23,8 @@ type NicePayPrepareResponse = {
   orderId?: string;
   amount?: number;
   goodsName?: string;
+  buyerName?: string;
+  buyerEmail?: string;
   returnUrl?: string;
   mallReserved?: string;
   error?: string;
@@ -225,6 +227,8 @@ export default function PaymentButton({
         orderId: data.orderId,
         amount: data.amount,
         goodsName: data.goodsName ?? orderName,
+        buyerName: data.buyerName ?? customerName,
+        buyerEmail: data.buyerEmail ?? customerEmail,
         returnUrl: data.returnUrl,
         ...(data.mallReserved ? { mallReserved: data.mallReserved } : {}),
         fnError: (result: { errorCode?: string; errorMsg?: string }) => {

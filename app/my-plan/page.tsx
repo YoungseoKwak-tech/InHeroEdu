@@ -93,7 +93,9 @@ interface BillingSubscription {
   last_order_id: string | null;
   created_at: string | null;
   updated_at: string | null;
+  access_through?: string | null;
   can_cancel: boolean;
+  manage_url?: string | null;
 }
 
 interface BillingSummary {
@@ -378,7 +380,7 @@ export default function MyPlanPage() {
   }, [authStatus]);
 
   async function cancelSubscription(subscription: BillingSubscription) {
-    if (subscription.status !== "active") return;
+    if (subscription.status !== "active" || !subscription.can_cancel) return;
 
     const confirmed = window.confirm(
       "Cancel future recurring billing? You will keep access through the paid period, and no next monthly charge will be attempted."
@@ -394,7 +396,7 @@ export default function MyPlanPage() {
       );
       const json = await readJsonSafely(res);
       if (!res.ok) {
-                        throw new Error(typeof json?.error === "string" ? json.error : "Could not cancel subscription.");
+        throw new Error(typeof json?.error === "string" ? json.error : "Could not cancel subscription.");
       }
 
       setBilling((current) => {
@@ -569,6 +571,7 @@ export default function MyPlanPage() {
             <div className="mp-subscription-list">
               {subscriptions.map((subscription) => {
                 const isActive = subscription.status === "active";
+                const canCancelHere = isActive && subscription.can_cancel;
                 const isCancelling = cancelingSubscriptionId === subscription.id;
                 return (
                   <article key={subscription.id} className={`mp-sub-card ${isActive ? "is-active" : "is-inactive"}`}>
@@ -587,13 +590,13 @@ export default function MyPlanPage() {
                       <div className="mp-sub-meta">
                         <span>Provider: {subscription.provider.toUpperCase()}</span>
                         <span>
-                          {isActive ? "Next billing" : "Access through"}: {formatDateTime(subscription.next_billing_at)}
+                          {isActive ? "Next billing" : "Access through"}: {formatDateTime(isActive ? subscription.next_billing_at : subscription.access_through ?? subscription.next_billing_at)}
                         </span>
                         <span>Last billed: {formatDateTime(subscription.last_billed_at)}</span>
                       </div>
                     </div>
                     <div className="mp-sub-actions">
-                      {isActive ? (
+                      {canCancelHere ? (
                         <button
                           type="button"
                           className="mp-cancel-btn"
@@ -602,6 +605,19 @@ export default function MyPlanPage() {
                         >
                           {isCancelling ? "Cancelling…" : "Cancel renewal"}
                         </button>
+                      ) : isActive && subscription.manage_url ? (
+                        <a
+                          href={subscription.manage_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mp-manage-btn"
+                        >
+                          Manage provider
+                        </a>
+                      ) : isActive ? (
+                        <Link href="/billing" className="mp-manage-btn">
+                          Manage billing
+                        </Link>
                       ) : (
                         <span className="mp-cancelled-note">Renewal stopped</span>
                       )}
@@ -1130,6 +1146,24 @@ const pageCss = `
   .mp-cancel-btn:disabled {
     cursor: default;
     opacity: 0.55;
+  }
+  .mp-manage-btn {
+    padding: 0.55rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid rgba(94,234,212,0.45);
+    background: rgba(94,234,212,0.1);
+    color: #5eead4;
+    font-family: ui-monospace, monospace;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .mp-manage-btn:hover {
+    background: rgba(94,234,212,0.16);
+    border-color: rgba(94,234,212,0.7);
   }
   .mp-cancelled-note {
     color: rgba(148,163,184,0.72);

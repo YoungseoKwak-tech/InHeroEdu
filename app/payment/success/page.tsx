@@ -8,7 +8,7 @@ import { authFetch } from "@/lib/client-auth";
 function SuccessInner() {
   const params = useSearchParams();
   const router = useRouter();
-  const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
+  const [status, setStatus] = useState<"loading" | "success" | "pending" | "error">("loading");
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
@@ -84,8 +84,17 @@ function SuccessInner() {
 
       if (cancelled) return;
 
-      if (response.status === 202 && attempt < 8) {
+      if (response.status === 202 && attempt < 12) {
         setTimeout(() => confirmPayment(attempt + 1), 1500);
+        return;
+      }
+
+      if (response.status === 202) {
+        setStatus("pending");
+        setErrorMsg(
+          data.error ??
+            "Payment is still being verified. Please check billing again in a moment."
+        );
         return;
       }
 
@@ -156,6 +165,22 @@ function SuccessInner() {
           <p className="text-gray-500 text-sm">{errorMsg}</p>
         </div>
         <Link href="/pricing" className="btn-primary text-sm py-2.5 px-6">Back to pricing</Link>
+      </div>
+    );
+  }
+
+  if (status === "pending") {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-6 text-center px-4">
+        <div className="w-20 h-20 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-4xl">…</div>
+        <div>
+          <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">Payment is being verified</h1>
+          <p className="text-gray-500 text-sm max-w-sm mx-auto">{errorMsg}</p>
+        </div>
+        <div className="flex gap-3">
+          <Link href="/billing" className="btn-primary text-sm py-2.5 px-6">Check billing</Link>
+          <Link href="/pricing" className="btn-secondary text-sm py-2.5 px-6">Back to pricing</Link>
+        </div>
       </div>
     );
   }

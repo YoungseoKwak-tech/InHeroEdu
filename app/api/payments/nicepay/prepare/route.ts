@@ -38,6 +38,14 @@ function getSafeReturnTo(value: unknown) {
   }
 }
 
+function getBuyerName(customerName: unknown, fallbackEmail?: string | null) {
+  if (typeof customerName === "string" && customerName.trim()) {
+    return customerName.trim();
+  }
+
+  return fallbackEmail?.split("@")[0] || "InHero Student";
+}
+
 export async function POST(req: NextRequest) {
   try {
     const user = await requireAuthenticatedUser(req);
@@ -87,6 +95,8 @@ export async function POST(req: NextRequest) {
     );
     const localOrderId = randomUUID();
     const safeReturnTo = getSafeReturnTo(returnTo);
+    const buyerEmail = user.email ?? (typeof customerEmail === "string" ? customerEmail : null);
+    const buyerName = getBuyerName(customerName, buyerEmail);
 
     const supabase = createAdminClient();
     await createPendingOrder(supabase, {
@@ -98,8 +108,8 @@ export async function POST(req: NextRequest) {
       currency: quote.chargeCurrency,
       kind: quote.kind,
       provider: "nicepay",
-      customerName,
-      customerEmail: user.email ?? customerEmail,
+      customerName: buyerName,
+      customerEmail: buyerEmail ?? undefined,
     });
 
     const origin = req.nextUrl.origin;
@@ -116,6 +126,8 @@ export async function POST(req: NextRequest) {
       currency: quote.chargeCurrency,
       displayAmountUSD: quote.displayAmountUSD,
       goodsName: orderName,
+      buyerName,
+      buyerEmail,
       returnUrl: returnUrl.toString(),
       mallReserved: buildNicePayReservedData({
         localOrderId,

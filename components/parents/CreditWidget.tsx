@@ -84,6 +84,8 @@ export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
       w.AUTHNICE.requestPay({
         clientId: data.clientId, method: data.method ?? "card", orderId: data.orderId,
         amount: data.amount, goodsName: data.goodsName, returnUrl: data.returnUrl,
+        ...(data.buyerName ? { buyerName: data.buyerName } : {}),
+        ...(data.buyerEmail ? { buyerEmail: data.buyerEmail } : {}),
         ...(data.mallReserved ? { mallReserved: data.mallReserved } : {}),
         fnError: (r: { errorMsg?: string; errorCode?: string }) => {
           setBuying(null);

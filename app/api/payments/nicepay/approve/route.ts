@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 import {
+  attachStoredOrderProviderDetails,
   getStoredOrder,
   markStoredOrderFailed,
   markStoredOrderPaid,
@@ -232,12 +233,20 @@ async function handleNicePayApproval(req: NextRequest) {
       callback: payload,
       approvalError: error instanceof Error ? error.message : "NICEPAY approval failed",
     };
-    await markStoredOrderFailed(supabase, localOrderId, errorPayload, "nicepay");
+    console.error("[nicepay/approve] approval API failed; keeping order pending", {
+      localOrderId,
+      tid,
+      message: errorPayload.approvalError,
+    });
+    await attachStoredOrderProviderDetails(supabase, localOrderId, {
+      provider: "nicepay",
+      providerOrderId: tid,
+      rawResponse: errorPayload,
+    });
     return NextResponse.redirect(
-      buildFailUrl(req, {
+      buildSuccessUrl(req, {
+        localOrderId,
         serviceId: storedOrder.serviceId,
-        code: "approval_failed",
-        message: errorPayload.approvalError,
         returnTo: safeReturnTo,
       }),
       303
@@ -286,6 +295,13 @@ async function handleNicePayApproval(req: NextRequest) {
   }
 
   if (!isNicePaySuccess(approval)) {
+    console.error("[nicepay/approve] approval response was not paid", {
+      localOrderId,
+      tid,
+      resultCode: approval.resultCode ?? approval.ResultCode ?? approval.code,
+      resultMsg: approval.resultMsg ?? approval.ResultMsg ?? approval.message,
+      status: approval.status ?? approval.Status,
+    });
     await markStoredOrderFailed(supabase, localOrderId, approval, "nicepay");
     return NextResponse.redirect(
       buildFailUrl(req, {
@@ -297,6 +313,14 @@ async function handleNicePayApproval(req: NextRequest) {
       303
     );
   }
+
+  console.info("[nicepay/approve] approval succeeded", {
+    localOrderId,
+    tid,
+    amount: storedOrder.amount,
+    resultCode: approval.resultCode ?? approval.ResultCode ?? approval.code,
+    status: approval.status ?? approval.Status,
+  });
 
   await markStoredOrderPaid(supabase, localOrderId, {
     userId: storedOrder.userId,

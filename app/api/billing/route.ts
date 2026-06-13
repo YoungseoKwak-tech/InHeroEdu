@@ -19,11 +19,102 @@ interface NicePayBillingKeyRow {
   updated_at: string | null;
 }
 
+const PAYPAL_MANAGE_URL = "https://www.paypal.com/myaccount/autopay/";
+
 const courseNameById = new Map(courses.map((course) => [course.id, course.subjectEn]));
 
 function isMissingSchemaObject(error: { message?: string } | null | undefined) {
   const message = error?.message ?? "";
   return /schema cache|could not find|relation .* does not exist/i.test(message);
+}
+
+function getBillingPeriodDays() {
+  const days = Number(process.env.NICEPAY_BILLING_PERIOD_DAYS ?? "30");
+  return Number.isFinite(days) && days > 0 ? days : 30;
+}
+
+function asRecord(value: unknown): Record<string, unknown> | null {
+  return typeof value === "object" && value !== null && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : null;
+}
+
+function readString(value: unknown) {
+  return typeof value === "string" && value.trim() ? value : null;
+}
+
+function addDaysIso(value: string | null, days: number) {
+  if (!value) return null;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString();
+}
+
+function getLegacyProviderPayload(raw: Record<string, unknown>) {
+  return asRecord(raw.raw_toss_response);
+}
+
+function getRawProviderResponse(raw: Record<string, unknown>) {
+  const direct = asRecord(raw.raw_provider_response);
+  if (direct) return direct;
+
+  const legacy = getLegacyProviderPayload(raw);
+  return asRecord(legacy?.raw_provider_response);
+}
+
+function getOrderProvider(raw: Record<string, unknown>, hasProviderSubscriptionId: boolean) {
+  const provider = readString(raw.provider);
+  if (provider) return provider.toLowerCase();
+
+  const legacyProvider = readString(getLegacyProviderPayload(raw)?.provider);
+  if (legacyProvider) return legacyProvider.toLowerCase();
+
+  return hasProviderSubscriptionId ? "paypal" : "unknown";
+}
+
+function normalizeSubscriptionStatus(status: string | null, fallback: string) {
+  const normalized = (status ?? fallback).toLowerCase();
+  switch (normalized) {
+    case "active":
+    case "approved":
+      return "active";
+    case "cancelled":
+    case "canceled":
+      return "cancelled";
+    case "suspended":
+    case "past_due":
+      return "past_due";
+    case "expired":
+      return "expired";
+    default:
+      return normalized || "unknown";
+  }
+}
+
+function getProviderNextBillingAt(rawProviderResponse: Record<string, unknown> | null) {
+  const billingInfo = asRecord(rawProviderResponse?.billing_info);
+  return (
+    readString(billingInfo?.next_billing_time) ??
+    readString(billingInfo?.next_billing_at) ??
+    readString(rawProviderResponse?.next_billing_time) ??
+    readString(rawProviderResponse?.next_billing_at)
+  );
+}
+
+function inferSubjectIdFromServiceId(serviceId: string) {
+  const normalized = serviceId.toLowerCase();
+  if (!normalized.includes(":")) return null;
+
+  const [baseServiceId, rawSubjectId] = normalized.split(":");
+  if (baseServiceId !== "one_subject" && baseServiceId !== "single") return null;
+  return normalizeCourseAccessSubjectId(rawSubjectId);
+}
+
+function isSubscriptionOrder(order: Awaited<ReturnType<typeof listStoredOrdersForUser>>[number]) {
+  const serviceId = order.serviceId.toLowerCase();
+  if (serviceId.startsWith("textbook:") || serviceId.startsWith("credits:")) return false;
+  return order.kind === "subscription" || Boolean(order.providerSubscriptionId);
 }
 
 function subjectNameFromServiceId(serviceId: string) {
@@ -102,12 +193,16 @@ export async function GET(req: NextRequest) {
       .filter((order) => order.status === "paid")
       .map((order) => ({
         id: order.id,
+        provider: getOrderProvider(order.raw, Boolean(order.providerSubscriptionId)),
         service_id: order.serviceId,
         order_name: englishOrderName(order.serviceId, order.orderName),
         amount: Number(order.amount ?? 0),
         currency: order.currency,
+        kind: order.kind,
+        provider_subscription_id: order.providerSubscriptionId,
         status: order.status,
         created_at: order.createdAt,
+        paid_at: readString(order.raw.paid_at) ?? order.createdAt,
       }));
 
     const manuals = (purchasesRes.data ?? [])
@@ -126,19 +221,58 @@ export async function GET(req: NextRequest) {
       })
       .sort((a, b) => a.title.localeCompare(b.title, "en"));
 
-    const subscriptions = ((billingKeysRes.error ? [] : billingKeysRes.data ?? []) as NicePayBillingKeyRow[]).map((subscription) => ({
+    const nicePaySubscriptions = ((billingKeysRes.error ? [] : billingKeysRes.data ?? []) as NicePayBillingKeyRow[]).map((subscription) => ({
       id: subscription.id,
       provider: subscription.provider ?? "nicepay",
       service_id: subscription.service_id,
       subject_id: subscription.subject_id,
-      status: subscription.status,
+      status: normalizeSubscriptionStatus(subscription.status, "unknown"),
       next_billing_at: subscription.next_billing_at,
       last_billed_at: subscription.last_billed_at,
       last_order_id: subscription.last_order_id,
       created_at: subscription.created_at,
       updated_at: subscription.updated_at,
-      can_cancel: subscription.status === "active",
+      access_through: subscription.next_billing_at,
+      can_cancel: subscription.status.toLowerCase() === "active",
+      manage_url: null,
     }));
+
+    const nicePaySubscriptionIds = new Set(nicePaySubscriptions.map((subscription) => subscription.id));
+    const billingPeriodDays = getBillingPeriodDays();
+    const orderBackedSubscriptions = orders
+      .filter((order) => order.status === "paid" && isSubscriptionOrder(order))
+      .filter((order) => !order.providerSubscriptionId || !nicePaySubscriptionIds.has(order.providerSubscriptionId))
+      .map((order) => {
+        const rawProviderResponse = getRawProviderResponse(order.raw);
+        const provider = getOrderProvider(order.raw, Boolean(order.providerSubscriptionId));
+        const providerStatus = readString(rawProviderResponse?.status);
+        const status = normalizeSubscriptionStatus(providerStatus, order.status === "paid" ? "active" : order.status);
+        const paidAt = readString(order.raw.paid_at) ?? order.createdAt;
+        const nextBillingAt = getProviderNextBillingAt(rawProviderResponse) ?? addDaysIso(paidAt, billingPeriodDays);
+
+        return {
+          id: order.providerSubscriptionId ?? `order:${order.id}`,
+          provider,
+          service_id: order.serviceId,
+          subject_id: inferSubjectIdFromServiceId(order.serviceId),
+          status,
+          next_billing_at: status === "active" ? nextBillingAt : null,
+          last_billed_at: paidAt,
+          last_order_id: order.id,
+          created_at: order.createdAt,
+          updated_at: readString(order.raw.paid_at) ?? order.createdAt,
+          access_through: nextBillingAt,
+          can_cancel: false,
+          manage_url: provider === "paypal" ? PAYPAL_MANAGE_URL : null,
+        };
+      });
+
+    const subscriptions = [...nicePaySubscriptions, ...orderBackedSubscriptions].sort((a, b) => {
+      const aActive = a.status === "active" ? 1 : 0;
+      const bActive = b.status === "active" ? 1 : 0;
+      if (aActive !== bActive) return bActive - aActive;
+      return new Date(b.created_at ?? 0).getTime() - new Date(a.created_at ?? 0).getTime();
+    });
 
     return NextResponse.json({
       orders: normalizedOrders,

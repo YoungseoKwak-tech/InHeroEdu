@@ -12,7 +12,7 @@ export const NICEPAY_JS_SDK_URL = "https://pay.nicepay.co.kr/v1/js/";
 export const NICEPAY_APPROVAL_TIMEOUT_MS = 15_000;
 
 const NICEPAY_API_BASE =
-  process.env.NICEPAY_API_BASE_URL?.replace(/\/+$/, "") ??
+  readEnv("NICEPAY_API_BASE_URL")?.replace(/\/+$/, "") ??
   "https://api.nicepay.co.kr";
 
 type NicePayPlan = "one_subject" | "all_subjects";
@@ -38,16 +38,21 @@ type NicePayEncryptResult = {
   tag: string;
 };
 
+function readEnv(name: string) {
+  const value = process.env[name]?.trim();
+  return value || null;
+}
+
 export function getNicePayClientId() {
-  return process.env.NICEPAY_CLIENT_ID ?? process.env.NEXT_PUBLIC_NICEPAY_CLIENT_ID ?? "";
+  return readEnv("NICEPAY_CLIENT_ID") ?? readEnv("NEXT_PUBLIC_NICEPAY_CLIENT_ID") ?? "";
 }
 
 function getNicePaySecretKey() {
-  return process.env.NICEPAY_SECRET_KEY ?? "";
+  return readEnv("NICEPAY_SECRET_KEY") ?? "";
 }
 
 function getNicePayEncryptionSecret() {
-  return process.env.NICEPAY_BILLING_KEY_SECRET ?? process.env.NICEPAY_SECRET_KEY ?? "";
+  return readEnv("NICEPAY_BILLING_KEY_SECRET") ?? getNicePaySecretKey();
 }
 
 export function isNicePayConfigured() {
@@ -55,11 +60,11 @@ export function isNicePayConfigured() {
 }
 
 export function getNicePayMethod() {
-  return process.env.NICEPAY_METHOD ?? "card";
+  return readEnv("NICEPAY_METHOD") ?? "card";
 }
 
 function getNicePayCurrency(): PaymentCurrency {
-  const value = (process.env.NICEPAY_CURRENCY ?? "KRW").toUpperCase();
+  const value = (readEnv("NICEPAY_CURRENCY") ?? "KRW").toUpperCase();
   if (value === "USD" || value === "KRW") return value;
   throw new Error("NICEPAY_CURRENCY must be USD or KRW");
 }
@@ -126,9 +131,11 @@ export function assertRequestedNicePayPrice({
 }
 
 function createNicePayAuthHeader() {
+  const clientId = getNicePayClientId();
   const secretKey = getNicePaySecretKey();
+  if (!clientId) throw new Error("missing NICEPAY_CLIENT_ID");
   if (!secretKey) throw new Error("missing NICEPAY_SECRET_KEY");
-  return `Basic ${Buffer.from(`${secretKey}:`).toString("base64")}`;
+  return `Basic ${Buffer.from(`${clientId}:${secretKey}`).toString("base64")}`;
 }
 
 async function nicePayFetch<T>(
