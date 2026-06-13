@@ -131,18 +131,18 @@ export const ACTIVITIES: ActivityEntry[] = [
     ],
     grades: "11, 12", timing: "연중", hoursPerWeek: "6시간", weeksPerYear: "12주",
     analysis: "리스트에서 가장 '사람이 보이는' 엔트리. 미적분 III × 철학이라는 조합은 성적표로는 절대 전달되지 않는 지적 정체성을 보여줍니다. 80부라는 작은 숫자를 굳이 적은 것도 좋은 판단 — 부풀리지 않은 정직한 숫자가 신뢰를 만들고, 북토크로 '혼자 쓴 글'을 '공동체와 나눈 행위'로 확장했습니다.",
-    guideTitle: "고등학생이 Amazon KDP로 책을 출간하는 법",
-    guideIntro: "Amazon KDP(Kindle Direct Publishing)는 비용 0원으로 전자책과 종이책(주문형 인쇄)을 전 세계에 출판하는 플랫폼입니다. ISBN도 무료로 발급되고, 원고만 있으면 승인까지 72시간 안에 끝납니다. 입시에서 책 출간의 가치는 '작가'라는 타이틀이 아니라, 한 주제를 5~6만 단어 분량으로 끝까지 사유했다는 증거에 있습니다.",
+    guideTitle: "고등학생이 직접 책을 출간하는 법",
+    guideIntro: "자가출판(셀프 퍼블리싱) 플랫폼을 쓰면 비용 0원으로 전자책과 종이책(주문형 인쇄)을 전 세계에 출판할 수 있습니다. ISBN도 무료로 발급되고, 원고만 있으면 승인까지 72시간 안에 끝납니다. 입시에서 책 출간의 가치는 '작가'라는 타이틀이 아니라, 한 주제를 5~6만 단어 분량으로 끝까지 사유했다는 증거에 있습니다.",
     steps: [
       "주제 = 자기 전공 축 × 의외의 분야 교차점 (이 사례: 수학 × 철학. '전공 그 자체'보다 교차점이 기억에 남음)",
       "분량 부담 줄이기: 50~100쪽이면 충분 — 챕터 8~10개 아웃라인부터 잡고 주말마다 한 챕터",
-      "Amazon KDP 계정 생성 → 원고(Word/PDF) 업로드 → 무료 Cover Creator로 표지 → 무료 ISBN 자동 발급",
-      "페이퍼백 + Kindle 동시 출간 설정, 가격은 최저가로 (목적은 인세가 아니라 존재 증명)",
+      "자가출판 플랫폼 계정 생성 → 원고(Word/PDF) 업로드 → 무료 표지 제작 도구로 표지 → 무료 ISBN 자동 발급",
+      "페이퍼백 + 전자책 동시 출간 설정, 가격은 최저가로 (목적은 인세가 아니라 존재 증명)",
       "출간 후가 진짜: 학교에서 북토크, 도서관 기증, 관련 교사·교수에게 한 부씩 — '배포 80부'는 이렇게 만든 숫자",
     ],
     resources: [
-      { label: "Amazon KDP (무료 셀프 출판)", url: "https://kdp.amazon.com" },
-      { label: "KDP 페이퍼백 가이드", url: "https://kdp.amazon.com/en_US/help/topic/G201834180" },
+      { label: "자가출판 플랫폼 (무료 셀프 출판)", url: "https://kdp.amazon.com" },
+      { label: "페이퍼백 출판 가이드", url: "https://kdp.amazon.com/en_US/help/topic/G201834180" },
     ],
     storyTip: "책의 '내용'을 에세이에 다시 쓰지 마세요. 쓰는 과정에서 생각이 바뀐 지점 — 증명하려던 명제가 틀렸음을 깨달은 순간 같은 — 이 입학사정관이 원하는 이야기입니다.",
   },
@@ -346,7 +346,7 @@ export const DEEP_GUIDES: DeepGuide[] = [
       { label: "난이도", value: "★★☆ (편집·표지가 관건)" },
     ],
     overview:
-      "고등학생도 출판사를 거치지 않고 ‘출판 저자(Published Author)’가 될 수 있습니다. 자가출판 플랫폼(KDP, Kindle Direct Publishing)으로 전자책과 종이책(주문제작)을 무료로 출간할 수 있고, 전공 스파이크와 연결하면 Common App에서 매우 강력한 활동이 됩니다. 핵심은 ‘책을 냈다’가 아니라 ‘왜 이 책을, 누구를 위해 썼는가’입니다.",
+      "고등학생도 출판사를 거치지 않고 ‘출판 저자(Published Author)’가 될 수 있습니다. 자가출판(셀프 퍼블리싱) 플랫폼으로 전자책과 종이책(주문제작)을 무료로 출간할 수 있고, 전공 스파이크와 연결하면 Common App에서 매우 강력한 활동이 됩니다. 핵심은 ‘책을 냈다’가 아니라 ‘왜 이 책을, 누구를 위해 썼는가’입니다.",
     phases: [
       {
         title: "1단계 · 기획 & 주제 선정",
@@ -368,42 +368,42 @@ export const DEEP_GUIDES: DeepGuide[] = [
       {
         title: "3단계 · 편집 & 포맷팅",
         steps: [
-          "전자책: 무료 도구 Kindle Create로 챕터·목차·서식을 잡거나 Word를 EPUB/KPF로 변환. 텍스트형(reflowable)을 권장.",
+          "전자책: 플랫폼의 무료 편집 도구로 챕터·목차·서식을 잡거나 Word를 EPUB로 변환. 텍스트형(reflowable)을 권장.",
           "종이책: 판형 결정(예: 6×9인치), 여백·페이지 번호·표제지 설정 후 PDF로 업로드.",
-          "표지: KDP Cover Creator 또는 Canva(무료)로 제작. 전자책은 1600×2560px 이상, 제목·부제·저자명이 썸네일에서도 읽히게.",
+          "표지: 플랫폼의 표지 제작 도구나 Canva(무료)로 제작. 전자책은 1600×2560px 이상, 제목·부제·저자명이 썸네일에서도 읽히게.",
         ],
       },
       {
-        title: "4단계 · KDP 계정 & 메타데이터",
+        title: "4단계 · 출판 계정 & 메타데이터",
         steps: [
-          "kdp.amazon.com에 가입한다. 만 18세 미만은 부모 명의/동의로 진행하고 세금정보·은행정보를 입력한다.",
+          "자가출판 플랫폼에 가입한다. 만 18세 미만은 부모 명의/동의로 진행하고 세금정보·은행정보를 입력한다.",
           "제목·부제·저자명, 책 소개(설득력 있는 200~400단어), 카테고리 2개, 검색 키워드 7개를 입력한다(노출에 직결).",
-          "ISBN: 전자책은 불필요, 종이책은 KDP 무료 ISBN 또는 자체 ISBN 선택.",
-          "가격·인세: 전자책은 35% 또는 70% 인세(70%는 보통 $2.99~9.99 가격대). 필요시 KDP Select로 추가 노출.",
+          "ISBN: 전자책은 불필요, 종이책은 플랫폼 무료 ISBN 또는 자체 ISBN 선택.",
+          "가격·인세: 전자책은 35% 또는 70% 인세(70%는 보통 $2.99~9.99 가격대). 필요시 플랫폼의 독점 등록 프로그램으로 추가 노출.",
         ],
       },
       {
         title: "5단계 · 검토 & 출간",
         steps: [
-          "Previewer로 모든 기기(폰·태블릿·Kindle)에서 레이아웃을 확인한다.",
-          "제출 후 아마존 검토는 보통 24~72시간 → 라이브.",
+          "미리보기 도구로 모든 기기(폰·태블릿·전자책 리더)에서 레이아웃을 확인한다.",
+          "제출 후 플랫폼 검토는 보통 24~72시간 → 라이브.",
           "종이책은 교정쇄(proof copy)를 주문해 실물 인쇄·여백을 반드시 확인한다.",
         ],
       },
       {
         title: "6단계 · 출간 후 & 활동 기재",
         steps: [
-          "Author Central(아마존 저자 페이지)을 개설하고 ASIN/ISBN을 확보한다.",
-          "Common App 활동란: ‘Author, 「책 제목」 (Amazon, ASIN/ISBN)’ — Activity Type은 Other/Academic.",
+          "저자 페이지(Author Page)를 개설하고 ASIN/ISBN을 확보한다.",
+          "Common App 활동란: ‘Author, 「책 제목」 (셀프 출판, ISBN)’ — Activity Type은 Other/Academic.",
           "다운로드·판매 수치, 진짜 독자 리뷰는 보너스 증빙. 단, 가짜 리뷰·키워드 스터핑은 금지.",
         ],
       },
     ],
     links: [
-      { label: "KDP 가입·출간 (kdp.amazon.com)", url: "https://kdp.amazon.com" },
-      { label: "Kindle Create (무료 편집기)", url: "https://kdp.amazon.com/en_US/help/topic/GHU4YEWXQGNLU94T" },
+      { label: "자가출판 플랫폼 가입·출간", url: "https://kdp.amazon.com" },
+      { label: "무료 편집기 — 전자책 서식 도구", url: "https://kdp.amazon.com/en_US/help/topic/GHU4YEWXQGNLU94T" },
       { label: "Canva — 표지 제작(무료)", url: "https://www.canva.com" },
-      { label: "Author Central — 저자 페이지", url: "https://author.amazon.com" },
+      { label: "저자 페이지 (Author Page)", url: "https://author.amazon.com" },
     ],
     pitfalls: [
       "AI로 통째 생성한 티가 나는 저품질 책은 역효과 — 검토 거부·신뢰도 하락. 반드시 직접 쓰고 본인 전문성을 담을 것.",
