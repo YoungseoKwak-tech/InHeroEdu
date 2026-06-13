@@ -16,7 +16,7 @@ import { isUnlocked, spendAndUnlockAccount, getBalance, hydrateCredits, CREDIT_E
 import { isAdminEmail } from "@/lib/adminEmails";
 import {
   STORY_META, TOC_PROLOGUE, TOC_PARTS, TOC_EPILOGUE, TOC_APPENDIX,
-  PROLOGUE_OPENING, PROLOGUE_BODY,
+  PROLOGUE_OPENING, PROLOGUE_BODY, PART6_PREVIEW,
 } from "./data";
 
 const GREEN = "#00b85f";
@@ -122,6 +122,39 @@ export default function StoryLanding() {
           <button onClick={readBook}
             style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 22, color: GREEN, background: "none", border: "none", cursor: "pointer", fontWeight: 800, fontSize: 14.5 }}>
             이어서 읽기 (전체 책) →
+          </button>
+        </section>
+
+        {/* Part 6 — readable preview (합격 이후) */}
+        <section style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: 16, padding: "30px 28px", margin: "0 0 24px" }}>
+          <span style={{ fontSize: 11.5, fontWeight: 800, color: "#fff", background: "#7c3aed", borderRadius: 7, padding: "4px 11px", letterSpacing: "0.03em" }}>{PART6_PREVIEW.badge}</span>
+          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 22, fontWeight: 800, letterSpacing: "-0.02em", margin: "14px 0 6px" }}>{PART6_PREVIEW.title}</h2>
+          <p style={{ fontSize: 14, color: "#475569", lineHeight: 1.75, margin: "0 0 22px" }}>{PART6_PREVIEW.intro}</p>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+            {PART6_PREVIEW.chapters.map((c) => (
+              <div key={c.n} style={{ borderLeft: "3px solid #ede9fe", paddingLeft: 16 }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 6 }}>
+                  <span style={{ fontSize: 12, fontWeight: 800, color: "#7c3aed", fontFamily: "'JetBrains Mono', monospace" }}>{c.n}장</span>
+                  <h3 style={{ fontSize: 16.5, fontWeight: 800, margin: 0, letterSpacing: "-0.01em" }}>{c.title}</h3>
+                </div>
+                <p style={{ fontSize: 14, color: "#334155", lineHeight: 1.8, margin: "0 0 12px", fontWeight: 600 }}>{c.lead}</p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  {c.points.map((p, i) => (
+                    <div key={i} style={{ fontSize: 13.5, lineHeight: 1.7 }}>
+                      <span style={{ fontWeight: 800, color: "#1a1a1f" }}>{p.h}</span>
+                      <span style={{ color: "#475569" }}> — {p.b}</span>
+                    </div>
+                  ))}
+                </div>
+                {c.close && <p style={{ fontSize: 14.5, fontWeight: 800, color: "#5b21b6", fontStyle: "italic", margin: "12px 0 0" }}>“{c.close}”</p>}
+              </div>
+            ))}
+          </div>
+
+          <button onClick={readBook}
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 22, color: GREEN, background: "none", border: "none", cursor: "pointer", fontWeight: 800, fontSize: 14.5 }}>
+            전체 책에서 이어 읽기 →
           </button>
         </section>
 
