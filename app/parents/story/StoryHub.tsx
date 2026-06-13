@@ -27,7 +27,7 @@ const CARDS = [
     emoji: "🏆",
     title: "합격 활동 분석",
     sub: "실제 합격생 Common App 활동 10개",
-    desc: "아이비리그 합격생의 활동 10개를 공개하고, 책 출간(Amazon)·논문·웹 프로젝트까지 직접 만드는 법을 단계별로.",
+    desc: "아이비리그 합격생의 활동 10개를 공개하고, 책 출간·논문·웹 프로젝트까지 직접 만드는 법을 단계별로.",
     href: "/parents/activities",
     cta: "활동 열람",
     note: "열람권",

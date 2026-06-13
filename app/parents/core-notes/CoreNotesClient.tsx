@@ -92,12 +92,12 @@ export default function CoreNotesClient() {
     const gated = (isTaster || !active) ? sectionsEl : (
       <CreditGate
         gateKey={`${CN_ALL_KEY}:${active}`}
-        cost={CREDIT_COSTS.SUBJECT}
+        cost={CREDIT_COSTS.CORE_NOTES_SUBJECT}
         bundleKey={CN_ALL_KEY}
         bundleCost={CREDIT_COSTS.ALL_SUBJECTS}
         bundleLabel="전 과목 한 번에"
         title={`${note.emoji} ${note.subjectLabel} 핵심노트 잠금해제`}
-        desc={`${note.subjectLabel} 전 단원의 노트(개념·용어·함정·예시)를 볼 수 있어요. 첫 레슨은 무료 맛보기예요. (이 과목 200 · 전 과목 1,000)`}
+        desc={`${note.subjectLabel} 전 단원의 노트(개념·용어·함정·예시)를 볼 수 있어요. 첫 레슨은 무료 맛보기예요. (이 과목 500 · 전 과목 1,000)`}
       >{sectionsEl}</CreditGate>
     );
     return (

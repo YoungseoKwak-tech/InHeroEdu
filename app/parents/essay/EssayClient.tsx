@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getClientSession } from "@/lib/client-auth";
+import CreditGate from "@/components/parents/CreditGate";
+import { CREDIT_COSTS } from "@/lib/credits";
 import { TAG_COLOR, SEGMENTS, TAKEAWAYS } from "@/lib/data/cornellMainEssay";
 
 const GREEN = "#00b85f";
@@ -44,6 +46,12 @@ export default function EssayClient() {
           실제 <strong>코넬대학교 공과대학(생의공학)</strong> 합격생의 Common App 메인 에세이입니다. '죽은 해파리(dead jellyfish)'라는
           하나의 메타포로 한국 출신의 정체성을 가치로 바꿔낸 글을, <strong>무엇이 왜 잘 됐는지</strong> 문단마다 기법·원리·“약하게 썼다면”까지 쪼개 분석했습니다.
         </p>
+        <CreditGate
+          gateKey="res:/parents/essay"
+          cost={CREDIT_COSTS.ESSAY}
+          title="✍️ 코넬 공대 합격 에세이 — 원문 + 문단별 분석 잠금해제"
+          desc="실제 합격생 본인의 Common App 메인 에세이 원문(PDF)과 설계도·문단별 상세 분석(기법·원리·‘약하게 썼다면’)을 볼 수 있어요. 위 소개글만 무료 미리보기예요."
+        >
         <a href="/parents/cornell-bme-essay.pdf" target="_blank" rel="noopener noreferrer"
           style={{ display: "inline-flex", alignItems: "center", gap: 8, textDecoration: "none", color: "#1a1a1f", border: "1.5px solid #1a1a1f", borderRadius: 9, padding: "10px 18px", fontSize: 13.5, fontWeight: 800, marginBottom: 26 }}>
           📄 원문 에세이 전체 PDF 보기 →
@@ -97,6 +105,7 @@ export default function EssayClient() {
             </section>
           ))}
         </div>
+        </CreditGate>
 
         {/* Takeaways */}
         <section style={{ background: "#fff", border: "1px solid #e2e6ea", borderRadius: 16, padding: "24px 24px", marginTop: 24 }}>

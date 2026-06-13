@@ -19,6 +19,7 @@ import { ACTIVITIES, STRATEGY_POINTS, COMMONAPP_RULES, DEEP_GUIDES, type Activit
 
 const GREEN = "#00b85f";
 const GUIDE_COST = 500; // each deep guide unlocks individually for 500 credits
+const LIST_COST = 250;  // the real Common App activity list (10 cards) unlocks together
 
 export default function ActivitiesClient() {
   const router = useRouter();
@@ -163,6 +164,12 @@ function ActivityCard({ activity: a, isOpen, onToggle }: { activity: ActivityEnt
       {/* Expanded detail */}
       {isOpen && (
         <div style={{ padding: "0 20px 22px", borderTop: "1px solid #f1f3f5" }}>
+          <CreditGate
+            gateKey="res:/parents/activities/list"
+            cost={LIST_COST}
+            title="🏆 실제 합격생 활동 10개 — 전체 잠금해제"
+            desc="실제 아이비리그 합격생의 Common App 활동 원문·분석·실행 가이드를 전부 볼 수 있어요. 활동 제목·유형은 무료 미리보기예요. (한 번 결제로 10개 전부)"
+          >
           {/* The raw Common App entry */}
           <div style={{ marginTop: 18, background: "#0f172a", borderRadius: 10, padding: "16px 18px" }}>
             <div style={{ fontSize: 11, fontWeight: 800, color: "#64748b", letterSpacing: "0.05em", marginBottom: 10, fontFamily: "'JetBrains Mono', monospace" }}>COMMON APP — 원문</div>
@@ -222,6 +229,7 @@ function ActivityCard({ activity: a, isOpen, onToggle }: { activity: ActivityEnt
               <p style={{ fontSize: 13, color: "#334155", lineHeight: 1.75, margin: "5px 0 0" }}>{a.storyTip}</p>
             </div>
           </div>
+          </CreditGate>
         </div>
       )}
     </article>
