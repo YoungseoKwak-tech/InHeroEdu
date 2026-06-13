@@ -338,15 +338,15 @@ export const DEEP_GUIDES: DeepGuide[] = [
   {
     id: "kdp",
     emoji: "📚",
-    title: "Amazon KDP — 책 출간 완벽 가이드",
-    tagline: "고등학생도 무료로 아마존에 전자책·종이책을 출간하고 “저자”가 되는 전 과정",
+    title: "고등학생이 할 수 있는 책 출간 — 완벽 가이드",
+    tagline: "출판사 없이 전자책·종이책을 직접 출간하고 “저자”가 되는 전 과정",
     meta: [
       { label: "비용", value: "출간 자체 무료 (종이책은 주문제작·인세 차감)" },
       { label: "소요", value: "집필 제외 2~6주 / 검토 24~72시간" },
       { label: "난이도", value: "★★☆ (편집·표지가 관건)" },
     ],
     overview:
-      "Amazon KDP(Kindle Direct Publishing)는 누구나 무료로 전자책(Kindle)과 종이책(Print on Demand)을 전 세계 아마존에 출간할 수 있는 자가출판 플랫폼입니다. 출판사를 거치지 않으므로 고등학생도 ‘출판 저자(Published Author)’가 될 수 있고, 전공 스파이크와 연결하면 Common App에서 매우 강력한 활동이 됩니다. 핵심은 ‘책을 냈다’가 아니라 ‘왜 이 책을, 누구를 위해 썼는가’입니다.",
+      "고등학생도 출판사를 거치지 않고 ‘출판 저자(Published Author)’가 될 수 있습니다. 자가출판 플랫폼(KDP, Kindle Direct Publishing)으로 전자책과 종이책(주문제작)을 무료로 출간할 수 있고, 전공 스파이크와 연결하면 Common App에서 매우 강력한 활동이 됩니다. 핵심은 ‘책을 냈다’가 아니라 ‘왜 이 책을, 누구를 위해 썼는가’입니다.",
     phases: [
       {
         title: "1단계 · 기획 & 주제 선정",

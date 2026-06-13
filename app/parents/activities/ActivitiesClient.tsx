@@ -113,7 +113,7 @@ export default function ActivitiesClient() {
             🚀 핵심 활동, 직접 만드는 법 <span style={{ color: "#94a3b8", fontWeight: 600 }}>· 단계별 완벽 가이드</span>
           </h2>
           <p style={{ fontSize: 14, color: "#475569", lineHeight: 1.75, margin: "0 0 16px" }}>
-            가장 강력한 두 활동 — <strong>아마존 KDP 책 출간</strong>과 <strong>JEI·JSR 논문 출판</strong>을 기획부터 게재·활동 기재까지 그대로 따라 할 수 있게 정리했어요. 박스를 눌러 펼치세요.
+            가장 강력한 두 활동 — <strong>고등학생도 할 수 있는 책 출간</strong>과 <strong>JEI·JSR 논문 출판</strong>을 기획부터 게재·활동 기재까지 그대로 따라 할 수 있게 정리했어요. 박스를 눌러 펼치세요.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {DEEP_GUIDES.map((g) => <DeepGuideCard key={g.id} guide={g} />)}
