@@ -9,7 +9,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { getClientSession } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 
 const GREEN = "#00b85f";
 
@@ -22,21 +22,21 @@ export default function ReplayClient() {
   useEffect(() => {
     let alive = true;
     (async () => {
-      const s = await getClientSession();
+      let session = null;
+      try { session = await getClientSession(); } catch { /* treat as anon */ }
       if (!alive) return;
-      if (!s?.user) { setAuthed(false); return; }
+      if (!session?.user) { setAuthed(false); return; }
       setAuthed(true);
-      const token = s.access_token;
       try {
         const [v, d] = await Promise.all([
-          fetch("/api/parents/seminar/media?which=video", { headers: { authorization: `Bearer ${token}` } }).then((r) => r.json()),
-          fetch("/api/parents/seminar/media?which=deck", { headers: { authorization: `Bearer ${token}` } }).then((r) => r.json()),
+          authFetch("/api/parents/seminar/media?which=video").then((r) => r.json()).catch(() => null),
+          authFetch("/api/parents/seminar/media?which=deck").then((r) => r.json()).catch(() => null),
         ]);
         if (!alive) return;
-        if (v?.url) setVideoUrl(v.url); else setErr("영상을 불러오지 못했어요.");
+        if (v?.url) setVideoUrl(v.url); else setErr("영상을 불러오지 못했어요. 새로고침해 주세요.");
         if (d?.url) setDeckUrl(d.url);
       } catch {
-        if (alive) setErr("불러오는 중 오류가 발생했어요.");
+        if (alive) setErr("불러오는 중 오류가 발생했어요. 새로고침해 주세요.");
       }
     })();
     return () => { alive = false; };
