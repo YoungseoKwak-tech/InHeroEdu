@@ -11,6 +11,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import CreditGate from "@/components/parents/CreditGate";
 import { ADMIT_CASES, type AdmitCase } from "@/lib/data/admitCases";
 
 const GREEN = "#00b85f";
@@ -58,18 +59,31 @@ export default function CasesClient() {
           </p>
         </div>
 
-        {/* Filters */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 22 }}>
-          <Select label="전공" value={major} onChange={setMajor} options={[["all", "전체 전공"], ...majors.map((m) => [m, m] as [string, string])]} />
-          <Select label="유형" value={arch} onChange={setArch} options={[["all", "전체 유형"], ...archs.map((a) => [a, a] as [string, string])]} />
-          <Select label="티어" value={tier} onChange={setTier} options={[["all", "전체"], ["ivy", "아이비+"], ["t20", "Top 20"], ["t50", "Top 50"]]} />
-          <span style={{ alignSelf: "center", fontSize: 13, color: "#94a3b8", fontWeight: 600 }}>{filtered.length}개 사례</span>
+        {/* Free preview — 2 sample cases */}
+        <div style={{ fontSize: 12.5, fontWeight: 800, color: "#94a3b8", letterSpacing: "0.04em", margin: "0 0 10px" }}>무료 미리보기</div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 26 }}>
+          {ADMIT_CASES.slice(0, 2).map((c) => <CaseCard key={c.id} c={c} />)}
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-          {filtered.map((c) => <CaseCard key={c.id} c={c} />)}
-          {filtered.length === 0 && <p style={{ color: "#94a3b8", fontSize: 14, textAlign: "center", padding: 40 }}>해당 조건의 사례가 없습니다.</p>}
-        </div>
+        <CreditGate
+          gateKey="res:/parents/cases"
+          cost={25}
+          title="🗂️ 합격 사례 100선 — 전체 잠금해제 (25 크레딧)"
+          desc="전공·유형·티어로 거를 수 있는 100개 합격 프로필 전체를 열람합니다. 위 미리보기 2개는 무료예요. (공개 패턴 기반 재구성 예시 · 실명/원문 아님)"
+        >
+          {/* Filters */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 22 }}>
+            <Select label="전공" value={major} onChange={setMajor} options={[["all", "전체 전공"], ...majors.map((m) => [m, m] as [string, string])]} />
+            <Select label="유형" value={arch} onChange={setArch} options={[["all", "전체 유형"], ...archs.map((a) => [a, a] as [string, string])]} />
+            <Select label="티어" value={tier} onChange={setTier} options={[["all", "전체"], ["ivy", "아이비+"], ["t20", "Top 20"], ["t50", "Top 50"]]} />
+            <span style={{ alignSelf: "center", fontSize: 13, color: "#94a3b8", fontWeight: 600 }}>{filtered.length}개 사례</span>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {filtered.map((c) => <CaseCard key={c.id} c={c} />)}
+            {filtered.length === 0 && <p style={{ color: "#94a3b8", fontSize: 14, textAlign: "center", padding: 40 }}>해당 조건의 사례가 없습니다.</p>}
+          </div>
+        </CreditGate>
       </div>
     </div>
   );

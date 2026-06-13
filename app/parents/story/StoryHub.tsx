@@ -50,8 +50,8 @@ const CARDS = [
     desc: "공개된 합격 패턴을 전공·유형별로 재구성한 100개 사례 — 활동 구성·에세이 접근법·'왜 통했나'까지. (재구성 예시 · 실명/원문 아님)",
     href: "/parents/cases",
     cta: "사례 보기",
-    note: "무료 열람",
-    noteKind: "free" as const,
+    note: "미리보기 무료 · 25크레딧",
+    noteKind: "pass" as const,
   },
 ];
 
