@@ -1,12 +1,12 @@
 "use client";
 
 /**
- * /parents/cases — 합격 사례 100선.
+ * /parents/cases — 합격 사례 (실제 보도 기반).
  *
- * COMPOSITE, FICTIONAL admit profiles synthesized from public US-admissions
- * patterns (NOT real individuals / scraped essays). Distinct from the founder's
- * own exclusive 합격 수기·활동·에세이 (real, insider). A prominent disclaimer
- * keeps this legally safe (no copyright/PII). Filter by major / archetype / tier.
+ * REAL admit stories that the students themselves made public in major news.
+ * Facts summarized in our own words + a source link; NO essay text reproduced.
+ * Distinct from the founder's own exclusive 합격 수기·활동·에세이. Filter by
+ * field / major. The full list is gated at 25 credits (2 free previews).
  */
 
 import { useMemo, useState } from "react";
@@ -15,19 +15,16 @@ import CreditGate from "@/components/parents/CreditGate";
 import { ADMIT_CASES, type AdmitCase } from "@/lib/data/admitCases";
 
 const GREEN = "#00b85f";
-const TIER_LABEL: Record<string, string> = { ivy: "아이비+", t20: "Top 20", t50: "Top 50" };
-const TIER_COLOR: Record<string, string> = { ivy: "#7c3aed", t20: "#2563eb", t50: "#0f766e" };
 
 export default function CasesClient() {
-  const [major, setMajor] = useState<string>("all");
-  const [arch, setArch] = useState<string>("all");
-  const [tier, setTier] = useState<string>("all");
+  const [major, setMajor] = useState("all");
+  const [field, setField] = useState("all");
 
   const majors = useMemo(() => [...new Set(ADMIT_CASES.map((c) => c.majorKo))].sort(), []);
-  const archs = useMemo(() => [...new Set(ADMIT_CASES.map((c) => c.archetype))], []);
+  const fields = useMemo(() => [...new Set(ADMIT_CASES.map((c) => c.field))], []);
 
   const filtered = ADMIT_CASES.filter(
-    (c) => (major === "all" || c.majorKo === major) && (arch === "all" || c.archetype === arch) && (tier === "all" || c.tier === tier)
+    (c) => (major === "all" || c.majorKo === major) && (field === "all" || c.field === field)
   );
 
   return (
@@ -42,20 +39,20 @@ export default function CasesClient() {
       </div>
 
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "40px 20px 100px" }}>
-        <p style={{ fontSize: 13, fontWeight: 700, color: "#2563eb", letterSpacing: "0.04em", marginBottom: 10 }}>🗂️ 합격 사례 100선</p>
+        <p style={{ fontSize: 13, fontWeight: 700, color: "#2563eb", letterSpacing: "0.04em", marginBottom: 10 }}>🗂️ 실제 합격 사례</p>
         <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
-          유형별 합격 프로필 <span style={{ color: "#2563eb" }}>100선</span>
+          언론에 공개된 <span style={{ color: "#2563eb" }}>실제 합격생</span> 사례
         </h1>
         <p style={{ fontSize: 15.5, color: "#475569", lineHeight: 1.8, marginBottom: 18 }}>
-          미국 입시에서 반복적으로 통하는 <strong>합격 패턴</strong>을 전공·유형별로 정리했습니다. 각 사례는 활동 구성, 에세이 접근법, 그리고 <strong>"왜 통했는지"</strong>를 함께 보여줍니다.
+          본인이 직접 언론에 공개한 <strong>실제 합격생</strong>들의 전공·활동·결과를, <strong>"왜 통했는지"</strong> 분석과 함께 정리했습니다. 각 사례마다 <strong>출처 링크</strong>를 답니다.
         </p>
 
         {/* Legal disclaimer — prominent */}
         <div style={{ background: "#fffbeb", border: "1.5px solid #f1d27a", borderRadius: 12, padding: "13px 16px", marginBottom: 26, display: "flex", gap: 10, alignItems: "flex-start" }}>
           <span style={{ fontSize: 16 }}>⚖️</span>
           <p style={{ margin: 0, fontSize: 12.5, color: "#92591a", lineHeight: 1.65 }}>
-            본 100선은 공개된 합격 경향을 바탕으로 <strong>새로 재구성한 가상의 예시</strong>입니다. 특정 실존 인물·실제 에세이 원문·개인정보가 아니며, 입시 전략을 이해하기 위한 참고용입니다.
-            (InHero의 <strong>실제 합격 수기·활동·에세이</strong>는 <Link href="/parents/story" style={{ color: "#a16207", textDecoration: "underline" }}>합격까지의 모든 것</Link>에서 별도로 제공됩니다.)
+            본 사례들은 <strong>본인이 직접 언론·공개 매체에 공개한 실제 합격생</strong>의 정보를, 공개된 <strong>사실(학교·활동·결과)</strong>만 우리 말로 정리하고 <strong>출처를 명시</strong>한 것입니다.
+            에세이 원문은 포함하지 않으며, 분석 코멘트는 InHero의 해석입니다. (InHero의 <strong>독점 합격 수기·활동·에세이</strong>는 <Link href="/parents/story" style={{ color: "#a16207", textDecoration: "underline" }}>합격까지의 모든 것</Link>에서 별도로 제공됩니다.)
           </p>
         </div>
 
@@ -68,14 +65,13 @@ export default function CasesClient() {
         <CreditGate
           gateKey="res:/parents/cases"
           cost={25}
-          title="🗂️ 합격 사례 100선 — 전체 잠금해제 (25 크레딧)"
-          desc="전공·유형·티어로 거를 수 있는 100개 합격 프로필 전체를 열람합니다. 위 미리보기 2개는 무료예요. (공개 패턴 기반 재구성 예시 · 실명/원문 아님)"
+          title="🗂️ 실제 합격 사례 전체 잠금해제 (25 크레딧)"
+          desc="전공·분야로 거를 수 있는 실제 합격생 사례 전체를 열람합니다. 위 미리보기 2개는 무료예요. (언론 공개 사실 + 출처 명시 · 에세이 원문 미포함)"
         >
           {/* Filters */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 22 }}>
             <Select label="전공" value={major} onChange={setMajor} options={[["all", "전체 전공"], ...majors.map((m) => [m, m] as [string, string])]} />
-            <Select label="유형" value={arch} onChange={setArch} options={[["all", "전체 유형"], ...archs.map((a) => [a, a] as [string, string])]} />
-            <Select label="티어" value={tier} onChange={setTier} options={[["all", "전체"], ["ivy", "아이비+"], ["t20", "Top 20"], ["t50", "Top 50"]]} />
+            <Select label="분야" value={field} onChange={setField} options={[["all", "전체 분야"], ...fields.map((f) => [f, f] as [string, string])]} />
             <span style={{ alignSelf: "center", fontSize: 13, color: "#94a3b8", fontWeight: 600 }}>{filtered.length}개 사례</span>
           </div>
 
@@ -103,11 +99,17 @@ function Select({ label, value, onChange, options }: { label: string; value: str
 function CaseCard({ c }: { c: AdmitCase }) {
   return (
     <div style={{ background: "#fff", border: "1px solid #e2e6ea", borderRadius: 16, padding: "20px 22px" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 10 }}>
-        <span style={{ fontSize: 11.5, fontWeight: 800, color: "#fff", background: TIER_COLOR[c.tier], borderRadius: 6, padding: "3px 9px" }}>{TIER_LABEL[c.tier]}</span>
-        <span style={{ fontSize: 13.5, fontWeight: 800, color: "#1a1a1f" }}>{c.majorKo}</span>
-        <span style={{ fontSize: 12, color: "#94a3b8" }}>· {c.majorEn}</span>
-        <span style={{ marginLeft: "auto", fontSize: 12, fontWeight: 700, color: "#2563eb", background: "#eef3fb", borderRadius: 6, padding: "3px 9px" }}>{c.archetype}</span>
+      <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
+        <span style={{ fontSize: 16.5, fontWeight: 850, color: "#1a1a1f" }}>{c.name}</span>
+        <span style={{ fontSize: 12.5, color: "#94a3b8" }}>· {c.year}</span>
+        <span style={{ marginLeft: "auto", fontSize: 12, fontWeight: 700, color: "#2563eb", background: "#eef3fb", borderRadius: 6, padding: "3px 9px" }}>{c.field}</span>
+      </div>
+      <div style={{ fontSize: 12.5, color: "#64748b", marginBottom: 12 }}>{c.location}</div>
+
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 12 }}>
+        <Pill label="전공" value={c.majorKo} />
+        <Pill label="합격" value={c.admitted} />
+        {c.chose && <Pill label="선택" value={c.chose} accent />}
       </div>
 
       <p style={{ margin: "0 0 12px", fontSize: 14.5, color: "#334155", lineHeight: 1.6 }}>
@@ -115,23 +117,32 @@ function CaseCard({ c }: { c: AdmitCase }) {
       </p>
 
       <div style={{ marginBottom: 12 }}>
-        <div style={{ fontSize: 12.5, fontWeight: 800, color: "#64748b", marginBottom: 6 }}>대표 활동</div>
+        <div style={{ fontSize: 12.5, fontWeight: 800, color: "#64748b", marginBottom: 6 }}>활동</div>
         <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13.5, color: "#475569", lineHeight: 1.75 }}>
           {c.activities.map((a, i) => <li key={i}>{a}</li>)}
         </ul>
       </div>
 
       <div style={{ background: "#f7f8fa", borderRadius: 10, padding: "12px 14px", marginBottom: 12 }}>
-        <div style={{ fontSize: 12.5, fontWeight: 800, color: "#2563eb", marginBottom: 4 }}>✍️ 에세이 접근법</div>
-        <p style={{ margin: 0, fontSize: 13.5, color: "#334155", lineHeight: 1.6 }}>{c.essayAngle}</p>
-      </div>
-
-      <div>
-        <div style={{ fontSize: 12.5, fontWeight: 800, color: "#16a34a", marginBottom: 5 }}>✅ 왜 통했나</div>
-        <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13.5, color: "#475569", lineHeight: 1.75 }}>
-          {c.whyItWorked.map((w, i) => <li key={i}>{w}</li>)}
+        <div style={{ fontSize: 12.5, fontWeight: 800, color: "#16a34a", marginBottom: 5 }}>✅ 왜 통했나 (InHero 분석)</div>
+        <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13.5, color: "#334155", lineHeight: 1.7 }}>
+          {c.analysis.map((w, i) => <li key={i}>{w}</li>)}
         </ul>
       </div>
+
+      <a href={c.source.url} target="_blank" rel="noopener noreferrer"
+        style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12, color: "#64748b", textDecoration: "none", borderBottom: "1px dotted #cbd5e1" }}>
+        📰 출처: {c.source.title} ↗
+      </a>
     </div>
+  );
+}
+
+function Pill({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12.5, background: accent ? "#ecfdf3" : "#f1f5f9", border: `1px solid ${accent ? "#a7f3d0" : "#e2e8f0"}`, borderRadius: 8, padding: "4px 10px" }}>
+      <span style={{ fontWeight: 800, color: accent ? "#047a45" : "#94a3b8" }}>{label}</span>
+      <span style={{ color: "#334155", fontWeight: 600 }}>{value}</span>
+    </span>
   );
 }

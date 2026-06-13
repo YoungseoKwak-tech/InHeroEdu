@@ -133,7 +133,7 @@ const RESOURCES = [
   { title: "내가 아이비리그 공대에 오기까지", desc: "아이비리그 공대 합격생이 직접 쓴 합격 수기 — 목차·프롤로그 무료, 본문은 200 크레딧", route: "/parents/story/book", tag: "합격수기", views: 1180, cost: 0 },
   { title: "코넬 공대 합격 에세이 분석", desc: "실제 합격 에세이를 한 문단씩 — 무엇이 왜 잘 됐는지", route: "/parents/essay", tag: "합격에세이", views: 1000, cost: 25 },
   { title: "아이비리그 합격 엑스트라 활동 분석", desc: "합격생 활동 10개 + 직접 만드는 법 (책 출간·논문·웹)", route: "/parents/activities", tag: "합격활동", views: 942, cost: 25 },
-  { title: "합격 사례 100선 — 유형별 합격 프로필", desc: "공개 패턴 기반 재구성 100선 (활동·에세이·왜 통했나) — 미리보기 무료, 전체 25 크레딧", route: "/parents/cases", tag: "합격사례", views: 654, cost: 25 },
+  { title: "실제 합격 사례 모음 (언론 공개 + 출처)", desc: "본인이 공개한 실제 합격생 전공·활동·결과 + '왜 통했나' 분석 — 미리보기 무료, 전체 25 크레딧", route: "/parents/cases", tag: "합격사례", views: 654, cost: 25 },
   { title: "미국 대학 분석 — 인재상·입시·인턴십", desc: "하버드부터 UC까지, 학교별 인재상·합격률·취업 파이프라인", route: "/parents/colleges", tag: "대학분석", views: 874, cost: 25 },
   { title: "미국 입시 대회 데이터베이스 (전 분야)", desc: `USABO·NSDA·Scholastic 등 ${COMPETITIONS.length}개 대회 총정리`, route: "/parents/competitions", tag: "자료", views: 731, cost: 0 },
   { title: "학년별 로드맵 (G6–G12)", desc: "학업·시험·활동·에세이를 학년별로", route: "/parents/roadmap", tag: "가이드", views: 562, cost: 0 },
