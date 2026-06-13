@@ -286,6 +286,11 @@ export default function SeminarClient() {
       {/* Hero */}
       <section style={{ background: DARK, color: "#fff", padding: "64px 20px 56px" }}>
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
+          <a href="/parents/seminar/replay"
+            style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, textDecoration: "none", background: "rgba(0,184,95,0.14)", border: "1px solid rgba(0,184,95,0.5)", borderRadius: 14, padding: "14px 18px", marginBottom: 22 }}>
+            <span style={{ color: "#dff7ec", fontWeight: 700, fontSize: 14.5 }}>🎥 세미나가 끝났어요 — <b style={{ color: "#fff" }}>풀영상 다시보기 + 발표자료(PDF)</b></span>
+            <span style={{ flexShrink: 0, color: "#03120c", background: GREEN, fontWeight: 800, fontSize: 13.5, borderRadius: 10, padding: "8px 16px" }}>다시보기 →</span>
+          </a>
           <span style={{ display: "inline-block", background: "rgba(0,184,95,0.18)", color: "#5fe0a0", border: "1px solid rgba(0,184,95,0.45)", borderRadius: 999, padding: "6px 14px", fontSize: 13, fontWeight: 700, marginBottom: 18 }}>
             무료 세미나 · 선착순 {SEATS}명
           </span>
