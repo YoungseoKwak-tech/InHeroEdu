@@ -43,6 +43,16 @@ const CARDS = [
     note: "열람권",
     noteKind: "pass" as const,
   },
+  {
+    emoji: "🗂️",
+    title: "합격 사례 100선",
+    sub: "유형별 합격 프로필 100개",
+    desc: "공개된 합격 패턴을 전공·유형별로 재구성한 100개 사례 — 활동 구성·에세이 접근법·'왜 통했나'까지. (재구성 예시 · 실명/원문 아님)",
+    href: "/parents/cases",
+    cta: "사례 보기",
+    note: "무료 열람",
+    noteKind: "free" as const,
+  },
 ];
 
 export default function StoryHub() {
