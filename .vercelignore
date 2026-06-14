@@ -1,0 +1,28 @@
+# Keep large source assets OUT of the Vercel deployment.
+#
+# Without this file the CLI uploads the whole working dir, and Next's file
+# tracer sweeps these into the api/parents/story/file lambda (it reads from
+# process.cwd()), pushing it past the 300MB function-size limit.
+#
+# Runtime-needed PDFs live in public/parents-docs/ and private-docs/ and are
+# NOT matched here (the *.pdf rule below is root-anchored). Seminar videos and
+# decks are served from Supabase Storage, so they never belong in the bundle.
+
+# Media / presentation source files (never needed at runtime)
+*.mp4
+*.key
+*.docx
+
+# Root-level source PDFs and decks (e.g. seminar-deck.pdf, AP_*_ultimate*.pdf).
+# Leading slash anchors to the repo root so public/ and private-docs/ PDFs stay.
+/*.pdf
+AP_Biology_ultimate*
+
+# Textbook source-PDF folders — content already seeded to Supabase Storage
+AP_*_PDFs_*/
+
+# Stray screenshots / image exports at the repo root
+/*.png
+
+# Admit-sample source folder
+합격/

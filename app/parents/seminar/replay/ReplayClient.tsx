@@ -118,6 +118,18 @@ export default function ReplayClient() {
                 </div>
               )}
             </div>
+
+            <div style={{ marginTop: 30, background: "linear-gradient(135deg,#0b3b2e,#0e7c54 60%,#16a36b)", color: "#fff", borderRadius: 16, padding: "26px 28px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", boxShadow: "0 10px 28px rgba(14,124,84,0.24)" }}>
+              <div style={{ flex: 1, minWidth: 220 }}>
+                <h2 style={{ fontSize: 18, fontWeight: 800, margin: "0 0 6px", letterSpacing: "-0.01em" }}>📚 더 많은 자료 보기</h2>
+                <p style={{ fontSize: 13.5, color: "rgba(255,255,255,0.82)", margin: 0, lineHeight: 1.6 }}>
+                  합격 수기 · 합격 프로필 · AP 문제은행 · 미국 대학 분석까지, 학부모 자료실의 모든 자료를 둘러보세요.
+                </p>
+              </div>
+              <Link href="/parents" style={{ flexShrink: 0, display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", color: "#0e7c54", textDecoration: "none", borderRadius: 10, padding: "13px 22px", fontWeight: 800, fontSize: 14, whiteSpace: "nowrap" }}>
+                자료실 전체 보기 →
+              </Link>
+            </div>
           </>
         )}
       </div>
