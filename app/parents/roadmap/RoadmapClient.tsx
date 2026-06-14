@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import ParentHubShell from "@/components/parents/ParentHubShell";
 
 interface Track { label: string; emoji: string; items: string[]; }
@@ -282,6 +283,25 @@ export default function RoadmapClient() {
       }
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+        {/* 공부 루틴 → InHero 기능 라우팅 배너 */}
+        <div style={{ background: "linear-gradient(135deg,#0a1430,#1e3a8a)", borderRadius: 14, padding: "20px 22px", boxShadow: "0 10px 30px rgba(10,20,50,0.22)" }}>
+          <div style={{ fontSize: 12, fontWeight: 800, color: "#9ec3ff", letterSpacing: "0.03em", marginBottom: 6 }}>🧭 학년 무관 · 공부의 순서</div>
+          <h2 style={{ fontSize: 18, fontWeight: 850, color: "#fff", letterSpacing: "-0.02em", margin: "0 0 6px" }}>단어 → 한국어 개념 → 영어 정리 → 해설 정독 → 단권화</h2>
+          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", lineHeight: 1.65, margin: "0 0 14px" }}>로드맵을 실천하는 도구는 이미 다 있어요. 각 단계를 InHero 기능으로 바로 시작하세요.</p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {[
+              { label: "🔤 단어장", href: "/parents/vocab" },
+              { label: "🇰🇷 개념정리(한국어)", href: "/parents/core-notes" },
+              { label: "🌐 개념정리(영어+한국어)", href: "/parents/core-notes" },
+              { label: "📝 AP 문제은행·해설", href: "/parents/question-bank" },
+              { label: "🧪 SAT 모의고사·해설", href: "/parents/sat" },
+            ].map((c) => (
+              <Link key={c.label} href={c.href} style={{ background: "rgba(255,255,255,0.12)", color: "#fff", border: "1px solid rgba(255,255,255,0.18)", borderRadius: 999, padding: "8px 14px", fontSize: 12.5, fontWeight: 800, textDecoration: "none" }}>{c.label}</Link>
+            ))}
+          </div>
+          <Link href="/parents/study-method" style={{ display: "inline-block", marginTop: 14, color: "#9ec3ff", fontSize: 13, fontWeight: 800, textDecoration: "none" }}>자기주도 공부법 루틴 5단계 전체 보기 →</Link>
+        </div>
+
         {GRADES.map((g) => (
           <article key={g.grade} style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: 14, padding: "22px 22px", boxShadow: "0 1px 2px rgba(16,24,40,0.04)" }}>
             {/* Header */}

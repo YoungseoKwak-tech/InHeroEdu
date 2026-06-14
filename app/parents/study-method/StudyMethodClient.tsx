@@ -16,6 +16,41 @@ const BLUE = "#2563eb";
 const PURPLE = "#7c3aed";
 const KAKAO_CHAT = "http://pf.kakao.com/_ZchdX/chat";
 
+// InHero 기능으로 그대로 실천하는 자기주도 루틴 — 단계마다 해당 기능으로 라우팅
+const ROUTINE: { n: number; emoji: string; title: string; desc: string; ctas: { label: string; href: string; color: string }[] }[] = [
+  {
+    n: 1, emoji: "🔤", title: "단어가 기본이다",
+    desc: "모든 독해와 개념의 토대는 어휘예요. 과목별 필수 용어를 매일 조금씩 — 한국어 뜻을 보고 영어 단어를 떠올리는 '인출 연습'으로.",
+    ctas: [{ label: "단어장 시작하기 →", href: "/parents/vocab", color: GREEN }],
+  },
+  {
+    n: 2, emoji: "🇰🇷", title: "한국어로 개념을 먼저 잡는다",
+    desc: "낯선 개념을 영어로 바로 파면 두 배로 힘들어요. 모국어로 '큰 흐름'부터 잡아 이해의 뼈대를 세웁니다.",
+    ctas: [{ label: "AP 개념정리 (한국어)", href: "/parents/core-notes", color: PURPLE }],
+  },
+  {
+    n: 3, emoji: "🌐", title: "영어로 정리해 굳힌다",
+    desc: "흐름을 잡았으면 같은 개념을 영어 원문으로 다시 — 영어+한국어 스플릿뷰로 시험에서 쓰는 영어 표현까지 내 것으로 만듭니다.",
+    ctas: [{ label: "개념정리 영어+한국어 보기", href: "/parents/core-notes", color: BLUE }],
+  },
+  {
+    n: 4, emoji: "📝", title: "문제를 풀고 해설을 꼼꼼히 본다",
+    desc: "맞은 문제도 '왜 맞았는지', 틀린 문제는 '왜 틀렸는지'까지. 한국어 해설로 틀린 이유를 끝까지 파고듭니다.",
+    ctas: [
+      { label: "AP 문제은행", href: "/parents/question-bank", color: GREEN },
+      { label: "SAT 모의고사·해설", href: "/parents/sat", color: BLUE },
+    ],
+  },
+  {
+    n: 5, emoji: "📒", title: "단권화 — 한 권으로 모은다",
+    desc: "개념·용어·오답·해설을 흩어두지 말고 '내 한 권'으로 단권화하세요. 시험 직전엔 이 한 권만 봅니다.",
+    ctas: [
+      { label: "개념정리로 단권화", href: "/parents/core-notes", color: PURPLE },
+      { label: "단어장 오답노트", href: "/parents/vocab", color: GREEN },
+    ],
+  },
+];
+
 // 세계적 공부법 × 책의 자기주도 실전
 const WOVEN = [
   {
@@ -211,6 +246,28 @@ export default function StudyMethodClient() {
             합격 수기 《내가 아이비리그 공대에 오기까지》의 저자가 학원 없이 검증된 공부법을 어떻게 실전에 적용했는지 담았습니다.
           </p>
         </section>
+
+        {/* InHero 기능으로 실천하는 자기주도 루틴 */}
+        <Card>
+          <H2>🧭 InHero로 실천하는 자기주도 루틴 5단계</H2>
+          <Sub>공부법은 결국 ‘순서’예요. 단어 → 한국어 개념 → 영어 정리 → 해설 정독 → 단권화. 각 단계를 InHero 기능으로 그대로 실천하세요.</Sub>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {ROUTINE.map((s) => (
+              <div key={s.n} style={{ display: "flex", gap: 14, alignItems: "flex-start", border: "1px solid #e6e8ec", borderRadius: 14, padding: "16px 18px", background: "#fff" }}>
+                <div style={{ flexShrink: 0, width: 40, height: 40, borderRadius: 12, background: "linear-gradient(135deg,#0a1430,#1e3a8a)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 17 }}>{s.n}</div>
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <div style={{ fontSize: 15.5, fontWeight: 850, letterSpacing: "-0.01em", marginBottom: 4 }}>{s.emoji} {s.title}</div>
+                  <p style={{ fontSize: 13.5, color: "#475569", lineHeight: 1.7, margin: "0 0 11px" }}>{s.desc}</p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                    {s.ctas.map((c) => (
+                      <Link key={c.href + c.label} href={c.href} style={{ display: "inline-flex", alignItems: "center", gap: 6, background: c.color, color: "#fff", borderRadius: 9, padding: "8px 14px", fontSize: 12.5, fontWeight: 800, textDecoration: "none" }}>{c.label}</Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
 
         {/* 학년별 공부 전략 */}
         <Card>
