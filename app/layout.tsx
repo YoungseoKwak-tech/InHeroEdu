@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "인히어로",
     url: "https://inheroedu.com",
-    title: "인히어로 — SAT·AP 입시 AI 학습 플랫폼",
+    title: "아이비리그생이 만든 SAT·AP 입시 AI 학습 플랫폼",
     description: "SAT·AP AI 학습 플랫폼 · 요점 강의 · AP 교재 · 모의고사 · 유학생 커뮤니티",
     images: ["/og.png"],
   },
