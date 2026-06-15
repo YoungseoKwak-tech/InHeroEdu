@@ -47,7 +47,7 @@ function decodeUnlock(key: string): Decoded {
   if (key.startsWith("parents:question-bank:")) return { label: `문제은행 · ${key.split(":").pop()}`, cost: 200, cat: "문제은행" };
   if (key === "parents:core-notes") return { label: "핵심노트 · 전 과목", cost: 1000, cat: "핵심노트" };
   if (key.startsWith("parents:core-notes:")) return { label: `핵심노트 · ${key.split(":").pop()}`, cost: 200, cat: "핵심노트" };
-  if (key === "res:/parents/story") return { label: "합격 수기 (책)", cost: 200, cat: "자료" };
+  if (key === "res:/parents/story") return { label: "합격 수기 (책)", cost: 220, cat: "자료" };
   if (key === "res:/parents/essay") return { label: "합격 에세이 분석", cost: 250, cat: "자료" };
   if (key === "res:/parents/activities") return { label: "합격 활동 분석", cost: 250, cat: "자료" };
   if (key === "res:/parents/colleges") return { label: "미국 대학 분석", cost: 250, cat: "자료" };

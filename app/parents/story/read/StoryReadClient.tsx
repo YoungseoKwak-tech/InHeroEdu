@@ -3,7 +3,7 @@
 /**
  * Access guard for the 합격 수기 reader. The reader must NOT be readable just by
  * knowing the URL — entry requires being signed in AND having unlocked the book
- * (200 credits, key res:/parents/story). Otherwise we bounce back to the landing
+ * (220 credits, key res:/parents/story). Otherwise we bounce back to the landing
  * page (which shows the login / paywall flow). Unlock state lives client-side
  * (localStorage), so this check has to run on the client.
  */

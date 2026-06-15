@@ -21,7 +21,7 @@ import {
 
 const GREEN = "#00b85f";
 const READ_KEY = "res:/parents/story";
-const READ_COST = CREDIT_COSTS.SUBJECT; // 200
+const READ_COST = CREDIT_COSTS.STORY_BOOK; // 220
 const READ_HREF = "/parents/story/read";
 
 export default function StoryLanding() {
@@ -99,10 +99,10 @@ export default function StoryLanding() {
 
           <button onClick={readBook}
             style={{ display: "inline-flex", alignItems: "center", gap: 9, marginTop: 26, background: GREEN, color: "#03120c", border: "none", cursor: "pointer", borderRadius: 12, padding: "15px 34px", fontSize: 16, fontWeight: 800, boxShadow: "0 10px 26px rgba(0,184,95,0.32)" }}>
-            📖 {owned ? "책 읽기" : "책 읽기 (200 크레딧)"} <span aria-hidden="true">→</span>
+            📖 {owned ? "책 읽기" : `책 읽기 (${READ_COST} 크레딧)`} <span aria-hidden="true">→</span>
           </button>
           <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.4)", margin: "12px 0 0" }}>
-            {owned ? "이미 잠금 해제됨 · 바로 읽을 수 있어요" : "목차·프롤로그는 무료 · 전체 책은 200 크레딧으로 한 번만 잠금 해제"}
+            {owned ? "이미 잠금 해제됨 · 바로 읽을 수 있어요" : `목차·프롤로그는 무료 · 전체 책은 ${READ_COST} 크레딧으로 한 번만 잠금 해제`}
           </p>
         </section>
 
@@ -193,7 +193,7 @@ export default function StoryLanding() {
 
           <button onClick={readBook}
             style={{ display: "block", width: "100%", textAlign: "center", marginTop: 26, background: "#1a1a1f", color: "#fff", border: "none", cursor: "pointer", borderRadius: 10, padding: "15px", fontSize: 15, fontWeight: 800 }}>
-            📖 {owned ? "지금 책 읽기 →" : "전체 책 읽기 (200 크레딧) →"}
+            📖 {owned ? "지금 책 읽기 →" : `전체 책 읽기 (${READ_COST} 크레딧) →`}
           </button>
         </section>
       </div>
@@ -205,12 +205,12 @@ export default function StoryLanding() {
           <div onClick={(e) => e.stopPropagation()}
             style={{ background: "#fff", borderRadius: 18, padding: "26px 26px", maxWidth: 380, width: "100%", textAlign: "center", boxShadow: "0 20px 50px rgba(0,0,0,0.3)" }}>
             <div style={{ fontSize: 38 }}>📖</div>
-            <h3 style={{ fontSize: 18, fontWeight: 850, margin: "10px 0 6px", color: "#1a1a1f" }}>전체 책을 200 크레딧으로 읽으시겠습니까?</h3>
+            <h3 style={{ fontSize: 18, fontWeight: 850, margin: "10px 0 6px", color: "#1a1a1f" }}>전체 책을 {READ_COST} 크레딧으로 읽으시겠습니까?</h3>
             <p style={{ fontSize: 13.5, color: "#64748b", lineHeight: 1.6, margin: "0 0 6px" }}>‘내가 아이비리그 공대에 오기까지’ 전체 본문(230페이지)이 열립니다.</p>
             <p style={{ fontSize: 12.5, color: "#94a3b8", margin: "0 0 18px" }}>보유 크레딧 {balance.toLocaleString()}개 · 한 번만 차감되고 이후엔 무료로 다시 읽기</p>
             <div style={{ display: "flex", gap: 10 }}>
               <button onClick={() => setShowGate(false)} style={{ flex: 1, background: "#f1f5f9", color: "#475569", border: "none", borderRadius: 10, padding: "12px", fontWeight: 800, fontSize: 14, cursor: "pointer" }}>취소</button>
-              <button onClick={confirmSpend} style={{ flex: 2, background: GREEN, color: "#fff", border: "none", borderRadius: 10, padding: "12px", fontWeight: 800, fontSize: 14, cursor: "pointer" }}>🪙 200 크레딧 사용</button>
+              <button onClick={confirmSpend} style={{ flex: 2, background: GREEN, color: "#fff", border: "none", borderRadius: 10, padding: "12px", fontWeight: 800, fontSize: 14, cursor: "pointer" }}>🪙 {READ_COST} 크레딧 사용</button>
             </div>
           </div>
         </div>

@@ -208,6 +208,7 @@ export async function spendAndUnlockAccount(key: string, cost: number): Promise<
  */
 export const CREDIT_COSTS = {
   FREE: 0,
+  COLLEGE_DB: 25,    // 미국 대학 분석 DB (인재상·입시·인턴십) — matches the resource-card price
   NOTE_UNIT: 50,
   VOCAB: 100,
   ESSAY: 250,
@@ -215,6 +216,7 @@ export const CREDIT_COSTS = {
   TEXTBOOK: 220,     // one digital textbook — 200 welcome + 20 referral reward = exactly 1 book (drives 지인 추천)
   // 한국어 핵심노트 & 문제은행: 과목당 200 / 전 과목 1000 (원하는 과목만 선택 잠금해제)
   SUBJECT: 200,            // unlock one subject (question bank)
+  STORY_BOOK: 220,         // 합격 수기 책 (내가 아이비리그 공대에 오기까지) — 200 welcome + 20 referral
   CORE_NOTES_SUBJECT: 500, // unlock one Korean core-notes subject (premium/기밀)
   ALL_SUBJECTS: 1000,      // unlock every subject of that product
   QUESTION_BANK: 1000,     // legacy alias = whole question bank (= ALL_SUBJECTS)
