@@ -92,6 +92,8 @@ const SOCIAL_STATS = [
 ];
 
 const NAV = [
+  { label: "SAT 모의고사", route: "/parents/sat", gated: false },
+  { label: "AP 모의고사", route: "/parents/question-bank/exam", gated: false },
   { label: "입시 Q&A", route: "/parents/lounge", gated: false },
   { label: "합격 수기", route: "/parents/story", gated: false },
   { label: "합격 프로필", route: "/parents/admits", gated: true },
@@ -103,13 +105,14 @@ const NAV = [
   { label: "AP 문제은행", route: "/parents/question-bank", gated: false },
   { label: "AP 개념정리", route: "/parents/core-notes", gated: false },
   { label: "단어장", route: "/parents/vocab", gated: false },
-  { label: "SAT 모의고사", route: "/parents/sat", gated: false },
   { label: "디지털 교재", route: "#textbooks", gated: false },
   { label: "미국 대학 분석", route: "/parents/colleges", gated: false },
   { label: "합격 활동 분석", route: "/parents/activities", gated: false },
 ];
 
 const QUICK = [
+  { emoji: "✏️", label: "SAT 모의고사", route: "/parents/sat", gated: false },
+  { emoji: "🖥️", label: "AP 모의고사", route: "/parents/question-bank/exam", gated: false },
   { emoji: "🎥", label: "세미나 다시보기", route: "/parents/seminar/replay", gated: false },
   { emoji: "💬", label: "입시 Q&A", route: "/parents/lounge", gated: false },
   { emoji: "🎓", label: "합격 수기", route: "/parents/story", gated: false },
@@ -123,7 +126,6 @@ const QUICK = [
   { emoji: "📝", label: "AP 문제은행", route: "/parents/question-bank", gated: false },
   { emoji: "📘", label: "AP 개념정리", route: "/parents/core-notes", gated: false },
   { emoji: "📒", label: "단어장", route: "/parents/vocab", gated: false },
-  { emoji: "✏️", label: "SAT 모의고사", route: "/parents/sat", gated: false },
   { emoji: "📚", label: "디지털 교재", route: "#textbooks", gated: false },
   { emoji: "🏛️", label: "미국 대학 분석", route: "/parents/colleges", gated: false },
   { emoji: "🏆", label: "합격 활동 분석", route: "/parents/activities", gated: false },

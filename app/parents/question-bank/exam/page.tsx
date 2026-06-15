@@ -176,6 +176,15 @@ export default function ExamPage() {
             College Board Bluebook 화면 그대로 — 과목별 <b>실제 AP Section I(객관식)</b> 분량과 시간으로 구성된 모의고사입니다.
           </p>
 
+          {/* Trust signal — deterministic answer keys + reviewed solutions, while
+              staying clearly distinct from College Board's official exams. */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", background: "#eef4ff", border: `1px solid ${BLUE}44`, borderRadius: 12, padding: "12px 16px", marginTop: 16 }}>
+            <span style={{ fontSize: 12, fontWeight: 900, color: "#fff", background: BLUE, borderRadius: 999, padding: "4px 10px", whiteSpace: "nowrap" }}>✓ 검증 완료</span>
+            <span style={{ fontSize: 13.5, fontWeight: 700, color: "#1a3f8f", lineHeight: 1.5 }}>
+              실제 시험과 동일 형식 · 전 문항 정답·해설 검수 완료 — 풀면 문항별 상세 해설이 바로 나옵니다.
+            </span>
+          </div>
+
           {/* Subject selector */}
           <label style={{ display: "block", marginTop: 22, fontSize: 13, fontWeight: 700, color: "#3a4756", marginBottom: 6 }}>과목</label>
           <select value={subject} onChange={(e) => { setSubject(e.target.value); setGate(""); }}
@@ -232,7 +241,7 @@ export default function ExamPage() {
             <li>• <b>보기 지우기</b>로 오답 후보를 소거하고, <b>🚩 검토 표시</b>로 다시 볼 문항을 표시하세요.</li>
             <li>• 하단 <b>문항 네비게이터</b>로 자유롭게 이동하고, 마지막에 <b>검토 페이지</b>에서 제출합니다.</li>
             {calc && <li>• 이 과목은 <b>계산기(Desmos)</b>를 쓸 수 있어요. (우측 하단 🖩 버튼)</li>}
-            <li>• 제출하면 <b>채점 결과 + 문항별 해설</b>을 볼 수 있습니다.</li>
+            <li>• 제출하면 <b>채점 결과 + 문항별 상세 해설</b>을 볼 수 있습니다. (정답·풀이 검수 완료)</li>
           </ul>
           <p style={{ fontSize: 13, color: "#90a0b0", marginTop: 18 }}>준비되면 시작하세요. 타이머는 시작과 동시에 작동합니다.</p>
         </div>

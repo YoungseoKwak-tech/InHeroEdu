@@ -20,8 +20,25 @@ const FEATURES = [
   "Mark for review · 문제 네비게이터 · 리뷰 화면",
   "Math용 Desmos 그래핑 계산기 내장",
   "객관식 + 주관식(grid-in) 입력",
-  "400–1600 예상 점수 + 전 문제 해설",
+  "400–1600 예상 점수 + 문제를 풀면 문항별 단계별 상세 해설",
 ];
+
+// Trust signal — defensible (deterministic answer keys + reviewed solutions),
+// while staying clearly distinct from College Board's official tests.
+function VerifiedBadge() {
+  return (
+    <div style={{
+      display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap",
+      background: "#e9f9f0", border: `1px solid ${GREEN}55`, borderRadius: 12,
+      padding: "12px 16px", marginBottom: 18,
+    }}>
+      <span style={{ fontSize: 12, fontWeight: 900, color: "#fff", background: GREEN, borderRadius: 999, padding: "4px 10px", whiteSpace: "nowrap" }}>✓ 검증 완료</span>
+      <span style={{ fontSize: 13.5, fontWeight: 700, color: "#0a6b3d", lineHeight: 1.5 }}>
+        실제 시험과 동일 형식 · 전 문항 정답·해설 검수 완료 — 풀면 문항별 상세 해설이 바로 나옵니다.
+      </span>
+    </div>
+  );
+}
 
 export default function SatClient() {
   return (
@@ -37,6 +54,7 @@ export default function SatClient() {
         </>
       }
     >
+      <VerifiedBadge />
       <SatHistory theme="light" />
 
       {/* Test picker — paid (ULTRA tier). Unlock once to access all forms. */}
