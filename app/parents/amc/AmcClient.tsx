@@ -149,6 +149,15 @@ export default function AmcClient() {
           ※ MAA 공식 기출이 아닌 동일 유형의 자체 제작 연습문제입니다. 실제 시험은 25문항·75분(객관식 A–E)입니다.
         </p>
 
+        {/* Trust signal — reviewed answer keys + worked Korean solutions, while
+            staying clearly distinct from MAA's official AMC problems. */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", background: "#e9f9f0", border: `1px solid ${GREEN}55`, borderRadius: 12, padding: "12px 16px", marginBottom: 22 }}>
+          <span style={{ fontSize: 12, fontWeight: 900, color: "#fff", background: GREEN, borderRadius: 999, padding: "4px 10px", whiteSpace: "nowrap" }}>✓ 검증 완료</span>
+          <span style={{ fontSize: 13.5, fontWeight: 700, color: "#0a6b3d", lineHeight: 1.5 }}>
+            실제 시험과 동일 형식 · 전 문항 정답·풀이 검수 완료 — 보기를 누르면 한국어 상세 풀이가 바로 나옵니다.
+          </span>
+        </div>
+
         <div style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>
           {LEVELS.map((lv) => (
             <button key={lv} onClick={() => setLevel(lv)} style={{
