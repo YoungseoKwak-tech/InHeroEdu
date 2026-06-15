@@ -131,7 +131,7 @@ export default function CoreNotesClient() {
       <div style={{ margin: "0 auto", padding: "32px 40px 90px" }}>
         <p style={{ fontSize: 13, fontWeight: 700, color: "#7c3aed", marginBottom: 10 }}>📘 AP 개념정리</p>
         <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.6rem,3.6vw,2.2rem)", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: 10 }}>
-          아이비리그생 + 일타강사의 노하우로<br />이해하기 쉽게 풀어 쓴 AP 개념
+          아이비리그생 + 일타강사의 노하우로<br />이해하기 쉽게 풀어 쓴 AP·IB·Honors·Core 개념
         </h1>
         <p style={{ fontSize: 14, color: "#475569", lineHeight: 1.7, marginBottom: 14 }}>
           AP는 결국 <strong>영어로 시험</strong>을 봅니다. 영어 원문을 파고들기 전, <strong>한국어로 큰 흐름부터 잡는 게 가장 중요</strong>해요.
