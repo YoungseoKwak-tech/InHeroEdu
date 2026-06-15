@@ -74,31 +74,42 @@ export default function CreditGate({
   };
 
   return (
-    <div style={{ position: "relative", borderRadius: 16, border: "1px solid #e6e8ec", background: "linear-gradient(180deg,#fff, #f7f8fa)", padding: "34px 28px", textAlign: "center", overflow: "hidden" }}>
-      <div style={{ fontSize: 30, marginBottom: 10 }}>🔒</div>
-      <div style={{ fontSize: 18, fontWeight: 800, color: "#1a1a1f", marginBottom: 6 }}>{title}</div>
-      {desc && <p style={{ fontSize: 13.5, color: "#64748b", lineHeight: 1.7, maxWidth: 440, margin: "0 auto 18px" }}>{desc}</p>}
-
-      <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", border: "1px solid #e6e8ec", borderRadius: 999, padding: "7px 16px", marginBottom: 16 }}>
-        <span style={{ fontSize: 15, fontWeight: 900, color: GREEN }}>🪙 {cost.toLocaleString()}</span>
-        <span style={{ fontSize: 12.5, color: "#94a3b8" }}>크레딧</span>
-        <span style={{ fontSize: 12, color: "#cbd5e1" }}>·</span>
-        <span style={{ fontSize: 12.5, color: enough ? "#64748b" : "#dc2626" }}>보유 {balance.toLocaleString()}</span>
+    <div style={{ position: "relative", borderRadius: 16, border: "1px solid #e6e8ec", background: "#fff", overflow: "hidden", minHeight: 340 }}>
+      {/* Teaser — real content peeks through at the top, the rest is blurred to entice purchase */}
+      <div aria-hidden="true" style={{ maxHeight: 440, overflow: "hidden", pointerEvents: "none", userSelect: "none", padding: "2px 4px 0", color: "#334155" }}>
+        {children}
       </div>
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center" }}>
-        <button disabled={pending} onClick={() => handleUnlock(false)} style={{ background: enough ? GREEN : "#1a1a1f", color: "#fff", border: "none", borderRadius: 10, padding: "13px 24px", fontWeight: 800, fontSize: 14.5, cursor: pending ? "default" : "pointer", opacity: pending ? 0.72 : 1 }}>
-          {pending ? "확인 중…" : enough ? `잠금 해제 · ${cost.toLocaleString()} 크레딧` : "크레딧 충전하기 →"}
-        </button>
-        {bundleKey && (
-          <button disabled={pending} onClick={() => handleUnlock(true)} style={{ background: "#fff", color: "#1a1a1f", border: "1.5px solid #1a1a1f", borderRadius: 10, padding: "13px 24px", fontWeight: 800, fontSize: 14.5, cursor: pending ? "default" : "pointer", opacity: pending ? 0.72 : 1 }}>
-            {bundleLabel ?? "전 과목 한 번에"} · {(bundleCost ?? cost).toLocaleString()} 크레딧{!bundleEnough ? " →" : ""}
+      {/* Progressive blur veil — top ~96px readable, below blurs + fades to white */}
+      <div style={{ position: "absolute", left: 0, right: 0, top: 96, bottom: 0, zIndex: 1, backdropFilter: "blur(7px)", WebkitBackdropFilter: "blur(7px)", background: "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 30%, rgba(255,255,255,0.97) 80%)" }} />
+
+      {/* Unlock CTA pinned to the bottom over the blur */}
+      <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 2, padding: "20px 24px 24px", textAlign: "center" }}>
+        <div style={{ fontSize: 26, marginBottom: 6 }}>🔒</div>
+        <div style={{ fontSize: 17, fontWeight: 850, color: "#1a1a1f", marginBottom: 5 }}>{title}</div>
+        {desc && <p style={{ fontSize: 13, color: "#64748b", lineHeight: 1.65, maxWidth: 440, margin: "0 auto 14px" }}>{desc}</p>}
+
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#fff", border: "1px solid #e6e8ec", borderRadius: 999, padding: "6px 15px", marginBottom: 13, boxShadow: "0 1px 3px rgba(16,24,40,0.06)" }}>
+          <span style={{ fontSize: 15, fontWeight: 900, color: GREEN }}>🪙 {cost.toLocaleString()}</span>
+          <span style={{ fontSize: 12.5, color: "#94a3b8" }}>크레딧</span>
+          <span style={{ fontSize: 12, color: "#cbd5e1" }}>·</span>
+          <span style={{ fontSize: 12.5, color: enough ? "#64748b" : "#dc2626" }}>보유 {balance.toLocaleString()}</span>
+        </div>
+
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center" }}>
+          <button disabled={pending} onClick={() => handleUnlock(false)} style={{ background: enough ? GREEN : "#1a1a1f", color: "#fff", border: "none", borderRadius: 10, padding: "13px 24px", fontWeight: 800, fontSize: 14.5, cursor: pending ? "default" : "pointer", opacity: pending ? 0.72 : 1, boxShadow: enough ? "0 8px 22px rgba(0,184,95,0.32)" : "none" }}>
+            {pending ? "확인 중…" : enough ? `잠금 해제 · ${cost.toLocaleString()} 크레딧` : "크레딧 충전하기 →"}
           </button>
-        )}
+          {bundleKey && (
+            <button disabled={pending} onClick={() => handleUnlock(true)} style={{ background: "#fff", color: "#1a1a1f", border: "1.5px solid #1a1a1f", borderRadius: 10, padding: "13px 24px", fontWeight: 800, fontSize: 14.5, cursor: pending ? "default" : "pointer", opacity: pending ? 0.72 : 1 }}>
+              {bundleLabel ?? "전 과목 한 번에"} · {(bundleCost ?? cost).toLocaleString()} 크레딧{!bundleEnough ? " →" : ""}
+            </button>
+          )}
+        </div>
+        <p style={{ fontSize: 11.5, color: "#94a3b8", marginTop: 12 }}>
+          {bundleKey ? "원하는 과목만 200, 전 과목은 1,000 크레딧 · " : ""}한 번 열면 계속 볼 수 있어요
+        </p>
       </div>
-      <p style={{ fontSize: 11.5, color: "#b0b8c1", marginTop: 14 }}>
-        {bundleKey ? "원하는 과목만 200, 전 과목은 1,000 크레딧 · " : ""}한 번 열면 계속 볼 수 있어요 · 충전은 마이페이지 크레딧에서
-      </p>
     </div>
   );
 }

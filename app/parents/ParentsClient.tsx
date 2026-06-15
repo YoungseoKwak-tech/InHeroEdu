@@ -22,6 +22,7 @@ import MyTierBadge from "@/components/parents/TierBadge";
 import ReferralPrompt from "@/components/parents/ReferralPrompt";
 import { isUnlocked, spendAndUnlockAccount, hydrateCredits, CREDIT_EVENT, CREDIT_COSTS, getBalance } from "@/lib/credits";
 import TextbookFlipPreview from "@/components/parents/TextbookFlipPreview";
+import { REVIEWS } from "@/lib/data/reviews";
 
 const GREEN = "#00b85f";
 
@@ -639,6 +640,19 @@ export default function ParentsClient() {
               </>
             )}
           </div>
+
+          <SideCard title="💬 학부모·학생 후기">
+            {REVIEWS.slice(0, 4).map((r, i) => (
+              <div key={i} style={{ padding: "10px 2px", borderBottom: i < 3 ? "1px solid #f1f5f9" : "none" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4 }}>
+                  <span style={{ fontSize: 12, color: "#f59e0b", letterSpacing: 1 }}>{"★".repeat(r.stars)}</span>
+                  {r.tag && <span style={{ fontSize: 10, fontWeight: 800, color: "#7c3aed", background: "#faf7ff", borderRadius: 5, padding: "1px 7px" }}>{r.tag}</span>}
+                </div>
+                <p style={{ fontSize: 12.5, color: "#334155", lineHeight: 1.6, margin: "0 0 6px" }}>“{r.text}”</p>
+                <div style={{ fontSize: 11, color: "#94a3b8" }}>{r.name} · {r.role}</div>
+              </div>
+            ))}
+          </SideCard>
 
           <SideCard title="공지사항">
             {NOTICES.map((n) => (
