@@ -237,7 +237,7 @@ export const CREDIT_COSTS = {
   TEXTBOOK: 220,     // one digital textbook — 200 welcome + 20 referral reward = exactly 1 book (drives 지인 추천)
   // 한국어 핵심노트 & 문제은행: 과목당 200 / 전 과목 1000 (원하는 과목만 선택 잠금해제)
   SUBJECT: 200,            // unlock one subject (question bank)
-  STORY_BOOK: 220,         // 합격 수기 책 (내가 아이비리그 공대에 오기까지) — 200 welcome + 20 referral
+  STORY_BOOK: 300,         // 합격 수기 책 (내가 아이비리그 공대에 오기까지)
   CORE_NOTES_SUBJECT: 500, // unlock one Korean core-notes subject (premium/기밀)
   ALL_SUBJECTS: 1000,      // unlock every subject of that product
   QUESTION_BANK: 1000,     // legacy alias = whole question bank (= ALL_SUBJECTS)

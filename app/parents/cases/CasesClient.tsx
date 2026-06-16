@@ -9,21 +9,34 @@
  * field / major. The full list is gated at 25 credits (2 free previews).
  */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import CreditGate from "@/components/parents/CreditGate";
-import { ADMIT_CASES, type AdmitCase } from "@/lib/data/admitCases";
+import { type AdmitCase } from "@/lib/data/admitCases";
+import { CREDIT_EVENT } from "@/lib/credits";
+import { authFetch } from "@/lib/client-auth";
 
 const GREEN = "#00b85f";
 
 export default function CasesClient() {
   const [major, setMajor] = useState("all");
   const [field, setField] = useState("all");
+  // Served by /api/parents/cases — non-holders only RECEIVE the 2 previews, so
+  // the paid list never ships to the browser. Re-fetch on a credit change so a
+  // fresh unlock pulls the full set.
+  const [cases, setCases] = useState<AdmitCase[]>([]);
+  useEffect(() => {
+    const load = () => authFetch("/api/parents/cases").then((r) => r.json())
+      .then((d) => setCases(Array.isArray(d?.cases) ? d.cases : [])).catch(() => {});
+    load();
+    window.addEventListener(CREDIT_EVENT, load);
+    return () => window.removeEventListener(CREDIT_EVENT, load);
+  }, []);
 
-  const majors = useMemo(() => [...new Set(ADMIT_CASES.map((c) => c.majorKo))].sort(), []);
-  const fields = useMemo(() => [...new Set(ADMIT_CASES.map((c) => c.field))], []);
+  const majors = useMemo(() => [...new Set(cases.map((c) => c.majorKo))].sort(), [cases]);
+  const fields = useMemo(() => [...new Set(cases.map((c) => c.field))], [cases]);
 
-  const filtered = ADMIT_CASES.filter(
+  const filtered = cases.filter(
     (c) => (major === "all" || c.majorKo === major) && (field === "all" || c.field === field)
   );
 
@@ -59,7 +72,7 @@ export default function CasesClient() {
         {/* Free preview — 2 sample cases */}
         <div style={{ fontSize: 12.5, fontWeight: 800, color: "#94a3b8", letterSpacing: "0.04em", margin: "0 0 10px" }}>무료 미리보기</div>
         <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 26 }}>
-          {ADMIT_CASES.slice(0, 2).map((c) => <CaseCard key={c.id} c={c} />)}
+          {cases.slice(0, 2).map((c) => <CaseCard key={c.id} c={c} />)}
         </div>
 
         <CreditGate

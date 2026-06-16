@@ -3,8 +3,9 @@
 /**
  * /parents/colleges — US college analysis database, WHITE UI.
  *
- * Follows the /parents/competitions pattern: clean white portal surface,
- * open to view as a lead magnet, signup CTA gates the interactive tools.
+ * The header is a public teaser; the school-by-school analysis (search, list,
+ * accordion detail) is credit-gated at CREDIT_COSTS.COLLEGE_DB via CreditGate,
+ * keyed res:/parents/colleges so a purchase from the resource card unlocks it too.
  * Each school renders as an accordion card — collapsed shows the headline
  * numbers parents scan for; expanded shows 인재상, 입시 포인트, programs,
  * internships, essay angle, and the Korean-applicant note.
@@ -14,7 +15,10 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getClientSession } from "@/lib/client-auth";
-import { COLLEGES, type College, type CollegeCategory } from "./data";
+import CreditGate from "@/components/parents/CreditGate";
+import { CREDIT_COSTS, CREDIT_EVENT } from "@/lib/credits";
+import { authFetch } from "@/lib/client-auth";
+import { type College, type CollegeCategory } from "./data";
 
 const GREEN = "#00b85f";
 
@@ -35,8 +39,22 @@ export default function CollegesClient() {
   const [query, setQuery] = useState("");
   const [activeCat, setActiveCat] = useState<CollegeCategory | "전체">("전체");
   const [open, setOpen] = useState<string | null>(null);
+  // Served by /api/parents/colleges — non-holders only RECEIVE a small preview,
+  // so the paid per-school analysis never ships to the browser. `total` keeps
+  // the marketing count accurate. Re-fetch on a credit change after unlock.
+  const [colleges, setColleges] = useState<College[]>([]);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => { getClientSession().then((s) => setLoggedIn(!!s?.user)).catch(() => {}); }, []);
+
+  useEffect(() => {
+    const load = () => authFetch("/api/parents/colleges").then((r) => r.json())
+      .then((d) => { setColleges(Array.isArray(d?.colleges) ? d.colleges : []); setTotal(Number(d?.total ?? 0)); })
+      .catch(() => {});
+    load();
+    window.addEventListener(CREDIT_EVENT, load);
+    return () => window.removeEventListener(CREDIT_EVENT, load);
+  }, []);
 
   const gateToTools = () => {
     if (loggedIn) router.push("/question-bank");
@@ -45,7 +63,7 @@ export default function CollegesClient() {
 
   const grouped = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const matches = COLLEGES.filter((c) => {
+    const matches = colleges.filter((c) => {
       if (activeCat !== "전체" && c.category !== activeCat) return false;
       if (!q) return true;
       return (c.name + c.nameKo + c.location + c.programs.join(" ") + c.personaTitle).toLowerCase().includes(q);
@@ -57,7 +75,7 @@ export default function CollegesClient() {
       map.set(c.category, arr);
     }
     return CATEGORY_ORDER.filter((cat) => map.has(cat)).map((cat) => ({ cat, items: map.get(cat)! }));
-  }, [query, activeCat]);
+  }, [query, activeCat, colleges]);
 
   return (
     <div style={{ position: "relative", zIndex: 10, minHeight: "100vh", background: "#f7f8fa", color: "#1a1a1f", cursor: "auto" }}>
@@ -75,7 +93,7 @@ export default function CollegesClient() {
         {/* Header */}
         <p style={{ fontSize: 13, fontWeight: 700, color: "#2563eb", letterSpacing: "0.04em", marginBottom: 10 }}>🏛️ 미국 대학 분석 데이터베이스</p>
         <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
-          미국 명문대 {COLLEGES.length}곳, 인재상부터 인턴십까지
+          미국 명문대 {total}곳, 인재상부터 인턴십까지
         </h1>
         <p style={{ fontSize: 15.5, color: "#475569", lineHeight: 1.8, marginBottom: 8 }}>
           유학원에서 듣는 정보를 한 페이지에 — 학교마다 <strong>어떤 학생을 원하는지(인재상) · 위치와 분위기 · 합격률과 시험 정책 ·
@@ -86,6 +104,12 @@ export default function CollegesClient() {
           지원 전 반드시 각 대학 공식 입학처에서 최신 정보를 확인하세요.
         </p>
 
+        <CreditGate
+          gateKey="res:/parents/colleges"
+          cost={CREDIT_COSTS.COLLEGE_DB}
+          title="🏛️ 미국 대학 분석 데이터베이스 잠금해제"
+          desc={`명문대 ${total}곳의 인재상·합격률·시험정책·얼리전략·유학생 재정지원·인턴십·에세이 포인트까지 — 학교별 상세 분석 전체를 보려면 잠금을 해제하세요. 한 번 열면 계속 볼 수 있어요. (${CREDIT_COSTS.COLLEGE_DB} 크레딧)`}
+        >
         {/* Search + category filter */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 28 }}>
           <input
@@ -102,7 +126,7 @@ export default function CollegesClient() {
                   color: activeCat === cat ? "#fff" : "#475569",
                   borderRadius: 20, padding: "7px 16px", fontSize: 13, fontWeight: 700, cursor: "pointer",
                 }}>
-                {cat}{cat !== "전체" && <span style={{ opacity: 0.55, marginLeft: 5 }}>{COLLEGES.filter((c) => c.category === cat).length}</span>}
+                {cat}{cat !== "전체" && <span style={{ opacity: 0.55, marginLeft: 5 }}>{colleges.filter((c) => c.category === cat).length}</span>}
               </button>
             ))}
           </div>
@@ -146,6 +170,7 @@ export default function CollegesClient() {
             무료 가입하고 모든 자료 보기 →
           </button>
         </div>
+        </CreditGate>
       </div>
     </div>
   );
