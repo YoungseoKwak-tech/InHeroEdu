@@ -11,6 +11,20 @@ type AuthUser = {
   user_metadata?: Record<string, unknown> | null
 }
 
+// 학부모 가입 시 '자녀 학교 유형'은 이 고정 목록 중 하나로 profiles.school 에 저장된다.
+// (학생은 학교명을 자유 입력하므로 이 enum 과 겹치지 않는다.)
+// role 메타데이터가 누락된 레거시 학부모를 잡아내는 보조 신호로 사용한다.
+const PARENT_SCHOOL_TYPES = new Set([
+  '국제학교',
+  '보딩스쿨 (Boarding)',
+  '외국인학교',
+  '미국 현지 학교',
+  '특목고·자사고',
+  '일반고',
+  '홈스쿨링',
+  '기타',
+])
+
 function chunk<T>(items: T[], size: number): T[][] {
   const chunks: T[][] = []
   for (let i = 0; i < items.length; i += size) {
@@ -112,11 +126,22 @@ export async function GET(req: Request) {
       authProfile
     )
 
+    // 가입 시 user_metadata.role 에 '학생'/'학부모'(student|parent)가 저장된다.
+    // role 이 누락된 레거시 학부모는 자녀 학교 유형(profiles.school)으로 보정한다.
+    const rawRole = u.user_metadata?.role
+    const explicitParent =
+      typeof rawRole === 'string' && rawRole.toLowerCase() === 'parent'
+    const schoolLooksLikeParent =
+      typeof mergedProfile.school === 'string' && PARENT_SCHOOL_TYPES.has(mergedProfile.school)
+    const role: 'student' | 'parent' =
+      explicitParent || schoolLooksLikeParent ? 'parent' : 'student'
+
     return {
       id: u.id,
       email: u.email,
       createdAt: u.created_at,
       lastSignIn: u.last_sign_in_at,
+      role,
       spark: sparkMap.get(u.id) ?? null,
       pattern: patternMap.get(u.id) ?? null,
       moments: momentsMap.get(u.id) ?? [],

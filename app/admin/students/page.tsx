@@ -7,11 +7,12 @@ interface Student {
   email: string
   createdAt: string
   lastSignIn: string
+  role: 'student' | 'parent'
   spark: { trigger_type: string; intensity: number; fired_count: number; subject: string } | null
   pattern: { hero_code_core: string; hero_code_state: number; hero_code_status: string; total_hours: number; processing_style: string } | null
   moments: { moment_text: string; moment_type: string; subject: string; created_at: string }[]
   evolution: { prev_code: string; new_code: string; delta_note: string; created_at: string }[]
-  profile: { name: string | null; grade: string | null; school: string | null; phone?: string | null; marketing_consent?: boolean } | null
+  profile: { name: string | null; grade: string | null; school: string | null; phone?: string | null; marketing_consent?: boolean; referral_student_email?: string | null } | null
 }
 
 const coreColors: Record<string, string> = {
@@ -31,6 +32,7 @@ export default function AdminStudentsPage() {
   const [error, setError] = useState('')
   const [selected, setSelected] = useState<Student | null>(null)
   const [search, setSearch] = useState('')
+  const [roleFilter, setRoleFilter] = useState<'all' | 'student' | 'parent'>('all')
 
   useEffect(() => {
     const load = async () => {
@@ -48,17 +50,22 @@ export default function AdminStudentsPage() {
     load()
   }, [])
 
-  const filtered = students.filter(s =>
-    [
-      s.email,
-      s.profile?.name,
-      s.profile?.grade,
-      s.profile?.school,
-      s.profile?.phone,
-    ]
-      .filter(Boolean)
-      .some(value => value!.toLowerCase().includes(search.toLowerCase()))
-  )
+  const studentCount = students.filter(s => s.role !== 'parent').length
+  const parentCount = students.filter(s => s.role === 'parent').length
+
+  const filtered = students
+    .filter(s => roleFilter === 'all' || s.role === roleFilter)
+    .filter(s =>
+      [
+        s.email,
+        s.profile?.name,
+        s.profile?.grade,
+        s.profile?.school,
+        s.profile?.phone,
+      ]
+        .filter(Boolean)
+        .some(value => value!.toLowerCase().includes(search.toLowerCase()))
+    )
 
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: '#000' }}>
@@ -77,21 +84,45 @@ export default function AdminStudentsPage() {
       <div className="max-w-7xl mx-auto px-4 py-10">
         <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-2xl font-extrabold text-white">👥 Student History</h1>
+            <h1 className="text-2xl font-extrabold text-white">👥 가입자 History</h1>
             <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              {students.length} students joined
+              총 {students.length}명 · 🎓 학생 {studentCount} · 👨‍👩‍👧‍👦 학부모 {parentCount}
               {' · '}
               <a href="/admin/credits" style={{ color: '#FCD34D', textDecoration: 'none', fontWeight: 700 }}>💳 크레딧 사용 내역 →</a>
             </p>
           </div>
-          <input
-            type="text"
-            placeholder="Search by email, name, grade, or school..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            className="px-4 py-2 rounded-xl text-sm text-white"
-            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', outline: 'none', width: '240px' }}
-          />
+          <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex rounded-xl p-1" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+              {([
+                { key: 'all', label: `전체 ${students.length}` },
+                { key: 'student', label: `🎓 학생 ${studentCount}` },
+                { key: 'parent', label: `👨‍👩‍👧‍👦 학부모 ${parentCount}` },
+              ] as const).map(tab => {
+                const active = roleFilter === tab.key
+                return (
+                  <button
+                    key={tab.key}
+                    onClick={() => { setRoleFilter(tab.key); setSelected(null) }}
+                    className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
+                    style={{
+                      background: active ? 'rgba(29,158,117,0.18)' : 'transparent',
+                      color: active ? '#fff' : 'rgba(255,255,255,0.5)',
+                    }}
+                  >
+                    {tab.label}
+                  </button>
+                )
+              })}
+            </div>
+            <input
+              type="text"
+              placeholder="Search by email, name, grade, or school..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="px-4 py-2 rounded-xl text-sm text-white"
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', outline: 'none', width: '240px' }}
+            />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -112,7 +143,17 @@ export default function AdminStudentsPage() {
                   }}
                 >
                   <div className="flex items-center justify-between mb-1">
-                    <p className="text-sm font-semibold text-white truncate">{s.profile?.name ?? s.email}</p>
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span
+                        className="text-[10px] font-bold px-1.5 py-0.5 rounded-md flex-shrink-0"
+                        style={s.role === 'parent'
+                          ? { color: '#FBCFE8', background: 'rgba(236,72,153,0.16)' }
+                          : { color: '#7DD3FC', background: 'rgba(56,189,248,0.16)' }}
+                      >
+                        {s.role === 'parent' ? '학부모' : '학생'}
+                      </span>
+                      <p className="text-sm font-semibold text-white truncate">{s.profile?.name ?? s.email}</p>
+                    </div>
                     {core && (
                       <span className="text-xs font-black ml-2 flex-shrink-0" style={{ color }}>
                         {core}-{s.pattern?.hero_code_state}
@@ -182,7 +223,17 @@ export default function AdminStudentsPage() {
                 <div className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
                   <div className="flex items-start justify-between flex-wrap gap-3 mb-4">
                     <div>
-                      <p className="text-lg font-extrabold text-white">{selected.email}</p>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span
+                          className="text-[11px] font-bold px-2 py-0.5 rounded-md"
+                          style={selected.role === 'parent'
+                            ? { color: '#FBCFE8', background: 'rgba(236,72,153,0.16)' }
+                            : { color: '#7DD3FC', background: 'rgba(56,189,248,0.16)' }}
+                        >
+                          {selected.role === 'parent' ? '👨‍👩‍👧‍👦 학부모' : '🎓 학생'}
+                        </span>
+                        <p className="text-lg font-extrabold text-white">{selected.email}</p>
+                      </div>
                       <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.35)' }}>
                         Joined: {formatDate(selected.createdAt)} ·
                         Last sign-in: {selected.lastSignIn ? formatDate(selected.lastSignIn) : 'None'}
@@ -213,6 +264,14 @@ export default function AdminStudentsPage() {
                       </div>
                     ))}
                   </div>
+
+                  {/* Student → who referred them (student-to-student referral) */}
+                  {selected.role === 'student' && selected.profile?.referral_student_email && (
+                    <div className="rounded-xl p-3 mb-3" style={{ background: 'rgba(56,189,248,0.08)', border: '1px solid rgba(56,189,248,0.2)' }}>
+                      <p className="text-xs mb-1" style={{ color: 'rgba(255,255,255,0.4)' }}>추천한 학생 이메일</p>
+                      <p className="text-sm font-bold" style={{ color: '#7DD3FC' }}>{selected.profile.referral_student_email}</p>
+                    </div>
+                  )}
 
                   {/* Stats row */}
                   <div className="grid grid-cols-3 gap-3">
