@@ -75,13 +75,13 @@ export default function CreditGate({
 
   return (
     <div style={{ position: "relative", borderRadius: 16, border: "1px solid #e6e8ec", background: "#fff", overflow: "hidden", minHeight: 340 }}>
-      {/* Teaser — real content peeks through at the top, the rest is blurred to entice purchase */}
-      <div aria-hidden="true" style={{ maxHeight: 440, overflow: "hidden", pointerEvents: "none", userSelect: "none", padding: "2px 4px 0", color: "#334155" }}>
+      {/* Teaser — about the top half is readable, the rest is blurred to entice purchase */}
+      <div aria-hidden="true" style={{ maxHeight: 560, overflow: "hidden", pointerEvents: "none", userSelect: "none", padding: "2px 4px 0", color: "#334155" }}>
         {children}
       </div>
 
-      {/* Progressive blur veil — top ~96px readable, below blurs + fades to white */}
-      <div style={{ position: "absolute", left: 0, right: 0, top: 96, bottom: 0, zIndex: 1, backdropFilter: "blur(7px)", WebkitBackdropFilter: "blur(7px)", background: "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 30%, rgba(255,255,255,0.97) 80%)" }} />
+      {/* Progressive blur veil — top ~half readable, bottom half blurs + fades to white */}
+      <div style={{ position: "absolute", left: 0, right: 0, top: "50%", bottom: 0, zIndex: 1, backdropFilter: "blur(7px)", WebkitBackdropFilter: "blur(7px)", background: "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 34%, rgba(255,255,255,0.97) 82%)" }} />
 
       {/* Unlock CTA pinned to the bottom over the blur */}
       <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 2, padding: "20px 24px 24px", textAlign: "center" }}>
