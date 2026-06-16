@@ -899,6 +899,24 @@ export default function ParentsClient() {
           <TextbookFlipPreview />
 
           <div className="tb-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(168px, 1fr))", gap: 16 }}>
+            {/* AI 아이비리그 프롬프트 — pinned first card → /parents/ivy-prompts */}
+            <button key="ivy-prompts" onClick={() => go("/parents/ivy-prompts", false)}
+              style={{ textAlign: "left", background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, overflow: "hidden", cursor: "pointer", padding: 0, boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 180ms, box-shadow 200ms" }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 36px rgba(16,24,40,0.12)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 1px 2px rgba(16,24,40,0.04)"; }}>
+              <div style={{ position: "relative", height: 218, background: "linear-gradient(135deg,#1e1b4b,#4c1d95)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 60, overflow: "hidden" }}>
+                <span style={{ position: "absolute", top: 8, right: 8, zIndex: 2, fontSize: 10.5, fontWeight: 800, borderRadius: 999, padding: "2px 9px", color: isAdmin || isUnlocked("res:/parents/ivy-prompts") ? "#fff" : "#a16207", background: isAdmin || isUnlocked("res:/parents/ivy-prompts") ? GREEN : "rgba(255,251,235,0.95)", border: isAdmin || isUnlocked("res:/parents/ivy-prompts") ? "none" : "1px solid #f1d27a" }}>
+                  {isAdmin || isUnlocked("res:/parents/ivy-prompts") ? "✓ 보유" : "🔒 250 크레딧"}
+                </span>
+                <span style={{ position: "absolute", top: 8, left: 8, zIndex: 2, fontSize: 11, fontWeight: 900, color: "#fff", background: "linear-gradient(135deg,#7c3aed,#4c1d95)", borderRadius: 999, padding: "3px 9px" }}>🤖 AI</span>
+                <span aria-hidden="true">🤖</span>
+              </div>
+              <div style={{ padding: "13px 14px 15px" }}>
+                <div style={{ fontSize: 14.5, fontWeight: 800, color: "#1a1a1f", letterSpacing: "-0.01em", lineHeight: 1.3 }}>아이비리그 프롬프트</div>
+                <div style={{ fontSize: 11.5, color: "#94a3b8", marginTop: 2 }}>AI 입시 프롬프트 모음집</div>
+                <div style={{ fontSize: 12, color: "#64748b", marginTop: 8, fontWeight: 600 }}>ChatGPT·Claude 복붙용</div>
+              </div>
+            </button>
             {[...textbooks].sort((a, b) => (a.slug === "ap-bio-ultimate" ? -1 : b.slug === "ap-bio-ultimate" ? 1 : 0)).map((b) => {
               const bookOwned = isAdmin || isUnlocked(`book:${b.slug}`);
               const isBio = b.slug === "ap-bio-ultimate";
