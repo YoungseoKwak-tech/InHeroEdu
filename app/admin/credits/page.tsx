@@ -21,6 +21,18 @@ interface CreditUser {
   unlocks: string[];
   payments: Payment[];
   createdAt: string | null;
+  paidCredits?: number;
+  audit?: CreditAudit;
+}
+
+interface CreditAudit {
+  welcome: number;
+  paidCredits: number;
+  entitled: number;
+  spent: number;
+  balance: number;
+  unaccounted: number;
+  anomaly: boolean;
 }
 
 interface Payment {
@@ -84,6 +96,7 @@ export default function AdminCreditsPage() {
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
   const [onlySpenders, setOnlySpenders] = useState(true);
+  const [onlyAnomalies, setOnlyAnomalies] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -102,16 +115,18 @@ export default function AdminCreditsPage() {
     return users
       .map((u) => ({ u, b: breakdown(u.unlocks) }))
       .filter(({ u, b }) => (onlySpenders ? (b.total > 0 || u.payments.length > 0) : true))
+      .filter(({ u }) => (onlyAnomalies ? !!u.audit?.anomaly : true))
       .filter(({ u }) => !q || [u.email, u.name, u.grade, u.school].filter(Boolean).some((s) => String(s).toLowerCase().includes(q)));
-  }, [users, search, onlySpenders]);
+  }, [users, search, onlySpenders, onlyAnomalies]);
 
   const totals = useMemo(() => {
-    let spent = 0, spenders = 0;
+    let spent = 0, spenders = 0, anomalies = 0;
     for (const u of users) {
       const t = breakdown(u.unlocks).total;
       if (t > 0) { spent += t; spenders += 1; }
+      if (u.audit?.anomaly) anomalies += 1;
     }
-    return { spent, spenders };
+    return { spent, spenders, anomalies };
   }, [users]);
 
   return (
@@ -123,6 +138,9 @@ export default function AdminCreditsPage() {
         <h1 style={{ fontSize: 30, fontWeight: 900, letterSpacing: "-0.02em", margin: "6px 0 2px" }}>💳 Credit Usage</h1>
         <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, marginBottom: 18 }}>
           누가 크레딧을 어디에 얼마나 썼는지 — {totals.spenders}명이 합계 {totals.spent.toLocaleString()} 크레딧 사용
+          {totals.anomalies > 0 && (
+            <span style={{ color: "#fca5a5", fontWeight: 700 }}> · ⚠ 비정상(무료 unlock) {totals.anomalies}명</span>
+          )}
         </p>
 
         <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 18, flexWrap: "wrap" }}>
@@ -135,6 +153,10 @@ export default function AdminCreditsPage() {
           <label style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: 13, color: "rgba(255,255,255,0.6)", cursor: "pointer" }}>
             <input type="checkbox" checked={onlySpenders} onChange={(e) => setOnlySpenders(e.target.checked)} />
             크레딧 쓴 사람만
+          </label>
+          <label style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: 13, color: "#fca5a5", cursor: "pointer" }}>
+            <input type="checkbox" checked={onlyAnomalies} onChange={(e) => setOnlyAnomalies(e.target.checked)} />
+            ⚠ 비정상만
           </label>
         </div>
 
@@ -150,7 +172,16 @@ export default function AdminCreditsPage() {
               <div key={u.id} style={{ background: "rgba(255,255,255,0.035)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 14, padding: "16px 18px" }}>
                 <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
                   <div style={{ minWidth: 0 }}>
-                    <div style={{ fontSize: 15, fontWeight: 800 }}>{u.name ?? u.email}</div>
+                    <div style={{ fontSize: 15, fontWeight: 800, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                      {u.name ?? u.email}
+                      {u.audit?.anomaly ? (
+                        <span style={{ fontSize: 10.5, fontWeight: 900, color: "#fff", background: "#dc2626", borderRadius: 999, padding: "2px 8px" }}>⚠ 비정상 · 무료 unlock</span>
+                      ) : u.payments.length > 0 ? (
+                        <span style={{ fontSize: 10.5, fontWeight: 900, color: "#052e16", background: "#34d399", borderRadius: 999, padding: "2px 8px" }}>✓ 결제완료</span>
+                      ) : (
+                        <span style={{ fontSize: 10.5, fontWeight: 800, color: "rgba(255,255,255,0.6)", background: "rgba(255,255,255,0.08)", borderRadius: 999, padding: "2px 8px" }}>무료(welcome)</span>
+                      )}
+                    </div>
                     <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>
                       {u.name ? u.email : ""}{u.grade ? ` · ${u.grade}` : ""}{u.school ? ` · ${u.school}` : ""}
                     </div>
@@ -158,6 +189,11 @@ export default function AdminCreditsPage() {
                   <div style={{ textAlign: "right" }}>
                     <div style={{ fontSize: 20, fontWeight: 900, color: "#FCD34D" }}>−{b.total.toLocaleString()}</div>
                     <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)" }}>사용 · 잔액 {u.credits.toLocaleString()}</div>
+                    {u.audit && (
+                      <div style={{ fontSize: 10.5, color: u.audit.anomaly ? "#fca5a5" : "rgba(255,255,255,0.35)", marginTop: 2 }}>
+                        지급 {u.audit.entitled.toLocaleString()} (welcome {u.audit.welcome}{u.audit.paidCredits ? ` + 결제 ${u.audit.paidCredits.toLocaleString()}` : ""}){u.audit.anomaly ? ` · 초과 ${Math.abs(u.audit.unaccounted).toLocaleString()}` : ""}
+                      </div>
+                    )}
                   </div>
                 </div>
                 {b.list.length > 0 && (

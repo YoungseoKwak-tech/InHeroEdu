@@ -9,7 +9,7 @@
  *   Heavy  (합격 에세이·활동 분석·대학 분석)   20–30+
  */
 
-import { authFetch } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 
 const BAL_KEY = "inhero-credits";
 const UNLOCK_KEY = "inhero-credits-unlocked";
@@ -144,9 +144,21 @@ export async function spendAndUnlockAccount(key: string, cost: number): Promise<
 
   await hydrateCredits().catch(() => {});
 
+  // SECURITY: a signed-in user's paid unlock must be confirmed by the server.
+  // Knowing whether they're logged in lets us refuse the client-only fallback
+  // below — that local (localStorage/demo-credit) path is exactly how unpaid
+  // unlocks slipped in. Logged-out visitors can't reach paid content anyway
+  // (every gated caller requires sign-in first).
+  let loggedIn = false;
+  try { loggedIn = !!(await getClientSession())?.user; } catch { /* treat as logged-out */ }
+
   if (isUnlocked(key)) {
-    unlock(key);
-    return { ok: true, balance: getBalance(), unlocks: [...getUnlocked()], serverBacked };
+    // Trust an existing unlock only when the account confirms it. A logged-in
+    // user with a stale/forged localStorage unlock must re-verify server-side.
+    if (!loggedIn || serverBacked) {
+      unlock(key);
+      return { ok: true, balance: getBalance(), unlocks: [...getUnlocked()], serverBacked };
+    }
   }
 
   if (serverBacked) {
@@ -187,6 +199,14 @@ export async function spendAndUnlockAccount(key: string, cost: number): Promise<
     }
   }
 
+  // Not server-backed. For a signed-in user this means the account credits
+  // couldn't be confirmed (schema/network) — REFUSE rather than grant a free
+  // local unlock. Only genuinely logged-out callers fall back to the legacy
+  // localStorage path (and they can't reach paid content without signing in).
+  if (loggedIn) {
+    return { ok: false, balance: getBalance(), reason: "server_required", serverBacked: false };
+  }
+
   const ok = spendAndUnlock(key, cost);
   return {
     ok,
@@ -209,6 +229,7 @@ export async function spendAndUnlockAccount(key: string, cost: number): Promise<
 export const CREDIT_COSTS = {
   FREE: 0,
   COLLEGE_DB: 25,    // 미국 대학 분석 DB (인재상·입시·인턴십) — matches the resource-card price
+  GUIDE: 25,         // 가이드·전략 페이지 (대회 DB·AP 과목 가이드·공부법·스토리 설계·수학 교육)
   NOTE_UNIT: 50,
   VOCAB: 100,
   ESSAY: 250,

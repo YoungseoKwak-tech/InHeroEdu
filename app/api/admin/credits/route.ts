@@ -10,6 +10,8 @@
 import { NextResponse } from "next/server";
 import { requireAdminUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
+import { parseCreditServiceId } from "@/lib/creditPackages";
+import { auditCredits } from "@/lib/unlockCosts";
 
 export const runtime = "nodejs";
 
@@ -98,8 +100,26 @@ export async function GET(req: Request) {
     };
   });
 
-  // Most active spenders/payers first (then newest).
-  rows.sort((a, b) => (b.unlocks.length + b.payments.length) - (a.unlocks.length + a.payments.length) || new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime());
+  // Audit each account: welcome + confirmed paid credits vs implied spend +
+  // balance. An anomaly = unlocked/holds more than legitimately funded, i.e.
+  // credits leaked in without a real payment (Christina-style). This lets the
+  // dashboard split 결제완료 / 무료지급(welcome) / 비정상(unpaid) unlocks.
+  const audited = rows.map((r) => {
+    const paidCredits = r.payments.reduce((sum, pay) => {
+      const pkg = parseCreditServiceId(pay.serviceId);
+      return sum + (pkg?.credits ?? 0);
+    }, 0);
+    const audit = auditCredits({ balance: r.credits, unlocks: r.unlocks, paidCredits });
+    return { ...r, paidCredits, audit };
+  });
 
-  return NextResponse.json({ users: rows });
+  // Anomalies first, then most active spenders/payers, then newest.
+  audited.sort((a, b) =>
+    Number(b.audit.anomaly) - Number(a.audit.anomaly) ||
+    (b.unlocks.length + b.payments.length) - (a.unlocks.length + a.payments.length) ||
+    new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime()
+  );
+
+  const anomalyCount = audited.filter((r) => r.audit.anomaly).length;
+  return NextResponse.json({ users: audited, anomalyCount });
 }

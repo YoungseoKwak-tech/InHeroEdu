@@ -8,18 +8,22 @@ export const runtime = "nodejs";
 // Demo top-up amounts (until real payment is wired).
 const ALLOWED = new Set([100, 200, 500, 1000]);
 
-// Once real payment (NicePay) is live, this free top-up route is a backdoor:
-// any logged-in user could self-grant credits without paying. Disable it
-// whenever NicePay is enabled — credits must then come only from a confirmed
-// payment. Flip NEXT_PUBLIC_NICEPAY_ENABLED back off to re-open demo mode.
-const PAYMENTS_LIVE = process.env.NEXT_PUBLIC_NICEPAY_ENABLED === "true";
+// This free top-up route is a backdoor: any logged-in user could self-grant
+// credits without paying. Fully disabled in production AND whenever real
+// payment (NicePay) is live — credits must then come only from a confirmed
+// NicePay order (see /api/payments/nicepay/approve → grantPurchasedCredits).
+// It stays available only in local/preview dev so the credit UI is testable.
+const DEMO_BLOCKED =
+  process.env.VERCEL_ENV === "production" ||
+  process.env.NODE_ENV === "production" ||
+  process.env.NEXT_PUBLIC_NICEPAY_ENABLED === "true";
 
-/** POST /api/credits/charge { credits } — add credits (demo top-up). */
+/** POST /api/credits/charge { credits } — add credits (demo top-up, dev only). */
 export async function POST(req: NextRequest) {
   const user = await requireAuthenticatedUser(req);
   if (user instanceof NextResponse) return user;
 
-  if (PAYMENTS_LIVE) {
+  if (DEMO_BLOCKED) {
     return NextResponse.json(
       { error: "demo top-up disabled — real payment required" },
       { status: 403 },
