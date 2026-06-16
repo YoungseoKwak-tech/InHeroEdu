@@ -15,11 +15,27 @@ import { normalizeCourseAccessSubjectId } from "@/lib/course-access";
 import { getPaidSubjectAccessIds, hasPaidSubjectAccess } from "@/lib/paid-subject-access";
 import { buildBankQuestions } from "@/lib/questionBank";
 import { examSpecFor, PRACTICE_SETS } from "@/lib/apExamConfig";
+import { createAdminClient } from "@/lib/supabase";
+import { ensureCreditProfile } from "@/lib/credits-server";
 
 export const dynamic = "force-dynamic";
 
 // Free preview length for users without paid access to the subject.
 const PREVIEW_MCQ = 10;
+
+// Credit-bundle gate key (CreditGate on /parents/question-bank/exam). Unlocking
+// it once with credits grants the full-length AP mock set for every subject —
+// the same "묶음" model as the SAT mock (parents:sat-mock).
+const AP_MOCK_UNLOCK_KEY = "parents:ap-mock";
+
+async function hasApMockCreditUnlock(userId: string): Promise<boolean> {
+  try {
+    const profile = await ensureCreditProfile(createAdminClient(), userId);
+    return !!profile?.credit_unlocks.includes(AP_MOCK_UNLOCK_KEY);
+  } catch {
+    return false;
+  }
+}
 
 export async function GET(req: NextRequest) {
   try {
@@ -35,8 +51,12 @@ export async function GET(req: NextRequest) {
     // still gets a short free preview of the exam experience (lead magnet).
     const user = await getAuthenticatedUser(req);
     const accessIds = user ? await getPaidSubjectAccessIds(user) : new Set<string>();
-    // Admins get the full-length set credit-free.
-    const hasAccess = isAdminEmail(user?.email) || hasPaidSubjectAccess(accessIds, courseId);
+    // Admins get the full-length set credit-free. Otherwise full access comes
+    // from either a paid subject order or the AP-mock credit bundle unlock.
+    const hasAccess =
+      isAdminEmail(user?.email) ||
+      hasPaidSubjectAccess(accessIds, courseId) ||
+      (!!user && (await hasApMockCreditUnlock(user.id)));
 
     const spec = examSpecFor(courseId);
     const pool = (await buildBankQuestions(courseId)).filter((q) => Array.isArray(q.options) && q.options.length >= 2);

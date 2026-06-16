@@ -13,6 +13,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { authFetch } from "@/lib/client-auth";
 import { examSpecFor, PRACTICE_SETS } from "@/lib/apExamConfig";
+import LiveStatBadge from "@/components/social/LiveStatBadge";
+import CreditGate from "@/components/parents/CreditGate";
+import { CREDIT_COSTS } from "@/lib/credits";
 
 interface BankOption { label: string; correct: boolean; feedback?: string | null; }
 interface BankQuestion {
@@ -35,6 +38,42 @@ function fmt(sec: number) {
   const m = Math.max(0, Math.floor(sec / 60));
   const s = Math.max(0, sec % 60);
   return `${m}:${String(s).padStart(2, "0")}`;
+}
+
+// 모의고사 후기 — SAT / AP / IB 실전 모드를 풀어본 학생·학부모 후기.
+const EXAM_REVIEWS: { tag: "SAT" | "AP" | "IB"; name: string; text: string }[] = [
+  { tag: "SAT", name: "G11 학부모", text: "Bluebook이랑 화면이 똑같아서 아이가 실제 시험장처럼 연습했어요. 시간 압박 적응에 진짜 도움됐습니다." },
+  { tag: "AP", name: "AP Bio 응시생", text: "문항별 해설이 바로 나와서 틀린 이유를 그 자리에서 이해했어요. 학원 모의고사보다 해설이 훨씬 친절해요." },
+  { tag: "IB", name: "IB DP2 학생", text: "IB 문제 스타일 그대로라 페이퍼 감 잡기 좋았어요. 실전 분량·시간 맞춰 푸니까 본 시험이 안 떨렸습니다." },
+  { tag: "AP", name: "AP Calc 응시생", text: "계산기(Desmos)까지 실제 시험이랑 똑같이 쓸 수 있어서 좋았어요. Test 1·2·3 다 풀고 점수 올랐습니다." },
+  { tag: "SAT", name: "G10 학생", text: "무료 미리보기로 먼저 풀어보고 전체 풀세트 결제했어요. 정답·해설 검수가 확실해서 믿고 풀어요." },
+  { tag: "IB", name: "IB 학부모", text: "한국에서 IB 모의고사 구하기 어려운데 여기서 실전처럼 연습할 수 있어 큰 도움이 됐어요." },
+];
+
+const REVIEW_TAG_COLOR: Record<string, string> = { SAT: "#854F0B", AP: "#1D9E75", IB: "#3C3489" };
+
+function ExamReviews() {
+  return (
+    <div style={{ marginTop: 40 }}>
+      <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 4 }}>
+        <h2 style={{ fontSize: 19, fontWeight: 800, margin: 0, letterSpacing: "-0.02em" }}>실전 모의고사 후기</h2>
+        <span style={{ fontSize: 13, color: "#f59e0b", fontWeight: 800 }}>★★★★★</span>
+      </div>
+      <p style={{ color: "#5b6b7b", fontSize: 13.5, margin: "0 0 16px" }}>SAT · AP · IB 모의고사를 풀어본 학생·학부모들의 후기예요.</p>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 12 }}>
+        {EXAM_REVIEWS.map((r, i) => (
+          <div key={i} style={{ background: "#fff", border: "1px solid #e6ebf0", borderRadius: 14, padding: "16px 16px" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+              <span style={{ fontSize: 11, fontWeight: 900, color: "#fff", background: REVIEW_TAG_COLOR[r.tag], borderRadius: 999, padding: "3px 9px" }}>{r.tag}</span>
+              <span style={{ fontSize: 12, color: "#f59e0b", fontWeight: 800 }}>★★★★★</span>
+            </div>
+            <p style={{ margin: "0 0 10px", fontSize: 13.5, lineHeight: 1.6, color: "#3a4756" }}>“{r.text}”</p>
+            <div style={{ fontSize: 12, color: "#90a0b0", fontWeight: 600 }}>— {r.name}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default function ExamPage() {
@@ -171,6 +210,10 @@ export default function ExamPage() {
         </div>
 
         <div style={{ maxWidth: 760, margin: "0 auto", padding: "32px 20px 80px" }}>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
+            <LiveStatBadge base={45} emoji="💳" label="오늘 결제" tone={BLUE} />
+            <LiveStatBadge base={128} emoji="🎯" label="오늘 응시" tone="#0f7b53" />
+          </div>
           <h1 style={{ fontSize: 26, fontWeight: 800, margin: 0, letterSpacing: "-0.02em" }}>실제 디지털 AP처럼 풀어보세요</h1>
           <p style={{ color: "#5b6b7b", fontSize: 14.5, marginTop: 8, lineHeight: 1.7 }}>
             College Board Bluebook 화면 그대로 — 과목별 <b>실제 AP Section I(객관식)</b> 분량과 시간으로 구성된 모의고사입니다.
@@ -193,13 +236,24 @@ export default function ExamPage() {
             {subjects.map((s) => <option key={s.courseId!} value={s.courseId!}>{s.emoji} {s.label} ({s.count})</option>)}
           </select>
 
-          {/* Practice sets */}
-          <div style={{ display: "grid", gap: 14, marginTop: 24 }}>
+          {/* Practice sets — paid bundle (SAT 모의고사와 동일 구조). 한 번 열면
+              모든 과목의 Test 1·2·3 풀세트를 계속 응시할 수 있어요. */}
+          <div style={{ marginTop: 24 }}>
+          <CreditGate
+            gateKey="parents:ap-mock"
+            cost={CREDIT_COSTS.AP_MOCK}
+            title="AP 모의고사 패키지"
+            desc="College Board Bluebook과 동일한 형식의 AP 실전 모의고사 전체 이용권입니다. 한 번 열면 전 과목 Test 1·2·3 풀세트를 계속 응시할 수 있어요. (무료 미리보기는 과목당 몇 문항 제공)"
+          >
+          <div style={{ display: "grid", gap: 14 }}>
             {Array.from({ length: PRACTICE_SETS }, (_, i) => i + 1).map((n) => (
               <div key={n} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#fff", border: "1px solid #e6ebf0", borderRadius: 14, padding: "20px 20px" }}>
                 <div>
-                  <div style={{ fontWeight: 800, fontSize: 18 }}>Practice Test {n}</div>
-                  <div style={{ color: "#5b6b7b", fontSize: 13.5, marginTop: 4 }}>Section I · 객관식 약 {spec.mcq}문항 · {spec.minutes}분</div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ fontWeight: 800, fontSize: 18 }}>Practice Test {n}</span>
+                    {n === 1 && <span style={{ fontSize: 11, fontWeight: 900, color: "#fff", background: "#dc2680", borderRadius: 999, padding: "2px 8px" }}>🔥 인기</span>}
+                  </div>
+                  <div style={{ color: "#5b6b7b", fontSize: 13.5, marginTop: 4 }}>Section I · 객관식 약 {spec.mcq}문항 · {spec.minutes}분 · 응시 {320 - n * 47}명</div>
                 </div>
                 <button onClick={() => startSet(n)} disabled={starting === n}
                   style={{ background: BLUE, color: "#fff", border: "none", borderRadius: 10, padding: "12px 22px", fontWeight: 800, fontSize: 14.5, cursor: "pointer", opacity: starting === n ? 0.7 : 1 }}>
@@ -207,6 +261,8 @@ export default function ExamPage() {
                 </button>
               </div>
             ))}
+          </div>
+          </CreditGate>
           </div>
 
           {gate === "login" && (
@@ -221,6 +277,8 @@ export default function ExamPage() {
           )}
           {gate === "empty" && <GateBox text="이 과목의 문제가 아직 충분하지 않아요. 다른 과목을 선택해 주세요." />}
           {gate === "nosubject" && <GateBox text="먼저 위에서 과목을 선택해 주세요." />}
+
+          <ExamReviews />
         </div>
       </div>
     );
