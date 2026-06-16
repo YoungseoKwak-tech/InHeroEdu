@@ -33,8 +33,9 @@ export const dynamic = "force-dynamic";
 const DEFAULT_LIMIT = 150;
 const MAX_LIMIT = 400;
 
-// Free taste per subject for students without that subject in their plan.
-const FREE_PREVIEW_PER_SUBJECT = 2;
+// No free questions: every MCQ's answers/explanations require paid access.
+// Locked cards still show the prompt as a teaser, but never the answer key.
+const FREE_PREVIEW_PER_SUBJECT = 0;
 
 /** Strip everything a student could use to answer or learn from. */
 function lockQuestion(q: BankQuestion): BankQuestion & { locked: true } {
@@ -43,6 +44,7 @@ function lockQuestion(q: BankQuestion): BankQuestion & { locked: true } {
     locked: true,
     options: q.options.map((o) => ({ label: o.label, correct: false })),
     explanation: null,
+    explanationKorean: null,
     similar: null,
   };
 }

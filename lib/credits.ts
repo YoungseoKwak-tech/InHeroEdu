@@ -161,6 +161,12 @@ export async function spendAndUnlockAccount(key: string, cost: number): Promise<
     }
   }
 
+  // A transient hydrate miss would otherwise refuse a legit logged-in unlock and
+  // surface a "credit error". Retry once so a network blip doesn't block it.
+  if (loggedIn && !serverBacked) {
+    await hydrateCredits().catch(() => {});
+  }
+
   if (serverBacked) {
     try {
       const r = await authFetch("/api/credits/spend", {

@@ -71,6 +71,12 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ subject: courseId, label, totalSets, mcq: size, fullMcq: fullSize, minutes, preview: !hasAccess, poolSize: pool.length });
     }
 
+    // No free preview: the actual exam questions require paid/unlocked access.
+    // Non-holders get 403 so the client shows the upgrade gate (no leak).
+    if (!hasAccess) {
+      return NextResponse.json({ error: "locked", preview: true }, { status: 403 });
+    }
+
     const effectiveSet = Math.min(setNum, totalSets);
     const start = (effectiveSet - 1) * size;
     const questions = pool.slice(start, start + size).map((q) => ({

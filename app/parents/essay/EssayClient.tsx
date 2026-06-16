@@ -11,8 +11,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { authFetch, getClientSession } from "@/lib/client-auth";
 import CreditGate from "@/components/parents/CreditGate";
-import { CREDIT_COSTS } from "@/lib/credits";
-import { TAG_COLOR, SEGMENTS, TAKEAWAYS } from "@/lib/data/cornellMainEssay";
+import { CREDIT_COSTS, CREDIT_EVENT } from "@/lib/credits";
+import { TAG_COLOR, TAKEAWAYS, type Segment } from "@/lib/data/cornellMainEssay";
 
 const GREEN = "#00b85f";
 
@@ -20,7 +20,18 @@ export default function EssayClient() {
   const router = useRouter();
   const [loggedIn, setLoggedIn] = useState(false);
   const [opening, setOpening] = useState(false);
+  // The essay text + analysis is served by /api/parents/essay/analysis — only
+  // unlock holders RECEIVE it, so it never ships to the browser. Re-fetch on a
+  // credit change so a fresh unlock reveals it.
+  const [segments, setSegments] = useState<Segment[]>([]);
   useEffect(() => { getClientSession().then((s) => setLoggedIn(!!s?.user)).catch(() => {}); }, []);
+  useEffect(() => {
+    const load = () => authFetch("/api/parents/essay/analysis").then((r) => r.json())
+      .then((d) => setSegments(Array.isArray(d?.segments) ? d.segments : [])).catch(() => {});
+    load();
+    window.addEventListener(CREDIT_EVENT, load);
+    return () => window.removeEventListener(CREDIT_EVENT, load);
+  }, []);
 
   // The essay PDF is served only through an auth + unlock-gated API (no public
   // URL). Fetch it with the Bearer token, then open the blob in a new tab.
@@ -104,7 +115,7 @@ export default function EssayClient() {
 
         {/* Segment-by-segment */}
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-          {SEGMENTS.map((seg, i) => (
+          {segments.map((seg, i) => (
             <section key={i} style={{ background: "#fff", border: "1px solid #e2e6ea", borderRadius: 16, padding: "22px 24px" }}>
               <h2 style={{ fontSize: 16, fontWeight: 800, color: "#7c3aed", margin: "0 0 4px" }}>{seg.label}</h2>
               <p style={{ fontSize: 13, color: "#94a3b8", lineHeight: 1.6, margin: "0 0 14px" }}>{seg.gist}</p>
