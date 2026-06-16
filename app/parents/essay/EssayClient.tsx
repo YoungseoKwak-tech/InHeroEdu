@@ -9,7 +9,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getClientSession } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import CreditGate from "@/components/parents/CreditGate";
 import { CREDIT_COSTS } from "@/lib/credits";
 import { TAG_COLOR, SEGMENTS, TAKEAWAYS } from "@/lib/data/cornellMainEssay";
@@ -19,7 +19,29 @@ const GREEN = "#00b85f";
 export default function EssayClient() {
   const router = useRouter();
   const [loggedIn, setLoggedIn] = useState(false);
+  const [opening, setOpening] = useState(false);
   useEffect(() => { getClientSession().then((s) => setLoggedIn(!!s?.user)).catch(() => {}); }, []);
+
+  // The essay PDF is served only through an auth + unlock-gated API (no public
+  // URL). Fetch it with the Bearer token, then open the blob in a new tab.
+  const openEssayPdf = async () => {
+    if (opening) return;
+    setOpening(true);
+    try {
+      const r = await authFetch("/api/parents/essay/file");
+      if (r.status === 401) { window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: "/parents/essay" } })); return; }
+      if (r.status === 403) { window.alert("이 자료는 잠금 해제 후 볼 수 있어요."); return; }
+      if (!r.ok) { window.alert("PDF를 불러오지 못했어요. 잠시 후 다시 시도해 주세요."); return; }
+      const blob = await r.blob();
+      const url = URL.createObjectURL(blob);
+      window.open(url, "_blank", "noopener,noreferrer");
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    } catch {
+      window.alert("PDF를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.");
+    } finally {
+      setOpening(false);
+    }
+  };
   const mentor = () => {
     if (loggedIn) router.push("/dm/yng0802");
     else window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: "/dm/yng0802" } }));
@@ -52,10 +74,10 @@ export default function EssayClient() {
           title="✍️ 코넬 공대 합격 에세이 — 원문 + 문단별 분석 잠금해제"
           desc="실제 합격생 본인의 Common App 메인 에세이 원문(PDF)과 설계도·문단별 상세 분석(기법·원리·‘약하게 썼다면’)을 볼 수 있어요. 위 소개글만 무료 미리보기예요."
         >
-        <a href="/parents/cornell-bme-essay.pdf" target="_blank" rel="noopener noreferrer"
-          style={{ display: "inline-flex", alignItems: "center", gap: 8, textDecoration: "none", color: "#1a1a1f", border: "1.5px solid #1a1a1f", borderRadius: 9, padding: "10px 18px", fontSize: 13.5, fontWeight: 800, marginBottom: 26 }}>
-          📄 원문 에세이 전체 PDF 보기 →
-        </a>
+        <button onClick={openEssayPdf} disabled={opening}
+          style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "none", cursor: opening ? "default" : "pointer", color: "#1a1a1f", border: "1.5px solid #1a1a1f", borderRadius: 9, padding: "10px 18px", fontSize: 13.5, fontWeight: 800, marginBottom: 26, opacity: opening ? 0.6 : 1 }}>
+          {opening ? "여는 중…" : "📄 원문 에세이 전체 PDF 보기 →"}
+        </button>
 
         {/* Architecture overview */}
         <div style={{ background: "linear-gradient(180deg,#fbfcfe,#fff)", border: "1px solid #e2e6ea", borderRadius: 14, padding: "22px 24px", marginBottom: 18 }}>
