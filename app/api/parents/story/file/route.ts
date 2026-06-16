@@ -35,23 +35,26 @@ export async function GET(req: NextRequest) {
   // Admins read everything credit-free.
   const admin = isAdminEmail(user.email);
 
-  // If this account's unlocks are tracked server-side, enforce the purchase.
-  // If we can't read them (older schema / no row), fall back to login-only.
-  if (!admin) try {
-    const supabase = createAdminClient();
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("credit_unlocks")
-      .eq("id", user.id)
-      .maybeSingle();
-    // Only enforce when the account actually has server-recorded unlocks. The
-    // column defaults to '[]' for everyone, so requiring the key on an empty
-    // array 403'd legitimate readers whose unlock lived only in localStorage.
-    const unlocks = data?.credit_unlocks;
-    if (!error && Array.isArray(unlocks) && unlocks.length > 0 && !unlocks.includes(UNLOCK_KEY)) {
+  // Strict: require the server-recorded res:/parents/story unlock (fail closed).
+  // The old login-only fallback for empty unlock arrays let any signed-in user
+  // read the book without paying. Unlocks are now server-authoritative (see
+  // spendAndUnlockAccount), so a real purchase reliably records the key.
+  if (!admin) {
+    try {
+      const supabase = createAdminClient();
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("credit_unlocks")
+        .eq("id", user.id)
+        .maybeSingle();
+      const unlocks = Array.isArray(data?.credit_unlocks) ? (data!.credit_unlocks as string[]) : [];
+      if (error || !unlocks.includes(UNLOCK_KEY)) {
+        return NextResponse.json({ error: "locked" }, { status: 403 });
+      }
+    } catch {
       return NextResponse.json({ error: "locked" }, { status: 403 });
     }
-  } catch { /* can't verify server-side → login gate already passed */ }
+  }
 
   for (const filePath of FILE_CANDIDATES) {
     try {
