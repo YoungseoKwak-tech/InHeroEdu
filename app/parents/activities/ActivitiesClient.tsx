@@ -13,20 +13,43 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getClientSession } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
+import { CREDIT_EVENT } from "@/lib/credits";
 import CreditGate from "@/components/parents/CreditGate";
-import { ACTIVITIES, STRATEGY_POINTS, COMMONAPP_RULES, DEEP_GUIDES, type ActivityEntry, type DeepGuide } from "./data";
+import { type ActivityEntry, type DeepGuide } from "./data";
 
 const GREEN = "#00b85f";
 const GUIDE_COST = 500; // each deep guide unlocks individually for 500 credits
 const LIST_COST = 250;  // the real Common App activity list (10 cards) unlocks together
 
+interface StrategyPoint { emoji: string; title: string; body: string }
+
 export default function ActivitiesClient() {
   const router = useRouter();
   const [loggedIn, setLoggedIn] = useState(false);
   const [open, setOpen] = useState<number | null>(1);
+  // Served by /api/parents/activities — the paid detail (원문·분석·실행 가이드)
+  // is stripped server-side for non-holders, so it never ships to the browser.
+  // Re-fetch on a credit change so a fresh unlock pulls the full detail.
+  const [activities, setActivities] = useState<ActivityEntry[]>([]);
+  const [deepGuides, setDeepGuides] = useState<DeepGuide[]>([]);
+  const [strategyPoints, setStrategyPoints] = useState<StrategyPoint[]>([]);
+  const [commonAppRules, setCommonAppRules] = useState<string[]>([]);
 
   useEffect(() => { getClientSession().then((s) => setLoggedIn(!!s?.user)).catch(() => {}); }, []);
+
+  useEffect(() => {
+    const load = () => authFetch("/api/parents/activities").then((r) => r.json())
+      .then((d) => {
+        setActivities(Array.isArray(d?.activities) ? d.activities : []);
+        setDeepGuides(Array.isArray(d?.guides) ? d.guides : []);
+        setStrategyPoints(Array.isArray(d?.strategyPoints) ? d.strategyPoints : []);
+        setCommonAppRules(Array.isArray(d?.commonAppRules) ? d.commonAppRules : []);
+      }).catch(() => {});
+    load();
+    window.addEventListener(CREDIT_EVENT, load);
+    return () => window.removeEventListener(CREDIT_EVENT, load);
+  }, []);
 
   const gateToTools = () => {
     if (loggedIn) router.push("/question-bank");
@@ -76,7 +99,7 @@ export default function ActivitiesClient() {
         {/* Strategy points — why this list works */}
         <section style={{ background: "#fff", border: "1px solid #e6e8ec", borderRadius: 14, padding: "22px 22px 8px", marginBottom: 28 }}>
           <h2 style={{ fontSize: 16, fontWeight: 800, margin: "0 0 14px", letterSpacing: "-0.01em" }}>📌 이 리스트가 통하는 5가지 이유</h2>
-          {STRATEGY_POINTS.map((s) => (
+          {strategyPoints.map((s) => (
             <div key={s.title} style={{ display: "flex", gap: 12, paddingBottom: 14, marginBottom: 14, borderBottom: "1px solid #f1f3f5" }}>
               <span style={{ fontSize: 22, flexShrink: 0 }}>{s.emoji}</span>
               <div>
@@ -91,7 +114,7 @@ export default function ActivitiesClient() {
         <section style={{ background: "#f5f3ff", border: "1px solid #e0d7fb", borderRadius: 14, padding: "18px 20px", marginBottom: 36 }}>
           <div style={{ fontSize: 12.5, fontWeight: 800, color: "#6d28d9", letterSpacing: "0.03em", marginBottom: 10 }}>📋 Common App 활동란 기본 규칙</div>
           <ul style={{ margin: 0, paddingLeft: 18, display: "flex", flexDirection: "column", gap: 6 }}>
-            {COMMONAPP_RULES.map((r, i) => (
+            {commonAppRules.map((r, i) => (
               <li key={i} style={{ fontSize: 13.5, color: "#4c1d95", lineHeight: 1.6 }}>{r}</li>
             ))}
           </ul>
@@ -117,7 +140,7 @@ export default function ActivitiesClient() {
             가장 강력한 두 활동 — <strong>고등학생도 할 수 있는 책 출간</strong>과 <strong>JEI·JSR 논문 출판</strong>을 기획부터 게재·활동 기재까지 그대로 따라 할 수 있게 정리했어요. 박스를 눌러 펼치세요.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {DEEP_GUIDES.map((g) => <DeepGuideCard key={g.id} guide={g} />)}
+            {deepGuides.map((g) => <DeepGuideCard key={g.id} guide={g} />)}
           </div>
         </section>
 
@@ -126,7 +149,7 @@ export default function ActivitiesClient() {
           합격생 활동 10개 <span style={{ color: "#94a3b8", fontWeight: 600 }}>· 실행 가이드 포함</span>
         </h2>
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {ACTIVITIES.map((a) => (
+          {activities.map((a) => (
             <ActivityCard key={a.num} activity={a} isOpen={open === a.num}
               onToggle={() => setOpen(open === a.num ? null : a.num)} />
           ))}
@@ -167,6 +190,7 @@ function ActivityCard({ activity: a, isOpen, onToggle }: { activity: ActivityEnt
           <CreditGate
             gateKey="res:/parents/activities/list"
             cost={LIST_COST}
+            fullBlur
             title="🏆 실제 합격생 활동 10개 — 전체 잠금해제"
             desc="실제 아이비리그 합격생의 Common App 활동 원문·분석·실행 가이드를 전부 볼 수 있어요. 활동 제목·유형은 무료 미리보기예요. (한 번 결제로 10개 전부)"
           >
