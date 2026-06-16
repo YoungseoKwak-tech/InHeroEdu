@@ -13,6 +13,7 @@ import { getClientSession } from "@/lib/client-auth";
 import { ADMITS, type Admit } from "@/lib/data/admits";
 import { TAG_COLOR } from "@/lib/data/cornellMainEssay";
 import { isUnlocked, spendAndUnlockAccount, hydrateCredits, getBalance, CREDIT_EVENT, CREDIT_COSTS } from "@/lib/credits";
+import { isAdminEmail } from "@/lib/adminEmails";
 
 const GREEN = "#00b85f";
 const SUPP_COST = CREDIT_COSTS.SUPPLEMENTALS; // 1000
@@ -25,6 +26,7 @@ export default function AdmitsClient() {
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [tick, setTick] = useState(0);       // bump to re-read credits/unlocks
   const [needCharge, setNeedCharge] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false); // owner/admin → credit-free
 
   // Pull account credits/unlocks once signed in, and refresh on credit changes.
   useEffect(() => { if (allowed) hydrateCredits().then(() => setTick((t) => t + 1)).catch(() => {}); }, [allowed]);
@@ -39,7 +41,7 @@ export default function AdmitsClient() {
     (async () => {
       const session = await getClientSession().catch(() => null);
       if (cancelled) return;
-      if (session?.user) { setAllowed(true); return; }
+      if (session?.user) { setAllowed(true); setIsAdmin(isAdminEmail(session.user.email)); return; }
       setAllowed(false);
       window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: "/parents/admits" } }));
       router.replace("/parents");
@@ -51,7 +53,7 @@ export default function AdmitsClient() {
 
   // Per-school supplemental-essay unlock (1000 credits).
   const suppKey = admit ? `admit-supplements:${admit.id}` : "";
-  const suppUnlocked = useMemo(() => !!suppKey && isUnlocked(suppKey), [suppKey, tick]);
+  const suppUnlocked = useMemo(() => isAdmin || (!!suppKey && isUnlocked(suppKey)), [suppKey, tick, isAdmin]);
   const balance = useMemo(() => getBalance(), [tick]);
   async function unlockSupp() {
     setNeedCharge(false);
