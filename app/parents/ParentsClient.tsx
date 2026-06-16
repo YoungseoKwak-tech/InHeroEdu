@@ -23,8 +23,11 @@ import ReferralPrompt from "@/components/parents/ReferralPrompt";
 import { isUnlocked, spendAndUnlockAccount, hydrateCredits, CREDIT_EVENT, CREDIT_COSTS, getBalance } from "@/lib/credits";
 import TextbookFlipPreview from "@/components/parents/TextbookFlipPreview";
 import { REVIEWS } from "@/lib/data/reviews";
+import LiveStatBadge from "@/components/social/LiveStatBadge";
 
 const GREEN = "#00b85f";
+// Real direct line to the Cornell-engineering mentor (founder) — KakaoTalk channel.
+const MENTOR_CHAT = "http://pf.kakao.com/_ZchdX/chat";
 
 interface Question {
   id: string; nickname: string; title: string; content: string;
@@ -223,6 +226,9 @@ export default function ParentsClient() {
   const MATERIAL_COST = CREDIT_COSTS.NOTE_UNIT; // 아이비리그 학생 자료 = 50 크레딧
   const BOOK_COST = CREDIT_COSTS.TEXTBOOK;
   const [gate, setGate] = useState<null | { title: string; cost: number; onConfirm: () => void }>(null);
+  const [matPreview, setMatPreview] = useState<Material | null>(null);
+  const [matBuying, setMatBuying] = useState(false);
+  const [matNeedCharge, setMatNeedCharge] = useState(false);
 
   async function requestUnlock(opts: { key: string; cost: number; title: string; proceed: () => void; loginRedirect: string }) {
     if (!loggedIn) { requireLogin(opts.loginRedirect); return; }
@@ -273,13 +279,32 @@ export default function ParentsClient() {
     requestUnlock({ key: `book:${b.slug}`, cost: BOOK_COST, title: b.title, proceed: () => router.push(route), loginRedirect: route });
   };
 
-  const openMaterial = (m: Material) => {
-    const proceed = () => {
-      if (isLargeFile(m.fileSize)) window.location.href = downloadHref(m.attachmentUrl, m.title);
-      else router.push(`/library/${m.id}/read`);
-    };
-    requestUnlock({ key: `material:${m.id}`, cost: MATERIAL_COST, title: m.title, proceed, loginRedirect: `/library/${m.id}/read` });
+  const materialProceed = (m: Material) => {
+    if (isLargeFile(m.fileSize)) window.location.href = downloadHref(m.attachmentUrl, m.title);
+    else router.push(`/library/${m.id}/read`);
   };
+
+  // Click a material → preview first (peek + reviews), then buy. Already-owned
+  // or admins go straight in.
+  const openMaterial = (m: Material) => {
+    if (!loggedIn) { requireLogin(`/library/${m.id}/read`); return; }
+    if (isUnlocked(`material:${m.id}`)) { materialProceed(m); return; }
+    setMatNeedCharge(false);
+    setMatPreview(m);
+  };
+
+  async function buyMaterial(m: Material) {
+    if (matBuying) return;
+    setMatBuying(true); setMatNeedCharge(false);
+    try {
+      const result = await spendAndUnlockAccount(`material:${m.id}`, MATERIAL_COST);
+      if (result.ok) { setMatPreview(null); materialProceed(m); }
+      else if (result.reason === "insufficient") setMatNeedCharge(true);
+      else window.alert("크레딧 차감 확인 중 오류가 발생했어요. 잠시 후 다시 시도해 주세요.");
+    } finally {
+      setMatBuying(false);
+    }
+  }
 
   const filtered = query.trim()
     ? questions.filter((q) => (q.title + q.content).toLowerCase().includes(query.trim().toLowerCase()))
@@ -316,6 +341,61 @@ export default function ParentsClient() {
           </div>
         </div>
       )}
+
+      {/* ── Material preview → buy ── */}
+      {matPreview && (
+        <div onClick={() => setMatPreview(null)} style={{ position: "fixed", inset: 0, zIndex: 230, background: "rgba(15,23,42,0.6)", display: "flex", alignItems: "center", justifyContent: "center", padding: 18 }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: "min(540px, 96vw)", maxHeight: "92vh", overflowY: "auto", background: "#fff", borderRadius: 18, boxShadow: "0 24px 70px rgba(0,0,0,0.4)" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, padding: "16px 20px 10px" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 11.5, fontWeight: 800, color: "#7c3aed", background: "#faf7ff", border: "1px solid #efe7fe", borderRadius: 999, padding: "4px 11px" }}>🔍 미리보기</span>
+              <button onClick={() => setMatPreview(null)} style={{ border: "none", background: "none", fontSize: 18, color: "#94a3b8", cursor: "pointer" }}>✕</button>
+            </div>
+            <h3 style={{ fontSize: 17, fontWeight: 850, margin: "0 20px 12px", letterSpacing: "-0.01em", color: "#1a1a1f" }}>{matPreview.title}</h3>
+
+            {/* Page-1 peek — top half clear, bottom half blurred */}
+            <div style={{ position: "relative", margin: "0 20px", borderRadius: 12, overflow: "hidden", border: "1px solid #e6e8ec", background: "#f1f5f9", maxHeight: 360 }}>
+              {matPreview.previewPage1Url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={matPreview.previewPage1Url} alt={`${matPreview.title} 1페이지 미리보기`} style={{ display: "block", width: "100%", height: "auto" }} />
+              ) : (
+                <div style={{ height: 240, display: "flex", alignItems: "center", justifyContent: "center", color: "#94a3b8", fontSize: 13 }}>📄 1페이지 미리보기</div>
+              )}
+              <div style={{ position: "absolute", left: 0, right: 0, top: "50%", bottom: 0, backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", background: "linear-gradient(180deg, rgba(241,245,249,0) 0%, rgba(241,245,249,0.55) 38%, rgba(241,245,249,0.96) 85%)", display: "flex", alignItems: "flex-end", justifyContent: "center", paddingBottom: 12 }}>
+                <span style={{ fontSize: 12, fontWeight: 800, color: "#475569" }}>🔒 전체{matPreview.totalPages ? ` ${matPreview.totalPages}페이지` : ""}는 잠금 해제 후</span>
+              </div>
+            </div>
+
+            {/* 후기 */}
+            <div style={{ margin: "14px 20px 0", background: "#fbfcfe", border: "1px solid #eef0f3", borderRadius: 12, padding: "12px 14px" }}>
+              <div style={{ fontSize: 11.5, fontWeight: 800, color: "#94a3b8", marginBottom: 8 }}>💬 이 자료를 본 분들</div>
+              {REVIEWS.slice(0, 2).map((r, i) => (
+                <div key={i} style={{ marginBottom: i === 0 ? 9 : 0 }}>
+                  <span style={{ fontSize: 11.5, color: "#f59e0b", letterSpacing: 1 }}>{"★".repeat(r.stars)}</span>
+                  <p style={{ fontSize: 12.5, color: "#334155", lineHeight: 1.55, margin: "2px 0 2px" }}>“{r.text}”</p>
+                  <div style={{ fontSize: 10.5, color: "#94a3b8" }}>{r.name} · {r.role}</div>
+                </div>
+              ))}
+            </div>
+
+            {matNeedCharge && (
+              <div style={{ margin: "12px 20px 0", background: "#fff7ed", border: "1px solid #fed7aa", borderRadius: 10, padding: "10px 13px" }}>
+                <div style={{ fontSize: 12.5, fontWeight: 800, color: "#c2410c", marginBottom: 2 }}>🪙 {Math.max(0, MATERIAL_COST - getBalance())}크레딧 부족 — 친구 추천하면 +20!</div>
+                <div style={{ fontSize: 11.5, color: "#9a3412", lineHeight: 1.5 }}>
+                  <span onClick={() => { setMatPreview(null); router.push("/parents/me"); }} style={{ color: "#7c3aed", fontWeight: 700, cursor: "pointer" }}>내 추천코드 보기 →</span>
+                </div>
+              </div>
+            )}
+
+            <div style={{ display: "flex", gap: 10, padding: "16px 20px 20px" }}>
+              <button onClick={() => setMatPreview(null)} style={{ flex: 1, background: "#fff", border: "1.5px solid #e2e6ea", color: "#64748b", borderRadius: 10, padding: "13px", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>닫기</button>
+              <button onClick={() => buyMaterial(matPreview)} disabled={matBuying} style={{ flex: 2, background: GREEN, color: "#fff", border: "none", borderRadius: 10, padding: "13px", fontWeight: 850, fontSize: 14, cursor: matBuying ? "default" : "pointer", opacity: matBuying ? 0.7 : 1 }}>
+                {matBuying ? "확인 중…" : `🪙 ${MATERIAL_COST} 크레딧으로 보기 (보유 ${getBalance().toLocaleString()})`}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── Top bar ── */}
       <header style={{ background: "#fff", borderBottom: "1px solid #e2e6ea" }}>
         <div style={{ maxWidth: 1180, margin: "0 auto", padding: "16px 20px", display: "flex", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
@@ -445,8 +525,11 @@ export default function ParentsClient() {
         <main className="parents-main" style={{ display: "flex", flexDirection: "column", gap: 18, minWidth: 0 }}>
           {/* Compact SEO hero — top of the center column, flanked by the rails */}
           <section style={{ background: "linear-gradient(135deg,#ffffff,#eef7f1)", border: "1px solid #e2e6ea", borderRadius: 14, padding: "16px 18px" }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#eafff3", border: "1px solid #c8f2dc", color: "#047a45", borderRadius: 999, padding: "4px 11px", fontSize: 11.5, fontWeight: 800, marginBottom: 9 }}>
-              🎓 아이비리그 재학생이 직접 만든 미국 입시 플랫폼
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 9 }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#eafff3", border: "1px solid #c8f2dc", color: "#047a45", borderRadius: 999, padding: "4px 11px", fontSize: 11.5, fontWeight: 800 }}>
+                🎓 아이비리그 재학생이 직접 만든 미국 입시 플랫폼
+              </span>
+              <LiveStatBadge base={45} emoji="💳" label="오늘 결제" />
             </div>
             <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.4rem, 2.6vw, 2rem)", fontWeight: 850, letterSpacing: "-0.03em", lineHeight: 1.18, margin: "0 0 8px", color: "#0f172a" }}>
               아이비리그생이 만든 AP·SAT·미국 입시 자료 허브
@@ -675,14 +758,14 @@ export default function ParentsClient() {
             <EmptyRow text="아직 댓글이 없습니다." />
           </SideCard>
 
-          {/* Ivy mentor CTA → 1:1 DM with the lead mentor */}
-          <button onClick={() => go("/dm/yng0802", true)}
-            style={{ textAlign: "left", border: "none", cursor: "pointer", borderRadius: 14, padding: "20px 18px", background: "linear-gradient(135deg,#1e1b4b,#4c1d95)", color: "#fff", boxShadow: "0 8px 24px rgba(76,29,149,0.28)" }}>
+          {/* Ivy mentor CTA → real 1:1 chat with the Cornell mentor (KakaoTalk channel) */}
+          <a href={MENTOR_CHAT} target="_blank" rel="noopener noreferrer"
+            style={{ display: "block", textDecoration: "none", textAlign: "left", border: "none", cursor: "pointer", borderRadius: 14, padding: "20px 18px", background: "linear-gradient(135deg,#1e1b4b,#4c1d95)", color: "#fff", boxShadow: "0 8px 24px rgba(76,29,149,0.28)" }}>
             <div style={{ fontSize: 26, marginBottom: 8 }}>🎓</div>
-            <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: "-0.01em", lineHeight: 1.35, marginBottom: 6 }}>아이비리그 멘토와<br />소통해보세요!</div>
-            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.6, margin: "0 0 12px" }}>아이비리그 재학생 멘토에게 AP·SAT·입시 전략을 직접 물어보세요.</p>
-            <span style={{ display: "inline-block", background: "rgba(255,255,255,0.16)", border: "1px solid rgba(255,255,255,0.3)", borderRadius: 8, padding: "8px 16px", fontSize: 13, fontWeight: 800 }}>멘토 만나보기 →</span>
-          </button>
+            <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: "-0.01em", lineHeight: 1.35, marginBottom: 6 }}>코넬 공대 멘토와<br />1:1로 직접 채팅하세요!</div>
+            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.6, margin: "0 0 12px" }}>사교육 없이 코넬 공대에 간 재학생에게 AP·SAT·입시 전략을 카카오톡으로 직접 물어보세요.</p>
+            <span style={{ display: "inline-block", background: "#fee500", color: "#191600", borderRadius: 8, padding: "9px 16px", fontSize: 13, fontWeight: 800 }}>💬 카카오톡으로 채팅하기 →</span>
+          </a>
 
           <p style={{ fontSize: 12, color: "#94a3b8", textAlign: "center" }}>
             학생이신가요? <Link href="/" style={{ color: GREEN, textDecoration: "none", fontWeight: 600 }}>InHero 둘러보기 →</Link>
