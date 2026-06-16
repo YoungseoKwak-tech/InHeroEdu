@@ -21,6 +21,7 @@ import CreditWidget from "@/components/parents/CreditWidget";
 import MyTierBadge from "@/components/parents/TierBadge";
 import ReferralPrompt from "@/components/parents/ReferralPrompt";
 import { isUnlocked, spendAndUnlockAccount, hydrateCredits, CREDIT_EVENT, CREDIT_COSTS, getBalance } from "@/lib/credits";
+import { isAdminEmail } from "@/lib/adminEmails";
 import TextbookFlipPreview from "@/components/parents/TextbookFlipPreview";
 import { REVIEWS } from "@/lib/data/reviews";
 import LiveStatBadge from "@/components/social/LiveStatBadge";
@@ -137,6 +138,28 @@ const QUICK = [
   { emoji: "🏆", label: "합격 활동 분석", route: "/parents/activities", gated: false },
 ];
 
+// Routes that stay FREE (no credit lock) — only Q&A, 로드맵, and the free
+// seminar replay. Everything else on the board is premium (🔒).
+const FREE_ROUTES = new Set<string>([
+  "/parents/lounge",
+  "/parents/roadmap",
+  "/parents/seminar/replay",
+]);
+const isLockedRoute = (route: string) => route !== "#textbooks" ? !FREE_ROUTES.has(route) : true;
+
+// Guide/practice pages that have NO on-page CreditGate → gate them at the board
+// (before navigation) via requestUnlock. Internally-gated pages (sat, question-
+// bank, core-notes, vocab, colleges, activities) are left to their own gates.
+const NAV_GATE: Record<string, { cost: number; title: string }> = {
+  "/parents/competitions":      { cost: CREDIT_COSTS.GUIDE, title: "미국 입시 대회 데이터베이스" },
+  "/parents/ap-guide":          { cost: CREDIT_COSTS.GUIDE, title: "전공별 AP 과목 선택 가이드" },
+  "/parents/study-method":      { cost: CREDIT_COSTS.GUIDE, title: "자기주도 공부법" },
+  "/parents/story-design":      { cost: CREDIT_COSTS.GUIDE, title: "아이비리그 스토리 설계" },
+  "/parents/math":              { cost: CREDIT_COSTS.GUIDE, title: "수학 교육 (US↔KR 트랙)" },
+  "/parents/amc":               { cost: CREDIT_COSTS.GUIDE, title: "AMC 연습문제" },
+  "/parents/question-bank/exam": { cost: CREDIT_COSTS.GUIDE, title: "AP 모의고사" },
+};
+
 // Sorted by views (trending) — the board renders this order as-is.
 const RESOURCES = [
   { title: "내가 아이비리그 공대에 오기까지", desc: "아이비리그 공대 합격생이 직접 쓴 합격 수기 — 목차·프롤로그 무료, 본문은 200 크레딧", route: "/parents/story/book", tag: "합격수기", views: 1180, cost: 0 },
@@ -161,6 +184,9 @@ const NOTICES = [
 export default function ParentsClient() {
   const router = useRouter();
   const [loggedIn, setLoggedIn] = useState(false);
+  // Owner/admin accounts (lib/adminEmails) read everything credit-free, so the
+  // board's own credit gates must bypass for them just like CreditGate does.
+  const [isAdmin, setIsAdmin] = useState(false);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [query, setQuery] = useState("");
   const [slide, setSlide] = useState(0);
@@ -171,7 +197,7 @@ export default function ParentsClient() {
   const slideTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    getClientSession().then((s) => setLoggedIn(!!s?.user)).catch(() => {});
+    getClientSession().then((s) => { setLoggedIn(!!s?.user); setIsAdmin(isAdminEmail(s?.user?.email)); }).catch(() => {});
     fetch("/api/qa/questions?subject=parent-lounge&sort=latest")
       .then((r) => r.json()).then((d) => setQuestions(d?.questions ?? [])).catch(() => {});
     fetch("/api/textbooks")
@@ -232,6 +258,7 @@ export default function ParentsClient() {
 
   async function requestUnlock(opts: { key: string; cost: number; title: string; proceed: () => void; loginRedirect: string }) {
     if (!loggedIn) { requireLogin(opts.loginRedirect); return; }
+    if (isAdmin) { opts.proceed(); return; } // owner/admin → credit-free
     if (!opts.cost) { opts.proceed(); return; }
     if (isUnlocked(opts.key)) {
       await hydrateCredits().catch(() => {});
@@ -288,7 +315,7 @@ export default function ParentsClient() {
   // or admins go straight in.
   const openMaterial = (m: Material) => {
     if (!loggedIn) { requireLogin(`/library/${m.id}/read`); return; }
-    if (isUnlocked(`material:${m.id}`)) { materialProceed(m); return; }
+    if (isAdmin || isUnlocked(`material:${m.id}`)) { materialProceed(m); return; }
     setMatNeedCharge(false);
     setMatPreview(m);
   };
@@ -639,7 +666,7 @@ export default function ParentsClient() {
             {/* 추천 자료 — trending order, view counts visible */}
             <Board title="추천 자료" moreHref="/parents/competitions">
               {RESOURCES.map((r, i) => {
-                const owned = r.cost > 0 && isUnlocked(`res:${r.route}`);
+                const owned = r.cost > 0 && (isAdmin || isUnlocked(`res:${r.route}`));
                 return (
                 <div key={`${r.route}-${creditTick}`} onClick={() => openResource(r)} role="button" tabIndex={0}
                   style={{ ...rowStyle, alignItems: "flex-start", flexDirection: "column", gap: 2, cursor: "pointer" }}>
@@ -762,8 +789,8 @@ export default function ParentsClient() {
           <a href={MENTOR_CHAT} target="_blank" rel="noopener noreferrer"
             style={{ display: "block", textDecoration: "none", textAlign: "left", border: "none", cursor: "pointer", borderRadius: 14, padding: "20px 18px", background: "linear-gradient(135deg,#1e1b4b,#4c1d95)", color: "#fff", boxShadow: "0 8px 24px rgba(76,29,149,0.28)" }}>
             <div style={{ fontSize: 26, marginBottom: 8 }}>🎓</div>
-            <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: "-0.01em", lineHeight: 1.35, marginBottom: 6 }}>코넬 공대 멘토와<br />1:1로 직접 채팅하세요!</div>
-            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.6, margin: "0 0 12px" }}>사교육 없이 코넬 공대에 간 재학생에게 AP·SAT·입시 전략을 카카오톡으로 직접 물어보세요.</p>
+            <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: "-0.01em", lineHeight: 1.35, marginBottom: 6 }}>아이비리그 멘토와<br />1:1로 직접 채팅하세요!</div>
+            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.6, margin: "0 0 12px" }}>사교육 없이 아이비리그에 간 재학생에게 AP·SAT·입시 전략을 카카오톡으로 직접 물어보세요.</p>
             <span style={{ display: "inline-block", background: "#fee500", color: "#191600", borderRadius: 8, padding: "9px 16px", fontSize: 13, fontWeight: 800 }}>💬 카카오톡으로 채팅하기 →</span>
           </a>
 
@@ -800,6 +827,7 @@ export default function ParentsClient() {
             <div className="mat-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16 }}>
               {materials.map((m) => {
                 const large = isLargeFile(m.fileSize);
+                const matOwned = isAdmin || isUnlocked(`material:${m.id}`);
                 const inner = (
                   <article style={{ background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, overflow: "hidden", boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 180ms, box-shadow 200ms" }}
                     onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 36px rgba(16,24,40,0.12)"; }}
@@ -816,10 +844,10 @@ export default function ParentsClient() {
                         <span style={{ position: "absolute", top: 9, right: 9, fontSize: 10.5, fontWeight: 900, color: "#fff", background: "#dc2626", borderRadius: 6, padding: "3px 8px", boxShadow: "0 2px 8px rgba(220,38,38,0.4)" }}>📄 {m.totalPages}p</span>
                       )}
                       <span style={{ position: "absolute", bottom: 9, right: 9, fontSize: 10.5, fontWeight: 800, borderRadius: 999, padding: "2px 9px",
-                        color: isUnlocked(`material:${m.id}`) ? "#fff" : "#a16207",
-                        background: isUnlocked(`material:${m.id}`) ? GREEN : "rgba(255,251,235,0.95)",
-                        border: isUnlocked(`material:${m.id}`) ? "none" : "1px solid #f1d27a" }}>
-                        {isUnlocked(`material:${m.id}`) ? "✓ 보유" : `🔒 ${MATERIAL_COST} 크레딧`}
+                        color: matOwned ? "#fff" : "#a16207",
+                        background: matOwned ? GREEN : "rgba(255,251,235,0.95)",
+                        border: matOwned ? "none" : "1px solid #f1d27a" }}>
+                        {matOwned ? "✓ 보유" : `🔒 ${MATERIAL_COST} 크레딧`}
                       </span>
                     </div>
                     <div style={{ padding: "12px 14px 14px" }}>
@@ -872,7 +900,7 @@ export default function ParentsClient() {
 
           <div className="tb-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(168px, 1fr))", gap: 16 }}>
             {[...textbooks].sort((a, b) => (a.slug === "ap-bio-ultimate" ? -1 : b.slug === "ap-bio-ultimate" ? 1 : 0)).map((b) => {
-              const bookOwned = isUnlocked(`book:${b.slug}`);
+              const bookOwned = isAdmin || isUnlocked(`book:${b.slug}`);
               const isBio = b.slug === "ap-bio-ultimate";
               return (
               <button key={`${b.slug}-${creditTick}`} onClick={() => openBook(b)}
