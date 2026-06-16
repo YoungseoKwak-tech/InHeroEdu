@@ -21,6 +21,12 @@ AP_Biology_ultimate*
 # Textbook source-PDF folders — content already seeded to Supabase Storage
 AP_*_PDFs_*/
 
+# Build/seed tooling — never imported by the app at runtime. The
+# question-bank-seed JSON corpus alone is ~400MB and was getting traced into
+# the api/parents/story/file lambda (it reads from process.cwd()), blowing past
+# the 250MB function-size limit. Exclude the whole scripts/ tree from deploys.
+scripts/
+
 # Stray screenshots / image exports at the repo root
 /*.png
 
