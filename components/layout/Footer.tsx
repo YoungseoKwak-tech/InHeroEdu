@@ -48,6 +48,8 @@ export default function Footer() {
             <Link href="/privacy" style={{ color: "#475569", textDecoration: "none" }}>개인정보처리방침</Link>
             <span style={{ color: "#cbd5e1" }}>|</span>
             <Link href="/refund" style={{ color: "#475569", textDecoration: "none" }}>환불정책</Link>
+            <span style={{ color: "#cbd5e1" }}>|</span>
+            <Link href="/ai-disclosure" style={{ color: "#475569", textDecoration: "none" }}>AI 생성 콘텐츠 안내</Link>
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "0 10px" }}>
             <span>상호명: {merchantInfo.companyName}</span>
@@ -176,6 +178,7 @@ export default function Footer() {
               { label: "Refund Policy",  href: "/refund-policy" },
               { label: "Privacy Policy", href: "/privacy" },
               { label: "Terms",          href: "/terms" },
+              { label: "AI Disclosure",  href: "/ai-disclosure" },
             ].map((item) => (
               <Link
                 key={item.label}

@@ -12,6 +12,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import CreditGate from "@/components/parents/CreditGate";
+import AiContentNotice from "@/components/legal/AiContentNotice";
 import { CREDIT_COSTS, CREDIT_EVENT } from "@/lib/credits";
 import { authFetch } from "@/lib/client-auth";
 
@@ -157,9 +158,10 @@ export default function CoreNotesClient() {
           <span style={{ fontSize: 12, color: "#cbd5e1" }}>·</span>
           <span style={{ fontSize: 12.5, color: "#94a3b8" }}>전 18과목 {total.toLocaleString()}개</span>
         </div>
-        <p style={{ fontSize: 13.5, color: "#94a3b8", lineHeight: 1.7, marginBottom: 18 }}>
+        <p style={{ fontSize: 13.5, color: "#94a3b8", lineHeight: 1.7, marginBottom: 14 }}>
           과목을 고르고 왼쪽에서 단원별로 골라 읽어보세요.
         </p>
+        <AiContentNotice style={{ marginBottom: 18, maxWidth: 720 }} />
 
         <div style={{ marginBottom: 22 }}>
           {[

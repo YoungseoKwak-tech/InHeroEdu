@@ -102,6 +102,20 @@ export default function LegalPage() {
               .
             </p>
           </article>
+
+          <article style={cardStyle}>
+            <h2 style={{ margin: "0 0 14px", fontSize: 24 }}>AI-generated content</h2>
+            <p style={{ color: "rgba(255,255,255,0.66)", lineHeight: 1.75 }}>
+              InHero의 디지털 교재(Originals)와 한국어 핵심 노트는 아이비리그 재학생이 설계한 요점정리
+              프롬프트로 AI가 생성하고 사람이 검수한 학습 보조 자료입니다. 시험 주관 기관의 공식 교재가
+              아니며, 참고용으로 제공됩니다.
+            </p>
+            <p style={{ marginTop: 12 }}>
+              <Link href="/ai-disclosure" style={{ color: "#00FFB2", textDecoration: "none" }}>
+                AI 생성 콘텐츠 안내 전문 보기 →
+              </Link>
+            </p>
+          </article>
         </section>
 
         <div style={{ marginTop: 30 }}>

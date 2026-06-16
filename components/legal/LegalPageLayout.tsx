@@ -5,6 +5,7 @@ const LEGAL_LINKS = [
   { label: "Refund Policy", href: "/refund-policy" },
   { label: "Terms of Service", href: "/terms" },
   { label: "Privacy Policy", href: "/privacy" },
+  { label: "AI Disclosure", href: "/ai-disclosure" },
 ];
 
 export function LegalSection({ title, children }: { title: string; children: ReactNode }) {

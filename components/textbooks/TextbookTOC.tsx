@@ -14,6 +14,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { authFetch } from "@/lib/client-auth";
+import AiContentNotice from "@/components/legal/AiContentNotice";
 
 interface Chapter {
   id: string;
@@ -152,7 +153,16 @@ export default function TextbookTOC({ slug }: { slug: string }) {
         {/* ── HERO ───────────────────────────────────────────── */}
         <section className="toc-hero">
           <div className="toc-hero-cover">
-            <span className="toc-hero-emoji">{EMOJI_BY_SLUG[textbook.slug] ?? "📚"}</span>
+            {textbook.cover_url ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={textbook.cover_url}
+                alt={`${textbook.title} cover`}
+                className="toc-hero-cover-img"
+              />
+            ) : (
+              <span className="toc-hero-emoji">{EMOJI_BY_SLUG[textbook.slug] ?? "📚"}</span>
+            )}
           </div>
           <div className="toc-hero-meta">
             <div className="toc-stamp">
@@ -164,6 +174,7 @@ export default function TextbookTOC({ slug }: { slug: string }) {
             <p className="toc-byline">
               By <em>InHero Originals</em>
             </p>
+            <AiContentNotice tone="dark" style={{ margin: "12px 0", maxWidth: 560 }} />
             <div className="toc-stats">
               <span>{textbook.total_chapters} chapters</span>
               <span>·</span>
@@ -304,8 +315,13 @@ const tocCss = `
     background: linear-gradient(160deg, rgba(94,234,212,0.18), rgba(169,156,255,0.18));
     border: 1px solid rgba(94,234,212,0.3);
     border-radius: 14px;
-    padding: 1.25rem;
+    padding: 0;
     box-shadow: 0 24px 48px rgba(0,0,0,0.45), 0 0 28px rgba(94,234,212,0.12);
+    overflow: hidden;
+  }
+  .toc-hero-cover-img {
+    width: 100%; height: 100%; object-fit: cover;
+    border-radius: 13px;
   }
   .toc-hero-emoji { font-size: 5rem; line-height: 1; margin-bottom: 1rem; }
   .toc-hero-tier {
