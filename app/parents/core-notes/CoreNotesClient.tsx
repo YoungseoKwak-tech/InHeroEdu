@@ -12,7 +12,8 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import CreditGate from "@/components/parents/CreditGate";
-import { CREDIT_COSTS } from "@/lib/credits";
+import { CREDIT_COSTS, CREDIT_EVENT } from "@/lib/credits";
+import { authFetch } from "@/lib/client-auth";
 
 const GREEN = "#00b85f";
 const CN_ALL_KEY = "parents:core-notes"; // all-subjects pass for Korean core notes
@@ -31,6 +32,16 @@ export default function CoreNotesClient() {
   const [selected, setSelected] = useState<string | null>(null);
   const [koCache, setKoCache] = useState<Record<string, KoNote | "none">>({});
   const [view, setView] = useState<"ko" | "en" | "split">("split");
+  // Bumped on credit changes (e.g. after a successful unlock) so gated content
+  // is re-fetched WITH the new entitlement — the server now decides what body
+  // we receive, so a client-only unlock isn't enough to reveal it.
+  const [reloadTick, setReloadTick] = useState(0);
+
+  useEffect(() => {
+    const bump = () => { setReloadTick((t) => t + 1); setKoCache({}); };
+    window.addEventListener(CREDIT_EVENT, bump);
+    return () => window.removeEventListener(CREDIT_EVENT, bump);
+  }, []);
 
   useEffect(() => {
     fetch("/api/core-notes?countOnly=true").then((r) => r.json())
@@ -40,16 +51,18 @@ export default function CoreNotesClient() {
   useEffect(() => {
     if (!active) return;
     setLoading(true); setSelected(null);
-    fetch(`/api/core-notes?subject=${encodeURIComponent(active)}`).then((r) => r.json())
+    authFetch(`/api/core-notes?subject=${encodeURIComponent(active)}`).then((r) => r.json())
       .then((d) => { const n: ListNote[] = d?.notes ?? []; setNotes(n); if (n[0]) setSelected(n[0].lessonId); })
       .catch(() => setNotes([]))
       .finally(() => setLoading(false));
-  }, [active]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active, reloadTick]);
 
-  // Fetch the Korean version of the selected note (once).
+  // Fetch the Korean version of the selected note (once). authFetch so the
+  // server can apply the same per-subject unlock as the English notes.
   useEffect(() => {
     if (!selected || koCache[selected] !== undefined) return;
-    fetch(`/api/core-notes/korean?lessonId=${encodeURIComponent(selected)}`).then((r) => r.json())
+    authFetch(`/api/core-notes/korean?lessonId=${encodeURIComponent(selected)}`).then((r) => r.json())
       .then((d) => setKoCache((c) => ({ ...c, [selected]: d?.note ?? "none" })))
       .catch(() => setKoCache((c) => ({ ...c, [selected]: "none" })));
   }, [selected, koCache]);
