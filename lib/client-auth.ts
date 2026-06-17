@@ -83,6 +83,24 @@ export async function getAccessToken(): Promise<string | null> {
   return session?.access_token ?? null;
 }
 
+/**
+ * True if the browser holds a Supabase auth token at all — even an expired one
+ * that's mid-refresh. Lets authFetch tell "logged in but token not ready yet"
+ * (keep waiting) apart from "genuinely anonymous" (don't stall the request).
+ */
+function hasStoredSessionKey(): boolean {
+  if (typeof window === "undefined") return false;
+  for (const get of [() => window.localStorage, () => window.sessionStorage]) {
+    let store: Storage;
+    try { store = get(); } catch { continue; }
+    for (let i = 0; i < store.length; i += 1) {
+      const key = store.key(i);
+      if (key && key.startsWith("sb-") && key.endsWith("-auth-token")) return true;
+    }
+  }
+  return false;
+}
+
 async function getAccessTokenWithRetry(): Promise<string | null> {
   // Google OAuth can finish the code exchange before the browser client
   // has fully rehydrated the session. A short stepped retry prevents
@@ -93,6 +111,20 @@ async function getAccessTokenWithRetry(): Promise<string | null> {
     if (delay > 0) await sleep(delay);
     const token = await getAccessToken();
     if (token) return token;
+  }
+
+  // The quick window expired with no token. If the browser clearly holds a
+  // session (token present but expired / mid-refresh / Supabase lock still
+  // resolving), the user IS logged in — keep trying a bit longer so we attach
+  // a real token instead of firing anonymously and getting a false "sign in
+  // required" wall. Genuinely anonymous callers (no stored token) skip this and
+  // return immediately, so they're never slowed down.
+  if (hasStoredSessionKey()) {
+    for (const delay of [1000, 1500, 2000, 2500]) {
+      await sleep(delay);
+      const token = await getAccessToken();
+      if (token) return token;
+    }
   }
 
   return null;
