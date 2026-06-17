@@ -139,7 +139,7 @@ export default function TextbookTOC({ slug }: { slug: string }) {
     });
   }
 
-  if (loading) return <ShellMsg msg="Loading textbook…" />;
+  if (loading) return <ShellMsg msg="교재를 불러오는 중이에요…" spinner />;
   if (error || !textbook) return <ShellMsg msg={error ?? "Not found"} />;
 
   const isAnyProgress = inProgressCount > 0;
@@ -268,11 +268,14 @@ export default function TextbookTOC({ slug }: { slug: string }) {
   );
 }
 
-function ShellMsg({ msg }: { msg: string }) {
+function ShellMsg({ msg, spinner = false }: { msg: string; spinner?: boolean }) {
   return (
     <main className="toc-root">
       <div className="toc-shell">
-        <div className="toc-msg">{msg}</div>
+        <div className="toc-msg">
+          {spinner && <span className="toc-msg-spinner" aria-hidden="true" />}
+          <span>{msg}</span>
+        </div>
       </div>
       <style>{tocCss}</style>
     </main>
@@ -293,11 +296,20 @@ const tocCss = `
   .toc-shell { max-width: 64rem; margin: 0 auto; display: flex; flex-direction: column; gap: 2.25rem; }
   .toc-msg {
     padding: 4rem 0;
+    display: flex; flex-direction: column; align-items: center; gap: 1rem;
     text-align: center;
     font-family: ui-monospace, monospace;
     font-size: 0.85rem;
     color: rgba(148,163,184,0.7);
   }
+  .toc-msg-spinner {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    border: 3px solid rgba(94,234,212,0.18);
+    border-top-color: #5eead4;
+    animation: toc-spin 0.85s linear infinite;
+  }
+  @keyframes toc-spin { to { transform: rotate(360deg); } }
 
   /* ── Hero ──────────────────────────────────────────────────── */
   .toc-hero {

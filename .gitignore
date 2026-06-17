@@ -16,6 +16,18 @@ AP_Chemistry_ultimate*.pdf
 AP_Physics_ultimate*.pdf
 *.pdf
 AP_Chemistry_PDFs_72/
+AP_*_PDFs_*/
 scripts/question-bank-seed/*-gen*.json
 scripts/question-bank-seed/*-calc*.json
 scripts/question-bank-seed/*-ibgen*.json
+
+# Textbook build artifacts (chapters_data.json + rendered chapter PDFs).
+# Uploaded to Supabase Storage by scripts/upload-textbook-generic.ts.
+scripts/textbook/build/
+
+# Media / image exports at the repo root (keynotes, recordings, screenshots)
+*.key
+*.mp4
+/Screenshot*.png
+/AP Calc BC.png
+합격/

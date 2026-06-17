@@ -69,7 +69,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", default=str(DEFAULT_OUTPUT_DIR), help="Directory for per-chapter PDFs")
     parser.add_argument("--combined-output", default=str(DEFAULT_COMBINED_PDF), help="Path for the combined PDF")
     parser.add_argument("--preview-output", default=str(DEFAULT_PREVIEW_PDF), help="Path for single chapter preview PDF")
+    parser.add_argument("--subject-name", default="AP Biology", help="Subject label used in page footer + combined title")
+    parser.add_argument("--no-practice", action="store_true", help="Skip the MCQ/FRQ practice + answer-key pages (clean body-only book)")
     return parser.parse_args()
+
+
+# Set from CLI in main(); consumed by on_page() footer and chapter_story().
+FOOTER_LABEL = "InHero AP Biology"
+INCLUDE_PRACTICE = True
 
 
 def load_json(path: Path) -> list[dict[str, Any]]:
@@ -106,15 +113,19 @@ def slugify(text: str, max_len: int = 70) -> str:
 
 
 def register_fonts() -> tuple[str, str]:
+    # Korean-capable fonts first: the books are authored in Korean, so the
+    # regular AND bold faces must both carry Hangul glyphs. Latin-only bold
+    # faces (e.g. "Arial Bold.ttf") render Korean as □ boxes, so they are NOT
+    # used for bold here. Arial Unicode covers Hangul + Latin + math symbols.
     candidates = [
-        "/Library/Fonts/DejaVuSans.ttf",
-        "/Library/Fonts/DejaVuSans-Bold.ttf",
         "/System/Library/Fonts/Supplemental/Arial Unicode.ttf",
+        "/System/Library/Fonts/Supplemental/AppleGothic.ttf",
+        "/Library/Fonts/DejaVuSans.ttf",
     ]
-    bold_candidates = [
-        "/Library/Fonts/DejaVuSans-Bold.ttf",
-        "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
-    ]
+    # Hangul-capable bold faces only. None of the system bold faces carry
+    # Hangul cleanly, so we reuse the regular Korean font for bold — size +
+    # color carry the visual hierarchy and the typeface stays consistent.
+    bold_candidates: list[str] = []
 
     regular_name = "Helvetica"
     bold_name = "Helvetica-Bold"
@@ -125,11 +136,10 @@ def register_fonts() -> tuple[str, str]:
     if regular_path:
         pdfmetrics.registerFont(TTFont("InHeroSans", regular_path))
         regular_name = "InHeroSans"
-    if bold_path:
+        bold_name = "InHeroSans"  # default bold → same Hangul-safe face
+    if bold_path and bold_path != regular_path:
         pdfmetrics.registerFont(TTFont("InHeroSansBold", bold_path))
         bold_name = "InHeroSansBold"
-    elif regular_name == "InHeroSans":
-        bold_name = regular_name
 
     return regular_name, bold_name
 
@@ -271,7 +281,7 @@ def on_page(canvas, doc):
     canvas.saveState()
     canvas.setFont("Helvetica", 8)
     canvas.setFillColor(colors.HexColor("#7A8192"))
-    canvas.drawCentredString(width / 2, 9 * mm, f"InHero AP Biology · Page {doc.page}")
+    canvas.drawCentredString(width / 2, 9 * mm, f"{FOOTER_LABEL} · Page {doc.page}")
     canvas.restoreState()
 
 
@@ -477,8 +487,9 @@ def chapter_story(chapter: dict[str, Any], locator: ChapterLocator, styles: Styl
     story: list[Any] = []
     story.extend(cover_block(locator, chapter, styles))
     story.extend(section_blocks(chapter, styles))
-    story.extend(practice_blocks(chapter, locator, styles))
-    story.extend(answer_key_blocks(chapter, locator, styles))
+    if INCLUDE_PRACTICE:
+        story.extend(practice_blocks(chapter, locator, styles))
+        story.extend(answer_key_blocks(chapter, locator, styles))
     return story
 
 
@@ -499,6 +510,9 @@ def build_pdf(story: list[Any], output_path: Path, title: str) -> None:
 
 def main() -> int:
     args = parse_args()
+    global FOOTER_LABEL, INCLUDE_PRACTICE
+    FOOTER_LABEL = f"InHero {args.subject_name}"
+    INCLUDE_PRACTICE = not args.no_practice
     font_regular, font_bold = register_fonts()
     styles = build_styles(font_regular, font_bold)
 
@@ -525,7 +539,7 @@ def main() -> int:
             if i < len(locators) - 1:
                 combined_story.append(PageBreak())
         combined_path = Path(args.combined_output).expanduser().resolve()
-        build_pdf(combined_story, combined_path, "InHero AP Biology Complete")
+        build_pdf(combined_story, combined_path, f"InHero {args.subject_name} Complete")
         print(f"✅ Combined textbook saved → {combined_path}")
         return 0
 
