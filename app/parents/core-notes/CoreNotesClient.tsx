@@ -45,8 +45,25 @@ export default function CoreNotesClient() {
   }, []);
 
   useEffect(() => {
-    fetch("/api/core-notes?countOnly=true").then((r) => r.json())
-      .then((d) => { setSubjects(d?.subjects ?? []); setTotal(d?.total ?? 735); }).catch(() => {});
+    // The subject picker lives or dies by this list — a single cold-start miss
+    // used to leave the page with no chips at all. Retry a few times so a
+    // transient failure never hides the selector.
+    let cancelled = false;
+    (async () => {
+      for (let attempt = 0; attempt < 4 && !cancelled; attempt++) {
+        try {
+          const r = await fetch("/api/core-notes?countOnly=true", { cache: "no-store" });
+          const d = await r.json();
+          const list = Array.isArray(d?.subjects) ? d.subjects : [];
+          if (list.length > 0) {
+            if (!cancelled) { setSubjects(list); setTotal(d?.total ?? 735); }
+            return;
+          }
+        } catch { /* retry */ }
+        await new Promise((res) => setTimeout(res, 600 * (attempt + 1)));
+      }
+    })();
+    return () => { cancelled = true; };
   }, []);
 
   useEffect(() => {
@@ -156,7 +173,7 @@ export default function CoreNotesClient() {
           <span style={{ fontSize: 12, color: "#cbd5e1" }}>→</span>
           <span style={{ fontSize: 13, fontWeight: 700, color: "#475569" }}>🌐 영어 원문으로 정복</span>
           <span style={{ fontSize: 12, color: "#cbd5e1" }}>·</span>
-          <span style={{ fontSize: 12.5, color: "#94a3b8" }}>전 18과목 {total.toLocaleString()}개</span>
+          <span style={{ fontSize: 12.5, color: "#94a3b8" }}>전 {subjects.length || 18}과목 {total.toLocaleString()}개</span>
         </div>
         <p style={{ fontSize: 13.5, color: "#94a3b8", lineHeight: 1.7, marginBottom: 14 }}>
           과목을 고르고 왼쪽에서 단원별로 골라 읽어보세요.
@@ -164,6 +181,10 @@ export default function CoreNotesClient() {
         <AiContentNotice style={{ marginBottom: 18, maxWidth: 720 }} />
 
         <div style={{ marginBottom: 22 }}>
+          <div style={{ fontSize: 14, fontWeight: 800, color: "#1a1a1f", marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
+            📚 과목 선택
+            {subjects.length === 0 && <span style={{ fontSize: 12, fontWeight: 600, color: "#94a3b8" }}>· 불러오는 중…</span>}
+          </div>
           {[
             { key: "ap", label: "AP 과정", items: subjects.filter((s) => { const c = s.courseId ?? ""; return !c.startsWith("ib-") && !c.startsWith("honors-"); }) },
             { key: "ib", label: "IB Diploma", items: subjects.filter((s) => (s.courseId ?? "").startsWith("ib-")) },
