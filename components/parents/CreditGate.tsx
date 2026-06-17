@@ -19,12 +19,15 @@ const GREEN = "#00b85f";
 
 export default function CreditGate({
   gateKey, cost, title, desc, children,
-  bundleKey, bundleCost, bundleLabel,
+  bundleKey, bundleCost, bundleLabel, fullBlur = false,
 }: {
   gateKey: string; cost: number; title: string; desc?: string; children: ReactNode;
   // Optional "unlock everything" bundle (e.g. 전 과목 한 번에 · 1000). If the
   // bundle key is already unlocked, this gate counts as unlocked too.
   bundleKey?: string; bundleCost?: number; bundleLabel?: string;
+  // When true, blur the ENTIRE locked content (not just the bottom half) — used
+  // where even the preview must stay hidden (e.g. 합격생 활동 원문).
+  fullBlur?: boolean;
 }) {
   const [unlocked, setUnlocked] = useState<boolean | null>(null);
   const [balance, setBalance] = useState(0);
@@ -75,13 +78,15 @@ export default function CreditGate({
 
   return (
     <div style={{ position: "relative", borderRadius: 16, border: "1px solid #e6e8ec", background: "#fff", overflow: "hidden", minHeight: 340 }}>
-      {/* Teaser — about the top half is readable, the rest is blurred to entice purchase */}
-      <div aria-hidden="true" style={{ maxHeight: 560, overflow: "hidden", pointerEvents: "none", userSelect: "none", padding: "2px 4px 0", color: "#334155" }}>
+      {/* Teaser — about the top half is readable, the rest is blurred to entice
+          purchase. With fullBlur the whole thing is obscured (no readable preview). */}
+      <div aria-hidden="true" style={{ maxHeight: 560, overflow: "hidden", pointerEvents: "none", userSelect: "none", padding: "2px 4px 0", color: "#334155", filter: fullBlur ? "blur(6px)" : undefined }}>
         {children}
       </div>
 
-      {/* Progressive blur veil — top ~half readable, bottom half blurs + fades to white */}
-      <div style={{ position: "absolute", left: 0, right: 0, top: "50%", bottom: 0, zIndex: 1, backdropFilter: "blur(7px)", WebkitBackdropFilter: "blur(7px)", background: "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 34%, rgba(255,255,255,0.97) 82%)" }} />
+      {/* Progressive blur veil — default: top ~half readable, bottom blurs + fades
+          to white. fullBlur: cover from the very top so nothing is readable. */}
+      <div style={{ position: "absolute", left: 0, right: 0, top: fullBlur ? 0 : "50%", bottom: 0, zIndex: 1, backdropFilter: "blur(9px)", WebkitBackdropFilter: "blur(9px)", background: fullBlur ? "linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.6) 42%, rgba(255,255,255,0.97) 86%)" : "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 34%, rgba(255,255,255,0.97) 82%)" }} />
 
       {/* Unlock CTA pinned to the bottom over the blur */}
       <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 2, padding: "20px 24px 24px", textAlign: "center" }}>

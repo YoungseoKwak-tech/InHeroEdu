@@ -14,14 +14,10 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getClientSession } from "@/lib/client-auth";
 import { resolveAuthor, specialAuthorForEmail } from "@/lib/specialAuthors";
-import { spendAndUnlockAccount } from "@/lib/credits";
-import { isAdminEmail } from "@/lib/adminEmails";
 import { TierBadge } from "@/components/parents/TierBadge";
 
 const SUBJECT = "parent-lounge";
-const FREE_POSTS = 3;  // 처음 3회 질문 등록은 무료
-const POST_COST = 5;   // 이후 질문 등록 1건당 크레딧
-const postCountKey = (uid: string) => `inhero-qa-posts:${uid}`;
+// 질문 등록 + 학부모·학생 간 소통은 전부 무료. (유료는 '전문가 답변 받기'에만 — /qa/[id] 참고)
 
 interface Question {
   id: string;
@@ -51,8 +47,6 @@ export default function LoungeClient() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [posting, setPosting] = useState(false);
-  const [freeUsed, setFreeUsed] = useState(0);
-  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     getClientSession().then((s) => {
@@ -61,8 +55,6 @@ export default function LoungeClient() {
         const persona = specialAuthorForEmail(s.user.email);
         const nickname = persona?.name || (m.handle as string) || (m.name as string) || s.user.email?.split("@")[0] || "학부모";
         setUser({ id: s.user.id, nickname });
-        setIsAdmin(isAdminEmail(s.user.email));
-        try { setFreeUsed(Number(localStorage.getItem(postCountKey(s.user.id)) || "0")); } catch { /* ignore */ }
       }
     }).catch(() => {});
     load();
@@ -87,18 +79,7 @@ export default function LoungeClient() {
 
   async function submit() {
     if (!user || !title.trim() || !content.trim() || posting) return;
-    const key = postCountKey(user.id);
-    const used = Number(localStorage.getItem(key) || "0");
-    // 처음 3회는 무료, 이후부터 건당 5크레딧 차감 (고유 키로 매번 부과 + 계정 동기화).
-    // 관리자는 크레딧 없이 무제한.
-    if (!isAdmin && used >= FREE_POSTS) {
-      const paid = await spendAndUnlockAccount(`qa-post:${user.id}:${Date.now()}`, POST_COST);
-      if (!paid.ok) {
-        if (paid.reason === "insufficient") window.dispatchEvent(new Event("inhero:open-charge"));
-        else window.alert("크레딧 차감 확인 중 오류가 발생했어요. 잠시 후 다시 시도해 주세요.");
-        return;
-      }
-    }
+    // 질문 등록은 무제한 무료 — 학부모·학생 간 정보 교류가 핵심이라 게이트를 두지 않는다.
     setPosting(true);
     try {
       const res = await fetch("/api/qa/questions", {
@@ -110,8 +91,6 @@ export default function LoungeClient() {
       if (d?.question) {
         setQuestions((q) => [d.question, ...q]);
         setTitle(""); setContent(""); setShowForm(false);
-        try { localStorage.setItem(key, String(used + 1)); } catch { /* ignore */ }
-        setFreeUsed(used + 1);
       }
     } finally {
       setPosting(false);
@@ -153,7 +132,7 @@ export default function LoungeClient() {
               <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
                 <button onClick={submit} disabled={posting || !title.trim() || !content.trim()}
                   style={{ background: posting || !title.trim() || !content.trim() ? "#cbd5e1" : "#1a1a1f", color: "#fff", border: "none", borderRadius: 8, padding: "10px 22px", fontWeight: 800, fontSize: 13.5, cursor: posting ? "default" : "pointer" }}>
-                  {posting ? "등록 중…" : isAdmin ? "질문 등록" : freeUsed < FREE_POSTS ? `질문 등록 (무료 ${FREE_POSTS - freeUsed}회 남음)` : `질문 등록 (${POST_COST}크레딧)`}
+                  {posting ? "등록 중…" : "질문 등록 (무료)"}
                 </button>
               </div>
             </div>

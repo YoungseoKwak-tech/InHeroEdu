@@ -31,3 +31,4 @@ scripts/textbook/build/
 /Screenshot*.png
 /AP Calc BC.png
 합격/
+__pycache__/

@@ -4,7 +4,7 @@
 set -e
 cd "$(dirname "$0")/../.."
 DIR="scripts/question-bank-seed"
-SUBJECTS="ib-math-aa sat-math sat-reading ib-physics ib-chemistry ap-physics-1 ap-chemistry"
+SUBJECTS="ib-math-aa sat-math sat-reading ib-physics ib-chemistry ap-physics-1 ap-chemistry amc-10 amc-12 aime"
 START=${1:-1}
 END=${2:-60}
 
@@ -13,6 +13,7 @@ for s in $(seq "$START" "$END"); do
   node "$DIR/ib-math-gen.mjs" "$s" >/dev/null 2>&1 || echo "[warn] ib-math seed $s"
   node "$DIR/sat-gen.mjs" "$s" >/dev/null 2>&1 || echo "[warn] sat seed $s"
   node "$DIR/science-calc-gen.mjs" "$s" >/dev/null 2>&1 || echo "[warn] science seed $s"
+  node "$DIR/amc-gen.mjs" "$s" >/dev/null 2>&1 || echo "[warn] amc seed $s"
   if [ $((s % 15)) -eq 0 ]; then
     echo "[loop] uploading at seed $s ..."
     node --env-file=.env.local "$DIR/upload.mjs" $SUBJECTS 2>&1 | tail -1

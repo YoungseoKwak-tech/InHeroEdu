@@ -55,6 +55,10 @@ const SUBJECT_COLORS: Record<string, string> = {
   "AP CS":    "#444441",
 };
 
+// 학부모 라운지(입시 Q&A): 질문 남기기·학부모/학생 소통은 무료, '전문가 답변'만 계정당 3회 무료.
+const FREE_EXPERT = 3;
+const expertKey = (uid: string) => `inhero-qa-expert:${uid}`;
+
 export default function QuestionDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const { lang: _lang } = useLang();
@@ -117,8 +121,16 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
   // Persona for the signed-in account (코넬맘 👑 for the founder) — forces the
   // author name on everything this account posts.
   const [persona, setPersona]     = useState<SpecialAuthor | null>(null);
+  const [authUserId, setAuthUserId] = useState<string | null>(null);
+  const [expertUsed, setExpertUsed] = useState(0);
   useEffect(() => {
-    getClientSession().then((s) => setPersona(specialAuthorForEmail(s?.user?.email))).catch(() => {});
+    getClientSession().then((s) => {
+      setPersona(specialAuthorForEmail(s?.user?.email));
+      if (s?.user) {
+        setAuthUserId(s.user.id);
+        try { setExpertUsed(Number(localStorage.getItem(expertKey(s.user.id)) || "0")); } catch { /* ignore */ }
+      }
+    }).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -149,13 +161,15 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
     setAnswers(ans);
     setLoading(false);
 
-    // Auto-generate AI answer if none exists
-    if (q && !ans.some((a: Answer) => a.is_ai)) {
+    // Auto-generate AI answer if none exists — except on the parent lounge
+    // (입시 Q&A), where the expert answer is a deliberate, 3-free action the
+    // user triggers via "전문가 답변 받기" (see requestExpertAnswer).
+    if (q && q.subject !== "parent-lounge" && !ans.some((a: Answer) => a.is_ai)) {
       generateAIAnswer(q);
     }
   }
 
-  async function generateAIAnswer(q: Question) {
+  async function generateAIAnswer(q: Question): Promise<boolean> {
     setAiLoading(true);
     try {
       const res  = await fetch("/api/qa/auto-answer", {
@@ -166,14 +180,40 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
       const data = await res.json();
       if (data.answer && !data.skipped) {
         setAnswers((prev) => [data.answer, ...prev]);
+        return true;
       } else if (data.skipped) {
         // already exists, refresh
         const aRes  = await fetch(`/api/qa/answers?questionId=${id}`);
         const aData = await aRes.json();
         setAnswers(aData.answers ?? []);
+        return true;
       }
+      return false;
+    } catch {
+      return false;
     } finally {
       setAiLoading(false);
+    }
+  }
+
+  // 전문가(AI) 답변 받기 — 계정당 3회 무료, 이후 크레딧 충전 유도.
+  async function requestExpertAnswer() {
+    if (!question || aiLoading) return;
+    if (!authUserId) {
+      window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: `/qa/${id}` } }));
+      return;
+    }
+    const key  = expertKey(authUserId);
+    const used = Number(localStorage.getItem(key) || "0");
+    if (used >= FREE_EXPERT) {
+      // 무료 3회 소진 — 충전 모달을 띄워 유료 전환 유도.
+      window.dispatchEvent(new Event("inhero:open-charge"));
+      return;
+    }
+    const ok = await generateAIAnswer(question);
+    if (ok) {
+      try { localStorage.setItem(key, String(used + 1)); } catch { /* ignore */ }
+      setExpertUsed(used + 1);
     }
   }
 
@@ -334,6 +374,29 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
                 <div className="flex gap-1">{[0,1,2].map(i => <div key={i} className="w-1.5 h-1.5 bg-primary-400 rounded-full animate-bounce" style={{animationDelay:`${i*0.15}s`}} />)}</div>
                 <span>{copy.aiLoading}</span>
               </div>
+            </div>
+          )}
+
+          {/* 전문가(AI) 답변 받기 — 입시 Q&A에서만, AI 답변이 아직 없을 때 노출. 계정당 3회 무료. */}
+          {isParent && !aiLoading && !answers.some((a) => a.is_ai) && (
+            <div className="card p-5 mb-4 border border-emerald-200 dark:border-emerald-800" style={{ background: "linear-gradient(135deg,#ecfdf5,#f0fdf4)" }}>
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="text-lg">🎓</span>
+                <span className="text-sm font-extrabold text-gray-900">전문가 답변 받기</span>
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">
+                  {expertUsed < FREE_EXPERT ? `무료 ${FREE_EXPERT - expertUsed}회 남음` : "무료 소진"}
+                </span>
+              </div>
+              <p className="text-xs text-gray-500 mb-3 leading-relaxed">
+                아이비리그 멘토의 답변 기준으로 학습된 전문가 AI가 이 질문에 바로 답해드려요. 학부모·학생 간 소통은 무료, 전문가 답변은 계정당 3회 무료입니다.
+              </p>
+              <button
+                onClick={requestExpertAnswer}
+                disabled={aiLoading}
+                className="btn-primary text-sm py-2 px-5 disabled:opacity-40"
+              >
+                {expertUsed < FREE_EXPERT ? "🎓 전문가 답변 받기" : "🎓 전문가 답변 받기 (충전)"}
+              </button>
             </div>
           )}
 

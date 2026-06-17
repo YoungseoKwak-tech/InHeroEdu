@@ -28,6 +28,7 @@ interface BankQuestion {
   prompt: string;
   options: BankOption[];
   explanation?: string | null;
+  explanationKorean?: string | null;
   similar?: { prompt: string; options: BankOption[] } | null;
   /** Not in the student's paid plan — answers stripped server-side; render blurred. */
   locked?: boolean;
@@ -434,7 +435,7 @@ function QuestionCard({ q, index, free = false }: { q: BankQuestion; index: numb
         )}
         <span style={{ marginLeft: "auto", fontSize: 11, color: "rgba(255,255,255,0.28)" }}>#{index + 1}</span>
       </div>
-      <Askable prompt={q.prompt} options={q.options} explanation={q.explanation} similar={q.similar} />
+      <Askable prompt={q.prompt} options={q.options} explanation={q.explanation} explanationKorean={q.explanationKorean} similar={q.similar} />
     </div>
   );
 }
@@ -445,23 +446,27 @@ function Askable({
   prompt,
   options,
   explanation,
+  explanationKorean,
   similar,
   nested = false,
 }: {
   prompt: string;
   options: BankOption[];
   explanation?: string | null;
+  explanationKorean?: string | null;
   similar?: { prompt: string; options: BankOption[] } | null;
   nested?: boolean;
 }) {
   const [picked, setPicked] = useState<number | null>(null);
   const [showSimilar, setShowSimilar] = useState(false);
-  // 풀이만 한국어로 — translate the explanation (never the prompt/options) on demand.
+  // 풀이만 한국어로 — show the pre-authored Korean solution when one exists
+  // (precise, instant), else translate the explanation on demand.
   const [ko, setKo] = useState<{ loading: boolean; text: string | null; error: string | null }>(
-    { loading: false, text: null, error: null }
+    { loading: false, text: explanationKorean ?? null, error: null }
   );
 
   async function translateExplanation() {
+    if (explanationKorean) { setKo({ loading: false, text: explanationKorean, error: null }); return; }
     if (!explanation || ko.loading || ko.text) return;
     setKo({ loading: true, text: null, error: null });
     try {

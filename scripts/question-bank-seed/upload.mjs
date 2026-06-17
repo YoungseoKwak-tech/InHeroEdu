@@ -62,6 +62,7 @@ for (const file of files) {
       option_e: q.option_e ?? null,
       correct_answer: q.correct_answer,
       explanation: q.explanation,
+      explanation_korean: q.explanation_korean ?? null,
       tags: q.unit != null ? [`unit:${q.unit}`] : null,
     }));
 

@@ -161,7 +161,7 @@ CRITICAL JSON RULES:
 """
 
         response = client.messages.create(
-            model="claude-opus-4-5",
+            model="claude-opus-4-8",
             max_tokens=16000,
             messages=[{"role": "user", "content": prompt}],
         )

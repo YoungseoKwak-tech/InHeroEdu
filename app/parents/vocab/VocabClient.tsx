@@ -7,6 +7,8 @@
 
 import ParentHubShell from "@/components/parents/ParentHubShell";
 import VocabStudy from "@/components/vocab/VocabStudy";
+import CreditGate from "@/components/parents/CreditGate";
+import { CREDIT_COSTS } from "@/lib/credits";
 
 export default function VocabClient() {
   return (
@@ -23,7 +25,14 @@ export default function VocabClient() {
         </>
       }
     >
-      <VocabStudy theme="light" />
+      <CreditGate
+        gateKey="parents:vocab"
+        cost={CREDIT_COSTS.VOCAB}
+        title="📒 과목별 필수 단어장 잠금해제"
+        desc={`과학·수학·통계 등 전 과목 필수 영어 용어를 한국어 뜻과 함께 — 단어장·플래시카드·오늘의 단어 모드까지. 한 번 열면 계속 볼 수 있어요. (${CREDIT_COSTS.VOCAB} 크레딧)`}
+      >
+        <VocabStudy theme="light" />
+      </CreditGate>
     </ParentHubShell>
   );
 }
