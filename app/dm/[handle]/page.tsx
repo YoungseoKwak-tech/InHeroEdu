@@ -35,9 +35,10 @@ export default function DMPage({ params }: PageProps) {
           headers: { Authorization: `Bearer ${session.access_token}` },
           cache: "no-store",
         });
-        const probeJson = await probe.json().catch(() => ({}));
+        await probe.json().catch(() => ({}));
         if (!mounted) return;
-        if (!probeJson?.profile?.handle) { setAuthStatus("no_profile"); return; }
+        // No trajectory handle required — /api/dm/init auto-provisions a minimal
+        // public profile (e.g. for parents) so the DM can start.
         setAuthStatus("ok");
 
         // Init / find thread

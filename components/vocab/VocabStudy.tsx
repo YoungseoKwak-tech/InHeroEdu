@@ -251,7 +251,12 @@ export default function VocabStudy({ theme }: { theme: Theme }) {
       )}
 
       {loading ? (
-        <p style={{ color: Pa.muted, fontSize: 14, padding: "40px 0", textAlign: "center" }}>불러오는 중…</p>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, padding: "64px 0" }}>
+          <span aria-hidden="true" style={{ width: 38, height: 38, borderRadius: "50%", border: "3px solid #e2e8f0", borderTopColor: Pa.accent, display: "inline-block", animation: "vocabSpin 0.8s linear infinite" }} />
+          <p style={{ color: Pa.muted, fontSize: 14, fontWeight: 700, margin: 0 }}>단어장 준비 중…</p>
+          <p style={{ color: "#b0b8c1", fontSize: 12.5, margin: 0 }}>과목별 필수 단어를 불러오고 있어요</p>
+          <style>{`@keyframes vocabSpin { to { transform: rotate(360deg); } }`}</style>
+        </div>
       ) : !activeSubject ? null : deckTerms.length === 0 ? (
         <p style={{ color: Pa.muted, fontSize: 14, padding: "30px 0", textAlign: "center" }}>
           {hideKnown ? "이 범위는 전부 외웠어요! 🎉" : "이 범위의 단어가 없어요."}

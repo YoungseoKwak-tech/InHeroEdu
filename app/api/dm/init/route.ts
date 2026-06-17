@@ -37,9 +37,19 @@ export async function POST(req: NextRequest) {
   if (target.user_id === user.id) {
     return NextResponse.json({ error: "You can't DM yourself." }, { status: 400 });
   }
-  const me = (allProfiles ?? []).find((p) => p.user_id === user.id);
+  let me = (allProfiles ?? []).find((p) => p.user_id === user.id);
   if (!me) {
-    return NextResponse.json({ error: "Claim your trajectory handle before sending DMs." }, { status: 403 });
+    // Auto-provision a minimal public profile so anyone signed in (e.g. parents,
+    // who never go through trajectory onboarding) can start a DM with a mentor.
+    const base = (user.email?.split("@")[0] || "guest").replace(/[^a-zA-Z0-9_]/g, "").slice(0, 12) || "guest";
+    for (let i = 0; i < 5 && !me; i++) {
+      const handleTry = `${base}-${Math.random().toString(36).slice(2, 6)}`;
+      const { error: insErr } = await supabase
+        .from("profiles_public")
+        .insert({ user_id: user.id, display_handle: handleTry });
+      if (!insErr) me = { user_id: user.id, display_handle: handleTry };
+    }
+    if (!me) return NextResponse.json({ error: "프로필 생성에 실패했어요. 잠시 후 다시 시도해 주세요." }, { status: 500 });
   }
 
   // Sort the pair so dm_threads is deterministic.

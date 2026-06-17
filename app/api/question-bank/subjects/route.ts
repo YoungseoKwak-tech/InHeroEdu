@@ -10,7 +10,10 @@
 import { NextResponse } from "next/server";
 import { getAllBankQuestions, countBySubject } from "@/lib/questionBank";
 
-export const revalidate = 900; // seconds — background revalidate at most every 15 min
+// force-dynamic so the ~12k-question bank is NOT built at deploy time (that
+// prerender can exceed the build timeout and fail the deploy). CDN caching is
+// handled by the Cache-Control header below (s-maxage=900) — same 15-min effect.
+export const dynamic = "force-dynamic";
 
 // A subject is "exam-ready" only if it has at least this many real MCQs (2+
 // options) — the same filter the exam builder uses. Below this, the Bluebook

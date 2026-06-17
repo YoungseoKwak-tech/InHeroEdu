@@ -28,8 +28,6 @@ import { REVIEWS } from "@/lib/data/reviews";
 import LiveStatBadge from "@/components/social/LiveStatBadge";
 
 const GREEN = "#00b85f";
-// Real direct line to the Cornell-engineering mentor (founder) — KakaoTalk channel.
-const MENTOR_CHAT = "http://pf.kakao.com/_ZchdX/chat";
 
 interface Question {
   id: string; nickname: string; title: string; content: string;
@@ -786,14 +784,14 @@ export default function ParentsClient() {
             <EmptyRow text="아직 댓글이 없습니다." />
           </SideCard>
 
-          {/* Ivy mentor CTA → real 1:1 chat with the Cornell mentor (KakaoTalk channel) */}
-          <a href={MENTOR_CHAT} target="_blank" rel="noopener noreferrer"
-            style={{ display: "block", textDecoration: "none", textAlign: "left", border: "none", cursor: "pointer", borderRadius: 14, padding: "20px 18px", background: "linear-gradient(135deg,#1e1b4b,#4c1d95)", color: "#fff", boxShadow: "0 8px 24px rgba(76,29,149,0.28)" }}>
+          {/* Ivy mentor CTA → in-app 1:1 chat with the Cornell mentor (founder account) */}
+          <button onClick={() => go("/dm/yng0802", true)}
+            style={{ display: "block", width: "100%", textAlign: "left", border: "none", cursor: "pointer", borderRadius: 14, padding: "20px 18px", background: "linear-gradient(135deg,#1e1b4b,#4c1d95)", color: "#fff", boxShadow: "0 8px 24px rgba(76,29,149,0.28)" }}>
             <div style={{ fontSize: 26, marginBottom: 8 }}>🎓</div>
-            <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: "-0.01em", lineHeight: 1.35, marginBottom: 6 }}>아이비리그 멘토와<br />1:1로 직접 채팅하세요!</div>
-            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.6, margin: "0 0 12px" }}>사교육 없이 아이비리그에 간 재학생에게 AP·SAT·입시 전략을 카카오톡으로 직접 물어보세요.</p>
-            <span style={{ display: "inline-block", background: "#fee500", color: "#191600", borderRadius: 8, padding: "9px 16px", fontSize: 13, fontWeight: 800 }}>💬 카카오톡으로 채팅하기 →</span>
-          </a>
+            <div style={{ fontSize: 16, fontWeight: 800, letterSpacing: "-0.01em", lineHeight: 1.35, marginBottom: 6 }}>아이비리그생 멘토와<br />1:1로 직접 채팅하세요!</div>
+            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.6, margin: "0 0 12px" }}>사교육 없이 코넬 공대에 간 재학생 멘토에게 AP·SAT·입시 전략을 앱에서 바로 물어보세요.</p>
+            <span style={{ display: "inline-block", background: "rgba(255,255,255,0.16)", border: "1px solid rgba(255,255,255,0.3)", borderRadius: 8, padding: "9px 16px", fontSize: 13, fontWeight: 800 }}>💬 멘토와 채팅하기 →</span>
+          </button>
 
           <p style={{ fontSize: 12, color: "#94a3b8", textAlign: "center" }}>
             학생이신가요? <Link href="/" style={{ color: GREEN, textDecoration: "none", fontWeight: 600 }}>InHero 둘러보기 →</Link>
