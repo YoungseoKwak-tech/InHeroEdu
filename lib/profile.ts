@@ -5,6 +5,9 @@ export interface ProfileFields {
   referral_student_email: string | null;
   phone: string | null;
   marketing_consent: boolean;
+  /** Separate, explicit opt-in for EMAIL marketing (정보통신망법 §50 requires
+   *  this be distinct from general terms + the Kakao consent, default off). */
+  email_marketing_consent: boolean;
 }
 
 type ProfileLike = Partial<
@@ -39,6 +42,7 @@ export function normalizeProfileFields(profile: ProfileLike): ProfileFields {
     referral_student_email: normalizeValue(profile.referral_student_email),
     phone: normalizePhoneValue(profile.phone),
     marketing_consent: normalizeBool(profile.marketing_consent),
+    email_marketing_consent: normalizeBool(profile.email_marketing_consent),
   };
 }
 
@@ -57,5 +61,7 @@ export function mergeProfileFields(
       normalizedPrimary.referral_student_email ?? normalizedFallback.referral_student_email,
     phone: normalizedPrimary.phone ?? normalizedFallback.phone,
     marketing_consent: normalizedPrimary.marketing_consent || normalizedFallback.marketing_consent,
+    email_marketing_consent:
+      normalizedPrimary.email_marketing_consent || normalizedFallback.email_marketing_consent,
   };
 }

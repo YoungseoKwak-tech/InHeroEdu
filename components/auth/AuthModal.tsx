@@ -42,6 +42,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
   const [referralStudentEmail, setReferralStudentEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [marketingConsent, setMarketingConsent] = useState(false)
+  const [emailMarketingConsent, setEmailMarketingConsent] = useState(false)
   // 가입 티어 — 학생/학부모. 학부모 포털 가입은 기본 '학부모'.
   const [role, setRole] = useState<'student' | 'parent'>(audience === 'parent' ? 'parent' : 'student')
   const [loading, setLoading] = useState(false)
@@ -135,6 +136,7 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
             referral_student_email: referralStudentEmail,
             phone,
             marketing_consent: marketingConsent,
+            email_marketing_consent: emailMarketingConsent,
           }),
           role,
         }
@@ -521,6 +523,22 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
                   {ko
                     ? '[선택] 새 개념정리·대회·입시 자료 업데이트를 카카오톡으로 받겠습니다. (광고성 정보 수신 동의)'
                     : '[Optional] Send me new core notes, competitions & admissions updates via KakaoTalk. (Marketing consent)'}
+                </span>
+              </label>
+            )}
+
+            {mode === 'signup' && (
+              <label style={{ display: 'flex', alignItems: 'flex-start', gap: 8, cursor: 'pointer', padding: '2px 2px' }}>
+                <input
+                  type="checkbox"
+                  checked={emailMarketingConsent}
+                  onChange={(e) => setEmailMarketingConsent(e.target.checked)}
+                  style={{ marginTop: 2, width: 16, height: 16, accentColor: '#00b85f', cursor: 'pointer', flexShrink: 0 }}
+                />
+                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.62)', lineHeight: 1.55 }}>
+                  {ko
+                    ? '[선택] 이벤트·혜택·새 자료 소식을 이메일로 받겠습니다. (광고성 정보 수신 동의)'
+                    : '[Optional] Send me events, perks & new-resource updates by email. (Marketing consent)'}
                 </span>
               </label>
             )}

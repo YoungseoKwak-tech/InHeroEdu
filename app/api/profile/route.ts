@@ -33,9 +33,12 @@ export async function POST(req: NextRequest) {
 
   const supabase = createAdminClient();
 
-  // Stamp marketing_consent_at when consent is granted.
+  // Stamp the consent timestamps when each (separate) consent is granted —
+  // 정보통신망법 requires a record of when marketing consent was obtained.
   const row: Record<string, unknown> = { id: user.id, ...profile };
-  if (profile.marketing_consent) row.marketing_consent_at = new Date().toISOString();
+  const now = new Date().toISOString();
+  if (profile.marketing_consent) row.marketing_consent_at = now;
+  if (profile.email_marketing_consent) row.email_marketing_consent_at = now;
 
   let { error } = await supabase.from("profiles").upsert(row, { onConflict: "id" });
 
