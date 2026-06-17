@@ -23,6 +23,7 @@ import ReferralPrompt from "@/components/parents/ReferralPrompt";
 import { isUnlocked, spendAndUnlockAccount, hydrateCredits, CREDIT_EVENT, CREDIT_COSTS, getBalance } from "@/lib/credits";
 import { isAdminEmail } from "@/lib/adminEmails";
 import TextbookFlipPreview from "@/components/parents/TextbookFlipPreview";
+import AiContentNotice from "@/components/legal/AiContentNotice";
 import { REVIEWS } from "@/lib/data/reviews";
 import LiveStatBadge from "@/components/social/LiveStatBadge";
 
@@ -888,35 +889,20 @@ export default function ParentsClient() {
               background: "#fef3c7", border: "1px solid #fcd34d",
               borderRadius: 999, padding: "5px 12px", letterSpacing: "-0.01em",
             }}>
-              ✍️ 아이비리그생 손필기 + 노하우
+              🤖 AI 생성 + ✍️ 아이비리그생 노하우
             </span>
           </div>
-          <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.7, marginBottom: 22 }}>
+          <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.7, marginBottom: 14 }}>
             Limits부터 무한급수까지, AP 전 범위를 담은 디지털 교재입니다. 표지를 눌러 바로 읽어보세요.
           </p>
+
+          {/* AI 생성 고지 — 이 교재들이 아이비리그생 설계 프롬프트 + AI로 생성됐음을 명시 */}
+          <AiContentNotice style={{ marginBottom: 22 }} />
 
           {/* Flip preview of the textbook spreads (typed page + handwritten notes) */}
           <TextbookFlipPreview />
 
           <div className="tb-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(168px, 1fr))", gap: 16 }}>
-            {/* AI 아이비리그 프롬프트 — pinned first card → /parents/ivy-prompts */}
-            <button key="ivy-prompts" onClick={() => go("/parents/ivy-prompts", false)}
-              style={{ textAlign: "left", background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, overflow: "hidden", cursor: "pointer", padding: 0, boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 180ms, box-shadow 200ms" }}
-              onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 36px rgba(16,24,40,0.12)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 1px 2px rgba(16,24,40,0.04)"; }}>
-              <div style={{ position: "relative", height: 218, background: "linear-gradient(135deg,#1e1b4b,#4c1d95)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 60, overflow: "hidden" }}>
-                <span style={{ position: "absolute", top: 8, right: 8, zIndex: 2, fontSize: 10.5, fontWeight: 800, borderRadius: 999, padding: "2px 9px", color: isAdmin || isUnlocked("res:/parents/ivy-prompts") ? "#fff" : "#a16207", background: isAdmin || isUnlocked("res:/parents/ivy-prompts") ? GREEN : "rgba(255,251,235,0.95)", border: isAdmin || isUnlocked("res:/parents/ivy-prompts") ? "none" : "1px solid #f1d27a" }}>
-                  {isAdmin || isUnlocked("res:/parents/ivy-prompts") ? "✓ 보유" : "🔒 250 크레딧"}
-                </span>
-                <span style={{ position: "absolute", top: 8, left: 8, zIndex: 2, fontSize: 11, fontWeight: 900, color: "#fff", background: "linear-gradient(135deg,#7c3aed,#4c1d95)", borderRadius: 999, padding: "3px 9px" }}>🤖 AI</span>
-                <span aria-hidden="true">🤖</span>
-              </div>
-              <div style={{ padding: "13px 14px 15px" }}>
-                <div style={{ fontSize: 14.5, fontWeight: 800, color: "#1a1a1f", letterSpacing: "-0.01em", lineHeight: 1.3 }}>아이비리그 프롬프트</div>
-                <div style={{ fontSize: 11.5, color: "#94a3b8", marginTop: 2 }}>AI 입시 프롬프트 모음집</div>
-                <div style={{ fontSize: 12, color: "#64748b", marginTop: 8, fontWeight: 600 }}>ChatGPT·Claude 복붙용</div>
-              </div>
-            </button>
             {[...textbooks].sort((a, b) => (a.slug === "ap-bio-ultimate" ? -1 : b.slug === "ap-bio-ultimate" ? 1 : 0)).map((b) => {
               const bookOwned = isAdmin || isUnlocked(`book:${b.slug}`);
               const isBio = b.slug === "ap-bio-ultimate";
