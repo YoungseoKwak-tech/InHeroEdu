@@ -20,10 +20,9 @@ import {
 } from "@/lib/paid-subject-access";
 import {
   buildBankQuestions,
-  getAllBankQuestions,
-  countBySubject,
   type BankQuestion,
 } from "@/lib/questionBank";
+import precomputedSubjects from "@/lib/data/precomputed/questionBankSubjects.json";
 
 export const dynamic = "force-dynamic";
 
@@ -54,22 +53,23 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const subject = searchParams.get("subject")?.trim() || undefined;
     const countOnly = searchParams.get("countOnly") === "true";
+
+    if (countOnly) {
+      // Subject grid: served from the build-time precomputed snapshot instead
+      // of building the ~170k-question bank on a cold start (which left the
+      // grid blank for ~12s). Counts only change on deploy. No auth needed —
+      // visibility is public; the lock happens on the question payload.
+      return NextResponse.json(precomputedSubjects, {
+        headers: { "Cache-Control": "public, s-maxage=900, stale-while-revalidate=86400" },
+      });
+    }
+
     // Anonymous visitors can browse: every subject's counts plus a couple of
     // free questions each. Signed-in students additionally unlock the subjects
     // in their paid plan. No auth → no paid access (empty set), not a 401.
     const user = await getAuthenticatedUser(req);
     const accessIds = user ? await getPaidSubjectAccessIds(user) : new Set<string>();
     const normalizedSubject = normalizeCourseAccessSubjectId(subject);
-
-    if (countOnly) {
-      // Everyone sees every subject and its count — the lock happens on the
-      // question payload, not on visibility.
-      const all = await getAllBankQuestions();
-      return NextResponse.json({
-        subjects: countBySubject(all),
-        total: all.length,
-      });
-    }
 
     const limitParam = parseInt(searchParams.get("limit") ?? "", 10);
     const limit = Math.min(

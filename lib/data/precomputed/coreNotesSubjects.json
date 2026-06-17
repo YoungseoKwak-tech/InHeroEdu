@@ -1,0 +1,233 @@
+{
+  "subjects": [
+    {
+      "courseId": "ap-chemistry",
+      "label": "AP Chemistry",
+      "emoji": "⚗️",
+      "count": 72
+    },
+    {
+      "courseId": "ap-environmental-science",
+      "label": "AP Environmental Science",
+      "emoji": "🌱",
+      "count": 72
+    },
+    {
+      "courseId": "ap-statistics",
+      "label": "AP Statistics",
+      "emoji": "📊",
+      "count": 65
+    },
+    {
+      "courseId": "ap-biology",
+      "label": "AP Biology",
+      "emoji": "🧬",
+      "count": 64
+    },
+    {
+      "courseId": "ap-calculus-ab",
+      "label": "AP Calculus AB",
+      "emoji": "∫",
+      "count": 64
+    },
+    {
+      "courseId": "ap-world-history",
+      "label": "AP World History",
+      "emoji": "🌍",
+      "count": 60
+    },
+    {
+      "courseId": "ap-physics-2",
+      "label": "AP Physics 2",
+      "emoji": "⚡",
+      "count": 55
+    },
+    {
+      "courseId": "ap-physics-1",
+      "label": "AP Physics 1",
+      "emoji": "🔭",
+      "count": 54
+    },
+    {
+      "courseId": "ap-computer-science-a",
+      "label": "AP Computer Science A",
+      "emoji": "💻",
+      "count": 41
+    },
+    {
+      "courseId": "ap-human-geography",
+      "label": "AP Human Geography",
+      "emoji": "🗺️",
+      "count": 40
+    },
+    {
+      "courseId": "ib-chemistry",
+      "label": "IB Chemistry",
+      "emoji": "⚗️",
+      "count": 33
+    },
+    {
+      "courseId": "ap-calculus-bc",
+      "label": "AP Calculus BC",
+      "emoji": "∫",
+      "count": 32
+    },
+    {
+      "courseId": "ap-physics-c-mechanics",
+      "label": "ap-physics-c-mechanics",
+      "emoji": "📘",
+      "count": 28
+    },
+    {
+      "courseId": "ib-ess",
+      "label": "IB ESS",
+      "emoji": "🌱",
+      "count": 24
+    },
+    {
+      "courseId": "ib-physics",
+      "label": "IB Physics",
+      "emoji": "⚛️",
+      "count": 24
+    },
+    {
+      "courseId": "ap-english-language",
+      "label": "AP English Language and Composition",
+      "emoji": "✍️",
+      "count": 21
+    },
+    {
+      "courseId": "ib-cs",
+      "label": "IB Computer Science",
+      "emoji": "💻",
+      "count": 21
+    },
+    {
+      "courseId": "ap-psychology",
+      "label": "AP Psychology",
+      "emoji": "🧠",
+      "count": 18
+    },
+    {
+      "courseId": "ib-biology",
+      "label": "IB Biology",
+      "emoji": "🧬",
+      "count": 18
+    },
+    {
+      "courseId": "ap-macroeconomics",
+      "label": "AP Macroeconomics",
+      "emoji": "📈",
+      "count": 16
+    },
+    {
+      "courseId": "ib-history",
+      "label": "IB History",
+      "emoji": "🏛️",
+      "count": 15
+    },
+    {
+      "courseId": "ib-math-aa",
+      "label": "IB Math AA",
+      "emoji": "➗",
+      "count": 15
+    },
+    {
+      "courseId": "ib-math-ai",
+      "label": "IB Math AI",
+      "emoji": "📊",
+      "count": 15
+    },
+    {
+      "courseId": "ap-microeconomics",
+      "label": "AP Microeconomics",
+      "emoji": "📉",
+      "count": 13
+    },
+    {
+      "courseId": "ap-us-government",
+      "label": "AP US Government and Politics",
+      "emoji": "🏛️",
+      "count": 13
+    },
+    {
+      "courseId": "honors-algebra-2",
+      "label": "Honors Algebra 2",
+      "emoji": "➗",
+      "count": 12
+    },
+    {
+      "courseId": "honors-biology",
+      "label": "Honors Biology",
+      "emoji": "🧬",
+      "count": 12
+    },
+    {
+      "courseId": "honors-chemistry",
+      "label": "Honors Chemistry",
+      "emoji": "⚗️",
+      "count": 12
+    },
+    {
+      "courseId": "honors-english-9",
+      "label": "Honors English 9",
+      "emoji": "📖",
+      "count": 12
+    },
+    {
+      "courseId": "honors-geometry",
+      "label": "Honors Geometry",
+      "emoji": "📐",
+      "count": 12
+    },
+    {
+      "courseId": "honors-physics",
+      "label": "Honors Physics",
+      "emoji": "⚛️",
+      "count": 12
+    },
+    {
+      "courseId": "honors-precalculus",
+      "label": "Honors Precalculus",
+      "emoji": "📈",
+      "count": 12
+    },
+    {
+      "courseId": "honors-us-history",
+      "label": "Honors US History",
+      "emoji": "🇺🇸",
+      "count": 12
+    },
+    {
+      "courseId": "honors-world-history",
+      "label": "Honors World History",
+      "emoji": "🌍",
+      "count": 12
+    },
+    {
+      "courseId": "ib-economics",
+      "label": "IB Economics",
+      "emoji": "📈",
+      "count": 12
+    },
+    {
+      "courseId": "ib-english",
+      "label": "IB English A",
+      "emoji": "📖",
+      "count": 9
+    },
+    {
+      "courseId": "ib-psychology",
+      "label": "IB Psychology",
+      "emoji": "🧠",
+      "count": 9
+    },
+    {
+      "courseId": "ap-us-history",
+      "label": "AP US History",
+      "emoji": "🗽",
+      "count": 7
+    }
+  ],
+  "total": 1038
+}

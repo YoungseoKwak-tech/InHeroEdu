@@ -9,8 +9,7 @@
  * 본문을 받습니다. 미보유자는 sections를 비운 잠금 응답을 받아요.
  */
 import { NextRequest, NextResponse } from "next/server";
-import { getCoreNoteKo } from "@/lib/data/coreNotesKo";
-import { getCoreNotes } from "@/lib/coreNotes";
+import { CORE_NOTES_KO, getCoreNoteKo } from "@/lib/data/coreNotesKo";
 import { getUnlockContext, hasAnyUnlock } from "@/lib/serverUnlock";
 
 export const dynamic = "force-dynamic";
@@ -23,6 +22,25 @@ function subjectFromLessonId(id: string): string {
   return m ? m[1] : id;
 }
 
+// First (taster) lesson per subject, computed once from the static Korean
+// registry. Previously this called getCoreNotes(subject), which rebuilt the
+// ENTIRE Core Notes set from the DB on every cold start (slow). The Ko data is
+// static + ordered, so the free first lesson is derivable with no DB hit.
+let tasterBySubject: Map<string, string> | null = null;
+function firstKoLessonId(subject: string): string | null {
+  if (!tasterBySubject) {
+    const best = new Map<string, { lessonId: string; ord: number }>();
+    for (const n of CORE_NOTES_KO.values()) {
+      const subj = n.courseId ?? subjectFromLessonId(n.lessonId);
+      const ord = (n.unit ?? 99) * 1000 + (n.lessonNum ?? 99);
+      const cur = best.get(subj);
+      if (!cur || ord < cur.ord) best.set(subj, { lessonId: n.lessonId, ord });
+    }
+    tasterBySubject = new Map([...best].map(([k, v]) => [k, v.lessonId]));
+  }
+  return tasterBySubject.get(subject) ?? null;
+}
+
 export async function GET(req: NextRequest) {
   const lessonId = new URL(req.url).searchParams.get("lessonId")?.trim();
   if (!lessonId) return NextResponse.json({ error: "lessonId required" }, { status: 400 });
@@ -32,11 +50,7 @@ export async function GET(req: NextRequest) {
 
   // The first lesson of each subject is a free taster; the rest is paid.
   const subject = subjectFromLessonId(lessonId);
-  let isTaster = false;
-  try {
-    const subjectNotes = await getCoreNotes(subject);
-    isTaster = subjectNotes[0]?.lessonId === lessonId;
-  } catch { /* if we can't tell, fall through to the unlock check (fail closed) */ }
+  const isTaster = firstKoLessonId(subject) === lessonId;
 
   if (!isTaster) {
     const ctx = await getUnlockContext(req);

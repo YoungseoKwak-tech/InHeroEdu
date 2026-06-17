@@ -44,6 +44,8 @@ export interface BankQuestion {
   prompt: string;
   options: BankOption[];
   explanation?: string | null;
+  /** Pre-authored Korean solution, shown verbatim instead of on-demand translation. */
+  explanationKorean?: string | null;
   /** A near-variant to offer when the student answers wrong. */
   similar?: { prompt: string; options: BankOption[] } | null;
 }
@@ -236,6 +238,7 @@ interface AdminQuestionRow {
   option_e: string | null;
   correct_answer: string | null;
   explanation: string | null;
+  explanation_korean: string | null;
   tags: string[] | null;
 }
 
@@ -281,6 +284,7 @@ function fromAdminRow(row: AdminQuestionRow): BankQuestion | null {
     prompt,
     options,
     explanation: row.explanation,
+    explanationKorean: row.explanation_korean,
     similar: null,
   };
 }
@@ -296,6 +300,13 @@ function fromAdminRow(row: AdminQuestionRow): BankQuestion | null {
 const BANK_TTL_MS = 10 * 60 * 1000; // 10 minutes
 let bankCache: { at: number; data: BankQuestion[] } | null = null;
 let bankInFlight: Promise<BankQuestion[]> | null = null;
+
+// Per-subject builds. The full aggregation is ~170k rows (~60s cold), but the
+// big `questions` table is keyed by course-id subjects, so a single subject can
+// be fetched + built in ~1-2s. Keyed by normalized course id; concurrent
+// callers for the same subject share one build.
+const subjectBankCache = new Map<string, { at: number; data: BankQuestion[] }>();
+const subjectBankInFlight = new Map<string, Promise<BankQuestion[]>>();
 
 // PostgREST caps a single select at 1000 rows, so every table that can exceed
 // that (the questions bank especially) must be read in pages or the bank
@@ -337,7 +348,7 @@ async function rebuildBank(): Promise<BankQuestion[]> {
       supabase
         .from("questions")
         .select(
-          "id, subject, topic, question_text, option_a, option_b, option_c, option_d, option_e, correct_answer, explanation, tags"
+          "id, subject, topic, question_text, option_a, option_b, option_c, option_d, option_e, correct_answer, explanation, explanation_korean, tags"
         )
         .order("id", { ascending: true })
     ),
@@ -395,20 +406,114 @@ export async function getAllBankQuestions(): Promise<BankQuestion[]> {
 }
 
 /**
+ * Build only one subject's questions by filtering the heavy tables to that
+ * course up front — avoids the ~60s full build on a cold start. `variants` are
+ * the course-id forms (e.g. ["ap-biology","ap-bio"]) used by lesson_ids and the
+ * `questions.subject` column.
+ */
+async function rebuildBankForSubject(variants: string[]): Promise<BankQuestion[]> {
+  const supabase = createAdminClient();
+  // PostgREST `or` of like-patterns on the lesson_id prefix (lesson_scripts /
+  // overlays) + an `in` on the subject column (the big admin `questions` table).
+  const orLessonId = variants.map((v) => `lesson_id.like.${v}-*`).join(",");
+
+  const [scriptRows, overlayRows, adminRows] = await Promise.all([
+    selectAllPaged<ScriptRow>(() =>
+      supabase
+        .from("lesson_scripts")
+        .select("lesson_id, chapter_json")
+        .or(orLessonId)
+        .order("lesson_id", { ascending: true })
+    ),
+    selectAllPaged<OverlayRow>(() =>
+      supabase
+        .from("overlays")
+        .select("id, lesson_id, type, data")
+        .in("type", ["tap_quick", "question_sprint"])
+        .or(orLessonId)
+        .order("id", { ascending: true })
+    ),
+    selectAllPaged<AdminQuestionRow>(() =>
+      supabase
+        .from("questions")
+        .select(
+          "id, subject, topic, question_text, option_a, option_b, option_c, option_d, option_e, correct_answer, explanation, explanation_korean, tags"
+        )
+        .in("subject", variants)
+        .order("id", { ascending: true })
+    ),
+  ]);
+
+  const out: BankQuestion[] = [];
+  for (const row of scriptRows) out.push(...fromGeneratedQuestions(row));
+  for (const row of overlayRows) {
+    if (row.type === "tap_quick") {
+      const q = fromTapQuick(row);
+      if (q) out.push(q);
+    } else if (row.type === "question_sprint") {
+      out.push(...fromQuestionSprint(row));
+    }
+  }
+  for (const row of adminRows) {
+    const q = fromAdminRow(row);
+    if (q) out.push(q);
+  }
+
+  // Keep only this subject's questions (admin subject forms outside `variants`
+  // can't appear here, but generated/overlay courseIds are filtered to be safe).
+  const filtered = out.filter((q) => q.courseId && variants.includes(q.courseId));
+  filtered.sort((a, b) => {
+    if ((a.unit ?? 99) !== (b.unit ?? 99)) return (a.unit ?? 99) - (b.unit ?? 99);
+    return a.prompt.localeCompare(b.prompt);
+  });
+  return filtered;
+}
+
+/**
  * Build the normalized bank. `subject` filters by course id
- * (e.g. "ap-biology"); omit for everything. Reads from the cached
- * aggregation — no per-call DB work once warm.
+ * (e.g. "ap-biology"); omit for everything.
+ *
+ * Fast paths, in order: (1) the full bank is already warm → filter in memory;
+ * (2) this subject is cached → return it; (3) build just this subject from
+ * filtered queries (~1-2s) instead of the whole ~170k-row bank (~60s). Falls
+ * back to the full build only if the per-subject build comes back empty (a
+ * variant-mapping miss), so a real subject can never render blank.
  */
 export async function buildBankQuestions(subject?: string): Promise<BankQuestion[]> {
-  const all = await getAllBankQuestions();
+  if (!subject) return getAllBankQuestions();
 
-  // Filter by course id, tolerant of id variants (course pages may pass
-  // "ap-physics-c-mech" while bank questions are tagged the data-layer
-  // form "ap-physics-c-mechanics") and of access-subject normalization.
-  if (!subject) return all;
   const normalizedSubject = normalizeCourseAccessSubjectId(subject) ?? subject;
   const subjectVariants = getCourseIdVariants(normalizedSubject);
-  return all.filter((q) => q.courseId && subjectVariants.includes(q.courseId));
+  const filterWarm = (all: BankQuestion[]) =>
+    all.filter((q) => q.courseId && subjectVariants.includes(q.courseId));
+
+  // (1) Full bank already built this instance → just filter it (instant).
+  if (bankCache && Date.now() - bankCache.at < BANK_TTL_MS) {
+    return filterWarm(bankCache.data);
+  }
+
+  // (2) Per-subject cache / in-flight de-dupe.
+  const cached = subjectBankCache.get(normalizedSubject);
+  if (cached && Date.now() - cached.at < BANK_TTL_MS) return cached.data;
+  const inFlight = subjectBankInFlight.get(normalizedSubject);
+  if (inFlight) return inFlight;
+
+  // (3) Build just this subject.
+  const p = rebuildBankForSubject(subjectVariants)
+    .then(async (data) => {
+      // Safety net: empty likely means a variant/prefix mismatch, not a truly
+      // empty subject — fall back to the full build so we never render blank.
+      if (data.length === 0) {
+        return filterWarm(await getAllBankQuestions());
+      }
+      subjectBankCache.set(normalizedSubject, { at: Date.now(), data });
+      return data;
+    })
+    .finally(() => {
+      subjectBankInFlight.delete(normalizedSubject);
+    });
+  subjectBankInFlight.set(normalizedSubject, p);
+  return p;
 }
 
 /** Per-course counts for the landing chips. */

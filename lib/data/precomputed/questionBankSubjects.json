@@ -1,0 +1,261 @@
+{
+  "subjects": [
+    {
+      "courseId": "ib-math-aa",
+      "label": "IB Math: Analysis and Approaches",
+      "emoji": "∫",
+      "count": 66648,
+      "examPool": 66648,
+      "examReady": true
+    },
+    {
+      "courseId": "sat-math",
+      "label": "SAT Math",
+      "emoji": "📝",
+      "count": 27559,
+      "examPool": 27559,
+      "examReady": true
+    },
+    {
+      "courseId": "amc-12",
+      "label": "AMC 12",
+      "emoji": "🏆",
+      "count": 24186,
+      "examPool": 24186,
+      "examReady": true
+    },
+    {
+      "courseId": "amc-10",
+      "label": "AMC 10",
+      "emoji": "🏆",
+      "count": 19120,
+      "examPool": 19120,
+      "examReady": true
+    },
+    {
+      "courseId": "aime",
+      "label": "AIME",
+      "emoji": "🥇",
+      "count": 10764,
+      "examPool": 10764,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-physics-1",
+      "label": "AP Physics 1",
+      "emoji": "🔭",
+      "count": 4366,
+      "examPool": 4366,
+      "examReady": true
+    },
+    {
+      "courseId": "ib-physics",
+      "label": "IB Physics",
+      "emoji": "🔬",
+      "count": 4130,
+      "examPool": 4130,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-chemistry",
+      "label": "AP Chemistry",
+      "emoji": "⚗️",
+      "count": 1696,
+      "examPool": 1696,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-computer-science-a",
+      "label": "AP Computer Science A",
+      "emoji": "💻",
+      "count": 1627,
+      "examPool": 1627,
+      "examReady": true
+    },
+    {
+      "courseId": "ib-chemistry",
+      "label": "IB Chemistry",
+      "emoji": "⚗️",
+      "count": 1377,
+      "examPool": 1377,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-statistics",
+      "label": "AP Statistics",
+      "emoji": "📊",
+      "count": 1113,
+      "examPool": 1113,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-calculus-bc",
+      "label": "AP Calculus BC",
+      "emoji": "∫",
+      "count": 1093,
+      "examPool": 1093,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-microeconomics",
+      "label": "AP Microeconomics",
+      "emoji": "📉",
+      "count": 1058,
+      "examPool": 1058,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-macroeconomics",
+      "label": "AP Macroeconomics",
+      "emoji": "📈",
+      "count": 1011,
+      "examPool": 1011,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-biology",
+      "label": "AP Biology",
+      "emoji": "🧬",
+      "count": 775,
+      "examPool": 775,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-human-geography",
+      "label": "AP Human Geography",
+      "emoji": "🗺️",
+      "count": 674,
+      "examPool": 674,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-world-history",
+      "label": "AP World History",
+      "emoji": "🌍",
+      "count": 672,
+      "examPool": 672,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-us-government",
+      "label": "AP US Government and Politics",
+      "emoji": "🏛️",
+      "count": 620,
+      "examPool": 620,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-psychology",
+      "label": "AP Psychology",
+      "emoji": "🧠",
+      "count": 619,
+      "examPool": 619,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-english-language",
+      "label": "AP English Language and Composition",
+      "emoji": "✍️",
+      "count": 614,
+      "examPool": 614,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-environmental-science",
+      "label": "AP Environmental Science",
+      "emoji": "🌱",
+      "count": 600,
+      "examPool": 600,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-calculus-ab",
+      "label": "AP Calculus AB",
+      "emoji": "∫",
+      "count": 463,
+      "examPool": 463,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-physics-2",
+      "label": "AP Physics 2",
+      "emoji": "⚡",
+      "count": 413,
+      "examPool": 413,
+      "examReady": true
+    },
+    {
+      "courseId": "sat-reading",
+      "label": "SAT Reading & Writing",
+      "emoji": "📝",
+      "count": 243,
+      "examPool": 243,
+      "examReady": true
+    },
+    {
+      "courseId": "ib-biology",
+      "label": "IB Biology",
+      "emoji": "🧬",
+      "count": 226,
+      "examPool": 226,
+      "examReady": true
+    },
+    {
+      "courseId": "ib-economics",
+      "label": "IB Economics",
+      "emoji": "📈",
+      "count": 212,
+      "examPool": 212,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-physics-c-mechanics",
+      "label": "ap-physics-c-mechanics",
+      "emoji": "📘",
+      "count": 167,
+      "examPool": 167,
+      "examReady": true
+    },
+    {
+      "courseId": "ib-english",
+      "label": "IB English A: Lang & Lit",
+      "emoji": "📖",
+      "count": 137,
+      "examPool": 137,
+      "examReady": true
+    },
+    {
+      "courseId": "ib-math-ai",
+      "label": "IB Math: Applications & Interpretation",
+      "emoji": "📐",
+      "count": 124,
+      "examPool": 124,
+      "examReady": true
+    },
+    {
+      "courseId": "ib-psychology",
+      "label": "IB Psychology",
+      "emoji": "🧠",
+      "count": 121,
+      "examPool": 121,
+      "examReady": true
+    },
+    {
+      "courseId": "ib-history",
+      "label": "IB History",
+      "emoji": "📜",
+      "count": 119,
+      "examPool": 119,
+      "examReady": true
+    },
+    {
+      "courseId": "ap-us-history",
+      "label": "AP US History",
+      "emoji": "🗽",
+      "count": 99,
+      "examPool": 99,
+      "examReady": true
+    }
+  ],
+  "total": 172646
+}
