@@ -393,6 +393,10 @@ export default function SeminarClient() {
           <p style={{ fontSize: 14.5, color: "#c7d3df", marginTop: 10, lineHeight: 1.7 }}>
             세미나에 참석하신 모든 분께 책 초입부와 학년별로 바로 쓰는 자기주도학습 체크리스트를 무료로 드립니다.
           </p>
+          <a href="/parents/story/book"
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 16, background: GREEN, color: "#fff", textDecoration: "none", borderRadius: 10, padding: "12px 22px", fontWeight: 800, fontSize: 14.5 }}>
+            📖 책 읽기 — 230페이지 미리보기 →
+          </a>
         </div>
       </section>
 
