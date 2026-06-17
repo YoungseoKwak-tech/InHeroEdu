@@ -1,6 +1,7 @@
 import "server-only";
 import { CORE_NOTES_KO } from "@/lib/data/coreNotesKo";
 import { MATH_VOCAB } from "@/lib/data/vocabMathTerms";
+import { SAT_VOCAB } from "@/lib/data/vocabSatWords";
 
 /**
  * Subject vocabulary 단어장 — built from the Korean Core Notes, whose terms are
@@ -81,6 +82,17 @@ function build(): Map<string, Bucket> {
   }
   if (mathSeen.size > 0) {
     acc.set("math-concepts", { courseId: "math-concepts", label: "수학 개념용어", emoji: "🔢", seen: mathSeen });
+  }
+
+  // SAT 필수단어장 — curated high-frequency SAT words (영어 보고 → 한국어 뜻).
+  // Its own subject so it stands apart from the subject-concept decks.
+  const satSeen = new Map<string, VocabTerm>();
+  for (const t of SAT_VOCAB) {
+    const key = t.en.toLowerCase();
+    if (!satSeen.has(key)) satSeen.set(key, { en: t.en, ko: t.ko, def: t.def, unit: t.unit ?? null });
+  }
+  if (satSeen.size > 0) {
+    acc.set("sat-essential", { courseId: "sat-essential", label: "SAT 필수단어", emoji: "📕", seen: satSeen });
   }
 
   const out = new Map<string, Bucket>();

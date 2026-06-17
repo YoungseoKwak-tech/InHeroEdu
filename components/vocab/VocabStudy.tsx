@@ -36,7 +36,7 @@ function categoryOf(courseId: string): string {
   if (/(chem|bio|physics|environ|science(?!.*social))/.test(c)) return "science";
   if (/(stat|calc|precalc|math)/.test(c)) return "math";
   if (/(history|psych|econ|govern|human-geo|world|us-|comparative)/.test(c)) return "social";
-  if (/(english|lit|lang|seminar|art-history)/.test(c)) return "humanities";
+  if (/(english|lit|lang|seminar|art-history|sat-essential)/.test(c)) return "humanities";
   return "other";
 }
 
