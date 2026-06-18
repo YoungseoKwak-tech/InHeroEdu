@@ -123,7 +123,18 @@ export default function TermsPage() {
         </p>
       </LegalSection>
 
-      <LegalSection title="8. Governing Law">
+      <LegalSection title="8. Communications and Marketing">
+        <p style={{ margin: 0 }}>
+          We send service messages (billing, security, and account notices) as a necessary part
+          of operating your account. Marketing messages — events, perks, and new resources, by
+          email or KakaoTalk — are sent <strong>only if you separately opt in</strong> at signup
+          or in your settings; this consent is optional and is never a condition of using InHero.
+          You may withdraw it at any time: every marketing message includes an unsubscribe option,
+          and opting out does not affect your access to the service.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="9. Governing Law">
         <p style={{ margin: 0 }}>
           These terms are governed by the laws of the United States and the State of [STATE],
           without regard to conflict-of-law principles. Any dispute will be resolved in the
@@ -131,7 +142,7 @@ export default function TermsPage() {
         </p>
       </LegalSection>
 
-      <LegalSection title="9. Contact">
+      <LegalSection title="10. Contact">
         <p style={{ margin: 0 }}>Questions about these terms: {emailLink}</p>
       </LegalSection>
     </LegalPageLayout>
