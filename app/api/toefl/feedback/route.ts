@@ -59,14 +59,20 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         model: "claude-sonnet-4-6",
-        max_tokens: 700,
+        max_tokens: 900,
         system,
         messages: [{ role: "user", content: user }],
       }),
     });
     const data = await r.json();
     const text: string = data?.content?.[0]?.text ?? "";
-    const parsed = JSON.parse(text.replace(/```json|```/g, "").trim());
+    if (!text) throw new Error(data?.error?.message || "empty model response");
+    // Robustly extract the JSON object even if the model adds stray text.
+    const cleaned = text.replace(/```json|```/g, "").trim();
+    const start = cleaned.indexOf("{");
+    const end = cleaned.lastIndexOf("}");
+    const jsonStr = start >= 0 && end > start ? cleaned.slice(start, end + 1) : cleaned;
+    const parsed = JSON.parse(jsonStr);
 
     const bandMax = isSpeaking ? 4 : 5;
     return Response.json({
