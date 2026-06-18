@@ -73,6 +73,13 @@ export default function sitemap() {
       priority: 0.9,
     },
     {
+      // "SAT AP IB 모의고사" exact-match SEO landing — funnels to every exam tool.
+      url: `${baseUrl}/mock-exams`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
       url: `${baseUrl}/ai-companion`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
