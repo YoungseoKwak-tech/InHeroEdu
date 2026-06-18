@@ -12,6 +12,9 @@ import Link from "next/link";
 import { getToeflForm, toeflCounts, TOEFL_FORMS } from "@/lib/toefl/forms";
 import type { ToeflMCQ, ToeflReadingSet, ToeflListeningSet, ToeflSpeakingTask, ToeflWritingTask } from "@/lib/toefl/types";
 import { scaledScore, sectionBand, TOEFL_TIMING } from "@/lib/toefl/types";
+import { getClientSession } from "@/lib/client-auth";
+import CreditGate from "@/components/parents/CreditGate";
+import { CREDIT_COSTS } from "@/lib/credits";
 
 const BLUE = "#1f6feb";
 const LETTERS = ["A", "B", "C", "D", "E", "F"];
@@ -27,6 +30,26 @@ export default function ToeflTestClient() {
   const form = getToeflForm(formId);
   const counts = toeflCounts(form);
   const [view, setView] = useState<View>("home");
+  const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    getClientSession().then((s) => setLoggedIn(!!s?.user)).catch(() => setLoggedIn(false));
+  }, []);
+
+  // Login required (like every other paid asset) before the test opens.
+  if (loggedIn === null) return <Shell><div style={{ textAlign: "center", color: "#5b6b7b", padding: "40px 0" }}>확인 중…</div></Shell>;
+  if (!loggedIn) {
+    return (
+      <Shell>
+        <div style={{ maxWidth: 460, margin: "20px auto 0", textAlign: "center", background: "#fff", border: "1px solid #e6ebf0", borderRadius: 16, padding: "32px 26px" }}>
+          <div style={{ fontSize: 40, marginBottom: 8 }}>🔒</div>
+          <h2 style={{ fontSize: 20, fontWeight: 850, margin: "0 0 8px" }}>로그인이 필요해요</h2>
+          <p style={{ fontSize: 14, color: "#5b6b7b", lineHeight: 1.7, marginBottom: 18 }}>TOEFL 실전 모의고사는 로그인 후 이용할 수 있어요. 가입 시 웰컴 크레딧을 드립니다.</p>
+          <button onClick={() => window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: "/toefl/test" } }))} style={btnBlue}>로그인 / 가입하기 →</button>
+        </div>
+      </Shell>
+    );
+  }
 
   if (view === "home") {
     const cards: { key: View; tag: string; title: string; meta: string; color: string }[] = [
@@ -58,6 +81,12 @@ export default function ToeflTestClient() {
           </div>
         )}
 
+        <CreditGate
+          gateKey="parents:toefl-mock"
+          cost={CREDIT_COSTS.TOEFL_MOCK}
+          title="TOEFL 모의고사 패키지"
+          desc="실제 TOEFL iBT와 동일한 형식의 모의고사 3회차 풀세트(Reading·Listening·Speaking·Writing) 이용권입니다. 한 번 열면 계속 응시할 수 있어요."
+        >
         <button onClick={() => setView("full")} style={{ width: "100%", textAlign: "left", display: "flex", alignItems: "center", gap: 16, background: "linear-gradient(135deg,#0b1220,#1f3a5f)", color: "#fff", border: "none", borderRadius: 16, padding: "22px 22px", cursor: "pointer", marginBottom: 18 }}>
           <span style={{ fontSize: 26, flexShrink: 0 }}>🎯</span>
           <div style={{ flex: 1 }}>
@@ -80,6 +109,7 @@ export default function ToeflTestClient() {
             </button>
           ))}
         </div>
+        </CreditGate>
       </Shell>
     );
   }

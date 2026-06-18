@@ -24,6 +24,7 @@ export const CREDIT_COSTS = {
   CORE_NOTES: 1000,
   SAT_MOCK: 500,           // SAT 모의고사
   AP_MOCK: 500,
+  TOEFL_MOCK: 500,         // TOEFL 모의고사 (3회차 풀세트)
   SUPPLEMENTALS: 1000,
 } as const;
 
@@ -59,6 +60,7 @@ export function unlockKeyCost(key: string): number | null {
   if (key.startsWith("parents:core-notes:")) return CREDIT_COSTS.CORE_NOTES_SUBJECT;
   if (key === "parents:sat-mock") return CREDIT_COSTS.SAT_MOCK;
   if (key === "parents:ap-mock") return CREDIT_COSTS.AP_MOCK;
+  if (key === "parents:toefl-mock") return CREDIT_COSTS.TOEFL_MOCK;
   if (key === "parents:vocab") return CREDIT_COSTS.VOCAB;
   if (key.startsWith("admit-supplements:")) return CREDIT_COSTS.SUPPLEMENTALS;
 

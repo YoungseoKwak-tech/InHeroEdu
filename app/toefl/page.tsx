@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getToeflForm, toeflCounts } from "@/lib/toefl/forms";
 
 export const metadata: Metadata = {
   title: "TOEFL 모의고사 — 실제 시험처럼 무료로 | InHero",
@@ -33,9 +32,6 @@ const FAQ = [
 ];
 
 export default function ToeflLanding() {
-  const form = getToeflForm(undefined);
-  const c = toeflCounts(form);
-
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -60,7 +56,7 @@ export default function ToeflLanding() {
         </p>
 
         <Link href="/toefl/test" style={{ display: "inline-block", background: MINT, color: "#05070d", borderRadius: 12, padding: "14px 28px", fontWeight: 850, fontSize: 16, textDecoration: "none", marginBottom: 40 }}>
-          ▶ 모의고사 시작하기 ({c.reading + c.listening}문항 + 말하기 {c.speaking} · 쓰기 {c.writing})
+          ▶ 모의고사 시작하기 (로그인 · 500 크레딧으로 3회차 전체)
         </Link>
 
         <div style={{ display: "grid", gap: 14, marginBottom: 44 }}>
