@@ -63,7 +63,12 @@ export default function ToeflTestClient() {
         <p style={{ fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", color: "#94a3b8", fontWeight: 800, marginBottom: 8 }}>📝 TOEFL iBT · 실전 모드</p>
         <h1 style={{ fontSize: 26, fontWeight: 850, margin: "0 0 8px", letterSpacing: "-0.02em" }}>실제 토플처럼 풀어보세요</h1>
         <p style={{ color: "#5b6b7b", fontSize: 14.5, lineHeight: 1.7, marginBottom: 8 }}>{form.title} — Reading·Listening·Speaking·Writing 4개 섹션을 실제 시험 형식으로 연습합니다.</p>
-        <p style={{ color: "#9aa6b2", fontSize: 12.5, marginBottom: 20 }}>※ ETS 기출이 아닌 동일 형식의 오리지널 문항입니다.</p>
+        <div style={{ background: "#eef4ff", border: `1px solid ${BLUE}33`, borderRadius: 12, padding: "13px 15px", marginBottom: 20 }}>
+          <p style={{ fontSize: 13, fontWeight: 800, color: "#1a3f8f", margin: "0 0 4px" }}>실제 시험 형식을 그대로 적용해 만든 실전 문항</p>
+          <p style={{ fontSize: 12.5, color: "#3a4756", lineHeight: 1.65, margin: 0 }}>
+            TOEFL iBT의 4개 섹션 구성, 8가지 독해 유형(사실·추론·어휘·문장 단순화·문장 삽입·요약 등)과 듣기 유형(요지·기능·태도·구조 등), 그리고 실제 시간 배분을 분석해, 같은 출제 원리로 새로 만든 오리지널 실전 문항입니다. (ETS 공식 기출 복제 아님)
+          </p>
+        </div>
 
         {TOEFL_FORMS.length > 1 && (
           <div style={{ marginBottom: 18 }}>
