@@ -15,6 +15,7 @@ import { scaledScore, sectionBand, TOEFL_TIMING } from "@/lib/toefl/types";
 import { getClientSession } from "@/lib/client-auth";
 import CreditGate from "@/components/parents/CreditGate";
 import { CREDIT_COSTS } from "@/lib/credits";
+import { consumeMock, mockRemaining, mockTier, MOCK_PACK_LIMIT } from "@/lib/mockAccess";
 
 const BLUE = "#1f6feb";
 const LETTERS = ["A", "B", "C", "D", "E", "F"];
@@ -32,9 +33,21 @@ export default function ToeflTestClient() {
   const [view, setView] = useState<View>("home");
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
 
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
     getClientSession().then((s) => setLoggedIn(!!s?.user)).catch(() => setLoggedIn(false));
+    setMounted(true);
   }, []);
+
+  // A full test consumes one of the 5-pack starts (unlimited never decrements).
+  const startFull = () => {
+    const r = consumeMock("toefl");
+    if (r.ok) { setView("full"); return; }
+    if (r.reason === "exhausted") {
+      window.alert("5회 이용권을 모두 사용했어요. '무제한' 이용권(500 크레딧)으로 업그레이드하면 계속 응시할 수 있어요.");
+      window.dispatchEvent(new CustomEvent("inhero:open-charge"));
+    }
+  };
 
   // Login required (like every other paid asset) before the test opens.
   if (loggedIn === null) return <Shell><div style={{ textAlign: "center", color: "#5b6b7b", padding: "40px 0" }}>확인 중…</div></Shell>;
@@ -87,12 +100,26 @@ export default function ToeflTestClient() {
         )}
 
         <CreditGate
-          gateKey="parents:toefl-mock"
-          cost={CREDIT_COSTS.TOEFL_MOCK}
-          title="TOEFL 모의고사 패키지"
-          desc="실제 TOEFL iBT와 동일한 형식의 모의고사 3회차 풀세트(Reading·Listening·Speaking·Writing) 이용권입니다. 한 번 열면 계속 응시할 수 있어요."
+          gateKey="parents:toefl-mock:5"
+          cost={CREDIT_COSTS.MOCK_5PACK}
+          bundleKey="parents:toefl-mock"
+          bundleCost={CREDIT_COSTS.TOEFL_MOCK}
+          bundleLabel="무제한"
+          title="TOEFL 모의고사 이용권"
+          desc="실제 TOEFL iBT와 동일한 형식(Reading·Listening·Speaking·Writing). 5회 이용권(200) 또는 무제한(500) 중 선택하세요."
         >
-        <button onClick={() => setView("full")} style={{ width: "100%", textAlign: "left", display: "flex", alignItems: "center", gap: 16, background: "linear-gradient(135deg,#0b1220,#1f3a5f)", color: "#fff", border: "none", borderRadius: 16, padding: "22px 22px", cursor: "pointer", marginBottom: 18 }}>
+        {mounted && (() => {
+          const tier = mockTier("toefl");
+          const rem = mockRemaining("toefl");
+          return (
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#f7f8fa", border: "1px solid #e6ebf0", borderRadius: 999, padding: "7px 14px", marginBottom: 14, fontSize: 12.5, fontWeight: 800 }}>
+              {tier === "unlimited"
+                ? <span style={{ color: "#047a45" }}>♾️ 무제한 이용권 · 횟수 제한 없음</span>
+                : <span style={{ color: (rem ?? 0) > 0 ? "#b45309" : "#dc2626" }}>🎟️ 5회 이용권 · 남은 횟수 {rem ?? 0}/{MOCK_PACK_LIMIT}</span>}
+            </div>
+          );
+        })()}
+        <button onClick={startFull} style={{ width: "100%", textAlign: "left", display: "flex", alignItems: "center", gap: 16, background: "linear-gradient(135deg,#0b1220,#1f3a5f)", color: "#fff", border: "none", borderRadius: 16, padding: "22px 22px", cursor: "pointer", marginBottom: 18 }}>
           <span style={{ fontSize: 26, flexShrink: 0 }}>🎯</span>
           <div style={{ flex: 1 }}>
             <div style={{ fontWeight: 850, fontSize: 18 }}>전체 시험 (Full Test)</div>

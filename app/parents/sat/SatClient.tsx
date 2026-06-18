@@ -5,12 +5,15 @@
  * practice tests; each links into the shared full-screen Bluebook runner.
  */
 
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ParentHubShell from "@/components/parents/ParentHubShell";
 import { SAT_FORMS, formCounts } from "@/lib/sat/forms";
 import SatHistory from "@/components/sat/SatHistory";
 import CreditGate from "@/components/parents/CreditGate";
 import { CREDIT_COSTS } from "@/lib/credits";
+import { consumeMock, mockRemaining, mockTier, MOCK_PACK_LIMIT } from "@/lib/mockAccess";
 
 const GREEN = "#00b85f";
 
@@ -41,6 +44,19 @@ function VerifiedBadge() {
 }
 
 export default function SatClient() {
+  const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const startTest = (formId: string) => {
+    const r = consumeMock("sat");
+    if (r.ok) { router.push(`/sat/test?form=${formId}`); return; }
+    if (r.reason === "exhausted") {
+      window.alert("5회 이용권을 모두 사용했어요. '무제한' 이용권(500 크레딧)으로 업그레이드하면 계속 응시할 수 있어요.");
+      window.dispatchEvent(new CustomEvent("inhero:open-charge"));
+    }
+  };
+
   return (
     <ParentHubShell
       eyebrow="✏️ 디지털 SAT 모의고사"
@@ -59,18 +75,32 @@ export default function SatClient() {
 
       {/* Test picker — paid (ULTRA tier). Unlock once to access all forms. */}
       <CreditGate
-        gateKey="parents:sat-mock"
-        cost={CREDIT_COSTS.SAT_MOCK}
-        title="SAT 모의고사 패키지"
-        desc="College Board와 동일한 적응형 디지털 SAT 모의고사 전체 이용권입니다. 한 번 열면 모든 회차를 계속 응시할 수 있어요."
+        gateKey="parents:sat-mock:5"
+        cost={CREDIT_COSTS.MOCK_5PACK}
+        bundleKey="parents:sat-mock"
+        bundleCost={CREDIT_COSTS.SAT_MOCK}
+        bundleLabel="무제한"
+        title="SAT 모의고사 이용권"
+        desc="College Board와 동일한 적응형 디지털 SAT 모의고사. 5회 이용권(200) 또는 무제한(500) 중 선택하세요."
       >
+      {mounted && (() => {
+        const tier = mockTier("sat");
+        const rem = mockRemaining("sat");
+        return (
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#f7f8fa", border: "1px solid #e6e8ec", borderRadius: 999, padding: "7px 14px", marginBottom: 14, fontSize: 12.5, fontWeight: 800 }}>
+            {tier === "unlimited"
+              ? <span style={{ color: "#047a45" }}>♾️ 무제한 이용권 · 횟수 제한 없음</span>
+              : <span style={{ color: (rem ?? 0) > 0 ? "#b45309" : "#dc2626" }}>🎟️ 5회 이용권 · 남은 횟수 {rem ?? 0}/{MOCK_PACK_LIMIT}</span>}
+          </div>
+        );
+      })()}
       <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 28 }}>
         {SAT_FORMS.map((f, i) => {
           const c = formCounts(f);
           const full = c.rw >= 50;
           return (
-            <Link key={f.id} href={`/sat/test?form=${f.id}`} style={{
-              textDecoration: "none", display: "flex", alignItems: "center", gap: 16,
+            <button key={f.id} onClick={() => startTest(f.id)} style={{
+              textAlign: "left", cursor: "pointer", width: "100%", display: "flex", alignItems: "center", gap: 16,
               borderRadius: 14, border: "1px solid #e6e8ec", background: "#fff", padding: "18px 20px",
               boxShadow: "0 1px 2px rgba(16,24,40,0.04)",
             }}>
@@ -83,7 +113,7 @@ export default function SatClient() {
                 <div style={{ fontSize: 13, color: "#64748b", marginTop: 3 }}>R&amp;W {c.rw}문항 · Math {c.math}문항 · 적응형</div>
               </div>
               <span style={{ fontSize: 13.5, fontWeight: 800, color: GREEN }}>시작하기 →</span>
-            </Link>
+            </button>
           );
         })}
       </div>

@@ -22,9 +22,10 @@ export const CREDIT_COSTS = {
   ALL_SUBJECTS: 1000,      // 핵심노트 전 과목 번들 (문제은행과 분리)
   QUESTION_BANK: 500,      // AP 문제은행 전 과목 이용권
   CORE_NOTES: 1000,
-  SAT_MOCK: 500,           // SAT 모의고사
+  SAT_MOCK: 500,           // SAT 모의고사 — 무제한
   AP_MOCK: 500,
-  TOEFL_MOCK: 500,         // TOEFL 모의고사 (3회차 풀세트)
+  TOEFL_MOCK: 500,         // TOEFL 모의고사 — 무제한
+  MOCK_5PACK: 200,         // SAT/TOEFL 모의고사 5회 이용권
   SUPPLEMENTALS: 1000,
 } as const;
 
@@ -58,8 +59,10 @@ export function unlockKeyCost(key: string): number | null {
   if (key.startsWith("parents:question-bank:")) return CREDIT_COSTS.SUBJECT;
   if (key === "parents:core-notes") return CREDIT_COSTS.CORE_NOTES;
   if (key.startsWith("parents:core-notes:")) return CREDIT_COSTS.CORE_NOTES_SUBJECT;
+  if (key === "parents:sat-mock:5") return CREDIT_COSTS.MOCK_5PACK;
   if (key === "parents:sat-mock") return CREDIT_COSTS.SAT_MOCK;
   if (key === "parents:ap-mock") return CREDIT_COSTS.AP_MOCK;
+  if (key === "parents:toefl-mock:5") return CREDIT_COSTS.MOCK_5PACK;
   if (key === "parents:toefl-mock") return CREDIT_COSTS.TOEFL_MOCK;
   if (key === "parents:vocab") return CREDIT_COSTS.VOCAB;
   if (key.startsWith("admit-supplements:")) return CREDIT_COSTS.SUPPLEMENTALS;
