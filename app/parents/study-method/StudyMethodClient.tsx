@@ -10,6 +10,7 @@
  */
 
 import Link from "next/link";
+import ReviewsStrip from "@/components/parents/ReviewsStrip";
 
 const GREEN = "#00b85f";
 const BLUE = "#2563eb";
@@ -268,6 +269,8 @@ export default function StudyMethodClient() {
             ))}
           </div>
         </Card>
+
+        <ReviewsStrip />
 
         {/* 학년별 공부 전략 */}
         <Card>

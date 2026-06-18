@@ -28,6 +28,13 @@ import { REVIEWS } from "@/lib/data/reviews";
 import LiveStatBadge from "@/components/social/LiveStatBadge";
 
 const GREEN = "#00b85f";
+// Features that require credits to fully use (free preview, then 🔒). Everything
+// else (info/guide/community/preview pages) is free to read.
+const PAID_ROUTES = new Set<string>([
+  "/parents/sat", "/parents/question-bank", "/parents/question-bank/exam",
+  "/parents/core-notes", "/parents/vocab", "#textbooks",
+  "/parents/activities", "/parents/colleges", "/parents/admits",
+]);
 
 interface Question {
   id: string; nickname: string; title: string; content: string;
@@ -627,12 +634,18 @@ export default function ParentsClient() {
 
           {/* Quick icons */}
           <div style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "20px 16px", display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 8 }} className="quick-grid">
-            {QUICK.map((q) => (
-              <button key={q.label} onClick={() => go(q.route, q.gated)} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, padding: "6px 2px" }}>
-                <span style={{ fontSize: 30 }}>{q.emoji}</span>
-                <span style={{ fontSize: 12.5, fontWeight: 600, color: "#334155", textAlign: "center", lineHeight: 1.3 }}>{q.label}</span>
-              </button>
-            ))}
+            {QUICK.map((q) => {
+              const paid = PAID_ROUTES.has(q.route);
+              return (
+                <button key={q.label} onClick={() => go(q.route, q.gated)} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, padding: "6px 2px" }}>
+                  <span style={{ fontSize: 30 }}>{q.emoji}</span>
+                  <span style={{ fontSize: 12.5, fontWeight: 600, color: "#334155", textAlign: "center", lineHeight: 1.3 }}>{q.label}</span>
+                  <span style={{ fontSize: 9.5, fontWeight: 800, borderRadius: 999, padding: "1.5px 7px", letterSpacing: "0.02em", color: paid ? "#b45309" : "#047a45", background: paid ? "#fff7ed" : "#e9fbf2", border: `1px solid ${paid ? "#fed7aa" : "#bbf7d0"}` }}>
+                    {paid ? "🔒 유료" : "🆓 무료"}
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
           {/* 우리 아이 학습 진단 — quiz CTA (not a nav tab) */}

@@ -12,6 +12,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import CreditGate from "@/components/parents/CreditGate";
+import ReviewsStrip from "@/components/parents/ReviewsStrip";
 import AiContentNotice from "@/components/legal/AiContentNotice";
 import { CREDIT_COSTS, CREDIT_EVENT } from "@/lib/credits";
 import { authFetch } from "@/lib/client-auth";
@@ -202,6 +203,8 @@ export default function CoreNotesClient() {
             </div>
           ))}
         </div>
+
+        <ReviewsStrip />
 
         {loading ? (
           <p style={{ color: "#94a3b8", fontSize: 14, padding: "30px 0", textAlign: "center" }}>노트를 불러오는 중…</p>

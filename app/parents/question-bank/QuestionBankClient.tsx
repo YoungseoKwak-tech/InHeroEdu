@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { authFetch } from "@/lib/client-auth";
 import CreditGate from "@/components/parents/CreditGate";
+import ReviewsStrip from "@/components/parents/ReviewsStrip";
 import { CREDIT_COSTS } from "@/lib/credits";
 
 const GREEN = "#00b85f";
@@ -99,6 +100,8 @@ export default function QuestionBankClient() {
             <Chip key={s.courseId ?? s.label} active={active === s.courseId} onClick={() => setActive(s.courseId)} label={s.label} emoji={s.emoji} count={s.count} />
           ))}
         </div>
+
+        <ReviewsStrip />
 
         {/* Questions */}
         {loading ? (
