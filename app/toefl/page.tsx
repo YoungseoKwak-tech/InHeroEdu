@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import PromoBanner from "@/components/parents/PromoBanner";
 
 export const metadata: Metadata = {
-  title: "TOEFL 모의고사 — 실제 시험처럼 | InHero",
+  title: "TOEFL Practice Test — Just Like the Real Exam | InHero",
   description:
-    "TOEFL iBT 모의고사를 실제 시험처럼. Reading·Listening·Speaking·Writing 4개 섹션 — 200 크레딧 5회 이용권 또는 500 크레딧 무제한으로 연습하세요.",
-  keywords: ["TOEFL 모의고사", "토플 모의고사", "TOEFL iBT 연습", "토플 실전", "TOEFL Reading Listening Speaking Writing", "InHero"],
+    "Practice the TOEFL iBT just like the real exam. All four sections — Reading, Listening, Speaking, Writing. Practice with a 5-attempt pass for 200 credits or unlimited access for 500 credits.",
+  keywords: ["TOEFL practice test", "TOEFL iBT practice", "TOEFL mock exam", "TOEFL Reading Listening Speaking Writing", "InHero"],
   alternates: { canonical: "/toefl" },
   openGraph: {
     type: "website",
     url: "https://inheroedu.com/toefl",
-    title: "TOEFL 모의고사 — 실제 시험처럼",
-    description: "TOEFL iBT 4개 섹션을 실제 형식으로 — 200 크레딧 5회 또는 500 크레딧 무제한.",
+    title: "TOEFL Practice Test — Just Like the Real Exam",
+    description: "All four TOEFL iBT sections in the real format — 5 attempts for 200 credits or unlimited for 500 credits.",
     siteName: "InHero",
   },
 };
@@ -19,53 +20,55 @@ export const metadata: Metadata = {
 const MINT = "#00FFB2";
 
 const SECTIONS = [
-  { tag: "Reading", title: "독해 · 35분", desc: "약 700단어 학술 지문 2개 · 각 10문항(총 20). 사실·추론·어휘·수사적 목적·문장 단순화·문장 삽입·요약 등 실제 유형. 풀이 직후 자동 채점·해설.", color: "#1D9E75" },
-  { tag: "Listening", title: "듣기 · 약 36분", desc: "대화 2 + 강의 3 (총 28문항). 음원을 재생해 듣고 MCQ로 풀이 — 요지·세부·기능·태도·구조 유형. 스크립트는 채점 후 공개.", color: "#7DD3FC" },
-  { tag: "Speaking", title: "말하기 · 16분", desc: "4개 과제(독립 1 + 통합 3). 준비 15–30초 → 응답 45–60초, 마이크 녹음 + 음성인식 전사 후 루브릭 자가채점.", color: "#F59E0B" },
-  { tag: "Writing", title: "쓰기 · 약 29분", desc: "Integrated(읽기+듣기 요약) + Academic Discussion(의견 토론). 제한 시간·실시간 단어 수 + 루브릭 자가채점.", color: "#A78BFA" },
+  { tag: "Reading", title: "Reading · 35 min", desc: "Two ~700-word academic passages · 10 questions each (20 total). Real question types: factual, inference, vocabulary, rhetorical purpose, sentence simplification, insert text, and summary. Auto-graded with explanations right after you finish.", color: "#1D9E75" },
+  { tag: "Listening", title: "Listening · ~36 min", desc: "2 conversations + 3 lectures (28 questions total). Play the audio, listen, and answer in MCQ format — gist, detail, function, attitude, and organization types. Transcript revealed after grading.", color: "#7DD3FC" },
+  { tag: "Speaking", title: "Speaking · 16 min", desc: "4 tasks (1 independent + 3 integrated). 15–30 sec prep → 45–60 sec response, with mic recording + speech-to-text transcription, then rubric-based self-scoring.", color: "#F59E0B" },
+  { tag: "Writing", title: "Writing · ~29 min", desc: "Integrated (reading + listening summary) + Academic Discussion (opinion). Timed, with a live word count and rubric-based self-scoring.", color: "#A78BFA" },
 ];
 
 const FAQ = [
-  { q: "TOEFL 모의고사는 몇 크레딧인가요?", a: "TOEFL과 SAT 모의고사는 200 크레딧으로 5회 이용할 수 있고, 500 크레딧 이용권을 열면 횟수 제한 없이 연습할 수 있습니다." },
-  { q: "실제 시험과 형식이 같나요?", a: "실제 TOEFL iBT와 동일한 섹션·문제 유형·타이머로 구성했습니다. 듣기는 음원 재생, 말하기는 준비/응답 타이머와 녹음, 쓰기는 제한 시간과 단어 수를 그대로 재현합니다." },
-  { q: "문항은 어떻게 만들어지나요?", a: "실제 TOEFL iBT의 섹션 구조, 8가지 독해 문제 유형(사실·부정 사실·추론·수사적 목적·어휘·문장 단순화·문장 삽입·요약)과 듣기 문항 유형(요지·기능·태도·구조·연결), 그리고 시험 시간 배분을 분석해, 같은 출제 원리를 적용해 새로 만든 오리지널 실전 문항입니다. 3회차 풀세트로 유형을 빠짐없이 연습할 수 있어요." },
-  { q: "공식 기출문제인가요?", a: "ETS의 공식 기출을 복제한 것이 아니라, 동일한 형식·유형·난이도로 정교하게 출제한 연습 문제입니다. 그래서 저작권 걱정 없이 실전처럼 무제한 연습할 수 있어요." },
+  { q: "How many credits does a TOEFL practice test cost?", a: "TOEFL and SAT practice tests give you 5 attempts for 200 credits. Unlock the 500-credit pass for unlimited practice with no attempt limit." },
+  { q: "Is the format the same as the real exam?", a: "It mirrors the real TOEFL iBT — same sections, question types, and timers. Listening plays audio, Speaking has prep/response timers and recording, and Writing reproduces the time limits and word counts exactly." },
+  { q: "How are the questions written?", a: "We analyzed the real TOEFL iBT — its section structure, all 8 reading question types (factual, negative factual, inference, rhetorical purpose, vocabulary, sentence simplification, insert text, summary), the listening question types (gist, function, attitude, organization, connecting content), and the exam's time allocation — then wrote brand-new, original practice questions using the same design principles. Three full test sets let you practice every type without gaps." },
+  { q: "Are these official past exam questions?", a: "No — these aren't copies of ETS's official questions. They're carefully crafted practice questions with the same format, types, and difficulty. That means you can practice as much as you want, just like the real thing, with no copyright concerns." },
 ];
 
 export default function ToeflLanding() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "WebPage", "@id": "https://inheroedu.com/toefl", name: "TOEFL 모의고사", url: "https://inheroedu.com/toefl",
-        description: "TOEFL iBT 모의고사를 실제 시험처럼 — Reading·Listening·Speaking·Writing 4개 섹션 실전 연습." },
+      { "@type": "WebPage", "@id": "https://inheroedu.com/toefl", name: "TOEFL Practice Test", url: "https://inheroedu.com/toefl",
+        description: "Practice the TOEFL iBT just like the real exam — all four sections: Reading, Listening, Speaking, and Writing." },
       { "@type": "FAQPage", mainEntity: FAQ.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) },
     ],
   };
 
   return (
-    <div style={{ background: "#05070d", minHeight: "100vh", color: "#e8edf4", padding: "72px 22px 120px", fontFamily: "Inter, sans-serif" }}>
+    <div style={{ background: "#05070d", minHeight: "100vh", color: "#e8edf4", fontFamily: "Inter, sans-serif" }}>
+      <PromoBanner ctaHref="/toefl/test?pay=1" sticky={false} />
+      <div style={{ padding: "48px 22px 120px" }}>
       {/* eslint-disable-next-line react/no-danger */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div style={{ maxWidth: 860, margin: "0 auto" }}>
-        <p style={{ fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(0,255,178,0.7)", marginBottom: 14 }}>📝 TOEFL iBT · 실전 모의고사</p>
+        <p style={{ fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(0,255,178,0.7)", marginBottom: 14 }}>📝 TOEFL iBT · Practice Test</p>
         <h1 style={{ fontSize: "clamp(2rem, 5.4vw, 3.4rem)", fontWeight: 850, color: "#fff", letterSpacing: "-0.04em", lineHeight: 1.05, marginBottom: 16 }}>
-          TOEFL 모의고사,<br />실제 시험처럼.
+          The TOEFL,<br />just like the real exam.
         </h1>
         <p style={{ fontSize: 16, color: "rgba(255,255,255,0.6)", lineHeight: 1.8, marginBottom: 28, maxWidth: 660 }}>
-          TOEFL iBT의 <strong style={{ color: "#fff" }}>Reading·Listening·Speaking·Writing</strong> 네 섹션을 실제 시험 형식 그대로 —
-          자동 채점·해설, 듣기 음원 재생, 말하기 녹음, 쓰기 타이머까지. 200 크레딧 5회 또는 500 크레딧 무제한으로 연습하세요.
+          All four TOEFL iBT sections — <strong style={{ color: "#fff" }}>Reading, Listening, Speaking, and Writing</strong> — in the exact format of the real exam:
+          auto-grading with explanations, listening audio playback, speaking recording, and writing timers. Practice with a 5-attempt pass for 200 credits, or go unlimited for 500.
         </p>
 
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 10 }}>
           <Link href="/toefl/test" style={{ display: "inline-block", background: MINT, color: "#05070d", borderRadius: 12, padding: "14px 28px", fontWeight: 850, fontSize: 16, textDecoration: "none" }}>
-            ▶ 바로 모의고사 풀러가기 →
+            ▶ Start the practice test →
           </Link>
           <Link href="/toefl/sample" style={{ display: "inline-block", background: "transparent", color: "#fff", border: "1.5px solid rgba(255,255,255,0.35)", borderRadius: 12, padding: "14px 24px", fontWeight: 800, fontSize: 15, textDecoration: "none" }}>
-            🎁 무료 샘플 풀어보기 (찍먹)
+            🎁 Try a free sample
           </Link>
         </div>
         <p style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", margin: "0 0 40px", lineHeight: 1.65 }}>
-          샘플은 <strong style={{ color: "#fff" }}>무료 · 로그인 없이</strong> 실제 형식·타이머 그대로 미리 풀어볼 수 있어요. 전체: <strong style={{ color: "#fff" }}>200 크레딧 = 5회</strong> · <strong style={{ color: "#fff" }}>500 크레딧 = 무제한</strong>
+          The sample is <strong style={{ color: "#fff" }}>free · no login required</strong> — try the real format and timer before you start. Full test: <strong style={{ color: "#fff" }}>200 credits = 5 attempts</strong> · <strong style={{ color: "#fff" }}>500 credits = unlimited</strong>
         </p>
 
         <div style={{ display: "grid", gap: 14, marginBottom: 44 }}>
@@ -80,7 +83,7 @@ export default function ToeflLanding() {
           ))}
         </div>
 
-        <h2 style={{ fontSize: 22, fontWeight: 800, color: "#fff", marginBottom: 16 }}>자주 묻는 질문</h2>
+        <h2 style={{ fontSize: 22, fontWeight: 800, color: "#fff", marginBottom: 16 }}>Frequently asked questions</h2>
         <div style={{ display: "grid", gap: 14 }}>
           {FAQ.map((f) => (
             <div key={f.q} style={{ border: "1px solid rgba(255,255,255,0.1)", borderRadius: 14, padding: "18px 20px", background: "rgba(255,255,255,0.02)" }}>
@@ -89,6 +92,7 @@ export default function ToeflLanding() {
             </div>
           ))}
         </div>
+      </div>
       </div>
     </div>
   );

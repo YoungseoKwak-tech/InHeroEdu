@@ -25,7 +25,7 @@ function fmtCountdown(ms: number): string {
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
 }
 
-export default function PromoBanner() {
+export default function PromoBanner({ ctaHref, sticky = true }: { ctaHref?: string; sticky?: boolean }) {
   const [show, setShow] = useState(false);
   const [enter, setEnter] = useState(false);
   const [left, setLeft] = useState(msUntilMidnight());
@@ -56,7 +56,7 @@ export default function PromoBanner() {
   return (
     <div
       style={{
-        position: "sticky", top: 0, zIndex: 120,
+        position: sticky ? "sticky" : "relative", top: 0, zIndex: 120,
         transform: enter ? "translateY(0)" : "translateY(-100%)",
         transition: "transform 240ms cubic-bezier(.2,.8,.2,1)",
         background: "linear-gradient(100deg, #b91c1c 0%, #ea580c 55%, #f59e0b 100%)",
@@ -81,12 +81,21 @@ export default function PromoBanner() {
           ⏰ 마감까지 <span style={{ fontVariantNumeric: "tabular-nums", letterSpacing: "0.02em" }}>{fmtCountdown(left)}</span>
         </span>
 
-        <button
-          onClick={buy}
-          style={{ background: "#fff", color: "#b91c1c", border: "none", borderRadius: 10, padding: "9px 18px", fontWeight: 900, fontSize: 13.5, cursor: "pointer", whiteSpace: "nowrap", boxShadow: "0 2px 8px rgba(0,0,0,0.18)" }}
-        >
-          지금 혜택받기 →
-        </button>
+        {ctaHref ? (
+          <a
+            href={ctaHref}
+            style={{ background: "#fff", color: "#b91c1c", borderRadius: 10, padding: "9px 18px", fontWeight: 900, fontSize: 13.5, textDecoration: "none", whiteSpace: "nowrap", boxShadow: "0 2px 8px rgba(0,0,0,0.18)" }}
+          >
+            지금 혜택받기 →
+          </a>
+        ) : (
+          <button
+            onClick={buy}
+            style={{ background: "#fff", color: "#b91c1c", border: "none", borderRadius: 10, padding: "9px 18px", fontWeight: 900, fontSize: 13.5, cursor: "pointer", whiteSpace: "nowrap", boxShadow: "0 2px 8px rgba(0,0,0,0.18)" }}
+          >
+            지금 혜택받기 →
+          </button>
+        )}
 
         <button onClick={dismiss} aria-label="닫기" style={{ background: "none", border: "none", color: "rgba(255,255,255,0.85)", fontSize: 18, lineHeight: 1, cursor: "pointer", padding: "2px 4px", flexShrink: 0 }}>
           ✕
