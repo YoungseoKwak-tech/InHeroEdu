@@ -145,8 +145,8 @@ export default function AmcClient() {
         <p style={{ fontSize: 14.5, color: "#475569", lineHeight: 1.75, marginBottom: 8 }}>
           AMC 스타일 문제를 난이도별로 풀어보세요. 보기를 누르면 바로 채점하고 한국어 풀이를 확인할 수 있습니다.
         </p>
-        <p style={{ fontSize: 12.5, color: "#94a3b8", lineHeight: 1.7, marginBottom: 22 }}>
-          ※ MAA 공식 기출이 아닌 동일 유형의 자체 제작 연습문제입니다. 실제 시험은 25문항·75분(객관식 A–E)입니다.
+        <p style={{ fontSize: 12.5, color: "#475569", lineHeight: 1.7, marginBottom: 22 }}>
+          실제 AMC의 출제 영역(정수론·대수·기하·조합)과 5지선다(A–E)·25문항·75분 형식을 분석해, 같은 출제 원리로 만든 오리지널 연습문제입니다. 모든 정답을 계산으로 검증해 키 오류가 없어요. <span style={{ color: "#94a3b8" }}>(MAA 공식 기출 복제 아님)</span>
         </p>
 
         {/* Trust signal — reviewed answer keys + worked Korean solutions, while

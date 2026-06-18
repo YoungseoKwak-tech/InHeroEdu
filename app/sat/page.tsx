@@ -31,7 +31,7 @@ export default function SatLandingPage() {
         </h1>
         <p style={{ fontSize: 15.5, color: "rgba(255,255,255,0.55)", lineHeight: 1.75, marginBottom: 30, maxWidth: 620 }}>
           디지털 SAT와 동일한 구조의 적응형 모의고사예요. Reading & Writing → Math, 각 섹션이 2개의 타이머 모듈로 진행되고,
-          모듈 1 성적에 따라 모듈 2 난이도가 갈립니다. (College Board 기출이 아닌 동일 형식의 오리지널 문항)
+          모듈 1 성적에 따라 모듈 2 난이도가 갈립니다. 실제 시험의 적응형 구조·문제 유형·시간을 그대로 적용해 만든 오리지널 실전 문항입니다. (College Board 공식 기출 복제 아님)
         </p>
 
         <SatHistory theme="dark" />

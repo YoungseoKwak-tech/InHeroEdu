@@ -50,7 +50,7 @@ export default function SatClient() {
           디지털 SAT와 동일한 구조의 <strong>적응형 모의고사</strong>입니다. Reading &amp; Writing → Math 순으로,
           각 섹션이 타이머가 있는 2개의 모듈로 진행되고 모듈 1 성적에 따라 모듈 2 난이도가 갈려요.
           <br />
-          <span style={{ fontSize: 12.5, color: "#94a3b8" }}>※ College Board 기출이 아닌 동일 형식의 오리지널 문항입니다. 예상 점수는 추정치예요.</span>
+          <span style={{ fontSize: 12.5, color: "#64748b" }}>실제 디지털 SAT의 적응형 2단계 모듈 구조와 문제 유형·시간 배분을 그대로 적용해 만든 오리지널 실전 문항입니다. 예상 점수는 추정치예요. <span style={{ color: "#94a3b8" }}>(College Board 공식 기출 복제 아님)</span></span>
         </>
       }
     >
