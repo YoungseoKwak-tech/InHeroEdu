@@ -1,9 +1,12 @@
 import type { SatForm } from "./types";
 import { SAT_FORM_1 } from "./form1";
 import { SAT_FORM_2, SAT_FORM_3 } from "./forms-extra";
+import { SAT_FORM_4 } from "./form4";
+import { SAT_FORM_5 } from "./form5";
+import { SAT_FORM_6 } from "./form6";
 
 /** All available practice tests, in display order. */
-export const SAT_FORMS: SatForm[] = [SAT_FORM_1, SAT_FORM_2, SAT_FORM_3];
+export const SAT_FORMS: SatForm[] = [SAT_FORM_1, SAT_FORM_2, SAT_FORM_3, SAT_FORM_4, SAT_FORM_5, SAT_FORM_6];
 
 export function getSatForm(id: string | undefined): SatForm | undefined {
   return SAT_FORMS.find((f) => f.id === id);

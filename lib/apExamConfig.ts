@@ -26,7 +26,8 @@ export const AP_EXAM_CONFIG: Record<string, ApExamSpec> = {
 };
 
 export const DEFAULT_EXAM_SPEC: ApExamSpec = { mcq: 50, minutes: 80 };
-export const PRACTICE_SETS = 3; // Test 1 / Test 2 / Test 3
+export const PRACTICE_SETS = 5; // up to Test 1–5; the start screen and exam-set
+// cap the count to however many non-overlapping sets a subject's pool supports.
 
 export function examSpecFor(courseId: string | null | undefined): ApExamSpec {
   return (courseId && AP_EXAM_CONFIG[courseId]) || DEFAULT_EXAM_SPEC;

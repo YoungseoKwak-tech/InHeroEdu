@@ -213,6 +213,14 @@ export default function ExamPage() {
   // ---------- START SCREEN ----------
   if (phase === "start") {
     const spec = examSpecFor(subject);
+    // Show only as many non-overlapping Practice Tests as this subject's pool
+    // supports (examPool / per-test MCQ count), capped at PRACTICE_SETS — so a
+    // thin subject never offers duplicate "Test 4/5" sets.
+    const subjectMeta = subjects.find((x) => x.courseId === subject);
+    const availableSets = Math.max(
+      1,
+      Math.min(PRACTICE_SETS, Math.floor((subjectMeta?.examPool ?? spec.mcq) / Math.max(1, spec.mcq)))
+    );
     return (
       <div style={{ minHeight: "100vh", background: "#f6f8fa", color: "#1d2733" }}>
         <div style={{ height: 56, borderBottom: "1px solid #e6ebf0", display: "flex", alignItems: "center", padding: "0 18px", background: "#fff" }}>
@@ -273,7 +281,7 @@ export default function ExamPage() {
             );
           })()}
           <div style={{ display: "grid", gap: 14 }}>
-            {Array.from({ length: PRACTICE_SETS }, (_, i) => i + 1).map((n) => (
+            {Array.from({ length: availableSets }, (_, i) => i + 1).map((n) => (
               <div key={n} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#fff", border: "1px solid #e6ebf0", borderRadius: 14, padding: "20px 20px" }}>
                 <div>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
