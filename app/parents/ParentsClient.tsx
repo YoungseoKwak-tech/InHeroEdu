@@ -34,6 +34,7 @@ const PAID_ROUTES = new Set<string>([
   "/parents/sat", "/parents/question-bank", "/parents/question-bank/exam",
   "/parents/core-notes", "/parents/vocab", "#textbooks",
   "/parents/activities", "/parents/colleges", "/parents/admits",
+  "/toefl", "/parents/amc",
 ]);
 
 interface Question {
@@ -946,7 +947,7 @@ export default function ParentsClient() {
                 <div style={{ position: "relative", height: 218, background: "linear-gradient(135deg,#0a0a14,#1e1e2e)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 56, overflow: "hidden" }}>
                   <span style={{ position: "absolute", top: 8, right: 8, zIndex: 2, fontSize: 10.5, fontWeight: 800, borderRadius: 999, padding: "2px 9px",
                     color: bookOwned ? "#fff" : "#a16207", background: bookOwned ? GREEN : "rgba(255,251,235,0.95)", border: bookOwned ? "none" : "1px solid #f1d27a" }}>
-                    {bookOwned ? "✓ 보유" : "🔒 500 크레딧"}
+                    {bookOwned ? "✓ 보유" : `🔒 ${BOOK_COST} 크레딧`}
                   </span>
                   {isBio && (
                     <span style={{ position: "absolute", top: 8, left: 8, zIndex: 2, fontSize: 11, fontWeight: 900, color: "#fff", background: "linear-gradient(135deg,#f97316,#dc2626)", borderRadius: 999, padding: "3px 9px", boxShadow: "0 2px 8px rgba(220,38,38,0.4)" }}>🔥 인기</span>
