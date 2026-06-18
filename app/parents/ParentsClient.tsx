@@ -160,12 +160,22 @@ const NAV_GATE: Record<string, { cost: number; title: string }> = {
 };
 
 // Sorted by views (trending) — the board renders this order as-is.
-const RESOURCES = [
-  { title: "내가 아이비리그 공대에 오기까지", desc: "아이비리그 공대 합격생이 직접 쓴 합격 수기 — 목차·프롤로그 무료, 본문은 200 크레딧", route: "/parents/story/book", tag: "합격수기", views: 1180, cost: 0 },
-  { title: "코넬 공대 합격 에세이 분석", desc: "실제 합격 에세이를 한 문단씩 — 무엇이 왜 잘 됐는지", route: "/parents/essay", tag: "합격에세이", views: 1000, cost: 25 },
-  { title: "아이비리그 합격 엑스트라 활동 분석", desc: "합격생 활동 10개 + 직접 만드는 법 (책 출간·논문·웹)", route: "/parents/activities", tag: "합격활동", views: 942, cost: 25 },
-  { title: "실제 합격 사례 모음 (언론 공개 + 출처)", desc: "본인이 공개한 실제 합격생 전공·활동·결과 + '왜 통했나' 분석 — 미리보기 무료, 전체 25 크레딧", route: "/parents/cases", tag: "합격사례", views: 654, cost: 25 },
-  { title: "미국 대학 분석 — 인재상·입시·인턴십", desc: "하버드부터 UC까지, 학교별 인재상·합격률·취업 파이프라인", route: "/parents/colleges", tag: "대학분석", views: 874, cost: 25 },
+type ResourceCard = {
+  title: string;
+  desc: string;
+  route: string;
+  tag: string;
+  views: number;
+  cost: number;
+  unlockKey?: string;
+};
+
+const RESOURCES: ResourceCard[] = [
+  { title: "내가 아이비리그 공대에 오기까지", desc: `아이비리그 공대 합격생이 직접 쓴 합격 수기 — 목차·프롤로그 무료, 본문은 ${CREDIT_COSTS.STORY_BOOK} 크레딧`, route: "/parents/story/book", tag: "합격수기", views: 1180, cost: 0 },
+  { title: "코넬 공대 합격 에세이 분석", desc: "실제 합격 에세이를 한 문단씩 — 무엇이 왜 잘 됐는지", route: "/parents/essay", tag: "합격에세이", views: 1000, cost: CREDIT_COSTS.ESSAY, unlockKey: "res:/parents/essay" },
+  { title: "아이비리그 합격 엑스트라 활동 분석", desc: "합격생 활동 10개 + 직접 만드는 법 (책 출간·논문·웹)", route: "/parents/activities", tag: "합격활동", views: 942, cost: CREDIT_COSTS.ACTIVITIES, unlockKey: "res:/parents/activities/list" },
+  { title: "실제 합격 사례 모음 (언론 공개 + 출처)", desc: `본인이 공개한 실제 합격생 전공·활동·결과 + '왜 통했나' 분석 — 미리보기 무료, 전체 ${CREDIT_COSTS.COLLEGE_DB} 크레딧`, route: "/parents/cases", tag: "합격사례", views: 654, cost: CREDIT_COSTS.COLLEGE_DB, unlockKey: "res:/parents/cases" },
+  { title: "미국 대학 분석 — 인재상·입시·인턴십", desc: "하버드부터 UC까지, 학교별 인재상·합격률·취업 파이프라인", route: "/parents/colleges", tag: "대학분석", views: 874, cost: CREDIT_COSTS.COLLEGE_DB, unlockKey: "res:/parents/colleges" },
   { title: "미국 입시 대회 데이터베이스 (전 분야)", desc: `USABO·NSDA·Scholastic 등 ${COMPETITIONS.length}개 대회 총정리`, route: "/parents/competitions", tag: "자료", views: 731, cost: 0 },
   { title: "학년별 로드맵 (G6–G12)", desc: "학업·시험·활동·에세이를 학년별로", route: "/parents/roadmap", tag: "가이드", views: 562, cost: 0 },
   { title: "전공별 AP 과목 선택 가이드", desc: "‘○○ 전공이면 AP 뭘?’ 8개 전공별 추천", route: "/parents/ap-guide", tag: "가이드", views: 418, cost: 0 },
@@ -271,6 +281,7 @@ export default function ParentsClient() {
         const result = await spendAndUnlockAccount(opts.key, opts.cost);
         if (result.ok) opts.proceed();
         else if (result.reason === "insufficient") window.dispatchEvent(new CustomEvent("inhero:open-charge"));
+        else if (result.reason === "account_anomaly") window.alert("크레딧 기록 확인이 필요해요. 결제 없이 열린 기록이 있어 관리자에게 문의해 주세요.");
         else window.alert("크레딧 차감 확인 중 오류가 발생했어요. 잠시 후 다시 시도해 주세요.");
       },
     });
@@ -295,9 +306,9 @@ export default function ParentsClient() {
     }).catch(() => {});
   }
 
-  const openResource = (r: { route: string; cost: number; title: string; views?: number }) => {
+  const openResource = (r: ResourceCard) => {
     trackView(r.route, r.views ?? 0);
-    requestUnlock({ key: `res:${r.route}`, cost: r.cost, title: r.title, proceed: () => router.push(r.route), loginRedirect: r.route });
+    requestUnlock({ key: r.unlockKey ?? `res:${r.route}`, cost: r.cost, title: r.title, proceed: () => router.push(r.route), loginRedirect: r.route });
   };
 
   const openBook = (b: { slug: string; title: string }) => {
@@ -326,6 +337,7 @@ export default function ParentsClient() {
       const result = await spendAndUnlockAccount(`material:${m.id}`, MATERIAL_COST);
       if (result.ok) { setMatPreview(null); materialProceed(m); }
       else if (result.reason === "insufficient") setMatNeedCharge(true);
+      else if (result.reason === "account_anomaly") window.alert("크레딧 기록 확인이 필요해요. 결제 없이 열린 기록이 있어 관리자에게 문의해 주세요.");
       else window.alert("크레딧 차감 확인 중 오류가 발생했어요. 잠시 후 다시 시도해 주세요.");
     } finally {
       setMatBuying(false);
@@ -665,7 +677,8 @@ export default function ParentsClient() {
             {/* 추천 자료 — trending order, view counts visible */}
             <Board title="추천 자료" moreHref="/parents/competitions">
               {RESOURCES.map((r, i) => {
-                const owned = r.cost > 0 && (isAdmin || isUnlocked(`res:${r.route}`));
+                const unlockKey = r.unlockKey ?? `res:${r.route}`;
+                const owned = r.cost > 0 && (isAdmin || isUnlocked(unlockKey));
                 return (
                 <div key={`${r.route}-${creditTick}`} onClick={() => openResource(r)} role="button" tabIndex={0}
                   style={{ ...rowStyle, alignItems: "flex-start", flexDirection: "column", gap: 2, cursor: "pointer" }}>

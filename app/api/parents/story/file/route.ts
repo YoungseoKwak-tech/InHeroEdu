@@ -15,8 +15,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { requireAuthenticatedUser } from "@/lib/auth";
-import { isAdminEmail } from "@/lib/adminEmails";
-import { createAdminClient } from "@/lib/supabase";
+import { getUnlockContext, hasAnyUnlock } from "@/lib/serverUnlock";
 
 export const runtime = "nodejs";
 
@@ -30,30 +29,13 @@ const FILE_CANDIDATES = [
 export async function GET(req: NextRequest) {
   const auth = await requireAuthenticatedUser(req);
   if (auth instanceof NextResponse) return auth; // 401 if not signed in
-  const user = auth;
-
-  // Admins read everything credit-free.
-  const admin = isAdminEmail(user.email);
-
   // Strict: require the server-recorded res:/parents/story unlock (fail closed).
   // The old login-only fallback for empty unlock arrays let any signed-in user
   // read the book without paying. Unlocks are now server-authoritative (see
   // spendAndUnlockAccount), so a real purchase reliably records the key.
-  if (!admin) {
-    try {
-      const supabase = createAdminClient();
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("credit_unlocks")
-        .eq("id", user.id)
-        .maybeSingle();
-      const unlocks = Array.isArray(data?.credit_unlocks) ? (data!.credit_unlocks as string[]) : [];
-      if (error || !unlocks.includes(UNLOCK_KEY)) {
-        return NextResponse.json({ error: "locked" }, { status: 403 });
-      }
-    } catch {
-      return NextResponse.json({ error: "locked" }, { status: 403 });
-    }
+  const ctx = await getUnlockContext(req);
+  if (!hasAnyUnlock(ctx, [UNLOCK_KEY])) {
+    return NextResponse.json({ error: "locked" }, { status: 403 });
   }
 
   for (const filePath of FILE_CANDIDATES) {

@@ -3,7 +3,7 @@
  *
  * Credits have no separate ledger table; each paid unlock is recorded as a key
  * in profiles.credit_unlocks (qa-post:* = 5, parents:question-bank:* = 200,
- * res:/parents/story = 200, …). So that array IS the spend history. We return
+ * res:/parents/story = current policy cost, …). So that array IS the spend history. We return
  * each (non-test) user's balance + unlock keys; the client decodes keys into
  * human-readable "where/how spent" line items.
  */
@@ -84,6 +84,19 @@ export async function GET(req: Request) {
     list.sort((a, b) => new Date(b.paidAt ?? 0).getTime() - new Date(a.paidAt ?? 0).getTime());
   }
 
+  const referralCreditsByUser = new Map<string, number>();
+  for (const part of chunk(ids, 200)) {
+    const { data } = await supabase
+      .from("referrals")
+      .select("referrer_user_id, reward")
+      .in("referrer_user_id", part);
+    for (const r of (data ?? []) as Record<string, unknown>[]) {
+      const uid = String(r.referrer_user_id ?? "");
+      if (!uid) continue;
+      referralCreditsByUser.set(uid, (referralCreditsByUser.get(uid) ?? 0) + Number(r.reward ?? 0));
+    }
+  }
+
   const rows = users.map((u) => {
     const p = pmap.get(u.id) as { name?: string; grade?: string; school?: string; credits?: number; credit_unlocks?: unknown } | undefined;
     const unlocks = Array.isArray(p?.credit_unlocks) ? (p!.credit_unlocks as string[]) : [];
@@ -109,8 +122,9 @@ export async function GET(req: Request) {
       const pkg = parseCreditServiceId(pay.serviceId);
       return sum + (pkg?.credits ?? 0);
     }, 0);
-    const audit = auditCredits({ balance: r.credits, unlocks: r.unlocks, paidCredits });
-    return { ...r, paidCredits, audit };
+    const referralCredits = referralCreditsByUser.get(r.id) ?? 0;
+    const audit = auditCredits({ balance: r.credits, unlocks: r.unlocks, paidCredits, referralCredits });
+    return { ...r, paidCredits, referralCredits, audit };
   });
 
   // Anomalies first, then most active spenders/payers, then newest.

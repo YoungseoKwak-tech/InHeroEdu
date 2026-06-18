@@ -38,6 +38,13 @@ export default function ParentHubShell({
     else window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: "/question-bank" } }));
   };
 
+  // Don't tell an already-signed-in parent to "sign up" again — swap the copy
+  // to a continue/explore prompt (gate() already routes them to the content).
+  const ctaTitleShown = loggedIn ? "자녀의 활동·학습, InHero에서 이어가세요" : ctaTitle;
+  const ctaDescShown = loggedIn ? "AP 문제 은행 · 핵심 노트 · 디지털 교재까지 전부 이용하실 수 있어요." : ctaDesc;
+  const ctaTopLabel = loggedIn ? "자료 보러 가기 →" : "무료 가입 →";
+  const ctaBottomLabel = loggedIn ? "모든 자료 보기 →" : "무료 가입하고 모든 자료 보기 →";
+
   return (
     <div style={{ position: "relative", zIndex: 10, minHeight: "100vh", background: "#f7f8fa", color: "#1a1a1f", cursor: "auto" }}>
       <div style={{ position: "sticky", top: 0, zIndex: 20, background: "rgba(255,255,255,0.92)", backdropFilter: "blur(8px)", borderBottom: "1px solid #e6e8ec" }}>
@@ -56,21 +63,21 @@ export default function ParentHubShell({
 
         <div style={{ background: "linear-gradient(135deg,#0a0a14,#13131f)", borderRadius: 14, padding: "20px 22px", marginBottom: 36, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
           <div>
-            <div style={{ color: "#fff", fontWeight: 700, fontSize: 15, marginBottom: 4 }}>{ctaTitle}</div>
-            <div style={{ color: "rgba(255,255,255,0.55)", fontSize: 13 }}>{ctaDesc}</div>
+            <div style={{ color: "#fff", fontWeight: 700, fontSize: 15, marginBottom: 4 }}>{ctaTitleShown}</div>
+            <div style={{ color: "rgba(255,255,255,0.55)", fontSize: 13 }}>{ctaDescShown}</div>
           </div>
           <button onClick={gate} style={{ background: "#00FF88", color: "#000", border: "none", borderRadius: 8, padding: "12px 22px", fontWeight: 800, fontSize: 13.5, fontFamily: "'JetBrains Mono', monospace", cursor: "pointer", whiteSpace: "nowrap" }}>
-            무료 가입 →
+            {ctaTopLabel}
           </button>
         </div>
 
         {children}
 
         <div style={{ textAlign: "center", marginTop: 48, paddingTop: 36, borderTop: "1px solid #e6e8ec" }}>
-          <div style={{ fontSize: 17, fontWeight: 800, marginBottom: 8 }}>{ctaTitle}</div>
-          <p style={{ fontSize: 14, color: "#64748b", marginBottom: 20 }}>{ctaDesc}</p>
+          <div style={{ fontSize: 17, fontWeight: 800, marginBottom: 8 }}>{ctaTitleShown}</div>
+          <p style={{ fontSize: 14, color: "#64748b", marginBottom: 20 }}>{ctaDescShown}</p>
           <button onClick={gate} style={{ background: "#1a1a1f", color: "#fff", border: "none", borderRadius: 8, padding: "14px 34px", fontWeight: 800, fontSize: 14.5, cursor: "pointer" }}>
-            무료 가입하고 모든 자료 보기 →
+            {ctaBottomLabel}
           </button>
         </div>
       </div>

@@ -30,6 +30,10 @@ export default function StoryReviewWidget() {
   const [gotReward, setGotReward] = useState(false);
   const [rewarded, setRewarded]   = useState(true); // assume claimed until localStorage says otherwise
 
+  const demoRewardsAllowed = () =>
+    typeof window !== "undefined" &&
+    ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
+
   useEffect(() => {
     const f = () => setIsWide(window.innerWidth >= 1100);
     f();
@@ -65,7 +69,7 @@ export default function StoryReviewWidget() {
         setReviews((prev) => [data.question, ...prev]);
         setText("");
         // 첫 후기에 한해 5크레딧 적립
-        if (!rewarded) {
+        if (!rewarded && demoRewardsAllowed()) {
           addCredits(REVIEW_REWARD);
           try { localStorage.setItem(REWARD_KEY, "1"); } catch { /* ignore */ }
           setRewarded(true);

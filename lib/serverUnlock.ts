@@ -11,12 +11,15 @@
 import type { NextRequest } from "next/server";
 import { getAuthenticatedUser, isAdminEmail } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
+import { parseCreditServiceId } from "@/lib/creditPackages";
+import { auditCredits, fundedUnlocks } from "@/lib/unlockCosts";
 
 export interface UnlockContext {
   userId: string | null;
   email: string | null;
   isAdmin: boolean;
   unlocks: string[];
+  creditAnomaly?: boolean;
 }
 
 /** Resolve the caller's identity + server-recorded unlocks (no 401 — anonymous
@@ -26,18 +29,50 @@ export async function getUnlockContext(req: Request | NextRequest): Promise<Unlo
   if (!user) return { userId: null, email: null, isAdmin: false, unlocks: [] };
   const isAdmin = isAdminEmail(user.email);
   let unlocks: string[] = [];
+  let creditAnomaly = false;
   try {
     const sb = createAdminClient();
     const { data } = await sb
       .from("profiles")
-      .select("credit_unlocks")
+      .select("credits, credit_unlocks")
       .eq("id", user.id)
       .maybeSingle();
     if (Array.isArray(data?.credit_unlocks)) unlocks = data!.credit_unlocks as string[];
+    if (!isAdmin) {
+      const [{ data: orders }, { data: referrals }] = await Promise.all([
+        sb
+          .from("orders")
+          .select("service_id")
+          .eq("user_id", user.id)
+          .eq("status", "paid"),
+        sb
+          .from("referrals")
+          .select("reward")
+          .eq("referrer_user_id", user.id),
+      ]);
+      const paidCredits = ((orders ?? []) as Record<string, unknown>[]).reduce((sum, order) => {
+        const serviceId = typeof order.service_id === "string" ? order.service_id : "";
+        return sum + (parseCreditServiceId(serviceId)?.credits ?? 0);
+      }, 0);
+      const referralCredits = ((referrals ?? []) as Record<string, unknown>[]).reduce(
+        (sum, referral) => sum + Number(referral.reward ?? 0),
+        0,
+      );
+      const audit = auditCredits({
+        balance: Number(data?.credits ?? 0),
+        unlocks,
+        paidCredits,
+        referralCredits,
+      });
+      if (audit.anomaly) {
+        creditAnomaly = true;
+        unlocks = fundedUnlocks(unlocks, audit.entitled - audit.balance);
+      }
+    }
   } catch {
     /* can't read unlocks → treat as none (fail closed for paid content) */
   }
-  return { userId: user.id, email: user.email ?? null, isAdmin, unlocks };
+  return { userId: user.id, email: user.email ?? null, isAdmin, unlocks, creditAnomaly };
 }
 
 /** True when the caller is an admin or holds ANY of the given unlock keys. */

@@ -14,8 +14,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { requireAuthenticatedUser } from "@/lib/auth";
-import { isAdminEmail } from "@/lib/adminEmails";
-import { createAdminClient } from "@/lib/supabase";
+import { getUnlockContext, hasAnyUnlock } from "@/lib/serverUnlock";
 
 export const runtime = "nodejs";
 
@@ -28,24 +27,9 @@ const FILE_CANDIDATES = [
 export async function GET(req: NextRequest) {
   const auth = await requireAuthenticatedUser(req);
   if (auth instanceof NextResponse) return auth; // 401 if not signed in
-  const user = auth;
-
-  if (!isAdminEmail(user.email)) {
-    // Require the actual unlock. If we can't read the profile, fail closed.
-    try {
-      const supabase = createAdminClient();
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("credit_unlocks")
-        .eq("id", user.id)
-        .maybeSingle();
-      const unlocks = Array.isArray(data?.credit_unlocks) ? (data!.credit_unlocks as string[]) : [];
-      if (error || !unlocks.includes(UNLOCK_KEY)) {
-        return NextResponse.json({ error: "locked" }, { status: 403 });
-      }
-    } catch {
-      return NextResponse.json({ error: "locked" }, { status: 403 });
-    }
+  const ctx = await getUnlockContext(req);
+  if (!hasAnyUnlock(ctx, [UNLOCK_KEY])) {
+    return NextResponse.json({ error: "locked" }, { status: 403 });
   }
 
   for (const filePath of FILE_CANDIDATES) {

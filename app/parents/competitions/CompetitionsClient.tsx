@@ -91,7 +91,7 @@ export default function CompetitionsClient() {
             <div style={{ color: "rgba(255,255,255,0.55)", fontSize: 13 }}>무료 가입하면 11,975개 AP 문제 은행과 핵심 노트를 바로 이용할 수 있습니다.</div>
           </div>
           <button onClick={gateToTools} style={{ background: "#00FF88", color: "#000", border: "none", borderRadius: 8, padding: "12px 22px", fontWeight: 800, fontSize: 13.5, fontFamily: "'JetBrains Mono', monospace", cursor: "pointer", whiteSpace: "nowrap" }}>
-            무료 가입 →
+            {loggedIn ? "자료 보러 가기 →" : "무료 가입 →"}
           </button>
         </div>
 
@@ -128,7 +128,7 @@ export default function CompetitionsClient() {
           <div style={{ fontSize: 17, fontWeight: 800, marginBottom: 8 }}>자녀의 활동·학습을 InHero에서 시작하세요</div>
           <p style={{ fontSize: 14, color: "#64748b", marginBottom: 20 }}>AP 문제 은행 · 핵심 노트 · 디지털 교재까지, 무료 가입 한 번이면 전부.</p>
           <button onClick={gateToTools} style={{ background: "#1a1a1f", color: "#fff", border: "none", borderRadius: 8, padding: "14px 34px", fontWeight: 800, fontSize: 14.5, cursor: "pointer" }}>
-            무료 가입하고 모든 자료 보기 →
+            {loggedIn ? "모든 자료 보기 →" : "무료 가입하고 모든 자료 보기 →"}
           </button>
         </div>
       </div>

@@ -60,6 +60,7 @@ export default function AdmitsClient() {
     if (balance < SUPP_COST) { setNeedCharge(true); return; }
     const res = await spendAndUnlockAccount(suppKey, SUPP_COST);
     if (res.ok) setTick((t) => t + 1);
+    else if (res.reason === "account_anomaly") window.alert("크레딧 기록 확인이 필요해요. 결제 없이 열린 기록이 있어 관리자에게 문의해 주세요.");
     else setNeedCharge(true);
   }
 

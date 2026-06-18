@@ -53,6 +53,7 @@ export default function MeClient() {
   const [serverBacked, setServerBacked] = useState(false);
   const [tier, setTier] = useState<Tier | null>(null);
   const [savingTier, setSavingTier] = useState(false);
+  const [demoReferralEnabled, setDemoReferralEnabled] = useState(false);
 
   async function chooseTier(r: Tier) {
     setSavingTier(true);
@@ -65,6 +66,7 @@ export default function MeClient() {
   }
 
   useEffect(() => {
+    setDemoReferralEnabled(["localhost", "127.0.0.1", "::1"].includes(window.location.hostname));
     setReferrals(getReferrals());
     setMyCode(getMyCode());
     setReferredBy(getReferredBy());
@@ -272,7 +274,7 @@ export default function MeClient() {
                 </div>
               )}
 
-              {!serverBacked && (
+              {!serverBacked && demoReferralEnabled && (
                 <button onClick={() => setReferrals(addReferral(`친구 ${referrals.length + 1}`))}
                   style={{ marginTop: 14, width: "100%", background: "#fffbeb", border: "1.5px solid #f1d27a", color: "#a16207", borderRadius: 10, padding: "11px", fontWeight: 800, fontSize: 13, cursor: "pointer" }}>
                   ＋ 데모: 내 코드로 가입 시뮬레이션 (+{REFERRAL_REWARD} 크레딧)
@@ -281,7 +283,9 @@ export default function MeClient() {
               {referredBy && (
                 <p style={{ fontSize: 12, color: "#94a3b8", textAlign: "center", margin: "12px 0 0" }}>가입 시 입력한 추천인: <strong style={{ color: "#475569" }}>{referredBy}</strong></p>
               )}
-              <p style={{ fontSize: 11, color: "#cbd5e1", textAlign: "center", margin: "8px 0 0" }}>※ 데모 영수증입니다(계정 영구 저장·결제 연동 전).</p>
+              <p style={{ fontSize: 11, color: "#cbd5e1", textAlign: "center", margin: "8px 0 0" }}>
+                {serverBacked ? "※ 계정에 저장된 실제 추천 영수증입니다." : "※ 로그인/DB 연결 후 실제 추천 영수증으로 저장됩니다."}
+              </p>
             </section>
 
             <p style={{ fontSize: 12.5, color: "#94a3b8", textAlign: "center" }}>

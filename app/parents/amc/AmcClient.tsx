@@ -174,7 +174,7 @@ export default function AmcClient() {
         <div style={{ background: "linear-gradient(135deg,#0a0a14,#13131f)", borderRadius: 14, padding: "26px 24px", marginTop: 28, textAlign: "center" }}>
           <div style={{ color: "#fff", fontSize: 16.5, fontWeight: 800, marginBottom: 6 }}>AMC와 함께 AP까지, 11,975개 문제로 준비하세요</div>
           <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 13.5, marginBottom: 16 }}>무료 가입하면 AP 문제 은행과 핵심 노트를 바로 이용할 수 있습니다.</p>
-          <button onClick={gate} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "12px 28px", fontWeight: 800, fontSize: 14, cursor: "pointer" }}>무료 가입하고 전체 풀기 →</button>
+          <button onClick={gate} style={{ background: GREEN, color: "#fff", border: "none", borderRadius: 8, padding: "12px 28px", fontWeight: 800, fontSize: 14, cursor: "pointer" }}>{loggedIn ? "전체 풀기 →" : "무료 가입하고 전체 풀기 →"}</button>
         </div>
       </div>
     </div>

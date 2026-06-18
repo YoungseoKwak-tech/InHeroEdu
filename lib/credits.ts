@@ -10,11 +10,13 @@
  */
 
 import { authFetch, getClientSession } from "@/lib/client-auth";
+import { CREDIT_COSTS, WELCOME_CREDITS } from "@/lib/creditPolicy";
+
+export { CREDIT_COSTS, WELCOME_CREDITS } from "@/lib/creditPolicy";
 
 const BAL_KEY = "inhero-credits";
 const UNLOCK_KEY = "inhero-credits-unlocked";
 const MIGRATION_KEY = "inhero-credits-v2";
-export const WELCOME_CREDITS = 200;
 export const CREDIT_EVENT = "inhero:credits-changed";
 
 function emit() {
@@ -49,32 +51,53 @@ export function addCredits(n: number) {
 let serverBacked = false;
 export function isServerBacked() { return serverBacked; }
 
-/** Pull balance + unlocks from the account; silently keeps local if not. */
-export async function hydrateCredits(): Promise<void> {
-  if (typeof window === "undefined") return;
+function localDemoCreditsAllowed(): boolean {
+  if (typeof window === "undefined") return false;
+  return ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
+}
+
+/** Pull balance + unlocks from the account; returns true only when confirmed. */
+export async function hydrateCredits(): Promise<boolean> {
+  if (typeof window === "undefined") return false;
   try {
     const r = await authFetch("/api/credits");
     const d = await r.json();
-    if (!d?.migrated) return;
+    if (!r.ok || !d?.migrated) return false;
     serverBacked = true;
     localStorage.setItem(BAL_KEY, String(d.balance ?? WELCOME_CREDITS));
     localStorage.setItem(UNLOCK_KEY, JSON.stringify(d.unlocks ?? []));
     emit();
-  } catch { /* offline / signed out → keep local cache */ }
+    return true;
+  } catch {
+    return false;
+  }
 }
 
-/** Top up through the account (demo); falls back to local if not server-backed. */
-export async function chargeServer(amount: number): Promise<void> {
-  if (serverBacked) {
+/** Top up through the account (demo/dev only). Never mint local credits in prod. */
+export async function chargeServer(amount: number): Promise<boolean> {
+  let loggedIn = false;
+  try { loggedIn = !!(await getClientSession())?.user; } catch { /* ignore */ }
+
+  if (serverBacked || loggedIn) {
     try {
       const r = await authFetch("/api/credits/charge", {
         method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ credits: amount }),
       });
       const d = await r.json();
-      if (d?.migrated) { localStorage.setItem(BAL_KEY, String(d.balance)); emit(); return; }
-    } catch { /* fall through */ }
+      if (r.ok && d?.migrated) {
+        localStorage.setItem(BAL_KEY, String(d.balance));
+        emit();
+        return true;
+      }
+      return false;
+    } catch {
+      return false;
+    }
   }
+
+  if (!localDemoCreditsAllowed()) return false;
   addCredits(amount);
+  return true;
 }
 
 export function getUnlocked(): Set<string> {
@@ -110,16 +133,12 @@ function mirrorServerCredits(balance: number, unlocks?: unknown) {
  * spend succeeded; false if the balance is insufficient.
  */
 export function spendAndUnlock(key: string, cost: number): boolean {
+  if (serverBacked || !localDemoCreditsAllowed()) return false;
   if (cost <= 0 || isUnlocked(key)) { if (cost > 0) unlock(key); return true; }
   const b = getBalance();
   if (b < cost) return false;
   setBalance(b - cost);
   unlock(key);
-  if (serverBacked) {
-    authFetch("/api/credits/spend", {
-      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ itemKey: key, cost }),
-    }).catch(() => {});
-  }
   return true;
 }
 
@@ -152,13 +171,9 @@ export async function spendAndUnlockAccount(key: string, cost: number): Promise<
   let loggedIn = false;
   try { loggedIn = !!(await getClientSession())?.user; } catch { /* treat as logged-out */ }
 
-  if (isUnlocked(key)) {
-    // Trust an existing unlock only when the account confirms it. A logged-in
-    // user with a stale/forged localStorage unlock must re-verify server-side.
-    if (!loggedIn || serverBacked) {
-      unlock(key);
-      return { ok: true, balance: getBalance(), unlocks: [...getUnlocked()], serverBacked };
-    }
+  if (isUnlocked(key) && !loggedIn) {
+    unlock(key);
+    return { ok: true, balance: getBalance(), unlocks: [...getUnlocked()], serverBacked };
   }
 
   // A transient hydrate miss would otherwise refuse a legit logged-in unlock and
@@ -222,33 +237,3 @@ export async function spendAndUnlockAccount(key: string, cost: number): Promise<
     serverBacked: false,
   };
 }
-
-/**
- * Canonical content credit costs (master plan, ₩1,550/$). Keep gating costs
- * referencing these so pricing stays consistent across the portal.
- *   FREE   소통(Q&A)·합격수기 텍스트            0
- *   LIGHT  한국어 핵심노트(단원)·단어장          50–100
- *   MEDIUM 합격 에세이 원문·합격 활동 분석        250
- *   HEAVY  AP 디지털 교재 1권(1,000p)            500
- *   ULTRA  AP 문제은행 전체·SAT 모의고사 패키지   1,000
- */
-export const CREDIT_COSTS = {
-  FREE: 0,
-  COLLEGE_DB: 25,    // 미국 대학 분석 DB (인재상·입시·인턴십) — matches the resource-card price
-  GUIDE: 25,         // 가이드·전략 페이지 (대회 DB·AP 과목 가이드·공부법·스토리 설계·수학 교육)
-  NOTE_UNIT: 50,
-  VOCAB: 100,
-  ESSAY: 250,
-  ACTIVITIES: 250,
-  TEXTBOOK: 220,     // one digital textbook — 200 welcome + 20 referral reward = exactly 1 book (drives 지인 추천)
-  // 한국어 핵심노트 & 문제은행: 과목당 200 / 전 과목 1000 (원하는 과목만 선택 잠금해제)
-  SUBJECT: 200,            // unlock one subject (question bank)
-  STORY_BOOK: 300,         // 합격 수기 책 (내가 아이비리그 공대에 오기까지)
-  CORE_NOTES_SUBJECT: 500, // unlock one Korean core-notes subject (premium/기밀)
-  ALL_SUBJECTS: 1000,      // unlock every subject of that product
-  QUESTION_BANK: 1000,     // legacy alias = whole question bank (= ALL_SUBJECTS)
-  CORE_NOTES: 1000,        // alias = all Korean core notes
-  SAT_MOCK: 1000,
-  AP_MOCK: 500,            // Bluebook-style AP 실전 모의고사 풀세트 (한 번 열면 전 과목 Test 1·2·3)
-  SUPPLEMENTALS: 1000,     // one school's supplemental admit essays (per 합격 프로필)
-} as const;

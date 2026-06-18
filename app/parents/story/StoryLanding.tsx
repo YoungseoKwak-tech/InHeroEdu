@@ -2,7 +2,7 @@
 
 /**
  * /parents/story — 합격 수기 landing. The cover, 목차, and 프롤로그 are FREE.
- * The 200-credit charge happens only when the reader is opened via a "책 읽기"
+ * The book charge happens only when the reader is opened via a "책 읽기"
  * button (→ /parents/story/read), gated by a shared res:/parents/story unlock
  * so it's bought once.
  */
@@ -21,7 +21,7 @@ import {
 
 const GREEN = "#00b85f";
 const READ_KEY = "res:/parents/story";
-const READ_COST = CREDIT_COSTS.STORY_BOOK; // 220
+const READ_COST = CREDIT_COSTS.STORY_BOOK;
 const READ_HREF = "/parents/story/read";
 
 export default function StoryLanding() {
@@ -46,7 +46,7 @@ export default function StoryLanding() {
     return () => window.removeEventListener(CREDIT_EVENT, sync);
   }, []);
 
-  // "책 읽기" — free landing, but opening the reader costs 200 credits (once).
+  // "책 읽기" — free landing, but opening the reader costs credits once.
   function readBook() {
     if (!loggedIn) {
       window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: READ_HREF } }));
@@ -64,6 +64,7 @@ export default function StoryLanding() {
       const result = await spendAndUnlockAccount(READ_KEY, READ_COST);
       if (!result.ok) {
         if (result.reason === "insufficient") window.dispatchEvent(new CustomEvent("inhero:open-charge"));
+        else if (result.reason === "account_anomaly") window.alert("크레딧 기록 확인이 필요해요. 결제 없이 열린 기록이 있어 관리자에게 문의해 주세요.");
         else window.alert("크레딧 차감 확인 중 오류가 발생했어요. 잠시 후 다시 시도해 주세요.");
         return;
       }

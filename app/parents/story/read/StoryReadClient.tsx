@@ -3,16 +3,16 @@
 /**
  * Access guard for the 합격 수기 reader. The reader must NOT be readable just by
  * knowing the URL — entry requires being signed in AND having unlocked the book
- * (220 credits, key res:/parents/story). Otherwise we bounce back to the landing
- * page (which shows the login / paywall flow). Unlock state lives client-side
- * (localStorage), so this check has to run on the client.
+ * (key res:/parents/story). Otherwise we bounce back to the landing
+ * page (which shows the login / paywall flow). We hydrate account unlocks
+ * before trusting localStorage so stale or user-edited local keys fail closed.
  */
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import PdfReader from "@/app/library/[resourceId]/read/PdfReader";
 import { getClientSession } from "@/lib/client-auth";
-import { isUnlocked } from "@/lib/credits";
+import { hydrateCredits, isUnlocked } from "@/lib/credits";
 import { isAdminEmail } from "@/lib/adminEmails";
 
 const READ_KEY = "res:/parents/story";
@@ -26,7 +26,9 @@ export default function StoryReadClient() {
     (async () => {
       const session = await getClientSession().catch(() => null);
       const signedIn = !!session?.user;
-      const owns = isUnlocked(READ_KEY) || isAdminEmail(session?.user?.email);
+      const admin = isAdminEmail(session?.user?.email);
+      const hydrated = signedIn ? await hydrateCredits().catch(() => false) : false;
+      const owns = admin || (hydrated && isUnlocked(READ_KEY));
       if (cancelled) return;
       if (signedIn && owns) {
         setAllowed(true);

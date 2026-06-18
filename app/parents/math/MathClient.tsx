@@ -252,7 +252,7 @@ export default function MathClient() {
           <div style={{ fontSize: 17, fontWeight: 800, marginBottom: 8 }}>자녀 트랙에 맞는 AP·수학 학습을 시작하세요</div>
           <p style={{ fontSize: 14, color: "#64748b", marginBottom: 20 }}>AP 문제 은행 · 개념정리 · 단어장까지, 무료 가입 한 번이면 전부.</p>
           <button onClick={gateToTools} style={{ background: "#1a1a1f", color: "#fff", border: "none", borderRadius: 8, padding: "14px 34px", fontWeight: 800, fontSize: 14.5, cursor: "pointer" }}>
-            무료 가입하고 모든 자료 보기 →
+            {loggedIn ? "모든 자료 보기 →" : "무료 가입하고 모든 자료 보기 →"}
           </button>
         </div>
       </div>

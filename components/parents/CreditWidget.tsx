@@ -69,7 +69,18 @@ export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
 
   // Buy a credit package via NicePay (real); demo top-up if NicePay is off.
   async function buyPackage(pkg: CreditPackage) {
-    if (!NICEPAY_ENABLED) { chargeServer(pkg.credits); setCharge(false); return; }
+    if (!NICEPAY_ENABLED) {
+      setBuying(pkg.id);
+      setErr(null);
+      const ok = await chargeServer(pkg.credits);
+      setBuying(null);
+      if (ok) {
+        setCharge(false);
+        return;
+      }
+      setErr("실결제가 연결된 환경에서는 무료 충전이 막혀 있어요. 결제 설정을 확인해 주세요.");
+      return;
+    }
     setBuying(pkg.id); setErr(null);
     try {
       const res = await authFetch("/api/payments/nicepay/credits-prepare", {

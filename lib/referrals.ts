@@ -19,6 +19,10 @@ const LEDGER_KEY = "inhero-referrals";
 
 export interface Referral { name: string; date: string; reward: number }
 
+function localDemoCreditsAllowed(): boolean {
+  return typeof window !== "undefined" && ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
+}
+
 /** A stable shareable referral code for this user (generated once). */
 export function getMyCode(): string {
   if (typeof window === "undefined") return "";
@@ -92,6 +96,6 @@ export function addReferral(name: string): Referral[] {
   const list = getReferrals();
   const next = [...list, { name: name || "익명 가입자", date: new Date().toISOString(), reward: REFERRAL_REWARD }];
   if (typeof window !== "undefined") localStorage.setItem(LEDGER_KEY, JSON.stringify(next));
-  addCredits(REFERRAL_REWARD);
+  if (localDemoCreditsAllowed()) addCredits(REFERRAL_REWARD);
   return next;
 }

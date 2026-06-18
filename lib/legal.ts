@@ -7,7 +7,7 @@ export const merchantInfo = {
     process.env.NEXT_PUBLIC_MERCHANT_REGISTRATION_NUMBER || "815-61-00887",
   address: process.env.NEXT_PUBLIC_MERCHANT_ADDRESS || "",
   phone: process.env.NEXT_PUBLIC_MERCHANT_PHONE || "",
-  email: process.env.NEXT_PUBLIC_MERCHANT_EMAIL || "yeongseo0802@gmail.com",
+  email: process.env.NEXT_PUBLIC_MERCHANT_EMAIL || "inheroedu@gmail.com",
   ecommerceRegistrationNumber:
     process.env.NEXT_PUBLIC_ECOMMERCE_REGISTRATION_NUMBER || "",
 };
