@@ -402,7 +402,8 @@ function AiFeedbackPanel({ kind, taskType, taskPrompt, response, onScored }: {
         body: JSON.stringify({ kind, taskType, taskPrompt, response }),
       });
       const d = await r.json();
-      if (d?.status === "locked") { setState("locked"); return; }
+      // "locked" (prelaunch / no key) or "fallback" (model/key error) → graceful note.
+      if (d?.status === "locked" || d?.status === "fallback") { setState("locked"); return; }
       if (typeof d?.scaled !== "number") { setState("error"); return; }
       setFb(d); setState("done"); onScored(d.scaled);
     } catch { setState("error"); }
