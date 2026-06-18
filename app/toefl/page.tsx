@@ -56,11 +56,16 @@ export default function ToeflLanding() {
           자동 채점·해설, 듣기 음원 재생, 말하기 녹음, 쓰기 타이머까지. 200 크레딧 5회 또는 500 크레딧 무제한으로 연습하세요.
         </p>
 
-        <Link href="/toefl/test" style={{ display: "inline-block", background: MINT, color: "#05070d", borderRadius: 12, padding: "14px 28px", fontWeight: 850, fontSize: 16, textDecoration: "none", marginBottom: 10 }}>
-          ▶ 바로 모의고사 풀러가기 →
-        </Link>
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 10 }}>
+          <Link href="/toefl/test" style={{ display: "inline-block", background: MINT, color: "#05070d", borderRadius: 12, padding: "14px 28px", fontWeight: 850, fontSize: 16, textDecoration: "none" }}>
+            ▶ 바로 모의고사 풀러가기 →
+          </Link>
+          <Link href="/toefl/sample" style={{ display: "inline-block", background: "transparent", color: "#fff", border: "1.5px solid rgba(255,255,255,0.35)", borderRadius: 12, padding: "14px 24px", fontWeight: 800, fontSize: 15, textDecoration: "none" }}>
+            🎁 무료 샘플 풀어보기 (찍먹)
+          </Link>
+        </div>
         <p style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", margin: "0 0 40px", lineHeight: 1.65 }}>
-          TOEFL·SAT 모의고사 공통: <strong style={{ color: "#fff" }}>200 크레딧 = 5회</strong> · <strong style={{ color: "#fff" }}>500 크레딧 = 무제한</strong>
+          샘플은 <strong style={{ color: "#fff" }}>무료 · 로그인 없이</strong> 실제 형식·타이머 그대로 미리 풀어볼 수 있어요. 전체: <strong style={{ color: "#fff" }}>200 크레딧 = 5회</strong> · <strong style={{ color: "#fff" }}>500 크레딧 = 무제한</strong>
         </p>
 
         <div style={{ display: "grid", gap: 14, marginBottom: 44 }}>

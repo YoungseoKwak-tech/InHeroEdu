@@ -33,9 +33,13 @@ export default function SatLandingPage() {
           디지털 SAT와 동일한 구조의 적응형 모의고사예요. Reading & Writing → Math, 각 섹션이 2개의 타이머 모듈로 진행되고,
           모듈 1 성적에 따라 모듈 2 난이도가 갈립니다. 실제 시험의 적응형 구조·문제 유형·시간을 그대로 적용해 만든 오리지널 실전 문항입니다. (College Board 공식 기출 복제 아님)
         </p>
-        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", margin: "-18px 0 28px", lineHeight: 1.65 }}>
+        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", margin: "-18px 0 18px", lineHeight: 1.65 }}>
           SAT·TOEFL 모의고사 공통: <strong style={{ color: "#fff" }}>200 크레딧 = 5회</strong> · <strong style={{ color: "#fff" }}>500 크레딧 = 무제한</strong>
         </p>
+
+        <Link href="/sat/sample" style={{ display: "inline-block", background: "transparent", color: "#fff", border: "1.5px solid rgba(0,255,178,0.45)", borderRadius: 12, padding: "13px 22px", fontWeight: 800, fontSize: 15, textDecoration: "none", marginBottom: 28 }}>
+          🎁 무료 샘플 풀어보기 (찍먹) — 실제 형식·타이머 그대로
+        </Link>
 
         <SatHistory theme="dark" />
 
