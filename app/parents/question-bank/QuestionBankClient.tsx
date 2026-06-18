@@ -12,7 +12,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { authFetch } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import CreditGate from "@/components/parents/CreditGate";
 import ReviewsStrip from "@/components/parents/ReviewsStrip";
 import { CREDIT_COSTS } from "@/lib/credits";
@@ -37,6 +37,9 @@ export default function QuestionBankClient() {
   const [questions, setQuestions] = useState<BankQuestion[]>([]);
   const [filteredTotal, setFilteredTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => { getClientSession().then((s) => setLoggedIn(!!s?.user)).catch(() => {}); }, []);
 
   useEffect(() => {
     fetch("/api/question-bank/subjects")
@@ -106,7 +109,9 @@ export default function QuestionBankClient() {
         {/* Questions */}
         {loading ? (
           <p style={{ color: "#94a3b8", fontSize: 14, padding: "30px 0", textAlign: "center" }}>문제를 불러오는 중…</p>
-        ) : unlocked.length === 0 ? (
+        ) : (!loggedIn && unlocked.length === 0) ? (
+          // Signed-out + nothing to preview → invite signup. Signed-in users
+          // fall through to the credit unlock (결제) gate below, never "무료 가입".
           <LockedCTA onClick={gateSignup} subjectLocked />
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
