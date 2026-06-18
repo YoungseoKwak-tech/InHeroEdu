@@ -13,6 +13,7 @@ import type { SatForm, SatQuestion } from "@/lib/sat/types";
 import { gridMatches } from "@/lib/sat/types";
 import { appendSatAttempt } from "@/lib/sat/history";
 import SatHistory from "@/components/sat/SatHistory";
+import { consumeMock } from "@/lib/mockAccess";
 
 interface Answer { choice?: number; grid?: string }
 type AnswerMap = Record<string, Answer>;
@@ -37,15 +38,48 @@ function sectionScore(correct: number, total: number, hardPath: boolean): number
   return Math.round(raw / 10) * 10;
 }
 
-export default function SatTestClient({ form }: { form: SatForm }) {
+export default function SatTestClient({ form, attemptId }: { form: SatForm; attemptId?: string }) {
   type Phase = "rw1" | "rw2" | "math1" | "math2" | "results";
   const [phase, setPhase] = useState<Phase>("rw1");
   const [rwHard, setRwHard] = useState(false);
   const [mathHard, setMathHard] = useState(false);
   const [answers, setAnswers] = useState<AnswerMap>({});
+  const [access, setAccess] = useState<"checking" | "ok" | "blocked">("checking");
 
   const rwM2 = rwHard ? form.rw.m2hard : form.rw.m2easy;
   const mathM2 = mathHard ? form.math.m2hard : form.math.m2easy;
+
+  useEffect(() => {
+    if (!attemptId) {
+      setAccess("blocked");
+      const t = window.setTimeout(() => window.location.replace("/parents/sat?pay=1"), 700);
+      return () => window.clearTimeout(t);
+    }
+
+    const marker = `inhero-sat-attempt-started-${attemptId}`;
+    if (sessionStorage.getItem(marker) === form.id) {
+      setAccess("ok");
+      return;
+    }
+
+    const result = consumeMock("sat");
+    if (result.ok) {
+      sessionStorage.setItem(marker, form.id);
+      setAccess("ok");
+      return;
+    }
+
+    setAccess("blocked");
+    if (result.reason === "exhausted") {
+      window.alert("5회 이용권을 모두 사용했어요. '무제한' 이용권(500 크레딧)으로 업그레이드하면 계속 응시할 수 있어요.");
+    }
+    const t = window.setTimeout(() => window.location.replace("/parents/sat?pay=1"), 700);
+    return () => window.clearTimeout(t);
+  }, [attemptId, form.id]);
+
+  if (access !== "ok") {
+    return <SatAccessMessage blocked={access === "blocked"} />;
+  }
 
   function finishModule(qs: SatQuestion[], a: AnswerMap, next: Phase, setHard?: (b: boolean) => void) {
     setAnswers((prev) => ({ ...prev, ...a }));
@@ -78,6 +112,21 @@ export default function SatTestClient({ form }: { form: SatForm }) {
       calculator={cfg.calc}
       onSubmit={(a) => cfg.next(a)}
     />
+  );
+}
+
+function SatAccessMessage({ blocked }: { blocked: boolean }) {
+  return (
+    <div style={{ minHeight: "100vh", background: "#05070d", color: "#e8edf4", display: "grid", placeItems: "center", padding: 24, fontFamily: "Inter, sans-serif" }}>
+      <div style={{ width: "min(460px, 100%)", border: "1px solid rgba(0,255,178,0.2)", background: "rgba(255,255,255,0.04)", borderRadius: 18, padding: "28px 24px", textAlign: "center" }}>
+        <div style={{ fontSize: 36, marginBottom: 10 }}>{blocked ? "🔒" : "⏳"}</div>
+        <h1 style={{ fontSize: 22, fontWeight: 850, color: "#fff", margin: "0 0 8px" }}>{blocked ? "SAT 이용권 확인이 필요해요" : "SAT 이용권 확인 중…"}</h1>
+        <p style={{ fontSize: 14, color: "rgba(255,255,255,0.58)", lineHeight: 1.7, margin: "0 0 18px" }}>
+          SAT 모의고사는 200 크레딧 5회 또는 500 크레딧 무제한 이용권으로 시작할 수 있어요.
+        </p>
+        {blocked && <Link href="/parents/sat?pay=1" style={ctaBtn(true)}>이용권 선택하기 →</Link>}
+      </div>
+    </div>
   );
 }
 
@@ -387,8 +436,8 @@ function Results({ form, rwM2, mathM2, rwHard, mathHard, answers }: {
         )}
 
         <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-          <Link href={`/sat/test?form=${form.id}`} style={ctaBtn(true)}>🔁 다시 풀기</Link>
-          <Link href="/sat" style={ctaBtn(false)}>다른 테스트 선택</Link>
+          <Link href="/parents/sat?pay=1" style={ctaBtn(true)}>🔁 이용권 확인 후 다시 풀기</Link>
+          <Link href="/parents/sat" style={ctaBtn(false)}>다른 테스트 선택</Link>
         </div>
       </div>
     </div>

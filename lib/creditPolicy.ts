@@ -61,6 +61,7 @@ export function unlockKeyCost(key: string): number | null {
   if (key.startsWith("parents:core-notes:")) return CREDIT_COSTS.CORE_NOTES_SUBJECT;
   if (key === "parents:sat-mock:5") return CREDIT_COSTS.MOCK_5PACK;
   if (key === "parents:sat-mock") return CREDIT_COSTS.SAT_MOCK;
+  if (key === "parents:ap-mock:5") return CREDIT_COSTS.MOCK_5PACK;
   if (key === "parents:ap-mock") return CREDIT_COSTS.AP_MOCK;
   if (key === "parents:toefl-mock:5") return CREDIT_COSTS.MOCK_5PACK;
   if (key === "parents:toefl-mock") return CREDIT_COSTS.TOEFL_MOCK;

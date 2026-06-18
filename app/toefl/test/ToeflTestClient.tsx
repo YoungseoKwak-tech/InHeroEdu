@@ -14,6 +14,7 @@ import type { ToeflMCQ, ToeflReadingSet, ToeflListeningSet, ToeflSpeakingTask, T
 import { scaledScore, sectionBand, TOEFL_TIMING } from "@/lib/toefl/types";
 import { getClientSession } from "@/lib/client-auth";
 import CreditGate from "@/components/parents/CreditGate";
+import CreditWidget from "@/components/parents/CreditWidget";
 import { CREDIT_COSTS } from "@/lib/credits";
 import { consumeMock, mockRemaining, mockTier, MOCK_PACK_LIMIT } from "@/lib/mockAccess";
 
@@ -39,14 +40,37 @@ export default function ToeflTestClient() {
     setMounted(true);
   }, []);
 
-  // A full test consumes one of the 5-pack starts (unlimited never decrements).
-  const startFull = () => {
+  useEffect(() => {
+    if (!mounted || !loggedIn) return;
+    const params = new URLSearchParams(window.location.search);
+    const shouldOpenCharge = params.has("pay") || params.has("charge");
+    if (!shouldOpenCharge) return;
+
+    params.delete("pay");
+    params.delete("charge");
+    const nextQuery = params.toString();
+    window.history.replaceState(null, "", `${window.location.pathname}${nextQuery ? `?${nextQuery}` : ""}${window.location.hash}`);
+
+    const tier = mockTier("toefl");
+    const rem = mockRemaining("toefl");
+    if (tier === "none" || rem === 0) {
+      const t = window.setTimeout(() => window.dispatchEvent(new Event("inhero:open-charge")), 250);
+      return () => window.clearTimeout(t);
+    }
+  }, [mounted, loggedIn]);
+
+  // Starting any SAT/TOEFL mock attempt consumes one of the 5-pack starts
+  // (unlimited never decrements), so section practice cannot bypass payment.
+  const startMock = (next: View) => {
     const r = consumeMock("toefl");
-    if (r.ok) { setView("full"); return; }
+    if (r.ok) { setView(next); return; }
     if (r.reason === "exhausted") {
       window.alert("5회 이용권을 모두 사용했어요. '무제한' 이용권(500 크레딧)으로 업그레이드하면 계속 응시할 수 있어요.");
-      window.dispatchEvent(new CustomEvent("inhero:open-charge"));
     }
+    if (r.reason === "locked") {
+      window.alert("TOEFL 모의고사 이용권이 필요해요. 200 크레딧 5회 또는 500 크레딧 무제한 중 선택해 주세요.");
+    }
+    window.dispatchEvent(new CustomEvent("inhero:open-charge"));
   };
 
   // Login required (like every other paid asset) before the test opens.
@@ -58,7 +82,7 @@ export default function ToeflTestClient() {
           <div style={{ fontSize: 40, marginBottom: 8 }}>🔒</div>
           <h2 style={{ fontSize: 20, fontWeight: 850, margin: "0 0 8px" }}>로그인이 필요해요</h2>
           <p style={{ fontSize: 14, color: "#5b6b7b", lineHeight: 1.7, marginBottom: 18 }}>TOEFL 실전 모의고사는 로그인 후 이용할 수 있어요. 가입 시 웰컴 크레딧을 드립니다.</p>
-          <button onClick={() => window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: "/toefl/test" } }))} style={btnBlue}>로그인 / 가입하기 →</button>
+          <button onClick={() => window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: "/toefl/test?pay=1" } }))} style={btnBlue}>로그인 / 가입하기 →</button>
         </div>
       </Shell>
     );
@@ -72,7 +96,7 @@ export default function ToeflTestClient() {
       { key: "writing", tag: "Writing", title: "쓰기", meta: `${counts.writing}개 과제 · 29분 · 타이머 + 단어 수`, color: "#A78BFA" },
     ];
     return (
-      <Shell>
+      <Shell showCredits loggedIn={loggedIn}>
         <p style={{ fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", color: "#94a3b8", fontWeight: 800, marginBottom: 8 }}>📝 TOEFL iBT · 실전 모드</p>
         <h1 style={{ fontSize: 26, fontWeight: 850, margin: "0 0 8px", letterSpacing: "-0.02em" }}>실제 토플처럼 풀어보세요</h1>
         <p style={{ color: "#5b6b7b", fontSize: 14.5, lineHeight: 1.7, marginBottom: 8 }}>{form.title} — Reading·Listening·Speaking·Writing 4개 섹션을 실제 시험 형식으로 연습합니다.</p>
@@ -107,6 +131,8 @@ export default function ToeflTestClient() {
           bundleLabel="무제한"
           title="TOEFL 모의고사 이용권"
           desc="실제 TOEFL iBT와 동일한 형식(Reading·Listening·Speaking·Writing). 5회 이용권(200) 또는 무제한(500) 중 선택하세요."
+          fullBlur
+          allowAdminBypass={false}
         >
         {mounted && (() => {
           const tier = mockTier("toefl");
@@ -119,7 +145,7 @@ export default function ToeflTestClient() {
             </div>
           );
         })()}
-        <button onClick={startFull} style={{ width: "100%", textAlign: "left", display: "flex", alignItems: "center", gap: 16, background: "linear-gradient(135deg,#0b1220,#1f3a5f)", color: "#fff", border: "none", borderRadius: 16, padding: "22px 22px", cursor: "pointer", marginBottom: 18 }}>
+        <button onClick={() => startMock("full")} style={{ width: "100%", textAlign: "left", display: "flex", alignItems: "center", gap: 16, background: "linear-gradient(135deg,#0b1220,#1f3a5f)", color: "#fff", border: "none", borderRadius: 16, padding: "22px 22px", cursor: "pointer", marginBottom: 18 }}>
           <span style={{ fontSize: 26, flexShrink: 0 }}>🎯</span>
           <div style={{ flex: 1 }}>
             <div style={{ fontWeight: 850, fontSize: 18 }}>전체 시험 (Full Test)</div>
@@ -131,7 +157,7 @@ export default function ToeflTestClient() {
         <p style={{ fontSize: 12, fontWeight: 800, color: "#94a3b8", margin: "4px 2px 10px" }}>또는 섹션별 연습</p>
         <div style={{ display: "grid", gap: 14 }}>
           {cards.map((c) => (
-            <button key={c.key} onClick={() => setView(c.key)} style={{ textAlign: "left", display: "flex", alignItems: "center", gap: 16, background: "#fff", border: "1px solid #e6ebf0", borderRadius: 14, padding: "20px 20px", cursor: "pointer" }}>
+            <button key={c.key} onClick={() => startMock(c.key)} style={{ textAlign: "left", display: "flex", alignItems: "center", gap: 16, background: "#fff", border: "1px solid #e6ebf0", borderRadius: 14, padding: "20px 20px", cursor: "pointer" }}>
               <span style={{ fontSize: 12, fontWeight: 900, color: "#fff", background: c.color, borderRadius: 8, padding: "6px 11px", flexShrink: 0 }}>{c.tag}</span>
               <div style={{ flex: 1 }}>
                 <div style={{ fontWeight: 800, fontSize: 17 }}>{c.title}</div>
@@ -252,13 +278,13 @@ function FullTest({ form, onExit }: { form: ReturnType<typeof getToeflForm>; onE
   );
 }
 
-function Shell({ children }: { children: React.ReactNode }) {
+function Shell({ children, showCredits = false, loggedIn = false }: { children: React.ReactNode; showCredits?: boolean; loggedIn?: boolean }) {
   return (
     <div style={{ minHeight: "100vh", background: "#f6f8fa", color: "#1d2733" }}>
       <div style={{ height: 56, borderBottom: "1px solid #e6ebf0", display: "flex", alignItems: "center", padding: "0 18px", background: "#fff" }}>
         <Link href="/toefl" style={{ color: "#475569", textDecoration: "none", fontWeight: 600, fontSize: 14 }}>← TOEFL</Link>
         <div style={{ flex: 1, textAlign: "center", fontWeight: 800 }}>TOEFL iBT 실전 모드</div>
-        <div style={{ width: 60 }} />
+        {showCredits ? <CreditWidget loggedIn={loggedIn} /> : <div style={{ width: 60 }} />}
       </div>
       <div style={{ maxWidth: 980, margin: "0 auto", padding: "28px 20px 90px" }}>{children}</div>
     </div>

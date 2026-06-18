@@ -45,6 +45,12 @@ function loadNicePayScript(): Promise<void> {
   });
 }
 
+function currentReturnTo() {
+  if (typeof window === "undefined") return "/parents";
+  const path = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+  return path.startsWith("/") && !path.startsWith("//") ? path : "/parents";
+}
+
 export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
   const [balance, setBalance] = useState<number | null>(null);
   const [charge, setCharge] = useState(false);
@@ -85,7 +91,7 @@ export default function CreditWidget({ loggedIn }: { loggedIn: boolean }) {
     try {
       const res = await authFetch("/api/payments/nicepay/credits-prepare", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ packageId: pkg.id, returnTo: "/parents" }),
+        body: JSON.stringify({ packageId: pkg.id, returnTo: currentReturnTo() }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.clientId || !data.orderId) throw new Error(data.error || "결제 준비에 실패했어요.");

@@ -13,7 +13,7 @@ import { SAT_FORMS, formCounts } from "@/lib/sat/forms";
 import SatHistory from "@/components/sat/SatHistory";
 import CreditGate from "@/components/parents/CreditGate";
 import { CREDIT_COSTS } from "@/lib/credits";
-import { consumeMock, mockRemaining, mockTier, MOCK_PACK_LIMIT } from "@/lib/mockAccess";
+import { mockRemaining, mockTier, MOCK_PACK_LIMIT } from "@/lib/mockAccess";
 
 const GREEN = "#00b85f";
 
@@ -46,15 +46,40 @@ function VerifiedBadge() {
 export default function SatClient() {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    const params = new URLSearchParams(window.location.search);
+    const shouldOpenCharge = params.has("pay") || params.has("charge");
+    if (!shouldOpenCharge) return;
+
+    params.delete("pay");
+    params.delete("charge");
+    const nextQuery = params.toString();
+    window.history.replaceState(null, "", `${window.location.pathname}${nextQuery ? `?${nextQuery}` : ""}${window.location.hash}`);
+
+    const tier = mockTier("sat");
+    const rem = mockRemaining("sat");
+    if (tier === "none" || rem === 0) {
+      const t = window.setTimeout(() => window.dispatchEvent(new Event("inhero:open-charge")), 500);
+      return () => window.clearTimeout(t);
+    }
+  }, []);
 
   const startTest = (formId: string) => {
-    const r = consumeMock("sat");
-    if (r.ok) { router.push(`/sat/test?form=${formId}`); return; }
-    if (r.reason === "exhausted") {
+    const tier = mockTier("sat");
+    const rem = mockRemaining("sat");
+    if (tier === "none") {
+      window.alert("SAT 모의고사 이용권이 필요해요. 200 크레딧 5회 또는 500 크레딧 무제한 중 선택해 주세요.");
+      window.dispatchEvent(new CustomEvent("inhero:open-charge"));
+      return;
+    }
+    if (rem === 0) {
       window.alert("5회 이용권을 모두 사용했어요. '무제한' 이용권(500 크레딧)으로 업그레이드하면 계속 응시할 수 있어요.");
       window.dispatchEvent(new CustomEvent("inhero:open-charge"));
+      return;
     }
+    const attempt = typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    router.push(`/sat/test?form=${encodeURIComponent(formId)}&attempt=${encodeURIComponent(attempt)}`);
   };
 
   return (
@@ -82,6 +107,8 @@ export default function SatClient() {
         bundleLabel="무제한"
         title="SAT 모의고사 이용권"
         desc="College Board와 동일한 적응형 디지털 SAT 모의고사. 5회 이용권(200) 또는 무제한(500) 중 선택하세요."
+        fullBlur
+        allowAdminBypass={false}
       >
       {mounted && (() => {
         const tier = mockTier("sat");

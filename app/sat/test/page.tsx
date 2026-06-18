@@ -9,9 +9,9 @@ export const metadata = {
 export default async function SatTestPage({
   searchParams,
 }: {
-  searchParams: Promise<{ form?: string }>;
+  searchParams: Promise<{ form?: string; attempt?: string }>;
 }) {
-  const { form } = await searchParams;
+  const { form, attempt } = await searchParams;
   const chosen = getSatForm(form) ?? SAT_FORMS[0];
-  return <SatTestClient form={chosen} />;
+  return <SatTestClient form={chosen} attemptId={attempt} />;
 }

@@ -19,7 +19,7 @@ const GREEN = "#00b85f";
 
 export default function CreditGate({
   gateKey, cost, title, desc, children,
-  bundleKey, bundleCost, bundleLabel, fullBlur = false,
+  bundleKey, bundleCost, bundleLabel, fullBlur = false, allowAdminBypass = true,
 }: {
   gateKey: string; cost: number; title: string; desc?: string; children: ReactNode;
   // Optional "unlock everything" bundle (e.g. 전 과목 한 번에 · 1000). If the
@@ -28,10 +28,14 @@ export default function CreditGate({
   // When true, blur the ENTIRE locked content (not just the bottom half) — used
   // where even the preview must stay hidden (e.g. 합격생 활동 원문).
   fullBlur?: boolean;
+  // Most admin pages can bypass gates for QA, but payment-sensitive products
+  // like mock exams should exercise the real purchase/unlock path too.
+  allowAdminBypass?: boolean;
 }) {
   const [unlocked, setUnlocked] = useState<boolean | null>(null);
   const [balance, setBalance] = useState(0);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
   const [pending, setPending] = useState(false);
 
   useEffect(() => {
@@ -44,9 +48,10 @@ export default function CreditGate({
     };
     (async () => {
       const session = await getClientSession().catch(() => null);
+      if (alive) setLoggedIn(!!session?.user);
       const admin = isAdminEmail(session?.user?.email);
       if (alive) setIsAdmin(admin);
-      if (admin) {
+      if (admin && allowAdminBypass) {
         trustLocalUnlocks = true;
         sync();
         return;
@@ -69,11 +74,11 @@ export default function CreditGate({
       alive = false;
       window.removeEventListener(CREDIT_EVENT, sync);
     };
-  }, [gateKey, bundleKey]);
+  }, [gateKey, bundleKey, allowAdminBypass]);
 
   // Avoid SSR/first-paint flash — decide only after reading localStorage.
   if (unlocked === null) return null;
-  if (unlocked || isAdmin) return <>{children}</>;
+  if (unlocked || (allowAdminBypass && isAdmin)) return <>{children}</>;
 
   const enough = balance >= cost;
   const bundleEnough = bundleKey ? balance >= (bundleCost ?? cost) : false;
@@ -81,6 +86,15 @@ export default function CreditGate({
     if (pending) return;
     const k = bundle && bundleKey ? bundleKey : gateKey;
     const c = bundle && bundleKey ? (bundleCost ?? cost) : cost;
+    if (loggedIn === false) {
+      const redirectTo = typeof window !== "undefined" ? `${window.location.pathname}${window.location.search}` : "/parents";
+      window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo } }));
+      return;
+    }
+    if (balance < c) {
+      window.dispatchEvent(new Event("inhero:open-charge"));
+      return;
+    }
     setPending(true);
     try {
       const result = await spendAndUnlockAccount(k, c);
@@ -130,7 +144,7 @@ export default function CreditGate({
           )}
         </div>
         <p style={{ fontSize: 11.5, color: "#94a3b8", marginTop: 12 }}>
-          {bundleKey ? `원하는 과목만 ${cost.toLocaleString()}, 전 과목은 ${(bundleCost ?? cost).toLocaleString()} 크레딧 · ` : ""}한 번 열면 계속 볼 수 있어요
+          {bundleKey ? `${cost.toLocaleString()} 크레딧 이용권 또는 ${(bundleCost ?? cost).toLocaleString()} 크레딧 ${bundleLabel ?? "번들"} · ` : ""}한 번 열면 계속 볼 수 있어요
         </p>
       </div>
     </div>

@@ -7,7 +7,7 @@
  */
 import { isUnlocked } from "@/lib/credits";
 
-export type MockProduct = "sat" | "toefl";
+export type MockProduct = "sat" | "toefl" | "ap";
 export const MOCK_PACK_LIMIT = 5;
 
 export const mockUnlimitedKey = (p: MockProduct) => `parents:${p}-mock`;

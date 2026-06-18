@@ -16,6 +16,7 @@ import { examSpecFor, PRACTICE_SETS } from "@/lib/apExamConfig";
 import LiveStatBadge from "@/components/social/LiveStatBadge";
 import CreditGate from "@/components/parents/CreditGate";
 import { CREDIT_COSTS } from "@/lib/credits";
+import { consumeMock, mockRemaining, mockTier, MOCK_PACK_LIMIT } from "@/lib/mockAccess";
 
 interface BankOption { label: string; correct: boolean; feedback?: string | null; }
 interface BankQuestion {
@@ -82,6 +83,8 @@ export default function ExamPage() {
   const [subject, setSubject] = useState<string>("");
   const [gate, setGate] = useState<"" | "login" | "paid" | "empty" | "nosubject">("");
   const [starting, setStarting] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
 
   // Loaded test
   const [questions, setQuestions] = useState<BankQuestion[]>([]);
@@ -140,6 +143,15 @@ export default function ExamPage() {
       // No valid subject picked — guide the user instead of silently doing nothing.
       if (subjects[0]?.courseId) { setSubject(subjects[0].courseId); }
       else { setGate("nosubject"); }
+      return;
+    }
+    // 5회 이용권은 시작마다 1회 차감 (무제한은 차감 없음).
+    const access = consumeMock("ap");
+    if (!access.ok) {
+      if (access.reason === "exhausted") {
+        window.alert("5회 이용권을 모두 사용했어요. '무제한' 이용권(500 크레딧)으로 업그레이드하면 계속 응시할 수 있어요.");
+        window.dispatchEvent(new CustomEvent("inhero:open-charge"));
+      }
       return;
     }
     setStarting(n); setGate("");
@@ -240,11 +252,26 @@ export default function ExamPage() {
               모든 과목의 Test 1·2·3 풀세트를 계속 응시할 수 있어요. */}
           <div style={{ marginTop: 24 }}>
           <CreditGate
-            gateKey="parents:ap-mock"
-            cost={CREDIT_COSTS.AP_MOCK}
-            title="AP 모의고사 패키지"
-            desc="College Board Bluebook과 동일한 형식의 AP 실전 모의고사 전체 이용권입니다. 한 번 열면 전 과목 Test 1·2·3 풀세트를 계속 응시할 수 있어요. (무료 미리보기는 과목당 몇 문항 제공)"
+            gateKey="parents:ap-mock:5"
+            cost={CREDIT_COSTS.MOCK_5PACK}
+            bundleKey="parents:ap-mock"
+            bundleCost={CREDIT_COSTS.AP_MOCK}
+            bundleLabel="무제한"
+            allowAdminBypass={false}
+            title="AP 모의고사 이용권"
+            desc="College Board Bluebook과 동일한 형식의 AP 실전 모의고사. 5회 이용권(200) 또는 무제한(500) 중 선택하세요. (무료 미리보기는 과목당 몇 문항 제공)"
           >
+          {mounted && (() => {
+            const tier = mockTier("ap");
+            const rem = mockRemaining("ap");
+            return (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#f7f8fa", border: "1px solid #e6ebf0", borderRadius: 999, padding: "7px 14px", marginBottom: 14, fontSize: 12.5, fontWeight: 800 }}>
+                {tier === "unlimited"
+                  ? <span style={{ color: "#047a45" }}>♾️ 무제한 이용권 · 횟수 제한 없음</span>
+                  : <span style={{ color: (rem ?? 0) > 0 ? "#b45309" : "#dc2626" }}>🎟️ 5회 이용권 · 남은 횟수 {rem ?? 0}/{MOCK_PACK_LIMIT}</span>}
+              </div>
+            );
+          })()}
           <div style={{ display: "grid", gap: 14 }}>
             {Array.from({ length: PRACTICE_SETS }, (_, i) => i + 1).map((n) => (
               <div key={n} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#fff", border: "1px solid #e6ebf0", borderRadius: 14, padding: "20px 20px" }}>

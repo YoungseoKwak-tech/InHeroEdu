@@ -13,6 +13,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getClientSession } from "@/lib/client-auth";
+import CreditWidget from "@/components/parents/CreditWidget";
 
 export default function ParentHubShell({
   eyebrow,
@@ -50,9 +51,12 @@ export default function ParentHubShell({
       <div style={{ position: "sticky", top: 0, zIndex: 20, background: "rgba(255,255,255,0.92)", backdropFilter: "blur(8px)", borderBottom: "1px solid #e6e8ec" }}>
         <div style={{ maxWidth: 880, margin: "0 auto", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/parents" style={{ color: "#475569", textDecoration: "none", fontSize: 14, fontWeight: 600 }}>← 자료실</Link>
-          <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 15, letterSpacing: "-0.02em" }}>
-            In<span style={{ color: "#00b85f" }}>Hero</span> · 학부모
-          </span>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 15, letterSpacing: "-0.02em" }}>
+              In<span style={{ color: "#00b85f" }}>Hero</span> · 학부모
+            </span>
+            {loggedIn && <CreditWidget loggedIn={loggedIn} />}
+          </div>
         </div>
       </div>
 

@@ -5,7 +5,7 @@ import SatHistory from "@/components/sat/SatHistory";
 export const metadata = {
   title: "디지털 SAT 적응형 모의고사 — InHero",
   description:
-    "실제 Bluebook처럼 — 적응형 2단계 모듈, 모듈별 타이머, Mark for review, Desmos 그래핑 계산기, grid-in, 400–1600 예상 점수까지. 무료로 풀어보세요.",
+    "실제 Bluebook처럼 — 적응형 2단계 모듈, 모듈별 타이머, Mark for review, Desmos 그래핑 계산기, grid-in, 400–1600 예상 점수까지. 200 크레딧 5회 또는 500 크레딧 무제한으로 풀어보세요.",
 };
 
 const MINT = "#00FFB2";
@@ -33,6 +33,9 @@ export default function SatLandingPage() {
           디지털 SAT와 동일한 구조의 적응형 모의고사예요. Reading & Writing → Math, 각 섹션이 2개의 타이머 모듈로 진행되고,
           모듈 1 성적에 따라 모듈 2 난이도가 갈립니다. 실제 시험의 적응형 구조·문제 유형·시간을 그대로 적용해 만든 오리지널 실전 문항입니다. (College Board 공식 기출 복제 아님)
         </p>
+        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", margin: "-18px 0 28px", lineHeight: 1.65 }}>
+          SAT·TOEFL 모의고사 공통: <strong style={{ color: "#fff" }}>200 크레딧 = 5회</strong> · <strong style={{ color: "#fff" }}>500 크레딧 = 무제한</strong>
+        </p>
 
         <SatHistory theme="dark" />
 
@@ -42,7 +45,7 @@ export default function SatLandingPage() {
             const c = formCounts(f);
             const full = c.rw >= 50;
             return (
-              <Link key={f.id} href={`/sat/test?form=${f.id}`} style={{
+              <Link key={f.id} href={`/parents/sat?pay=1&form=${encodeURIComponent(f.id)}`} style={{
                 textDecoration: "none", display: "flex", alignItems: "center", gap: 16,
                 borderRadius: 16, border: "1px solid rgba(0,255,178,0.22)", background: "rgba(0,255,178,0.04)", padding: "18px 20px",
               }}>
@@ -53,7 +56,7 @@ export default function SatLandingPage() {
                   </div>
                   <div style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", marginTop: 3 }}>R&W {c.rw}문항 · Math {c.math}문항 · 적응형</div>
                 </div>
-                <span style={{ fontSize: 13.5, fontWeight: 800, color: MINT }}>시작하기 →</span>
+                <span style={{ fontSize: 13.5, fontWeight: 800, color: MINT }}>이용권 선택 →</span>
               </Link>
             );
           })}

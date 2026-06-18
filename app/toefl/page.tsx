@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "TOEFL 모의고사 — 실제 시험처럼 무료로 | InHero",
+  title: "TOEFL 모의고사 — 실제 시험처럼 | InHero",
   description:
-    "TOEFL iBT 모의고사를 실제 시험처럼. Reading·Listening·Speaking·Writing 4개 섹션 — 자동 채점·해설, 듣기 음원 재생, 말하기 녹음, 쓰기 타이머까지 무료로 연습하세요.",
-  keywords: ["TOEFL 모의고사", "토플 모의고사", "TOEFL iBT 연습", "토플 실전", "TOEFL Reading Listening Speaking Writing", "무료 토플", "InHero"],
+    "TOEFL iBT 모의고사를 실제 시험처럼. Reading·Listening·Speaking·Writing 4개 섹션 — 200 크레딧 5회 이용권 또는 500 크레딧 무제한으로 연습하세요.",
+  keywords: ["TOEFL 모의고사", "토플 모의고사", "TOEFL iBT 연습", "토플 실전", "TOEFL Reading Listening Speaking Writing", "InHero"],
   alternates: { canonical: "/toefl" },
   openGraph: {
     type: "website",
     url: "https://inheroedu.com/toefl",
-    title: "TOEFL 모의고사 — 실제 시험처럼 무료로",
-    description: "TOEFL iBT 4개 섹션을 실제 형식으로 — 자동 채점·해설·음원·녹음·타이머.",
+    title: "TOEFL 모의고사 — 실제 시험처럼",
+    description: "TOEFL iBT 4개 섹션을 실제 형식으로 — 200 크레딧 5회 또는 500 크레딧 무제한.",
     siteName: "InHero",
   },
 };
@@ -26,7 +26,7 @@ const SECTIONS = [
 ];
 
 const FAQ = [
-  { q: "TOEFL 모의고사를 무료로 풀 수 있나요?", a: "네. InHero에서 TOEFL iBT 4개 섹션을 무료로 연습할 수 있고, Reading·Listening은 풀이 직후 자동 채점과 해설을 제공합니다." },
+  { q: "TOEFL 모의고사는 몇 크레딧인가요?", a: "TOEFL과 SAT 모의고사는 200 크레딧으로 5회 이용할 수 있고, 500 크레딧 이용권을 열면 횟수 제한 없이 연습할 수 있습니다." },
   { q: "실제 시험과 형식이 같나요?", a: "실제 TOEFL iBT와 동일한 섹션·문제 유형·타이머로 구성했습니다. 듣기는 음원 재생, 말하기는 준비/응답 타이머와 녹음, 쓰기는 제한 시간과 단어 수를 그대로 재현합니다." },
   { q: "문항은 어떻게 만들어지나요?", a: "실제 TOEFL iBT의 섹션 구조, 8가지 독해 문제 유형(사실·부정 사실·추론·수사적 목적·어휘·문장 단순화·문장 삽입·요약)과 듣기 문항 유형(요지·기능·태도·구조·연결), 그리고 시험 시간 배분을 분석해, 같은 출제 원리를 적용해 새로 만든 오리지널 실전 문항입니다. 3회차 풀세트로 유형을 빠짐없이 연습할 수 있어요." },
   { q: "공식 기출문제인가요?", a: "ETS의 공식 기출을 복제한 것이 아니라, 동일한 형식·유형·난이도로 정교하게 출제한 연습 문제입니다. 그래서 저작권 걱정 없이 실전처럼 무제한 연습할 수 있어요." },
@@ -37,7 +37,7 @@ export default function ToeflLanding() {
     "@context": "https://schema.org",
     "@graph": [
       { "@type": "WebPage", "@id": "https://inheroedu.com/toefl", name: "TOEFL 모의고사", url: "https://inheroedu.com/toefl",
-        description: "TOEFL iBT 모의고사를 실제 시험처럼 — Reading·Listening·Speaking·Writing 4개 섹션 무료 연습." },
+        description: "TOEFL iBT 모의고사를 실제 시험처럼 — Reading·Listening·Speaking·Writing 4개 섹션 실전 연습." },
       { "@type": "FAQPage", mainEntity: FAQ.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) },
     ],
   };
@@ -53,12 +53,15 @@ export default function ToeflLanding() {
         </h1>
         <p style={{ fontSize: 16, color: "rgba(255,255,255,0.6)", lineHeight: 1.8, marginBottom: 28, maxWidth: 660 }}>
           TOEFL iBT의 <strong style={{ color: "#fff" }}>Reading·Listening·Speaking·Writing</strong> 네 섹션을 실제 시험 형식 그대로 —
-          자동 채점·해설, 듣기 음원 재생, 말하기 녹음, 쓰기 타이머까지. 무료로 연습하세요.
+          자동 채점·해설, 듣기 음원 재생, 말하기 녹음, 쓰기 타이머까지. 200 크레딧 5회 또는 500 크레딧 무제한으로 연습하세요.
         </p>
 
-        <Link href="/toefl/test" style={{ display: "inline-block", background: MINT, color: "#05070d", borderRadius: 12, padding: "14px 28px", fontWeight: 850, fontSize: 16, textDecoration: "none", marginBottom: 40 }}>
-          ▶ 모의고사 시작하기 (로그인 · 500 크레딧으로 3회차 전체)
+        <Link href="/toefl/test?pay=1" style={{ display: "inline-block", background: MINT, color: "#05070d", borderRadius: 12, padding: "14px 28px", fontWeight: 850, fontSize: 16, textDecoration: "none", marginBottom: 10 }}>
+          ▶ 이용권 선택하기 / 결제하기
         </Link>
+        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", margin: "0 0 40px", lineHeight: 1.65 }}>
+          TOEFL·SAT 모의고사 공통: <strong style={{ color: "#fff" }}>200 크레딧 = 5회</strong> · <strong style={{ color: "#fff" }}>500 크레딧 = 무제한</strong>
+        </p>
 
         <div style={{ display: "grid", gap: 14, marginBottom: 44 }}>
           {SECTIONS.map((s) => (
