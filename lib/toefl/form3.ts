@@ -574,7 +574,7 @@ So when you think about the Industrial Revolution, don't just picture machines. 
     {
       id: "s2", n: 2, type: "integrated",
       readingText:
-        "Reading (45 sec): Campus Announcement — Starting next semester, the university library will extend its hours to remain open 24 hours a day during final exam periods. The administration says this will give students more flexibility to study and will reduce overcrowding by spreading out when students use the building.\n\n[Then you hear two students discussing the change. The woman supports the plan.]",
+        "Reading (45 sec): Campus Announcement — Starting next semester, the university will replace its printed course catalog with an online-only system, and all class registration will be done through a new mobile app. The administration says this will save paper and let students register from anywhere without waiting in line.\n\n[Then you hear two students discussing the change. The woman supports the plan.]",
       prompt: "The woman expresses her opinion about the announcement. State her opinion and explain the reasons she gives for holding it.",
       prepSec: 30, respSec: 60,
       tip: "Task 2 (Integrated · read + listen): 30s prep, 60s speak. Briefly state the announcement, then report the woman's opinion and her TWO reasons using reported speech: \"She thinks… because…\". Don't give your own opinion.",
@@ -582,18 +582,18 @@ So when you think about the Industrial Revolution, don't just picture machines. 
     {
       id: "s3", n: 3, type: "integrated",
       readingText:
-        "Reading (45 sec): A psychology textbook defines the 'bystander effect' — the tendency for an individual to be less likely to help a person in need when other people are present, because each person assumes someone else will take responsibility.\n\n[Then you hear a professor describe an example from a study on people responding to a request for help.]",
-      prompt: "Using the example from the lecture, explain the concept of the bystander effect.",
+        "Reading (45 sec): An economics textbook defines 'economies of scale' — the cost advantages a business gains as it produces more. As output increases, the cost of producing each individual unit tends to fall, because large fixed costs (such as machinery or a factory) are spread over a greater number of units.\n\n[Then you hear a professor give an example from a study of a factory that increased its production.]",
+      prompt: "Using the example from the lecture, explain the concept of economies of scale.",
       prepSec: 30, respSec: 60,
       tip: "Task 3 (Integrated · academic): 30s prep, 60s speak. Define the term in your own words first, then use the lecture's example to illustrate it. Structure: concept → example → why it matters.",
     },
     {
       id: "s4", n: 4, type: "integrated",
       readingText:
-        "[Listen only — no reading.] A professor explains two strategies plants use to survive in dry environments: some plants store large amounts of water in thick stems or leaves to use during droughts, while others grow extremely long roots to reach water deep underground. The lecture gives one example of each.",
-      prompt: "Using the points and examples from the lecture, explain two strategies plants use to survive in dry environments.",
+        "[Listen only — no reading.] A professor explains two ways animals avoid being eaten by predators: some animals use camouflage, blending into their surroundings so predators cannot see them, while others use mimicry, resembling a dangerous or unpleasant species so predators leave them alone. The lecture gives one example of each.",
+      prompt: "Using the points and examples from the lecture, explain two ways animals avoid predators.",
       prepSec: 20, respSec: 60,
-      tip: "Task 4 (Integrated · lecture only): 20s prep, 60s speak. Summarize the general concept, then give BOTH examples from the lecture and contrast them (water-storing vs. deep-rooted).",
+      tip: "Task 4 (Integrated · lecture only): 20s prep, 60s speak. Summarize the general concept, then give BOTH examples from the lecture and contrast them (camouflage vs. mimicry).",
     },
   ],
 
@@ -619,11 +619,11 @@ So when you think about the Industrial Revolution, don't just picture machines. 
       readingText:
 `Your professor is teaching a class and has posted a question. In your response you should express and support your own opinion and make a contribution to the discussion.
 
-Professor: Many companies now allow employees to work from home instead of commuting to an office every day. In your opinion, is working from home better for employees than working in an office? Why or why not?
+Professor: Many universities are replacing printed textbooks with digital ones that students read on tablets or laptops. In your opinion, is this change good for students? Why or why not?
 
-Diana (classmate): I think working from home is clearly better. People save hours of commuting time and can focus without constant interruptions from coworkers.
+Priya (classmate): I think digital textbooks are a clear improvement. They cost less, they're far lighter to carry around, and you can search them instantly for any keyword.
 
-Marcus (classmate): I'm not so sure. Being in an office makes it easier to collaborate, build relationships, and separate work from personal life.`,
+Tom (classmate): I'm not convinced. I find it harder to concentrate and remember what I read on a screen, and a printed book never runs out of battery in the middle of studying.`,
       prompt: "Write a response that clearly states your opinion, supports it with reasons and a specific example, and engages with at least one classmate's point.",
       timeSec: 10 * 60,
       targetWords: "at least 100 words",
