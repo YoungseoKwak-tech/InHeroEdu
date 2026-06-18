@@ -9,7 +9,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { getToeflForm, toeflCounts } from "@/lib/toefl/forms";
+import { getToeflForm, toeflCounts, TOEFL_FORMS } from "@/lib/toefl/forms";
 import type { ToeflMCQ, ToeflReadingSet, ToeflListeningSet, ToeflSpeakingTask, ToeflWritingTask } from "@/lib/toefl/types";
 import { scaledScore, sectionBand, TOEFL_TIMING } from "@/lib/toefl/types";
 
@@ -23,7 +23,8 @@ function fmt(sec: number) {
 }
 
 export default function ToeflTestClient() {
-  const form = getToeflForm(undefined);
+  const [formId, setFormId] = useState<string | undefined>(undefined);
+  const form = getToeflForm(formId);
   const counts = toeflCounts(form);
   const [view, setView] = useState<View>("home");
 
@@ -40,6 +41,22 @@ export default function ToeflTestClient() {
         <h1 style={{ fontSize: 26, fontWeight: 850, margin: "0 0 8px", letterSpacing: "-0.02em" }}>실제 토플처럼 풀어보세요</h1>
         <p style={{ color: "#5b6b7b", fontSize: 14.5, lineHeight: 1.7, marginBottom: 8 }}>{form.title} — Reading·Listening·Speaking·Writing 4개 섹션을 실제 시험 형식으로 연습합니다.</p>
         <p style={{ color: "#9aa6b2", fontSize: 12.5, marginBottom: 20 }}>※ ETS 기출이 아닌 동일 형식의 오리지널 문항입니다.</p>
+
+        {TOEFL_FORMS.length > 1 && (
+          <div style={{ marginBottom: 18 }}>
+            <p style={{ fontSize: 12, fontWeight: 800, color: "#94a3b8", margin: "0 0 8px" }}>회차 선택</p>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {TOEFL_FORMS.map((f, i) => {
+                const on = (formId ?? TOEFL_FORMS[0].id) === f.id;
+                return (
+                  <button key={f.id} onClick={() => setFormId(f.id)} style={{ padding: "8px 14px", borderRadius: 999, fontSize: 13, fontWeight: 800, cursor: "pointer", border: `1.5px solid ${on ? BLUE : "#d8dee5"}`, background: on ? "#eaf2ff" : "#fff", color: on ? BLUE : "#5b6b7b" }}>
+                    Test {i + 1}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         <button onClick={() => setView("full")} style={{ width: "100%", textAlign: "left", display: "flex", alignItems: "center", gap: 16, background: "linear-gradient(135deg,#0b1220,#1f3a5f)", color: "#fff", border: "none", borderRadius: 16, padding: "22px 22px", cursor: "pointer", marginBottom: 18 }}>
           <span style={{ fontSize: 26, flexShrink: 0 }}>🎯</span>
@@ -74,15 +91,26 @@ export default function ToeflTestClient() {
   return <FullTest form={form} onExit={home} />;
 }
 
+// Per-section intro shown before each section in the full test (real TOEFL has
+// a directions screen before every section).
+const SECTION_INTRO: Record<string, { name: string; emoji: string; lines: string[] }> = {
+  reading: { name: "Reading Section", emoji: "📖", lines: ["지문 2개 · 각 10문항 · 약 35분", "지문을 읽고 객관식에 답하세요. 제출 후 정답·해설이 공개됩니다.", "한 섹션 안에서 자유롭게 문항을 오갈 수 있어요."] },
+  listening: { name: "Listening Section", emoji: "🎧", lines: ["대화 1 + 강의 2 · 음성 재생", "음원을 듣고(메모 가능) 객관식에 답하세요. 실제 시험처럼 들으면서 풀 준비를 하세요.", "음원은 채점 후 스크립트가 공개됩니다."] },
+  speaking: { name: "Speaking Section", emoji: "🎙", lines: ["4개 과제 · 준비/응답 타이머 + 녹음", "마이크를 허용하면 음성 인식으로 전사되고, 루브릭으로 자가 채점합니다.", "조용한 곳에서 진행하세요."] },
+  writing: { name: "Writing Section", emoji: "✍️", lines: ["2개 과제 · 제한 시간 + 단어 수", "답안을 작성하고 루브릭으로 자가 채점합니다.", "Integrated는 본인 의견이 아니라 강의 내용을 요약하세요."] },
+};
+
 // ── FULL TEST — sequence all four sections, then a /120 report ────────────────
 function FullTest({ form, onExit }: { form: ReturnType<typeof getToeflForm>; onExit: () => void }) {
   const order = ["reading", "listening", "speaking", "writing"] as const;
   const [step, setStep] = useState(0);
+  const [intro, setIntro] = useState(true);
   const [scores, setScores] = useState<(number | null)[]>([null, null, null, null]);
 
   function advance(scaled: number | null) {
     setScores((prev) => { const n = [...prev]; n[step] = scaled; return n; });
     setStep((s) => s + 1);
+    setIntro(true);
     window.scrollTo({ top: 0 });
   }
 
@@ -121,6 +149,34 @@ function FullTest({ form, onExit }: { form: ReturnType<typeof getToeflForm>; onE
       ))}
     </div>
   );
+
+  if (intro) {
+    const meta = SECTION_INTRO[cur];
+    return (
+      <Shell>
+        {banner}
+        <div style={{ maxWidth: 560, margin: "8px auto 0", textAlign: "center" }}>
+          <div style={{ fontSize: 13, fontWeight: 800, color: "#94a3b8", marginBottom: 6 }}>전체 시험 · {step + 1}/4</div>
+          <div style={{ background: "#fff", border: "1px solid #e6ebf0", borderRadius: 18, padding: "30px 26px" }}>
+            <div style={{ fontSize: 44 }}>{meta.emoji}</div>
+            <h2 style={{ fontSize: 22, fontWeight: 850, margin: "8px 0 14px" }}>{meta.name}</h2>
+            <ul style={{ textAlign: "left", margin: "0 auto", maxWidth: 420, padding: 0, listStyle: "none", display: "grid", gap: 8 }}>
+              {meta.lines.map((l, i) => (
+                <li key={i} style={{ display: "flex", gap: 8, fontSize: 14, color: "#3a4756", lineHeight: 1.6 }}><span style={{ color: BLUE }}>•</span>{l}</li>
+              ))}
+            </ul>
+          </div>
+          {step === 2 && (
+            <div style={{ marginTop: 14, background: "#fffbeb", border: "1px solid #f1d27a", borderRadius: 12, padding: "12px 16px", fontSize: 13, color: "#7a5b16", lineHeight: 1.6 }}>
+              ☕ 실제 시험에서는 Listening 직후 약 10분의 휴식이 있습니다. 잠시 쉬었다가 시작하세요.
+            </div>
+          )}
+          <button onClick={() => { setIntro(false); window.scrollTo({ top: 0 }); }} style={{ ...btnBlue, marginTop: 18 }}>{meta.name} 시작 →</button>
+        </div>
+      </Shell>
+    );
+  }
+
   return (
     <div>
       <div style={{ background: "#0b1220", color: "#fff", textAlign: "center", fontSize: 12.5, fontWeight: 700, padding: "8px" }}>
