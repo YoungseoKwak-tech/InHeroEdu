@@ -52,6 +52,12 @@ export default function PrivacyPolicyPage() {
           <li>Track your progress and unlock content tied to your plan</li>
           <li>Process subscriptions and send billing-related messages</li>
           <li>Respond to support requests</li>
+          <li>
+            Send marketing messages (events, perks, and new resources) by email or KakaoTalk
+            <strong> only if you separately opt in</strong> at signup or in your settings. You can
+            withdraw this consent at any time — every marketing message includes an unsubscribe
+            option, and opting out never affects your access to the service.
+          </li>
           <li>Monitor for abuse, fraud, and violations of our Terms of Service</li>
           <li>Improve the product, using aggregated or de-identified data where possible</li>
         </ul>

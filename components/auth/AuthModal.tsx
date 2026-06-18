@@ -603,7 +603,15 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'login', redi
             {loading ? '...' : mode === 'login' ? (ko ? '로그인' : 'Log in') : (ko ? '회원가입하고 시작하기' : 'Sign up and start')}
           </button>
 
-          <p style={{ textAlign: 'center', marginTop: '16px', fontSize: '12px', color: 'rgba(255,255,255,0.32)' }}>
+          <p style={{ textAlign: 'center', marginTop: '14px', fontSize: '11px', color: 'rgba(255,255,255,0.42)', lineHeight: 1.55 }}>
+            {ko ? '계속하면 ' : 'By continuing, you agree to our '}
+            <a href="/terms" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.62)', textDecoration: 'underline' }}>{ko ? '이용약관' : 'Terms'}</a>
+            {ko ? ' 및 ' : ' and '}
+            <a href="/privacy" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.62)', textDecoration: 'underline' }}>{ko ? '개인정보처리방침' : 'Privacy Policy'}</a>
+            {ko ? '에 동의하게 됩니다.' : '.'}
+          </p>
+
+          <p style={{ textAlign: 'center', marginTop: '10px', fontSize: '12px', color: 'rgba(255,255,255,0.32)' }}>
             {mode === 'login' ? (ko ? '아직 계정이 없으신가요? ' : "Don't have an account? ") : (ko ? '이미 계정이 있으신가요? ' : 'Already have an account? ')}
             <button
               onClick={() => {
