@@ -80,6 +80,13 @@ export default function sitemap() {
       priority: 0.95,
     },
     {
+      // TOEFL 모의고사 SEO landing + the real-format 4-section player.
+      url: `${baseUrl}/toefl`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/ai-companion`,
       lastModified: new Date(),
       changeFrequency: 'monthly',

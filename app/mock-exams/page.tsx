@@ -66,6 +66,13 @@ const EXAMS = [
     desc: "IB 문제 스타일 그대로의 실전 문항 — 풀면 문항별 정답·해설이 바로 나옵니다.",
     color: "#A78BFA",
   },
+  {
+    tag: "TOEFL",
+    href: "/toefl",
+    title: "TOEFL iBT 모의고사",
+    desc: "Reading·Listening·Speaking·Writing 4개 섹션을 실제 시험 형식으로 — 자동 채점·해설·음원·녹음·타이머.",
+    color: "#F59E0B",
+  },
 ];
 
 const FAQ = [
