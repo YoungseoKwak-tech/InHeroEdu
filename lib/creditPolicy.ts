@@ -15,14 +15,14 @@ export const CREDIT_COSTS = {
   VOCAB: 100,
   ESSAY: 250,
   ACTIVITIES: 250,
-  TEXTBOOK: 500,
+  TEXTBOOK: 250,
   SUBJECT: 200,
   STORY_BOOK: 300,
   CORE_NOTES_SUBJECT: 500,
-  ALL_SUBJECTS: 1000,
-  QUESTION_BANK: 1000,
+  ALL_SUBJECTS: 1000,      // 핵심노트 전 과목 번들 (문제은행과 분리)
+  QUESTION_BANK: 500,      // AP 문제은행 전 과목 이용권
   CORE_NOTES: 1000,
-  SAT_MOCK: 1000,
+  SAT_MOCK: 500,           // SAT 모의고사
   AP_MOCK: 500,
   SUPPLEMENTALS: 1000,
 } as const;
@@ -53,7 +53,7 @@ export function unlockKeyCost(key: string): number | null {
     return CREDIT_COSTS.GUIDE;
   }
 
-  if (key === "parents:question-bank") return CREDIT_COSTS.ALL_SUBJECTS;
+  if (key === "parents:question-bank") return CREDIT_COSTS.QUESTION_BANK;
   if (key.startsWith("parents:question-bank:")) return CREDIT_COSTS.SUBJECT;
   if (key === "parents:core-notes") return CREDIT_COSTS.CORE_NOTES;
   if (key.startsWith("parents:core-notes:")) return CREDIT_COSTS.CORE_NOTES_SUBJECT;

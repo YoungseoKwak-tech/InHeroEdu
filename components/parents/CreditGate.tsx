@@ -36,23 +36,40 @@ export default function CreditGate({
 
   useEffect(() => {
     let alive = true;
+    let trustLocalUnlocks = false;
     const sync = () => {
       if (!alive) return;
-      setUnlocked(isUnlocked(gateKey) || (!!bundleKey && isUnlocked(bundleKey)));
+      setUnlocked(trustLocalUnlocks && (isUnlocked(gateKey) || (!!bundleKey && isUnlocked(bundleKey))));
       setBalance(getBalance());
     };
-    hydrateCredits().catch(() => {}).finally(sync);
+    (async () => {
+      const session = await getClientSession().catch(() => null);
+      const admin = isAdminEmail(session?.user?.email);
+      if (alive) setIsAdmin(admin);
+      if (admin) {
+        trustLocalUnlocks = true;
+        sync();
+        return;
+      }
+      if (session?.user) {
+        try {
+          trustLocalUnlocks = await hydrateCredits();
+        } catch {
+          // Fail closed for signed-in paid gates. LocalStorage can be stale or
+          // user-edited; server unlocks must be confirmed before rendering.
+          trustLocalUnlocks = false;
+        }
+      } else {
+        trustLocalUnlocks = true;
+      }
+      sync();
+    })();
     window.addEventListener(CREDIT_EVENT, sync);
     return () => {
       alive = false;
       window.removeEventListener(CREDIT_EVENT, sync);
     };
   }, [gateKey, bundleKey]);
-
-  // Admins get every gated item credit-free.
-  useEffect(() => {
-    getClientSession().then((s) => setIsAdmin(isAdminEmail(s?.user?.email))).catch(() => {});
-  }, []);
 
   // Avoid SSR/first-paint flash — decide only after reading localStorage.
   if (unlocked === null) return null;
@@ -70,6 +87,7 @@ export default function CreditGate({
       setBalance(result.balance);
       if (result.ok) setUnlocked(true);
       else if (result.reason === "insufficient") window.dispatchEvent(new Event("inhero:open-charge"));
+      else if (result.reason === "account_anomaly") window.alert("크레딧 기록 확인이 필요해요. 결제 없이 열린 기록이 있어 관리자에게 문의해 주세요.");
       else window.alert("크레딧 차감 확인 중 오류가 발생했어요. 잠시 후 다시 시도해 주세요.");
     } finally {
       setPending(false);
@@ -112,7 +130,7 @@ export default function CreditGate({
           )}
         </div>
         <p style={{ fontSize: 11.5, color: "#94a3b8", marginTop: 12 }}>
-          {bundleKey ? "원하는 과목만 200, 전 과목은 1,000 크레딧 · " : ""}한 번 열면 계속 볼 수 있어요
+          {bundleKey ? `원하는 과목만 ${cost.toLocaleString()}, 전 과목은 ${(bundleCost ?? cost).toLocaleString()} 크레딧 · ` : ""}한 번 열면 계속 볼 수 있어요
         </p>
       </div>
     </div>

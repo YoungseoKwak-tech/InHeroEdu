@@ -114,10 +114,10 @@ export default function QuestionBankClient() {
                   gateKey={`${ALL_KEY}:${active}`}
                   cost={CREDIT_COSTS.SUBJECT}
                   bundleKey={ALL_KEY}
-                  bundleCost={CREDIT_COSTS.ALL_SUBJECTS}
+                  bundleCost={CREDIT_COSTS.QUESTION_BANK}
                   bundleLabel="전 과목 한 번에"
                   title={`${activeSubject.emoji} ${activeSubject.label} 문제은행 잠금해제`}
-                  desc={`${activeSubject.label} ${activeSubject.count.toLocaleString()}문항 전체를 풀 수 있어요. 위 ${unlocked.length}문항은 무료 맛보기예요. (이 과목 200 · 전 과목 1,000)`}
+                  desc={`${activeSubject.label} ${activeSubject.count.toLocaleString()}문항 전체를 풀 수 있어요. 위 ${unlocked.length}문항은 무료 맛보기예요. (이 과목 200 · 전 과목 500)`}
                 >
                   <Link href="/question-bank" style={{ display: "block", textAlign: "center", textDecoration: "none", background: "#0a0a14", color: "#fff", borderRadius: 12, padding: "16px 22px", fontWeight: 800, fontSize: 15 }}>
                     ✓ {activeSubject.label} 잠금해제됨 · 전체 문항 풀러가기 →
@@ -126,7 +126,7 @@ export default function QuestionBankClient() {
               ) : (
                 <CreditGate
                   gateKey={ALL_KEY}
-                  cost={CREDIT_COSTS.ALL_SUBJECTS}
+                  cost={CREDIT_COSTS.QUESTION_BANK}
                   title="AP 문제은행 전 과목 이용권"
                   desc={`College Board 스타일 ${total.toLocaleString()}개 전 과목 문항 풀 액세스. 위 ${unlocked.length}문항은 무료 맛보기예요. (과목별로는 위에서 과목을 고르면 200 크레딧)`}
                 >

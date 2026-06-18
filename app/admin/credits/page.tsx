@@ -10,6 +10,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { getClientSession } from "@/lib/client-auth";
+import { auditUnlockKeyCost } from "@/lib/unlockCosts";
 
 interface CreditUser {
   id: string;
@@ -22,12 +23,14 @@ interface CreditUser {
   payments: Payment[];
   createdAt: string | null;
   paidCredits?: number;
+  referralCredits?: number;
   audit?: CreditAudit;
 }
 
 interface CreditAudit {
   welcome: number;
   paidCredits: number;
+  referralCredits: number;
   entitled: number;
   spent: number;
   balance: number;
@@ -54,17 +57,27 @@ function fmtDateTime(iso: string | null): string {
 type Decoded = { label: string; cost: number; cat: string };
 
 function decodeUnlock(key: string): Decoded {
+  const cost = auditUnlockKeyCost(key);
   if (key.startsWith("qa-post:")) return { label: "입시 Q&A 질문 등록", cost: 5, cat: "Q&A" };
-  if (key === "parents:question-bank") return { label: "문제은행 · 전 과목", cost: 1000, cat: "문제은행" };
+  if (key === "parents:question-bank") return { label: "문제은행 · 전 과목", cost: 500, cat: "문제은행" };
   if (key.startsWith("parents:question-bank:")) return { label: `문제은행 · ${key.split(":").pop()}`, cost: 200, cat: "문제은행" };
   if (key === "parents:core-notes") return { label: "핵심노트 · 전 과목", cost: 1000, cat: "핵심노트" };
-  if (key.startsWith("parents:core-notes:")) return { label: `핵심노트 · ${key.split(":").pop()}`, cost: 200, cat: "핵심노트" };
-  if (key === "res:/parents/story") return { label: "합격 수기 (책)", cost: 220, cat: "자료" };
-  if (key === "res:/parents/essay") return { label: "합격 에세이 분석", cost: 250, cat: "자료" };
-  if (key === "res:/parents/activities") return { label: "합격 활동 분석", cost: 250, cat: "자료" };
-  if (key === "res:/parents/colleges") return { label: "미국 대학 분석", cost: 250, cat: "자료" };
-  if (key.startsWith("res:")) return { label: key.replace("res:", ""), cost: 0, cat: "자료" };
-  return { label: key, cost: 0, cat: "기타" };
+  if (key.startsWith("parents:core-notes:")) return { label: `핵심노트 · ${key.split(":").pop()}`, cost, cat: "핵심노트" };
+  if (key === "parents:sat-mock") return { label: "SAT 모의고사 패키지", cost, cat: "시험" };
+  if (key === "parents:ap-mock") return { label: "AP 모의고사 패키지", cost, cat: "시험" };
+  if (key === "parents:vocab") return { label: "과목별 단어장", cost, cat: "자료" };
+  if (key.startsWith("admit-supplements:")) return { label: `합격 프로필 supplemental · ${key.split(":").pop()}`, cost, cat: "자료" };
+  if (key === "res:/parents/story") return { label: "합격 수기 (책)", cost, cat: "자료" };
+  if (key === "res:/parents/essay") return { label: "합격 에세이 분석", cost, cat: "자료" };
+  if (key === "res:/parents/activities") return { label: "합격 활동 분석 (legacy key)", cost, cat: "자료" };
+  if (key === "res:/parents/activities/list") return { label: "합격 활동 분석", cost, cat: "자료" };
+  if (key.startsWith("res:/parents/activities/guide:")) return { label: `활동 실행 가이드 · ${key.split(":").pop()}`, cost, cat: "자료" };
+  if (key === "res:/parents/colleges") return { label: "미국 대학 분석", cost, cat: "자료" };
+  if (key === "res:/parents/cases") return { label: "실제 합격 사례", cost, cat: "자료" };
+  if (key.startsWith("res:")) return { label: key.replace("res:", ""), cost, cat: "자료" };
+  if (key.startsWith("book:") || key.startsWith("textbook:")) return { label: `디지털 교재 · ${key.split(":").pop()}`, cost, cat: "교재" };
+  if (key.startsWith("material:")) return { label: `아이비리그 학생 자료 · ${key.split(":").pop()}`, cost, cat: "자료" };
+  return { label: key, cost, cat: "기타" };
 }
 
 function breakdown(unlocks: string[]) {
@@ -86,6 +99,8 @@ const CAT_COLOR: Record<string, string> = {
   "Q&A": "#7DD3FC",
   "문제은행": "#FCD34D",
   "핵심노트": "#86EFAC",
+  "시험": "#F9A8D4",
+  "교재": "#FDBA74",
   "자료": "#C4B5FD",
   "기타": "#94A3B8",
 };
