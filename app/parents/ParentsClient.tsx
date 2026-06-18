@@ -247,12 +247,15 @@ export default function ParentsClient() {
 
   // Everything requires login now: a logged-out click never opens content
   // directly — it prompts sign-in first. (In-page anchors still just scroll.)
+  // Exception: a few fully-public pages (e.g. the TOEFL mock exam) open
+  // straight away even when logged out.
+  const OPEN_ROUTES = new Set(["/toefl"]);
   const go = (route: string, _gated?: boolean) => {
     if (route.startsWith("#")) {
       document.getElementById(route.slice(1))?.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
-    if (loggedIn) router.push(route);
+    if (OPEN_ROUTES.has(route) || loggedIn) router.push(route);
     else requireLogin(route);
   };
 
