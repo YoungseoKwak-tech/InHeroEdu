@@ -233,23 +233,23 @@ export default function CoreNotesPage() {
                   if (koError === "not-ready") return (
                     <div style={{ margin: "0 0 22px", padding: "16px 20px", borderRadius: 14, border: `1px solid rgba(0,255,178,0.25)`, background: "rgba(0,255,178,0.05)" }}>
                       <p style={{ margin: 0, fontSize: 14, color: "#cfe9df", lineHeight: 1.6 }}>
-                        🎙️ 이 노트의 한국어 버전은 아직 준비 중이에요 — 순차적으로 추가되고 있습니다.
+                        🎙️ The Korean version of this note isn't ready yet — we're adding them one by one.
                       </p>
                     </div>
                   );
                   return (
                     <div style={{ padding: "18px 22px", borderRadius: 14, border: `1px solid rgba(255,107,107,0.32)`, background: "rgba(255,107,107,0.06)" }}>
-                      <p style={{ margin: 0, fontSize: 14.5, color: "#f3dede", lineHeight: 1.6 }}>한국어 버전을 불러오지 못했어요.</p>
+                      <p style={{ margin: 0, fontSize: 14.5, color: "#f3dede", lineHeight: 1.6 }}>Couldn't load the Korean version.</p>
                       <button
                         onClick={() => setKoErrors((m) => { const { [current.lessonId]: _drop, ...rest } = m; return rest; })}
                         style={{ marginTop: 10, padding: "7px 14px", borderRadius: 999, border: `1px solid ${MINT}`, background: "transparent", color: MINT, fontSize: 13, fontWeight: 600, cursor: "pointer" }}
-                      >다시 시도</button>
+                      >Try again</button>
                     </div>
                   );
                 };
                 const PaneLabel = ({ ko }: { ko: boolean }) => (
                   <div style={{ display: "inline-flex", alignItems: "center", gap: 6, marginBottom: 12, padding: "4px 11px", borderRadius: 999, fontSize: 11.5, fontWeight: 800, border: `1px solid ${BORDER}`, background: PANEL, color: ko ? MINT : SUBTLE }}>
-                    {ko ? "🇰🇷 한국어" : "🇺🇸 EN"}
+                    {ko ? "🇰🇷 Korean" : "🇺🇸 EN"}
                   </div>
                 );
                 return (
@@ -277,9 +277,9 @@ export default function CoreNotesPage() {
 
 function LangToggle({ view, onChange }: { view: "en" | "ko" | "split"; onChange: (v: "en" | "ko" | "split") => void }) {
   const opts: { value: "en" | "ko" | "split"; label: string }[] = [
-    { value: "split", label: "📖 EN + 한국어" },
+    { value: "split", label: "📖 EN + Korean" },
     { value: "en", label: "EN" },
-    { value: "ko", label: "🇰🇷 한국어" },
+    { value: "ko", label: "🇰🇷 Korean" },
   ];
   return (
     <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 14 }}>
@@ -371,7 +371,7 @@ function KoLoadingPanel() {
     >
       <Spinner size={32} />
       <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#eafff8" }}>
-        🎙️ 한국어 스토리 버전 불러오는 중…
+        🎙️ Loading the Korean story version…
       </p>
     </div>
   );

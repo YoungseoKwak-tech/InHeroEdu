@@ -65,24 +65,24 @@ export default function ToeflTestClient() {
     const r = consumeMock("toefl");
     if (r.ok) { setView(next); return; }
     if (r.reason === "exhausted") {
-      window.alert("5회 이용권을 모두 사용했어요. '무제한' 이용권(500 크레딧)으로 업그레이드하면 계속 응시할 수 있어요.");
+      window.alert("You've used all 5 attempts. Upgrade to the unlimited pass (500 credits) to keep taking the test.");
     }
     if (r.reason === "locked") {
-      window.alert("TOEFL 모의고사 이용권이 필요해요. 200 크레딧 5회 또는 500 크레딧 무제한 중 선택해 주세요.");
+      window.alert("You need a TOEFL practice test pass. Choose 5 attempts for 200 credits or unlimited for 500 credits.");
     }
     window.dispatchEvent(new CustomEvent("inhero:open-charge"));
   };
 
   // Login required (like every other paid asset) before the test opens.
-  if (loggedIn === null) return <Shell><div style={{ textAlign: "center", color: "#5b6b7b", padding: "40px 0" }}>확인 중…</div></Shell>;
+  if (loggedIn === null) return <Shell><div style={{ textAlign: "center", color: "#5b6b7b", padding: "40px 0" }}>Checking…</div></Shell>;
   if (!loggedIn) {
     return (
       <Shell>
         <div style={{ maxWidth: 460, margin: "20px auto 0", textAlign: "center", background: "#fff", border: "1px solid #e6ebf0", borderRadius: 16, padding: "32px 26px" }}>
           <div style={{ fontSize: 40, marginBottom: 8 }}>🔒</div>
-          <h2 style={{ fontSize: 20, fontWeight: 850, margin: "0 0 8px" }}>로그인이 필요해요</h2>
-          <p style={{ fontSize: 14, color: "#5b6b7b", lineHeight: 1.7, marginBottom: 18 }}>TOEFL 실전 모의고사는 로그인 후 이용할 수 있어요. 가입 시 웰컴 크레딧을 드립니다.</p>
-          <button onClick={() => window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: "/toefl/test?pay=1" } }))} style={btnBlue}>로그인 / 가입하기 →</button>
+          <h2 style={{ fontSize: 20, fontWeight: 850, margin: "0 0 8px" }}>Please log in</h2>
+          <p style={{ fontSize: 14, color: "#5b6b7b", lineHeight: 1.7, marginBottom: 18 }}>The TOEFL practice test is available after you log in. Sign up and we'll give you welcome credits.</p>
+          <button onClick={() => window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: "/toefl/test?pay=1" } }))} style={btnBlue}>Log in / Sign up →</button>
         </div>
       </Shell>
     );
@@ -90,26 +90,26 @@ export default function ToeflTestClient() {
 
   if (view === "home") {
     const cards: { key: View; tag: string; title: string; meta: string; color: string }[] = [
-      { key: "reading", tag: "Reading", title: "독해", meta: `${form.reading.length}개 지문 · ${counts.reading}문항 · 35분 · 자동 채점`, color: "#1D9E75" },
-      { key: "listening", tag: "Listening", title: "듣기", meta: `${form.listening.length}개 음원 · ${counts.listening}문항 · ~36분 · 음성 재생`, color: "#7DD3FC" },
-      { key: "speaking", tag: "Speaking", title: "말하기", meta: `${counts.speaking}개 과제 · 16분 · 녹음 + 음성인식`, color: "#F59E0B" },
-      { key: "writing", tag: "Writing", title: "쓰기", meta: `${counts.writing}개 과제 · 29분 · 타이머 + 단어 수`, color: "#A78BFA" },
+      { key: "reading", tag: "Reading", title: "Reading", meta: `${form.reading.length} passages · ${counts.reading} questions · 35 min · auto-graded`, color: "#1D9E75" },
+      { key: "listening", tag: "Listening", title: "Listening", meta: `${form.listening.length} audio clips · ${counts.listening} questions · ~36 min · audio playback`, color: "#7DD3FC" },
+      { key: "speaking", tag: "Speaking", title: "Speaking", meta: `${counts.speaking} tasks · 16 min · recording + speech-to-text`, color: "#F59E0B" },
+      { key: "writing", tag: "Writing", title: "Writing", meta: `${counts.writing} tasks · 29 min · timer + word count`, color: "#A78BFA" },
     ];
     return (
       <Shell showCredits loggedIn={loggedIn}>
-        <p style={{ fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", color: "#94a3b8", fontWeight: 800, marginBottom: 8 }}>📝 TOEFL iBT · 실전 모드</p>
-        <h1 style={{ fontSize: 26, fontWeight: 850, margin: "0 0 8px", letterSpacing: "-0.02em" }}>실제 토플처럼 풀어보세요</h1>
-        <p style={{ color: "#5b6b7b", fontSize: 14.5, lineHeight: 1.7, marginBottom: 8 }}>{form.title} — Reading·Listening·Speaking·Writing 4개 섹션을 실제 시험 형식으로 연습합니다.</p>
+        <p style={{ fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", color: "#94a3b8", fontWeight: 800, marginBottom: 8 }}>📝 TOEFL iBT · Test Mode</p>
+        <h1 style={{ fontSize: 26, fontWeight: 850, margin: "0 0 8px", letterSpacing: "-0.02em" }}>Take it just like the real TOEFL</h1>
+        <p style={{ color: "#5b6b7b", fontSize: 14.5, lineHeight: 1.7, marginBottom: 8 }}>{form.title} — practice all four sections (Reading, Listening, Speaking, Writing) in the real exam format.</p>
         <div style={{ background: "#eef4ff", border: `1px solid ${BLUE}33`, borderRadius: 12, padding: "13px 15px", marginBottom: 20 }}>
-          <p style={{ fontSize: 13, fontWeight: 800, color: "#1a3f8f", margin: "0 0 4px" }}>실제 시험 형식을 그대로 적용해 만든 실전 문항</p>
+          <p style={{ fontSize: 13, fontWeight: 800, color: "#1a3f8f", margin: "0 0 4px" }}>Practice questions built in the exact format of the real exam</p>
           <p style={{ fontSize: 12.5, color: "#3a4756", lineHeight: 1.65, margin: 0 }}>
-            TOEFL iBT의 4개 섹션 구성, 8가지 독해 유형(사실·추론·어휘·문장 단순화·문장 삽입·요약 등)과 듣기 유형(요지·기능·태도·구조 등), 그리고 실제 시간 배분을 분석해, 같은 출제 원리로 새로 만든 오리지널 실전 문항입니다. (ETS 공식 기출 복제 아님)
+            We analyzed the TOEFL iBT — its four-section structure, all 8 reading question types (factual, inference, vocabulary, sentence simplification, insert text, summary, and more) and listening types (gist, function, attitude, organization, and more), and the exam's actual time allocation — then wrote brand-new, original practice questions using the same design principles. (Not copies of ETS's official questions.)
           </p>
         </div>
 
         {TOEFL_FORMS.length > 1 && (
           <div style={{ marginBottom: 18 }}>
-            <p style={{ fontSize: 12, fontWeight: 800, color: "#94a3b8", margin: "0 0 8px" }}>회차 선택</p>
+            <p style={{ fontSize: 12, fontWeight: 800, color: "#94a3b8", margin: "0 0 8px" }}>Choose a test</p>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {TOEFL_FORMS.map((f, i) => {
                 const on = (formId ?? TOEFL_FORMS[0].id) === f.id;
@@ -128,9 +128,9 @@ export default function ToeflTestClient() {
           cost={CREDIT_COSTS.MOCK_5PACK}
           bundleKey="parents:toefl-mock"
           bundleCost={CREDIT_COSTS.TOEFL_MOCK}
-          bundleLabel="무제한"
-          title="TOEFL 모의고사 이용권"
-          desc="실제 TOEFL iBT와 동일한 형식(Reading·Listening·Speaking·Writing). 5회 이용권(200) 또는 무제한(500) 중 선택하세요."
+          bundleLabel="Unlimited"
+          title="TOEFL Practice Test Pass"
+          desc="Same format as the real TOEFL iBT (Reading, Listening, Speaking, Writing). Choose a 5-attempt pass (200) or unlimited (500)."
           fullBlur
           allowAdminBypass={false}
         >
@@ -140,21 +140,21 @@ export default function ToeflTestClient() {
           return (
             <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#f7f8fa", border: "1px solid #e6ebf0", borderRadius: 999, padding: "7px 14px", marginBottom: 14, fontSize: 12.5, fontWeight: 800 }}>
               {tier === "unlimited"
-                ? <span style={{ color: "#047a45" }}>♾️ 무제한 이용권 · 횟수 제한 없음</span>
-                : <span style={{ color: (rem ?? 0) > 0 ? "#b45309" : "#dc2626" }}>🎟️ 5회 이용권 · 남은 횟수 {rem ?? 0}/{MOCK_PACK_LIMIT}</span>}
+                ? <span style={{ color: "#047a45" }}>♾️ Unlimited pass · no attempt limit</span>
+                : <span style={{ color: (rem ?? 0) > 0 ? "#b45309" : "#dc2626" }}>🎟️ 5-attempt pass · {rem ?? 0}/{MOCK_PACK_LIMIT} remaining</span>}
             </div>
           );
         })()}
         <button onClick={() => startMock("full")} style={{ width: "100%", textAlign: "left", display: "flex", alignItems: "center", gap: 16, background: "linear-gradient(135deg,#0b1220,#1f3a5f)", color: "#fff", border: "none", borderRadius: 16, padding: "22px 22px", cursor: "pointer", marginBottom: 18 }}>
           <span style={{ fontSize: 26, flexShrink: 0 }}>🎯</span>
           <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 850, fontSize: 18 }}>전체 시험 (Full Test)</div>
-            <div style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", marginTop: 3 }}>Reading → Listening → Speaking → Writing 순서대로 · 총점 120점 환산 + 루브릭 자가채점</div>
+            <div style={{ fontWeight: 850, fontSize: 18 }}>Full Test</div>
+            <div style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", marginTop: 3 }}>Reading → Listening → Speaking → Writing in order · scaled to a /120 total + rubric self-scoring</div>
           </div>
-          <span style={{ color: "#7DD3FC", fontWeight: 800, fontSize: 14 }}>시작 →</span>
+          <span style={{ color: "#7DD3FC", fontWeight: 800, fontSize: 14 }}>Begin →</span>
         </button>
 
-        <p style={{ fontSize: 12, fontWeight: 800, color: "#94a3b8", margin: "4px 2px 10px" }}>또는 섹션별 연습</p>
+        <p style={{ fontSize: 12, fontWeight: 800, color: "#94a3b8", margin: "4px 2px 10px" }}>Or practice by section</p>
         <div style={{ display: "grid", gap: 14 }}>
           {cards.map((c) => (
             <button key={c.key} onClick={() => startMock(c.key)} style={{ textAlign: "left", display: "flex", alignItems: "center", gap: 16, background: "#fff", border: "1px solid #e6ebf0", borderRadius: 14, padding: "20px 20px", cursor: "pointer" }}>
@@ -163,7 +163,7 @@ export default function ToeflTestClient() {
                 <div style={{ fontWeight: 800, fontSize: 17 }}>{c.title}</div>
                 <div style={{ color: "#5b6b7b", fontSize: 13, marginTop: 3 }}>{c.meta}</div>
               </div>
-              <span style={{ color: c.color, fontWeight: 800, fontSize: 14 }}>시작 →</span>
+              <span style={{ color: c.color, fontWeight: 800, fontSize: 14 }}>Begin →</span>
             </button>
           ))}
         </div>
@@ -182,10 +182,10 @@ export default function ToeflTestClient() {
 // Per-section intro shown before each section in the full test (real TOEFL has
 // a directions screen before every section).
 const SECTION_INTRO: Record<string, { name: string; emoji: string; lines: string[] }> = {
-  reading: { name: "Reading Section", emoji: "📖", lines: ["지문 2개 · 각 10문항 (총 20문항) · 35분", "실제 시험처럼 대학 교재 수준의 학술 지문을 읽고 객관식에 답하세요. 제출 후 정답·해설이 공개됩니다.", "한 섹션 안에서 자유롭게 문항을 오갈 수 있어요."] },
-  listening: { name: "Listening Section", emoji: "🎧", lines: ["대화 2 + 강의 3 · 총 28문항 · 약 36분", "음원을 듣고(메모 가능) 객관식에 답하세요. 실제 시험처럼 들으면서 풀 준비를 하세요.", "음원은 채점 후 스크립트가 공개됩니다."] },
-  speaking: { name: "Speaking Section", emoji: "🎙", lines: ["4개 과제 (독립 1 + 통합 3) · 약 16분", "준비 15–30초 후 45–60초 응답. 마이크를 허용하면 음성 인식으로 전사되고, 루브릭으로 자가 채점합니다.", "조용한 곳에서 진행하세요."] },
-  writing: { name: "Writing Section", emoji: "✍️", lines: ["2개 과제 (통합 + 학술 토론) · 약 29분", "제한 시간 안에 작성하고 단어 수를 확인하며, 루브릭으로 자가 채점합니다.", "Integrated는 본인 의견이 아니라 강의 내용을 요약하세요."] },
+  reading: { name: "Reading Section", emoji: "📖", lines: ["2 passages · 10 questions each (20 total) · 35 min", "Just like the real exam, read college-level academic passages and answer multiple-choice questions. Answers and explanations are revealed after you submit.", "You can move freely between questions within a section."] },
+  listening: { name: "Listening Section", emoji: "🎧", lines: ["2 conversations + 3 lectures · 28 questions total · ~36 min", "Listen to the audio (you can take notes) and answer multiple-choice questions. Be ready to answer as you listen, just like the real exam.", "The transcript is revealed after grading."] },
+  speaking: { name: "Speaking Section", emoji: "🎙", lines: ["4 tasks (1 independent + 3 integrated) · ~16 min", "After 15–30 sec of prep, respond for 45–60 sec. Allow the mic and your response is transcribed with speech recognition, then self-scored against a rubric.", "Find a quiet place to do this."] },
+  writing: { name: "Writing Section", emoji: "✍️", lines: ["2 tasks (integrated + academic discussion) · ~29 min", "Write within the time limit while watching your word count, then self-score against a rubric.", "For the Integrated task, summarize the lecture — not your own opinion."] },
 };
 
 // ── FULL TEST — sequence all four sections, then a /120 report ────────────────
@@ -209,21 +209,21 @@ function FullTest({ form, onExit }: { form: ReturnType<typeof getToeflForm>; onE
     return (
       <Shell>
         <div style={{ maxWidth: 600, margin: "6px auto 0", textAlign: "center" }}>
-          <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.2em", textTransform: "uppercase", color: "#94a3b8", marginBottom: 10 }}>TOEFL iBT · 전체 결과</div>
+          <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.2em", textTransform: "uppercase", color: "#94a3b8", marginBottom: 10 }}>TOEFL iBT · Full Results</div>
           <div style={{ background: "#0b1220", color: "#fff", borderRadius: 18, padding: "28px 24px", marginBottom: 16 }}>
-            <div style={{ fontSize: 13, color: "#7DD3FC", fontWeight: 700 }}>총점 (추정)</div>
+            <div style={{ fontSize: 13, color: "#7DD3FC", fontWeight: 700 }}>Total score (estimated)</div>
             <div style={{ fontSize: 56, fontWeight: 900, margin: "4px 0 0" }}>{total}<span style={{ fontSize: 24, color: "rgba(255,255,255,0.5)" }}> / 120</span></div>
           </div>
           <div style={{ display: "grid", gap: 10, marginBottom: 18 }}>
             {labels.map((l, i) => (
               <div key={l} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#fff", border: "1px solid #e6ebf0", borderRadius: 12, padding: "13px 16px" }}>
                 <span style={{ fontWeight: 700 }}>{l}</span>
-                <span style={{ fontWeight: 800, color: BLUE }}>{scores[i] == null ? "미채점" : `${scores[i]} / 30`}</span>
+                <span style={{ fontWeight: 800, color: BLUE }}>{scores[i] == null ? "Not graded" : `${scores[i]} / 30`}</span>
               </div>
             ))}
           </div>
-          <p style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.6, marginBottom: 16 }}>※ Reading·Listening은 정답률 환산, Speaking·Writing은 루브릭 자가채점 기반 추정치입니다. 실제 TOEFL 환산표와 다를 수 있어요.</p>
-          <button onClick={onExit} style={btnBlue}>처음으로 →</button>
+          <p style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.6, marginBottom: 16 }}>* Reading and Listening are scaled from your accuracy; Speaking and Writing are estimates based on rubric self-scoring. These may differ from the official TOEFL conversion tables.</p>
+          <button onClick={onExit} style={btnBlue}>Back to start →</button>
         </div>
       </Shell>
     );
@@ -244,7 +244,7 @@ function FullTest({ form, onExit }: { form: ReturnType<typeof getToeflForm>; onE
       <Shell>
         {banner}
         <div style={{ maxWidth: 560, margin: "8px auto 0", textAlign: "center" }}>
-          <div style={{ fontSize: 13, fontWeight: 800, color: "#94a3b8", marginBottom: 6 }}>전체 시험 · {step + 1}/4</div>
+          <div style={{ fontSize: 13, fontWeight: 800, color: "#94a3b8", marginBottom: 6 }}>Full Test · {step + 1}/4</div>
           <div style={{ background: "#fff", border: "1px solid #e6ebf0", borderRadius: 18, padding: "30px 26px" }}>
             <div style={{ fontSize: 44 }}>{meta.emoji}</div>
             <h2 style={{ fontSize: 22, fontWeight: 850, margin: "8px 0 14px" }}>{meta.name}</h2>
@@ -256,10 +256,10 @@ function FullTest({ form, onExit }: { form: ReturnType<typeof getToeflForm>; onE
           </div>
           {step === 2 && (
             <div style={{ marginTop: 14, background: "#fffbeb", border: "1px solid #f1d27a", borderRadius: 12, padding: "12px 16px", fontSize: 13, color: "#7a5b16", lineHeight: 1.6 }}>
-              ☕ 실제 시험에서는 Listening 직후 약 10분의 휴식이 있습니다. 잠시 쉬었다가 시작하세요.
+              ☕ In the real exam, there's about a 10-minute break right after Listening. Take a moment to rest before you start.
             </div>
           )}
-          <button onClick={() => { setIntro(false); window.scrollTo({ top: 0 }); }} style={{ ...btnBlue, marginTop: 18 }}>{meta.name} 시작 →</button>
+          <button onClick={() => { setIntro(false); window.scrollTo({ top: 0 }); }} style={{ ...btnBlue, marginTop: 18 }}>Begin {meta.name} →</button>
         </div>
       </Shell>
     );
@@ -268,7 +268,7 @@ function FullTest({ form, onExit }: { form: ReturnType<typeof getToeflForm>; onE
   return (
     <div>
       <div style={{ background: "#0b1220", color: "#fff", textAlign: "center", fontSize: 12.5, fontWeight: 700, padding: "8px" }}>
-        전체 시험 · {step + 1}/4 — {cur === "reading" ? "Reading" : cur === "listening" ? "Listening" : cur === "speaking" ? "Speaking" : "Writing"} 섹션
+        Full Test · {step + 1}/4 — {cur === "reading" ? "Reading" : cur === "listening" ? "Listening" : cur === "speaking" ? "Speaking" : "Writing"} Section
       </div>
       {cur === "reading" && <ReadingFlow sets={form.reading} onDone={advance} banner={banner} />}
       {cur === "listening" && <ListeningFlow sets={form.listening} onDone={advance} banner={banner} />}
@@ -283,7 +283,7 @@ function Shell({ children, showCredits = false, loggedIn = false }: { children: 
     <div style={{ minHeight: "100vh", background: "#f6f8fa", color: "#1d2733" }}>
       <div style={{ height: 56, borderBottom: "1px solid #e6ebf0", display: "flex", alignItems: "center", padding: "0 18px", background: "#fff" }}>
         <Link href="/toefl" style={{ color: "#475569", textDecoration: "none", fontWeight: 600, fontSize: 14 }}>← TOEFL</Link>
-        <div style={{ flex: 1, textAlign: "center", fontWeight: 800 }}>TOEFL iBT 실전 모드</div>
+        <div style={{ flex: 1, textAlign: "center", fontWeight: 800 }}>TOEFL iBT Test Mode</div>
         {showCredits ? <CreditWidget loggedIn={loggedIn} /> : <div style={{ width: 60 }} />}
       </div>
       <div style={{ maxWidth: 980, margin: "0 auto", padding: "28px 20px 90px" }}>{children}</div>
@@ -326,7 +326,7 @@ function QuestionBlock({
       )}
       <p style={{ fontWeight: 700, fontSize: 15, lineHeight: 1.6, margin: "0 0 12px", whiteSpace: "pre-wrap" }}>
         <span style={{ color: BLUE, fontWeight: 800 }}>{idx + 1}. </span>{q.prompt}
-        {multi && <span style={{ color: "#94a3b8", fontWeight: 700, fontSize: 12 }}>  (3개 선택)</span>}
+        {multi && <span style={{ color: "#94a3b8", fontWeight: 700, fontSize: 12 }}>  (choose 3)</span>}
       </p>
       <div style={{ display: "grid", gap: 8 }}>
         {q.choices.map((c, i) => {
@@ -342,14 +342,14 @@ function QuestionBlock({
               style={{ textAlign: "left", display: "flex", gap: 12, alignItems: "flex-start", padding: "11px 13px", border: `1.5px solid ${bd}`, background: bg, borderRadius: 10, cursor: reveal ? "default" : "pointer" }}>
               <span style={{ fontWeight: 800, color: chosen && !reveal ? BLUE : "#57606a", flexShrink: 0 }}>{LETTERS[i]}</span>
               <span style={{ fontSize: 14.5, lineHeight: 1.55 }}>{c}</span>
-              {reveal && isCorrect && <span style={{ marginLeft: "auto", color: "#0f7b53", fontWeight: 800, fontSize: 13 }}>정답</span>}
+              {reveal && isCorrect && <span style={{ marginLeft: "auto", color: "#0f7b53", fontWeight: 800, fontSize: 13 }}>Correct</span>}
             </button>
           );
         })}
       </div>
       {reveal && (
         <div style={{ marginTop: 12, background: "#f6f8fa", borderRadius: 10, padding: "11px 13px", fontSize: 13.5, lineHeight: 1.65, color: "#3a4756" }}>
-          <b>해설 </b>{q.explanation}
+          <b>Explanation </b>{q.explanation}
         </div>
       )}
     </div>
@@ -362,14 +362,14 @@ function SectionReport({ label, correct, total, onDone }: { label: string; corre
   return (
     <Shell>
       <div style={{ maxWidth: 560, margin: "10px auto 0", textAlign: "center" }}>
-        <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.2em", textTransform: "uppercase", color: "#94a3b8", marginBottom: 10 }}>{label} 섹션 결과</div>
+        <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.2em", textTransform: "uppercase", color: "#94a3b8", marginBottom: 10 }}>{label} Section Results</div>
         <div style={{ background: "#fff", border: "1px solid #e6ebf0", borderRadius: 18, padding: "28px 24px" }}>
-          <div style={{ fontSize: 14, color: "#5b6b7b", fontWeight: 700 }}>정답 {correct} / {total}</div>
+          <div style={{ fontSize: 14, color: "#5b6b7b", fontWeight: 700 }}>Correct {correct} / {total}</div>
           <div style={{ fontSize: 52, fontWeight: 900, color: BLUE, margin: "6px 0 2px" }}>{scaled}<span style={{ fontSize: 22, color: "#9aa6b2" }}> / 30</span></div>
           <div style={{ fontSize: 14, fontWeight: 700, color: "#3a4756" }}>{sectionBand(scaled)}</div>
-          <p style={{ fontSize: 12.5, color: "#94a3b8", marginTop: 12, lineHeight: 1.6 }}>※ 30점 환산은 정답률 기반 추정치입니다. 실제 TOEFL 환산표와 다를 수 있어요.</p>
+          <p style={{ fontSize: 12.5, color: "#94a3b8", marginTop: 12, lineHeight: 1.6 }}>* The /30 score is an estimate based on your accuracy. It may differ from the official TOEFL conversion tables.</p>
         </div>
-        <button onClick={() => onDone(scaled)} style={{ ...btnBlue, marginTop: 18 }}>계속 →</button>
+        <button onClick={() => onDone(scaled)} style={{ ...btnBlue, marginTop: 18 }}>Continue →</button>
       </div>
     </Shell>
   );
@@ -406,8 +406,8 @@ function ReadingFlow({ sets, onDone, banner }: { sets: ToeflReadingSet[]; onDone
     <Shell>
       {banner}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-        <button onClick={() => setDone(true)} style={btnOutline}>채점·종료</button>
-        <span style={{ fontWeight: 800 }}>Reading · 지문 {si + 1}/{sets.length}</span>
+        <button onClick={() => setDone(true)} style={btnOutline}>Grade & finish</button>
+        <span style={{ fontWeight: 800 }}>Reading · Passage {si + 1}/{sets.length}</span>
         {!submitted ? <Timer remaining={remaining} /> : <span style={{ fontWeight: 800, color: BLUE }}>{passageScore} / {set.questions.length}</span>}
       </div>
       <div className="toefl-read" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, alignItems: "start" }}>
@@ -420,8 +420,8 @@ function ReadingFlow({ sets, onDone, banner }: { sets: ToeflReadingSet[]; onDone
             <QuestionBlock key={q.id} q={q} idx={i} answer={answers[q.id]} reveal={submitted} onAnswer={(a) => setAnswers((m) => ({ ...m, [q.id]: a }))} />
           ))}
           {!submitted
-            ? <button onClick={() => { setReviewed((r) => ({ ...r, [si]: true })); window.scrollTo({ top: 0 }); }} style={btnBlue}>제출하고 채점 →</button>
-            : <button onClick={next} style={btnBlue}>{si < sets.length - 1 ? "다음 지문 →" : "섹션 결과 보기 →"}</button>}
+            ? <button onClick={() => { setReviewed((r) => ({ ...r, [si]: true })); window.scrollTo({ top: 0 }); }} style={btnBlue}>Submit & grade →</button>
+            : <button onClick={next} style={btnBlue}>{si < sets.length - 1 ? "Next passage →" : "See section results →"}</button>}
         </div>
       </div>
       <style jsx>{`@media (max-width: 820px){ .toefl-read{ grid-template-columns: 1fr !important; } }`}</style>
@@ -492,7 +492,7 @@ function ListeningFlow({ sets, onDone, banner }: { sets: ToeflListeningSet[]; on
     <Shell>
       {banner}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-        <button onClick={() => { stop(); setDone(true); }} style={btnOutline}>채점·종료</button>
+        <button onClick={() => { stop(); setDone(true); }} style={btnOutline}>Grade & finish</button>
         <span style={{ fontWeight: 800 }}>Listening · {si + 1}/{sets.length}</span>
         {submitted ? <span style={{ fontWeight: 800, color: BLUE }}>{score} / {set.questions.length}</span> : <span />}
       </div>
@@ -501,9 +501,9 @@ function ListeningFlow({ sets, onDone, banner }: { sets: ToeflListeningSet[]; on
         <div style={{ fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: "#7DD3FC", fontWeight: 800, marginBottom: 6 }}>{set.kind === "conversation" ? "🎧 Conversation" : "🎧 Lecture"}</div>
         <div style={{ fontWeight: 800, fontSize: 17, marginBottom: 14 }}>{set.title}</div>
         <button onClick={speaking ? stop : play} style={{ background: "#7DD3FC", color: "#0b1220", border: "none", borderRadius: 999, padding: "12px 26px", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
-          {speaking ? "⏹ 정지" : played ? "▶ 다시 듣기" : "▶ 음원 재생"}
+          {speaking ? "⏹ Stop" : played ? "▶ Replay" : "▶ Play audio"}
         </button>
-        <p style={{ fontSize: 12, color: "#94a3b8", marginTop: 12 }}>실제 시험처럼 듣고 메모하세요. 음원은 끝난 뒤 스크립트가 공개됩니다.</p>
+        <p style={{ fontSize: 12, color: "#94a3b8", marginTop: 12 }}>Listen and take notes, just like the real exam. The transcript is revealed once the audio finishes.</p>
       </div>
 
       {set.questions.map((q, i) => (
@@ -512,14 +512,14 @@ function ListeningFlow({ sets, onDone, banner }: { sets: ToeflListeningSet[]; on
 
       {submitted && (
         <details style={{ marginBottom: 16, background: "#fff", border: "1px solid #e6ebf0", borderRadius: 12, padding: "12px 16px" }}>
-          <summary style={{ cursor: "pointer", fontWeight: 800, fontSize: 14 }}>📄 스크립트 보기</summary>
+          <summary style={{ cursor: "pointer", fontWeight: 800, fontSize: 14 }}>📄 View transcript</summary>
           <div style={{ fontSize: 14, lineHeight: 1.8, color: "#3a4756", marginTop: 10, whiteSpace: "pre-wrap" }}>{set.transcript}</div>
         </details>
       )}
 
       {!submitted
-        ? <button onClick={() => { stop(); setSubmitted(true); window.scrollTo({ top: 0 }); }} style={btnBlue} disabled={!played}>{played ? "제출하고 채점 →" : "먼저 음원을 들어주세요"}</button>
-        : <button onClick={next} style={btnBlue}>{si < sets.length - 1 ? "다음 음원 →" : "섹션 결과 보기 →"}</button>}
+        ? <button onClick={() => { stop(); setSubmitted(true); window.scrollTo({ top: 0 }); }} style={btnBlue} disabled={!played}>{played ? "Submit & grade →" : "Please play the audio first"}</button>
+        : <button onClick={next} style={btnBlue}>{si < sets.length - 1 ? "Next audio →" : "See section results →"}</button>}
     </Shell>
   );
 }
@@ -548,17 +548,17 @@ function RubricPanel({ kind, variant, minWords, response, onScore }: {
 }) {
   const items = kind === "writing"
     ? [
-        variant === "integrated" ? "강의의 핵심 반박 포인트를 (가능하면 3가지) 정확히 요약했다" : "내 입장을 첫 문장에서 분명히 밝혔다",
-        variant === "integrated" ? "각 포인트가 읽기 지문의 주장과 어떻게 연결되는지 설명했다" : "이유와 구체적인 예시로 충분히 뒷받침했다",
-        "글의 구조가 논리적이다 (도입–전개–정리, 연결어 사용)",
-        "문법·철자가 대체로 정확하고 어휘가 다양하다",
-        "요구 분량을 채웠다",
+        variant === "integrated" ? "Accurately summarized the lecture's key counterpoints (ideally all 3)" : "Stated my position clearly in the first sentence",
+        variant === "integrated" ? "Explained how each point connects to the claims in the reading passage" : "Backed it up well with reasons and specific examples",
+        "The writing is logically organized (intro–body–conclusion, with transitions)",
+        "Grammar and spelling are mostly accurate, with varied vocabulary",
+        "Met the required length",
       ]
     : [
-        "질문에 직접 답하고 입장/요지를 분명히 했다",
-        variant === "independent" ? "두 가지 이유와 예시로 전개했다" : "읽기/듣기의 핵심 내용을 정확히 반영했다",
-        "큰 멈춤 없이 비교적 유창하게 말했다",
-        "주어진 응답 시간을 충분히 활용했다",
+        "Answered the question directly and stated my position/main point clearly",
+        variant === "independent" ? "Developed it with two reasons and examples" : "Accurately reflected the key points from the reading/listening",
+        "Spoke fairly fluently without major pauses",
+        "Made full use of the response time given",
       ];
   const bandMax = items.length; // writing 5, speaking 4
   const [checked, setChecked] = useState<boolean[]>(() => items.map(() => false));
@@ -581,18 +581,18 @@ function RubricPanel({ kind, variant, minWords, response, onScore }: {
   return (
     <div style={{ background: "#fff", border: `1px solid ${BLUE}33`, borderRadius: 14, padding: "16px 18px" }}>
       <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 12 }}>
-        <span style={{ fontSize: 13, fontWeight: 800, color: "#94a3b8" }}>📋 자가 채점 (루브릭)</span>
+        <span style={{ fontSize: 13, fontWeight: 800, color: "#94a3b8" }}>📋 Self-scoring (rubric)</span>
         <span style={{ fontSize: 28, fontWeight: 900, color: BLUE }}>{band}<span style={{ fontSize: 15, color: "#9aa6b2" }}>/{bandMax}</span></span>
         <span style={{ fontSize: 13, color: "#5b6b7b", fontWeight: 700 }}>≈ {scaled}/30</span>
       </div>
 
       {/* Objective auto-metrics (computed locally) */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 14 }}>
-        <span style={chip(enoughLen)}>{enoughLen ? "✓" : "✗"} {kind === "writing" ? "분량" : "발화량"} {words}{kind === "writing" ? "단어" : "단어"} (목표 {minWords}+)</span>
-        <span style={chip(conns.length >= 2)}>{conns.length >= 2 ? "✓" : "✗"} 연결어 {conns.length}개{conns.length ? ` (${conns.slice(0, 3).join(", ")})` : ""}</span>
+        <span style={chip(enoughLen)}>{enoughLen ? "✓" : "✗"} {kind === "writing" ? "Length" : "Output"} {words} words (target {minWords}+)</span>
+        <span style={chip(conns.length >= 2)}>{conns.length >= 2 ? "✓" : "✗"} {conns.length} transitions{conns.length ? ` (${conns.slice(0, 3).join(", ")})` : ""}</span>
       </div>
 
-      <div style={{ fontSize: 12.5, fontWeight: 800, color: "#475569", marginBottom: 8 }}>아래 항목을 스스로 평가해 체크하세요 (TOEFL 루브릭 기준)</div>
+      <div style={{ fontSize: 12.5, fontWeight: 800, color: "#475569", marginBottom: 8 }}>Check off each item as you self-assess (based on the TOEFL rubric)</div>
       <div style={{ display: "grid", gap: 8 }}>
         {items.map((it, i) => (
           <button key={i} type="button" onClick={() => toggle(i)} style={{ textAlign: "left", display: "flex", gap: 10, alignItems: "flex-start", padding: "10px 12px", borderRadius: 10, cursor: "pointer", border: `1.5px solid ${checked[i] ? "#0f7b53" : "#d0d7de"}`, background: checked[i] ? "#e6f6ee" : "#fff" }}>
@@ -690,7 +690,7 @@ function SpeakingFlow({ tasks, onDone, banner }: { tasks: ToeflSpeakingTask[]; o
     <Shell>
       {banner}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-        <button onClick={() => { stopRec(); onDone(avgScaled(Object.values(taskScores))); }} style={btnOutline}>채점·종료</button>
+        <button onClick={() => { stopRec(); onDone(avgScaled(Object.values(taskScores))); }} style={btnOutline}>Grade & finish</button>
         <span style={{ fontWeight: 800 }}>Speaking · Task {task.n}/{tasks.length}</span>
         {(phase === "prep" || phase === "respond") ? <Timer remaining={remaining} /> : <span />}
       </div>
@@ -699,41 +699,41 @@ function SpeakingFlow({ tasks, onDone, banner }: { tasks: ToeflSpeakingTask[]; o
         <div style={{ background: "#eef4ff", border: `1px solid ${BLUE}33`, borderRadius: 12, padding: "14px 16px", marginBottom: 14, fontSize: 14, lineHeight: 1.7, color: "#243240", whiteSpace: "pre-wrap" }}>{task.readingText}</div>
       )}
       <div style={{ background: "#fff", border: "1px solid #e6ebf0", borderRadius: 14, padding: "18px 20px", marginBottom: 16 }}>
-        <div style={{ fontSize: 12, fontWeight: 800, color: "#F59E0B", marginBottom: 8 }}>{task.type === "independent" ? "Independent" : "Integrated"} · 준비 {task.prepSec}초 · 응답 {task.respSec}초</div>
+        <div style={{ fontSize: 12, fontWeight: 800, color: "#F59E0B", marginBottom: 8 }}>{task.type === "independent" ? "Independent" : "Integrated"} · Prep {task.prepSec}s · Response {task.respSec}s</div>
         <p style={{ fontSize: 16, lineHeight: 1.7, fontWeight: 600, margin: 0 }}>{task.prompt}</p>
       </div>
 
-      {phase === "ready" && <button onClick={begin} style={btnBlue}>준비 시작 →</button>}
+      {phase === "ready" && <button onClick={begin} style={btnBlue}>Start prep →</button>}
       {phase === "prep" && (
         <div style={{ textAlign: "center", background: "#fffbeb", border: "1px solid #f1d27a", borderRadius: 14, padding: "26px" }}>
-          <div style={{ fontSize: 13, fontWeight: 800, color: "#a16207", marginBottom: 6 }}>준비 시간</div>
+          <div style={{ fontSize: 13, fontWeight: 800, color: "#a16207", marginBottom: 6 }}>Prep time</div>
           <div style={{ fontSize: 40, fontWeight: 900, color: "#a16207" }}>{fmt(remaining)}</div>
-          <button onClick={startRespond} style={{ ...btnOutline, marginTop: 14 }}>바로 응답 시작 →</button>
+          <button onClick={startRespond} style={{ ...btnOutline, marginTop: 14 }}>Start responding now →</button>
         </div>
       )}
       {phase === "respond" && (
         <div style={{ textAlign: "center", background: "#fdecec", border: "1px solid #e0a3a3", borderRadius: 14, padding: "26px" }}>
-          <div style={{ fontSize: 13, fontWeight: 800, color: "#c0392b", marginBottom: 6 }}>🔴 답변 녹음 중 — 지금 말하세요</div>
+          <div style={{ fontSize: 13, fontWeight: 800, color: "#c0392b", marginBottom: 6 }}>🔴 Recording — speak now</div>
           <div style={{ fontSize: 40, fontWeight: 900, color: "#c0392b" }}>{fmt(remaining)}</div>
           {transcript && <p style={{ fontSize: 13, color: "#7a3b3b", marginTop: 12, lineHeight: 1.5, textAlign: "left" }}>{transcript}</p>}
-          <button onClick={() => { stopRec(); setPhase("done"); }} style={{ ...btnOutline, marginTop: 14 }}>응답 종료 →</button>
+          <button onClick={() => { stopRec(); setPhase("done"); }} style={{ ...btnOutline, marginTop: 14 }}>End response →</button>
         </div>
       )}
       {phase === "done" && (
         <div style={{ background: "#fff", border: "1px solid #e6ebf0", borderRadius: 14, padding: "18px 20px" }}>
-          <div style={{ fontWeight: 800, marginBottom: 10 }}>✅ 응답 완료</div>
+          <div style={{ fontWeight: 800, marginBottom: 10 }}>✅ Response complete</div>
           {audioUrl && <audio controls src={audioUrl} style={{ width: "100%", marginBottom: 12 }} />}
-          <div style={{ fontSize: 12.5, fontWeight: 800, color: "#5b6b7b", marginBottom: 6 }}>📝 음성 인식 전사 (필요하면 직접 수정 후 채점)</div>
-          <textarea value={transcript} onChange={(e) => setTranscript(e.target.value)} placeholder="음성 인식이 안 되면 말한 내용을 직접 입력하세요…"
+          <div style={{ fontSize: 12.5, fontWeight: 800, color: "#5b6b7b", marginBottom: 6 }}>📝 Speech-to-text transcript (edit it if needed before scoring)</div>
+          <textarea value={transcript} onChange={(e) => setTranscript(e.target.value)} placeholder="If speech recognition didn't work, type what you said here…"
             style={{ width: "100%", minHeight: 110, padding: "12px 14px", border: "1px solid #d8dee5", borderRadius: 10, fontSize: 14, lineHeight: 1.6, fontFamily: "inherit", resize: "vertical", marginBottom: 12 }} />
           <div style={{ marginBottom: 12 }}>
             <RubricPanel kind="speaking" variant={task.type} minWords={40} response={transcript}
               onScore={(s) => setTaskScores((m) => ({ ...m, [ti]: s }))} />
           </div>
-          <div style={{ background: "#f6f8fa", borderRadius: 10, padding: "12px 14px", fontSize: 13.5, color: "#3a4756", lineHeight: 1.65, marginBottom: 14 }}><b>💡 팁 </b>{task.tip}</div>
+          <div style={{ background: "#f6f8fa", borderRadius: 10, padding: "12px 14px", fontSize: 13.5, color: "#3a4756", lineHeight: 1.65, marginBottom: 14 }}><b>💡 Tip </b>{task.tip}</div>
           <div style={{ display: "flex", gap: 10 }}>
-            <button onClick={begin} style={btnOutline}>다시 녹음</button>
-            <button onClick={nextTask} style={btnBlue}>{ti < tasks.length - 1 ? "다음 과제 →" : "섹션 완료 →"}</button>
+            <button onClick={begin} style={btnOutline}>Record again</button>
+            <button onClick={nextTask} style={btnBlue}>{ti < tasks.length - 1 ? "Next task →" : "Finish section →"}</button>
           </div>
         </div>
       )}
@@ -769,7 +769,7 @@ function WritingFlow({ tasks, onDone, banner }: { tasks: ToeflWritingTask[]; onD
     <Shell>
       {banner}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-        <button onClick={() => onDone(avgScaled(Object.values(taskScores)))} style={btnOutline}>채점·종료</button>
+        <button onClick={() => onDone(avgScaled(Object.values(taskScores)))} style={btnOutline}>Grade & finish</button>
         <span style={{ fontWeight: 800 }}>Writing · Task {task.n}/{tasks.length}</span>
         {started && !done ? <Timer remaining={remaining} /> : <span />}
       </div>
@@ -778,19 +778,19 @@ function WritingFlow({ tasks, onDone, banner }: { tasks: ToeflWritingTask[]; onD
         <div style={{ background: "#faf7ff", border: "1px solid #efe7fe", borderRadius: 12, padding: "16px 18px", marginBottom: 14, fontSize: 14, lineHeight: 1.7, color: "#243240", whiteSpace: "pre-wrap" }}>{task.readingText}</div>
       )}
       <div style={{ background: "#fff", border: "1px solid #e6ebf0", borderRadius: 14, padding: "16px 18px", marginBottom: 14 }}>
-        <div style={{ fontSize: 12, fontWeight: 800, color: "#A78BFA", marginBottom: 8 }}>{task.type === "integrated" ? "Integrated Writing" : "Academic Discussion"} · {Math.round(task.timeSec / 60)}분 · {task.targetWords}</div>
+        <div style={{ fontSize: 12, fontWeight: 800, color: "#A78BFA", marginBottom: 8 }}>{task.type === "integrated" ? "Integrated Writing" : "Academic Discussion"} · {Math.round(task.timeSec / 60)} min · {task.targetWords}</div>
         <p style={{ fontSize: 15.5, lineHeight: 1.7, fontWeight: 600, margin: 0 }}>{task.prompt}</p>
       </div>
 
       {!started ? (
-        <button onClick={begin} style={btnBlue}>작성 시작 →</button>
+        <button onClick={begin} style={btnBlue}>Start writing →</button>
       ) : (
         <>
-          <textarea value={text} onChange={(e) => setText(e.target.value)} disabled={done} placeholder="여기에 답안을 작성하세요…"
+          <textarea value={text} onChange={(e) => setText(e.target.value)} disabled={done} placeholder="Write your response here…"
             style={{ width: "100%", minHeight: 280, padding: "14px 16px", border: "1px solid #d8dee5", borderRadius: 12, fontSize: 15, lineHeight: 1.7, fontFamily: "inherit", resize: "vertical", background: done ? "#f6f8fa" : "#fff" }} />
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "10px 0 14px" }}>
-            <span style={{ fontSize: 13, color: "#5b6b7b", fontWeight: 700 }}>단어 수: {words}</span>
-            {!done && <button onClick={() => setDone(true)} style={btnBlue}>제출 →</button>}
+            <span style={{ fontSize: 13, color: "#5b6b7b", fontWeight: 700 }}>Word count: {words}</span>
+            {!done && <button onClick={() => setDone(true)} style={btnBlue}>Submit →</button>}
           </div>
           {done && (
             <>
@@ -798,8 +798,8 @@ function WritingFlow({ tasks, onDone, banner }: { tasks: ToeflWritingTask[]; onD
                 <RubricPanel kind="writing" variant={task.type} minWords={minWords} response={text}
                   onScore={(s) => setTaskScores((m) => ({ ...m, [ti]: s }))} />
               </div>
-              <div style={{ background: "#f6f8fa", borderRadius: 10, padding: "12px 14px", fontSize: 13.5, color: "#3a4756", lineHeight: 1.65, marginBottom: 14 }}><b>💡 팁 </b>{task.tip}</div>
-              <button onClick={nextTask} style={btnBlue}>{ti < tasks.length - 1 ? "다음 과제 →" : "섹션 완료 →"}</button>
+              <div style={{ background: "#f6f8fa", borderRadius: 10, padding: "12px 14px", fontSize: 13.5, color: "#3a4756", lineHeight: 1.65, marginBottom: 14 }}><b>💡 Tip </b>{task.tip}</div>
+              <button onClick={nextTask} style={btnBlue}>{ti < tasks.length - 1 ? "Next task →" : "Finish section →"}</button>
             </>
           )}
         </>

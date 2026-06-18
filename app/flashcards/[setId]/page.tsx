@@ -267,8 +267,8 @@ export default function FlashcardSetPage({ params }: { params: Promise<{ setId: 
   if (!set) return (
     <div className="min-h-screen flex items-center justify-center text-gray-400">
       <div className="text-center">
-        <p className="text-4xl mb-3">🔍</p><p>세트를 찾을 수 없어요</p>
-        <Link href="/flashcards" className="btn-primary text-sm mt-4 inline-block">돌아가기</Link>
+        <p className="text-4xl mb-3">🔍</p><p>We couldn't find that set</p>
+        <Link href="/flashcards" className="btn-primary text-sm mt-4 inline-block">Go back</Link>
       </div>
     </div>
   );
@@ -285,7 +285,7 @@ export default function FlashcardSetPage({ params }: { params: Promise<{ setId: 
           </Link>
           <div>
             <h1 className="font-extrabold text-gray-900 dark:text-white">{set.title}</h1>
-            <p className="text-xs text-gray-400">{cards.length}장 · {set.subject}</p>
+            <p className="text-xs text-gray-400">{cards.length} cards · {set.subject}</p>
           </div>
         </div>
       </div>
@@ -294,17 +294,17 @@ export default function FlashcardSetPage({ params }: { params: Promise<{ setId: 
         {/* Progress summary */}
         {doneCount > 0 && (
           <div className="card p-5">
-            <p className="text-xs font-bold text-gray-500 dark:text-gray-400 mb-3">내 학습 현황</p>
+            <p className="text-xs font-bold text-gray-500 dark:text-gray-400 mb-3">Your progress</p>
             <div className="flex gap-1 mb-3 h-2 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800">
               <div className="bg-emerald-400 transition-all" style={{ width: `${(knowCount / cards.length) * 100}%` }} />
               <div className="bg-amber-400 transition-all"   style={{ width: `${(maybeCount / cards.length) * 100}%` }} />
               <div className="bg-red-400 transition-all"     style={{ width: `${(hardCount / cards.length) * 100}%` }} />
             </div>
             <div className="flex gap-4 text-xs">
-              <span className="text-emerald-500 font-semibold">😊 알아요 {knowCount}</span>
-              <span className="text-amber-500 font-semibold">🤔 애매 {maybeCount}</span>
-              <span className="text-red-500 font-semibold">😅 어려워요 {hardCount}</span>
-              <span className="text-gray-400 ml-auto">{doneCount}/{cards.length} 완료</span>
+              <span className="text-emerald-500 font-semibold">😊 Got it {knowCount}</span>
+              <span className="text-amber-500 font-semibold">🤔 Maybe {maybeCount}</span>
+              <span className="text-red-500 font-semibold">😅 Hard {hardCount}</span>
+              <span className="text-gray-400 ml-auto">{doneCount}/{cards.length} done</span>
             </div>
           </div>
         )}
@@ -313,25 +313,25 @@ export default function FlashcardSetPage({ params }: { params: Promise<{ setId: 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <button onClick={startStudy} className="card p-6 text-left hover:shadow-md hover:-translate-y-0.5 transition-all">
             <div className="text-3xl mb-3">📖</div>
-            <h3 className="font-extrabold text-gray-900 dark:text-white mb-1">학습 모드</h3>
-            <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">카드를 뒤집으며 암기 — 😅😊🤔 버튼으로 분류해요</p>
-            <div className="mt-4 btn-primary text-xs py-2 text-center rounded-xl">시작하기 →</div>
+            <h3 className="font-extrabold text-gray-900 dark:text-white mb-1">Study mode</h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">Flip cards to memorize — sort them with the 😅😊🤔 buttons</p>
+            <div className="mt-4 btn-primary text-xs py-2 text-center rounded-xl">Get started →</div>
           </button>
 
           <div className="card p-6">
             <div className="text-3xl mb-3">✏️</div>
-            <h3 className="font-extrabold text-gray-900 dark:text-white mb-1">테스트 모드</h3>
-            <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed mb-4">4지선다로 얼마나 외웠는지 확인해요</p>
+            <h3 className="font-extrabold text-gray-900 dark:text-white mb-1">Test mode</h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed mb-4">Check how much you've memorized with multiple choice</p>
             <div className="flex gap-2">
-              <button onClick={() => startTest("front")} className="flex-1 text-xs py-2 rounded-xl bg-primary-500 text-white font-semibold hover:bg-primary-600 transition-colors">용어 → 뜻</button>
-              <button onClick={() => startTest("back")}  className="flex-1 text-xs py-2 rounded-xl bg-primary-500 text-white font-semibold hover:bg-primary-600 transition-colors">뜻 → 용어</button>
+              <button onClick={() => startTest("front")} className="flex-1 text-xs py-2 rounded-xl bg-primary-500 text-white font-semibold hover:bg-primary-600 transition-colors">Term → Meaning</button>
+              <button onClick={() => startTest("back")}  className="flex-1 text-xs py-2 rounded-xl bg-primary-500 text-white font-semibold hover:bg-primary-600 transition-colors">Meaning → Term</button>
             </div>
           </div>
         </div>
 
         {/* Card list */}
         <div>
-          <h2 className="font-extrabold text-gray-900 dark:text-white mb-3">전체 카드 목록</h2>
+          <h2 className="font-extrabold text-gray-900 dark:text-white mb-3">All cards</h2>
           <div className="space-y-2">
             {cards.map((card, i) => {
               const s = progress[card.id] as Status | undefined;
@@ -379,16 +379,16 @@ export default function FlashcardSetPage({ params }: { params: Promise<{ setId: 
           <div className="flex-1 flex items-center justify-center px-4">
             <div className="text-center max-w-sm">
               <p className="text-5xl mb-4">🎉</p>
-              <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">완료!</h2>
+              <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">Done!</h2>
               <div className="flex gap-4 justify-center text-sm mb-6">
-                <span className="text-emerald-500 font-semibold">😊 {cards.filter((c) => progress[c.id] === "know").length}개</span>
-                <span className="text-amber-500 font-semibold">🤔 {cards.filter((c) => progress[c.id] === "maybe").length}개</span>
-                <span className="text-red-500 font-semibold">😅 {cards.filter((c) => progress[c.id] === "hard").length}개</span>
+                <span className="text-emerald-500 font-semibold">😊 {cards.filter((c) => progress[c.id] === "know").length}</span>
+                <span className="text-amber-500 font-semibold">🤔 {cards.filter((c) => progress[c.id] === "maybe").length}</span>
+                <span className="text-red-500 font-semibold">😅 {cards.filter((c) => progress[c.id] === "hard").length}</span>
               </div>
               <div className="flex gap-2 flex-col sm:flex-row justify-center">
-                <button onClick={() => restartStudy(true)} className="btn-primary text-sm py-2 px-5">😅 어려운 것만 다시</button>
-                <button onClick={() => restartStudy(false)} className="btn-secondary text-sm py-2 px-5">전체 다시</button>
-                <button onClick={() => setMode("select")} className="btn-secondary text-sm py-2 px-5">목록으로</button>
+                <button onClick={() => restartStudy(true)} className="btn-primary text-sm py-2 px-5">😅 Redo hard ones</button>
+                <button onClick={() => restartStudy(false)} className="btn-secondary text-sm py-2 px-5">Redo all</button>
+                <button onClick={() => setMode("select")} className="btn-secondary text-sm py-2 px-5">Back to list</button>
               </div>
             </div>
           </div>
@@ -410,14 +410,14 @@ export default function FlashcardSetPage({ params }: { params: Promise<{ setId: 
                 {/* Front */}
                 <div style={{ backfaceVisibility: "hidden", position: "absolute", inset: 0 }}
                   className="card flex flex-col items-center justify-center text-center p-8">
-                  <p className="text-xs text-gray-400 mb-4 font-semibold uppercase tracking-widest">앞면 — 영어 용어</p>
+                  <p className="text-xs text-gray-400 mb-4 font-semibold uppercase tracking-widest">Front — English term</p>
                   <p className="text-2xl font-extrabold text-gray-900 dark:text-white">{card?.front_text}</p>
-                  <p className="text-xs text-gray-400 mt-6">탭해서 뒤집기 👆</p>
+                  <p className="text-xs text-gray-400 mt-6">Tap to flip 👆</p>
                 </div>
                 {/* Back */}
                 <div style={{ backfaceVisibility: "hidden", position: "absolute", inset: 0, transform: "rotateY(180deg)" }}
                   className="card flex flex-col items-center justify-center text-center p-8 bg-primary-50 dark:bg-primary-900/10">
-                  <p className="text-xs text-primary-400 mb-4 font-semibold uppercase tracking-widest">뒷면</p>
+                  <p className="text-xs text-primary-400 mb-4 font-semibold uppercase tracking-widest">Back</p>
                   <p className="text-xl font-extrabold text-gray-900 dark:text-white mb-3">{card?.back_text_korean}</p>
                   {card?.back_text_english && (
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{card.back_text_english}</p>
@@ -436,23 +436,23 @@ export default function FlashcardSetPage({ params }: { params: Promise<{ setId: 
               <div className="flex gap-3 justify-center w-full max-w-lg">
                 <button onClick={() => handleStatus("hard")} className="flex-1 card py-3 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-center">
                   <p className="text-2xl">😅</p>
-                  <p className="text-xs font-semibold text-red-500 mt-1">어려워요</p>
-                  <p className="text-xs text-gray-400">다시 나옴</p>
+                  <p className="text-xs font-semibold text-red-500 mt-1">Hard</p>
+                  <p className="text-xs text-gray-400">Comes back</p>
                 </button>
                 <button onClick={() => handleStatus("maybe")} className="flex-1 card py-3 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors text-center">
                   <p className="text-2xl">🤔</p>
-                  <p className="text-xs font-semibold text-amber-500 mt-1">애매해요</p>
-                  <p className="text-xs text-gray-400">나중에 다시</p>
+                  <p className="text-xs font-semibold text-amber-500 mt-1">Maybe</p>
+                  <p className="text-xs text-gray-400">Later again</p>
                 </button>
                 <button onClick={() => handleStatus("know")} className="flex-1 card py-3 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors text-center">
                   <p className="text-2xl">😊</p>
-                  <p className="text-xs font-semibold text-emerald-500 mt-1">알아요</p>
-                  <p className="text-xs text-gray-400">완료</p>
+                  <p className="text-xs font-semibold text-emerald-500 mt-1">Got it</p>
+                  <p className="text-xs text-gray-400">Done</p>
                 </button>
               </div>
             )}
             {!flipped && (
-              <p className="text-xs text-gray-400">카드를 클릭해서 뒷면을 확인하세요</p>
+              <p className="text-xs text-gray-400">Click the card to see the back</p>
             )}
           </div>
         )}
@@ -474,8 +474,8 @@ export default function FlashcardSetPage({ params }: { params: Promise<{ setId: 
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <span className="font-bold text-gray-900 dark:text-white text-sm">테스트 모드</span>
-          <span className="ml-auto text-xs text-gray-400">{testIdx + 1} / {testCards.length} · 🎯 {score}점</span>
+          <span className="font-bold text-gray-900 dark:text-white text-sm">Test mode</span>
+          <span className="ml-auto text-xs text-gray-400">{testIdx + 1} / {testCards.length} · 🎯 {score} pts</span>
         </div>
         <div className="h-1 bg-gray-100 dark:bg-gray-800">
           <div className="h-full bg-primary-500 transition-all" style={{ width: `${(testIdx / testCards.length) * 100}%` }} />
@@ -485,12 +485,12 @@ export default function FlashcardSetPage({ params }: { params: Promise<{ setId: 
           <div className="flex-1 flex items-center justify-center px-4">
             <div className="text-center max-w-sm">
               <p className="text-5xl mb-4">{score >= testCards.length * 0.8 ? "🏆" : score >= testCards.length * 0.5 ? "👍" : "📚"}</p>
-              <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">테스트 완료!</h2>
+              <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">Test complete!</h2>
               <p className="text-4xl font-black text-primary-500 mb-1">{score} / {testCards.length}</p>
-              <p className="text-sm text-gray-500 mb-6">{Math.round((score / testCards.length) * 100)}% 정답률</p>
+              <p className="text-sm text-gray-500 mb-6">{Math.round((score / testCards.length) * 100)}% correct</p>
               <div className="flex gap-2 flex-col sm:flex-row justify-center">
-                <button onClick={() => startTest(testDirection)} className="btn-primary text-sm py-2 px-5">다시 테스트</button>
-                <button onClick={() => setMode("select")} className="btn-secondary text-sm py-2 px-5">목록으로</button>
+                <button onClick={() => startTest(testDirection)} className="btn-primary text-sm py-2 px-5">Test again</button>
+                <button onClick={() => setMode("select")} className="btn-secondary text-sm py-2 px-5">Back to list</button>
               </div>
             </div>
           </div>
@@ -498,7 +498,7 @@ export default function FlashcardSetPage({ params }: { params: Promise<{ setId: 
           <div className="flex-1 flex flex-col items-center justify-center px-4 py-8 max-w-lg mx-auto w-full">
             <div className="card p-6 w-full mb-6 text-center">
               <p className="text-xs text-gray-400 mb-3 font-semibold uppercase tracking-widest">
-                {testDirection === "front" ? "이 용어의 뜻은?" : "이 뜻에 해당하는 용어는?"}
+                {testDirection === "front" ? "What does this term mean?" : "Which term matches this meaning?"}
               </p>
               <p className="text-xl font-extrabold text-gray-900 dark:text-white">{question}</p>
             </div>
@@ -520,7 +520,7 @@ export default function FlashcardSetPage({ params }: { params: Promise<{ setId: 
 
             {phase === "result" && (
               <button onClick={handleNext} className="mt-5 btn-primary text-sm py-2.5 px-8">
-                {testIdx + 1 >= testCards.length ? "결과 보기" : "다음 →"}
+                {testIdx + 1 >= testCards.length ? "See results" : "Next →"}
               </button>
             )}
           </div>

@@ -479,10 +479,10 @@ function Askable({
       if (d?.korean) {
         setKo({ loading: false, text: d.korean, error: null });
       } else {
-        setKo({ loading: false, text: null, error: "지금은 번역을 불러올 수 없어요. 잠시 후 다시 시도해주세요." });
+        setKo({ loading: false, text: null, error: "Couldn't load the translation right now. Please try again in a moment." });
       }
     } catch {
-      setKo({ loading: false, text: null, error: "지금은 번역을 불러올 수 없어요. 잠시 후 다시 시도해주세요." });
+      setKo({ loading: false, text: null, error: "Couldn't load the translation right now. Please try again in a moment." });
     }
   }
 
@@ -572,7 +572,7 @@ function Askable({
                 cursor: ko.loading ? "default" : "pointer",
               }}
             >
-              {ko.loading ? "번역 중…" : "🇰🇷 풀이 한국어로 보기"}
+              {ko.loading ? "Translating…" : "🇰🇷 View solution in Korean"}
             </button>
           )}
 
@@ -585,7 +585,7 @@ function Askable({
           {ko.text && (
             <div style={{ marginTop: 12, borderLeft: "2px solid rgba(0,255,178,0.4)", paddingLeft: 12 }}>
               <p style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(0,255,178,0.7)", margin: "0 0 6px" }}>
-                한국어 풀이
+Korean solution
               </p>
               <p style={{ fontSize: 13.5, lineHeight: 1.7, color: "rgba(255,255,255,0.72)", margin: 0, whiteSpace: "pre-wrap" }}>
                 {ko.text}

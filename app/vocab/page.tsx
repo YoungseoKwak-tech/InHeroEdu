@@ -21,14 +21,14 @@ export default function VocabPage() {
     <div style={{ background: BG, minHeight: "100vh", padding: "64px 22px 120px", fontFamily: "Inter, sans-serif", color: "#e8edf4" }}>
       <div style={{ maxWidth: 880, margin: "0 auto" }}>
         <p style={{ fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(0,255,178,0.7)", marginBottom: 12 }}>
-          📒 단어장 · VOCABULARY
+          📒 VOCABULARY
         </p>
         <h1 style={{ fontSize: "clamp(1.9rem, 5vw, 3rem)", fontWeight: 850, color: "#fff", letterSpacing: "-0.04em", lineHeight: 1.05, marginBottom: 14 }}>
-          한국어로 보고,<br />영어로 외운다.
+          See the meaning,<br />recall the term.
         </h1>
         <p style={{ fontSize: 15, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, marginBottom: 28, maxWidth: 600 }}>
-          {total > 0 ? `${total.toLocaleString()}개 ` : ""}과목별 필수 용어 — 이미 아는 한국어 뜻에서 영어 용어를 떠올리는 연습으로,
-          미국 입시의 핵심인 어휘력을 빠르게 채웁니다.
+          {total > 0 ? `${total.toLocaleString()} ` : ""}must-know terms by subject — practice recalling the term from a
+          meaning you already know, and build the vocabulary that's core to college admissions, fast.
         </p>
         <VocabStudy theme="dark" />
       </div>

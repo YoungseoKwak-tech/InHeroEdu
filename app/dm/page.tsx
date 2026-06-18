@@ -39,16 +39,16 @@ export default function DMInboxPage() {
     <main style={{ minHeight: "100vh", background: "#0a0a14", color: "#fff", fontFamily: "'Inter', sans-serif" }}>
       <div style={{ maxWidth: 620, margin: "0 auto", padding: "20px 18px 80px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
-          <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 24, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>✦ 받은 메시지</h1>
-          <Link href="/parents" style={{ color: "#A99CFF", textDecoration: "none", fontSize: 13, fontWeight: 700 }}>자료실 →</Link>
+          <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 24, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>✦ Inbox</h1>
+          <Link href="/parents" style={{ color: "#A99CFF", textDecoration: "none", fontSize: 13, fontWeight: 700 }}>Resource Library →</Link>
         </div>
 
-        {status === "loading" && <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 14 }}>불러오는 중…</p>}
+        {status === "loading" && <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 14 }}>Loading…</p>}
         {status === "out" && (
-          <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 14 }}>로그인 후 받은 메시지를 볼 수 있어요.</p>
+          <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 14 }}>Sign in to view your messages.</p>
         )}
         {status === "ok" && threads.length === 0 && (
-          <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 14, padding: "40px 0", textAlign: "center" }}>아직 받은 메시지가 없어요.</p>
+          <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 14, padding: "40px 0", textAlign: "center" }}>No messages yet.</p>
         )}
 
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -61,7 +61,7 @@ export default function DMInboxPage() {
               </div>
               {t.lastMessage && (
                 <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", margin: "5px 0 0", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                  {t.lastFromMe ? "나: " : ""}{t.lastMessage}
+                  {t.lastFromMe ? "Me: " : ""}{t.lastMessage}
                 </p>
               )}
             </Link>

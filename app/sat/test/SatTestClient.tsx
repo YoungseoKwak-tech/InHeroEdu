@@ -71,7 +71,7 @@ export default function SatTestClient({ form, attemptId }: { form: SatForm; atte
 
     setAccess("blocked");
     if (result.reason === "exhausted") {
-      window.alert("5회 이용권을 모두 사용했어요. '무제한' 이용권(500 크레딧)으로 업그레이드하면 계속 응시할 수 있어요.");
+      window.alert("You've used all 5 tests on your plan. Upgrade to the 'Unlimited' plan (500 credits) to keep taking tests.");
     }
     const t = window.setTimeout(() => window.location.replace("/parents/sat?pay=1"), 700);
     return () => window.clearTimeout(t);
@@ -120,11 +120,11 @@ function SatAccessMessage({ blocked }: { blocked: boolean }) {
     <div style={{ minHeight: "100vh", background: "#05070d", color: "#e8edf4", display: "grid", placeItems: "center", padding: 24, fontFamily: "Inter, sans-serif" }}>
       <div style={{ width: "min(460px, 100%)", border: "1px solid rgba(0,255,178,0.2)", background: "rgba(255,255,255,0.04)", borderRadius: 18, padding: "28px 24px", textAlign: "center" }}>
         <div style={{ fontSize: 36, marginBottom: 10 }}>{blocked ? "🔒" : "⏳"}</div>
-        <h1 style={{ fontSize: 22, fontWeight: 850, color: "#fff", margin: "0 0 8px" }}>{blocked ? "SAT 이용권 확인이 필요해요" : "SAT 이용권 확인 중…"}</h1>
+        <h1 style={{ fontSize: 22, fontWeight: 850, color: "#fff", margin: "0 0 8px" }}>{blocked ? "We need to confirm your SAT plan" : "Confirming your SAT plan…"}</h1>
         <p style={{ fontSize: 14, color: "rgba(255,255,255,0.58)", lineHeight: 1.7, margin: "0 0 18px" }}>
-          SAT 모의고사는 200 크레딧 5회 또는 500 크레딧 무제한 이용권으로 시작할 수 있어요.
+          You can start the SAT practice test with 5 tests for 200 credits or unlimited for 500 credits.
         </p>
-        {blocked && <Link href="/parents/sat?pay=1" style={ctaBtn(true)}>이용권 선택하기 →</Link>}
+        {blocked && <Link href="/parents/sat?pay=1" style={ctaBtn(true)}>Choose a plan →</Link>}
       </div>
     </div>
   );
@@ -176,13 +176,13 @@ function ModuleRunner({
         </div>
         <div style={{ textAlign: "center" }}>
           <div style={{ fontSize: 22, fontWeight: 800, fontVariantNumeric: "tabular-nums", color: lowTime ? "#dc2626" : "#0f172a" }}>{mm}:{ss}</div>
-          <div style={{ fontSize: 11, color: "#94a3b8" }}>남은 시간</div>
+          <div style={{ fontSize: 11, color: "#94a3b8" }}>Time left</div>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
           {calculator && (
-            <button onClick={() => setShowCalc(true)} style={topBtn}>🖩 계산기</button>
+            <button onClick={() => setShowCalc(true)} style={topBtn}>🖩 Calculator</button>
           )}
-          <Link href="/sat" style={{ ...topBtn, textDecoration: "none", color: "#64748b", display: "inline-flex", alignItems: "center" }}>나가기</Link>
+          <Link href="/sat" style={{ ...topBtn, textDecoration: "none", color: "#64748b", display: "inline-flex", alignItems: "center" }}>Exit</Link>
         </div>
       </div>
 
@@ -197,7 +197,7 @@ function ModuleRunner({
                     fontSize: 12, fontWeight: 700, cursor: "pointer", borderRadius: 8, padding: "5px 11px",
                     border: `1px solid ${hlMode ? "#f59e0b" : "#d6dbe2"}`,
                     background: hlMode ? "#fef3c7" : "#fff", color: hlMode ? "#b45309" : "#64748b",
-                  }}>🖍 하이라이트{hlMode ? " ON" : ""}</button>
+                  }}>🖍 Highlight{hlMode ? " ON" : ""}</button>
                 </div>
                 <div style={{ fontSize: 15.5, lineHeight: 1.85, color: "#1f2937", borderRight: "1px solid #eceff3", paddingRight: 24 }}>
                   {splitSentences(q.passage).map((s, i) => {
@@ -210,14 +210,14 @@ function ModuleRunner({
                     );
                   })}
                 </div>
-                {hlMode && <p style={{ fontSize: 11.5, color: "#94a3b8", marginTop: 8 }}>문장을 눌러 형광펜 표시 · 다시 누르면 해제</p>}
+                {hlMode && <p style={{ fontSize: 11.5, color: "#94a3b8", marginTop: 8 }}>Tap a sentence to highlight it · tap again to remove</p>}
               </div>
             )}
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
                 <span style={{ background: "#0f172a", color: "#fff", fontSize: 13, fontWeight: 800, borderRadius: 6, padding: "3px 9px" }}>{idx + 1}</span>
                 <button onClick={toggleMark} style={{ fontSize: 12.5, fontWeight: 700, cursor: "pointer", border: "none", background: "none", color: marked.has(q.id) ? "#dc2626" : "#94a3b8" }}>
-                  {marked.has(q.id) ? "🚩 표시됨" : "🚩 나중에 볼 문제"}
+                  {marked.has(q.id) ? "🚩 Marked" : "🚩 Mark for review"}
                 </button>
                 <span style={{ marginLeft: "auto", fontSize: 11, color: "#cbd5e1" }}>{q.domain}</span>
               </div>
@@ -245,11 +245,11 @@ function ModuleRunner({
                 <div>
                   <input
                     value={a?.grid ?? ""} onChange={(e) => setGrid(e.target.value)}
-                    placeholder="정답 입력 (예: 7, 3/2, 1.5)"
+                    placeholder="Enter your answer (e.g., 7, 3/2, 1.5)"
                     inputMode="text"
                     style={{ width: "100%", maxWidth: 280, padding: "12px 14px", fontSize: 18, fontWeight: 700, border: "2px solid #0f172a", borderRadius: 10, outline: "none" }}
                   />
-                  <p style={{ fontSize: 12.5, color: "#94a3b8", marginTop: 8 }}>분수(3/2)나 소수(1.5)로 입력할 수 있어요.</p>
+                  <p style={{ fontSize: 12.5, color: "#94a3b8", marginTop: 8 }}>You can enter a fraction (3/2) or a decimal (1.5).</p>
                 </div>
               )}
             </div>
@@ -261,10 +261,10 @@ function ModuleRunner({
 
       {/* Bottom bar */}
       <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 22px", borderTop: "1px solid #e6e8ec" }}>
-        <button onClick={() => setIdx((i) => Math.max(0, i - 1))} disabled={idx === 0 || review} style={{ ...navBtn, opacity: idx === 0 || review ? 0.4 : 1 }}>← 이전</button>
+        <button onClick={() => setIdx((i) => Math.max(0, i - 1))} disabled={idx === 0 || review} style={{ ...navBtn, opacity: idx === 0 || review ? 0.4 : 1 }}>← Back</button>
 
         <button onClick={() => setNavOpen((v) => !v)} style={{ fontSize: 13, fontWeight: 800, cursor: "pointer", background: "#0f172a", color: "#fff", border: "none", borderRadius: 8, padding: "8px 16px" }}>
-          {review ? "리뷰" : `${idx + 1} / ${questions.length}`} ▾
+          {review ? "Review" : `${idx + 1} / ${questions.length}`} ▾
         </button>
         {navOpen && (
           <Navigator questions={questions} ans={ans} marked={marked} current={idx}
@@ -274,12 +274,12 @@ function ModuleRunner({
 
         {!review ? (
           idx < questions.length - 1 ? (
-            <button onClick={() => setIdx((i) => i + 1)} style={navBtnPrimary}>다음 →</button>
+            <button onClick={() => setIdx((i) => i + 1)} style={navBtnPrimary}>Next →</button>
           ) : (
-            <button onClick={() => setReview(true)} style={navBtnPrimary}>리뷰 →</button>
+            <button onClick={() => setReview(true)} style={navBtnPrimary}>Review →</button>
           )
         ) : (
-          <button onClick={submit} style={{ ...navBtnPrimary, background: "#00a152" }}>모듈 제출 ✓</button>
+          <button onClick={submit} style={{ ...navBtnPrimary, background: "#00a152" }}>Submit module ✓</button>
         )}
       </div>
 
@@ -295,9 +295,9 @@ function ReviewScreen({ questions, ans, marked, onJump, onSubmit }: {
   return (
     <div style={{ flex: 1, overflowY: "auto" }}>
       <div style={{ maxWidth: 640, margin: "0 auto", padding: "30px 22px 40px", textAlign: "center" }}>
-        <h2 style={{ fontSize: 22, fontWeight: 800, margin: "0 0 6px" }}>모듈 리뷰</h2>
+        <h2 style={{ fontSize: 22, fontWeight: 800, margin: "0 0 6px" }}>Module review</h2>
         <p style={{ fontSize: 14, color: "#64748b", margin: "0 0 22px" }}>
-          {answered} / {questions.length} 문제 응답 · 🚩 {marked.size}개 표시됨. 번호를 눌러 돌아갈 수 있어요.
+          {answered} / {questions.length} answered · 🚩 {marked.size} marked. Tap a number to go back.
         </p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(54px, 1fr))", gap: 10, marginBottom: 28 }}>
           {questions.map((q, i) => {
@@ -315,7 +315,7 @@ function ReviewScreen({ questions, ans, marked, onJump, onSubmit }: {
           })}
         </div>
         <button onClick={onSubmit} style={{ background: "#00a152", color: "#fff", border: "none", borderRadius: 10, padding: "13px 30px", fontSize: 15, fontWeight: 800, cursor: "pointer" }}>
-          이 모듈 제출하고 계속 →
+          Submit this module and continue →
         </button>
       </div>
     </div>
@@ -371,7 +371,7 @@ function DesmosModal({ onClose }: { onClose: () => void }) {
     <div style={{ position: "fixed", inset: 0, zIndex: 60, background: "rgba(0,0,0,0.4)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }} onClick={onClose}>
       <div onClick={(e) => e.stopPropagation()} style={{ width: "min(640px, 96vw)", background: "#fff", borderRadius: 14, overflow: "hidden", boxShadow: "0 20px 60px rgba(0,0,0,0.4)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px", borderBottom: "1px solid #e6e8ec" }}>
-          <span style={{ fontWeight: 800, fontSize: 14 }}>그래핑 계산기</span>
+          <span style={{ fontWeight: 800, fontSize: 14 }}>Graphing Calculator</span>
           <button onClick={onClose} style={{ border: "none", background: "none", cursor: "pointer", fontSize: 18, color: "#64748b" }}>✕</button>
         </div>
         <div ref={ref} style={{ width: "100%", height: 460 }} />
@@ -407,11 +407,11 @@ function Results({ form, rwM2, mathM2, rwHard, mathHard, answers }: {
   return (
     <div style={{ background: "#05070d", minHeight: "100vh", color: "#e8edf4", padding: "56px 22px 100px", fontFamily: "Inter, sans-serif" }}>
       <div style={{ maxWidth: 760, margin: "0 auto" }}>
-        <p style={{ fontSize: 11, letterSpacing: "0.3em", color: "rgba(0,255,178,0.7)", textTransform: "uppercase", marginBottom: 10 }}>SAT PRACTICE · 결과</p>
+        <p style={{ fontSize: 11, letterSpacing: "0.3em", color: "rgba(0,255,178,0.7)", textTransform: "uppercase", marginBottom: 10 }}>SAT PRACTICE · RESULTS</p>
         <div style={{ textAlign: "center", padding: "30px 20px 34px", borderRadius: 20, border: "1px solid rgba(0,255,178,0.25)", background: "rgba(0,255,178,0.04)", marginBottom: 24 }}>
-          <div style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", marginBottom: 6 }}>예상 총점</div>
+          <div style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", marginBottom: 6 }}>Projected total score</div>
           <div style={{ fontSize: 64, fontWeight: 900, color: "#fff", lineHeight: 1, letterSpacing: "-0.03em" }}>{total}</div>
-          <div style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", marginTop: 8 }}>400 – 1600 척도 · 적응형 경로 반영 추정치</div>
+          <div style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", marginTop: 8 }}>400 – 1600 scale · estimate based on your adaptive path</div>
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 28 }}>
@@ -426,8 +426,8 @@ function Results({ form, rwM2, mathM2, rwHard, mathHard, answers }: {
         {showReview && (
           <div style={{ marginBottom: 28 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-              <h3 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>{showReview === "rw" ? "Reading & Writing" : "Math"} 문제 리뷰</h3>
-              <button onClick={() => setShowReview(null)} style={{ background: "none", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.6)", borderRadius: 8, padding: "5px 12px", fontSize: 12.5, cursor: "pointer" }}>닫기</button>
+              <h3 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>{showReview === "rw" ? "Reading & Writing" : "Math"} question review</h3>
+              <button onClick={() => setShowReview(null)} style={{ background: "none", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.6)", borderRadius: 8, padding: "5px 12px", fontSize: 12.5, cursor: "pointer" }}>Close</button>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {reviewQs.map((q, i) => <ReviewCard key={q.id} q={q} n={i + 1} a={answers[q.id]} />)}
@@ -436,8 +436,8 @@ function Results({ form, rwM2, mathM2, rwHard, mathHard, answers }: {
         )}
 
         <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-          <Link href="/parents/sat?pay=1" style={ctaBtn(true)}>🔁 이용권 확인 후 다시 풀기</Link>
-          <Link href="/parents/sat" style={ctaBtn(false)}>다른 테스트 선택</Link>
+          <Link href="/parents/sat?pay=1" style={ctaBtn(true)}>🔁 Check your plan and retake</Link>
+          <Link href="/parents/sat" style={ctaBtn(false)}>Choose another test</Link>
         </div>
       </div>
     </div>
@@ -448,7 +448,7 @@ function Results({ form, rwM2, mathM2, rwHard, mathHard, answers }: {
 function breakdown(qs: SatQuestion[], answers: AnswerMap) {
   const m = new Map<string, { correct: number; total: number }>();
   for (const q of qs) {
-    const d = q.domain || "기타";
+    const d = q.domain || "Other";
     const e = m.get(d) ?? { correct: 0, total: 0 };
     e.total++;
     if (isCorrect(q, answers[q.id])) e.correct++;
@@ -487,8 +487,8 @@ function DomainAnalysis({ rwQs, mathQs, answers, onReview }: {
 
   return (
     <div style={{ borderRadius: 18, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)", padding: "22px 22px 24px", marginBottom: 28 }}>
-      <h3 style={{ fontSize: 16, fontWeight: 850, margin: "0 0 4px", color: "#fff" }}>📊 영역별 분석</h3>
-      <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.45)", margin: "0 0 18px" }}>SAT 도메인별 정답률 — 약한 영역을 정확히 짚어줍니다.</p>
+      <h3 style={{ fontSize: 16, fontWeight: 850, margin: "0 0 4px", color: "#fff" }}>📊 Performance by area</h3>
+      <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.45)", margin: "0 0 18px" }}>Your accuracy by SAT domain — pinpointing exactly where you're weakest.</p>
 
       <div style={{ fontSize: 12.5, fontWeight: 800, color: "rgba(94,234,212,0.85)", letterSpacing: "0.05em", textTransform: "uppercase", margin: "0 0 10px" }}>Reading & Writing</div>
       {rw.map((d) => <Row key={d.domain} d={d} />)}
@@ -498,17 +498,17 @@ function DomainAnalysis({ rwQs, mathQs, answers, onReview }: {
 
       {focus.length > 0 && (
         <div style={{ marginTop: 20, borderRadius: 12, background: "rgba(255,139,139,0.07)", border: "1px solid rgba(255,139,139,0.22)", padding: "14px 16px" }}>
-          <div style={{ fontSize: 13, fontWeight: 850, color: "#ffb3b3", marginBottom: 8 }}>🎯 집중 학습 영역</div>
+          <div style={{ fontSize: 13, fontWeight: 850, color: "#ffb3b3", marginBottom: 8 }}>🎯 Focus areas</div>
           <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, color: "rgba(255,255,255,0.72)", lineHeight: 1.7 }}>
             {focus.map((d) => (
               <li key={d.sec + d.domain}>
-                <strong style={{ color: "#fff" }}>{d.domain}</strong> ({d.sec === "rw" ? "R&W" : "Math"}) — {d.correct}/{d.total} 정답.{" "}
-                <button onClick={() => onReview(d.sec)} style={{ background: "none", border: "none", color: "#5eead4", fontWeight: 700, cursor: "pointer", padding: 0, fontSize: 13, textDecoration: "underline" }}>풀이 보기</button>
+                <strong style={{ color: "#fff" }}>{d.domain}</strong> ({d.sec === "rw" ? "R&W" : "Math"}) — {d.correct}/{d.total} correct.{" "}
+                <button onClick={() => onReview(d.sec)} style={{ background: "none", border: "none", color: "#5eead4", fontWeight: 700, cursor: "pointer", padding: 0, fontSize: 13, textDecoration: "underline" }}>View solutions</button>
               </li>
             ))}
           </ul>
           <p style={{ margin: "10px 0 0", fontSize: 12, color: "rgba(255,255,255,0.45)", lineHeight: 1.6 }}>
-            이 영역들을 우선 복습하고, 문제은행에서 같은 도메인 문제를 더 풀어보세요.
+            Review these areas first, then practice more questions in the same domains from the question bank.
           </p>
         </div>
       )}
@@ -524,27 +524,27 @@ function ScoreCard({ label, score, correct, total, hard, onReview }: {
       <div style={{ fontSize: 12.5, color: "rgba(255,255,255,0.55)", fontWeight: 700, marginBottom: 6 }}>{label}</div>
       <div style={{ fontSize: 34, fontWeight: 900, color: "#fff", letterSpacing: "-0.02em" }}>{score}</div>
       <div style={{ fontSize: 12.5, color: "rgba(255,255,255,0.45)", margin: "4px 0 12px" }}>
-        정답 {correct}/{total} · Module 2: <span style={{ color: hard ? "#5eead4" : "#fbbf24" }}>{hard ? "Hard 경로" : "Easy 경로"}</span>
+        {correct}/{total} correct · Module 2: <span style={{ color: hard ? "#5eead4" : "#fbbf24" }}>{hard ? "Hard path" : "Easy path"}</span>
       </div>
-      <button onClick={onReview} style={{ width: "100%", background: "rgba(0,255,178,0.1)", border: "1px solid rgba(0,255,178,0.3)", color: "#5eead4", borderRadius: 9, padding: "8px 0", fontSize: 12.5, fontWeight: 800, cursor: "pointer" }}>해설 보기</button>
+      <button onClick={onReview} style={{ width: "100%", background: "rgba(0,255,178,0.1)", border: "1px solid rgba(0,255,178,0.3)", color: "#5eead4", borderRadius: 9, padding: "8px 0", fontSize: 12.5, fontWeight: 800, cursor: "pointer" }}>View explanations</button>
     </div>
   );
 }
 
 function ReviewCard({ q, n, a }: { q: SatQuestion; n: number; a: Answer | undefined }) {
   const ok = isCorrect(q, a);
-  const yourAns = q.type === "mcq" ? (a?.choice != null ? `${"ABCD"[a.choice]}. ${q.choices![a.choice]}` : "무응답") : (a?.grid || "무응답");
-  const correctAns = q.type === "mcq" ? `${"ABCD"[q.correct!]}. ${q.choices![q.correct!]}` : (q.gridAnswers ?? []).join(" 또는 ");
+  const yourAns = q.type === "mcq" ? (a?.choice != null ? `${"ABCD"[a.choice]}. ${q.choices![a.choice]}` : "No answer") : (a?.grid || "No answer");
+  const correctAns = q.type === "mcq" ? `${"ABCD"[q.correct!]}. ${q.choices![q.correct!]}` : (q.gridAnswers ?? []).join(" or ");
   return (
     <div style={{ borderRadius: 14, border: `1px solid ${ok ? "rgba(0,255,178,0.3)" : "rgba(255,107,107,0.3)"}`, background: "rgba(255,255,255,0.02)", padding: "14px 16px" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-        <span style={{ fontSize: 12, fontWeight: 800, color: ok ? "#5eead4" : "#ff8b8b" }}>{ok ? "✓" : "✗"} 문제 {n}</span>
+        <span style={{ fontSize: 12, fontWeight: 800, color: ok ? "#5eead4" : "#ff8b8b" }}>{ok ? "✓" : "✗"} Question {n}</span>
         <span style={{ marginLeft: "auto", fontSize: 11, color: "rgba(255,255,255,0.3)" }}>{q.domain}</span>
       </div>
       {q.passage && <p style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 1.6, margin: "0 0 8px" }}>{q.passage}</p>}
       <p style={{ fontSize: 14, color: "#fff", fontWeight: 600, lineHeight: 1.55, margin: "0 0 10px" }}>{q.prompt}</p>
-      <p style={{ fontSize: 13, margin: "0 0 4px", color: ok ? "#5eead4" : "#ff8b8b" }}>내 답: {yourAns}</p>
-      {!ok && <p style={{ fontSize: 13, margin: "0 0 8px", color: "#5eead4" }}>정답: {correctAns}</p>}
+      <p style={{ fontSize: 13, margin: "0 0 4px", color: ok ? "#5eead4" : "#ff8b8b" }}>Your answer: {yourAns}</p>
+      {!ok && <p style={{ fontSize: 13, margin: "0 0 8px", color: "#5eead4" }}>Correct answer: {correctAns}</p>}
       <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.65, margin: 0, borderLeft: "2px solid rgba(255,255,255,0.15)", paddingLeft: 12 }}>{q.explanation}</p>
     </div>
   );

@@ -2,8 +2,8 @@ import SampleExam, { type SampleItem } from "@/components/mock/SampleExam";
 import { getToeflForm } from "@/lib/toefl/forms";
 
 export const metadata = {
-  title: "TOEFL 모의고사 샘플 (무료 찍먹) — InHero",
-  description: "TOEFL iBT 모의고사가 어떤 형식인지 무료로 미리 풀어보세요. 실제 Reading 지문·타이머·문제 네비게이터 그대로의 짧은 샘플.",
+  title: "TOEFL Practice Test Sample (Free) — InHero",
+  description: "See what the TOEFL iBT practice test is like with a free preview. A short sample with a real Reading passage, timer, and question navigator.",
 };
 
 const BLUE = "#1f6feb";
@@ -27,13 +27,13 @@ function buildItems(): SampleItem[] {
 export default function ToeflSamplePage() {
   return (
     <SampleExam
-      title="TOEFL 모의고사 샘플"
-      sectionLabel="TOEFL Reading · 샘플"
+      title="TOEFL Practice Test Sample"
+      sectionLabel="TOEFL Reading · Sample"
       items={buildItems()}
       seconds={6 * 60}
       accent={BLUE}
       fullHref="/toefl/test"
-      fullLabel="전체 TOEFL 모의고사 이용권 보기 →"
+      fullLabel="See full TOEFL practice test access →"
     />
   );
 }

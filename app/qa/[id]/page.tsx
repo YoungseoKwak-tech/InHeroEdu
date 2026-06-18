@@ -13,7 +13,7 @@ function CrownBadge() {
   return (
     <span className="inline-flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded-full"
       style={{ background: "linear-gradient(135deg,#fef3c7,#fde68a)", color: "#92400e", border: "1px solid #fcd34d" }}>
-      👑 코넬맘
+      👑 Cornell Mom
     </span>
   );
 }
@@ -324,7 +324,7 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            {isParent ? "입시 Q&A" : copy.list}
+            {isParent ? "Admissions Q&A" : copy.list}
           </Link>
         </div>
       </div>
@@ -382,20 +382,20 @@ export default function QuestionDetailPage({ params }: { params: Promise<{ id: s
             <div className="card p-5 mb-4 border border-emerald-200 dark:border-emerald-800" style={{ background: "linear-gradient(135deg,#ecfdf5,#f0fdf4)" }}>
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="text-lg">🎓</span>
-                <span className="text-sm font-extrabold text-gray-900">전문가 답변 받기</span>
+                <span className="text-sm font-extrabold text-gray-900">Get an Expert Answer</span>
                 <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">
-                  {expertUsed < FREE_EXPERT ? `무료 ${FREE_EXPERT - expertUsed}회 남음` : "무료 소진"}
+                  {expertUsed < FREE_EXPERT ? `${FREE_EXPERT - expertUsed} free left` : "Free uses used up"}
                 </span>
               </div>
               <p className="text-xs text-gray-500 mb-3 leading-relaxed">
-                아이비리그 멘토의 답변 기준으로 학습된 전문가 AI가 이 질문에 바로 답해드려요. 학부모·학생 간 소통은 무료, 전문가 답변은 계정당 3회 무료입니다.
+                Our expert AI, trained on the answers of Ivy League mentors, will respond to this question right away. Parent-to-student conversation is free, and expert answers are free for the first 3 per account.
               </p>
               <button
                 onClick={requestExpertAnswer}
                 disabled={aiLoading}
                 className="btn-primary text-sm py-2 px-5 disabled:opacity-40"
               >
-                {expertUsed < FREE_EXPERT ? "🎓 전문가 답변 받기" : "🎓 전문가 답변 받기 (충전)"}
+                {expertUsed < FREE_EXPERT ? "🎓 Get an Expert Answer" : "🎓 Get an Expert Answer (Add Credits)"}
               </button>
             </div>
           )}
