@@ -454,6 +454,12 @@ export default function ParentsClient() {
             <button type="submit" aria-label="검색" style={{ background: "#1a1a1f", color: "#fff", border: "none", borderRadius: "0 8px 8px 0", padding: "0 18px", fontSize: 16, cursor: "pointer" }}>🔍</button>
           </form>
           {loggedIn && <MyTierBadge />}
+          {loggedIn && (
+            <button onClick={() => router.push("/dm")} title="받은 메시지"
+              style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#fff", border: "1.5px solid #e2e6ea", color: "#475569", borderRadius: 9, padding: "9px 13px", fontSize: 13.5, fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 }}>
+              ✉️ 메시지
+            </button>
+          )}
           <CreditWidget loggedIn={loggedIn} />
           <button onClick={() => go("/parents/me", true)}
             style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#fff", border: `1.5px solid ${GREEN}`, color: GREEN, borderRadius: 9, padding: "9px 16px", fontSize: 13.5, fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 }}
