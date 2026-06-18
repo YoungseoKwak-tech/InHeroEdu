@@ -105,6 +105,7 @@ const SOCIAL_STATS = [
 const NAV = [
   { label: "SAT 모의고사", route: "/parents/sat", gated: false },
   { label: "AP 모의고사", route: "/parents/question-bank/exam", gated: false },
+  { label: "TOEFL 모의고사", route: "/toefl", gated: false },
   { label: "AMC 연습문제", route: "/parents/amc", gated: false },
   { label: "입시 Q&A", route: "/parents/lounge", gated: false },
   { label: "합격 수기", route: "/parents/story", gated: false },
@@ -125,6 +126,7 @@ const NAV = [
 const QUICK = [
   { emoji: "✏️", label: "SAT 모의고사", route: "/parents/sat", gated: false },
   { emoji: "🖥️", label: "AP 모의고사", route: "/parents/question-bank/exam", gated: false },
+  { emoji: "📝", label: "TOEFL 모의고사", route: "/toefl", gated: false },
   { emoji: "➗", label: "AMC 연습문제", route: "/parents/amc", gated: false },
   { emoji: "🎥", label: "세미나 다시보기", route: "/parents/seminar/replay", gated: false },
   { emoji: "💬", label: "입시 Q&A", route: "/parents/lounge", gated: false },

@@ -21,6 +21,7 @@ const NAV_LINKS = [
   { href: "/question-bank",   label: "Question Bank" },
   { href: "/vocab",           label: "Vocab" },
   { href: "/sat",             label: "SAT" },
+  { href: "/toefl",           label: "TOEFL" },
   { href: "/lounges",         label: "Lounges" },
   { href: "/library",         label: "Library" },
   { href: "/clubs",           label: "Clubs" },
