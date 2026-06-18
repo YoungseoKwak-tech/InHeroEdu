@@ -45,7 +45,7 @@ export default function SatLandingPage() {
             const c = formCounts(f);
             const full = c.rw >= 50;
             return (
-              <Link key={f.id} href={`/parents/sat?pay=1&form=${encodeURIComponent(f.id)}`} style={{
+              <Link key={f.id} href={`/parents/sat?form=${encodeURIComponent(f.id)}`} style={{
                 textDecoration: "none", display: "flex", alignItems: "center", gap: 16,
                 borderRadius: 16, border: "1px solid rgba(0,255,178,0.22)", background: "rgba(0,255,178,0.04)", padding: "18px 20px",
               }}>
@@ -56,7 +56,7 @@ export default function SatLandingPage() {
                   </div>
                   <div style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", marginTop: 3 }}>R&W {c.rw}문항 · Math {c.math}문항 · 적응형</div>
                 </div>
-                <span style={{ fontSize: 13.5, fontWeight: 800, color: MINT }}>이용권 선택 →</span>
+                <span style={{ fontSize: 13.5, fontWeight: 800, color: MINT }}>바로 풀러가기 →</span>
               </Link>
             );
           })}
