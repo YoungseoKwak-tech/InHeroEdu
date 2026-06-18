@@ -573,6 +573,198 @@ So what's the lasting importance here? The Impressionists changed what a paintin
         },
       ],
     },
+    {
+      id: "l4",
+      title: "Conversation: Student and Housing Office (Dorm Room Change)",
+      kind: "conversation",
+      transcript:
+`Narrator: Listen to a conversation between a student and a staff member in the university housing office.
+
+Student: Hi, um, I was hoping to talk to someone about possibly changing my dorm room. Is this the right place?
+
+Officer: You've come to the right place. I handle room change requests. Have a seat. So, what's going on with your current room?
+
+Student: Well, I'm in Drummond Hall, room 214. The room itself is fine, but the problem is my roommate's schedule and mine are completely opposite. He's a music major, and he practices guitar in the room until two or three in the morning most nights. I have an eight a.m. lab almost every day, and I just can't function on a few hours of sleep.
+
+Officer: That does sound difficult. Let me ask—have the two of you actually talked about it? Sometimes a conversation solves the problem without anyone moving.
+
+Student: We have, a couple of times. He's a nice guy, he's not trying to be rude, but the practice rooms in the music building close at midnight, so he says he has nowhere else to go. We're just on totally different clocks.
+
+Officer: I understand. I'll be honest with you—mid-semester room changes can be tricky, because we're nearly full. But "nearly full" isn't the same as full. Let me check what's open. Do you have a preference about which building or what kind of room?
+
+Student: Honestly, my main priority is just being somewhere quiet at night. A single room would be ideal, if there's any way to do that.
+
+Officer: Singles are in high demand, so I can't promise one. But it happens that a spot just opened up in Forsythe Hall—that's our quiet-study residence. There are enforced quiet hours after ten p.m., and it's mostly upperclassmen and graduate students. It's a double, but the current resident there keeps very regular hours, from what I've seen.
+
+Student: That actually sounds perfect. Quiet hours after ten would solve everything.
+
+Officer: Good. Now, there's a small catch I should mention. Forsythe is on the north side of campus, which is about a fifteen-minute walk from the science buildings. Your current dorm is much closer to your lab. Is that a trade-off you're okay with?
+
+Student: For a good night's sleep? Absolutely. Fifteen minutes is nothing.
+
+Officer: All right. Then here's what we'll do. I'll put in the transfer request today, and you'll need to fill out a room-change form—I'll print it for you. Once it's approved, which usually takes two or three business days, you'll get an email with your move-in date and your new key information. Sound good?
+
+Student: That sounds great. Thank you so much—this is a huge relief.
+
+Officer: Happy to help. And do me a favor: let your current roommate know you're moving, so it's not a surprise when housing contacts him about the empty bed.`,
+      questions: [
+        {
+          id: "l4q1", qtype: "Gist-Content",
+          prompt: "Why does the student go to the housing office?",
+          choices: [
+            "To complain that his dorm room is too small",
+            "To request a change to a different dorm room",
+            "To sign up for a music practice room",
+            "To pay an outstanding housing fee",
+          ],
+          correct: 1,
+          explanation: "The student opens by saying he was hoping to talk about \"possibly changing my dorm room,\" and the whole conversation is about arranging a transfer.",
+        },
+        {
+          id: "l4q2", qtype: "Detail",
+          prompt: "What is the main problem with the student's current room?",
+          choices: [
+            "His roommate practices guitar late at night, disrupting his sleep.",
+            "The room is too far from the music building.",
+            "His roommate is rude and unfriendly.",
+            "The heating in the room does not work.",
+          ],
+          correct: 0,
+          explanation: "The student explains his roommate, a music major, \"practices guitar in the room until two or three in the morning,\" while he has early labs and can't sleep.",
+        },
+        {
+          id: "l4q3", qtype: "Function",
+          prompt: "Why does the officer ask whether the two roommates have talked about the problem?",
+          choices: [
+            "To suggest the student is overreacting to a minor issue",
+            "To check whether the problem might be solved without a room change",
+            "To imply that the roommate should be the one to move",
+            "To delay processing the request until the next semester",
+          ],
+          correct: 1,
+          explanation: "The officer says, \"Sometimes a conversation solves the problem without anyone moving,\" so she is checking whether a transfer is really necessary.",
+        },
+        {
+          id: "l4q4", qtype: "Detail",
+          prompt: "What does the officer say is a drawback of moving to Forsythe Hall?",
+          choices: [
+            "It has no enforced quiet hours.",
+            "It is only for graduate students.",
+            "It is about a fifteen-minute walk from the science buildings.",
+            "It costs more than the student's current room.",
+          ],
+          correct: 2,
+          explanation: "The officer notes Forsythe is on the north side of campus, \"about a fifteen-minute walk from the science buildings,\" farther than his current dorm.",
+        },
+        {
+          id: "l4q5", qtype: "Attitude",
+          prompt: "How does the student feel about the proposed move to Forsythe Hall?",
+          choices: [
+            "Reluctant, because the walk to his lab is too long",
+            "Pleased, because the quiet hours would solve his problem",
+            "Disappointed, because he wanted a single room",
+            "Uncertain, because he has not visited the building",
+          ],
+          correct: 1,
+          explanation: "When told about the quiet hours, he says it \"sounds perfect\" and that for a good night's sleep the longer walk is \"nothing\" — he is clearly pleased and relieved.",
+        },
+      ],
+    },
+    {
+      id: "l5",
+      title: "Lecture: The Waggle Dance — How Honeybees Communicate (Biology)",
+      kind: "lecture",
+      transcript:
+`Narrator: Listen to part of a lecture in a biology class.
+
+Professor: All right. Today I want to talk about one of the most remarkable examples of animal communication that we know of—the way honeybees tell each other where to find food. And what's astonishing about it is that they do it not with sound, and not with scent, really, but with a kind of dance. A coded, symbolic dance. This was worked out in the mid-twentieth century by an Austrian scientist named Karl von Frisch, and it eventually earned him a Nobel Prize.
+
+So here's the situation. A single foraging bee—a scout—flies out from the hive and discovers a rich patch of flowers, maybe a few hundred meters away. Now, that one bee can't possibly harvest all that nectar by herself. The colony needs to send dozens, even hundreds, of workers to the same spot. But how does the scout tell the others where it is? She can't lead them there one by one. So instead, she comes back to the hive and performs what von Frisch called the waggle dance.
+
+Let me describe it. The bee walks forward in a straight line while rapidly shaking, or "waggling," her abdomen from side to side. Then she loops back—say, to the left—and returns to the start. Then she does the straight waggling run again, and loops back to the right. So the overall path traces out a figure-eight, with that waggling straight run in the middle. And it's that central straight run that carries the actual information.
+
+Now here's where it gets really clever, and this is the key point I want you to remember. The dance encodes two separate pieces of information: direction and distance. Let's take direction first. The bees are dancing inside the hive, on a vertical honeycomb, in the dark—so they can't simply point at the flowers. Instead, they use gravity as a stand-in for the sun. If the bee waggles straight up, it means "fly toward the sun." If she waggles straight down, it means "fly directly away from the sun." And if she waggles, say, sixty degrees to the right of vertical, it means "fly at a sixty-degree angle to the right of the sun." It's a translation: the angle relative to the sun becomes an angle relative to gravity.
+
+And then there's distance. This is encoded in the duration of that waggling run. The longer the bee waggles during the straight portion, the farther away the food source is. A short waggle means the flowers are close to the hive; a long, drawn-out waggle means they're far away. So a watching bee can read both the angle and the timing, and from those two numbers, work out roughly where to fly.
+
+Now, you might be skeptical. Is this really communication, or are the other bees just following her scent? Von Frisch was skeptical too, so he tested it. He set up feeding stations at known directions and distances, observed the dances, and predicted where recruited bees would go—and they went there. Later researchers even built tiny robotic bees that performed artificial waggle dances, and live bees flew to the locations the robot "described." So yes—the information really is in the dance itself.
+
+I want to leave you with why this matters beyond just being a neat trick. For a long time, the ability to use abstract symbols—to let one thing stand for another, like a dance angle standing for a compass direction—was thought to be almost uniquely human, tied to language. The honeybee shows us that a brain smaller than a grain of rice can do something genuinely symbolic. And that should make us think carefully about where we draw the line between human and animal communication.`,
+      questions: [
+        {
+          id: "l5q1", qtype: "Gist-Content",
+          prompt: "What is the lecture mainly about?",
+          choices: [
+            "How honeybees produce honey from nectar",
+            "How honeybees use a dance to communicate the location of food",
+            "Why Karl von Frisch won the Nobel Prize",
+            "How bees defend their hive from predators",
+          ],
+          correct: 1,
+          explanation: "The professor focuses on the waggle dance and how it tells other bees where food is located.",
+        },
+        {
+          id: "l5q2", qtype: "Detail",
+          prompt: "According to the professor, what shape does the bee's overall dance path trace?",
+          choices: [
+            "A circle",
+            "A straight line",
+            "A figure-eight",
+            "A spiral",
+          ],
+          correct: 2,
+          explanation: "The professor says the bee loops left, does the waggling run, loops right, so \"the overall path traces out a figure-eight.\"",
+        },
+        {
+          id: "l5q3", qtype: "Detail",
+          prompt: "How does the dance indicate the distance to the food source?",
+          choices: [
+            "By how loudly the bee buzzes",
+            "By how long the waggling straight run lasts",
+            "By how many times the bee circles",
+            "By the direction the bee faces when it lands",
+          ],
+          correct: 1,
+          explanation: "Distance \"is encoded in the duration of that waggling run\" — a longer waggle means the food is farther away.",
+        },
+        {
+          id: "l5q4", qtype: "Detail",
+          prompt: "According to the lecture, how does the bee communicate direction while dancing in the dark hive?",
+          choices: [
+            "By pointing directly at the flowers",
+            "By using the angle of her dance relative to gravity to stand for the angle relative to the sun",
+            "By releasing a scent that points toward the food",
+            "By leading the other bees partway out of the hive",
+          ],
+          correct: 1,
+          explanation: "Because the bees can't see the sun inside the hive, they \"use gravity as a stand-in for the sun\": the dance angle relative to vertical equals the flight angle relative to the sun.",
+        },
+        {
+          id: "l5q5", qtype: "Organization",
+          prompt: "Why does the professor describe von Frisch's feeding-station experiments and the robotic bees?",
+          choices: [
+            "To show that the dance is too complicated for real bees to perform",
+            "To provide evidence that the information really is carried in the dance itself",
+            "To explain how bees produce more honey",
+            "To argue that bees actually rely mostly on scent",
+          ],
+          correct: 1,
+          explanation: "Von Frisch's predictions and the robotic-bee experiments are given as evidence that the location information \"really is in the dance itself,\" not just scent.",
+        },
+        {
+          id: "l5q6", qtype: "Inference",
+          prompt: "What does the professor imply about the significance of the waggle dance?",
+          choices: [
+            "It proves that bees are as intelligent as humans.",
+            "It challenges the idea that using abstract symbols is uniquely human.",
+            "It shows that animal communication is always based on scent.",
+            "It suggests that bees cannot really find food on their own.",
+          ],
+          correct: 1,
+          explanation: "The professor notes symbolic ability was thought \"almost uniquely human,\" and the bee—with a tiny brain—does \"something genuinely symbolic,\" challenging where we draw the line.",
+        },
+      ],
+    },
   ],
 
   // ── SPEAKING (4 tasks · real TOEFL timing) ─────────────────────────────────

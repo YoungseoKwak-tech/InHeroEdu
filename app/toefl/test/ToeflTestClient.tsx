@@ -53,10 +53,10 @@ export default function ToeflTestClient() {
 
   if (view === "home") {
     const cards: { key: View; tag: string; title: string; meta: string; color: string }[] = [
-      { key: "reading", tag: "Reading", title: "독해", meta: `${form.reading.length}개 지문 · ${counts.reading}문항 · 자동 채점`, color: "#1D9E75" },
-      { key: "listening", tag: "Listening", title: "듣기", meta: `${form.listening.length}개 음원 · ${counts.listening}문항 · 음성 재생`, color: "#7DD3FC" },
-      { key: "speaking", tag: "Speaking", title: "말하기", meta: `${counts.speaking}개 과제 · 녹음 + 음성인식 · 루브릭 자가채점`, color: "#F59E0B" },
-      { key: "writing", tag: "Writing", title: "쓰기", meta: `${counts.writing}개 과제 · 타이머 · 루브릭 자가채점`, color: "#A78BFA" },
+      { key: "reading", tag: "Reading", title: "독해", meta: `${form.reading.length}개 지문 · ${counts.reading}문항 · 35분 · 자동 채점`, color: "#1D9E75" },
+      { key: "listening", tag: "Listening", title: "듣기", meta: `${form.listening.length}개 음원 · ${counts.listening}문항 · ~36분 · 음성 재생`, color: "#7DD3FC" },
+      { key: "speaking", tag: "Speaking", title: "말하기", meta: `${counts.speaking}개 과제 · 16분 · 녹음 + 음성인식`, color: "#F59E0B" },
+      { key: "writing", tag: "Writing", title: "쓰기", meta: `${counts.writing}개 과제 · 29분 · 타이머 + 단어 수`, color: "#A78BFA" },
     ];
     return (
       <Shell>
@@ -129,10 +129,10 @@ export default function ToeflTestClient() {
 // Per-section intro shown before each section in the full test (real TOEFL has
 // a directions screen before every section).
 const SECTION_INTRO: Record<string, { name: string; emoji: string; lines: string[] }> = {
-  reading: { name: "Reading Section", emoji: "📖", lines: ["지문 2개 · 각 10문항 · 약 35분", "지문을 읽고 객관식에 답하세요. 제출 후 정답·해설이 공개됩니다.", "한 섹션 안에서 자유롭게 문항을 오갈 수 있어요."] },
-  listening: { name: "Listening Section", emoji: "🎧", lines: ["대화 1 + 강의 2 · 음성 재생", "음원을 듣고(메모 가능) 객관식에 답하세요. 실제 시험처럼 들으면서 풀 준비를 하세요.", "음원은 채점 후 스크립트가 공개됩니다."] },
-  speaking: { name: "Speaking Section", emoji: "🎙", lines: ["4개 과제 · 준비/응답 타이머 + 녹음", "마이크를 허용하면 음성 인식으로 전사되고, 루브릭으로 자가 채점합니다.", "조용한 곳에서 진행하세요."] },
-  writing: { name: "Writing Section", emoji: "✍️", lines: ["2개 과제 · 제한 시간 + 단어 수", "답안을 작성하고 루브릭으로 자가 채점합니다.", "Integrated는 본인 의견이 아니라 강의 내용을 요약하세요."] },
+  reading: { name: "Reading Section", emoji: "📖", lines: ["지문 2개 · 각 10문항 (총 20문항) · 35분", "실제 시험처럼 대학 교재 수준의 학술 지문을 읽고 객관식에 답하세요. 제출 후 정답·해설이 공개됩니다.", "한 섹션 안에서 자유롭게 문항을 오갈 수 있어요."] },
+  listening: { name: "Listening Section", emoji: "🎧", lines: ["대화 2 + 강의 3 · 총 28문항 · 약 36분", "음원을 듣고(메모 가능) 객관식에 답하세요. 실제 시험처럼 들으면서 풀 준비를 하세요.", "음원은 채점 후 스크립트가 공개됩니다."] },
+  speaking: { name: "Speaking Section", emoji: "🎙", lines: ["4개 과제 (독립 1 + 통합 3) · 약 16분", "준비 15–30초 후 45–60초 응답. 마이크를 허용하면 음성 인식으로 전사되고, 루브릭으로 자가 채점합니다.", "조용한 곳에서 진행하세요."] },
+  writing: { name: "Writing Section", emoji: "✍️", lines: ["2개 과제 (통합 + 학술 토론) · 약 29분", "제한 시간 안에 작성하고 단어 수를 확인하며, 루브릭으로 자가 채점합니다.", "Integrated는 본인 의견이 아니라 강의 내용을 요약하세요."] },
 };
 
 // ── FULL TEST — sequence all four sections, then a /120 report ────────────────

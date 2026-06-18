@@ -561,6 +561,194 @@ So when you think about the Industrial Revolution, don't just picture machines. 
         },
       ],
     },
+    {
+      id: "l4",
+      title: "Conversation: Student and Writing-Center Tutor",
+      kind: "conversation",
+      transcript:
+`Narrator: Listen to a conversation between a student and a tutor at the university writing center.
+
+Student: Hi, I have an appointment about my research essay. It's for my sociology class, and it's already past the rough-draft stage, but my professor wrote on it that the argument "doesn't come through clearly." I read that comment about ten times and I still don't really know what to fix.
+
+Tutor: Okay, that's actually a really common note, and it's a fixable one. Let me take a quick look. So your topic is the effect of remote work on city neighborhoods—that's interesting. Can you tell me, in one sentence, what you're trying to prove?
+
+Student: Um… that remote work is changing cities?
+
+Tutor: Right, so notice that you paused there. That's the heart of the problem. "Remote work is changing cities" isn't really an argument yet—it's a topic. Nobody would disagree with it. An argument is a claim someone could actually push back on. What's the specific change you think matters most?
+
+Student: I guess… that remote work is hollowing out downtown business districts but making residential neighborhoods more lively, because people stay local during the day now.
+
+Tutor: There it is. That's a thesis. It's specific, and someone could argue the opposite. So my first suggestion is: put that sentence at the end of your introduction, almost word for word.
+
+Student: Oh. I think right now my thesis is buried somewhere on page three.
+
+Tutor: That's the second thing, then. Once you have a clear thesis up front, every body paragraph should visibly connect back to it. Right now I see some great evidence here—this survey data on commuting, the interviews—but the reader can't tell which part of your argument each piece is supporting. So at the start of each paragraph, try a topic sentence that names the claim that paragraph proves.
+
+Student: So I shouldn't add more research? I was worried I needed more sources.
+
+Tutor: Honestly, no—you have plenty of evidence. The issue isn't quantity; it's that the evidence isn't pointed at a clear claim. Adding more sources right now would probably make it worse, not better. Reorganize first.
+
+Student: That actually makes me feel a lot better. So: move the thesis up, and give each paragraph a topic sentence that ties back to it.
+
+Tutor: Exactly. Do that revision, and then come back and we'll look at it again. I think you'll be surprised how much sharper it reads.
+
+Student: Great. Thank you—this was way more concrete than the comment on my paper.`,
+      questions: [
+        {
+          id: "l4q1", qtype: "Gist-Content",
+          prompt: "What are the speakers mainly discussing?",
+          choices: [
+            "How to revise the student's research essay so its argument is clear",
+            "Which sociology class the student should take next term",
+            "Whether the student should change her essay topic entirely",
+            "How to find additional sources for a research paper",
+          ],
+          correct: 0,
+          explanation: "The conversation centers on revising the essay so the argument \"comes through clearly,\" mainly by sharpening the thesis and tying paragraphs to it.",
+        },
+        {
+          id: "l4q2", qtype: "Detail",
+          prompt: "What comment did the student's professor leave on the draft?",
+          choices: [
+            "That the essay was too short",
+            "That the argument \"doesn't come through clearly\"",
+            "That the essay needed more sources",
+            "That the topic was not interesting",
+          ],
+          correct: 1,
+          explanation: "The student says her professor wrote that the argument \"doesn't come through clearly,\" a comment she didn't know how to act on.",
+        },
+        {
+          id: "l4q3", qtype: "Function",
+          prompt: "Why does the tutor point out that the student paused before answering what she is trying to prove?",
+          choices: [
+            "To show that the student does not understand her topic at all",
+            "To illustrate that the student lacks a clear, specific argument—only a topic",
+            "To encourage the student to speak more quickly",
+            "To suggest the student should pick an easier subject",
+          ],
+          correct: 1,
+          explanation: "The tutor uses the pause to make the point that \"Remote work is changing cities\" is just a topic, not yet an arguable claim.",
+        },
+        {
+          id: "l4q4", qtype: "Detail",
+          prompt: "What does the tutor say the student should do at the start of each body paragraph?",
+          choices: [
+            "Add a direct quotation from a source",
+            "Write a topic sentence naming the claim that paragraph proves",
+            "Restate the entire thesis word for word",
+            "Summarize the previous paragraph",
+          ],
+          correct: 1,
+          explanation: "The tutor advises a topic sentence at the start of each paragraph \"that names the claim that paragraph proves,\" so it connects to the thesis.",
+        },
+        {
+          id: "l4q5", qtype: "Attitude",
+          prompt: "What is the tutor's opinion about the student adding more sources?",
+          choices: [
+            "She strongly recommends finding several more sources.",
+            "She thinks more sources are unnecessary and might make the essay worse before reorganizing.",
+            "She is unsure whether more sources would help.",
+            "She insists the student must replace her current sources.",
+          ],
+          correct: 1,
+          explanation: "The tutor says the student has \"plenty of evidence\" and that adding more sources \"would probably make it worse, not better\"; she should reorganize first.",
+        },
+      ],
+    },
+    {
+      id: "l5",
+      title: "Lecture: How Human Memory Works (Psychology)",
+      kind: "lecture",
+      transcript:
+`Narrator: Listen to part of a lecture in a psychology class.
+
+Professor: Last time we talked about how memories get formed—how an experience gets encoded in the brain. Today I want to look at the flip side of that, which is something every one of you has experienced and probably complained about: forgetting. Why do we forget things we worked hard to learn? And, more usefully, what does the science tell us about how to forget less? This turns out to be one of the most practical topics in all of psychology.
+
+Let's start with a classic finding. More than a century ago, a researcher named Hermann Ebbinghaus did experiments on himself. He memorized long lists of nonsense syllables—deliberately meaningless, so prior knowledge wouldn't help him—and then tested how much he retained after different amounts of time. What he found is now called the "forgetting curve." And the shape of that curve is the key thing I want you to remember. Forgetting isn't steady. It's steep at first and then levels off. In other words, you lose a large chunk of newly learned material very quickly—within hours or a day—and then the rate of loss slows down for whatever is left.
+
+Now think about what that means for the way most students study. The night before an exam, you cram for hours. You might genuinely know the material by the time you go to bed. But the forgetting curve tells you that most of that is gone within a day or two. Cramming works against the way memory actually behaves. You're pouring water into a bucket that's leaking fastest right at the start.
+
+So what's the alternative? This is where it gets useful. Researchers found that every time you successfully recall something just as you're about to forget it, the curve resets—but it resets to a shallower slope. Each review makes the memory more durable, so it decays more slowly the next time. This technique is called spaced repetition: instead of reviewing material five times in one night, you review it once today, again in a few days, again in a week, again in a couple of weeks. The reviews are spaced out, timed to catch the memory right before it fades.
+
+And there's a crucial detail here that's easy to miss. The benefit comes specifically from active recall—from actually retrieving the information from your own memory, struggling a little to produce it. Simply rereading your notes feels productive, but it's mostly passive; your eyes slide over material that already looks familiar, and familiarity fools you into thinking you know it. Testing yourself, by contrast, forces the retrieval that actually strengthens the memory. So the two ideas work together: space your reviews out over time, and make each review an act of recall rather than rereading.
+
+So here's the takeaway. Forgetting is not a sign that your brain is failing—it's the normal, predictable behavior the forgetting curve describes. But because it's predictable, you can work with it. Spaced, effortful review beats massed cramming, not by a little, but dramatically. If you take nothing else from today, take that.`,
+      questions: [
+        {
+          id: "l5q1", qtype: "Gist-Content",
+          prompt: "What is the lecture mainly about?",
+          choices: [
+            "How memories are first encoded in the brain",
+            "Why people forget and how spaced, active review can reduce forgetting",
+            "The biography of the researcher Hermann Ebbinghaus",
+            "Why exams are an unfair way to measure learning",
+          ],
+          correct: 1,
+          explanation: "The professor focuses on the forgetting curve and on how spaced repetition with active recall helps people forget less.",
+        },
+        {
+          id: "l5q2", qtype: "Detail",
+          prompt: "According to the professor, what is the shape of the forgetting curve?",
+          choices: [
+            "Forgetting is steady and constant over time.",
+            "Forgetting is slow at first and then becomes rapid.",
+            "Forgetting is steep at first and then levels off.",
+            "Forgetting does not occur until several weeks have passed.",
+          ],
+          correct: 2,
+          explanation: "The professor stresses that forgetting \"isn't steady\"—it is \"steep at first and then levels off.\"",
+        },
+        {
+          id: "l5q3", qtype: "Organization",
+          prompt: "Why does the professor describe Ebbinghaus's experiments with nonsense syllables?",
+          choices: [
+            "To show that memorizing meaningless material is impossible",
+            "To introduce the origin and shape of the forgetting curve",
+            "To prove that cramming is an effective study method",
+            "To explain how the brain encodes new experiences",
+          ],
+          correct: 1,
+          explanation: "Ebbinghaus's self-experiments are presented as the source of the \"forgetting curve,\" the central concept of the lecture.",
+        },
+        {
+          id: "l5q4", qtype: "Function",
+          prompt: "Why does the professor say studying is like \"pouring water into a bucket that's leaking fastest right at the start\"?",
+          choices: [
+            "To explain that students should study only on the night before an exam",
+            "To illustrate why cramming loses most of the material very quickly",
+            "To argue that memory cannot be improved by any method",
+            "To show that rereading notes is the best way to study",
+          ],
+          correct: 1,
+          explanation: "The image illustrates the point that cramming fights the forgetting curve, since most crammed material \"is gone within a day or two.\"",
+        },
+        {
+          id: "l5q5", qtype: "Detail",
+          prompt: "According to the professor, why is active recall more effective than rereading notes?",
+          choices: [
+            "Rereading takes much more time than testing yourself.",
+            "Rereading is mostly passive, while retrieving information forces the recall that strengthens memory.",
+            "Active recall lets students avoid reviewing material more than once.",
+            "Rereading damages memories that have already formed.",
+          ],
+          correct: 1,
+          explanation: "Rereading is \"mostly passive\" and familiarity fools you, whereas active recall \"forces the retrieval that actually strengthens the memory.\"",
+        },
+        {
+          id: "l5q6", qtype: "Inference",
+          prompt: "What does the professor imply about forgetting?",
+          choices: [
+            "It means a person's brain is failing.",
+            "It is unpredictable and cannot be planned for.",
+            "Because it is predictable, students can work with it using spaced, effortful review.",
+            "It can be completely eliminated by cramming the night before.",
+          ],
+          correct: 2,
+          explanation: "The professor says forgetting is \"normal, predictable\" and that \"because it's predictable, you can work with it\" through spaced, effortful review.",
+        },
+      ],
+    },
   ],
 
   // ── SPEAKING (4 tasks · real TOEFL timing) ─────────────────────────────────

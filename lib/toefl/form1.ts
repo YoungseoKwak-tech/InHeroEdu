@@ -560,6 +560,192 @@ So where does that leave us? Frankly, the honest answer is that we don't know fo
         },
       ],
     },
+    {
+      id: "l4",
+      title: "Conversation: Student and Academic Advisor",
+      kind: "conversation",
+      transcript:
+`Narrator: Listen to a conversation between a student and an academic advisor.
+
+Advisor: Come on in, have a seat. So, you wrote that you wanted to talk about your spring schedule—something about a conflict?
+
+Student: Yeah, thanks for seeing me. So I'm a chemistry major, and I'm supposed to take Organic Chemistry II next semester. The problem is, the only section of the lecture meets at the exact same time as a required statistics course I also have to take. They completely overlap—both Tuesday and Thursday at ten in the morning.
+
+Advisor: Ah. Okay, that's a classic one. Let me pull up your record. Right, so I see Organic Two and the stats course both flagged as requirements. First question—is the statistics course something you need this particular semester, or could it wait?
+
+Student: I think it has to be next semester. It's a prerequisite for a research methods class I want to take in the fall, and that class is only offered in the fall.
+
+Advisor: Got it, so the timing on stats is locked. Now, here's something a lot of students don't realize: Organic Two often has more than one section, even if the registration system only shows you one at first. Sometimes a second lecture section is added later, or there's an evening section that isn't listed under the main department heading.
+
+Student: Really? I searched pretty carefully and only found the one.
+
+Advisor: The catalog search can be misleading. What I'd do is email the chemistry department's scheduling coordinator directly and ask whether a second section is planned. Departments frequently open another section once they see demand. That would be the cleanest fix—same course, different time.
+
+Student: Okay, that makes sense. But what if there isn't a second section? Then what?
+
+Advisor: Then we have a backup. You could take Organic Two in the summer term. It's offered as an intensive course in the second summer session. The pace is faster, but it would clear the conflict entirely and keep you on track to graduate on time.
+
+Student: Hmm. The summer option would mean staying on campus, though, and I had kind of planned to do an internship.
+
+Advisor: That's a fair point, and that's exactly why I'd try the department-email route first. Let's not jump to the summer plan until we know whether a second section is happening. Send that email today, and let's both check back next week. If it's a dead end, we'll look harder at summer—or at rearranging when you take stats.
+
+Student: That sounds like a plan. I'll write the coordinator this afternoon.`,
+      questions: [
+        {
+          id: "l4q1", qtype: "Gist-Content",
+          prompt: "What is the main purpose of the conversation?",
+          choices: [
+            "To resolve a scheduling conflict between two required courses",
+            "To help the student change her major from chemistry",
+            "To discuss the student's summer internship application",
+            "To explain how to register for a research methods class",
+          ],
+          correct: 0,
+          explanation: "The whole conversation is about the overlap between Organic Chemistry II and the required statistics course, and how to resolve it.",
+        },
+        {
+          id: "l4q2", qtype: "Detail",
+          prompt: "Why does the student say the statistics course cannot be postponed?",
+          choices: [
+            "It is offered only in the spring semester.",
+            "It is a prerequisite for a fall research methods class.",
+            "It overlaps with her internship in the summer.",
+            "It is the last course she needs to graduate.",
+          ],
+          correct: 1,
+          explanation: "She says stats \"is a prerequisite for a research methods class\" she wants to take in the fall, and that class is only offered in the fall.",
+        },
+        {
+          id: "l4q3", qtype: "Detail",
+          prompt: "What does the advisor suggest the student do first?",
+          choices: [
+            "Sign up immediately for the summer intensive course",
+            "Drop the statistics course until next year",
+            "Email the chemistry department to ask about a second lecture section",
+            "Switch the statistics course to an evening section",
+          ],
+          correct: 2,
+          explanation: "The advisor recommends emailing \"the chemistry department's scheduling coordinator directly\" to ask whether a second section is planned, calling it the cleanest fix.",
+        },
+        {
+          id: "l4q4", qtype: "Detail",
+          prompt: "According to the advisor, why might a second section not appear in the student's search?",
+          choices: [
+            "The catalog search can be misleading, and sections are sometimes added later.",
+            "Only graduate students are allowed to see additional sections.",
+            "The section was already full when she searched.",
+            "Second sections are never listed in the online catalog.",
+          ],
+          correct: 0,
+          explanation: "The advisor says \"the catalog search can be misleading\" and that a second or evening section is sometimes added later or listed outside the main department heading.",
+        },
+        {
+          id: "l4q5", qtype: "Inference",
+          prompt: "What can be inferred about why the advisor prefers the email approach over the summer course?",
+          choices: [
+            "The summer course is more expensive than the regular term.",
+            "The summer course would interfere with the student's internship plans.",
+            "The summer course does not count toward the chemistry major.",
+            "The email approach guarantees the student a spot in stats.",
+          ],
+          correct: 1,
+          explanation: "The student notes the summer option would keep her on campus instead of doing an internship, and the advisor responds \"that's exactly why I'd try the department-email route first.\"",
+        },
+      ],
+    },
+    {
+      id: "l5",
+      title: "Lecture: Plate Tectonics and Continental Drift (Earth Science)",
+      kind: "lecture",
+      transcript:
+`Narrator: Listen to part of a lecture in an earth science class.
+
+Professor: Okay, today we're tackling one of the great ideas of modern science—plate tectonics. And I want to start with a story, because the story tells you something about how science actually works. Back in 1912, a German scientist named Alfred Wegener proposed something that sounded, at the time, completely absurd. He claimed that the continents move. That they drift slowly across the surface of the Earth. He called this idea "continental drift."
+
+Now, why did Wegener even think this? Well, he noticed something a lot of you have probably noticed yourselves when looking at a map. The coastlines of the continents seem to fit together, like pieces of a jigsaw puzzle. Look at the east coast of South America and the west coast of Africa—they match almost perfectly. Wegener thought: that can't be a coincidence. Maybe they were once joined together.
+
+And he didn't stop at the coastlines. He gathered other evidence. For instance, he found identical fossils of the same ancient plant and animal species on continents now separated by entire oceans. How could the same land-dwelling reptile end up in both South America and Africa, with thousands of miles of ocean between them? And there was geological evidence too—mountain ranges and distinctive rock layers that seemed to continue from one continent onto another, as if they'd been torn apart.
+
+So the evidence was actually quite strong. But here's the thing—Wegener's idea was rejected, even ridiculed, for decades. And the reason is important. Wegener could not explain the mechanism. He could show that the continents looked like they had moved, but he couldn't say what force could possibly push gigantic continents through solid rock. Without a believable mechanism, most geologists simply refused to take the idea seriously.
+
+The answer finally came in the 1950s and 60s, long after Wegener had died. Scientists studying the floor of the ocean discovered something remarkable—a system of underwater mountain ranges called mid-ocean ridges, where molten rock rises from inside the Earth, hardens, and creates brand-new ocean floor. This new floor then spreads outward in both directions, away from the ridge. This process is called sea-floor spreading, and it was the missing mechanism. The continents don't plow through the ocean floor, as Wegener had imagined. Instead, they ride on top of enormous slabs—we call them plates—and those plates are moved by the spreading of the sea floor.
+
+So notice what happened here. Wegener was essentially right about the "what"—the continents do move. But he was missing the "how," and that's why his idea wasn't accepted in his lifetime. It took the discovery of sea-floor spreading to turn continental drift into the full theory of plate tectonics we teach today. And that's a useful lesson: in science, good evidence often isn't enough on its own. You usually need a mechanism people can believe.`,
+      questions: [
+        {
+          id: "l5q1", qtype: "Gist-Content",
+          prompt: "What is the lecture mainly about?",
+          choices: [
+            "The life and career of the scientist Alfred Wegener",
+            "How the idea of continental drift developed into the theory of plate tectonics",
+            "How to read fossils to determine the age of rock layers",
+            "Why mid-ocean ridges are dangerous to ships",
+          ],
+          correct: 1,
+          explanation: "The professor traces continental drift from Wegener's proposal through the discovery of sea-floor spreading that made it the theory of plate tectonics.",
+        },
+        {
+          id: "l5q2", qtype: "Detail",
+          prompt: "What first led Wegener to suspect that the continents had once been joined?",
+          choices: [
+            "The discovery of mid-ocean ridges",
+            "The way the coastlines of the continents seem to fit together",
+            "Measurements showing the continents moving each year",
+            "Volcanic eruptions along continental edges",
+          ],
+          correct: 1,
+          explanation: "Wegener noticed that coastlines \"seem to fit together, like pieces of a jigsaw puzzle,\" such as South America and Africa.",
+        },
+        {
+          id: "l5q3", qtype: "Detail",
+          prompt: "Which of the following is mentioned as evidence Wegener gathered for continental drift?",
+          choices: [
+            "Identical fossils found on continents now separated by oceans",
+            "Photographs taken from early aircraft",
+            "Records of earthquakes along the mid-ocean ridges",
+            "Differences in the climate of the two hemispheres",
+          ],
+          correct: 0,
+          explanation: "Wegener found \"identical fossils of the same ancient plant and animal species on continents now separated by entire oceans,\" along with matching rock layers.",
+        },
+        {
+          id: "l5q4", qtype: "Organization",
+          prompt: "Why does the professor explain that Wegener could not identify a mechanism?",
+          choices: [
+            "To prove that Wegener's evidence was actually false",
+            "To explain why his idea was rejected and ridiculed for decades",
+            "To show that mid-ocean ridges had already been discovered",
+            "To argue that fossils are unreliable evidence",
+          ],
+          correct: 1,
+          explanation: "The professor says that without a believable mechanism, \"most geologists simply refused to take the idea seriously\" — explaining the decades of rejection.",
+        },
+        {
+          id: "l5q5", qtype: "Detail",
+          prompt: "According to the lecture, what is sea-floor spreading?",
+          choices: [
+            "The sinking of continents into the ocean over time",
+            "The process by which molten rock rises at mid-ocean ridges and creates new ocean floor that spreads outward",
+            "The erosion of coastlines by ocean currents",
+            "The collision of two continents that forms mountains",
+          ],
+          correct: 1,
+          explanation: "At mid-ocean ridges, \"molten rock rises... hardens, and creates brand-new ocean floor,\" which then spreads outward in both directions.",
+        },
+        {
+          id: "l5q6", qtype: "Inference",
+          prompt: "What general lesson about science does the professor draw from Wegener's story?",
+          choices: [
+            "Old scientific ideas should never be reconsidered.",
+            "Strong evidence alone is often not enough; a believable mechanism is also needed.",
+            "Scientists should avoid proposing bold new theories.",
+            "Fossil evidence is always more reliable than geological evidence.",
+          ],
+          correct: 1,
+          explanation: "He concludes that \"good evidence often isn't enough on its own. You usually need a mechanism people can believe.\"",
+        },
+      ],
+    },
   ],
 
   // ── SPEAKING (4 tasks · real TOEFL timing) ─────────────────────────────────

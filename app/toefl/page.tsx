@@ -19,10 +19,10 @@ export const metadata: Metadata = {
 const MINT = "#00FFB2";
 
 const SECTIONS = [
-  { tag: "Reading", title: "독해", desc: "학술 지문 + MCQ(사실·추론·어휘·문장삽입·요약). 풀이 직후 자동 채점·해설.", color: "#1D9E75" },
-  { tag: "Listening", title: "듣기", desc: "대화·강의를 음성으로 재생(브라우저 TTS)하고 MCQ로 풀이. 스크립트는 채점 후 공개.", color: "#7DD3FC" },
-  { tag: "Speaking", title: "말하기", desc: "4개 과제 · 준비/응답 타이머 · 마이크 녹음 후 바로 재생해 점검.", color: "#F59E0B" },
-  { tag: "Writing", title: "쓰기", desc: "Integrated + Academic Discussion · 실전 타이머 · 실시간 단어 수.", color: "#A78BFA" },
+  { tag: "Reading", title: "독해 · 35분", desc: "약 700단어 학술 지문 2개 · 각 10문항(총 20). 사실·추론·어휘·수사적 목적·문장 단순화·문장 삽입·요약 등 실제 유형. 풀이 직후 자동 채점·해설.", color: "#1D9E75" },
+  { tag: "Listening", title: "듣기 · 약 36분", desc: "대화 2 + 강의 3 (총 28문항). 음원을 재생해 듣고 MCQ로 풀이 — 요지·세부·기능·태도·구조 유형. 스크립트는 채점 후 공개.", color: "#7DD3FC" },
+  { tag: "Speaking", title: "말하기 · 16분", desc: "4개 과제(독립 1 + 통합 3). 준비 15–30초 → 응답 45–60초, 마이크 녹음 + 음성인식 전사 후 루브릭 자가채점.", color: "#F59E0B" },
+  { tag: "Writing", title: "쓰기 · 약 29분", desc: "Integrated(읽기+듣기 요약) + Academic Discussion(의견 토론). 제한 시간·실시간 단어 수 + 루브릭 자가채점.", color: "#A78BFA" },
 ];
 
 const FAQ = [
