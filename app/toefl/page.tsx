@@ -56,8 +56,8 @@ export default function ToeflLanding() {
           자동 채점·해설, 듣기 음원 재생, 말하기 녹음, 쓰기 타이머까지. 200 크레딧 5회 또는 500 크레딧 무제한으로 연습하세요.
         </p>
 
-        <Link href="/toefl/test" style={{ display: "inline-block", background: MINT, color: "#05070d", borderRadius: 12, padding: "14px 28px", fontWeight: 850, fontSize: 16, textDecoration: "none", marginBottom: 10 }}>
-          ▶ 바로 모의고사 풀러가기 →
+        <Link href="/toefl/test?pay=1" style={{ display: "inline-block", background: MINT, color: "#05070d", borderRadius: 12, padding: "14px 28px", fontWeight: 850, fontSize: 16, textDecoration: "none", marginBottom: 10 }}>
+          ▶ 이용권 선택하기 / 결제하기
         </Link>
         <p style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", margin: "0 0 40px", lineHeight: 1.65 }}>
           TOEFL·SAT 모의고사 공통: <strong style={{ color: "#fff" }}>200 크레딧 = 5회</strong> · <strong style={{ color: "#fff" }}>500 크레딧 = 무제한</strong>
