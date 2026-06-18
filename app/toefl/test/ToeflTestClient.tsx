@@ -15,7 +15,7 @@ import { scaledScore, sectionBand, TOEFL_TIMING } from "@/lib/toefl/types";
 
 const BLUE = "#1f6feb";
 const LETTERS = ["A", "B", "C", "D", "E", "F"];
-type View = "home" | "reading" | "listening" | "speaking" | "writing";
+type View = "home" | "reading" | "listening" | "speaking" | "writing" | "full";
 
 function fmt(sec: number) {
   const m = Math.max(0, Math.floor(sec / 60)), s = Math.max(0, sec % 60);
@@ -31,15 +31,26 @@ export default function ToeflTestClient() {
     const cards: { key: View; tag: string; title: string; meta: string; color: string }[] = [
       { key: "reading", tag: "Reading", title: "독해", meta: `${form.reading.length}개 지문 · ${counts.reading}문항 · 자동 채점`, color: "#1D9E75" },
       { key: "listening", tag: "Listening", title: "듣기", meta: `${form.listening.length}개 음원 · ${counts.listening}문항 · 음성 재생`, color: "#7DD3FC" },
-      { key: "speaking", tag: "Speaking", title: "말하기", meta: `${counts.speaking}개 과제 · 준비/응답 타이머 · 녹음`, color: "#F59E0B" },
-      { key: "writing", tag: "Writing", title: "쓰기", meta: `${counts.writing}개 과제 · 타이머 · 단어 수`, color: "#A78BFA" },
+      { key: "speaking", tag: "Speaking", title: "말하기", meta: `${counts.speaking}개 과제 · 녹음 + 음성인식 · AI 첨삭`, color: "#F59E0B" },
+      { key: "writing", tag: "Writing", title: "쓰기", meta: `${counts.writing}개 과제 · 타이머 · AI 첨삭`, color: "#A78BFA" },
     ];
     return (
       <Shell>
         <p style={{ fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", color: "#94a3b8", fontWeight: 800, marginBottom: 8 }}>📝 TOEFL iBT · 실전 모드</p>
         <h1 style={{ fontSize: 26, fontWeight: 850, margin: "0 0 8px", letterSpacing: "-0.02em" }}>실제 토플처럼 풀어보세요</h1>
         <p style={{ color: "#5b6b7b", fontSize: 14.5, lineHeight: 1.7, marginBottom: 8 }}>{form.title} — Reading·Listening·Speaking·Writing 4개 섹션을 실제 시험 형식으로 연습합니다.</p>
-        <p style={{ color: "#9aa6b2", fontSize: 12.5, marginBottom: 24 }}>※ ETS 기출이 아닌 동일 형식의 오리지널 문항입니다.</p>
+        <p style={{ color: "#9aa6b2", fontSize: 12.5, marginBottom: 20 }}>※ ETS 기출이 아닌 동일 형식의 오리지널 문항입니다.</p>
+
+        <button onClick={() => setView("full")} style={{ width: "100%", textAlign: "left", display: "flex", alignItems: "center", gap: 16, background: "linear-gradient(135deg,#0b1220,#1f3a5f)", color: "#fff", border: "none", borderRadius: 16, padding: "22px 22px", cursor: "pointer", marginBottom: 18 }}>
+          <span style={{ fontSize: 26, flexShrink: 0 }}>🎯</span>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: 850, fontSize: 18 }}>전체 시험 (Full Test)</div>
+            <div style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", marginTop: 3 }}>Reading → Listening → Speaking → Writing 순서대로 · 총점 120점 환산 + AI 첨삭</div>
+          </div>
+          <span style={{ color: "#7DD3FC", fontWeight: 800, fontSize: 14 }}>시작 →</span>
+        </button>
+
+        <p style={{ fontSize: 12, fontWeight: 800, color: "#94a3b8", margin: "4px 2px 10px" }}>또는 섹션별 연습</p>
         <div style={{ display: "grid", gap: 14 }}>
           {cards.map((c) => (
             <button key={c.key} onClick={() => setView(c.key)} style={{ textAlign: "left", display: "flex", alignItems: "center", gap: 16, background: "#fff", border: "1px solid #e6ebf0", borderRadius: 14, padding: "20px 20px", cursor: "pointer" }}>
@@ -55,10 +66,72 @@ export default function ToeflTestClient() {
       </Shell>
     );
   }
-  if (view === "reading") return <ReadingFlow sets={form.reading} onExit={() => setView("home")} />;
-  if (view === "listening") return <ListeningFlow sets={form.listening} onExit={() => setView("home")} />;
-  if (view === "speaking") return <SpeakingFlow tasks={form.speaking} onExit={() => setView("home")} />;
-  return <WritingFlow tasks={form.writing} onExit={() => setView("home")} />;
+  const home = () => setView("home");
+  if (view === "reading") return <ReadingFlow sets={form.reading} onDone={home} />;
+  if (view === "listening") return <ListeningFlow sets={form.listening} onDone={home} />;
+  if (view === "speaking") return <SpeakingFlow tasks={form.speaking} onDone={home} />;
+  if (view === "writing") return <WritingFlow tasks={form.writing} onDone={home} />;
+  return <FullTest form={form} onExit={home} />;
+}
+
+// ── FULL TEST — sequence all four sections, then a /120 report ────────────────
+function FullTest({ form, onExit }: { form: ReturnType<typeof getToeflForm>; onExit: () => void }) {
+  const order = ["reading", "listening", "speaking", "writing"] as const;
+  const [step, setStep] = useState(0);
+  const [scores, setScores] = useState<(number | null)[]>([null, null, null, null]);
+
+  function advance(scaled: number | null) {
+    setScores((prev) => { const n = [...prev]; n[step] = scaled; return n; });
+    setStep((s) => s + 1);
+    window.scrollTo({ top: 0 });
+  }
+
+  if (step >= 4) {
+    const labels = ["Reading", "Listening", "Speaking", "Writing"];
+    const known = scores.filter((s): s is number => s != null);
+    const total = known.reduce((a, b) => a + b, 0);
+    return (
+      <Shell>
+        <div style={{ maxWidth: 600, margin: "6px auto 0", textAlign: "center" }}>
+          <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.2em", textTransform: "uppercase", color: "#94a3b8", marginBottom: 10 }}>TOEFL iBT · 전체 결과</div>
+          <div style={{ background: "#0b1220", color: "#fff", borderRadius: 18, padding: "28px 24px", marginBottom: 16 }}>
+            <div style={{ fontSize: 13, color: "#7DD3FC", fontWeight: 700 }}>총점 (추정)</div>
+            <div style={{ fontSize: 56, fontWeight: 900, margin: "4px 0 0" }}>{total}<span style={{ fontSize: 24, color: "rgba(255,255,255,0.5)" }}> / 120</span></div>
+          </div>
+          <div style={{ display: "grid", gap: 10, marginBottom: 18 }}>
+            {labels.map((l, i) => (
+              <div key={l} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#fff", border: "1px solid #e6ebf0", borderRadius: 12, padding: "13px 16px" }}>
+                <span style={{ fontWeight: 700 }}>{l}</span>
+                <span style={{ fontWeight: 800, color: BLUE }}>{scores[i] == null ? "미채점" : `${scores[i]} / 30`}</span>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.6, marginBottom: 16 }}>※ Reading·Listening은 정답률 환산, Speaking·Writing은 AI 첨삭 점수 기반 추정치입니다. 실제 TOEFL 환산표와 다를 수 있어요.</p>
+          <button onClick={onExit} style={btnBlue}>처음으로 →</button>
+        </div>
+      </Shell>
+    );
+  }
+
+  const cur = order[step];
+  const banner = (
+    <div style={{ display: "flex", gap: 6, marginBottom: 14 }}>
+      {order.map((o, i) => (
+        <div key={o} style={{ flex: 1, height: 5, borderRadius: 999, background: i < step ? "#1D9E75" : i === step ? BLUE : "#e2e6ea" }} />
+      ))}
+    </div>
+  );
+  return (
+    <div>
+      <div style={{ background: "#0b1220", color: "#fff", textAlign: "center", fontSize: 12.5, fontWeight: 700, padding: "8px" }}>
+        전체 시험 · {step + 1}/4 — {cur === "reading" ? "Reading" : cur === "listening" ? "Listening" : cur === "speaking" ? "Speaking" : "Writing"} 섹션
+      </div>
+      {cur === "reading" && <ReadingFlow sets={form.reading} onDone={advance} banner={banner} />}
+      {cur === "listening" && <ListeningFlow sets={form.listening} onDone={advance} banner={banner} />}
+      {cur === "speaking" && <SpeakingFlow tasks={form.speaking} onDone={advance} banner={banner} />}
+      {cur === "writing" && <WritingFlow tasks={form.writing} onDone={advance} banner={banner} />}
+    </div>
+  );
 }
 
 function Shell({ children }: { children: React.ReactNode }) {
@@ -140,7 +213,7 @@ function QuestionBlock({
 }
 
 // ── Section score report (Reading / Listening) ───────────────────────────────
-function SectionReport({ label, correct, total, onExit }: { label: string; correct: number; total: number; onExit: () => void }) {
+function SectionReport({ label, correct, total, onDone }: { label: string; correct: number; total: number; onDone: (scaled: number) => void }) {
   const scaled = scaledScore(correct, total);
   return (
     <Shell>
@@ -152,14 +225,14 @@ function SectionReport({ label, correct, total, onExit }: { label: string; corre
           <div style={{ fontSize: 14, fontWeight: 700, color: "#3a4756" }}>{sectionBand(scaled)}</div>
           <p style={{ fontSize: 12.5, color: "#94a3b8", marginTop: 12, lineHeight: 1.6 }}>※ 30점 환산은 정답률 기반 추정치입니다. 실제 TOEFL 환산표와 다를 수 있어요.</p>
         </div>
-        <button onClick={onExit} style={{ ...btnBlue, marginTop: 18 }}>섹션 목록으로 →</button>
+        <button onClick={() => onDone(scaled)} style={{ ...btnBlue, marginTop: 18 }}>계속 →</button>
       </div>
     </Shell>
   );
 }
 
 // ── READING (one 35-min section timer across all passages) ───────────────────
-function ReadingFlow({ sets, onExit }: { sets: ToeflReadingSet[]; onExit: () => void }) {
+function ReadingFlow({ sets, onDone, banner }: { sets: ToeflReadingSet[]; onDone: (scaled: number) => void; banner?: React.ReactNode }) {
   const [si, setSi] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number[]>>({});
   const [reviewed, setReviewed] = useState<Record<number, boolean>>({});
@@ -178,7 +251,7 @@ function ReadingFlow({ sets, onExit }: { sets: ToeflReadingSet[]; onExit: () => 
   const totalQ = sets.reduce((n, s) => n + s.questions.length, 0);
   const passageScore = set.questions.reduce((n, q) => n + (gradeMCQ(q, answers[q.id]) ? 1 : 0), 0);
 
-  if (done) return <SectionReport label="Reading" correct={totalCorrect} total={totalQ} onExit={onExit} />;
+  if (done) return <SectionReport label="Reading" correct={totalCorrect} total={totalQ} onDone={onDone} />;
 
   function next() {
     if (si < sets.length - 1) { setSi(si + 1); window.scrollTo({ top: 0 }); }
@@ -187,6 +260,7 @@ function ReadingFlow({ sets, onExit }: { sets: ToeflReadingSet[]; onExit: () => 
 
   return (
     <Shell>
+      {banner}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
         <button onClick={() => setDone(true)} style={btnOutline}>채점·종료</button>
         <span style={{ fontWeight: 800 }}>Reading · 지문 {si + 1}/{sets.length}</span>
@@ -211,8 +285,36 @@ function ReadingFlow({ sets, onExit }: { sets: ToeflReadingSet[]; onExit: () => 
   );
 }
 
+// Multi-voice playback: assigns a distinct voice per speaker (Narrator,
+// Professor, Student, Librarian…) so conversations sound like two people.
+function speakTranscript(transcript: string, onEnd: () => void): void {
+  const synth = window.speechSynthesis;
+  synth.cancel();
+  const all = synth.getVoices?.() ?? [];
+  const voices = all.filter((v) => /^en[-_]/i.test(v.lang));
+  const pool = voices.length ? voices : all;
+  const speakerVoice: Record<string, SpeechSynthesisVoice | undefined> = {};
+  let vi = 0;
+  const lines = transcript.split(/\n+/).map((l) => l.trim()).filter(Boolean);
+  const utts: SpeechSynthesisUtterance[] = [];
+  for (const line of lines) {
+    const m = line.match(/^([A-Za-z]+):\s*(.*)$/);
+    const speaker = m ? m[1] : "_";
+    const text = (m ? m[2] : line).trim();
+    if (!text) continue;
+    if (!(speaker in speakerVoice)) { speakerVoice[speaker] = pool[vi % Math.max(1, pool.length)]; vi++; }
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-US"; u.rate = speaker === "Narrator" ? 1 : 0.94;
+    const v = speakerVoice[speaker]; if (v) u.voice = v;
+    utts.push(u);
+  }
+  if (utts.length === 0) { onEnd(); return; }
+  utts[utts.length - 1].onend = onEnd;
+  for (const u of utts) synth.speak(u);
+}
+
 // ── LISTENING ─────────────────────────────────────────────────────────────────
-function ListeningFlow({ sets, onExit }: { sets: ToeflListeningSet[]; onExit: () => void }) {
+function ListeningFlow({ sets, onDone, banner }: { sets: ToeflListeningSet[]; onDone: (scaled: number) => void; banner?: React.ReactNode }) {
   const [si, setSi] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number[]>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -223,20 +325,16 @@ function ListeningFlow({ sets, onExit }: { sets: ToeflListeningSet[]; onExit: ()
 
   const stop = useCallback(() => { try { window.speechSynthesis?.cancel(); } catch { /* ignore */ } setSpeaking(false); }, []);
   useEffect(() => () => stop(), [stop]);
+  // Warm up the voice list (some browsers populate it lazily).
+  useEffect(() => { try { window.speechSynthesis?.getVoices(); } catch { /* ignore */ } }, []);
 
   const totalCorrect = sets.reduce((n, s) => n + s.questions.reduce((m, q) => m + (gradeMCQ(q, answers[q.id]) ? 1 : 0), 0), 0);
   const totalQ = sets.reduce((n, s) => n + s.questions.length, 0);
-  if (done) return <SectionReport label="Listening" correct={totalCorrect} total={totalQ} onExit={onExit} />;
+  if (done) return <SectionReport label="Listening" correct={totalCorrect} total={totalQ} onDone={onDone} />;
 
   function play() {
-    try {
-      window.speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(set.transcript.replace(/^(Student|Librarian|Professor):/gm, ""));
-      u.lang = "en-US"; u.rate = 0.95;
-      u.onend = () => setSpeaking(false);
-      setSpeaking(true); setPlayed(true);
-      window.speechSynthesis.speak(u);
-    } catch { setPlayed(true); }
+    try { setSpeaking(true); setPlayed(true); speakTranscript(set.transcript, () => setSpeaking(false)); }
+    catch { setPlayed(true); }
   }
 
   const score = set.questions.reduce((n, q) => n + (gradeMCQ(q, answers[q.id]) ? 1 : 0), 0);
@@ -248,8 +346,9 @@ function ListeningFlow({ sets, onExit }: { sets: ToeflListeningSet[]; onExit: ()
 
   return (
     <Shell>
+      {banner}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-        <button onClick={() => { stop(); onExit(); }} style={btnOutline}>← 섹션</button>
+        <button onClick={() => { stop(); setDone(true); }} style={btnOutline}>채점·종료</button>
         <span style={{ fontWeight: 800 }}>Listening · {si + 1}/{sets.length}</span>
         {submitted ? <span style={{ fontWeight: 800, color: BLUE }}>{score} / {set.questions.length}</span> : <span />}
       </div>
@@ -281,18 +380,84 @@ function ListeningFlow({ sets, onExit }: { sets: ToeflListeningSet[]; onExit: ()
   );
 }
 
-// ── SPEAKING ──────────────────────────────────────────────────────────────────
-function SpeakingFlow({ tasks, onExit }: { tasks: ToeflSpeakingTask[]; onExit: () => void }) {
+// ── AI feedback panel (Speaking & Writing) ───────────────────────────────────
+interface Feedback { band: number; bandMax: number; scaled: number; summary: string; strengths: string[]; improvements: string[]; }
+function avgScaled(scores: number[]): number | null {
+  if (scores.length === 0) return null;
+  return Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+}
+
+function AiFeedbackPanel({ kind, taskType, taskPrompt, response, onScored }: {
+  kind: "speaking" | "writing"; taskType: string; taskPrompt: string; response: string; onScored: (scaled: number) => void;
+}) {
+  const [state, setState] = useState<"idle" | "loading" | "done" | "error" | "locked">("idle");
+  const [fb, setFb] = useState<Feedback | null>(null);
+  const enough = response.trim().split(/\s+/).filter(Boolean).length >= 5;
+
+  async function run() {
+    setState("loading");
+    try {
+      const r = await fetch("/api/toefl/feedback", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kind, taskType, taskPrompt, response }),
+      });
+      const d = await r.json();
+      if (d?.status === "locked") { setState("locked"); return; }
+      if (typeof d?.scaled !== "number") { setState("error"); return; }
+      setFb(d); setState("done"); onScored(d.scaled);
+    } catch { setState("error"); }
+  }
+
+  if (state === "idle") return (
+    <button onClick={run} disabled={!enough} style={{ ...btnBlue, opacity: enough ? 1 : 0.5 }}>
+      {enough ? "🤖 AI 첨삭 받기" : "응답이 너무 짧아 채점할 수 없어요"}
+    </button>
+  );
+  if (state === "loading") return <div style={{ padding: "14px", textAlign: "center", color: "#5b6b7b", fontSize: 14 }}>AI가 채점 중이에요…</div>;
+  if (state === "locked") return <div style={{ padding: "12px 14px", background: "#fff7e6", border: "1px solid #f0c36d", borderRadius: 10, fontSize: 13.5, color: "#7a5b16" }}>AI 첨삭은 현재 사용할 수 없어요. (타이머·녹음 연습은 정상 완료)</div>;
+  if (state === "error") return <button onClick={run} style={btnOutline}>채점 중 오류 — 다시 시도</button>;
+
+  return (
+    <div style={{ background: "#fff", border: `1px solid ${BLUE}33`, borderRadius: 14, padding: "16px 18px" }}>
+      <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 12 }}>
+        <span style={{ fontSize: 13, fontWeight: 800, color: "#94a3b8" }}>🤖 AI 채점</span>
+        <span style={{ fontSize: 28, fontWeight: 900, color: BLUE }}>{fb!.band}<span style={{ fontSize: 15, color: "#9aa6b2" }}>/{fb!.bandMax}</span></span>
+        <span style={{ fontSize: 13, color: "#5b6b7b", fontWeight: 700 }}>≈ {fb!.scaled}/30</span>
+      </div>
+      {fb!.summary && <p style={{ fontSize: 14, color: "#243240", lineHeight: 1.6, margin: "0 0 12px" }}>{fb!.summary}</p>}
+      {fb!.strengths.length > 0 && (
+        <div style={{ marginBottom: 10 }}>
+          <div style={{ fontSize: 12.5, fontWeight: 800, color: "#0f7b53", marginBottom: 5 }}>👍 잘한 점</div>
+          <ul style={{ margin: 0, paddingLeft: 18, display: "grid", gap: 4 }}>{fb!.strengths.map((s, i) => <li key={i} style={{ fontSize: 13.5, color: "#3a4756", lineHeight: 1.55 }}>{s}</li>)}</ul>
+        </div>
+      )}
+      {fb!.improvements.length > 0 && (
+        <div>
+          <div style={{ fontSize: 12.5, fontWeight: 800, color: "#c2410c", marginBottom: 5 }}>🔧 개선할 점</div>
+          <ul style={{ margin: 0, paddingLeft: 18, display: "grid", gap: 4 }}>{fb!.improvements.map((s, i) => <li key={i} style={{ fontSize: 13.5, color: "#3a4756", lineHeight: 1.55 }}>{s}</li>)}</ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── SPEAKING (prep + response timers, mic recording, speech-to-text, AI score) ─
+function SpeakingFlow({ tasks, onDone, banner }: { tasks: ToeflSpeakingTask[]; onDone: (scaled: number | null) => void; banner?: React.ReactNode }) {
   const [ti, setTi] = useState(0);
   const [phase, setPhase] = useState<"ready" | "prep" | "respond" | "done">("ready");
   const [remaining, setRemaining] = useState(0);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [transcript, setTranscript] = useState("");
+  const [scores, setScores] = useState<number[]>([]);
   const recRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+  const recogRef = useRef<{ stop: () => void } | null>(null);
+  const finalRef = useRef("");
   const task = tasks[ti];
 
   const stopRec = useCallback(() => {
-    try { recRef.current?.state === "recording" && recRef.current.stop(); } catch { /* ignore */ }
+    try { if (recRef.current?.state === "recording") recRef.current.stop(); } catch { /* ignore */ }
+    try { recogRef.current?.stop(); } catch { /* ignore */ }
   }, []);
 
   useEffect(() => {
@@ -310,38 +475,61 @@ function SpeakingFlow({ tasks, onExit }: { tasks: ToeflSpeakingTask[]; onExit: (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase]);
 
+  function startRecognition() {
+    const SR = (window as unknown as { webkitSpeechRecognition?: new () => unknown; SpeechRecognition?: new () => unknown });
+    const Ctor = SR.webkitSpeechRecognition || SR.SpeechRecognition;
+    if (!Ctor) return;
+    try {
+      const rec = new Ctor() as {
+        lang: string; continuous: boolean; interimResults: boolean;
+        onresult: (e: { resultIndex: number; results: ArrayLike<ArrayLike<{ transcript: string }> & { isFinal: boolean }> }) => void;
+        start: () => void; stop: () => void;
+      };
+      rec.lang = "en-US"; rec.continuous = true; rec.interimResults = true;
+      finalRef.current = "";
+      rec.onresult = (e) => {
+        let interim = "";
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+          const res = e.results[i];
+          if (res.isFinal) finalRef.current += res[0].transcript + " ";
+          else interim += res[0].transcript;
+        }
+        setTranscript((finalRef.current + interim).trim());
+      };
+      recogRef.current = rec; rec.start();
+    } catch { /* not supported → user can type instead */ }
+  }
+
   async function startRespond() {
     setPhase("respond"); setRemaining(task.respSec);
+    startRecognition();
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       chunksRef.current = [];
       const rec = new MediaRecorder(stream);
       rec.ondataavailable = (e) => { if (e.data.size) chunksRef.current.push(e.data); };
-      rec.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: "audio/webm" });
-        setAudioUrl(URL.createObjectURL(blob));
-        stream.getTracks().forEach((t) => t.stop());
-      };
+      rec.onstop = () => { setAudioUrl(URL.createObjectURL(new Blob(chunksRef.current, { type: "audio/webm" }))); stream.getTracks().forEach((t) => t.stop()); };
       recRef.current = rec; rec.start();
-    } catch { /* mic denied → timer-only practice */ }
+    } catch { /* mic denied → timer + (maybe) recognition only */ }
   }
 
-  function begin() { setAudioUrl(null); setPhase("prep"); setRemaining(task.prepSec); }
+  function begin() { setAudioUrl(null); setTranscript(""); finalRef.current = ""; setPhase("prep"); setRemaining(task.prepSec); }
   function nextTask() {
-    setAudioUrl(null); setPhase("ready");
-    if (ti < tasks.length - 1) setTi(ti + 1); else onExit();
+    setAudioUrl(null); setTranscript(""); setPhase("ready");
+    if (ti < tasks.length - 1) setTi(ti + 1); else onDone(avgScaled(scores));
   }
 
   return (
     <Shell>
+      {banner}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-        <button onClick={() => { stopRec(); onExit(); }} style={btnOutline}>← 섹션</button>
+        <button onClick={() => { stopRec(); onDone(avgScaled(scores)); }} style={btnOutline}>채점·종료</button>
         <span style={{ fontWeight: 800 }}>Speaking · Task {task.n}/{tasks.length}</span>
         {(phase === "prep" || phase === "respond") ? <Timer remaining={remaining} /> : <span />}
       </div>
 
       {task.readingText && (
-        <div style={{ background: "#eef4ff", border: `1px solid ${BLUE}33`, borderRadius: 12, padding: "14px 16px", marginBottom: 14, fontSize: 14, lineHeight: 1.7, color: "#243240" }}>{task.readingText}</div>
+        <div style={{ background: "#eef4ff", border: `1px solid ${BLUE}33`, borderRadius: 12, padding: "14px 16px", marginBottom: 14, fontSize: 14, lineHeight: 1.7, color: "#243240", whiteSpace: "pre-wrap" }}>{task.readingText}</div>
       )}
       <div style={{ background: "#fff", border: "1px solid #e6ebf0", borderRadius: 14, padding: "18px 20px", marginBottom: 16 }}>
         <div style={{ fontSize: 12, fontWeight: 800, color: "#F59E0B", marginBottom: 8 }}>{task.type === "independent" ? "Independent" : "Integrated"} · 준비 {task.prepSec}초 · 응답 {task.respSec}초</div>
@@ -360,15 +548,21 @@ function SpeakingFlow({ tasks, onExit }: { tasks: ToeflSpeakingTask[]; onExit: (
         <div style={{ textAlign: "center", background: "#fdecec", border: "1px solid #e0a3a3", borderRadius: 14, padding: "26px" }}>
           <div style={{ fontSize: 13, fontWeight: 800, color: "#c0392b", marginBottom: 6 }}>🔴 답변 녹음 중 — 지금 말하세요</div>
           <div style={{ fontSize: 40, fontWeight: 900, color: "#c0392b" }}>{fmt(remaining)}</div>
+          {transcript && <p style={{ fontSize: 13, color: "#7a3b3b", marginTop: 12, lineHeight: 1.5, textAlign: "left" }}>{transcript}</p>}
           <button onClick={() => { stopRec(); setPhase("done"); }} style={{ ...btnOutline, marginTop: 14 }}>응답 종료 →</button>
         </div>
       )}
       {phase === "done" && (
         <div style={{ background: "#fff", border: "1px solid #e6ebf0", borderRadius: 14, padding: "18px 20px" }}>
-          <div style={{ fontWeight: 800, marginBottom: 8 }}>✅ 응답 완료</div>
-          {audioUrl
-            ? <audio controls src={audioUrl} style={{ width: "100%", marginBottom: 12 }} />
-            : <p style={{ fontSize: 13, color: "#94a3b8", margin: "0 0 12px" }}>마이크 녹음이 없거나 차단되어 재생할 녹음이 없어요. (타이머 연습은 완료)</p>}
+          <div style={{ fontWeight: 800, marginBottom: 10 }}>✅ 응답 완료</div>
+          {audioUrl && <audio controls src={audioUrl} style={{ width: "100%", marginBottom: 12 }} />}
+          <div style={{ fontSize: 12.5, fontWeight: 800, color: "#5b6b7b", marginBottom: 6 }}>📝 음성 인식 전사 (필요하면 직접 수정 후 채점)</div>
+          <textarea value={transcript} onChange={(e) => setTranscript(e.target.value)} placeholder="음성 인식이 안 되면 말한 내용을 직접 입력하세요…"
+            style={{ width: "100%", minHeight: 110, padding: "12px 14px", border: "1px solid #d8dee5", borderRadius: 10, fontSize: 14, lineHeight: 1.6, fontFamily: "inherit", resize: "vertical", marginBottom: 12 }} />
+          <div style={{ marginBottom: 12 }}>
+            <AiFeedbackPanel kind="speaking" taskType={`Speaking Task ${task.n} (${task.type})`} taskPrompt={task.prompt} response={transcript}
+              onScored={(s) => setScores((p) => [...p, s])} />
+          </div>
           <div style={{ background: "#f6f8fa", borderRadius: 10, padding: "12px 14px", fontSize: 13.5, color: "#3a4756", lineHeight: 1.65, marginBottom: 14 }}><b>💡 팁 </b>{task.tip}</div>
           <div style={{ display: "flex", gap: 10 }}>
             <button onClick={begin} style={btnOutline}>다시 녹음</button>
@@ -380,13 +574,14 @@ function SpeakingFlow({ tasks, onExit }: { tasks: ToeflSpeakingTask[]; onExit: (
   );
 }
 
-// ── WRITING ───────────────────────────────────────────────────────────────────
-function WritingFlow({ tasks, onExit }: { tasks: ToeflWritingTask[]; onExit: () => void }) {
+// ── WRITING (countdown, live word count, AI score) ───────────────────────────
+function WritingFlow({ tasks, onDone, banner }: { tasks: ToeflWritingTask[]; onDone: (scaled: number | null) => void; banner?: React.ReactNode }) {
   const [ti, setTi] = useState(0);
   const [started, setStarted] = useState(false);
   const [text, setText] = useState("");
   const [remaining, setRemaining] = useState(0);
   const [done, setDone] = useState(false);
+  const [scores, setScores] = useState<number[]>([]);
   const task = tasks[ti];
   const words = text.trim() ? text.trim().split(/\s+/).length : 0;
 
@@ -399,13 +594,14 @@ function WritingFlow({ tasks, onExit }: { tasks: ToeflWritingTask[]; onExit: () 
   function begin() { setText(""); setDone(false); setStarted(true); setRemaining(task.timeSec); }
   function nextTask() {
     setStarted(false); setDone(false); setText("");
-    if (ti < tasks.length - 1) setTi(ti + 1); else onExit();
+    if (ti < tasks.length - 1) setTi(ti + 1); else onDone(avgScaled(scores));
   }
 
   return (
     <Shell>
+      {banner}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-        <button onClick={onExit} style={btnOutline}>← 섹션</button>
+        <button onClick={() => onDone(avgScaled(scores))} style={btnOutline}>채점·종료</button>
         <span style={{ fontWeight: 800 }}>Writing · Task {task.n}/{tasks.length}</span>
         {started && !done ? <Timer remaining={remaining} /> : <span />}
       </div>
@@ -424,13 +620,20 @@ function WritingFlow({ tasks, onExit }: { tasks: ToeflWritingTask[]; onExit: () 
         <>
           <textarea value={text} onChange={(e) => setText(e.target.value)} disabled={done} placeholder="여기에 답안을 작성하세요…"
             style={{ width: "100%", minHeight: 280, padding: "14px 16px", border: "1px solid #d8dee5", borderRadius: 12, fontSize: 15, lineHeight: 1.7, fontFamily: "inherit", resize: "vertical", background: done ? "#f6f8fa" : "#fff" }} />
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 10 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", margin: "10px 0 14px" }}>
             <span style={{ fontSize: 13, color: "#5b6b7b", fontWeight: 700 }}>단어 수: {words}</span>
-            {!done
-              ? <button onClick={() => setDone(true)} style={btnBlue}>제출 →</button>
-              : <button onClick={nextTask} style={btnBlue}>{ti < tasks.length - 1 ? "다음 과제 →" : "섹션 완료 →"}</button>}
+            {!done && <button onClick={() => setDone(true)} style={btnBlue}>제출 →</button>}
           </div>
-          {done && <div style={{ marginTop: 14, background: "#f6f8fa", borderRadius: 10, padding: "12px 14px", fontSize: 13.5, color: "#3a4756", lineHeight: 1.65 }}><b>💡 팁 </b>{task.tip}</div>}
+          {done && (
+            <>
+              <div style={{ marginBottom: 12 }}>
+                <AiFeedbackPanel kind="writing" taskType={`Writing Task ${task.n} (${task.type})`} taskPrompt={`${task.readingText ?? ""}\n\n${task.prompt}`} response={text}
+                  onScored={(s) => setScores((p) => [...p, s])} />
+              </div>
+              <div style={{ background: "#f6f8fa", borderRadius: 10, padding: "12px 14px", fontSize: 13.5, color: "#3a4756", lineHeight: 1.65, marginBottom: 14 }}><b>💡 팁 </b>{task.tip}</div>
+              <button onClick={nextTask} style={btnBlue}>{ti < tasks.length - 1 ? "다음 과제 →" : "섹션 완료 →"}</button>
+            </>
+          )}
         </>
       )}
     </Shell>
