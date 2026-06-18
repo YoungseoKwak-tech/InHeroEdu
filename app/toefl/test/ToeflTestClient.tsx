@@ -31,8 +31,8 @@ export default function ToeflTestClient() {
     const cards: { key: View; tag: string; title: string; meta: string; color: string }[] = [
       { key: "reading", tag: "Reading", title: "독해", meta: `${form.reading.length}개 지문 · ${counts.reading}문항 · 자동 채점`, color: "#1D9E75" },
       { key: "listening", tag: "Listening", title: "듣기", meta: `${form.listening.length}개 음원 · ${counts.listening}문항 · 음성 재생`, color: "#7DD3FC" },
-      { key: "speaking", tag: "Speaking", title: "말하기", meta: `${counts.speaking}개 과제 · 녹음 + 음성인식 · AI 첨삭`, color: "#F59E0B" },
-      { key: "writing", tag: "Writing", title: "쓰기", meta: `${counts.writing}개 과제 · 타이머 · AI 첨삭`, color: "#A78BFA" },
+      { key: "speaking", tag: "Speaking", title: "말하기", meta: `${counts.speaking}개 과제 · 녹음 + 음성인식 · 루브릭 자가채점`, color: "#F59E0B" },
+      { key: "writing", tag: "Writing", title: "쓰기", meta: `${counts.writing}개 과제 · 타이머 · 루브릭 자가채점`, color: "#A78BFA" },
     ];
     return (
       <Shell>
@@ -45,7 +45,7 @@ export default function ToeflTestClient() {
           <span style={{ fontSize: 26, flexShrink: 0 }}>🎯</span>
           <div style={{ flex: 1 }}>
             <div style={{ fontWeight: 850, fontSize: 18 }}>전체 시험 (Full Test)</div>
-            <div style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", marginTop: 3 }}>Reading → Listening → Speaking → Writing 순서대로 · 총점 120점 환산 + AI 첨삭</div>
+            <div style={{ fontSize: 13, color: "rgba(255,255,255,0.7)", marginTop: 3 }}>Reading → Listening → Speaking → Writing 순서대로 · 총점 120점 환산 + 루브릭 자가채점</div>
           </div>
           <span style={{ color: "#7DD3FC", fontWeight: 800, fontSize: 14 }}>시작 →</span>
         </button>
@@ -106,7 +106,7 @@ function FullTest({ form, onExit }: { form: ReturnType<typeof getToeflForm>; onE
               </div>
             ))}
           </div>
-          <p style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.6, marginBottom: 16 }}>※ Reading·Listening은 정답률 환산, Speaking·Writing은 AI 첨삭 점수 기반 추정치입니다. 실제 TOEFL 환산표와 다를 수 있어요.</p>
+          <p style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.6, marginBottom: 16 }}>※ Reading·Listening은 정답률 환산, Speaking·Writing은 루브릭 자가채점 기반 추정치입니다. 실제 TOEFL 환산표와 다를 수 있어요.</p>
           <button onClick={onExit} style={btnBlue}>처음으로 →</button>
         </div>
       </Shell>
@@ -380,66 +380,88 @@ function ListeningFlow({ sets, onDone, banner }: { sets: ToeflListeningSet[]; on
   );
 }
 
-// ── AI feedback panel (Speaking & Writing) ───────────────────────────────────
-interface Feedback { band: number; bandMax: number; scaled: number; summary: string; strengths: string[]; improvements: string[]; }
+// ── Local rubric self-scoring panel (no AI) ──────────────────────────────────
 function avgScaled(scores: number[]): number | null {
   if (scores.length === 0) return null;
   return Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
 }
 
-function AiFeedbackPanel({ kind, taskType, taskPrompt, response, onScored }: {
-  kind: "speaking" | "writing"; taskType: string; taskPrompt: string; response: string; onScored: (scaled: number) => void;
+const CONNECTIVES = ["however", "because", "for example", "for instance", "although", "while", "in contrast", "therefore", "moreover", "in addition", "on the other hand", "as a result", "first", "second", "finally", "furthermore", "so that"];
+
+function countWords(s: string) { return s.trim() ? s.trim().split(/\s+/).length : 0; }
+function foundConnectives(s: string) {
+  const low = s.toLowerCase();
+  return CONNECTIVES.filter((c) => low.includes(c));
+}
+
+/**
+ * RubricPanel — objective metrics computed locally + the official rubric as a
+ * self-check. The number of boxes the user ticks gives a band → 0–30 scaled.
+ * No external API.
+ */
+function RubricPanel({ kind, variant, minWords, response, onScore }: {
+  kind: "speaking" | "writing"; variant: "independent" | "integrated" | "discussion"; minWords: number; response: string; onScore: (scaled: number) => void;
 }) {
-  const [state, setState] = useState<"idle" | "loading" | "done" | "error" | "locked">("idle");
-  const [fb, setFb] = useState<Feedback | null>(null);
-  const enough = response.trim().split(/\s+/).filter(Boolean).length >= 5;
+  const items = kind === "writing"
+    ? [
+        variant === "integrated" ? "강의의 핵심 반박 포인트를 (가능하면 3가지) 정확히 요약했다" : "내 입장을 첫 문장에서 분명히 밝혔다",
+        variant === "integrated" ? "각 포인트가 읽기 지문의 주장과 어떻게 연결되는지 설명했다" : "이유와 구체적인 예시로 충분히 뒷받침했다",
+        "글의 구조가 논리적이다 (도입–전개–정리, 연결어 사용)",
+        "문법·철자가 대체로 정확하고 어휘가 다양하다",
+        "요구 분량을 채웠다",
+      ]
+    : [
+        "질문에 직접 답하고 입장/요지를 분명히 했다",
+        variant === "independent" ? "두 가지 이유와 예시로 전개했다" : "읽기/듣기의 핵심 내용을 정확히 반영했다",
+        "큰 멈춤 없이 비교적 유창하게 말했다",
+        "주어진 응답 시간을 충분히 활용했다",
+      ];
+  const bandMax = items.length; // writing 5, speaking 4
+  const [checked, setChecked] = useState<boolean[]>(() => items.map(() => false));
 
-  async function run() {
-    setState("loading");
-    try {
-      const r = await fetch("/api/toefl/feedback", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ kind, taskType, taskPrompt, response }),
-      });
-      const d = await r.json();
-      // "locked" (prelaunch / no key) or "fallback" (model/key error) → graceful note.
-      if (d?.status === "locked" || d?.status === "fallback") { setState("locked"); return; }
-      if (typeof d?.scaled !== "number") { setState("error"); return; }
-      setFb(d); setState("done"); onScored(d.scaled);
-    } catch { setState("error"); }
+  const words = countWords(response);
+  const conns = foundConnectives(response);
+  const enoughLen = words >= minWords;
+
+  function toggle(i: number) {
+    setChecked((prev) => {
+      const next = [...prev]; next[i] = !next[i];
+      const band = next.filter(Boolean).length;
+      onScore(Math.round((band / bandMax) * 30));
+      return next;
+    });
   }
-
-  if (state === "idle") return (
-    <button onClick={run} disabled={!enough} style={{ ...btnBlue, opacity: enough ? 1 : 0.5 }}>
-      {enough ? "🤖 AI 첨삭 받기" : "응답이 너무 짧아 채점할 수 없어요"}
-    </button>
-  );
-  if (state === "loading") return <div style={{ padding: "14px", textAlign: "center", color: "#5b6b7b", fontSize: 14 }}>AI가 채점 중이에요…</div>;
-  if (state === "locked") return <div style={{ padding: "12px 14px", background: "#fff7e6", border: "1px solid #f0c36d", borderRadius: 10, fontSize: 13.5, color: "#7a5b16" }}>AI 첨삭은 현재 사용할 수 없어요. (타이머·녹음 연습은 정상 완료)</div>;
-  if (state === "error") return <button onClick={run} style={btnOutline}>채점 중 오류 — 다시 시도</button>;
+  const band = checked.filter(Boolean).length;
+  const scaled = Math.round((band / bandMax) * 30);
 
   return (
     <div style={{ background: "#fff", border: `1px solid ${BLUE}33`, borderRadius: 14, padding: "16px 18px" }}>
       <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 12 }}>
-        <span style={{ fontSize: 13, fontWeight: 800, color: "#94a3b8" }}>🤖 AI 채점</span>
-        <span style={{ fontSize: 28, fontWeight: 900, color: BLUE }}>{fb!.band}<span style={{ fontSize: 15, color: "#9aa6b2" }}>/{fb!.bandMax}</span></span>
-        <span style={{ fontSize: 13, color: "#5b6b7b", fontWeight: 700 }}>≈ {fb!.scaled}/30</span>
+        <span style={{ fontSize: 13, fontWeight: 800, color: "#94a3b8" }}>📋 자가 채점 (루브릭)</span>
+        <span style={{ fontSize: 28, fontWeight: 900, color: BLUE }}>{band}<span style={{ fontSize: 15, color: "#9aa6b2" }}>/{bandMax}</span></span>
+        <span style={{ fontSize: 13, color: "#5b6b7b", fontWeight: 700 }}>≈ {scaled}/30</span>
       </div>
-      {fb!.summary && <p style={{ fontSize: 14, color: "#243240", lineHeight: 1.6, margin: "0 0 12px" }}>{fb!.summary}</p>}
-      {fb!.strengths.length > 0 && (
-        <div style={{ marginBottom: 10 }}>
-          <div style={{ fontSize: 12.5, fontWeight: 800, color: "#0f7b53", marginBottom: 5 }}>👍 잘한 점</div>
-          <ul style={{ margin: 0, paddingLeft: 18, display: "grid", gap: 4 }}>{fb!.strengths.map((s, i) => <li key={i} style={{ fontSize: 13.5, color: "#3a4756", lineHeight: 1.55 }}>{s}</li>)}</ul>
-        </div>
-      )}
-      {fb!.improvements.length > 0 && (
-        <div>
-          <div style={{ fontSize: 12.5, fontWeight: 800, color: "#c2410c", marginBottom: 5 }}>🔧 개선할 점</div>
-          <ul style={{ margin: 0, paddingLeft: 18, display: "grid", gap: 4 }}>{fb!.improvements.map((s, i) => <li key={i} style={{ fontSize: 13.5, color: "#3a4756", lineHeight: 1.55 }}>{s}</li>)}</ul>
-        </div>
-      )}
+
+      {/* Objective auto-metrics (computed locally) */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 14 }}>
+        <span style={chip(enoughLen)}>{enoughLen ? "✓" : "✗"} {kind === "writing" ? "분량" : "발화량"} {words}{kind === "writing" ? "단어" : "단어"} (목표 {minWords}+)</span>
+        <span style={chip(conns.length >= 2)}>{conns.length >= 2 ? "✓" : "✗"} 연결어 {conns.length}개{conns.length ? ` (${conns.slice(0, 3).join(", ")})` : ""}</span>
+      </div>
+
+      <div style={{ fontSize: 12.5, fontWeight: 800, color: "#475569", marginBottom: 8 }}>아래 항목을 스스로 평가해 체크하세요 (TOEFL 루브릭 기준)</div>
+      <div style={{ display: "grid", gap: 8 }}>
+        {items.map((it, i) => (
+          <button key={i} type="button" onClick={() => toggle(i)} style={{ textAlign: "left", display: "flex", gap: 10, alignItems: "flex-start", padding: "10px 12px", borderRadius: 10, cursor: "pointer", border: `1.5px solid ${checked[i] ? "#0f7b53" : "#d0d7de"}`, background: checked[i] ? "#e6f6ee" : "#fff" }}>
+            <span style={{ flexShrink: 0, width: 20, height: 20, borderRadius: 6, display: "inline-flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 13, color: "#fff", background: checked[i] ? "#0f7b53" : "#cbd5e1" }}>{checked[i] ? "✓" : ""}</span>
+            <span style={{ fontSize: 13.5, lineHeight: 1.5, color: "#243240" }}>{it}</span>
+          </button>
+        ))}
+      </div>
     </div>
   );
+}
+function chip(ok: boolean): React.CSSProperties {
+  return { fontSize: 12, fontWeight: 700, color: ok ? "#0f7b53" : "#a16207", background: ok ? "#e6f6ee" : "#fffbeb", border: `1px solid ${ok ? "#0f7b53" : "#f1d27a"}`, borderRadius: 999, padding: "4px 10px" };
 }
 
 // ── SPEAKING (prep + response timers, mic recording, speech-to-text, AI score) ─
@@ -449,7 +471,7 @@ function SpeakingFlow({ tasks, onDone, banner }: { tasks: ToeflSpeakingTask[]; o
   const [remaining, setRemaining] = useState(0);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [transcript, setTranscript] = useState("");
-  const [scores, setScores] = useState<number[]>([]);
+  const [taskScores, setTaskScores] = useState<Record<number, number>>({});
   const recRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const recogRef = useRef<{ stop: () => void } | null>(null);
@@ -517,14 +539,14 @@ function SpeakingFlow({ tasks, onDone, banner }: { tasks: ToeflSpeakingTask[]; o
   function begin() { setAudioUrl(null); setTranscript(""); finalRef.current = ""; setPhase("prep"); setRemaining(task.prepSec); }
   function nextTask() {
     setAudioUrl(null); setTranscript(""); setPhase("ready");
-    if (ti < tasks.length - 1) setTi(ti + 1); else onDone(avgScaled(scores));
+    if (ti < tasks.length - 1) setTi(ti + 1); else onDone(avgScaled(Object.values(taskScores)));
   }
 
   return (
     <Shell>
       {banner}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-        <button onClick={() => { stopRec(); onDone(avgScaled(scores)); }} style={btnOutline}>채점·종료</button>
+        <button onClick={() => { stopRec(); onDone(avgScaled(Object.values(taskScores))); }} style={btnOutline}>채점·종료</button>
         <span style={{ fontWeight: 800 }}>Speaking · Task {task.n}/{tasks.length}</span>
         {(phase === "prep" || phase === "respond") ? <Timer remaining={remaining} /> : <span />}
       </div>
@@ -561,8 +583,8 @@ function SpeakingFlow({ tasks, onDone, banner }: { tasks: ToeflSpeakingTask[]; o
           <textarea value={transcript} onChange={(e) => setTranscript(e.target.value)} placeholder="음성 인식이 안 되면 말한 내용을 직접 입력하세요…"
             style={{ width: "100%", minHeight: 110, padding: "12px 14px", border: "1px solid #d8dee5", borderRadius: 10, fontSize: 14, lineHeight: 1.6, fontFamily: "inherit", resize: "vertical", marginBottom: 12 }} />
           <div style={{ marginBottom: 12 }}>
-            <AiFeedbackPanel kind="speaking" taskType={`Speaking Task ${task.n} (${task.type})`} taskPrompt={task.prompt} response={transcript}
-              onScored={(s) => setScores((p) => [...p, s])} />
+            <RubricPanel kind="speaking" variant={task.type} minWords={40} response={transcript}
+              onScore={(s) => setTaskScores((m) => ({ ...m, [ti]: s }))} />
           </div>
           <div style={{ background: "#f6f8fa", borderRadius: 10, padding: "12px 14px", fontSize: 13.5, color: "#3a4756", lineHeight: 1.65, marginBottom: 14 }}><b>💡 팁 </b>{task.tip}</div>
           <div style={{ display: "flex", gap: 10 }}>
@@ -582,9 +604,10 @@ function WritingFlow({ tasks, onDone, banner }: { tasks: ToeflWritingTask[]; onD
   const [text, setText] = useState("");
   const [remaining, setRemaining] = useState(0);
   const [done, setDone] = useState(false);
-  const [scores, setScores] = useState<number[]>([]);
+  const [taskScores, setTaskScores] = useState<Record<number, number>>({});
   const task = tasks[ti];
   const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const minWords = task.type === "integrated" ? 150 : 100;
 
   useEffect(() => {
     if (!started || done) return;
@@ -595,14 +618,14 @@ function WritingFlow({ tasks, onDone, banner }: { tasks: ToeflWritingTask[]; onD
   function begin() { setText(""); setDone(false); setStarted(true); setRemaining(task.timeSec); }
   function nextTask() {
     setStarted(false); setDone(false); setText("");
-    if (ti < tasks.length - 1) setTi(ti + 1); else onDone(avgScaled(scores));
+    if (ti < tasks.length - 1) setTi(ti + 1); else onDone(avgScaled(Object.values(taskScores)));
   }
 
   return (
     <Shell>
       {banner}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-        <button onClick={() => onDone(avgScaled(scores))} style={btnOutline}>채점·종료</button>
+        <button onClick={() => onDone(avgScaled(Object.values(taskScores)))} style={btnOutline}>채점·종료</button>
         <span style={{ fontWeight: 800 }}>Writing · Task {task.n}/{tasks.length}</span>
         {started && !done ? <Timer remaining={remaining} /> : <span />}
       </div>
@@ -628,8 +651,8 @@ function WritingFlow({ tasks, onDone, banner }: { tasks: ToeflWritingTask[]; onD
           {done && (
             <>
               <div style={{ marginBottom: 12 }}>
-                <AiFeedbackPanel kind="writing" taskType={`Writing Task ${task.n} (${task.type})`} taskPrompt={`${task.readingText ?? ""}\n\n${task.prompt}`} response={text}
-                  onScored={(s) => setScores((p) => [...p, s])} />
+                <RubricPanel kind="writing" variant={task.type} minWords={minWords} response={text}
+                  onScore={(s) => setTaskScores((m) => ({ ...m, [ti]: s }))} />
               </div>
               <div style={{ background: "#f6f8fa", borderRadius: 10, padding: "12px 14px", fontSize: 13.5, color: "#3a4756", lineHeight: 1.65, marginBottom: 14 }}><b>💡 팁 </b>{task.tip}</div>
               <button onClick={nextTask} style={btnBlue}>{ti < tasks.length - 1 ? "다음 과제 →" : "섹션 완료 →"}</button>
