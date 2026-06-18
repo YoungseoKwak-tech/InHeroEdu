@@ -11,7 +11,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { getToeflForm, toeflCounts } from "@/lib/toefl/forms";
 import type { ToeflMCQ, ToeflReadingSet, ToeflListeningSet, ToeflSpeakingTask, ToeflWritingTask } from "@/lib/toefl/types";
-import { scaledScore } from "@/lib/toefl/types";
+import { scaledScore, sectionBand, TOEFL_TIMING } from "@/lib/toefl/types";
 
 const BLUE = "#1f6feb";
 const LETTERS = ["A", "B", "C", "D", "E", "F"];
@@ -104,6 +104,9 @@ function QuestionBlock({
   }
   return (
     <div style={{ border: "1px solid #e6ebf0", borderRadius: 14, padding: "16px 18px", marginBottom: 14, background: "#fff" }}>
+      {q.qtype && (
+        <span style={{ display: "inline-block", fontSize: 11, fontWeight: 800, color: "#475569", background: "#eef2f7", borderRadius: 999, padding: "3px 9px", marginBottom: 8 }}>{q.qtype}</span>
+      )}
       <p style={{ fontWeight: 700, fontSize: 15, lineHeight: 1.6, margin: "0 0 12px", whiteSpace: "pre-wrap" }}>
         <span style={{ color: BLUE, fontWeight: 800 }}>{idx + 1}. </span>{q.prompt}
         {multi && <span style={{ color: "#94a3b8", fontWeight: 700, fontSize: 12 }}>  (3개 선택)</span>}
@@ -136,33 +139,58 @@ function QuestionBlock({
   );
 }
 
-// ── READING ──────────────────────────────────────────────────────────────────
+// ── Section score report (Reading / Listening) ───────────────────────────────
+function SectionReport({ label, correct, total, onExit }: { label: string; correct: number; total: number; onExit: () => void }) {
+  const scaled = scaledScore(correct, total);
+  return (
+    <Shell>
+      <div style={{ maxWidth: 560, margin: "10px auto 0", textAlign: "center" }}>
+        <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: "0.2em", textTransform: "uppercase", color: "#94a3b8", marginBottom: 10 }}>{label} 섹션 결과</div>
+        <div style={{ background: "#fff", border: "1px solid #e6ebf0", borderRadius: 18, padding: "28px 24px" }}>
+          <div style={{ fontSize: 14, color: "#5b6b7b", fontWeight: 700 }}>정답 {correct} / {total}</div>
+          <div style={{ fontSize: 52, fontWeight: 900, color: BLUE, margin: "6px 0 2px" }}>{scaled}<span style={{ fontSize: 22, color: "#9aa6b2" }}> / 30</span></div>
+          <div style={{ fontSize: 14, fontWeight: 700, color: "#3a4756" }}>{sectionBand(scaled)}</div>
+          <p style={{ fontSize: 12.5, color: "#94a3b8", marginTop: 12, lineHeight: 1.6 }}>※ 30점 환산은 정답률 기반 추정치입니다. 실제 TOEFL 환산표와 다를 수 있어요.</p>
+        </div>
+        <button onClick={onExit} style={{ ...btnBlue, marginTop: 18 }}>섹션 목록으로 →</button>
+      </div>
+    </Shell>
+  );
+}
+
+// ── READING (one 35-min section timer across all passages) ───────────────────
 function ReadingFlow({ sets, onExit }: { sets: ToeflReadingSet[]; onExit: () => void }) {
   const [si, setSi] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number[]>>({});
-  const [submitted, setSubmitted] = useState(false);
-  const [remaining, setRemaining] = useState(18 * 60);
+  const [reviewed, setReviewed] = useState<Record<number, boolean>>({});
+  const [done, setDone] = useState(false);
+  const [remaining, setRemaining] = useState(TOEFL_TIMING.readingSectionSec);
   const set = sets[si];
+  const submitted = !!reviewed[si];
 
   useEffect(() => {
-    if (submitted) return;
-    const id = setInterval(() => setRemaining((r) => { if (r <= 1) { clearInterval(id); setSubmitted(true); return 0; } return r - 1; }), 1000);
+    if (done) return;
+    const id = setInterval(() => setRemaining((r) => { if (r <= 1) { clearInterval(id); setDone(true); return 0; } return r - 1; }), 1000);
     return () => clearInterval(id);
-  }, [submitted, si]);
+  }, [done]);
 
-  const score = set.questions.reduce((n, q) => n + (gradeMCQ(q, answers[q.id]) ? 1 : 0), 0);
+  const totalCorrect = sets.reduce((n, s) => n + s.questions.reduce((m, q) => m + (gradeMCQ(q, answers[q.id]) ? 1 : 0), 0), 0);
+  const totalQ = sets.reduce((n, s) => n + s.questions.length, 0);
+  const passageScore = set.questions.reduce((n, q) => n + (gradeMCQ(q, answers[q.id]) ? 1 : 0), 0);
+
+  if (done) return <SectionReport label="Reading" correct={totalCorrect} total={totalQ} onExit={onExit} />;
 
   function next() {
-    if (si < sets.length - 1) { setSi(si + 1); setSubmitted(false); setRemaining(18 * 60); window.scrollTo({ top: 0 }); }
-    else onExit();
+    if (si < sets.length - 1) { setSi(si + 1); window.scrollTo({ top: 0 }); }
+    else setDone(true);
   }
 
   return (
     <Shell>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-        <button onClick={onExit} style={btnOutline}>← 섹션</button>
+        <button onClick={() => setDone(true)} style={btnOutline}>채점·종료</button>
         <span style={{ fontWeight: 800 }}>Reading · 지문 {si + 1}/{sets.length}</span>
-        {!submitted ? <Timer remaining={remaining} /> : <span style={{ fontWeight: 800, color: BLUE }}>{score} / {set.questions.length}</span>}
+        {!submitted ? <Timer remaining={remaining} /> : <span style={{ fontWeight: 800, color: BLUE }}>{passageScore} / {set.questions.length}</span>}
       </div>
       <div className="toefl-read" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, alignItems: "start" }}>
         <div style={{ position: "sticky", top: 12, maxHeight: "calc(100vh - 120px)", overflowY: "auto", background: "#fff", border: "1px solid #e6ebf0", borderRadius: 14, padding: "18px 20px" }}>
@@ -174,8 +202,8 @@ function ReadingFlow({ sets, onExit }: { sets: ToeflReadingSet[]; onExit: () => 
             <QuestionBlock key={q.id} q={q} idx={i} answer={answers[q.id]} reveal={submitted} onAnswer={(a) => setAnswers((m) => ({ ...m, [q.id]: a }))} />
           ))}
           {!submitted
-            ? <button onClick={() => { setSubmitted(true); window.scrollTo({ top: 0 }); }} style={btnBlue}>제출하고 채점 →</button>
-            : <button onClick={next} style={btnBlue}>{si < sets.length - 1 ? "다음 지문 →" : "섹션 완료 →"}</button>}
+            ? <button onClick={() => { setReviewed((r) => ({ ...r, [si]: true })); window.scrollTo({ top: 0 }); }} style={btnBlue}>제출하고 채점 →</button>
+            : <button onClick={next} style={btnBlue}>{si < sets.length - 1 ? "다음 지문 →" : "섹션 결과 보기 →"}</button>}
         </div>
       </div>
       <style jsx>{`@media (max-width: 820px){ .toefl-read{ grid-template-columns: 1fr !important; } }`}</style>
@@ -190,10 +218,15 @@ function ListeningFlow({ sets, onExit }: { sets: ToeflListeningSet[]; onExit: ()
   const [submitted, setSubmitted] = useState(false);
   const [played, setPlayed] = useState(false);
   const [speaking, setSpeaking] = useState(false);
+  const [done, setDone] = useState(false);
   const set = sets[si];
 
   const stop = useCallback(() => { try { window.speechSynthesis?.cancel(); } catch { /* ignore */ } setSpeaking(false); }, []);
   useEffect(() => () => stop(), [stop]);
+
+  const totalCorrect = sets.reduce((n, s) => n + s.questions.reduce((m, q) => m + (gradeMCQ(q, answers[q.id]) ? 1 : 0), 0), 0);
+  const totalQ = sets.reduce((n, s) => n + s.questions.length, 0);
+  if (done) return <SectionReport label="Listening" correct={totalCorrect} total={totalQ} onExit={onExit} />;
 
   function play() {
     try {
@@ -210,7 +243,7 @@ function ListeningFlow({ sets, onExit }: { sets: ToeflListeningSet[]; onExit: ()
   function next() {
     stop();
     if (si < sets.length - 1) { setSi(si + 1); setSubmitted(false); setPlayed(false); window.scrollTo({ top: 0 }); }
-    else onExit();
+    else setDone(true);
   }
 
   return (
@@ -243,7 +276,7 @@ function ListeningFlow({ sets, onExit }: { sets: ToeflListeningSet[]; onExit: ()
 
       {!submitted
         ? <button onClick={() => { stop(); setSubmitted(true); window.scrollTo({ top: 0 }); }} style={btnBlue} disabled={!played}>{played ? "제출하고 채점 →" : "먼저 음원을 들어주세요"}</button>
-        : <button onClick={next} style={btnBlue}>{si < sets.length - 1 ? "다음 음원 →" : "섹션 완료 →"}</button>}
+        : <button onClick={next} style={btnBlue}>{si < sets.length - 1 ? "다음 음원 →" : "섹션 결과 보기 →"}</button>}
     </Shell>
   );
 }

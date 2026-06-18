@@ -15,8 +15,28 @@
 
 export type ToeflSection = "reading" | "listening" | "speaking" | "writing";
 
+/** Official TOEFL question-type labels, shown on each item like the real test. */
+export type ToeflQType =
+  | "Factual Information"
+  | "Negative Factual Information"
+  | "Inference"
+  | "Rhetorical Purpose"
+  | "Vocabulary"
+  | "Sentence Simplification"
+  | "Insert Text"
+  | "Prose Summary"
+  | "Gist-Content"
+  | "Gist-Purpose"
+  | "Detail"
+  | "Function"
+  | "Attitude"
+  | "Organization"
+  | "Connecting Content";
+
 export interface ToeflMCQ {
   id: string;
+  /** Official question-type label (e.g. "Factual Information"). */
+  qtype?: ToeflQType;
   prompt: string;
   /** Usually 4 choices; prose-summary uses 6 (pick 3). */
   choices: string[];
@@ -77,8 +97,23 @@ export interface ToeflForm {
   writing: ToeflWritingTask[];
 }
 
+/** Real-test section timing (seconds), matching the current TOEFL iBT. */
+export const TOEFL_TIMING = {
+  readingSectionSec: 35 * 60, // whole Reading section (all passages)
+  listeningSetLectureSec: 6 * 60,
+  listeningSetConversationSec: 4 * 60,
+};
+
 /** Rough scaled score (0–30) from raw MCQ correct / total, mirroring TOEFL bands. */
 export function scaledScore(correct: number, total: number): number {
   if (total <= 0) return 0;
   return Math.round((correct / total) * 30);
+}
+
+/** Plain-language band for a 0–30 section score (rough TOEFL guidance). */
+export function sectionBand(scaled: number): string {
+  if (scaled >= 24) return "Advanced (고급)";
+  if (scaled >= 17) return "High-Intermediate (중상)";
+  if (scaled >= 9) return "Low-Intermediate (중하)";
+  return "Below Intermediate (기초)";
 }
