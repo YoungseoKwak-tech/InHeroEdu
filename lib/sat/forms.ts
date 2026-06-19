@@ -15,13 +15,22 @@ import { SAT_FORM_14 } from "./form14";
 import { SAT_FORM_15 } from "./form15";
 import { SAT_FORM_16 } from "./form16";
 import { SAT_FORM_17 } from "./form17";
+import { SAT_FORM_18 } from "./form18";
+import { SAT_FORM_19 } from "./form19";
+import { SAT_FORM_20 } from "./form20";
+import { SAT_FORM_21 } from "./form21";
+import { SAT_FORM_22 } from "./form22";
+import { SAT_FORM_23 } from "./form23";
+import { SAT_FORM_24 } from "./form24";
+import { SAT_FORM_25 } from "./form25";
 
 /** All available practice tests, in display order. */
 export const SAT_FORMS: SatForm[] = [
   SAT_FORM_1, SAT_FORM_2, SAT_FORM_3, SAT_FORM_4, SAT_FORM_5,
   SAT_FORM_6, SAT_FORM_7, SAT_FORM_8, SAT_FORM_9, SAT_FORM_10,
   SAT_FORM_11, SAT_FORM_12, SAT_FORM_13, SAT_FORM_14, SAT_FORM_15,
-  SAT_FORM_16, SAT_FORM_17,
+  SAT_FORM_16, SAT_FORM_17, SAT_FORM_18, SAT_FORM_19, SAT_FORM_20,
+  SAT_FORM_21, SAT_FORM_22, SAT_FORM_23, SAT_FORM_24, SAT_FORM_25,
 ];
 
 export const DIGITAL_SAT_MODULE_SPEC = {
