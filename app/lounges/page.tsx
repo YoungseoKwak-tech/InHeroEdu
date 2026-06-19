@@ -17,7 +17,7 @@ const FIELD_MANUAL_BY_LOUNGE: Record<string, "ap-bio"> = {
 };
 
 export const metadata: Metadata = {
-  title: "Lounges | InHero",
+  title: "Lounges",
   description: "Subject-based community lounges for the InHero cohort.",
 };
 

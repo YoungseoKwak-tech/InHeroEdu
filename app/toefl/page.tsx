@@ -3,7 +3,7 @@ import Link from "next/link";
 import PromoBanner from "@/components/parents/PromoBanner";
 
 export const metadata: Metadata = {
-  title: "TOEFL Practice Test — Just Like the Real Exam | InHero",
+  title: "TOEFL Practice Test — Just Like the Real Exam",
   description:
     "Practice the TOEFL iBT just like the real exam. All four sections — Reading, Listening, Speaking, Writing. Practice with a 5-attempt pass for 200 credits or unlimited access for 500 credits.",
   keywords: ["TOEFL practice test", "TOEFL iBT practice", "TOEFL mock exam", "TOEFL Reading Listening Speaking Writing", "InHero"],

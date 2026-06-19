@@ -6,7 +6,7 @@ import { unstable_noStore as noStore } from "next/cache";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Clubs | InHero",
+  title: "Clubs",
   description: "Curated flagship clubs for ambitious students.",
 };
 

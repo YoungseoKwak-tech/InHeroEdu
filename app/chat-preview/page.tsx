@@ -9,7 +9,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Chat Preview | InHero",
+  title: "Chat Preview",
 };
 
 export const dynamic = "force-static";

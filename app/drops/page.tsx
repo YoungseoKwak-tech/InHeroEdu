@@ -7,7 +7,7 @@ import { hydrateDrops, type DropPublic, type DropRow } from "@/lib/drops";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Drops | InHero",
+  title: "Drops",
   description: "Curated drops — high-signal resources and rituals from the cohort.",
 };
 

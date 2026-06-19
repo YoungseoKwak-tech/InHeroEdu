@@ -12,7 +12,7 @@ import PromoBanner from "@/components/parents/PromoBanner";
 const PHRASE = "SAT · AP Mock Exams + IB Practice";
 
 export const metadata: Metadata = {
-  title: "SAT · AP Mock Exams + IB Practice | InHero",
+  title: "SAT · AP Mock Exams + IB Practice",
   description:
     "SAT, AP, and IB prep in one place. Take adaptive digital SAT full mock exams, a College Board Bluebook-style AP Section I exam mode, and IB Paper-style practice with full explanations.",
   keywords: [

@@ -3,7 +3,7 @@ import Link from "next/link";
 import LegalPageLayout, { LegalSection } from "@/components/legal/LegalPageLayout";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | InHero",
+  title: "Terms of Service",
   description:
     "The terms that govern your use of InHero's courses, textbook access, and AI study tools.",
   alternates: {

@@ -9,7 +9,7 @@ const cardStyle = {
 } as const;
 
 export const metadata = {
-  title: "Legal Information | InHero",
+  title: "Legal Information",
   description: "InHero merchant disclosure, refund policy, terms, and privacy information.",
 };
 

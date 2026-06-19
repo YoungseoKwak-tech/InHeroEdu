@@ -6,7 +6,7 @@ import { createAdminClient } from "@/lib/supabase";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Classroom | InHero",
+  title: "Classroom",
   description:
     "Step inside the InHero Faculty Universe — six AI instructors, one Architect. Pick your Classroom.",
 };

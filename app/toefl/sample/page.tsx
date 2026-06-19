@@ -2,7 +2,7 @@ import SampleExam, { type SampleItem } from "@/components/mock/SampleExam";
 import { getToeflForm } from "@/lib/toefl/forms";
 
 export const metadata = {
-  title: "TOEFL Practice Test Sample (Free) — InHero",
+  title: "TOEFL Practice Test Sample (Free)",
   description: "See what the TOEFL iBT practice test is like with a free preview. A short sample with a real Reading passage, timer, and question navigator.",
 };
 

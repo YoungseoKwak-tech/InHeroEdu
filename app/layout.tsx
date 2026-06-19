@@ -14,6 +14,8 @@ export const metadata: Metadata = {
   applicationName: "InHero",
   title: {
     default: "InHero Edu | SAT · AP · IB Prep & AI Study Platform",
+    // The template owns the brand suffix — page titles must NOT embed their own
+    // "| InHero" or it doubles up.
     template: "%s | InHero",
   },
   description: "An AI study platform for students preparing for the SAT, AP, and IB. Concept-focused lessons, AP digital textbooks, full-length SAT & AP practice exams, IB Paper-style problem sets, and a student community — built from the self-study method of a founder who mastered 13 APs on their own.",

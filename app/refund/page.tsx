@@ -3,7 +3,7 @@ import Link from "next/link";
 import { merchantInfo, creditProducts } from "@/lib/legal";
 
 export const metadata: Metadata = {
-  title: "환불정책 · 이용약관 — InHero Edu",
+  title: "환불정책 · 이용약관",
   description: "InHero Edu 크레딧·구독 상품의 결제 안내, 환불 규정, 콘텐츠 이용 주의사항 및 사업자 정보.",
   alternates: { canonical: "/refund" },
 };

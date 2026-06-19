@@ -3,7 +3,7 @@ import Link from "next/link";
 import { aiDisclosure, merchantInfo } from "@/lib/legal";
 
 export const metadata: Metadata = {
-  title: "AI 생성 콘텐츠 안내 — InHero Edu",
+  title: "AI 생성 콘텐츠 안내",
   description:
     "InHero의 디지털 교재(Originals)와 한국어 핵심 노트는 아이비리그 재학생이 설계한 요점정리 프롬프트로 AI가 생성하고 사람이 검수한 학습 보조 자료입니다. 제작 방식·검수·한계를 안내합니다.",
   alternates: { canonical: "/ai-disclosure" },

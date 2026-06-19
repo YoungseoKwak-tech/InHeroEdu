@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import LegalPageLayout, { LegalSection } from "@/components/legal/LegalPageLayout";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | InHero",
+  title: "Privacy Policy",
   description:
     "How InHero collects, uses, and protects your information across our courses, textbook access, and AI study tools.",
   alternates: {

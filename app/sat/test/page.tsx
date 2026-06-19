@@ -2,7 +2,7 @@ import SatTestClient from "./SatTestClient";
 import { getSatForm, SAT_FULL_LENGTH_FORMS } from "@/lib/sat/forms";
 
 export const metadata = {
-  title: "SAT Practice Test (Bluebook Mode) — InHero",
+  title: "SAT Practice Test (Bluebook Mode)",
   description: "Adaptive practice test in the digital SAT format — module timers, two-stage adaptive modules, Desmos calculator, and a 400–1600 projected score.",
 };
 

@@ -3,7 +3,7 @@ import AuthEntryClient from "@/components/auth/AuthEntryClient";
 import { getSafeRedirectPath } from "@/lib/auth-redirect";
 
 export const metadata: Metadata = {
-  title: "Sign In | InHero",
+  title: "Sign In",
   description: "Sign in or create your InHero account.",
 };
 

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import LegalPageLayout, { LegalSection } from "@/components/legal/LegalPageLayout";
 
 export const metadata: Metadata = {
-  title: "Refund Policy | InHero",
+  title: "Refund Policy",
   description:
     "InHero's refund policy: 7-day money-back guarantee on your first Elite purchase, cancel anytime, and keep access through the end of your billing period.",
   alternates: {

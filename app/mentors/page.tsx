@@ -8,7 +8,7 @@ import type { ProfilePublicRow } from "@/lib/trajectory";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Mentors | InHero",
+  title: "Mentors",
   description: "Verified Ivy + program mentors who anchor the InHero cohort.",
 };
 

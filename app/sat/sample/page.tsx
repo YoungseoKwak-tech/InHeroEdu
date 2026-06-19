@@ -2,7 +2,7 @@ import SampleExam, { type SampleItem } from "@/components/mock/SampleExam";
 import { SAT_FULL_LENGTH_FORMS } from "@/lib/sat/forms";
 
 export const metadata = {
-  title: "SAT Practice Test Sample (Free Preview) — InHero",
+  title: "SAT Practice Test Sample (Free Preview)",
   description: "Get a free preview of what the digital SAT practice test feels like. A short sample with the real timer, question navigator, and mark-for-review features.",
 };
 

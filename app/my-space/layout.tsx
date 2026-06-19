@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import MySpaceTabs from "@/components/my-space/MySpaceTabs";
 
 export const metadata: Metadata = {
-  title: "My Space — InHero",
+  title: "My Space",
   description: "Your personal archive: saved resources, reactions, and AI study brief.",
 };
 

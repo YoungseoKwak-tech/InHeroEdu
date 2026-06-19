@@ -4,7 +4,7 @@ import SatHistory from "@/components/sat/SatHistory";
 import PromoBanner from "@/components/parents/PromoBanner";
 
 export const metadata = {
-  title: "Digital SAT Adaptive Practice Test — InHero",
+  title: "Digital SAT Adaptive Practice Test",
   description:
     "Just like the real Bluebook — two-stage adaptive modules, per-module timers, Mark for review, the Desmos graphing calculator, grid-in answers, and a 400–1600 projected score. Take it with 5 tests for 200 credits or unlimited for 500 credits.",
 };

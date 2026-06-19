@@ -3,7 +3,7 @@ import PatternPanel from "@/components/thinking-analyzer/PatternPanel";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Thinking Analyzer | InHero",
+  title: "Thinking Analyzer",
   description: "Diagnose root-cause mistakes across concept, application, language, and logic gaps.",
 };
 
