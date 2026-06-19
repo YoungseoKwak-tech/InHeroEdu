@@ -14,13 +14,13 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { authFetch, getClientSession } from "@/lib/client-auth";
-import { CREDIT_EVENT } from "@/lib/credits";
+import { CREDIT_EVENT, CREDIT_COSTS } from "@/lib/credits";
 import CreditGate from "@/components/parents/CreditGate";
 import { type ActivityEntry, type DeepGuide } from "./data";
 
 const GREEN = "#00b85f";
 const GUIDE_COST = 500; // each deep guide unlocks individually for 500 credits
-const LIST_COST = 250;  // the real Common App activity list (10 cards) unlocks together
+const ITEM_COST = CREDIT_COSTS.ADMIT_ITEM; // 합격 활동 1건 열람당 25 크레딧
 
 interface StrategyPoint { emoji: string; title: string; body: string }
 
@@ -188,11 +188,11 @@ function ActivityCard({ activity: a, isOpen, onToggle }: { activity: ActivityEnt
       {isOpen && (
         <div style={{ padding: "0 20px 22px", borderTop: "1px solid #f1f3f5" }}>
           <CreditGate
-            gateKey="res:/parents/activities/list"
-            cost={LIST_COST}
+            gateKey={`res:/parents/activities/item:${a.num}`}
+            cost={ITEM_COST}
             fullBlur
-            title="🏆 실제 합격생 활동 10개 — 전체 잠금해제"
-            desc="실제 아이비리그 합격생의 Common App 활동 원문·분석·실행 가이드를 전부 볼 수 있어요. 활동 제목·유형은 무료 미리보기예요. (한 번 결제로 10개 전부)"
+            title="🏆 이 합격 활동 열람 — 25 크레딧"
+            desc="이 합격생 활동의 Common App 원문·분석·실행 가이드를 볼 수 있어요. 활동 제목·유형은 무료 미리보기이고, 열람은 활동 1건당 25 크레딧이에요."
           >
           {/* The raw Common App entry */}
           <div style={{ marginTop: 18, background: "#0f172a", borderRadius: 10, padding: "16px 18px" }}>

@@ -81,8 +81,8 @@ export default function EssayClient() {
         </p>
         <CreditGate
           gateKey="res:/parents/essay"
-          cost={CREDIT_COSTS.ESSAY}
-          title="✍️ 코넬 공대 합격 에세이 — 원문 + 문단별 분석 잠금해제"
+          cost={CREDIT_COSTS.ADMIT_ITEM}
+          title="✍️ 코넬 공대 합격 에세이 — 원문 + 문단별 분석 잠금해제 (25 크레딧)"
           desc="실제 합격생 본인의 Common App 메인 에세이 원문(PDF)과 설계도·문단별 상세 분석(기법·원리·‘약하게 썼다면’)을 볼 수 있어요. 위 소개글만 무료 미리보기예요."
         >
         <button onClick={openEssayPdf} disabled={opening}

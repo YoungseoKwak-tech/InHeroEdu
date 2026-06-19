@@ -27,6 +27,7 @@ export const CREDIT_COSTS = {
   TOEFL_MOCK: 500,         // TOEFL 모의고사 — 무제한
   MOCK_5PACK: 200,         // SAT/TOEFL 모의고사 5회 이용권
   SUPPLEMENTALS: 1000,
+  ADMIT_ITEM: 25,          // 합격 활동/합격 에세이 — 1건 열람당
 } as const;
 
 /** Canonical server-side cost for a paid unlock key. Unknown keys fail closed. */
@@ -37,8 +38,10 @@ export function unlockKeyCost(key: string): number | null {
   if (key.startsWith("creditpurchase:") || key.startsWith("credit_purchase:")) return 0;
 
   if (key === "res:/parents/story") return CREDIT_COSTS.STORY_BOOK;
-  if (key === "res:/parents/essay") return CREDIT_COSTS.ESSAY;
+  if (key === "res:/parents/essay") return CREDIT_COSTS.ADMIT_ITEM;
+  if (key.startsWith("res:/parents/essay:")) return CREDIT_COSTS.ADMIT_ITEM;
   if (key === "res:/parents/activities/list") return CREDIT_COSTS.ACTIVITIES;
+  if (key.startsWith("res:/parents/activities/item:")) return CREDIT_COSTS.ADMIT_ITEM;
   if (key.startsWith("res:/parents/activities/guide:")) return 500;
   if (key === "res:/parents/colleges") return CREDIT_COSTS.COLLEGE_DB;
   if (key === "res:/parents/cases") return CREDIT_COSTS.COLLEGE_DB;

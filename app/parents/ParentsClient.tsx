@@ -183,7 +183,7 @@ type ResourceCard = {
 
 const RESOURCES: ResourceCard[] = [
   { title: "내가 아이비리그 공대에 오기까지", desc: `아이비리그 공대 합격생이 직접 쓴 합격 수기 — 목차·프롤로그 무료, 본문은 ${CREDIT_COSTS.STORY_BOOK} 크레딧`, route: "/parents/story/book", tag: "합격수기", views: 1180, cost: 0 },
-  { title: "코넬 공대 합격 에세이 분석", desc: "실제 합격 에세이를 한 문단씩 — 무엇이 왜 잘 됐는지", route: "/parents/essay", tag: "합격에세이", views: 1000, cost: CREDIT_COSTS.ESSAY, unlockKey: "res:/parents/essay" },
+  { title: "코넬 공대 합격 에세이 분석", desc: "실제 합격 에세이를 한 문단씩 — 무엇이 왜 잘 됐는지", route: "/parents/essay", tag: "합격에세이", views: 1000, cost: CREDIT_COSTS.ADMIT_ITEM, unlockKey: "res:/parents/essay" },
   { title: "아이비리그 합격 엑스트라 활동 분석", desc: "합격생 활동 10개 + 직접 만드는 법 (책 출간·논문·웹)", route: "/parents/activities", tag: "합격활동", views: 942, cost: CREDIT_COSTS.ACTIVITIES, unlockKey: "res:/parents/activities/list" },
   { title: "실제 합격 사례 모음 (언론 공개 + 출처)", desc: `본인이 공개한 실제 합격생 전공·활동·결과 + '왜 통했나' 분석 — 미리보기 무료, 전체 ${CREDIT_COSTS.COLLEGE_DB} 크레딧`, route: "/parents/cases", tag: "합격사례", views: 654, cost: CREDIT_COSTS.COLLEGE_DB, unlockKey: "res:/parents/cases" },
   { title: "미국 대학 분석 — 인재상·입시·인턴십", desc: "하버드부터 UC까지, 학교별 인재상·합격률·취업 파이프라인", route: "/parents/colleges", tag: "대학분석", views: 874, cost: CREDIT_COSTS.COLLEGE_DB, unlockKey: "res:/parents/colleges" },

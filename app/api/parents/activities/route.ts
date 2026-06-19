@@ -18,7 +18,8 @@ import { getUnlockContext, hasAnyUnlock } from "@/lib/serverUnlock";
 
 export const dynamic = "force-dynamic";
 
-const LIST_KEY = "res:/parents/activities/list";
+const LIST_KEY = "res:/parents/activities/list"; // legacy bundle — still unlocks all
+const itemKey = (num: number) => `res:/parents/activities/item:${num}`;
 const guideKey = (id: string) => `res:/parents/activities/guide:${id}`;
 
 // Empty the paid fields (keep shape so the client never crashes on undefined).
@@ -36,7 +37,10 @@ function stripGuide(g: DeepGuide): DeepGuide {
 export async function GET(req: NextRequest) {
   const ctx = await getUnlockContext(req);
   const listUnlocked = hasAnyUnlock(ctx, [LIST_KEY]);
-  const activities = listUnlocked ? ACTIVITIES : ACTIVITIES.map(stripActivity);
+  // Per-activity unlock (25 credits each); the legacy bundle still unlocks all.
+  const activities = ACTIVITIES.map((a) =>
+    listUnlocked || hasAnyUnlock(ctx, [itemKey(a.num)]) ? a : stripActivity(a)
+  );
   const guides = DEEP_GUIDES.map((g) => (hasAnyUnlock(ctx, [guideKey(g.id)]) ? g : stripGuide(g)));
   return NextResponse.json(
     {
