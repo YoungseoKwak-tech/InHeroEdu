@@ -16,7 +16,7 @@ export const CREDIT_COSTS = {
   ESSAY: 250,
   ACTIVITIES: 250,
   TEXTBOOK: 250,
-  SUBJECT: 200,
+  SUBJECT: 100,            // 문제은행 — 과목 1개당
   STORY_BOOK: 300,
   CORE_NOTES_SUBJECT: 500,
   ALL_SUBJECTS: 1000,      // 핵심노트 전 과목 번들 (문제은행과 분리)

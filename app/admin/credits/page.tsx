@@ -60,7 +60,7 @@ function decodeUnlock(key: string): Decoded {
   const cost = auditUnlockKeyCost(key);
   if (key.startsWith("qa-post:")) return { label: "입시 Q&A 질문 등록", cost: 5, cat: "Q&A" };
   if (key === "parents:question-bank") return { label: "문제은행 · 전 과목", cost: 500, cat: "문제은행" };
-  if (key.startsWith("parents:question-bank:")) return { label: `문제은행 · ${key.split(":").pop()}`, cost: 200, cat: "문제은행" };
+  if (key.startsWith("parents:question-bank:")) return { label: `문제은행 · ${key.split(":").pop()}`, cost, cat: "문제은행" };
   if (key === "parents:core-notes") return { label: "핵심노트 · 전 과목", cost: 1000, cat: "핵심노트" };
   if (key.startsWith("parents:core-notes:")) return { label: `핵심노트 · ${key.split(":").pop()}`, cost, cat: "핵심노트" };
   if (key === "parents:sat-mock") return { label: "SAT 모의고사 패키지", cost, cat: "시험" };
