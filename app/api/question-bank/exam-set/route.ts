@@ -14,7 +14,7 @@ import { isAdminEmail } from "@/lib/adminEmails";
 import { normalizeCourseAccessSubjectId } from "@/lib/course-access";
 import { getPaidSubjectAccessIds, hasPaidSubjectAccess } from "@/lib/paid-subject-access";
 import { buildBankQuestions } from "@/lib/questionBank";
-import { examSpecFor, PRACTICE_SETS } from "@/lib/apExamConfig";
+import { examSpecFor, isSupportedApExamCourse, PRACTICE_SETS } from "@/lib/apExamConfig";
 import { getUnlockContext, hasAnyUnlock } from "@/lib/serverUnlock";
 
 export const dynamic = "force-dynamic";
@@ -22,10 +22,12 @@ export const dynamic = "force-dynamic";
 // Free preview length for users without paid access to the subject.
 const PREVIEW_MCQ = 10;
 
-// Credit-bundle gate key (CreditGate on /parents/question-bank/exam). Unlocking
-// it once with credits grants the full-length AP mock set for every subject —
-// the same "묶음" model as the SAT mock (parents:sat-mock).
-const AP_MOCK_UNLOCK_KEY = "parents:ap-mock";
+// Credit-bundle gate keys (CreditGate on /parents/question-bank/exam). Unlocking
+// EITHER the unlimited bundle (parents:ap-mock) or the 5회 pack
+// (parents:ap-mock:5) grants the full-length AP mock set; the pack's 5-start
+// limit is enforced client-side (lib/mockAccess). Without both, a pack buyer
+// unlocked the gate but still got a 403 and was bounced to /question-bank.
+const AP_MOCK_UNLOCK_KEYS = ["parents:ap-mock", "parents:ap-mock:5"];
 
 export async function GET(req: NextRequest) {
   try {
@@ -34,6 +36,12 @@ export async function GET(req: NextRequest) {
     if (!subject) return NextResponse.json({ error: "subject required" }, { status: 400 });
 
     const courseId = normalizeCourseAccessSubjectId(subject) ?? subject;
+    if (!isSupportedApExamCourse(courseId)) {
+      return NextResponse.json(
+        { error: "unsupported subject", message: "AP exam mode only supports verified AP courses." },
+        { status: 400 }
+      );
+    }
     const setNum = Math.max(1, Math.min(PRACTICE_SETS, parseInt(searchParams.get("set") ?? "1", 10) || 1));
     const metaOnly = searchParams.get("meta") === "true";
 
@@ -47,15 +55,22 @@ export async function GET(req: NextRequest) {
     const hasAccess =
       isAdminEmail(user?.email) ||
       hasPaidSubjectAccess(accessIds, courseId) ||
-      (!!unlockCtx && hasAnyUnlock(unlockCtx, [AP_MOCK_UNLOCK_KEY]));
+      (!!unlockCtx && hasAnyUnlock(unlockCtx, AP_MOCK_UNLOCK_KEYS));
 
     const spec = examSpecFor(courseId);
     const pool = (await buildBankQuestions(courseId)).filter((q) => Array.isArray(q.options) && q.options.length >= 2);
 
-    const fullSize = Math.min(spec.mcq, pool.length);
+    if (pool.length < spec.mcq) {
+      return NextResponse.json(
+        { error: "insufficient pool", subject: courseId, required: spec.mcq, available: pool.length },
+        { status: 409 }
+      );
+    }
+
+    const fullSize = spec.mcq;
     const size = hasAccess ? fullSize : Math.min(PREVIEW_MCQ, pool.length);
     const minutes = hasAccess ? spec.minutes : Math.max(5, Math.ceil(size * 1.5));
-    const totalSets = Math.max(1, Math.min(PRACTICE_SETS, Math.floor(pool.length / Math.max(1, size))));
+    const totalSets = Math.max(1, Math.min(PRACTICE_SETS, Math.floor(pool.length / Math.max(1, fullSize))));
     const label = pool[0]?.subjectLabel ?? courseId;
 
     if (metaOnly) {

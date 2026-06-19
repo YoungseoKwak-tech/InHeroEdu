@@ -13,7 +13,6 @@
  */
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthenticatedUser } from "@/lib/auth";
-import { normalizeCourseAccessSubjectId } from "@/lib/course-access";
 import {
   getPaidSubjectAccessIds,
   hasPaidSubjectAccess,
@@ -22,6 +21,7 @@ import {
   buildBankQuestions,
   type BankQuestion,
 } from "@/lib/questionBank";
+import { getUnlockContext, hasAnyUnlock } from "@/lib/serverUnlock";
 import precomputedSubjects from "@/lib/data/precomputed/questionBankSubjects.json";
 
 export const dynamic = "force-dynamic";
@@ -32,9 +32,19 @@ export const dynamic = "force-dynamic";
 const DEFAULT_LIMIT = 150;
 const MAX_LIMIT = 400;
 
-// No free questions: every MCQ's answers/explanations require paid access.
-// Locked cards still show the prompt as a teaser, but never the answer key.
+// No free questions by default: every MCQ's answers/explanations require paid
+// access. Locked cards still show the prompt as a teaser, but never the answer
+// key. The /parents surface opts into a small lead-magnet taste via ?preview=N.
 const FREE_PREVIEW_PER_SUBJECT = 0;
+const MAX_PREVIEW_PER_SUBJECT = 8;
+
+// Credit-unlock keys (CreditGate on /parents/question-bank). The all-pass key
+// unlocks every subject; the per-subject key is `${ALL_KEY}:${courseId}`.
+// Unlocking with credits must grant the full answerable payload the same way a
+// paid subject order does — otherwise unlocked parents still get locked cards.
+const QBANK_ALL_KEY = "parents:question-bank";
+const subjectUnlockKey = (courseId: string | null) =>
+  courseId ? `${QBANK_ALL_KEY}:${courseId}` : null;
 
 /** Strip everything a student could use to answer or learn from. */
 function lockQuestion(q: BankQuestion): BankQuestion & { locked: true } {
@@ -69,7 +79,24 @@ export async function GET(req: NextRequest) {
     // in their paid plan. No auth → no paid access (empty set), not a 401.
     const user = await getAuthenticatedUser(req);
     const accessIds = user ? await getPaidSubjectAccessIds(user) : new Set<string>();
-    const normalizedSubject = normalizeCourseAccessSubjectId(subject);
+    // Credit unlocks (the /parents portal) grant access the same as a paid
+    // order. all-pass → everything; per-subject key → that subject only.
+    const unlockCtx = user ? await getUnlockContext(req) : null;
+    const hasAllPass = !!unlockCtx && hasAnyUnlock(unlockCtx, [QBANK_ALL_KEY]);
+    const courseUnlocked = (courseId: string | null) => {
+      if (hasPaidSubjectAccess(accessIds, courseId)) return true;
+      if (hasAllPass) return true;
+      const key = subjectUnlockKey(courseId);
+      return !!key && !!unlockCtx && hasAnyUnlock(unlockCtx, [key]);
+    };
+
+    // /parents lead-magnet taste: a few answerable questions per subject even
+    // without access. Opt-in via ?preview=N so the cosmic /question-bank stays
+    // fully locked (FREE_PREVIEW_PER_SUBJECT = 0).
+    const previewParam = parseInt(searchParams.get("preview") ?? "", 10);
+    const freePerSubject = Number.isFinite(previewParam) && previewParam > 0
+      ? Math.min(MAX_PREVIEW_PER_SUBJECT, previewParam)
+      : FREE_PREVIEW_PER_SUBJECT;
 
     const limitParam = parseInt(searchParams.get("limit") ?? "", 10);
     const limit = Math.min(
@@ -77,7 +104,10 @@ export async function GET(req: NextRequest) {
       Number.isFinite(limitParam) && limitParam > 0 ? limitParam : DEFAULT_LIMIT
     );
 
-    const allInSubject = await buildBankQuestions(normalizedSubject ?? undefined);
+    // Filter by the RAW bank course id. buildBankQuestions normalizes/falls back
+    // internally; passing the access-normalized id (which is null for bank-only
+    // subjects like ap-biology) would drop the filter and leak every subject.
+    const allInSubject = await buildBankQuestions(subject);
 
     // Per-unit counts for the subject (pre-unit-filter) so the page's unit
     // rail can show every unit with its full count regardless of the active
@@ -95,15 +125,16 @@ export async function GET(req: NextRequest) {
       ? allInSubject.filter((q) => q.unit === unitParam)
       : allInSubject;
 
-    // Paid subjects come through untouched. For everything else the first
-    // couple of questions per subject stay answerable as a free taste and
-    // the rest go out locked (no answers/explanations in the payload).
+    // Accessible subjects (paid order OR credit unlock) come through untouched.
+    // For everything else the first few questions per subject stay answerable as
+    // a free taste (when ?preview=N) and the rest go out locked (no
+    // answers/explanations in the payload).
     const freeUsed = new Map<string, number>();
     const shaped = questions.slice(0, limit).map((q) => {
-      if (hasPaidSubjectAccess(accessIds, q.courseId)) return q;
+      if (courseUnlocked(q.courseId)) return q;
       const key = q.courseId ?? "general";
       const used = freeUsed.get(key) ?? 0;
-      if (used < FREE_PREVIEW_PER_SUBJECT) {
+      if (used < freePerSubject) {
         freeUsed.set(key, used + 1);
         return q;
       }

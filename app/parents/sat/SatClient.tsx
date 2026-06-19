@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ParentHubShell from "@/components/parents/ParentHubShell";
-import { SAT_FORMS, formCounts } from "@/lib/sat/forms";
+import { SAT_FULL_LENGTH_FORMS, formCounts } from "@/lib/sat/forms";
 import SatHistory from "@/components/sat/SatHistory";
 import CreditGate from "@/components/parents/CreditGate";
 import { CREDIT_COSTS } from "@/lib/credits";
@@ -122,9 +122,8 @@ export default function SatClient() {
         );
       })()}
       <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 28 }}>
-        {SAT_FORMS.map((f, i) => {
+        {SAT_FULL_LENGTH_FORMS.map((f, i) => {
           const c = formCounts(f);
-          const full = c.rw >= 50;
           return (
             <button key={f.id} onClick={() => startTest(f.id)} style={{
               textAlign: "left", cursor: "pointer", width: "100%", display: "flex", alignItems: "center", gap: 16,
@@ -135,7 +134,7 @@ export default function SatClient() {
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 16, fontWeight: 800, color: "#1a1a1f" }}>
                   Practice Test {i + 1}
-                  {full && <span style={{ marginLeft: 8, fontSize: 11, fontWeight: 800, color: "#fff", background: GREEN, borderRadius: 999, padding: "2px 8px" }}>풀 렝스</span>}
+                  <span style={{ marginLeft: 8, fontSize: 11, fontWeight: 800, color: "#fff", background: GREEN, borderRadius: 999, padding: "2px 8px" }}>풀 렝스</span>
                 </div>
                 <div style={{ fontSize: 13, color: "#64748b", marginTop: 3 }}>R&amp;W {c.rw}문항 · Math {c.math}문항 · 적응형</div>
               </div>

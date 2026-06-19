@@ -12,7 +12,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { authFetch } from "@/lib/client-auth";
-import { examSpecFor, PRACTICE_SETS } from "@/lib/apExamConfig";
+import {
+  apCalculatorNote,
+  apExamPartsFor,
+  examSpecFor,
+  isApCalculatorAllowed,
+  isSupportedApExamCourse,
+  PRACTICE_SETS,
+} from "@/lib/apExamConfig";
 import LiveStatBadge from "@/components/social/LiveStatBadge";
 import CreditGate from "@/components/parents/CreditGate";
 import { CREDIT_COSTS } from "@/lib/credits";
@@ -28,30 +35,21 @@ interface SubjectCount { courseId: string | null; label: string; emoji: string; 
 const BLUE = "#1f6feb";
 const LETTERS = ["A", "B", "C", "D", "E", "F"];
 
-// Subjects that allow a calculator on the real AP exam (graphing/scientific).
-const CALC_SUBJECTS = new Set([
-  "ap-calculus-ab", "ap-calculus-bc", "ap-statistics",
-  "ap-physics-1", "ap-physics-2", "ap-physics-c-mechanics",
-  "ap-chemistry", "ap-biology", "ap-environmental-science",
-]);
-
 function fmt(sec: number) {
   const m = Math.max(0, Math.floor(sec / 60));
   const s = Math.max(0, sec % 60);
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
-// 모의고사 후기 — SAT / AP / IB 실전 모드를 풀어본 학생·학부모 후기.
-const EXAM_REVIEWS: { tag: "SAT" | "AP" | "IB"; name: string; text: string }[] = [
-  { tag: "SAT", name: "G11 학부모", text: "Bluebook이랑 화면이 똑같아서 아이가 실제 시험장처럼 연습했어요. 시간 압박 적응에 진짜 도움됐습니다." },
+// 모의고사 후기 — AP Section I 실전 모드를 풀어본 학생·학부모 후기.
+const EXAM_REVIEWS: { tag: "AP"; name: string; text: string }[] = [
   { tag: "AP", name: "AP Bio 응시생", text: "문항별 해설이 바로 나와서 틀린 이유를 그 자리에서 이해했어요. 학원 모의고사보다 해설이 훨씬 친절해요." },
-  { tag: "IB", name: "IB DP2 학생", text: "IB 문제 스타일 그대로라 페이퍼 감 잡기 좋았어요. 실전 분량·시간 맞춰 푸니까 본 시험이 안 떨렸습니다." },
-  { tag: "AP", name: "AP Calc 응시생", text: "계산기(Desmos)까지 실제 시험이랑 똑같이 쓸 수 있어서 좋았어요. Test 1·2·3 다 풀고 점수 올랐습니다." },
-  { tag: "SAT", name: "G10 학생", text: "무료 미리보기로 먼저 풀어보고 전체 풀세트 결제했어요. 정답·해설 검수가 확실해서 믿고 풀어요." },
-  { tag: "IB", name: "IB 학부모", text: "한국에서 IB 모의고사 구하기 어려운데 여기서 실전처럼 연습할 수 있어 큰 도움이 됐어요." },
+  { tag: "AP", name: "AP Calc 응시생", text: "문항 수와 시간이 실제 Section I 기준이라 페이스 연습에 도움이 됐어요. 계산기 허용 구간도 구분돼서 좋았습니다." },
+  { tag: "AP", name: "AP Physics 응시생", text: "타이머와 검토 표시가 Bluebook처럼 되어 있어서 시험장 리허설 느낌으로 풀 수 있었어요." },
+  { tag: "AP", name: "AP 학부모", text: "실전 분량으로 끊겨 있어서 아이가 어느 과목에서 시간이 부족한지 바로 보였습니다." },
 ];
 
-const REVIEW_TAG_COLOR: Record<string, string> = { SAT: "#854F0B", AP: "#1D9E75", IB: "#3C3489" };
+const REVIEW_TAG_COLOR: Record<string, string> = { AP: "#1D9E75" };
 
 function ExamReviews() {
   return (
@@ -60,7 +58,7 @@ function ExamReviews() {
         <h2 style={{ fontSize: 19, fontWeight: 800, margin: 0, letterSpacing: "-0.02em" }}>실전 모의고사 후기</h2>
         <span style={{ fontSize: 13, color: "#f59e0b", fontWeight: 800 }}>★★★★★</span>
       </div>
-      <p style={{ color: "#5b6b7b", fontSize: 13.5, margin: "0 0 16px" }}>SAT · AP · IB 모의고사를 풀어본 학생·학부모들의 후기예요.</p>
+      <p style={{ color: "#5b6b7b", fontSize: 13.5, margin: "0 0 16px" }}>AP Section I 실전 모드를 풀어본 학생·학부모들의 후기예요.</p>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 12 }}>
         {EXAM_REVIEWS.map((r, i) => (
           <div key={i} style={{ background: "#fff", border: "1px solid #e6ebf0", borderRadius: 14, padding: "16px 16px" }}>
@@ -106,6 +104,7 @@ export default function ExamPage() {
   const [submitted, setSubmitted] = useState(false);
   const [remaining, setRemaining] = useState(0);
   const [timerHidden, setTimerHidden] = useState(false);
+  const [activePart, setActivePart] = useState(0);
   const submittedRef = useRef(false);
 
   useEffect(() => {
@@ -114,9 +113,15 @@ export default function ExamPage() {
     fetch("/api/question-bank/subjects")
       .then((r) => r.json())
       .then((d) => {
-        // Only subjects with enough real MCQs to actually build a test.
+        // Only verified AP subjects with enough real MCQs to actually build a
+        // current official Section I test. SAT/IB/AMC have separate formats and
+        // must never be routed through this AP engine.
         // (examReady undefined → keep, so a stale cache never empties the list.)
-        const list: SubjectCount[] = (d?.subjects ?? []).filter((x: SubjectCount) => x.courseId && (x.examReady ?? true));
+        const list: SubjectCount[] = (d?.subjects ?? []).filter((x: SubjectCount) => {
+          const courseId = x.courseId;
+          if (!courseId || !isSupportedApExamCourse(courseId) || !(x.examReady ?? true)) return false;
+          return (x.examPool ?? x.count) >= examSpecFor(courseId).mcq;
+        });
         setSubjects(list);
         // Default to the first subject unless the URL ?subject= names a valid
         // one. Otherwise the <select> renders blank (value matches no option)
@@ -132,11 +137,15 @@ export default function ExamPage() {
   useEffect(() => {
     if (phase !== "exam" || submitted || questions.length === 0) return;
     const id = setInterval(() => {
-      setRemaining((r) => { if (r <= 1) { clearInterval(id); doSubmit(); return 0; } return r - 1; });
+      setRemaining((r) => { if (r <= 1) { clearInterval(id); finishActivePart(); return 0; } return r - 1; });
     }, 1000);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase, submitted, questions.length]);
+  }, [activePart, phase, submitted, questions.length, subject]);
+
+  useEffect(() => {
+    if (phase === "exam" && !isApCalculatorAllowed(subject, idx)) setCalcOpen(false);
+  }, [idx, phase, subject]);
 
   async function startSet(n: number) {
     if (!subject) {
@@ -168,7 +177,8 @@ export default function ExamPage() {
       setPreview(!!d.preview);
       setFullMcq(d.fullMcq ?? qs.length);
       setExamMinutes(d.minutes ?? examSpecFor(subject).minutes);
-      setRemaining((d.minutes ?? examSpecFor(subject).minutes) * 60);
+      setActivePart(0);
+      setRemaining(apExamPartsFor(subject)[0]?.minutes * 60 || (d.minutes ?? examSpecFor(subject).minutes) * 60);
       // reset player
       setIdx(0); setAnswers({}); setMarked({}); setCrossed({}); setCrossMode(false);
       setNavOpen(false); setReview(false); setSubmitted(false); submittedRef.current = false;
@@ -185,7 +195,6 @@ export default function ExamPage() {
 
   const q = questions[idx];
   const total = questions.length;
-  const answeredCount = Object.keys(answers).length;
 
   function select(optIndex: number) {
     if (!q || crossed[q.id]?.[optIndex]) return;
@@ -202,6 +211,22 @@ export default function ExamPage() {
     if (submittedRef.current) return;
     submittedRef.current = true;
     setSubmitted(true); setNavOpen(false); setReview(false); window.scrollTo({ top: 0 });
+  }
+
+  function finishActivePart() {
+    const parts = apExamPartsFor(subject);
+    const nextPart = activePart + 1;
+    if (nextPart < parts.length) {
+      setActivePart(nextPart);
+      setIdx(Math.max(0, parts[nextPart].startsAtQuestion - 1));
+      setRemaining(parts[nextPart].minutes * 60);
+      setNavOpen(false);
+      setReview(false);
+      setCalcOpen(false);
+      window.scrollTo({ top: 0 });
+      return;
+    }
+    doSubmit();
   }
 
   const score = useMemo(() => {
@@ -306,8 +331,8 @@ export default function ExamPage() {
             </GateBox>
           )}
           {gate === "paid" && (
-            <GateBox text="이 과목의 풀세트 실전 모의고사는 전체 액세스(Elite)에서 풀 수 있어요. (무료 미리보기는 문제 은행에서 과목당 몇 문항 제공)">
-              <Link href="/question-bank" style={{ ...gateBtn, textDecoration: "none", display: "inline-block" }}>전체 액세스 보기</Link>
+            <GateBox text="이 과목의 풀세트 실전 모의고사는 모의고사 이용권으로 풀 수 있어요. 위 카드에서 이용권을 열면 바로 응시할 수 있어요.">
+              <Link href="/parents/question-bank" style={{ ...gateBtn, textDecoration: "none", display: "inline-block" }}>← 문제 은행으로</Link>
             </GateBox>
           )}
           {gate === "empty" && <GateBox text="이 과목의 문제가 아직 충분하지 않아요. 다른 과목을 선택해 주세요." />}
@@ -321,7 +346,8 @@ export default function ExamPage() {
 
   // ---------- DIRECTIONS ----------
   if (phase === "directions") {
-    const calc = CALC_SUBJECTS.has(subject);
+    const calcNote = apCalculatorNote(subject);
+    const parts = apExamPartsFor(subject);
     return (
       <div style={{ minHeight: "100vh", background: "#fff", color: "#1d2733", display: "flex", flexDirection: "column" }}>
         <TopBar subject={subjectLabel} setNumber={setNumber} center={<span style={{ fontWeight: 700 }}>지시사항 (Directions)</span>} />
@@ -333,7 +359,8 @@ export default function ExamPage() {
             <li>• 상단 <b>타이머</b>가 0이 되면 자동 제출됩니다. (숨기기 가능)</li>
             <li>• <b>보기 지우기</b>로 오답 후보를 소거하고, <b>🚩 검토 표시</b>로 다시 볼 문항을 표시하세요.</li>
             <li>• 하단 <b>문항 네비게이터</b>로 자유롭게 이동하고, 마지막에 <b>검토 페이지</b>에서 제출합니다.</li>
-            {calc && <li>• 이 과목은 <b>계산기(Desmos)</b>를 쓸 수 있어요. (우측 하단 🖩 버튼)</li>}
+            {parts.length > 1 && <li>• 이 과목은 실제 시험처럼 파트별로 진행됩니다: {parts.map((part) => `${part.label} ${part.startsAtQuestion}-${part.endsAtQuestion}번 · ${part.minutes}분`).join(" / ")}.</li>}
+            {calcNote && <li>• <b>계산기 정책</b>: {calcNote} (허용 구간에서만 우측 하단 🖩 버튼이 열립니다.)</li>}
             <li>• 제출하면 <b>채점 결과 + 문항별 상세 해설</b>을 볼 수 있습니다. (정답·풀이 검수 완료)</li>
           </ul>
           <p style={{ fontSize: 13, color: "#90a0b0", marginTop: 18 }}>준비되면 시작하세요. 타이머는 시작과 동시에 작동합니다.</p>
@@ -400,8 +427,8 @@ export default function ExamPage() {
           </div>
           {preview && (
             <div style={{ marginTop: 24, background: "#fff7e6", border: "1px solid #f0c36d", borderLeft: "4px solid #e0a32e", borderRadius: 12, padding: "16px 18px" }}>
-              <p style={{ margin: 0, fontSize: 14.5, color: "#3a4756", lineHeight: 1.6 }}>지금은 <b>무료 미리보기 {total}문항</b>이에요. 실제 시험과 동일한 <b>{fullMcq}문항 풀세트(Test 1·2·3)</b>는 전체 액세스에서 풀 수 있어요.</p>
-              <Link href="/question-bank" style={{ ...gateBtn, textDecoration: "none", display: "inline-block", marginTop: 12 }}>전체 액세스 보기</Link>
+              <p style={{ margin: 0, fontSize: 14.5, color: "#3a4756", lineHeight: 1.6 }}>지금은 <b>무료 미리보기 {total}문항</b>이에요. 실제 시험과 동일한 <b>{fullMcq}문항 풀세트(Test 1·2·3)</b>는 모의고사 이용권으로 풀 수 있어요.</p>
+              <Link href="/parents/question-bank" style={{ ...gateBtn, textDecoration: "none", display: "inline-block", marginTop: 12 }}>← 문제 은행으로</Link>
             </div>
           )}
           <div style={{ display: "flex", gap: 10, marginTop: 26 }}>
@@ -415,26 +442,36 @@ export default function ExamPage() {
 
   // ---------- REVIEW PAGE ----------
   if (review) {
+    const parts = apExamPartsFor(subject);
+    const part = parts[Math.min(activePart, parts.length - 1)];
+    const partStart = Math.max(0, part.startsAtQuestion - 1);
+    const partEnd = Math.min(total - 1, part.endsAtQuestion - 1);
+    const activeQuestions = questions.slice(partStart, partEnd + 1);
+    const activeAnsweredCount = activeQuestions.filter((item) => answers[item.id] != null).length;
     return (
       <div style={{ minHeight: "100vh", background: "#fff", color: "#1d2733", display: "flex", flexDirection: "column" }}>
         <TopBar subject={subjectLabel} setNumber={setNumber} center={<Timer remaining={remaining} hidden={timerHidden} onToggle={() => setTimerHidden((v) => !v)} />} />
         <div style={{ flex: 1, maxWidth: 720, margin: "0 auto", padding: "32px 20px", width: "100%" }}>
           <h2 style={{ fontSize: 22, fontWeight: 800, margin: 0 }}>검토 페이지</h2>
-          <p style={{ color: "#5b6b7b", fontSize: 14, marginTop: 8 }}>제출 전, 표시한 문항이나 미응답을 확인하세요. (응답 {answeredCount}/{total})</p>
+          <p style={{ color: "#5b6b7b", fontSize: 14, marginTop: 8 }}>제출 전, 표시한 문항이나 미응답을 확인하세요. ({part.label} 응답 {activeAnsweredCount}/{activeQuestions.length})</p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(52px,1fr))", gap: 10, marginTop: 20 }}>
-            {questions.map((item, i) => {
+            {activeQuestions.map((item, i) => {
+              const globalIndex = partStart + i;
               const done = answers[item.id] != null;
               return (
-                <button key={item.id} onClick={() => { setReview(false); setIdx(i); }}
+                <button key={item.id} onClick={() => { setReview(false); setIdx(globalIndex); }}
                   style={{ position: "relative", padding: "12px 0", borderRadius: 10, fontWeight: 800, fontSize: 14, cursor: "pointer",
                     border: `1px solid ${done ? BLUE : "#cdd6e0"}`, background: done ? BLUE : "#fff", color: done ? "#fff" : "#3a4756" }}>
-                  {i + 1}{marked[item.id] && <span style={{ position: "absolute", top: -6, right: -6, fontSize: 12 }}>🚩</span>}
+                  {globalIndex + 1}{marked[item.id] && <span style={{ position: "absolute", top: -6, right: -6, fontSize: 12 }}>🚩</span>}
                 </button>
               );
             })}
           </div>
         </div>
-        <BottomBar left={<button onClick={() => setReview(false)} style={btnOutline}>← 시험으로</button>} right={<button onClick={doSubmit} style={btnBlue}>제출하기</button>} />
+        <BottomBar
+          left={<button onClick={() => setReview(false)} style={btnOutline}>← 시험으로</button>}
+          right={<button onClick={finishActivePart} style={btnBlue}>{activePart < parts.length - 1 ? "다음 파트로 →" : "제출하기"}</button>}
+        />
       </div>
     );
   }
@@ -442,6 +479,13 @@ export default function ExamPage() {
   // ---------- QUESTION VIEW ----------
   const sel = answers[q.id];
   const qCross = crossed[q.id] ?? {};
+  const parts = apExamPartsFor(subject);
+  const part = parts[Math.min(activePart, parts.length - 1)];
+  const partStart = Math.max(0, part.startsAtQuestion - 1);
+  const partEnd = Math.min(total - 1, part.endsAtQuestion - 1);
+  const activeQuestions = questions.slice(partStart, partEnd + 1);
+  const activeAnsweredCount = activeQuestions.filter((item) => answers[item.id] != null).length;
+  const calcAllowed = isApCalculatorAllowed(subject, idx);
   return (
     <div style={{ minHeight: "100vh", background: "#fff", color: "#1d2733", display: "flex", flexDirection: "column" }}>
       <TopBar subject={subjectLabel} setNumber={setNumber}
@@ -461,7 +505,7 @@ export default function ExamPage() {
 
       <div style={{ flex: 1, width: "100%", maxWidth: 720, margin: "0 auto", padding: "20px 20px 24px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid #eef2f5", paddingBottom: 12 }}>
-          <span style={{ fontWeight: 800, fontSize: 14 }}>{idx + 1} <span style={{ color: "#9aa6b2", fontWeight: 600 }}>/ {total}</span></span>
+          <span style={{ fontWeight: 800, fontSize: 14 }}>{idx + 1} <span style={{ color: "#9aa6b2", fontWeight: 600 }}>/ {total}</span><span style={{ marginLeft: 8, color: "#5b6b7b", fontWeight: 700 }}>{part.label}</span></span>
           <button onClick={toggleMark} style={{ display: "inline-flex", alignItems: "center", gap: 6, border: "none", background: "none", cursor: "pointer", fontSize: 13.5, fontWeight: 700, color: marked[q.id] ? "#d98324" : "#57606a" }}>
             {marked[q.id] ? "🚩" : "🏳️"} 검토 표시
           </button>
@@ -500,17 +544,18 @@ export default function ExamPage() {
             {navOpen && (
               <div style={{ position: "absolute", bottom: "calc(100% + 10px)", left: 0, width: 300, background: "#fff", border: "1px solid #e1e7ee", borderRadius: 14, boxShadow: "0 12px 40px rgba(0,0,0,0.18)", padding: 14, maxHeight: 320, overflowY: "auto" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#5b6b7b", marginBottom: 10 }}>
-                  <span>응답 {answeredCount}/{total}</span>
+                  <span>{part.label} 응답 {activeAnsweredCount}/{activeQuestions.length}</span>
                   <button onClick={() => { setNavOpen(false); setReview(true); }} style={{ color: BLUE, background: "none", border: "none", fontWeight: 700, cursor: "pointer", fontSize: 12 }}>검토 페이지 →</button>
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(6,1fr)", gap: 8 }}>
-                  {questions.map((item, i) => {
+                  {activeQuestions.map((item, i) => {
+                    const globalIndex = partStart + i;
                     const done = answers[item.id] != null;
-                    const cur = i === idx;
+                    const cur = globalIndex === idx;
                     return (
-                      <button key={item.id} onClick={() => { setIdx(i); setNavOpen(false); }}
+                      <button key={item.id} onClick={() => { setIdx(globalIndex); setNavOpen(false); }}
                         style={{ position: "relative", padding: "8px 0", borderRadius: 8, fontSize: 13, fontWeight: 800, cursor: "pointer", border: `1px solid ${cur || done ? BLUE : "#cdd6e0"}`, outline: cur ? `2px solid ${BLUE}55` : "none", background: done ? BLUE : "#fff", color: done ? "#fff" : "#3a4756" }}>
-                        {i + 1}{marked[item.id] && <span style={{ position: "absolute", top: -7, right: -5, fontSize: 10 }}>🚩</span>}
+                        {globalIndex + 1}{marked[item.id] && <span style={{ position: "absolute", top: -7, right: -5, fontSize: 10 }}>🚩</span>}
                       </button>
                     );
                   })}
@@ -521,18 +566,20 @@ export default function ExamPage() {
         }
         right={
           <div style={{ display: "flex", gap: 10 }}>
-            <button onClick={() => setIdx((i) => Math.max(0, i - 1))} disabled={idx === 0} style={{ ...btnOutline, opacity: idx === 0 ? 0.5 : 1 }}>← Back</button>
-            {idx < total - 1
+            <button onClick={() => setIdx((i) => Math.max(partStart, i - 1))} disabled={idx <= partStart} style={{ ...btnOutline, opacity: idx <= partStart ? 0.5 : 1 }}>← Back</button>
+            {idx < partEnd
               ? <button onClick={() => setIdx((i) => Math.min(total - 1, i + 1))} style={btnBlue}>Next →</button>
+              : activePart < parts.length - 1
+              ? <button onClick={finishActivePart} style={btnBlue}>다음 파트로 →</button>
               : <button onClick={() => setReview(true)} style={btnBlue}>검토 및 제출 →</button>}
           </div>
         } />
 
-      {CALC_SUBJECTS.has(subject) && !calcOpen && (
+      {calcAllowed && !calcOpen && (
         <button onClick={() => setCalcOpen(true)} title="계산기"
           style={{ position: "fixed", right: 18, bottom: 84, width: 52, height: 52, borderRadius: "50%", background: BLUE, color: "#fff", border: "none", fontSize: 22, cursor: "pointer", boxShadow: "0 8px 22px rgba(0,0,0,0.25)", zIndex: 901 }}>🖩</button>
       )}
-      {CALC_SUBJECTS.has(subject) && calcOpen && <Calculator onClose={() => setCalcOpen(false)} />}
+      {calcAllowed && calcOpen && <Calculator onClose={() => setCalcOpen(false)} />}
     </div>
   );
 }

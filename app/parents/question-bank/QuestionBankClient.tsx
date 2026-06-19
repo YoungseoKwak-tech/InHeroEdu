@@ -3,21 +3,23 @@
 /**
  * /parents/question-bank — WHITE question bank for the parent portal.
  *
- * The cosmic /question-bank stays as-is; this is a parallel white-UI view that
- * pulls the SAME data (/api/question-bank/bank) so parents browse and actually
- * solve questions in the Naver/blog-style surface they trust. Free subjects are
- * fully answerable even logged-out (lead magnet); locked/paid questions show a
- * signup-gate stack.
+ * Two-pane workspace: a left rail to pick a subject (and a unit within it) and
+ * a right pane that lists that subject's questions, answerable inline. Free
+ * subjects + a small per-subject preview are answerable for everyone; the rest
+ * is gated. Unlocking with credits (CreditGate) refetches and reveals the full
+ * set RIGHT HERE — we never route parents out to the cosmic /question-bank.
  */
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { authFetch, getClientSession } from "@/lib/client-auth";
 import CreditGate from "@/components/parents/CreditGate";
 import ReviewsStrip from "@/components/parents/ReviewsStrip";
-import { CREDIT_COSTS } from "@/lib/credits";
+import { CREDIT_COSTS, CREDIT_EVENT, hydrateCredits } from "@/lib/credits";
 
 const GREEN = "#00b85f";
+const ALL_KEY = "parents:question-bank"; // all-pass; per-subject = `${ALL_KEY}:${courseId}`
+const PREVIEW_N = 6; // free per-subject taste requested from the API
 
 interface BankOption { label: string; correct: boolean; feedback?: string | null; }
 interface BankQuestion {
@@ -26,141 +28,235 @@ interface BankQuestion {
   similar?: { prompt: string; options: BankOption[] } | null; locked?: boolean;
 }
 interface SubjectCount { courseId: string | null; label: string; emoji: string; count: number; }
+interface UnitCount { unit: number; count: number; }
 
 export default function QuestionBankClient() {
   const [subjects, setSubjects] = useState<SubjectCount[]>([]);
-  // Seed with the current real count so the headline never flashes "0개" while
-  // loading (that read as "0 questions" and made parents bounce). Live value
-  // overwrites on fetch.
+  // Seed with a real-ish count so the headline never flashes "0개" while loading.
   const [total, setTotal] = useState(11975);
   const [active, setActive] = useState<string | null>(null);
+  const [activeUnit, setActiveUnit] = useState<number | null>(null);
+  const [units, setUnits] = useState<UnitCount[]>([]);
   const [questions, setQuestions] = useState<BankQuestion[]>([]);
   const [filteredTotal, setFilteredTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => { getClientSession().then((s) => setLoggedIn(!!s?.user)).catch(() => {}); }, []);
 
+  // Subject grid → also seed the right pane with the first subject so it's never
+  // empty (the user picks a subject expecting to immediately see ITS questions).
   useEffect(() => {
     fetch("/api/question-bank/subjects")
       .then((r) => r.json())
-      .then((d) => { setSubjects(d?.subjects ?? []); setTotal(d?.total ?? 0); })
+      .then((d) => {
+        const list: SubjectCount[] = d?.subjects ?? [];
+        setSubjects(list);
+        setTotal(d?.total ?? 0);
+        setActive((cur) => cur ?? list.find((s) => s.courseId)?.courseId ?? null);
+      })
       .catch(() => {});
   }, []);
 
+  // Questions for the active subject (+ unit). preview=N gives a free taste even
+  // for locked subjects; unlocked subjects come back fully answerable.
   useEffect(() => {
     setLoading(true);
-    const q = active ? `?subject=${active}` : "";
-    authFetch(`/api/question-bank/bank${q}`)
+    const params = new URLSearchParams();
+    if (active) params.set("subject", active);
+    if (activeUnit != null) params.set("unit", String(activeUnit));
+    params.set("preview", String(PREVIEW_N));
+    authFetch(`/api/question-bank/bank?${params.toString()}`)
       .then((r) => r.json())
-      .then((d) => { setQuestions(d?.questions ?? []); setFilteredTotal(d?.total ?? (d?.questions?.length ?? 0)); })
+      .then((d) => {
+        setQuestions(d?.questions ?? []);
+        setFilteredTotal(d?.total ?? (d?.questions?.length ?? 0));
+        // Units only change with the subject, not the unit filter.
+        if (Array.isArray(d?.units)) setUnits(d.units);
+      })
       .catch(() => { setQuestions([]); setFilteredTotal(0); })
       .finally(() => setLoading(false));
-  }, [active]);
+  }, [active, activeUnit, reloadKey]);
 
-  const unlocked = questions.filter((q) => !q.locked).slice(0, 12);
-  const hasLocked = questions.some((q) => q.locked) || filteredTotal > unlocked.length;
+  // After a credit unlock, sync server state then refetch so the freshly
+  // unlocked questions appear inline — no navigation, no /question-bank bounce.
+  useEffect(() => {
+    const onChange = () => { hydrateCredits().catch(() => {}).finally(() => setReloadKey((k) => k + 1)); };
+    window.addEventListener(CREDIT_EVENT, onChange);
+    return () => window.removeEventListener(CREDIT_EVENT, onChange);
+  }, []);
+
+  const selectSubject = useCallback((courseId: string | null) => {
+    setActive(courseId);
+    setActiveUnit(null);
+    setUnits([]);
+    setQuestions([]);
+  }, []);
+
+  const answerable = questions.filter((q) => !q.locked);
+  const lockedQs = questions.filter((q) => q.locked);
+  // Gate ONLY when the payload actually contains locked cards. (Don't infer from
+  // filteredTotal > answerable — an unlocked subject with >150 questions is
+  // paginated by the 150-card cap, not gated.)
+  const hasLocked = lockedQs.length > 0;
+  const activeSubject = subjects.find((s) => s.courseId === active);
+  const lockedCount = Math.max(lockedQs.length, filteredTotal - answerable.length);
 
   const gateSignup = () =>
     window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: "/parents/question-bank" } }));
 
-  // Per-subject (200) vs all (1000) unlock. The "전체" view sells the all-pass;
-  // a selected subject sells just that subject, with an all-pass upsell button.
-  const ALL_KEY = "parents:question-bank"; // legacy all-pass key (keeps prior unlocks)
-  const activeSubject = subjects.find((s) => s.courseId === active);
-
   return (
     <div style={{ position: "relative", zIndex: 10, minHeight: "100vh", background: "#eef1f4", color: "#1a1a1f", cursor: "auto", fontFamily: "'Inter', sans-serif" }}>
+      <style>{`
+        .pqb-shell{display:grid;grid-template-columns:268px minmax(0,1fr);gap:24px;align-items:start}
+        .pqb-rail{position:sticky;top:70px;max-height:calc(100vh - 92px);overflow:auto;padding-right:2px}
+        @media(max-width:860px){.pqb-shell{grid-template-columns:1fr}.pqb-rail{position:static;max-height:340px}}
+      `}</style>
+
       {/* Top bar */}
       <div style={{ position: "sticky", top: 0, zIndex: 20, background: "rgba(255,255,255,0.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #e2e6ea" }}>
-        <div style={{ maxWidth: 820, margin: "0 auto", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/parents" style={{ color: "#475569", textDecoration: "none", fontSize: 14, fontWeight: 600 }}>← 자료실</Link>
           <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 15 }}>In<span style={{ color: GREEN }}>Hero</span> · 학부모</span>
         </div>
       </div>
 
-      <div style={{ maxWidth: 820, margin: "0 auto", padding: "36px 20px 90px" }}>
+      <div style={{ maxWidth: 1180, margin: "0 auto", padding: "32px 20px 90px" }}>
+        {/* Hero */}
         <p style={{ fontSize: 13, fontWeight: 700, color: "#dc2680", marginBottom: 10 }}>📝 AP 문제 은행</p>
-        <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.7rem,4vw,2.4rem)", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: 12 }}>
+        <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.6rem,3.6vw,2.3rem)", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: 12 }}>
           {total.toLocaleString()}개 AP 실전 문제, 지금 풀어보세요
         </h1>
-        <p style={{ fontSize: 14.5, color: "#475569", lineHeight: 1.75, marginBottom: 16 }}>
-          College Board 스타일 실전 문제입니다. 보기를 눌러 바로 채점하고 해설을 확인하세요. 무료 과목은 가입 없이도 풀 수 있습니다.
+        <p style={{ fontSize: 14.5, color: "#475569", lineHeight: 1.75, marginBottom: 16, maxWidth: 720 }}>
+          College Board 스타일 실전 문제입니다. 왼쪽에서 과목과 유닛을 고르면 오른쪽에서 바로 풀고 채점·해설을 확인할 수 있어요. 무료 과목은 가입 없이도 풀 수 있습니다.
         </p>
 
         {/* Bluebook-style exam mode */}
         <Link
           href={`/parents/question-bank/exam${active ? `?subject=${active}` : ""}`}
-          style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#1f6feb", color: "#fff", textDecoration: "none", borderRadius: 12, padding: "12px 20px", fontWeight: 800, fontSize: 14.5, marginBottom: 24, boxShadow: "0 6px 18px rgba(31,111,235,0.28)" }}
+          style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#1f6feb", color: "#fff", textDecoration: "none", borderRadius: 12, padding: "12px 20px", fontWeight: 800, fontSize: 14.5, marginBottom: 22, boxShadow: "0 6px 18px rgba(31,111,235,0.28)" }}
         >
           🖥️ 실전 모드로 풀기 (Bluebook · 실제 디지털 AP 화면)
         </Link>
 
-        {/* Subject chips */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 26 }}>
-          <Chip active={active === null} onClick={() => setActive(null)} label="전체" emoji="🏦" count={total} />
-          {subjects.map((s) => (
-            <Chip key={s.courseId ?? s.label} active={active === s.courseId} onClick={() => setActive(s.courseId)} label={s.label} emoji={s.emoji} count={s.count} />
-          ))}
-        </div>
-
         <ReviewsStrip />
 
-        {/* Questions */}
-        {loading ? (
-          <p style={{ color: "#94a3b8", fontSize: 14, padding: "30px 0", textAlign: "center" }}>문제를 불러오는 중…</p>
-        ) : (!loggedIn && unlocked.length === 0) ? (
-          // Signed-out + nothing to preview → invite signup. Signed-in users
-          // fall through to the credit unlock (결제) gate below, never "무료 가입".
-          <LockedCTA onClick={gateSignup} subjectLocked />
-        ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {unlocked.map((q, i) => <QuestionCard key={q.id} q={q} index={i} />)}
-            {hasLocked && (
-              activeSubject ? (
-                <CreditGate
-                  gateKey={`${ALL_KEY}:${active}`}
-                  cost={CREDIT_COSTS.SUBJECT}
-                  bundleKey={ALL_KEY}
-                  bundleCost={CREDIT_COSTS.QUESTION_BANK}
-                  bundleLabel="전 과목 한 번에"
-                  title={`${activeSubject.emoji} ${activeSubject.label} 문제은행 잠금해제`}
-                  desc={`${activeSubject.label} ${activeSubject.count.toLocaleString()}문항 전체를 풀 수 있어요. 위 ${unlocked.length}문항은 무료 맛보기예요. (이 과목 ${CREDIT_COSTS.SUBJECT} · 전 과목 ${CREDIT_COSTS.QUESTION_BANK})`}
-                >
-                  <Link href="/question-bank" style={{ display: "block", textAlign: "center", textDecoration: "none", background: "#0a0a14", color: "#fff", borderRadius: 12, padding: "16px 22px", fontWeight: 800, fontSize: 15 }}>
-                    ✓ {activeSubject.label} 잠금해제됨 · 전체 문항 풀러가기 →
-                  </Link>
-                </CreditGate>
-              ) : (
-                <CreditGate
-                  gateKey={ALL_KEY}
-                  cost={CREDIT_COSTS.QUESTION_BANK}
-                  title="AP 문제은행 전 과목 이용권"
-                  desc={`College Board 스타일 ${total.toLocaleString()}개 전 과목 문항 풀 액세스. 위 ${unlocked.length}문항은 무료 맛보기예요. (과목별로는 위에서 과목을 고르면 ${CREDIT_COSTS.SUBJECT} 크레딧)`}
-                >
-                  <Link href="/question-bank" style={{ display: "block", textAlign: "center", textDecoration: "none", background: "#0a0a14", color: "#fff", borderRadius: 12, padding: "16px 22px", fontWeight: 800, fontSize: 15 }}>
-                    ✓ 전체 이용권 보유 · {total.toLocaleString()}문항 풀러가기 →
-                  </Link>
-                </CreditGate>
-              )
+        {/* Two-pane workspace */}
+        <div className="pqb-shell" style={{ marginTop: 26 }}>
+          {/* LEFT RAIL — subjects + units */}
+          <aside className="pqb-rail">
+            <div style={{ fontSize: 11.5, fontWeight: 800, color: "#94a3b8", letterSpacing: "0.06em", textTransform: "uppercase", margin: "0 0 8px 4px" }}>과목</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              <RailItem active={active === null} emoji="🏦" label="전체" count={total} onClick={() => selectSubject(null)} />
+              {subjects.map((s) => (
+                <div key={s.courseId ?? s.label}>
+                  <RailItem
+                    active={active === s.courseId}
+                    emoji={s.emoji}
+                    label={s.label}
+                    count={s.count}
+                    onClick={() => selectSubject(s.courseId)}
+                  />
+                  {/* Units of the selected subject, nested under it */}
+                  {active === s.courseId && units.length > 0 && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 2, margin: "4px 0 6px 0", paddingLeft: 12, borderLeft: "2px solid #e2e6ea" }}>
+                      <UnitItem active={activeUnit === null} label="전체 유닛" count={s.count} onClick={() => setActiveUnit(null)} />
+                      {units.map((u) => (
+                        <UnitItem key={u.unit} active={activeUnit === u.unit} label={`Unit ${u.unit}`} count={u.count} onClick={() => setActiveUnit(u.unit)} />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </aside>
+
+          {/* RIGHT PANE — questions */}
+          <main>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
+              <h2 style={{ fontSize: 19, fontWeight: 800, margin: 0, letterSpacing: "-0.02em" }}>
+                {activeSubject ? `${activeSubject.emoji} ${activeSubject.label}` : "🏦 전체 과목"}
+                {activeUnit != null && <span style={{ color: "#94a3b8", fontWeight: 700 }}> · Unit {activeUnit}</span>}
+              </h2>
+              <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 600 }}>{filteredTotal.toLocaleString()}문항</span>
+            </div>
+
+            {loading ? (
+              <p style={{ color: "#94a3b8", fontSize: 14, padding: "40px 0", textAlign: "center" }}>문제를 불러오는 중…</p>
+            ) : (!loggedIn && answerable.length === 0) ? (
+              <LockedCTA onClick={gateSignup} subjectLocked />
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {answerable.map((q, i) => <QuestionCard key={q.id} q={q} index={i} />)}
+
+                {hasLocked && (
+                  activeSubject ? (
+                    <CreditGate
+                      gateKey={`${ALL_KEY}:${active}`}
+                      cost={CREDIT_COSTS.SUBJECT}
+                      bundleKey={ALL_KEY}
+                      bundleCost={CREDIT_COSTS.QUESTION_BANK}
+                      bundleLabel="전 과목 한 번에"
+                      title={`${activeSubject.emoji} ${activeSubject.label} 문제은행 잠금해제`}
+                      desc={`${activeSubject.label} ${activeSubject.count.toLocaleString()}문항 전체를 여기서 바로 풀 수 있어요. 위 ${answerable.length}문항은 무료 맛보기예요. (이 과목 ${CREDIT_COSTS.SUBJECT} · 전 과목 ${CREDIT_COSTS.QUESTION_BANK})`}
+                    >
+                      <LockedTeaser items={lockedQs} count={lockedCount} />
+                    </CreditGate>
+                  ) : (
+                    <CreditGate
+                      gateKey={ALL_KEY}
+                      cost={CREDIT_COSTS.QUESTION_BANK}
+                      title="AP 문제은행 전 과목 이용권"
+                      desc={`College Board 스타일 ${total.toLocaleString()}개 전 과목 문항을 여기서 바로 풀 수 있어요. 과목별로는 왼쪽에서 과목을 고르면 ${CREDIT_COSTS.SUBJECT} 크레딧이에요.`}
+                    >
+                      <LockedTeaser items={lockedQs} count={lockedCount} />
+                    </CreditGate>
+                  )
+                )}
+              </div>
             )}
-          </div>
-        )}
+          </main>
+        </div>
       </div>
     </div>
   );
 }
 
-function Chip({ active, onClick, label, emoji, count }: { active: boolean; onClick: () => void; label: string; emoji: string; count: number }) {
+function RailItem({ active, emoji, label, count, onClick }: { active: boolean; emoji: string; label: string; count: number; onClick: () => void }) {
   return (
     <button onClick={onClick} style={{
-      display: "inline-flex", alignItems: "center", gap: 7, padding: "8px 13px", borderRadius: 999,
-      border: active ? `1.5px solid ${GREEN}` : "1px solid #e2e6ea", background: active ? "#e9fbf2" : "#fff",
-      color: active ? "#047a45" : "#475569", fontSize: 13, fontWeight: active ? 800 : 600, cursor: "pointer",
+      display: "flex", alignItems: "center", gap: 9, width: "100%", textAlign: "left", padding: "9px 11px", borderRadius: 10,
+      border: active ? `1.5px solid ${GREEN}` : "1px solid transparent", background: active ? "#e9fbf2" : "transparent",
+      color: active ? "#047a45" : "#334155", fontSize: 13.5, fontWeight: active ? 800 : 600, cursor: "pointer",
     }}>
-      <span>{emoji} {label}</span>
-      <span style={{ fontSize: 11, color: active ? "#16a34a" : "#94a3b8" }}>{count.toLocaleString()}</span>
+      <span style={{ flexShrink: 0 }}>{emoji}</span>
+      <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{label}</span>
+      <span style={{ fontSize: 11, color: active ? "#16a34a" : "#94a3b8", fontWeight: 700 }}>{count.toLocaleString()}</span>
     </button>
+  );
+}
+
+function UnitItem({ active, label, count, onClick }: { active: boolean; label: string; count: number; onClick: () => void }) {
+  return (
+    <button onClick={onClick} style={{
+      display: "flex", alignItems: "center", gap: 8, width: "100%", textAlign: "left", padding: "6px 10px", borderRadius: 8,
+      border: "none", background: active ? "#0a0a14" : "transparent", color: active ? "#fff" : "#64748b",
+      fontSize: 12.5, fontWeight: active ? 800 : 600, cursor: "pointer",
+    }}>
+      <span style={{ flex: 1 }}>{label}</span>
+      <span style={{ fontSize: 10.5, color: active ? "rgba(255,255,255,0.7)" : "#cbd5e1", fontWeight: 700 }}>{count.toLocaleString()}</span>
+    </button>
+  );
+}
+
+function LockedTeaser({ items, count }: { items: BankQuestion[]; count: number }) {
+  const teaser = items.slice(0, 3);
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      <div style={{ fontSize: 13, fontWeight: 700, color: "#64748b" }}>잠긴 {count.toLocaleString()}문항 미리보기</div>
+      {teaser.map((q, i) => <QuestionCard key={q.id} q={q} index={i} />)}
+    </div>
   );
 }
 
@@ -170,7 +266,7 @@ function QuestionCard({ q, index }: { q: BankQuestion; index: number }) {
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
         <span style={{ fontSize: 12, fontWeight: 800, color: "#047a45" }}>{q.emoji} {q.subjectLabel}</span>
         {q.unit != null && <span style={{ fontSize: 10.5, fontWeight: 700, color: "#94a3b8", border: "1px solid #e2e6ea", borderRadius: 999, padding: "1px 8px" }}>Unit {q.unit}</span>}
-        <span style={{ fontSize: 10, fontWeight: 900, letterSpacing: "0.06em", color: "#fff", background: GREEN, borderRadius: 999, padding: "2px 9px" }}>무료 · 풀어보기</span>
+        {!q.locked && <span style={{ fontSize: 10, fontWeight: 900, letterSpacing: "0.06em", color: "#fff", background: GREEN, borderRadius: 999, padding: "2px 9px" }}>무료 · 풀어보기</span>}
         <span style={{ marginLeft: "auto", fontSize: 11, color: "#cbd5e1" }}>#{index + 1}</span>
       </div>
       <Askable prompt={q.prompt} options={q.options} explanation={q.explanation} similar={q.similar} />
