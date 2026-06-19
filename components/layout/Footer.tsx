@@ -19,8 +19,8 @@ const cols = [
     heading: "Command",
     links: [
       { label: "About",                 href: "#" },
-      { label: "SAT·AP·IB 모의고사",      href: "/mock-exams" },
-      { label: "TOEFL 모의고사",          href: "/toefl" },
+      { label: "SAT·AP·IB Mock Exams", href: "/mock-exams" },
+      { label: "TOEFL Practice Test",  href: "/toefl" },
       { label: "Pricing",               href: "/pricing" },
       { label: "Legal / Refund Policy", href: "/legal" },
       { label: "Hero Codes",            href: "/hero-codes" },
