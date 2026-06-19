@@ -28,6 +28,7 @@ export const CREDIT_COSTS = {
   MOCK_5PACK: 200,         // SAT/TOEFL 모의고사 5회 이용권
   SUPPLEMENTALS: 1000,
   ADMIT_ITEM: 25,          // 합격 활동/합격 에세이 — 1건 열람당
+  VOCAB_SUBJECT: 25,       // 단어장 — 과목 1개당
 } as const;
 
 /** Canonical server-side cost for a paid unlock key. Unknown keys fail closed. */
@@ -68,6 +69,7 @@ export function unlockKeyCost(key: string): number | null {
   if (key === "parents:ap-mock") return CREDIT_COSTS.AP_MOCK;
   if (key === "parents:toefl-mock:5") return CREDIT_COSTS.MOCK_5PACK;
   if (key === "parents:toefl-mock") return CREDIT_COSTS.TOEFL_MOCK;
+  if (key.startsWith("parents:vocab:")) return CREDIT_COSTS.VOCAB_SUBJECT;
   if (key === "parents:vocab") return CREDIT_COSTS.VOCAB;
   if (key.startsWith("admit-supplements:")) return CREDIT_COSTS.SUPPLEMENTALS;
 

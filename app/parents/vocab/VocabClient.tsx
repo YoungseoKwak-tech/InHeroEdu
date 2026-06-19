@@ -25,14 +25,23 @@ export default function VocabClient() {
         </>
       }
     >
-      <CreditGate
-        gateKey="parents:vocab"
-        cost={CREDIT_COSTS.VOCAB}
-        title="📒 과목별 필수 단어장 잠금해제"
-        desc={`과학·수학·통계 등 전 과목 필수 영어 용어를 한국어 뜻과 함께 — 단어장·플래시카드·오늘의 단어 모드까지. 한 번 열면 계속 볼 수 있어요. (${CREDIT_COSTS.VOCAB} 크레딧)`}
-      >
-        <VocabStudy theme="light" />
-      </CreditGate>
+      <VocabStudy
+        theme="light"
+        renderGate={(subjectId, content) => (
+          <CreditGate
+            key={subjectId}
+            gateKey={`parents:vocab:${subjectId}`}
+            cost={CREDIT_COSTS.VOCAB_SUBJECT}
+            bundleKey="parents:vocab"
+            bundleCost={CREDIT_COSTS.VOCAB}
+            bundleLabel="전 과목 한 번에"
+            title="📒 이 과목 단어장 잠금해제 — 25 크레딧"
+            desc={`이 과목 필수 영어 용어를 한국어 뜻과 함께 — 단어장·플래시카드·오늘의 단어 모드까지. 과목 1개당 ${CREDIT_COSTS.VOCAB_SUBJECT} 크레딧이고, 전 과목을 한 번에 열려면 ${CREDIT_COSTS.VOCAB} 크레딧이에요.`}
+          >
+            {content}
+          </CreditGate>
+        )}
+      />
     </ParentHubShell>
   );
 }

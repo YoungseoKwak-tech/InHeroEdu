@@ -14,7 +14,7 @@
  *   • ☀️ 오늘   today's fixed N terms (deterministic per date), as flashcards
  */
 
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback, type ReactNode } from "react";
 
 export interface VocabTerm { en: string; ko: string; def: string; unit: number | null }
 interface VocabSubject { courseId: string; label: string; emoji: string; count: number }
@@ -87,7 +87,12 @@ function dailySubset(terms: VocabTerm[], subject: string): VocabTerm[] {
 
 const termKey = (t: VocabTerm) => t.en.toLowerCase();
 
-export default function VocabStudy({ theme }: { theme: Theme }) {
+export default function VocabStudy({ theme, renderGate }: {
+  theme: Theme;
+  // When provided, wraps the selected subject's content in a per-subject gate
+  // (parent portal upsell). The subject picker stays free so users can browse.
+  renderGate?: (subjectId: string, content: ReactNode) => ReactNode;
+}) {
   const Pa = palette(theme);
   const [subjects, setSubjects] = useState<VocabSubject[]>([]);
   const [, setTotal] = useState(0);
@@ -197,6 +202,9 @@ export default function VocabStudy({ theme }: { theme: Theme }) {
         ))}
       </div>
 
+      {(() => {
+        const __body = (
+          <>
       {activeSubject && (
         <>
           {/* Memorize progress bar */}
@@ -266,6 +274,10 @@ export default function VocabStudy({ theme }: { theme: Theme }) {
       ) : (
         <StudyDeck key={`${active}-${unit}-${mode}`} terms={deckTerms} Pa={Pa} />
       )}
+          </>
+        );
+        return renderGate && active ? renderGate(active, __body) : __body;
+      })()}
     </div>
   );
 }
