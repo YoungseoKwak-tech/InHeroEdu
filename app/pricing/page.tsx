@@ -6,7 +6,7 @@ const pricingUrl = "https://inheroedu.com/pricing";
 
 const paidMetadata: Metadata = {
   metadataBase: new URL("https://inheroedu.com"),
-  title: "InHero Pricing | AP Course + Textbook Access from $49",
+  title: "Pricing — AP Course + Textbook Access from $49",
   description:
     "Compare InHero Free, One Subject Elite for $49/month, and All Subject Elite for $199/month. Unlimited AP course access plus textbook access.",
   alternates: {
@@ -30,7 +30,7 @@ const paidMetadata: Metadata = {
 
 const freeMetadata: Metadata = {
   metadataBase: new URL("https://inheroedu.com"),
-  title: "InHero | Free AP Courses + Textbook Access for All Students",
+  title: "Free AP Courses + Textbook Access for All Students",
   description:
     "Every InHero course, textbook, and AI study tool is free for all students right now. No plans, no checkout, no credit card.",
   alternates: {

@@ -175,15 +175,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const lesson = lessons[lessonParam];
   if (lesson) {
     return {
-      title: `${lesson.titleEn} | NovaIQ`,
+      title: `${lesson.titleEn}`,
       description: `${lesson.titleEn} — AP Biology lesson with AI-guided support`,
     };
   }
 
   const lessonInfo = await resolveLessonInfo(lessonParam, resolvedSubject);
-  if (!lessonInfo) return { title: "Lesson | NovaIQ" };
+  if (!lessonInfo) return { title: "Lesson" };
   return {
-    title: `${lessonInfo.titleEn} | NovaIQ`,
+    title: `${lessonInfo.titleEn}`,
     description: `${lessonInfo.titleEn} — AP lesson with AI-guided support`,
   };
 }
