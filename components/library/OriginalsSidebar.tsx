@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 import { useT } from "@/app/contexts/LanguageContext";
 import Image from "next/image";
 import Link from "next/link";
+import { isTextbookLaunched } from "@/lib/launchedTextbooks";
 
 interface Textbook {
   slug: string;
@@ -157,43 +158,52 @@ export default function OriginalsSidebar() {
           </div>
         )}
 
-        {loaded && textbooks.map((t) => {
+        {loaded && [...textbooks]
+          .sort((a, b) => Number(isTextbookLaunched(b.slug)) - Number(isTextbookLaunched(a.slug)))
+          .map((t) => {
           const cover = COVER_BY_SLUG[t.slug];
           const pageLabel = formatPages(t.total_pages);
-          return (
-            <Link
-              key={t.slug}
-              href={`/textbooks/${t.slug}`}
-              className="orig-card-link"
-            >
-              <article className="orig-card">
-                <div className="orig-cover">
-                  {cover && (
-                    <Image
-                      src={cover.src}
-                      alt={`${t.title} cover`}
-                      width={520}
-                      height={780}
-                      unoptimized
-                      className="orig-cover-img"
-                      onError={(e) => {
-                        (e.currentTarget as HTMLElement).style.display = "none";
-                      }}
-                    />
-                  )}
-                  {cover && (
-                    <span className="orig-cover-glyph" aria-hidden="true">
-                      {cover.glyph}
-                    </span>
-                  )}
-                  <span className="orig-cover-badge">✨ {tr("ORIGINAL")}</span>
-                </div>
-                <div className="orig-card-body">
-                  <h3 className="orig-card-title">{t.title}</h3>
-                  {pageLabel && <p className="orig-card-stats">{pageLabel}</p>}
-                </div>
-              </article>
+          const launched = isTextbookLaunched(t.slug);
+
+          const card = (
+            <article className="orig-card" style={launched ? undefined : { opacity: 0.66 }}>
+              <div className="orig-cover" style={launched ? undefined : { filter: "grayscale(0.6)" }}>
+                {cover && (
+                  <Image
+                    src={cover.src}
+                    alt={`${t.title} cover`}
+                    width={520}
+                    height={780}
+                    unoptimized
+                    className="orig-cover-img"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLElement).style.display = "none";
+                    }}
+                  />
+                )}
+                {cover && (
+                  <span className="orig-cover-glyph" aria-hidden="true">
+                    {cover.glyph}
+                  </span>
+                )}
+                <span className="orig-cover-badge">{launched ? `✨ ${tr("ORIGINAL")}` : "🚀 Coming soon"}</span>
+              </div>
+              <div className="orig-card-body">
+                <h3 className="orig-card-title">{t.title}</h3>
+                {pageLabel && <p className="orig-card-stats">{pageLabel}</p>}
+              </div>
+            </article>
+          );
+
+          // Launched titles link to the reader; coming-soon titles are inert.
+          return launched ? (
+            <Link key={t.slug} href={`/textbooks/${t.slug}`} className="orig-card-link">
+              {card}
             </Link>
+          ) : (
+            <div key={t.slug} className="orig-card-link" aria-disabled="true" style={{ cursor: "default" }}>
+              {card}
+            </div>
           );
         })}
 

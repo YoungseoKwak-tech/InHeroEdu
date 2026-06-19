@@ -23,6 +23,7 @@ import MyTierBadge from "@/components/parents/TierBadge";
 import ReferralPrompt from "@/components/parents/ReferralPrompt";
 import { isUnlocked, spendAndUnlockAccount, hydrateCredits, CREDIT_EVENT, CREDIT_COSTS, getBalance } from "@/lib/credits";
 import { isAdminEmail } from "@/lib/adminEmails";
+import { isTextbookLaunched } from "@/lib/launchedTextbooks";
 import TextbookFlipPreview from "@/components/parents/TextbookFlipPreview";
 import AiContentNotice from "@/components/legal/AiContentNotice";
 import { REVIEWS } from "@/lib/data/reviews";
@@ -938,18 +939,27 @@ export default function ParentsClient() {
           <TextbookFlipPreview />
 
           <div className="tb-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(168px, 1fr))", gap: 16 }}>
-            {[...textbooks].sort((a, b) => (a.slug === "ap-bio-ultimate" ? -1 : b.slug === "ap-bio-ultimate" ? 1 : 0)).map((b) => {
-              const bookOwned = isAdmin || isUnlocked(`book:${b.slug}`);
+            {[...textbooks].sort((a, b) => {
+              // Launched books first, then "런칭 예정"; AP Bio pinned to the top.
+              const la = isTextbookLaunched(a.slug), lb = isTextbookLaunched(b.slug);
+              if (la !== lb) return la ? -1 : 1;
+              if (a.slug === "ap-bio-ultimate") return -1;
+              if (b.slug === "ap-bio-ultimate") return 1;
+              return 0;
+            }).map((b) => {
+              const launched = isTextbookLaunched(b.slug);
+              const bookOwned = launched && (isAdmin || isUnlocked(`book:${b.slug}`));
               const isBio = b.slug === "ap-bio-ultimate";
               return (
-              <button key={`${b.slug}-${creditTick}`} onClick={() => openBook(b)}
-                style={{ textAlign: "left", background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, overflow: "hidden", cursor: "pointer", padding: 0, boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 180ms, box-shadow 200ms" }}
-                onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 36px rgba(16,24,40,0.12)"; }}
+              <button key={`${b.slug}-${creditTick}`} onClick={() => { if (launched) openBook(b); }}
+                disabled={!launched}
+                style={{ textAlign: "left", background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, overflow: "hidden", cursor: launched ? "pointer" : "default", opacity: launched ? 1 : 0.72, padding: 0, boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 180ms, box-shadow 200ms" }}
+                onMouseEnter={(e) => { if (!launched) return; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 36px rgba(16,24,40,0.12)"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 1px 2px rgba(16,24,40,0.04)"; }}>
-                <div style={{ position: "relative", height: 218, background: "linear-gradient(135deg,#0a0a14,#1e1e2e)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 56, overflow: "hidden" }}>
+                <div style={{ position: "relative", height: 218, background: "linear-gradient(135deg,#0a0a14,#1e1e2e)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 56, overflow: "hidden", filter: launched ? "none" : "grayscale(0.5)" }}>
                   <span style={{ position: "absolute", top: 8, right: 8, zIndex: 2, fontSize: 10.5, fontWeight: 800, borderRadius: 999, padding: "2px 9px",
-                    color: bookOwned ? "#fff" : "#a16207", background: bookOwned ? GREEN : "rgba(255,251,235,0.95)", border: bookOwned ? "none" : "1px solid #f1d27a" }}>
-                    {bookOwned ? "✓ 보유" : `🔒 ${BOOK_COST} 크레딧`}
+                    color: !launched ? "#475569" : bookOwned ? "#fff" : "#a16207", background: !launched ? "rgba(226,232,240,0.95)" : bookOwned ? GREEN : "rgba(255,251,235,0.95)", border: !launched ? "1px solid #cbd5e1" : bookOwned ? "none" : "1px solid #f1d27a" }}>
+                    {!launched ? "🚀 런칭 예정" : bookOwned ? "✓ 보유" : `🔒 ${BOOK_COST} 크레딧`}
                   </span>
                   {isBio && (
                     <span style={{ position: "absolute", top: 8, left: 8, zIndex: 2, fontSize: 11, fontWeight: 900, color: "#fff", background: "linear-gradient(135deg,#f97316,#dc2626)", borderRadius: 999, padding: "3px 9px", boxShadow: "0 2px 8px rgba(220,38,38,0.4)" }}>🔥 인기</span>
