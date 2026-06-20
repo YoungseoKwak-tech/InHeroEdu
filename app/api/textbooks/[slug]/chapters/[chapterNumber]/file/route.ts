@@ -21,6 +21,8 @@ import { requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
 import { hasTextbookAccess } from "@/lib/textbookAccess";
 import { subjectIdForTextbookSlug } from "@/lib/textbookCatalog";
+import { isTextbookLaunched } from "@/lib/launchedTextbooks";
+import { isAdminEmail } from "@/lib/adminEmails";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -44,6 +46,12 @@ export async function GET(
     .eq("is_published", true)
     .maybeSingle();
   if (!textbook) return NextResponse.json({ error: "textbook not found" }, { status: 404 });
+
+  // Coming-soon ("런칭 예정") titles are not readable yet — block their PDFs for
+  // everyone except admins (who QA them before launch).
+  if (!isTextbookLaunched(textbook.slug as string) && !isAdminEmail(user.email)) {
+    return NextResponse.json({ error: "coming_soon" }, { status: 403 });
+  }
 
   // Purchase gate. Unknown slugs fail closed (locked for everyone) so a
   // new title can't ship accidentally free — add its mapping to

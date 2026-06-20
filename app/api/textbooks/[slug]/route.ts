@@ -12,6 +12,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 import { getAuthenticatedUser } from "@/lib/auth";
+import { isTextbookLaunched } from "@/lib/launchedTextbooks";
+import { isAdminEmail } from "@/lib/adminEmails";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -49,6 +51,14 @@ export async function GET(
     .maybeSingle();
   if (tbErr) return NextResponse.json({ error: tbErr.message }, { status: 500 });
   if (!textbook) return NextResponse.json({ error: "not found" }, { status: 404 });
+
+  // Coming-soon ("런칭 예정") titles: hide the TOC from everyone but admins
+  // (who QA before launch) so the reader can't be opened by direct URL.
+  if (!isTextbookLaunched(textbook.slug as string)) {
+    const u = await getAuthenticatedUser(req);
+    const email = u && !(u instanceof NextResponse) ? u.email : null;
+    if (!isAdminEmail(email)) return NextResponse.json({ error: "coming_soon" }, { status: 404 });
+  }
 
   const [unitsRes, chaptersRes] = await Promise.all([
     sb.from("textbook_units")
