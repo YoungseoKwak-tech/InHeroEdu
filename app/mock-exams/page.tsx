@@ -129,7 +129,7 @@ export default function MockExamsLanding() {
 
   return (
     <div style={{ background: "#05070d", minHeight: "100vh", color: "#e8edf4", fontFamily: "Inter, sans-serif" }}>
-      <PromoBanner ctaHref="/parents/sat?pay=1" sticky={false} />
+      <PromoBanner ctaHref="/parents/sat?pay=1" sticky={false} navOffset={64} />
       <div style={{ padding: "48px 22px 120px" }}>
       {/* eslint-disable-next-line react/no-danger */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />

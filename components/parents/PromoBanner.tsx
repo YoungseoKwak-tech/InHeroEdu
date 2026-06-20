@@ -25,7 +25,7 @@ function fmtCountdown(ms: number): string {
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
 }
 
-export default function PromoBanner({ ctaHref, sticky = true }: { ctaHref?: string; sticky?: boolean }) {
+export default function PromoBanner({ ctaHref, sticky = true, navOffset = 0 }: { ctaHref?: string; sticky?: boolean; navOffset?: number }) {
   const [show, setShow] = useState(false);
   const [enter, setEnter] = useState(false);
   const [left, setLeft] = useState(msUntilMidnight());
@@ -56,7 +56,9 @@ export default function PromoBanner({ ctaHref, sticky = true }: { ctaHref?: stri
   return (
     <div
       style={{
-        position: sticky ? "sticky" : "relative", top: 0, zIndex: 120,
+        // navOffset clears the global fixed navbar (64px) so the bar sits below
+        // it instead of overlapping the menu.
+        position: sticky ? "sticky" : "relative", top: sticky ? navOffset : 0, marginTop: sticky ? 0 : navOffset, zIndex: 120,
         transform: enter ? "translateY(0)" : "translateY(-100%)",
         transition: "transform 240ms cubic-bezier(.2,.8,.2,1)",
         background: "linear-gradient(100deg, #b91c1c 0%, #ea580c 55%, #f59e0b 100%)",

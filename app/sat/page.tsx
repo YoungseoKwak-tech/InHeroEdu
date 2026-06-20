@@ -23,7 +23,7 @@ const FEATURES = [
 export default function SatLandingPage() {
   return (
     <div style={{ background: "#05070d", minHeight: "100vh", color: "#e8edf4", fontFamily: "Inter, sans-serif" }}>
-      <PromoBanner ctaHref="/parents/sat?pay=1" sticky={false} />
+      <PromoBanner ctaHref="/parents/sat?pay=1" sticky={false} navOffset={64} />
       <div style={{ padding: "48px 22px 120px" }}>
         <div style={{ maxWidth: 820, margin: "0 auto" }}>
         <p style={{ fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(0,255,178,0.7)", marginBottom: 14 }}>

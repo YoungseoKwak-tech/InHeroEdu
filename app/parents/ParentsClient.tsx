@@ -18,7 +18,6 @@ import Link from "next/link";
 import { authFetch, getClientSession } from "@/lib/client-auth";
 import { COMPETITIONS } from "./competitions/data";
 import CreditWidget from "@/components/parents/CreditWidget";
-import PromoBanner from "@/components/parents/PromoBanner";
 import MyTierBadge from "@/components/parents/TierBadge";
 import ReferralPrompt from "@/components/parents/ReferralPrompt";
 import { isUnlocked, spendAndUnlockAccount, hydrateCredits, CREDIT_EVENT, CREDIT_COSTS, getBalance } from "@/lib/credits";
@@ -367,7 +366,6 @@ export default function ParentsClient() {
       {notifyBook && (
         <LaunchNotifyModal slug={notifyBook.slug} title={notifyBook.title} onClose={() => setNotifyBook(null)} />
       )}
-      <PromoBanner />
       <ReferralPrompt loggedIn={loggedIn} />
       {gate && (
         <div onClick={() => setGate(null)} style={{ position: "fixed", inset: 0, zIndex: 220, background: "rgba(15,23,42,0.55)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
