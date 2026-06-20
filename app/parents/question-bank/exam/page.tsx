@@ -273,6 +273,19 @@ export default function ExamPage() {
             </span>
           </div>
 
+          {/* Free sample — no login, no credits. The question bank gives a free
+              12-question taste of real AP items before the paid mock gate. */}
+          <Link href="/parents/question-bank" style={{
+            display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", textDecoration: "none",
+            background: "#f0fdf6", border: "1px solid #2aa56e66", borderRadius: 12, padding: "13px 16px", marginTop: 16,
+          }}>
+            <span style={{ fontSize: 12, fontWeight: 900, color: "#fff", background: "#0f7b53", borderRadius: 999, padding: "4px 10px", whiteSpace: "nowrap" }}>🎁 무료 샘플</span>
+            <span style={{ flex: 1, minWidth: 180, fontSize: 13.5, fontWeight: 700, color: "#0a6b3d", lineHeight: 1.5 }}>
+              결제 전에 <strong>문제은행 무료 맛보기</strong>로 실제 AP 문항·해설을 먼저 풀어보세요 — 로그인 불필요.
+            </span>
+            <span style={{ fontSize: 13.5, fontWeight: 800, color: "#047a45", whiteSpace: "nowrap" }}>샘플 풀어보기 →</span>
+          </Link>
+
           {/* Subject selector */}
           <label style={{ display: "block", marginTop: 22, fontSize: 13, fontWeight: 700, color: "#3a4756", marginBottom: 6 }}>과목</label>
           <select value={subject} onChange={(e) => { setSubject(e.target.value); setGate(""); }}

@@ -28,6 +28,7 @@ import TextbookFlipPreview from "@/components/parents/TextbookFlipPreview";
 import AiContentNotice from "@/components/legal/AiContentNotice";
 import { REVIEWS } from "@/lib/data/reviews";
 import LiveStatBadge from "@/components/social/LiveStatBadge";
+import { materialPitch } from "@/lib/materialPitch";
 
 const GREEN = "#00b85f";
 // Features that require credits to fully use (free preview, then 🔒). Everything
@@ -663,6 +664,30 @@ export default function ParentsClient() {
             })}
           </div>
 
+          {/* Free-sample strip — answers "왜 무료샘플이 없어": every paid mock has a
+              free, no-login taste before the 🔒. Surfaced right under the icons. */}
+          <div style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "16px 18px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
+              <span style={{ fontSize: 12, fontWeight: 900, color: "#047a45", background: "#e9fbf2", border: "1px solid #bbf7d0", borderRadius: 999, padding: "3px 10px" }}>🎁 결제 전 무료 체험</span>
+              <span style={{ fontSize: 13.5, fontWeight: 700, color: "#334155" }}>모의고사는 <strong style={{ color: "#047a45" }}>무료 샘플</strong>로 먼저 풀어볼 수 있어요 · 로그인 불필요</span>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }} className="sample-grid">
+              {[
+                { emoji: "✏️", label: "SAT 샘플", href: "/sat/sample" },
+                { emoji: "🖥️", label: "AP 샘플", href: "/parents/question-bank" },
+                { emoji: "📝", label: "TOEFL 샘플", href: "/toefl/sample" },
+              ].map((s) => (
+                <button key={s.label} onClick={() => router.push(s.href)} style={{
+                  cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                  borderRadius: 10, border: "1px solid #bbf7d0", background: "#f0fdf6", padding: "11px 8px",
+                  fontSize: 13, fontWeight: 800, color: "#047a45",
+                }}>
+                  <span style={{ fontSize: 16 }}>{s.emoji}</span>{s.label} 무료 →
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* 우리 아이 학습 진단 — quiz CTA (not a nav tab) */}
           <button onClick={() => router.push("/parents/diagnosis")}
             style={{ textAlign: "left", cursor: "pointer", border: "none", borderRadius: 16, padding: "22px 24px", background: "linear-gradient(120deg,#0b3b2e,#0e7c54 60%,#16a36b)", color: "#fff", boxShadow: "0 10px 28px rgba(14,124,84,0.26)", display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
@@ -892,6 +917,12 @@ export default function ParentsClient() {
                     </div>
                     <div style={{ padding: "12px 14px 14px" }}>
                       <div style={{ fontSize: 13.5, fontWeight: 800, color: "#1a1a1f", lineHeight: 1.35, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", minHeight: 37 }}>{m.title}</div>
+                      {(() => { const p = materialPitch(m); return (
+                        <div style={{ marginTop: 5 }}>
+                          <div style={{ fontSize: 12, fontWeight: 800, color: "#b45309", lineHeight: 1.35 }}>✍️ {p.headline}</div>
+                          <div style={{ fontSize: 11, color: "#64748b", lineHeight: 1.4, marginTop: 2 }}>{p.sub}</div>
+                        </div>
+                      ); })()}
                       {large && <div style={{ fontSize: 11.5, fontWeight: 800, color: "#2563eb", marginTop: 6 }}>⬇ 다운로드 (용량 큼)</div>}
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 8 }}>
                         {m.lounge && <span style={{ fontSize: 11, color: "#94a3b8" }}>📕 {m.lounge.name}</span>}

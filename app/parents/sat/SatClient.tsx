@@ -96,6 +96,20 @@ export default function SatClient() {
       }
     >
       <VerifiedBadge />
+
+      {/* Free sample — no login, no credits. Lets prospective buyers feel the
+          real Bluebook chrome/timer before the paid gate. */}
+      <Link href="/sat/sample" style={{
+        display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", textDecoration: "none",
+        background: "#f0fdf6", border: `1px solid ${GREEN}66`, borderRadius: 12, padding: "13px 16px", marginBottom: 18,
+      }}>
+        <span style={{ fontSize: 12, fontWeight: 900, color: "#fff", background: GREEN, borderRadius: 999, padding: "4px 10px", whiteSpace: "nowrap" }}>🎁 무료 샘플</span>
+        <span style={{ flex: 1, minWidth: 180, fontSize: 13.5, fontWeight: 700, color: "#0a6b3d", lineHeight: 1.5 }}>
+          결제 전에 <strong>무료 샘플</strong>로 실제 형식·타이머·해설을 먼저 풀어보세요 — 로그인 불필요.
+        </span>
+        <span style={{ fontSize: 13.5, fontWeight: 800, color: "#047a45", whiteSpace: "nowrap" }}>샘플 풀어보기 →</span>
+      </Link>
+
       <SatHistory theme="light" />
 
       {/* Test picker — paid (ULTRA tier). Unlock once to access all forms. */}
