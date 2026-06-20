@@ -84,15 +84,20 @@ export async function GET(req: Request) {
     list.sort((a, b) => new Date(b.paidAt ?? 0).getTime() - new Date(a.paidAt ?? 0).getTime());
   }
 
+  // A referee "counts" only if they made a confirmed paid order (paymentsByUser
+  // is keyed by every paid user). This mirrors the runtime anti-farm rule so the
+  // dashboard FLAGS self-referral spam instead of treating it as legit funding.
+  const paidUserIds = new Set(paymentsByUser.keys());
   const referralCreditsByUser = new Map<string, number>();
   for (const part of chunk(ids, 200)) {
     const { data } = await supabase
       .from("referrals")
-      .select("referrer_user_id, reward")
+      .select("referrer_user_id, referred_user_id, reward")
       .in("referrer_user_id", part);
     for (const r of (data ?? []) as Record<string, unknown>[]) {
       const uid = String(r.referrer_user_id ?? "");
-      if (!uid) continue;
+      const refereeId = String(r.referred_user_id ?? "");
+      if (!uid || !refereeId || !paidUserIds.has(refereeId)) continue;
       referralCreditsByUser.set(uid, (referralCreditsByUser.get(uid) ?? 0) + Number(r.reward ?? 0));
     }
   }

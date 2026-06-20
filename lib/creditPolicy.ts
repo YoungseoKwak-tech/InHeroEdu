@@ -35,8 +35,9 @@ export const CREDIT_COSTS = {
 export function unlockKeyCost(key: string): number | null {
   if (!key) return null;
 
-  // Purchase markers record top-ups; they are not spendable unlocks.
+  // Purchase / earning markers record top-ups + referral payouts; not unlocks.
   if (key.startsWith("creditpurchase:") || key.startsWith("credit_purchase:")) return 0;
+  if (key.startsWith("referral_reward:")) return 0;
 
   if (key === "res:/parents/story") return CREDIT_COSTS.STORY_BOOK;
   if (key === "res:/parents/essay") return CREDIT_COSTS.ADMIT_ITEM;

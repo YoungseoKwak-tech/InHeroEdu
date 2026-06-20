@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
-import { ensureCreditProfile } from "@/lib/credits-server";
+import { ensureCreditProfile, confirmedReferralCredits } from "@/lib/credits-server";
 import { unlockKeyCost } from "@/lib/creditPolicy";
 import { parseCreditServiceId } from "@/lib/creditPackages";
 import { auditCredits, fundedUnlocks } from "@/lib/unlockCosts";
@@ -9,26 +9,20 @@ import { auditCredits, fundedUnlocks } from "@/lib/unlockCosts";
 export const runtime = "nodejs";
 
 async function confirmedCreditFunding(supabase: ReturnType<typeof createAdminClient>, userId: string) {
-  const [{ data: orders }, { data: referrals }] = await Promise.all([
+  const [{ data: orders }, referralCredits] = await Promise.all([
     supabase
       .from("orders")
       .select("service_id")
       .eq("user_id", userId)
       .eq("status", "paid"),
-    supabase
-      .from("referrals")
-      .select("reward")
-      .eq("referrer_user_id", userId),
+    // Only referrals whose referee actually paid count — blocks self-referral farming.
+    confirmedReferralCredits(supabase, userId),
   ]);
 
   const paidCredits = ((orders ?? []) as Record<string, unknown>[]).reduce((sum, order) => {
     const serviceId = typeof order.service_id === "string" ? order.service_id : "";
     return sum + (parseCreditServiceId(serviceId)?.credits ?? 0);
   }, 0);
-  const referralCredits = ((referrals ?? []) as Record<string, unknown>[]).reduce(
-    (sum, referral) => sum + Number(referral.reward ?? 0),
-    0,
-  );
 
   return { paidCredits, referralCredits };
 }

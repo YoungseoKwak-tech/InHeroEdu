@@ -42,7 +42,11 @@ export async function POST(req: NextRequest) {
   const { data: meRow } = await supabase.from("profiles").select("name").eq("id", user.id).maybeSingle();
   const referredName = (meRow?.name as string | null) || user.email || "익명 가입자";
 
-  // Record the referral (unique index blocks double-credit for the same referee).
+  // Record the referral relationship (unique index blocks duplicates for the
+  // same referee). NOTE: the +20 reward is NOT paid here. Anti-farm: the reward
+  // only materializes once this referee makes a confirmed paid order, granted
+  // lazily via reconcileReferralGrants on the referrer's next credits read.
+  // This kills self-referral spam — fake free signups never pay → zero credit.
   const ins = await supabase.from("referrals").insert({
     referrer_user_id: referrer.id,
     referred_user_id: user.id,
@@ -50,14 +54,10 @@ export async function POST(req: NextRequest) {
     reward: REFERRAL_REWARD,
   });
   if (ins.error) {
-    // Already credited (unique violation) — treat as success, no double pay.
+    // Already recorded (unique violation) — treat as success, no double record.
     return NextResponse.json({ migrated: true, ok: true, credited: false, alreadyReferred: true });
   }
 
-  await supabase
-    .from("profiles")
-    .update({ credits: Number(referrer.credits ?? 0) + REFERRAL_REWARD })
-    .eq("id", referrer.id);
-
-  return NextResponse.json({ migrated: true, ok: true, credited: true });
+  // Recorded — but payout is pending the referee's first confirmed purchase.
+  return NextResponse.json({ migrated: true, ok: true, credited: false, pending: true });
 }

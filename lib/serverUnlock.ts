@@ -12,6 +12,7 @@ import type { NextRequest } from "next/server";
 import { getAuthenticatedUser, isAdminEmail } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
 import { parseCreditServiceId } from "@/lib/creditPackages";
+import { confirmedReferralCredits } from "@/lib/credits-server";
 import { auditCredits, fundedUnlocks } from "@/lib/unlockCosts";
 
 export interface UnlockContext {
@@ -39,25 +40,19 @@ export async function getUnlockContext(req: Request | NextRequest): Promise<Unlo
       .maybeSingle();
     if (Array.isArray(data?.credit_unlocks)) unlocks = data!.credit_unlocks as string[];
     if (!isAdmin) {
-      const [{ data: orders }, { data: referrals }] = await Promise.all([
+      const [{ data: orders }, referralCredits] = await Promise.all([
         sb
           .from("orders")
           .select("service_id")
           .eq("user_id", user.id)
           .eq("status", "paid"),
-        sb
-          .from("referrals")
-          .select("reward")
-          .eq("referrer_user_id", user.id),
+        // Only paid-referee referrals count — blocks self-referral farming.
+        confirmedReferralCredits(sb, user.id),
       ]);
       const paidCredits = ((orders ?? []) as Record<string, unknown>[]).reduce((sum, order) => {
         const serviceId = typeof order.service_id === "string" ? order.service_id : "";
         return sum + (parseCreditServiceId(serviceId)?.credits ?? 0);
       }, 0);
-      const referralCredits = ((referrals ?? []) as Record<string, unknown>[]).reduce(
-        (sum, referral) => sum + Number(referral.reward ?? 0),
-        0,
-      );
       const audit = auditCredits({
         balance: Number(data?.credits ?? 0),
         unlocks,

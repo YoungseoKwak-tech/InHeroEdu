@@ -73,6 +73,91 @@ function creditPurchaseMarker(orderId: string) {
   return `credit_purchase:${orderId}`;
 }
 
+/** 0-cost marker recording that a referrer was already paid for referee X. */
+function referralRewardMarker(refereeUserId: string) {
+  return `referral_reward:${refereeUserId}`;
+}
+
+/**
+ * Credits a referrer has legitimately EARNED — counted only for referrals whose
+ * referee made a confirmed paid order. This is the anti-farm guard: fake free
+ * signups never pay, so self-referral spam yields zero spendable credit.
+ */
+export async function confirmedReferralCredits(
+  supabase: SupabaseClient,
+  userId: string,
+): Promise<number> {
+  const { data: refs } = await supabase
+    .from("referrals")
+    .select("referred_user_id, reward")
+    .eq("referrer_user_id", userId);
+  const rows = (refs ?? []) as { referred_user_id?: string | null; reward?: number | null }[];
+  const refereeIds = rows.map((r) => r.referred_user_id).filter((x): x is string => !!x);
+  if (refereeIds.length === 0) return 0;
+
+  const { data: paid } = await supabase
+    .from("orders")
+    .select("user_id")
+    .eq("status", "paid")
+    .in("user_id", refereeIds);
+  const paidSet = new Set(((paid ?? []) as { user_id?: string | null }[]).map((o) => o.user_id));
+
+  return rows.reduce(
+    (sum, r) => sum + (r.referred_user_id && paidSet.has(r.referred_user_id) ? Number(r.reward ?? 0) : 0),
+    0,
+  );
+}
+
+/**
+ * Self-healing referral payout. A referrer is credited +reward into their
+ * BALANCE only once a referee has actually paid — granted lazily the next time
+ * the referrer's credits are read. Idempotent via referral_reward:<refereeId>
+ * markers, so it never double-pays. Mutates `profile` in place and returns the
+ * (possibly updated) balance.
+ */
+export async function reconcileReferralGrants(
+  supabase: SupabaseClient,
+  profile: CreditProfile,
+  userId: string,
+): Promise<number> {
+  const { data: refs } = await supabase
+    .from("referrals")
+    .select("referred_user_id, reward")
+    .eq("referrer_user_id", userId);
+  const rows = (refs ?? []) as { referred_user_id?: string | null; reward?: number | null }[];
+  const refereeIds = rows.map((r) => r.referred_user_id).filter((x): x is string => !!x);
+  if (refereeIds.length === 0) return profile.credits;
+
+  const { data: paid } = await supabase
+    .from("orders")
+    .select("user_id")
+    .eq("status", "paid")
+    .in("user_id", refereeIds);
+  const paidSet = new Set(((paid ?? []) as { user_id?: string | null }[]).map((o) => o.user_id));
+
+  const newMarkers: string[] = [];
+  let delta = 0;
+  for (const r of rows) {
+    if (!r.referred_user_id || !paidSet.has(r.referred_user_id)) continue;
+    const marker = referralRewardMarker(r.referred_user_id);
+    if (profile.credit_unlocks.includes(marker) || newMarkers.includes(marker)) continue;
+    delta += Number(r.reward ?? REFERRAL_REWARD);
+    newMarkers.push(marker);
+  }
+  if (delta <= 0) return profile.credits;
+
+  const nextBalance = profile.credits + delta;
+  const nextUnlocks = [...profile.credit_unlocks, ...newMarkers];
+  const { error } = await supabase
+    .from("profiles")
+    .update({ credits: nextBalance, credit_unlocks: nextUnlocks })
+    .eq("id", userId);
+  if (error) return profile.credits; // best-effort; will retry on next read
+  profile.credits = nextBalance;
+  profile.credit_unlocks = nextUnlocks;
+  return nextBalance;
+}
+
 /** Grant the credits for a paid `credits:<id>` order (called from approve/confirm). */
 export async function grantPurchasedCredits(
   supabase: SupabaseClient,
