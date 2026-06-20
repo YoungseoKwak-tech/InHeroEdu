@@ -10,7 +10,7 @@
  * set RIGHT HERE — we never route parents out to the cosmic /question-bank.
  */
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { authFetch, getClientSession } from "@/lib/client-auth";
 import CreditGate from "@/components/parents/CreditGate";
@@ -23,7 +23,7 @@ const PREVIEW_N = 10; // first 10 questions free as a sample; the rest are paid
 
 interface BankOption { label: string; correct: boolean; feedback?: string | null; }
 interface BankQuestion {
-  id: string; subjectLabel: string; emoji: string; unit: number | null;
+  id: string; courseId?: string | null; subjectLabel: string; emoji: string; unit: number | null;
   prompt: string; options: BankOption[]; explanation?: string | null;
   similar?: { prompt: string; options: BankOption[] } | null; locked?: boolean;
 }
@@ -32,8 +32,8 @@ interface UnitCount { unit: number; count: number; }
 
 export default function QuestionBankClient() {
   const [subjects, setSubjects] = useState<SubjectCount[]>([]);
-  // Seed with a real-ish count so the headline never flashes "0개" while loading.
-  const [total, setTotal] = useState(11975);
+  // Seed with a real-ish AP-only count so the headline never flashes "0개" while loading.
+  const [total, setTotal] = useState(19000);
   const [active, setActive] = useState<string | null>(null);
   const [activeUnit, setActiveUnit] = useState<number | null>(null);
   const [units, setUnits] = useState<UnitCount[]>([]);
@@ -42,6 +42,7 @@ export default function QuestionBankClient() {
   const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
+  const requestSeq = useRef(0);
 
   useEffect(() => { getClientSession().then((s) => setLoggedIn(!!s?.user)).catch(() => {}); }, []);
 
@@ -52,9 +53,14 @@ export default function QuestionBankClient() {
       .then((r) => r.json())
       .then((d) => {
         const list: SubjectCount[] = d?.subjects ?? [];
-        setSubjects(list);
-        setTotal(d?.total ?? 0);
-        setActive((cur) => cur ?? list.find((s) => s.courseId)?.courseId ?? null);
+        const apOnly = list.filter((s) => s.courseId?.startsWith("ap-"));
+        setSubjects(apOnly);
+        setTotal(apOnly.reduce((sum, s) => sum + s.count, 0));
+        setActive((cur) =>
+          cur && apOnly.some((s) => s.courseId === cur)
+            ? cur
+            : apOnly.find((s) => s.courseId)?.courseId ?? null
+        );
       })
       .catch(() => {});
   }, []);
@@ -62,21 +68,46 @@ export default function QuestionBankClient() {
   // Questions for the active subject (+ unit). preview=N gives a free taste even
   // for locked subjects; unlocked subjects come back fully answerable.
   useEffect(() => {
+    const requestId = ++requestSeq.current;
+    if (!active) {
+      setQuestions([]);
+      setUnits([]);
+      setFilteredTotal(0);
+      setLoading(false);
+      return;
+    }
+
+    const controller = new AbortController();
     setLoading(true);
     const params = new URLSearchParams();
-    if (active) params.set("subject", active);
+    params.set("subject", active);
     if (activeUnit != null) params.set("unit", String(activeUnit));
     params.set("preview", String(PREVIEW_N));
-    authFetch(`/api/question-bank/bank?${params.toString()}`)
+    authFetch(`/api/question-bank/bank?${params.toString()}`, { signal: controller.signal })
       .then((r) => r.json())
       .then((d) => {
-        setQuestions(d?.questions ?? []);
-        setFilteredTotal(d?.total ?? (d?.questions?.length ?? 0));
+        if (controller.signal.aborted || requestId !== requestSeq.current) return;
+        const scoped = Array.isArray(d?.questions)
+          ? d.questions.filter((q: BankQuestion) => q.courseId === active)
+          : [];
+        setQuestions(scoped);
+        setFilteredTotal(d?.total ?? scoped.length);
         // Units only change with the subject, not the unit filter.
         if (Array.isArray(d?.units)) setUnits(d.units);
       })
-      .catch(() => { setQuestions([]); setFilteredTotal(0); })
-      .finally(() => setLoading(false));
+      .catch((e) => {
+        if (controller.signal.aborted || requestId !== requestSeq.current) return;
+        console.error("[parents/question-bank] failed to load subject", active, e);
+        setQuestions([]);
+        setFilteredTotal(0);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted && requestId === requestSeq.current) {
+          setLoading(false);
+        }
+      });
+
+    return () => controller.abort();
   }, [active, activeUnit, reloadKey]);
 
   // After a credit unlock, sync server state then refetch so the freshly
@@ -87,7 +118,7 @@ export default function QuestionBankClient() {
     return () => window.removeEventListener(CREDIT_EVENT, onChange);
   }, []);
 
-  const selectSubject = useCallback((courseId: string | null) => {
+  const selectSubject = useCallback((courseId: string) => {
     if (courseId === active) return;
     setLoading(true); // skeletons immediately — no blank frame before the fetch
     setActive(courseId);
@@ -163,7 +194,6 @@ export default function QuestionBankClient() {
           <aside className="pqb-rail">
             <div style={{ fontSize: 11.5, fontWeight: 800, color: "#94a3b8", letterSpacing: "0.06em", textTransform: "uppercase", margin: "0 0 8px 4px" }}>과목</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              <RailItem active={active === null} emoji="🏦" label="전체" count={total} onClick={() => selectSubject(null)} />
               {subjects.map((s) => (
                 <div key={s.courseId ?? s.label}>
                   <RailItem
@@ -171,7 +201,7 @@ export default function QuestionBankClient() {
                     emoji={s.emoji}
                     label={s.label}
                     count={s.count}
-                    onClick={() => selectSubject(s.courseId)}
+                    onClick={() => s.courseId && selectSubject(s.courseId)}
                   />
                   {/* Units of the selected subject, nested under it */}
                   {active === s.courseId && units.length > 0 && (
@@ -191,7 +221,7 @@ export default function QuestionBankClient() {
           <main>
             <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
               <h2 style={{ fontSize: 19, fontWeight: 800, margin: 0, letterSpacing: "-0.02em" }}>
-                {activeSubject ? `${activeSubject.emoji} ${activeSubject.label}` : "🏦 전체 과목"}
+                {activeSubject ? `${activeSubject.emoji} ${activeSubject.label}` : "AP 과목 선택 중"}
                 {activeUnit != null && <span style={{ color: "#94a3b8", fontWeight: 700 }}> · Unit {activeUnit}</span>}
               </h2>
               {/* Count from the known subject total while loading → never flashes "0문항". */}
