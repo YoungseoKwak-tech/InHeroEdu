@@ -11,7 +11,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { authFetch, getClientSession } from "@/lib/client-auth";
+import { isUnlocked, hydrateCredits, CREDIT_EVENT } from "@/lib/credits";
+import { isAdminEmail } from "@/lib/adminEmails";
+import { materialPitch } from "@/lib/materialPitch";
+import MaterialPreviewModal, { type PreviewMaterial } from "@/components/parents/MaterialPreviewModal";
 
 const GREEN = "#00b85f";
 
@@ -38,21 +43,44 @@ const isLargeFile = (b: number | null | undefined) => !!b && b > LARGE_FILE_BYTE
 const downloadHref = (url: string, title: string) => `${url}${url.includes("?") ? "&" : "?"}download=${encodeURIComponent(title)}`;
 
 export default function MaterialsClient() {
+  const router = useRouter();
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [items, setItems] = useState<FeedItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selected, setSelected] = useState<PreviewMaterial | null>(null);
+  const [, setTick] = useState(0);
 
   useEffect(() => {
-    getClientSession().then((s) => setLoggedIn(!!s?.user)).catch(() => setLoggedIn(false));
+    getClientSession().then((s) => { setLoggedIn(!!s?.user); setIsAdmin(isAdminEmail(s?.user?.email)); }).catch(() => setLoggedIn(false));
+    hydrateCredits().catch(() => {});
     authFetch("/api/library/feed?official=official")
       .then((r) => r.json())
       .then((d) => setItems(Array.isArray(d?.items) ? d.items.filter((i: FeedItem) => i.isInheroOfficial) : []))
       .catch(() => setItems([]))
       .finally(() => setLoading(false));
+    const bump = () => setTick((t) => t + 1);
+    window.addEventListener(CREDIT_EVENT, bump);
+    return () => window.removeEventListener(CREDIT_EVENT, bump);
   }, []);
 
   const gateSignup = () =>
     window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: "/parents/materials" } }));
+
+  // After ownership is confirmed (unlock or already-owned): open the note.
+  const proceed = (m: PreviewMaterial) => {
+    const it = items.find((x) => x.id === m.id);
+    if (!it) return;
+    if (isLargeFile(it.fileSize)) window.location.href = downloadHref(it.attachmentUrl, it.title);
+    else router.push(`/library/${it.id}/read`);
+  };
+
+  // Click a note → owned/admin go straight in; otherwise the blurred sales modal.
+  const openItem = (it: FeedItem) => {
+    if (!loggedIn) { gateSignup(); return; }
+    if (isAdmin || isUnlocked(`material:${it.id}`)) { proceed(it); return; }
+    setSelected(it);
+  };
 
   return (
     <div style={{ position: "relative", zIndex: 10, minHeight: "100vh", background: "#eef1f4", color: "#1a1a1f", cursor: "auto", fontFamily: "'Inter', sans-serif" }}>
@@ -106,6 +134,12 @@ export default function MaterialsClient() {
                   {/* meta */}
                   <div style={{ padding: "13px 15px 15px" }}>
                     <div style={{ fontSize: 14.5, fontWeight: 800, color: "#1a1a1f", lineHeight: 1.35, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", minHeight: 40 }}>{it.title}</div>
+                    {(() => { const p = materialPitch(it); return (
+                      <div style={{ marginTop: 6 }}>
+                        <div style={{ fontSize: 12.5, fontWeight: 800, color: "#b45309", lineHeight: 1.35 }}>✍️ {p.headline}</div>
+                        <div style={{ fontSize: 11.5, color: "#64748b", lineHeight: 1.4, marginTop: 2 }}>{p.sub}</div>
+                      </div>
+                    ); })()}
                     {!!it.totalPages && it.totalPages > 1 && (
                       <div style={{ fontSize: 12.5, fontWeight: 800, color: "#dc2626", marginTop: 6 }}>📄 총 {it.totalPages}페이지{large ? " · ⬇ 다운로드 (용량 큼)" : ""}</div>
                     )}
@@ -119,15 +153,14 @@ export default function MaterialsClient() {
                   </div>
                 </article>
               );
-              return large ? (
-                <a key={it.id} href={downloadHref(it.attachmentUrl, it.title)} style={{ textDecoration: "none", color: "inherit" }}>{inner}</a>
-              ) : (
-                <Link key={it.id} href={`/library/${it.id}/read`} style={{ textDecoration: "none", color: "inherit" }}>{inner}</Link>
+              return (
+                <button key={it.id} onClick={() => openItem(it)} style={{ textAlign: "left", border: "none", background: "none", padding: 0, cursor: "pointer", color: "inherit", display: "block", width: "100%" }}>{inner}</button>
               );
             })}
           </div>
         )}
       </div>
+      <MaterialPreviewModal material={selected} onClose={() => setSelected(null)} onUnlocked={proceed} />
     </div>
   );
 }
