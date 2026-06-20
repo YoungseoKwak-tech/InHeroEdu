@@ -24,6 +24,7 @@ import ReferralPrompt from "@/components/parents/ReferralPrompt";
 import { isUnlocked, spendAndUnlockAccount, hydrateCredits, CREDIT_EVENT, CREDIT_COSTS, getBalance } from "@/lib/credits";
 import { isAdminEmail } from "@/lib/adminEmails";
 import { isTextbookLaunched } from "@/lib/launchedTextbooks";
+import LaunchNotifyModal from "@/components/parents/LaunchNotifyModal";
 import TextbookFlipPreview from "@/components/parents/TextbookFlipPreview";
 import AiContentNotice from "@/components/legal/AiContentNotice";
 import { REVIEWS } from "@/lib/data/reviews";
@@ -212,6 +213,7 @@ export default function ParentsClient() {
   const [query, setQuery] = useState("");
   const [slide, setSlide] = useState(0);
   const [textbooks, setTextbooks] = useState<Textbook[]>([]);
+  const [notifyBook, setNotifyBook] = useState<{ slug: string; title: string } | null>(null);
   const [koNotes, setKoNotes] = useState<KoNote[]>([]);
   const [materials, setMaterials] = useState<Material[]>([]);
   const [ivyFlip, setIvyFlip] = useState(0);
@@ -362,6 +364,9 @@ export default function ParentsClient() {
 
   return (
     <div style={{ position: "relative", zIndex: 10, minHeight: "100vh", background: "#eef1f4", color: "#1a1a1f", cursor: "auto", fontFamily: "'Inter', -apple-system, sans-serif" }}>
+      {notifyBook && (
+        <LaunchNotifyModal slug={notifyBook.slug} title={notifyBook.title} onClose={() => setNotifyBook(null)} />
+      )}
       <PromoBanner />
       <ReferralPrompt loggedIn={loggedIn} />
       {gate && (
@@ -951,10 +956,9 @@ export default function ParentsClient() {
               const bookOwned = launched && (isAdmin || isUnlocked(`book:${b.slug}`));
               const isBio = b.slug === "ap-bio-ultimate";
               return (
-              <button key={`${b.slug}-${creditTick}`} onClick={() => { if (launched) openBook(b); }}
-                disabled={!launched}
-                style={{ textAlign: "left", background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, overflow: "hidden", cursor: launched ? "pointer" : "default", opacity: launched ? 1 : 0.72, padding: 0, boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 180ms, box-shadow 200ms" }}
-                onMouseEnter={(e) => { if (!launched) return; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 36px rgba(16,24,40,0.12)"; }}
+              <button key={`${b.slug}-${creditTick}`} onClick={() => { if (launched) openBook(b); else setNotifyBook({ slug: b.slug, title: b.title }); }}
+                style={{ textAlign: "left", background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, overflow: "hidden", cursor: "pointer", opacity: launched ? 1 : 0.72, padding: 0, boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 180ms, box-shadow 200ms" }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 36px rgba(16,24,40,0.12)"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 1px 2px rgba(16,24,40,0.04)"; }}>
                 <div style={{ position: "relative", height: 218, background: "linear-gradient(135deg,#0a0a14,#1e1e2e)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 56, overflow: "hidden", filter: launched ? "none" : "grayscale(0.5)" }}>
                   <span style={{ position: "absolute", top: 8, right: 8, zIndex: 2, fontSize: 10.5, fontWeight: 800, borderRadius: 999, padding: "2px 9px",

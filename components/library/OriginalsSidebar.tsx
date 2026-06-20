@@ -22,6 +22,7 @@ import { useT } from "@/app/contexts/LanguageContext";
 import Image from "next/image";
 import Link from "next/link";
 import { isTextbookLaunched } from "@/lib/launchedTextbooks";
+import LaunchNotifyModal from "@/components/parents/LaunchNotifyModal";
 
 interface Textbook {
   slug: string;
@@ -121,6 +122,7 @@ export default function OriginalsSidebar() {
   const tr = useT();
   const [textbooks, setTextbooks] = useState<Textbook[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [notifyBook, setNotifyBook] = useState<{ slug: string; title: string } | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -144,6 +146,9 @@ export default function OriginalsSidebar() {
 
   return (
     <aside className="orig-sidebar" aria-label="InHero Originals">
+      {notifyBook && (
+        <LaunchNotifyModal slug={notifyBook.slug} title={notifyBook.title} ko={false} onClose={() => setNotifyBook(null)} />
+      )}
       <div className="orig-eyebrow">
         <span className="orig-eyebrow-dot" aria-hidden="true" />
         📘 {tr("INHERO ORIGINALS")}
@@ -201,7 +206,15 @@ export default function OriginalsSidebar() {
               {card}
             </Link>
           ) : (
-            <div key={t.slug} className="orig-card-link" aria-disabled="true" style={{ cursor: "default" }}>
+            <div
+              key={t.slug}
+              className="orig-card-link"
+              role="button"
+              tabIndex={0}
+              onClick={() => setNotifyBook({ slug: t.slug, title: t.title })}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setNotifyBook({ slug: t.slug, title: t.title }); }}
+              style={{ cursor: "pointer" }}
+            >
               {card}
             </div>
           );
