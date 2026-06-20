@@ -19,7 +19,7 @@ import { CREDIT_COSTS, CREDIT_EVENT, hydrateCredits } from "@/lib/credits";
 
 const GREEN = "#00b85f";
 const ALL_KEY = "parents:question-bank"; // all-pass; per-subject = `${ALL_KEY}:${courseId}`
-const PREVIEW_N = 6; // free per-subject taste requested from the API
+const PREVIEW_N = 10; // first 10 questions free as a sample; the rest are paid
 
 interface BankOption { label: string; correct: boolean; feedback?: string | null; }
 interface BankQuestion {

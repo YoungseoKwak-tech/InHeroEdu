@@ -35,6 +35,10 @@ import { join } from "node:path";
 
 const OUT = join(process.cwd(), "lib", "data", "precomputed");
 const MIN_EXAM_MCQ = 30; // keep in sync with /api/question-bank/subjects
+// First N valid questions per subject, shipped as a static free sample so the
+// /parents bank renders INSTANTLY (no ~12s pool build on cold start). 10 are
+// served free; the extra few act as the locked teaser behind the paywall.
+const PREVIEW_PER_SUBJECT = 14;
 
 async function buildQuestionBank() {
   const { getAllBankQuestions, countBySubject } = await import("@/lib/questionBank");
@@ -53,6 +57,35 @@ async function buildQuestionBank() {
     return { ...s, examPool, examReady: examPool >= MIN_EXAM_MCQ };
   });
   return { subjects, total: all.length };
+}
+
+// Static preview payload keyed by the bank course id: per-subject unit counts +
+// the first PREVIEW_PER_SUBJECT valid questions (fully shaped). Served verbatim
+// for the default (locked) browse so cold loads are instant.
+async function buildQuestionBankPreview() {
+  const { getAllBankQuestions } = await import("@/lib/questionBank");
+  const all = await getAllBankQuestions();
+  const byCourse = new Map<string, typeof all>();
+  for (const q of all) {
+    if (!q.courseId) continue;
+    if (!Array.isArray(q.options) || q.options.length < 2) continue;
+    const arr = byCourse.get(q.courseId) ?? [];
+    arr.push(q);
+    byCourse.set(q.courseId, arr);
+  }
+  const out: Record<string, unknown> = {};
+  for (const [courseId, qs] of byCourse) {
+    const unitCounts = new Map<number, number>();
+    for (const q of qs) if (q.unit != null) unitCounts.set(q.unit, (unitCounts.get(q.unit) ?? 0) + 1);
+    const units = [...unitCounts.entries()].map(([unit, count]) => ({ unit, count })).sort((a, b) => a.unit - b.unit);
+    const questions = qs.slice(0, PREVIEW_PER_SUBJECT).map((q) => ({
+      id: q.id, subjectLabel: q.subjectLabel, emoji: q.emoji, unit: q.unit,
+      prompt: q.prompt, options: q.options, explanation: q.explanation ?? null,
+      explanationKorean: q.explanationKorean ?? null, similar: q.similar ?? null,
+    }));
+    out[courseId] = { label: qs[0]?.subjectLabel ?? courseId, emoji: qs[0]?.emoji ?? "📘", total: qs.length, units, questions };
+  }
+  return out;
 }
 
 async function buildCoreNotes() {
@@ -75,6 +108,7 @@ async function writeSafely(name: string, build: () => Promise<unknown>) {
 
 async function main() {
   await writeSafely("questionBankSubjects.json", buildQuestionBank);
+  await writeSafely("questionBankPreview.json", buildQuestionBankPreview);
   await writeSafely("coreNotesSubjects.json", buildCoreNotes);
   console.log("done.");
 }
