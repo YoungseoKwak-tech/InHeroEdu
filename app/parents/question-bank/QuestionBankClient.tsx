@@ -88,9 +88,17 @@ export default function QuestionBankClient() {
   }, []);
 
   const selectSubject = useCallback((courseId: string | null) => {
+    if (courseId === active) return;
+    setLoading(true); // skeletons immediately — no blank frame before the fetch
     setActive(courseId);
     setActiveUnit(null);
     setUnits([]);
+    setQuestions([]);
+  }, [active]);
+
+  const selectUnit = useCallback((unit: number | null) => {
+    setLoading(true);
+    setActiveUnit(unit);
     setQuestions([]);
   }, []);
 
@@ -102,6 +110,9 @@ export default function QuestionBankClient() {
   const hasLocked = lockedQs.length > 0;
   const activeSubject = subjects.find((s) => s.courseId === active);
   const lockedCount = Math.max(lockedQs.length, filteredTotal - answerable.length);
+  // While loading, fall back to the subject's known count so the header never
+  // flashes "0문항" (the count is in the precomputed subject list already).
+  const displayTotal = loading ? (activeSubject?.count ?? filteredTotal ?? 0) : filteredTotal;
 
   const gateSignup = () =>
     window.dispatchEvent(new CustomEvent("inhero:open-auth", { detail: { mode: "signup", redirectTo: "/parents/question-bank" } }));
@@ -109,20 +120,24 @@ export default function QuestionBankClient() {
   return (
     <div style={{ position: "relative", zIndex: 10, minHeight: "100vh", background: "#eef1f4", color: "#1a1a1f", cursor: "auto", fontFamily: "'Inter', sans-serif" }}>
       <style>{`
-        .pqb-shell{display:grid;grid-template-columns:268px minmax(0,1fr);gap:24px;align-items:start}
+        .pqb-wrap{max-width:1760px;margin:0 auto;padding:0 clamp(16px,3vw,40px)}
+        .pqb-shell{display:grid;grid-template-columns:288px minmax(0,1fr);gap:28px;align-items:start}
         .pqb-rail{position:sticky;top:70px;max-height:calc(100vh - 92px);overflow:auto;padding-right:2px}
-        @media(max-width:860px){.pqb-shell{grid-template-columns:1fr}.pqb-rail{position:static;max-height:340px}}
+        .pqb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:14px}
+        @media(max-width:980px){.pqb-shell{grid-template-columns:1fr}.pqb-rail{position:static;max-height:340px}.pqb-grid{grid-template-columns:1fr}}
+        @keyframes pqbpulse{0%,100%{opacity:.55}50%{opacity:1}}
+        .pqb-sk{background:#e7ebef;border-radius:7px;animation:pqbpulse 1.15s ease-in-out infinite}
       `}</style>
 
       {/* Top bar */}
       <div style={{ position: "sticky", top: 0, zIndex: 20, background: "rgba(255,255,255,0.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #e2e6ea" }}>
-        <div style={{ maxWidth: 1180, margin: "0 auto", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div className="pqb-wrap" style={{ padding: "14px clamp(16px,3vw,40px)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/parents" style={{ color: "#475569", textDecoration: "none", fontSize: 14, fontWeight: 600 }}>← 자료실</Link>
           <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 15 }}>In<span style={{ color: GREEN }}>Hero</span> · 학부모</span>
         </div>
       </div>
 
-      <div style={{ maxWidth: 1180, margin: "0 auto", padding: "32px 20px 90px" }}>
+      <div className="pqb-wrap" style={{ padding: "32px clamp(16px,3vw,40px) 90px" }}>
         {/* Hero */}
         <p style={{ fontSize: 13, fontWeight: 700, color: "#dc2680", marginBottom: 10 }}>📝 AP 문제 은행</p>
         <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.6rem,3.6vw,2.3rem)", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: 12 }}>
@@ -161,9 +176,9 @@ export default function QuestionBankClient() {
                   {/* Units of the selected subject, nested under it */}
                   {active === s.courseId && units.length > 0 && (
                     <div style={{ display: "flex", flexDirection: "column", gap: 2, margin: "4px 0 6px 0", paddingLeft: 12, borderLeft: "2px solid #e2e6ea" }}>
-                      <UnitItem active={activeUnit === null} label="전체 유닛" count={s.count} onClick={() => setActiveUnit(null)} />
+                      <UnitItem active={activeUnit === null} label="전체 유닛" count={s.count} onClick={() => selectUnit(null)} />
                       {units.map((u) => (
-                        <UnitItem key={u.unit} active={activeUnit === u.unit} label={`Unit ${u.unit}`} count={u.count} onClick={() => setActiveUnit(u.unit)} />
+                        <UnitItem key={u.unit} active={activeUnit === u.unit} label={`Unit ${u.unit}`} count={u.count} onClick={() => selectUnit(u.unit)} />
                       ))}
                     </div>
                   )}
@@ -179,19 +194,23 @@ export default function QuestionBankClient() {
                 {activeSubject ? `${activeSubject.emoji} ${activeSubject.label}` : "🏦 전체 과목"}
                 {activeUnit != null && <span style={{ color: "#94a3b8", fontWeight: 700 }}> · Unit {activeUnit}</span>}
               </h2>
-              <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 600 }}>{filteredTotal.toLocaleString()}문항</span>
+              {/* Count from the known subject total while loading → never flashes "0문항". */}
+              <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 600 }}>{displayTotal.toLocaleString()}문항</span>
             </div>
 
             {loading ? (
-              <p style={{ color: "#94a3b8", fontSize: 14, padding: "40px 0", textAlign: "center" }}>문제를 불러오는 중…</p>
+              <SkeletonGrid />
             ) : (!loggedIn && answerable.length === 0) ? (
               <LockedCTA onClick={gateSignup} subjectLocked />
             ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                {answerable.map((q, i) => <QuestionCard key={q.id} q={q} index={i} />)}
+              <div>
+                <div className="pqb-grid">
+                  {answerable.map((q, i) => <QuestionCard key={q.id} q={q} index={i} />)}
+                </div>
 
                 {hasLocked && (
-                  activeSubject ? (
+                  <div style={{ marginTop: 14 }}>
+                  {activeSubject ? (
                     <CreditGate
                       gateKey={`${ALL_KEY}:${active}`}
                       cost={CREDIT_COSTS.SUBJECT}
@@ -212,13 +231,31 @@ export default function QuestionBankClient() {
                     >
                       <LockedTeaser items={lockedQs} count={lockedCount} />
                     </CreditGate>
-                  )
+                  )}
+                  </div>
                 )}
               </div>
             )}
           </main>
         </div>
       </div>
+    </div>
+  );
+}
+
+function SkeletonGrid() {
+  // Placeholder cards that match the real layout so switching subjects never
+  // collapses to a blank pane (no flicker) while the fetch resolves.
+  return (
+    <div className="pqb-grid">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <div key={i} style={{ background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, padding: "20px 22px", boxShadow: "0 1px 2px rgba(16,24,40,0.04)" }}>
+          <div className="pqb-sk" style={{ height: 12, width: 150, marginBottom: 16 }} />
+          <div className="pqb-sk" style={{ height: 16, width: "78%", marginBottom: 8 }} />
+          <div className="pqb-sk" style={{ height: 16, width: "55%", marginBottom: 18 }} />
+          {[0, 1, 2, 3].map((j) => <div key={j} className="pqb-sk" style={{ height: 42, marginBottom: 8, borderRadius: 10 }} />)}
+        </div>
+      ))}
     </div>
   );
 }

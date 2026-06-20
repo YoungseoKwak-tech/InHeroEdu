@@ -1415,11 +1415,11 @@
         "options": [
           {
             "label": "Water enters the cell because the cell has higher water potential than the solution",
-            "correct": true
+            "correct": false
           },
           {
-            "label": "Water leaves the cell because the cell has lower water potential than the solution",
-            "correct": false
+            "label": "Water leaves the cell because the cell has higher water potential than the solution",
+            "correct": true
           },
           {
             "label": "Water enters the cell because the cell has lower water potential than the solution",
@@ -1430,7 +1430,7 @@
             "correct": false
           }
         ],
-        "explanation": "Calculate cell water potential: negative 0.7 MPa plus 0.3 MPa equals negative 0.4 MPa. The solution has water potential of negative 0.5 MPa. Water moves from higher to lower water potential, so water moves from the cell (negative 0.4 MPa) into the solution (negative 0.5 MPa). Wait, this means water leaves the cell. Let me recalculate. Cell water potential is negative 0.4 MPa. Solution water potential is negative 0.5 MPa. Since negative 0.4 is greater than negative 0.5, water moves from the cell to the solution. Choice B is correct, but I marked A. The correct answer is B. Water leaves the cell because the cell has higher water potential (negative 0.4 MPa) than the solution (negative 0.5 MPa).",
+        "explanation": "Cell water potential = -0.7 MPa + 0.3 MPa = -0.4 MPa. The solution has water potential of -0.5 MPa. Water moves from higher water potential to lower water potential, so water moves from the cell (-0.4 MPa) into the solution (-0.5 MPa). Choice B is correct.",
         "explanationKorean": null,
         "similar": {
           "prompt": "Which observation would provide the strongest evidence that a membrane protein is an integral protein rather than a peripheral protein?",

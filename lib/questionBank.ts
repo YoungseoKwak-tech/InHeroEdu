@@ -289,6 +289,26 @@ function fromAdminRow(row: AdminQuestionRow): BankQuestion | null {
   };
 }
 
+function applyQuestionCorrections(q: BankQuestion): BankQuestion {
+  if (q.id !== "script:ap-biology-u1-l8:1") return q;
+
+  return {
+    ...q,
+    options: q.options.map((option, index) => {
+      if (index === 1) {
+        return {
+          ...option,
+          label: "Water leaves the cell because the cell has higher water potential than the solution",
+          correct: true,
+        };
+      }
+      return { ...option, correct: false };
+    }),
+    explanation:
+      "Cell water potential = -0.7 MPa + 0.3 MPa = -0.4 MPa. The solution has water potential of -0.5 MPa. Water moves from higher water potential to lower water potential, so water moves from the cell (-0.4 MPa) into the solution (-0.5 MPa). Choice B is correct.",
+  };
+}
+
 /**
  * The full aggregation is expensive (parses every lesson's chapter_json),
  * but the data only changes when admin regenerates scripts. Cache the
@@ -378,14 +398,16 @@ async function rebuildBank(): Promise<BankQuestion[]> {
     if (q) out.push(q);
   }
 
+  const corrected = out.map(applyQuestionCorrections);
+
   // Stable-ish ordering: subject, then unit, then prompt.
-  out.sort((a, b) => {
+  corrected.sort((a, b) => {
     if (a.subjectLabel !== b.subjectLabel) return a.subjectLabel.localeCompare(b.subjectLabel);
     if ((a.unit ?? 99) !== (b.unit ?? 99)) return (a.unit ?? 99) - (b.unit ?? 99);
     return a.prompt.localeCompare(b.prompt);
   });
 
-  return out;
+  return corrected;
 }
 
 /** Full normalized bank, cached. Concurrent callers share one rebuild. */
@@ -461,7 +483,9 @@ async function rebuildBankForSubject(variants: string[]): Promise<BankQuestion[]
 
   // Keep only this subject's questions (admin subject forms outside `variants`
   // can't appear here, but generated/overlay courseIds are filtered to be safe).
-  const filtered = out.filter((q) => q.courseId && variants.includes(q.courseId));
+  const filtered = out
+    .filter((q) => q.courseId && variants.includes(q.courseId))
+    .map(applyQuestionCorrections);
   filtered.sort((a, b) => {
     if ((a.unit ?? 99) !== (b.unit ?? 99)) return (a.unit ?? 99) - (b.unit ?? 99);
     return a.prompt.localeCompare(b.prompt);

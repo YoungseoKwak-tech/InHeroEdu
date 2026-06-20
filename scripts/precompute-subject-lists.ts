@@ -99,7 +99,11 @@ async function writeSafely(name: string, build: () => Promise<unknown>) {
     const data = await build();
     mkdirSync(OUT, { recursive: true });
     writeFileSync(join(OUT, name), JSON.stringify(data, null, 2), "utf8");
-    const n = (data as { subjects?: unknown[] }).subjects?.length ?? 0;
+    const n = Array.isArray((data as { subjects?: unknown[] }).subjects)
+      ? (data as { subjects: unknown[] }).subjects.length
+      : data && typeof data === "object" && !Array.isArray(data)
+        ? Object.keys(data).length
+        : 0;
     console.log(`✓ ${name} — ${n} subjects`);
   } catch (e) {
     console.warn(`! ${name} — keeping existing JSON (build failed): ${(e as Error).message}`);
