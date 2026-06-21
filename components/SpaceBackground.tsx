@@ -297,8 +297,11 @@ export default function SpaceBackground() {
     };
   }, []);
 
-  // The /parents portal is a clean white community surface — no cosmic ships.
-  if (pathname?.startsWith("/parents")) return null;
+  // Clean white surfaces — no cosmic ships flying over them. The /parents portal
+  // and the white exam runners/samples (SAT·TOEFL) are focus surfaces where the
+  // patrol ships just distract.
+  const NO_SHIPS = ["/parents", "/sat/test", "/sat/sample", "/toefl/test", "/toefl/sample"];
+  if (pathname && NO_SHIPS.some((p) => pathname.startsWith(p))) return null;
 
   return (
     <>
