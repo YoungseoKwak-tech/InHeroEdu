@@ -92,7 +92,7 @@ export default function ToeflTestClient() {
     const cards: { key: View; tag: string; title: string; meta: string; color: string }[] = [
       { key: "reading", tag: "Reading", title: "Reading", meta: `${form.reading.length} passages · ${counts.reading} questions · 35 min · auto-graded`, color: "#1D9E75" },
       { key: "listening", tag: "Listening", title: "Listening", meta: `${form.listening.length} audio clips · ${counts.listening} questions · ~36 min · audio playback`, color: "#7DD3FC" },
-      { key: "speaking", tag: "Speaking", title: "Speaking", meta: `${counts.speaking} tasks · 16 min · recording + speech-to-text`, color: "#F59E0B" },
+      { key: "speaking", tag: "Speaking", title: "Speaking", meta: `${counts.speaking} tasks · 16 min · recording + AI scoring`, color: "#F59E0B" },
       { key: "writing", tag: "Writing", title: "Writing", meta: `${counts.writing} tasks · 29 min · timer + word count`, color: "#A78BFA" },
     ];
     return (
@@ -184,7 +184,7 @@ export default function ToeflTestClient() {
 const SECTION_INTRO: Record<string, { name: string; emoji: string; lines: string[] }> = {
   reading: { name: "Reading Section", emoji: "📖", lines: ["2 passages · 10 questions each (20 total) · 35 min", "Just like the real exam, read college-level academic passages and answer multiple-choice questions. Answers and explanations are revealed after you submit.", "You can move freely between questions within a section."] },
   listening: { name: "Listening Section", emoji: "🎧", lines: ["2 conversations + 3 lectures · 28 questions total · ~36 min", "Listen to the audio (you can take notes) and answer multiple-choice questions. Be ready to answer as you listen, just like the real exam.", "The transcript is revealed after grading."] },
-  speaking: { name: "Speaking Section", emoji: "🎙", lines: ["4 tasks (1 independent + 3 integrated) · ~16 min", "After 15–30 sec of prep, respond for 45–60 sec. Allow the mic and your response is transcribed with speech recognition, then self-scored against a rubric.", "Find a quiet place to do this."] },
+  speaking: { name: "Speaking Section", emoji: "🎙", lines: ["4 tasks (1 independent + 3 integrated) · ~16 min", "After 15–30 sec of prep, respond for 45–60 sec. Allow the mic and your response is recorded + transcribed, then AI scores it on the 0–4 TOEFL rubric with feedback (you can also self-check).", "Find a quiet place to do this."] },
   writing: { name: "Writing Section", emoji: "✍️", lines: ["2 tasks (integrated + academic discussion) · ~29 min", "Write within the time limit while watching your word count, then self-score against a rubric.", "For the Integrated task, summarize the lecture — not your own opinion."] },
 };
 
@@ -222,7 +222,7 @@ function FullTest({ form, onExit }: { form: ReturnType<typeof getToeflForm>; onE
               </div>
             ))}
           </div>
-          <p style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.6, marginBottom: 16 }}>* Reading and Listening are scaled from your accuracy; Speaking and Writing are estimates based on rubric self-scoring. These may differ from the official TOEFL conversion tables.</p>
+          <p style={{ fontSize: 12, color: "#94a3b8", lineHeight: 1.6, marginBottom: 16 }}>* Reading and Listening are scaled from your accuracy; Speaking is AI-scored on the TOEFL rubric and Writing uses rubric self-scoring. These estimates may differ from the official TOEFL conversion tables.</p>
           <button onClick={onExit} style={btnBlue}>Back to start →</button>
         </div>
       </Shell>
@@ -607,6 +607,9 @@ function RubricPanel({ kind, variant, minWords, response, onScore }: {
 function chip(ok: boolean): React.CSSProperties {
   return { fontSize: 12, fontWeight: 700, color: ok ? "#0f7b53" : "#a16207", background: ok ? "#e6f6ee" : "#fffbeb", border: `1px solid ${ok ? "#0f7b53" : "#f1d27a"}`, borderRadius: 999, padding: "4px 10px" };
 }
+function aiChip(): React.CSSProperties {
+  return { fontSize: 11.5, fontWeight: 700, color: "#cdd8ec", background: "rgba(125,211,252,0.12)", border: "1px solid rgba(125,211,252,0.3)", borderRadius: 999, padding: "3px 10px" };
+}
 
 // ── SPEAKING (prep + response timers, mic recording, speech-to-text, AI score) ─
 function SpeakingFlow({ tasks, onDone, banner }: { tasks: ToeflSpeakingTask[]; onDone: (scaled: number | null) => void; banner?: React.ReactNode }) {
@@ -616,6 +619,8 @@ function SpeakingFlow({ tasks, onDone, banner }: { tasks: ToeflSpeakingTask[]; o
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [transcript, setTranscript] = useState("");
   const [taskScores, setTaskScores] = useState<Record<number, number>>({});
+  const [aiLoading, setAiLoading] = useState(false);
+  const [ai, setAi] = useState<null | { scaled: number; overall: number; delivery: number; language: number; topic: number; feedback: string; tips: string[] }>(null);
   const recRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const recogRef = useRef<{ stop: () => void } | null>(null);
@@ -680,10 +685,35 @@ function SpeakingFlow({ tasks, onDone, banner }: { tasks: ToeflSpeakingTask[]; o
     } catch { /* mic denied → timer + (maybe) recognition only */ }
   }
 
-  function begin() { setAudioUrl(null); setTranscript(""); finalRef.current = ""; setPhase("prep"); setRemaining(task.prepSec); }
+  function begin() { setAudioUrl(null); setTranscript(""); finalRef.current = ""; setAi(null); setPhase("prep"); setRemaining(task.prepSec); }
   function nextTask() {
-    setAudioUrl(null); setTranscript(""); setPhase("ready");
+    setAudioUrl(null); setTranscript(""); setAi(null); setPhase("ready");
     if (ti < tasks.length - 1) setTi(ti + 1); else onDone(avgScaled(Object.values(taskScores)));
+  }
+
+  // AI auto-score: send the transcript to Claude for a 0–4 → 0–30 rubric score.
+  async function scoreWithAI() {
+    if (aiLoading) return;
+    if (transcript.trim().split(/\s+/).length < 5) { window.alert("답변이 너무 짧아요. 전사된 답변을 채워넣은 뒤 채점해 주세요."); return; }
+    setAiLoading(true);
+    try {
+      const res = await fetch("/api/toefl/score-speaking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ taskType: task.type, prompt: task.prompt, readingText: task.readingText, transcript }),
+      });
+      const d = await res.json();
+      if (d?.ok && typeof d.scaled === "number") {
+        setAi({ scaled: d.scaled, overall: d.overall, delivery: d.delivery, language: d.language, topic: d.topic, feedback: d.feedback ?? "", tips: Array.isArray(d.tips) ? d.tips : [] });
+        setTaskScores((m) => ({ ...m, [ti]: d.scaled }));
+      } else {
+        window.alert(d?.error || "AI 채점을 잠시 사용할 수 없어요. 아래 루브릭으로 직접 채점해 주세요.");
+      }
+    } catch {
+      window.alert("네트워크 오류로 AI 채점에 실패했어요. 잠시 후 다시 시도해 주세요.");
+    } finally {
+      setAiLoading(false);
+    }
   }
 
   return (
@@ -726,6 +756,38 @@ function SpeakingFlow({ tasks, onDone, banner }: { tasks: ToeflSpeakingTask[]; o
           <div style={{ fontSize: 12.5, fontWeight: 800, color: "#5b6b7b", marginBottom: 6 }}>📝 Speech-to-text transcript (edit it if needed before scoring)</div>
           <textarea value={transcript} onChange={(e) => setTranscript(e.target.value)} placeholder="If speech recognition didn't work, type what you said here…"
             style={{ width: "100%", minHeight: 110, padding: "12px 14px", border: "1px solid #d8dee5", borderRadius: 10, fontSize: 14, lineHeight: 1.6, fontFamily: "inherit", resize: "vertical", marginBottom: 12 }} />
+          {/* AI 자동 채점 */}
+          <div style={{ marginBottom: 12, background: "#0b1220", borderRadius: 14, padding: "16px 18px" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+              <span style={{ fontSize: 13, fontWeight: 800, color: "#7DD3FC" }}>🤖 AI 자동 채점</span>
+              <button onClick={scoreWithAI} disabled={aiLoading}
+                style={{ background: "#7DD3FC", color: "#0b1220", border: "none", borderRadius: 999, padding: "9px 20px", fontWeight: 800, fontSize: 13.5, cursor: aiLoading ? "default" : "pointer", opacity: aiLoading ? 0.7 : 1 }}>
+                {aiLoading ? "채점 중…" : ai ? "다시 채점" : "AI로 채점하기"}
+              </button>
+            </div>
+            {ai ? (
+              <div style={{ marginTop: 12 }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 8 }}>
+                  <span style={{ fontSize: 30, fontWeight: 900, color: "#fff" }}>{ai.overall}<span style={{ fontSize: 15, color: "#7d8aa0" }}>/4</span></span>
+                  <span style={{ fontSize: 14, color: "#9fb3cc", fontWeight: 700 }}>≈ {ai.scaled}/30</span>
+                </div>
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
+                  <span style={aiChip()}>Delivery {ai.delivery}/4</span>
+                  <span style={aiChip()}>Language {ai.language}/4</span>
+                  <span style={aiChip()}>Topic {ai.topic}/4</span>
+                </div>
+                {ai.feedback && <p style={{ fontSize: 13, color: "#cdd8ec", lineHeight: 1.6, margin: "0 0 8px" }}>{ai.feedback}</p>}
+                {ai.tips.length > 0 && (
+                  <ul style={{ margin: 0, paddingLeft: 18, display: "grid", gap: 4 }}>
+                    {ai.tips.map((t, i) => <li key={i} style={{ fontSize: 12.5, color: "#9fb3cc", lineHeight: 1.5 }}>{t}</li>)}
+                  </ul>
+                )}
+              </div>
+            ) : (
+              <p style={{ fontSize: 12, color: "#7d8aa0", margin: "8px 0 0", lineHeight: 1.5 }}>전사된 답변을 TOEFL 루브릭(Delivery·Language·Topic)으로 AI가 0–4점 채점하고 한국어 피드백을 드려요.</p>
+            )}
+          </div>
+
           <div style={{ marginBottom: 12 }}>
             <RubricPanel kind="speaking" variant={task.type} minWords={40} response={transcript}
               onScore={(s) => setTaskScores((m) => ({ ...m, [ti]: s }))} />
