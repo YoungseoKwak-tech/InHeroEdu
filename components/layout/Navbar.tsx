@@ -143,6 +143,23 @@ export default function Navbar() {
     window.location.replace("/");
   };
 
+  // Full-screen exam runners (SAT/TOEFL practice + free samples) have their own
+  // top chrome with a live timer. The site nav is `position: fixed`, so it
+  // overlapped that timer — hide the nav on these routes (keep the AuthModal so
+  // the signup gate still works).
+  const isExamRunner = ["/sat/test", "/sat/sample", "/toefl/test", "/toefl/sample"]
+    .some((p) => pathname?.startsWith(p));
+  if (isExamRunner) {
+    return (
+      <AuthModal
+        isOpen={authOpen}
+        onClose={() => setAuthOpen(false)}
+        defaultMode={authMode}
+        redirectTo={authRedirectTo}
+      />
+    );
+  }
+
   // The parent hub (/parents/*) is a self-contained white community portal
   // with its own header — hide the cosmic site chrome there, but keep the
   // AuthModal mounted so the signup gate (inhero:open-auth) still works.
