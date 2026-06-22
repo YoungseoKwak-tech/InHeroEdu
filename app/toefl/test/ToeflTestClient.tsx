@@ -12,6 +12,7 @@ import Link from "next/link";
 import { getToeflForm, toeflCounts, TOEFL_FORMS } from "@/lib/toefl/forms";
 import type { ToeflMCQ, ToeflReadingSet, ToeflListeningSet, ToeflSpeakingTask, ToeflWritingTask } from "@/lib/toefl/types";
 import { scaledScore, sectionBand, TOEFL_TIMING } from "@/lib/toefl/types";
+import { autoScore } from "@/lib/toefl/autoScore";
 import { getClientSession } from "@/lib/client-auth";
 import CreditGate from "@/components/parents/CreditGate";
 import CreditWidget from "@/components/parents/CreditWidget";
@@ -530,85 +531,42 @@ function avgScaled(scores: number[]): number | null {
   return Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
 }
 
-const CONNECTIVES = ["however", "because", "for example", "for instance", "although", "while", "in contrast", "therefore", "moreover", "in addition", "on the other hand", "as a result", "first", "second", "finally", "furthermore", "so that"];
-
-function countWords(s: string) { return s.trim() ? s.trim().split(/\s+/).length : 0; }
-function foundConnectives(s: string) {
-  const low = s.toLowerCase();
-  return CONNECTIVES.filter((c) => low.includes(c));
-}
-
-/**
- * RubricPanel — objective metrics computed locally + the official rubric as a
- * self-check. The number of boxes the user ticks gives a band → 0–30 scaled.
- * No external API.
- */
-function RubricPanel({ kind, variant, minWords, response, onScore }: {
-  kind: "speaking" | "writing"; variant: "independent" | "integrated" | "discussion"; minWords: number; response: string; onScore: (scaled: number) => void;
-}) {
-  const items = kind === "writing"
-    ? [
-        variant === "integrated" ? "Accurately summarized the lecture's key counterpoints (ideally all 3)" : "Stated my position clearly in the first sentence",
-        variant === "integrated" ? "Explained how each point connects to the claims in the reading passage" : "Backed it up well with reasons and specific examples",
-        "The writing is logically organized (intro–body–conclusion, with transitions)",
-        "Grammar and spelling are mostly accurate, with varied vocabulary",
-        "Met the required length",
-      ]
-    : [
-        "Answered the question directly and stated my position/main point clearly",
-        variant === "independent" ? "Developed it with two reasons and examples" : "Accurately reflected the key points from the reading/listening",
-        "Spoke fairly fluently without major pauses",
-        "Made full use of the response time given",
-      ];
-  const bandMax = items.length; // writing 5, speaking 4
-  const [checked, setChecked] = useState<boolean[]>(() => items.map(() => false));
-
-  const words = countWords(response);
-  const conns = foundConnectives(response);
-  const enoughLen = words >= minWords;
-
-  function toggle(i: number) {
-    setChecked((prev) => {
-      const next = [...prev]; next[i] = !next[i];
-      const band = next.filter(Boolean).length;
-      onScore(Math.round((band / bandMax) * 30));
-      return next;
-    });
-  }
-  const band = checked.filter(Boolean).length;
-  const scaled = Math.round((band / bandMax) * 30);
-
-  return (
-    <div style={{ background: "#fff", border: `1px solid ${BLUE}33`, borderRadius: 14, padding: "16px 18px" }}>
-      <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 12 }}>
-        <span style={{ fontSize: 13, fontWeight: 800, color: "#94a3b8" }}>📋 Self-scoring (rubric)</span>
-        <span style={{ fontSize: 28, fontWeight: 900, color: BLUE }}>{band}<span style={{ fontSize: 15, color: "#9aa6b2" }}>/{bandMax}</span></span>
-        <span style={{ fontSize: 13, color: "#5b6b7b", fontWeight: 700 }}>≈ {scaled}/30</span>
-      </div>
-
-      {/* Objective auto-metrics (computed locally) */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 14 }}>
-        <span style={chip(enoughLen)}>{enoughLen ? "✓" : "✗"} {kind === "writing" ? "Length" : "Output"} {words} words (target {minWords}+)</span>
-        <span style={chip(conns.length >= 2)}>{conns.length >= 2 ? "✓" : "✗"} {conns.length} transitions{conns.length ? ` (${conns.slice(0, 3).join(", ")})` : ""}</span>
-      </div>
-
-      <div style={{ fontSize: 12.5, fontWeight: 800, color: "#475569", marginBottom: 8 }}>Check off each item as you self-assess (based on the TOEFL rubric)</div>
-      <div style={{ display: "grid", gap: 8 }}>
-        {items.map((it, i) => (
-          <button key={i} type="button" onClick={() => toggle(i)} style={{ textAlign: "left", display: "flex", gap: 10, alignItems: "flex-start", padding: "10px 12px", borderRadius: 10, cursor: "pointer", border: `1.5px solid ${checked[i] ? "#0f7b53" : "#d0d7de"}`, background: checked[i] ? "#e6f6ee" : "#fff" }}>
-            <span style={{ flexShrink: 0, width: 20, height: 20, borderRadius: 6, display: "inline-flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 13, color: "#fff", background: checked[i] ? "#0f7b53" : "#cbd5e1" }}>{checked[i] ? "✓" : ""}</span>
-            <span style={{ fontSize: 13.5, lineHeight: 1.5, color: "#243240" }}>{it}</span>
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-function chip(ok: boolean): React.CSSProperties {
-  return { fontSize: 12, fontWeight: 700, color: ok ? "#0f7b53" : "#a16207", background: ok ? "#e6f6ee" : "#fffbeb", border: `1px solid ${ok ? "#0f7b53" : "#f1d27a"}`, borderRadius: 999, padding: "4px 10px" };
-}
 function aiChip(): React.CSSProperties {
   return { fontSize: 11.5, fontWeight: 700, color: "#cdd8ec", background: "rgba(125,211,252,0.12)", border: "1px solid rgba(125,211,252,0.3)", borderRadius: 999, padding: "3px 10px" };
+}
+
+// ── Free on-device auto-scorer panel (no API) ────────────────────────────────
+function AutoScorePanel({ kind, variant, text, prompt, sourceText, respSec, targetWords, onScore }: {
+  kind: "speaking" | "writing"; variant: "independent" | "integrated" | "discussion";
+  text: string; prompt: string; sourceText?: string; respSec?: number; targetWords: number;
+  onScore: (scaled: number) => void;
+}) {
+  const result = useMemo(
+    () => autoScore({ kind, variant, text, prompt, sourceText, respSec, targetWords }),
+    [kind, variant, text, prompt, sourceText, respSec, targetWords],
+  );
+  useEffect(() => { onScore(result.scaled); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [result.scaled]);
+
+  return (
+    <div style={{ background: "#0b3b2e", borderRadius: 14, padding: "16px 18px" }}>
+      <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 10, flexWrap: "wrap" }}>
+        <span style={{ fontSize: 13, fontWeight: 800, color: "#5fe0a0" }}>⚡ 자동 채점 <span style={{ color: "#3f9e7c", fontWeight: 700 }}>(무료·즉시)</span></span>
+        <span style={{ fontSize: 28, fontWeight: 900, color: "#fff" }}>{result.overall}<span style={{ fontSize: 15, color: "#7fbfa3" }}>/4</span></span>
+        <span style={{ fontSize: 14, color: "#bdf5d8", fontWeight: 700 }}>≈ {result.scaled}/30</span>
+      </div>
+      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
+        {result.metrics.map((m, i) => (
+          <span key={i} style={{ fontSize: 11.5, fontWeight: 700, borderRadius: 999, padding: "3px 10px", color: m.ok ? "#bdf5d8" : "#fde68a", background: m.ok ? "rgba(95,224,160,0.14)" : "rgba(253,230,138,0.12)", border: `1px solid ${m.ok ? "rgba(95,224,160,0.34)" : "rgba(253,230,138,0.3)"}` }}>{m.ok ? "✓" : "✗"} {m.label}</span>
+        ))}
+      </div>
+      {result.feedback && <p style={{ fontSize: 13, color: "#d7f3e6", lineHeight: 1.6, margin: "0 0 8px" }}>{result.feedback}</p>}
+      {result.tips.length > 0 && (
+        <ul style={{ margin: 0, paddingLeft: 18, display: "grid", gap: 4 }}>
+          {result.tips.map((t, i) => <li key={i} style={{ fontSize: 12.5, color: "#9fd8bf", lineHeight: 1.5 }}>{t}</li>)}
+        </ul>
+      )}
+    </div>
+  );
 }
 
 // ── SPEAKING (prep + response timers, mic recording, speech-to-text, AI score) ─
@@ -789,7 +747,7 @@ function SpeakingFlow({ tasks, onDone, banner }: { tasks: ToeflSpeakingTask[]; o
           </div>
 
           <div style={{ marginBottom: 12 }}>
-            <RubricPanel kind="speaking" variant={task.type} minWords={40} response={transcript}
+            <AutoScorePanel kind="speaking" variant={task.type} text={transcript} prompt={task.prompt} sourceText={task.readingText} respSec={task.respSec} targetWords={Math.max(40, Math.round((task.respSec / 60) * 110))}
               onScore={(s) => setTaskScores((m) => ({ ...m, [ti]: s }))} />
           </div>
           <div style={{ background: "#f6f8fa", borderRadius: 10, padding: "12px 14px", fontSize: 13.5, color: "#3a4756", lineHeight: 1.65, marginBottom: 14 }}><b>💡 Tip </b>{task.tip}</div>
@@ -857,7 +815,7 @@ function WritingFlow({ tasks, onDone, banner }: { tasks: ToeflWritingTask[]; onD
           {done && (
             <>
               <div style={{ marginBottom: 12 }}>
-                <RubricPanel kind="writing" variant={task.type} minWords={minWords} response={text}
+                <AutoScorePanel kind="writing" variant={task.type} text={text} prompt={task.prompt} sourceText={task.readingText} targetWords={minWords}
                   onScore={(s) => setTaskScores((m) => ({ ...m, [ti]: s }))} />
               </div>
               <div style={{ background: "#f6f8fa", borderRadius: 10, padding: "12px 14px", fontSize: 13.5, color: "#3a4756", lineHeight: 1.65, marginBottom: 14 }}><b>💡 Tip </b>{task.tip}</div>
