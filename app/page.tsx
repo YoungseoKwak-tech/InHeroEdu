@@ -68,7 +68,7 @@ export default function HomePage() {
   return (
     <div style={{ position: "relative", zIndex: 10, background: "#ffffff", color: INK, fontFamily: "'Inter', -apple-system, sans-serif", minHeight: "100vh" }}>
       {/* ── Hero ───────────────────────────────────────────────── */}
-      <section style={{ background: "linear-gradient(180deg,#f6f8fb 0%, #ffffff 100%)", borderBottom: "1px solid #eef1f5", paddingTop: 96 }}>
+      <section style={{ background: "linear-gradient(180deg,#f6f8fb 0%, #ffffff 100%)", borderBottom: "1px solid #eef1f5", paddingTop: 28 }}>
         <div style={{ maxWidth: 1080, margin: "0 auto", padding: "48px 24px 56px", textAlign: "center" }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(0,184,95,0.08)", color: GREEN, border: "1px solid rgba(0,184,95,0.3)", borderRadius: 999, padding: "6px 14px", fontSize: 12.5, fontWeight: 800, letterSpacing: "0.02em" }}>
             ● Real-format prep · AI study tools

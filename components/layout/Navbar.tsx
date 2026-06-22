@@ -177,6 +177,10 @@ export default function Navbar() {
   }
 
   return (
+    <>
+    {/* Spacer pushes page content below the fixed bar (only when the nav is
+        shown — /parents and exam runners return early above, so no gap there). */}
+    <div aria-hidden="true" style={{ height: 64 }} />
     <header
       style={{
         position: "fixed",
@@ -185,84 +189,52 @@ export default function Navbar() {
         right: 0,
         zIndex: 100,
         height: "64px",
-        transition: "all 300ms cubic-bezier(0.16, 1, 0.3, 1)",
-        background: scrolled ? "rgba(0,0,8,0.88)" : "transparent",
-        backdropFilter: scrolled ? "blur(20px)" : "none",
-        WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(0,255,136,0.08)" : "1px solid transparent",
+        background: "rgba(255,255,255,0.92)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        borderBottom: "1px solid #eef1f5",
+        boxShadow: scrolled ? "0 4px 18px rgba(16,24,40,0.06)" : "none",
+        transition: "box-shadow 250ms ease",
+        fontFamily: "'Inter', -apple-system, sans-serif",
       }}
     >
-      {/* Scanline overlay on scroll */}
-      {scrolled && (
-        <div className="scanlines" style={{ position: "absolute", inset: 0, opacity: 0.6, pointerEvents: "none" }} />
-      )}
-
       <nav
         style={{
-          maxWidth: "1280px",
+          maxWidth: "1240px",
           margin: "0 auto",
-          padding: "0 24px",
+          padding: "0 22px",
           height: "64px",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: "24px",
-          position: "relative",
-          zIndex: 1,
+          gap: "20px",
         }}
       >
-        {/* Logo + Mission Control subtitle */}
-        <Link href="/" style={{ display: "flex", flexDirection: "column", textDecoration: "none", flexShrink: 0, gap: "1px" }}>
-          <span style={{
-            fontFamily: "'Space Grotesk', sans-serif",
-            fontWeight: 700,
-            fontSize: "20px",
-            letterSpacing: "-0.03em",
-            color: "#fff",
-            lineHeight: 1,
-          }}>
-            In<span style={{ color: "#00FF88" }}>Hero</span>
-          </span>
-          <span style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "8px",
-            letterSpacing: "0.18em",
-            color: "#444466",
-            textTransform: "uppercase",
-            lineHeight: 1,
-          }}>
-            MISSION CONTROL
+        {/* Brand */}
+        <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none", flexShrink: 0 }}>
+          <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: "21px", letterSpacing: "-0.03em", color: "#0b1220", lineHeight: 1 }}>
+            In<span style={{ color: "#00b85f" }}>Hero</span>
           </span>
         </Link>
 
         {/* Desktop Nav */}
-        <div style={{ display: "flex", alignItems: "center", gap: "2px", flex: 1, justifyContent: "center" }} className="hidden md:flex">
+        <div style={{ display: "flex", alignItems: "center", gap: "1px", flex: 1, justifyContent: "center" }} className="hidden md:flex">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               style={{
-                padding: "6px 7px",
-                fontSize: "10.5px",
+                padding: "7px 9px",
+                fontSize: "13px",
                 fontWeight: 600,
-                fontFamily: "'JetBrains Mono', monospace",
-                letterSpacing: "0.06em",
-                color: "#444466",
+                color: "#5b6675",
                 textDecoration: "none",
-                borderRadius: "3px",
-                transition: "color 200ms, background 200ms",
+                borderRadius: "8px",
+                transition: "color 160ms, background 160ms",
                 whiteSpace: "nowrap",
               }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.color = "#00FF88";
-                el.style.background = "rgba(0,255,136,0.05)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.color = "#444466";
-                el.style.background = "transparent";
-              }}
+              onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.color = "#0b1220"; el.style.background = "#f1f4f8"; }}
+              onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.color = "#5b6675"; el.style.background = "transparent"; }}
             >
               {t(link.label)}
             </Link>
@@ -270,25 +242,22 @@ export default function Navbar() {
         </div>
 
         {/* Desktop CTA */}
-        <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0 }} className="hidden md:flex">
-          {/* Language toggle — flips the whole site via a server-read cookie
-              (see LanguageContext). Shows the language you'd switch TO. */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0 }} className="hidden md:flex">
           <button
             onClick={toggle}
             title={lang === "ko" ? "View the English site" : "한국어로 보기"}
             aria-label={lang === "ko" ? "Switch to English" : "한국어로 전환"}
             style={{
-              padding: "7px 10px",
+              padding: "7px 12px",
               borderRadius: "999px",
-              border: "1px solid rgba(0,255,136,0.18)",
-              background: "rgba(0,255,136,0.045)",
-              color: "#00FF88",
-              cursor: "none",
-              fontSize: "10.5px",
+              border: "1px solid rgba(0,184,95,0.35)",
+              background: "rgba(0,184,95,0.06)",
+              color: "#0f8a52",
+              cursor: "pointer",
+              fontSize: "12px",
               fontWeight: 800,
-              fontFamily: "'JetBrains Mono', monospace",
-              letterSpacing: "0.08em",
               whiteSpace: "nowrap",
+              letterSpacing: "0.02em",
             }}
           >
             {lang === "ko" ? "EN" : "한국어"}
@@ -299,48 +268,23 @@ export default function Navbar() {
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <AdminNotificationBell />
               <NavbarStreakPill />
-              <Link
-                href="/billing"
-                style={{
-                  fontSize: "11px",
-                  fontFamily: "'JetBrains Mono', monospace",
-                  color: "#00FF88",
-                  textDecoration: "none",
-                  letterSpacing: "0.08em",
-                }}
-              >
+              <Link href="/billing" style={{ fontSize: "13px", fontWeight: 600, color: "#0f8a52", textDecoration: "none" }}>
                 {t("Billing")}
               </Link>
               <Link
                 href="/me"
                 title="Your dashboard"
-                style={{
-                  fontSize: "12px",
-                  fontFamily: "'JetBrains Mono', monospace",
-                  color: "#8888AA",
-                  textDecoration: "none",
-                  letterSpacing: "0.04em",
-                  transition: "color 200ms",
-                }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#00FF88")}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "#8888AA")}
+                style={{ fontSize: "13px", fontWeight: 600, color: "#5b6675", textDecoration: "none", transition: "color 160ms" }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#0b1220")}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "#5b6675")}
               >
                 {user.email?.split("@")[0]}
               </Link>
               <button
                 onClick={handleSignOut}
-                style={{
-                  fontSize: "12px",
-                  fontFamily: "'JetBrains Mono', monospace",
-                  color: "#444466",
-                  background: "none",
-                  border: "none",
-                  cursor: "none",
-                  transition: "color 200ms",
-                  letterSpacing: "0.06em",
-                }}
-                onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#FF3B3B")}
-                onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#444466")}
+                style={{ fontSize: "13px", fontWeight: 600, color: "#94a3b8", background: "none", border: "none", cursor: "pointer", transition: "color 160ms" }}
+                onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#dc2626")}
+                onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#94a3b8")}
               >
                 {t("Log out")}
               </button>
@@ -349,40 +293,19 @@ export default function Navbar() {
             <>
               <button
                 onClick={() => { setAuthMode("login"); setAuthOpen(true); }}
-                style={{
-                  fontSize: "12px",
-                  fontWeight: 600,
-                  fontFamily: "'JetBrains Mono', monospace",
-                  letterSpacing: "0.08em",
-                  color: "#8888AA",
-                  background: "none",
-                  border: "none",
-                  cursor: "none",
-                  transition: "color 200ms",
-                  padding: "6px 8px",
-                }}
-                onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#E8E8F0")}
-                onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#8888AA")}
+                style={{ fontSize: "13.5px", fontWeight: 700, color: "#475569", background: "none", border: "none", cursor: "pointer", transition: "color 160ms", padding: "6px 8px" }}
+                onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#0b1220")}
+                onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#475569")}
               >
                 {t("Login")}
               </button>
               <button
                 onClick={() => { setAuthMode("signup"); setAuthOpen(true); }}
-                className="hud-btn"
-                style={{
-                  background: "#00FF88",
-                  color: "#000",
-                  fontWeight: 700,
-                  fontSize: "12px",
-                  fontFamily: "'JetBrains Mono', monospace",
-                  letterSpacing: "0.1em",
-                  padding: "9px 20px",
-                  border: "none",
-                  cursor: "none",
-                  transition: "all 200ms cubic-bezier(0.16,1,0.3,1)",
-                }}
+                style={{ background: "#00b85f", color: "#fff", fontWeight: 800, fontSize: "13.5px", padding: "10px 20px", border: "none", borderRadius: "10px", cursor: "pointer", boxShadow: "0 6px 16px rgba(0,184,95,0.28)", transition: "transform 160ms" }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.transform = "translateY(-1px)")}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = "")}
               >
-                {t("LAUNCH →")}
+                {t("Sign up")}
               </button>
             </>
           )}
@@ -391,21 +314,15 @@ export default function Navbar() {
         {/* Mobile hamburger */}
         <button
           className="md:hidden"
-          style={{
-            padding: "8px",
-            background: "none",
-            border: "none",
-            color: "#8888AA",
-            cursor: "none",
-          }}
+          style={{ padding: "8px", background: "none", border: "none", color: "#475569", cursor: "pointer" }}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Menu"
         >
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             {menuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M6 18L18 6M6 6l12 12" />
             ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M4 6h16M4 12h16M4 18h16" />
             )}
           </svg>
         </button>
@@ -416,32 +333,18 @@ export default function Navbar() {
         <div
           className="md:hidden"
           style={{
-            background: "rgba(0,0,8,0.97)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            borderTop: "1px solid rgba(0,255,136,0.08)",
-            padding: "16px 24px 24px",
+            background: "#fff",
+            borderTop: "1px solid #eef1f5",
+            boxShadow: "0 14px 30px rgba(16,24,40,0.1)",
+            padding: "14px 22px 22px",
             display: "flex",
             flexDirection: "column",
-            gap: "2px",
+            gap: "1px",
           }}
         >
-          {/* Language toggle (mobile) */}
           <button
             onClick={() => { toggle(); setMenuOpen(false); }}
-            style={{
-              alignSelf: "flex-start",
-              marginBottom: "6px",
-              padding: "7px 12px",
-              borderRadius: "999px",
-              border: "1px solid rgba(0,255,136,0.18)",
-              background: "rgba(0,255,136,0.045)",
-              color: "#00FF88",
-              fontSize: "11px",
-              fontWeight: 800,
-              fontFamily: "'JetBrains Mono', monospace",
-              letterSpacing: "0.08em",
-            }}
+            style={{ alignSelf: "flex-start", marginBottom: "8px", padding: "7px 13px", borderRadius: "999px", border: "1px solid rgba(0,184,95,0.35)", background: "rgba(0,184,95,0.06)", color: "#0f8a52", fontSize: "12.5px", fontWeight: 800, cursor: "pointer" }}
           >
             {lang === "ko" ? "EN" : "한국어"}
           </button>
@@ -449,16 +352,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              style={{
-                padding: "10px 4px",
-                fontSize: "12px",
-                fontWeight: 600,
-                fontFamily: "'JetBrains Mono', monospace",
-                letterSpacing: "0.1em",
-                color: "#444466",
-                textDecoration: "none",
-                borderBottom: "1px solid rgba(255,255,255,0.04)",
-              }}
+              style={{ padding: "12px 4px", fontSize: "14.5px", fontWeight: 600, color: "#1f2937", textDecoration: "none", borderBottom: "1px solid #f1f4f8" }}
               onClick={() => setMenuOpen(false)}
             >
               {t(link.label)}
@@ -470,41 +364,20 @@ export default function Navbar() {
               <div aria-hidden="true" style={{ height: 32 }} />
             ) : user ? (
               <>
-                <Link
-                  href="/billing"
-                  style={{
-                    color: "#00FF88",
-                    textDecoration: "none",
-                    fontSize: "12px",
-                    fontFamily: "'JetBrains Mono', monospace",
-                    textAlign: "left",
-                    padding: "10px 4px",
-                  }}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  BILLING
+                <Link href="/billing" style={{ color: "#0f8a52", textDecoration: "none", fontSize: "14px", fontWeight: 700, textAlign: "left", padding: "10px 4px" }} onClick={() => setMenuOpen(false)}>
+                  {t("Billing")}
                 </Link>
-                <button
-                  onClick={handleSignOut}
-                  style={{ color: "#FF3B3B", background: "none", border: "none", fontSize: "12px", fontFamily: "'JetBrains Mono', monospace", cursor: "none", textAlign: "left", padding: "10px 4px" }}
-                >
+                <button onClick={handleSignOut} style={{ color: "#dc2626", background: "none", border: "none", fontSize: "14px", fontWeight: 700, cursor: "pointer", textAlign: "left", padding: "10px 4px" }}>
                   {t("Log out")}
                 </button>
               </>
             ) : (
               <>
-                <button
-                  onClick={() => { setAuthMode("login"); setAuthOpen(true); setMenuOpen(false); }}
-                  style={{ color: "#8888AA", background: "none", border: "none", fontSize: "12px", fontFamily: "'JetBrains Mono', monospace", cursor: "none", textAlign: "left", padding: "10px 4px" }}
-                >
+                <button onClick={() => { setAuthMode("login"); setAuthOpen(true); setMenuOpen(false); }} style={{ color: "#475569", background: "none", border: "none", fontSize: "14px", fontWeight: 700, cursor: "pointer", textAlign: "left", padding: "10px 4px" }}>
                   {t("Login")}
                 </button>
-                <button
-                  onClick={() => { setAuthMode("signup"); setAuthOpen(true); setMenuOpen(false); }}
-                  className="hud-btn btn-primary"
-                  style={{ width: "100%", justifyContent: "center", fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.1em" }}
-                >
-                  {t("LAUNCH →")}
+                <button onClick={() => { setAuthMode("signup"); setAuthOpen(true); setMenuOpen(false); }} style={{ width: "100%", background: "#00b85f", color: "#fff", fontWeight: 800, fontSize: "14.5px", padding: "13px 0", border: "none", borderRadius: "10px", cursor: "pointer" }}>
+                  {t("Sign up")}
                 </button>
               </>
             )}
@@ -519,5 +392,6 @@ export default function Navbar() {
         redirectTo={authRedirectTo}
       />
     </header>
+    </>
   );
 }

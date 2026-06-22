@@ -133,7 +133,7 @@ export default function AdminNotificationBell() {
           padding: "6px 8px",
           color: unread > 0 ? "#00FF88" : "#8888AA",
           fontSize: 16,
-          cursor: "none",
+          cursor: "pointer",
         }}
       >
         🔔

@@ -4,7 +4,6 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import HandleOnboardingModal from "@/components/auth/HandleOnboardingModal";
 import SpaceBackground from "@/components/SpaceBackground";
-import SpaceCursor from "@/components/SpaceCursor";
 import { LanguageProvider, LANG_COOKIE, type Lang } from "@/app/contexts/LanguageContext";
 import { cookies, headers } from "next/headers";
 import { Analytics } from "@vercel/analytics/react";
@@ -91,7 +90,6 @@ export default async function RootLayout({
           }}
         />
         <SpaceBackground />
-        <SpaceCursor />
         <LanguageProvider initialLang={initialLang}>
           <Navbar />
           <main className="flex-1" style={{ position: 'relative' }}>{children}</main>

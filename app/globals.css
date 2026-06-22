@@ -263,27 +263,10 @@ html { background: #00000A; }
   background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
 }
 
-/* ── Custom cursor ───────────────────────────────────────── */
-*, *::before, *::after { cursor: none !important; }
-body.auth-modal-open,
-body.auth-modal-open *,
-body.auth-modal-open *::before,
-body.auth-modal-open *::after {
-  cursor: auto !important;
-}
-body.auth-modal-open a,
-body.auth-modal-open button,
-body.auth-modal-open [role="button"],
-body.auth-modal-open label,
-body.auth-modal-open select,
-body.auth-modal-open input[type="checkbox"],
-body.auth-modal-open input[type="radio"] {
-  cursor: pointer !important;
-}
-body.auth-modal-open button:disabled,
-body.auth-modal-open [aria-disabled="true"] {
-  cursor: not-allowed !important;
-}
+/* ── Native cursor (the space cursor was removed for a clean, premium UI) ── */
+a, button, [role="button"], label, select,
+input[type="checkbox"], input[type="radio"] { cursor: pointer; }
+button:disabled, [aria-disabled="true"] { cursor: not-allowed; }
 .space-cursor {
   position: fixed;
   pointer-events: none;
