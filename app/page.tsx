@@ -47,8 +47,8 @@ const FEATURES: Feature[] = [
     href: "/toefl", cta: "Start the TOEFL test", accent: "#f59e0b",
   },
   {
-    emoji: "📒", tag: "AP CORE NOTES · MULTILINGUAL", title: "Core Concepts, Translated",
-    desc: "Concept-focused AP notes that distill each unit to its essentials — read them in English or get the full explanation translated into your language, one tap.",
+    emoji: "📒", tag: "AP CORE NOTES", title: "One Screen, One Concept",
+    desc: "Concept-focused AP notes that distill each unit to exactly what to remember in the exam room — key idea, formula, worked example, and the traps that cost points.",
     href: "/core-notes", cta: "Open Core Notes", accent: "#dc2680",
   },
   {
@@ -61,7 +61,7 @@ const FEATURES: Feature[] = [
 const STATS = [
   { n: "170K+", label: "Practice questions" },
   { n: "SAT · AP · IB · TOEFL", label: "Real-format exams" },
-  { n: "AP", label: "Core Notes, translated" },
+  { n: "AP", label: "Core Notes, distilled" },
 ];
 
 export default function HomePage() {
@@ -77,8 +77,7 @@ export default function HomePage() {
             Master the SAT, AP, IB<br />&amp; TOEFL — for real.
           </h1>
           <p style={{ fontSize: "clamp(15px,1.8vw,18.5px)", color: SUB, lineHeight: 1.75, maxWidth: 660, margin: "20px auto 0" }}>
-            Full-length, real-format practice exams. A 170,000-question AP bank. Concept-focused
-            Core Notes you can read in your own language. One premium platform, built by students
+            Full-length, real-format practice exams. A 170,000-question AP bank. Concept-focused Core Notes that distill each unit to the essentials. One premium platform, built by students
             who scored where you want to be.
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginTop: 30 }}>
@@ -131,30 +130,28 @@ export default function HomePage() {
       <section style={{ maxWidth: 1080, margin: "0 auto", padding: "48px 24px 8px" }}>
         <div className="home-spotlight" style={{ background: "linear-gradient(135deg,#0b1220,#16233b)", color: "#fff", borderRadius: 22, padding: "clamp(28px,5vw,48px)", display: "grid", gridTemplateColumns: "minmax(0,1.4fr) minmax(0,1fr)", gap: 28, alignItems: "center" }}>
           <div>
-            <div style={{ fontSize: 12.5, fontWeight: 800, letterSpacing: "0.06em", color: "#5fe0a0", marginBottom: 12 }}>📒 AP CORE NOTES · MULTILINGUAL</div>
+            <div style={{ fontSize: 12.5, fontWeight: 800, letterSpacing: "0.06em", color: "#5fe0a0", marginBottom: 12 }}>📒 AP CORE NOTES</div>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.6rem,3.4vw,2.4rem)", fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1.2, margin: "0 0 14px" }}>
-              Study AP concepts in any language.
+              One screen. One concept.
             </h2>
             <p style={{ fontSize: 15.5, color: "rgba(255,255,255,0.78)", lineHeight: 1.75, margin: "0 0 22px", maxWidth: 560 }}>
-              Every AP unit, distilled to the concepts and traps that actually show up on the exam —
-              read it in English, then translate the full explanation into your language with one tap.
-              Built for international students who think in more than one.
+              Every AP unit, distilled to exactly what to remember in the exam room — the key idea,
+              the formula, the worked example, and the traps that cost points. No fluff, no
+              page-flipping. One concept per screen.
             </p>
             <Link href="/core-notes" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: GREEN, color: "#fff", textDecoration: "none", borderRadius: 12, padding: "13px 26px", fontWeight: 800, fontSize: 15 }}>
               Explore Core Notes →
             </Link>
           </div>
           <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 16, padding: "20px 20px" }}>
-            <div style={{ fontSize: 12, color: "#9fb0c0", fontWeight: 700, marginBottom: 10 }}>Cellular Respiration · key idea</div>
-            <p style={{ fontSize: 14, color: "#e7eef6", lineHeight: 1.6, margin: "0 0 14px" }}>
-              The electron transport chain pumps H⁺ to build the gradient that drives ATP synthase.
+            <div style={{ fontSize: 11, fontWeight: 800, color: "#5fe0a0", background: "rgba(0,184,95,0.14)", borderRadius: 6, padding: "2px 8px", display: "inline-block", marginBottom: 10 }}>REMEMBER</div>
+            <div style={{ fontSize: 12, color: "#9fb0c0", fontWeight: 700, marginBottom: 8 }}>Cellular Respiration · key idea</div>
+            <p style={{ fontSize: 14.5, color: "#e7eef6", lineHeight: 1.65, margin: "0 0 14px" }}>
+              The electron transport chain pumps H⁺ across the inner membrane, building the gradient that drives ATP synthase.
             </p>
-            <div style={{ height: 1, background: "rgba(255,255,255,0.1)", margin: "0 0 14px" }} />
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-              <span style={{ fontSize: 11, fontWeight: 800, color: "#5fe0a0", background: "rgba(0,184,95,0.14)", borderRadius: 6, padding: "2px 8px" }}>🌐 한국어</span>
-            </div>
-            <p style={{ fontSize: 14, color: "#cdd9e6", lineHeight: 1.7, margin: 0 }}>
-              전자전달계가 H⁺를 퍼올려 농도 기울기를 만들고, 그 힘으로 ATP 합성효소가 ATP를 만듭니다.
+            <div style={{ height: 1, background: "rgba(255,255,255,0.1)", margin: "0 0 12px" }} />
+            <p style={{ fontSize: 13, color: "#ff9a9a", lineHeight: 1.6, margin: 0 }}>
+              ⚠ Trap: oxygen is the <em>final</em> electron acceptor — it doesn&apos;t power the pumps directly.
             </p>
           </div>
         </div>

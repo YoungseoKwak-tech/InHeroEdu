@@ -65,71 +65,37 @@ export default function Footer() {
     );
   }
   return (
-    <footer style={{ background: "#05050F", borderTop: "1px solid rgba(0,255,136,0.06)", position: "relative", zIndex: 10 }}>
-      {/* Scanline */}
-      <div className="scanlines" style={{ position: "absolute", inset: 0, opacity: 0.4, pointerEvents: "none" }} />
-
-      <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "60px 24px 40px", position: "relative" }}>
+    <footer style={{ background: "#f7f8fa", borderTop: "1px solid #e8ecf1", position: "relative", zIndex: 10, color: "#5b6675", fontFamily: "'Inter', -apple-system, sans-serif" }}>
+      <div style={{ maxWidth: "1240px", margin: "0 auto", padding: "56px 22px 40px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "40px" }} className="md:grid-cols-4">
 
           {/* Brand */}
           <div>
-            <div style={{ marginBottom: "16px" }}>
-              <span style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontWeight: 700,
-                fontSize: "20px",
-                letterSpacing: "-0.03em",
-                color: "#fff",
-              }}>
-                In<span style={{ color: "#00FF88" }}>Hero</span>
-              </span>
-              <p style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: "9px",
-                letterSpacing: "0.18em",
-                color: "#2a2a3a",
-                textTransform: "uppercase",
-                marginTop: "4px",
-              }}>
-                MISSION CONTROL
-              </p>
-            </div>
-            <p style={{ fontSize: "13px", lineHeight: 1.7, color: "#444466", maxWidth: "200px" }}>
-              The elite study engine for students who refuse to be average.
+            <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: "21px", letterSpacing: "-0.03em", color: "#0b1220" }}>
+              In<span style={{ color: "#00b85f" }}>Hero</span>
+            </span>
+            <p style={{ fontSize: "13.5px", lineHeight: 1.7, color: "#5b6675", maxWidth: "220px", marginTop: "12px" }}>
+              Real-format SAT · AP · IB · TOEFL prep and AP Core Notes you can read in any language.
             </p>
-            <p style={{ fontSize: "11px", marginTop: "20px", color: "#2a2a3a", fontFamily: "'JetBrains Mono', monospace" }}>
-              © 2025 InHero
+            <p style={{ fontSize: "12px", marginTop: "18px", color: "#94a3b8" }}>
+              © {new Date().getFullYear()} InHero Edu
             </p>
           </div>
 
           {/* Link columns */}
           {cols.map((col) => (
             <div key={col.heading}>
-              <h3 style={{
-                fontSize: "10px",
-                fontWeight: 700,
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                color: "#444466",
-                fontFamily: "'JetBrains Mono', monospace",
-                marginBottom: "20px",
-              }}>
+              <h3 style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "#94a3b8", marginBottom: "16px" }}>
                 {col.heading}
               </h3>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "11px" }}>
                 {col.links.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      style={{
-                        fontSize: "13px",
-                        color: "#444466",
-                        textDecoration: "none",
-                        transition: "color 200ms",
-                      }}
-                      onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#00FF88")}
-                      onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#444466")}
+                      style={{ fontSize: "13.5px", fontWeight: 600, color: "#5b6675", textDecoration: "none", transition: "color 160ms" }}
+                      onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#0b1220")}
+                      onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#5b6675")}
                     >
                       {link.label}
                     </Link>
@@ -140,19 +106,9 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Bottom bar */}
-        <div style={{
-          marginTop: "40px",
-          padding: "18px",
-          border: "1px solid rgba(255,255,255,0.05)",
-          borderRadius: "16px",
-          background: "rgba(255,255,255,0.018)",
-          color: "#3f3f55",
-          fontSize: "10px",
-          lineHeight: 1.8,
-          fontFamily: "'JetBrains Mono', monospace",
-        }}>
-          <strong style={{ color: "#666681" }}>Business disclosure</strong>
+        {/* Business disclosure (전자상거래법) */}
+        <div style={{ marginTop: "40px", padding: "16px 18px", border: "1px solid #e8ecf1", borderRadius: "14px", background: "#fff", color: "#94a3b8", fontSize: "11.5px", lineHeight: 1.8 }}>
+          <strong style={{ color: "#64748b" }}>Business disclosure</strong>
           <span> · 상호 {merchantInfo.companyName}</span>
           <span> · 대표자 {merchantInfo.representative}</span>
           <span> · 사업자등록번호 {merchantInfo.businessRegistrationNumber}</span>
@@ -162,20 +118,11 @@ export default function Footer() {
           <span> · 이메일 {merchantInfo.email}</span>
         </div>
 
-        <div style={{
-          marginTop: "24px",
-          paddingTop: "24px",
-          borderTop: "1px solid rgba(255,255,255,0.04)",
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: "12px",
-        }}>
-          <p style={{ fontSize: "11px", color: "#2a2a3a", fontFamily: "'JetBrains Mono', monospace" }}>
+        <div style={{ marginTop: "22px", paddingTop: "22px", borderTop: "1px solid #e8ecf1", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "12px" }}>
+          <p style={{ fontSize: "11.5px", color: "#94a3b8", margin: 0 }}>
             AP, SAT, and AMC are registered trademarks of College Board and MAA.
           </p>
-          <div style={{ display: "flex", gap: "20px" }}>
+          <div style={{ display: "flex", gap: "18px" }}>
             {[
               { label: "Refund Policy",  href: "/refund-policy" },
               { label: "Privacy Policy", href: "/privacy" },
@@ -185,9 +132,9 @@ export default function Footer() {
               <Link
                 key={item.label}
                 href={item.href}
-                style={{ fontSize: "11px", color: "#2a2a3a", textDecoration: "none", transition: "color 200ms", fontFamily: "'JetBrains Mono', monospace" }}
-                onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#444466")}
-                onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#2a2a3a")}
+                style={{ fontSize: "11.5px", fontWeight: 600, color: "#94a3b8", textDecoration: "none", transition: "color 160ms" }}
+                onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#475569")}
+                onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#94a3b8")}
               >
                 {item.label}
               </Link>

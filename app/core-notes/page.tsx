@@ -39,7 +39,7 @@ interface CoreNote {
 }
 interface SubjectCount { courseId: string | null; label: string; emoji: string; count: number }
 
-type Lang = "en" | "ko";
+type Lang = "en";
 
 export default function CoreNotesPage() {
   const [subjects, setSubjects] = useState<SubjectCount[]>([]);
@@ -265,7 +265,6 @@ function NoteSkeleton() {
 
 const NOTE_LABELS: Record<Lang, { remember: string; formulas: string; diagram: string; keyIdea: string; example: string; trap: string }> = {
   en: { remember: "REMEMBER", formulas: "ƒ KEY FORMULAS", diagram: "▦ DIAGRAM", keyIdea: "KEY IDEA", example: "✎ WORKED EXAMPLE", trap: "⚠ TRAP" },
-  ko: { remember: "꼭 기억하기", formulas: "ƒ 핵심 공식", diagram: "▦ 도식으로 보기", keyIdea: "핵심 아이디어", example: "✎ 예제로 풀어보기", trap: "⚠ 함정 주의 — 여기서 틀립니다" },
 };
 
 function NoteView({ note, lang = "en" }: { note: CoreNote; lang?: Lang }) {
@@ -309,7 +308,7 @@ function NoteView({ note, lang = "en" }: { note: CoreNote; lang?: Lang }) {
             background: "rgba(0,255,178,0.05)", border: `1px solid rgba(0,255,178,0.22)`,
           }}
         >
-          <div style={{ fontSize: 11.5, letterSpacing: lang === "ko" ? "0.06em" : "0.18em", fontWeight: 800, color: MINT }}>{L.remember}</div>
+          <div style={{ fontSize: 11.5, letterSpacing: "0.18em", fontWeight: 800, color: MINT }}>{L.remember}</div>
           <ul style={{ listStyle: "none", padding: 0, margin: "14px 0 0", display: "grid", gap: 11 }}>
             {note.objectives.map((o, i) => (
               <li key={i} style={{ display: "flex", gap: 12, fontSize: 15, lineHeight: 1.5, color: "#e3e9f1" }}>
@@ -328,7 +327,7 @@ function NoteView({ note, lang = "en" }: { note: CoreNote; lang?: Lang }) {
             background: "#070b12", border: `1px solid rgba(0,255,178,0.28)`,
           }}
         >
-          <div style={{ fontSize: 11, letterSpacing: lang === "ko" ? "0.05em" : "0.16em", fontWeight: 800, color: MINT, marginBottom: 10 }}>
+          <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: MINT, marginBottom: 10 }}>
             {L.formulas}
           </div>
           <div style={{ display: "grid", gap: 9 }}>
@@ -349,7 +348,7 @@ function NoteView({ note, lang = "en" }: { note: CoreNote; lang?: Lang }) {
         </div>
       )}
 
-      {note.diagram && <Diagram kind={note.diagram} label={L.diagram} ko={lang === "ko"} />}
+      {note.diagram && <Diagram kind={note.diagram} label={L.diagram} />}
 
       {note.sections.map((s, i) => (
         <section key={i} style={{ marginTop: 40 }}>
@@ -370,7 +369,7 @@ function NoteView({ note, lang = "en" }: { note: CoreNote; lang?: Lang }) {
             <div style={{ marginTop: 16, display: "flex", gap: 12, alignItems: "flex-start", padding: "14px 18px", borderRadius: 12, background: "rgba(0,255,178,0.07)", border: `1px solid rgba(0,255,178,0.3)` }}>
               <span style={{ fontSize: 16, flexShrink: 0 }}>💡</span>
               <div>
-                <div style={{ fontSize: 10.5, letterSpacing: lang === "ko" ? "0.05em" : "0.16em", fontWeight: 800, color: MINT, marginBottom: 3 }}>{L.keyIdea}</div>
+                <div style={{ fontSize: 10.5, letterSpacing: "0.16em", fontWeight: 800, color: MINT, marginBottom: 3 }}>{L.keyIdea}</div>
                 <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: "#e6f0ea" }}>{s.keyIdea}</p>
               </div>
             </div>
@@ -393,7 +392,7 @@ function NoteView({ note, lang = "en" }: { note: CoreNote; lang?: Lang }) {
                 background: "rgba(143,162,255,0.07)", border: `1px solid rgba(143,162,255,0.3)`,
               }}
             >
-              <div style={{ fontSize: 11, letterSpacing: lang === "ko" ? "0.05em" : "0.16em", fontWeight: 800, color: INDIGO }}>{L.example}</div>
+              <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: INDIGO }}>{L.example}</div>
               <p style={{ margin: "8px 0 0", fontSize: 15, lineHeight: 1.7, color: "#dfe5f1", whiteSpace: "pre-line" }}>{s.example}</p>
             </div>
           )}
@@ -405,7 +404,7 @@ function NoteView({ note, lang = "en" }: { note: CoreNote; lang?: Lang }) {
                 background: "rgba(255,107,107,0.07)", border: `1px solid rgba(255,107,107,0.32)`,
               }}
             >
-              <div style={{ fontSize: 11, letterSpacing: lang === "ko" ? "0.05em" : "0.16em", fontWeight: 800, color: RED }}>{L.trap}</div>
+              <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: RED }}>{L.trap}</div>
               <p style={{ margin: "8px 0 0", fontSize: 15, lineHeight: 1.7, color: "#f3dede" }}>{trap}</p>
             </div>
           ))}
