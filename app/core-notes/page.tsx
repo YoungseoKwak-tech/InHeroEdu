@@ -48,11 +48,6 @@ export default function CoreNotesPage() {
   const [notes, setNotes] = useState<CoreNote[]>([]);
   const [activeLesson, setActiveLesson] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  // Korean storytelling mode — fetched per lesson on demand, kept in a map so
-  // toggling EN ↔ 한국어 and revisiting lessons is instant.
-  const [view, setView] = useState<"en" | "ko" | "split">("split");
-  const [koNotes, setKoNotes] = useState<Record<string, CoreNote>>({});
-  const [koErrors, setKoErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     fetch("/api/core-notes?countOnly=true")
@@ -78,26 +73,6 @@ export default function CoreNotesPage() {
       .catch(() => setNotes([]))
       .finally(() => setLoading(false));
   }, [active]);
-
-  // Fetch the Korean storytelling version when 한국어 is on and not cached yet.
-  // First request per note generates it (slow once); after that it's instant.
-  useEffect(() => {
-    if (view === "en" || !activeLesson || koNotes[activeLesson] || koErrors[activeLesson]) return;
-    let cancelled = false;
-    fetch(`/api/core-notes/korean?lessonId=${encodeURIComponent(activeLesson)}`)
-      .then((r) => r.json())
-      .then((d) => {
-        if (cancelled) return;
-        if (d.note) setKoNotes((m) => ({ ...m, [activeLesson]: d.note }));
-        else setKoErrors((m) => ({ ...m, [activeLesson]: d.error ?? "failed" }));
-      })
-      .catch(() => {
-        if (!cancelled) setKoErrors((m) => ({ ...m, [activeLesson]: "network" }));
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [view, activeLesson, koNotes, koErrors]);
 
   // Group the subject's notes by unit for the left rail.
   const units = useMemo(() => {
@@ -219,88 +194,16 @@ export default function CoreNotesPage() {
 
         {/* Main: one focused note */}
         <main style={{ flex: 1, minWidth: 0, padding: "34px 40px 120px", display: "flex", justifyContent: "center" }}>
-          <div style={{ width: "100%", maxWidth: view === "split" ? 1180 : 720 }}>
+          <div style={{ width: "100%", maxWidth: 720 }}>
             {loading ? (
               <NoteSkeleton />
             ) : current ? (
-              (() => {
-                const renderPane = (kind: "en" | "ko") => {
-                  if (kind === "en") return <NoteView note={current} lang="en" />;
-                  const koNote = koNotes[current.lessonId];
-                  const koError = koErrors[current.lessonId];
-                  if (koNote) return <NoteView note={koNote} lang="ko" />;
-                  if (!koError) return <KoLoadingPanel />;
-                  if (koError === "not-ready") return (
-                    <div style={{ margin: "0 0 22px", padding: "16px 20px", borderRadius: 14, border: `1px solid rgba(0,255,178,0.25)`, background: "rgba(0,255,178,0.05)" }}>
-                      <p style={{ margin: 0, fontSize: 14, color: "#cfe9df", lineHeight: 1.6 }}>
-                        🎙️ The Korean version of this note isn't ready yet — we're adding them one by one.
-                      </p>
-                    </div>
-                  );
-                  return (
-                    <div style={{ padding: "18px 22px", borderRadius: 14, border: `1px solid rgba(255,107,107,0.32)`, background: "rgba(255,107,107,0.06)" }}>
-                      <p style={{ margin: 0, fontSize: 14.5, color: "#f3dede", lineHeight: 1.6 }}>Couldn't load the Korean version.</p>
-                      <button
-                        onClick={() => setKoErrors((m) => { const { [current.lessonId]: _drop, ...rest } = m; return rest; })}
-                        style={{ marginTop: 10, padding: "7px 14px", borderRadius: 999, border: `1px solid ${MINT}`, background: "transparent", color: MINT, fontSize: 13, fontWeight: 600, cursor: "pointer" }}
-                      >Try again</button>
-                    </div>
-                  );
-                };
-                const PaneLabel = ({ ko }: { ko: boolean }) => (
-                  <div style={{ display: "inline-flex", alignItems: "center", gap: 6, marginBottom: 12, padding: "4px 11px", borderRadius: 999, fontSize: 11.5, fontWeight: 800, border: `1px solid ${BORDER}`, background: PANEL, color: ko ? MINT : SUBTLE }}>
-                    {ko ? "🇰🇷 Korean" : "🇺🇸 EN"}
-                  </div>
-                );
-                return (
-                  <>
-                    <LangToggle view={view} onChange={setView} />
-                    {view === "split" ? (
-                      <div className="cn-split2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28, alignItems: "start" }}>
-                        <div style={{ minWidth: 0 }}><PaneLabel ko={false} />{renderPane("en")}</div>
-                        <div style={{ minWidth: 0 }}><PaneLabel ko={true} />{renderPane("ko")}</div>
-                      </div>
-                    ) : renderPane(view)}
-                    <style>{`@media (max-width: 1000px){ .cn-split2 { grid-template-columns: 1fr !important; } }`}</style>
-                  </>
-                );
-              })()
+              <NoteView note={current} lang="en" />
             ) : (
               <p style={{ color: SUBTLE }}>No notes yet for {activeLabel}.</p>
             )}
           </div>
         </main>
-      </div>
-    </div>
-  );
-}
-
-function LangToggle({ view, onChange }: { view: "en" | "ko" | "split"; onChange: (v: "en" | "ko" | "split") => void }) {
-  const opts: { value: "en" | "ko" | "split"; label: string }[] = [
-    { value: "split", label: "📖 EN + Korean" },
-    { value: "en", label: "EN" },
-    { value: "ko", label: "🇰🇷 Korean" },
-  ];
-  return (
-    <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 14 }}>
-      <div style={{ display: "inline-flex", padding: 3, gap: 2, borderRadius: 999, border: `1px solid ${BORDER}`, background: PANEL }}>
-        {opts.map((o) => {
-          const on = o.value === view;
-          return (
-            <button
-              key={o.value}
-              onClick={() => onChange(o.value)}
-              style={{
-                padding: "6px 14px", borderRadius: 999, border: "none", cursor: "pointer",
-                fontSize: 12.5, fontWeight: 700, letterSpacing: "0.02em",
-                background: on ? "rgba(0,255,178,0.14)" : "transparent",
-                color: on ? MINT : SUBTLE,
-              }}
-            >
-              {o.label}
-            </button>
-          );
-        })}
       </div>
     </div>
   );
@@ -356,23 +259,6 @@ function NoteSkeleton() {
           <div className="cn-skel" style={{ width: i === 1 ? "76%" : "94%", height: 14 }} />
         </div>
       ))}
-    </div>
-  );
-}
-
-function KoLoadingPanel() {
-  return (
-    <div
-      style={{
-        marginTop: 24, padding: "36px 32px", borderRadius: 18,
-        display: "flex", flexDirection: "column", alignItems: "center", gap: 14,
-        border: `1px solid rgba(0,255,178,0.25)`, background: "rgba(0,255,178,0.04)",
-      }}
-    >
-      <Spinner size={32} />
-      <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: "#eafff8" }}>
-        🎙️ Loading the Korean story version…
-      </p>
     </div>
   );
 }
@@ -568,22 +454,10 @@ const DIAGRAM_TITLES: Record<string, string> = {
   "cause-effect": "Cause → Event → Effect",
 };
 
-const DIAGRAM_TITLES_KO: Record<string, string> = {
-  "supply-demand": "수요와 공급 (Supply & Demand)", "ad-as": "AD–AS 모형", "ppc": "생산가능곡선 (PPC)",
-  "bell-curve": "정규분포 (68–95–99.7 법칙)", "scatter-regression": "산점도와 회귀직선",
-  "boxplot": "상자 수염 그림 (Boxplot)", "tangent": "접선 — 미분의 기하학", "area-under-curve": "곡선 아래 넓이 — 적분",
-  "neuron": "뉴런의 구조", "brain-lobes": "대뇌 피질의 4개 엽",
-  "carbon-cycle": "탄소 순환 (Carbon Cycle)", "energy-pyramid": "에너지 피라미드 (영양 단계)",
-  "dtm": "인구변천모형 (DTM)", "population-pyramid": "인구 피라미드",
-  "three-branches": "삼권분립 (Separation of Powers)", "bill-to-law": "법률 제정 과정",
-  "rhetorical-triangle": "수사학의 삼각형 (Rhetorical Triangle)", "argument-structure": "논증의 구조",
-  "cause-effect": "원인 → 사건 → 결과",
-};
-
 function Diagram({ kind, label = "▦ DIAGRAM", ko = false }: { kind: string; label?: string; ko?: boolean }) {
   const body = diagramBody(kind);
   if (!body) return null;
-  const caption = (ko ? DIAGRAM_TITLES_KO[kind] : undefined) ?? DIAGRAM_TITLES[kind] ?? "";
+  const caption = DIAGRAM_TITLES[kind] ?? "";
   return (
     <figure style={{ margin: "22px 0 0", padding: "18px 18px 12px", borderRadius: 14, background: "#070b12", border: `1px solid ${BORDER}` }}>
       <div style={{ fontSize: 11, letterSpacing: ko ? "0.05em" : "0.16em", fontWeight: 800, color: INDIGO, marginBottom: 8 }}>{label}</div>
