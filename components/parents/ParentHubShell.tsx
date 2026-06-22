@@ -21,6 +21,7 @@ export default function ParentHubShell({
   intro,
   ctaTitle = "자녀의 활동·학습을 InHero에서 시작하세요",
   ctaDesc = "AP 문제 은행 · 핵심 노트 · 디지털 교재까지, 무료 가입 한 번이면 전부.",
+  maxWidth = 880,
   children,
 }: {
   eyebrow: string;
@@ -28,6 +29,8 @@ export default function ParentHubShell({
   intro: ReactNode;
   ctaTitle?: string;
   ctaDesc?: string;
+  /** Content column width. Wider (e.g. 1280) for tool-heavy pages like SAT. */
+  maxWidth?: number;
   children: ReactNode;
 }) {
   const router = useRouter();
@@ -49,7 +52,7 @@ export default function ParentHubShell({
   return (
     <div style={{ position: "relative", zIndex: 10, minHeight: "100vh", background: "#f7f8fa", color: "#1a1a1f", cursor: "auto" }}>
       <div style={{ position: "sticky", top: 0, zIndex: 20, background: "rgba(255,255,255,0.92)", backdropFilter: "blur(8px)", borderBottom: "1px solid #e6e8ec" }}>
-        <div style={{ maxWidth: 880, margin: "0 auto", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ maxWidth, margin: "0 auto", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/parents" style={{ color: "#475569", textDecoration: "none", fontSize: 14, fontWeight: 600 }}>← 자료실</Link>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 15, letterSpacing: "-0.02em" }}>
@@ -60,7 +63,7 @@ export default function ParentHubShell({
         </div>
       </div>
 
-      <div style={{ maxWidth: 880, margin: "0 auto", padding: "40px 20px 100px" }}>
+      <div style={{ maxWidth, margin: "0 auto", padding: "40px 20px 100px" }}>
         <p style={{ fontSize: 13, fontWeight: 700, color: "#dc2680", letterSpacing: "0.04em", marginBottom: 10 }}>{eyebrow}</p>
         <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>{title}</h1>
         <div style={{ fontSize: 15.5, color: "#475569", lineHeight: 1.8, marginBottom: 28 }}>{intro}</div>

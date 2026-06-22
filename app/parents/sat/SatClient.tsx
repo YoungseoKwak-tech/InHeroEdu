@@ -94,6 +94,7 @@ export default function SatClient() {
           <span style={{ fontSize: 12.5, color: "#64748b" }}>실제 디지털 SAT의 적응형 2단계 모듈 구조와 문제 유형·시간 배분을 그대로 적용해 만든 오리지널 실전 문항입니다. 예상 점수는 추정치예요. <span style={{ color: "#94a3b8" }}>(College Board 공식 기출 복제 아님)</span></span>
         </>
       }
+      maxWidth={1180}
     >
       <VerifiedBadge />
 
