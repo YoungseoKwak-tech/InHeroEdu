@@ -585,6 +585,22 @@ export default function ParentsClient() {
             ))}
           </div>
 
+          {/* Premium consulting offer — pay 500+ credits and get a 1:1 session
+              with an Ivy League mentor (first-come-first-served). Drives the
+              500-credit tier. CTA opens the charge modal. */}
+          <button onClick={() => window.dispatchEvent(new CustomEvent("inhero:open-charge"))}
+            style={{ textAlign: "left", cursor: "pointer", border: "none", borderRadius: 16, padding: "22px 24px", background: "linear-gradient(120deg,#1a1333,#3b2370 55%,#7c3aed)", color: "#fff", boxShadow: "0 12px 32px rgba(60,35,112,0.32)", display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
+            <span style={{ fontSize: 40, lineHeight: 1 }}>🎓</span>
+            <span style={{ flex: 1, minWidth: 220 }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 11, fontWeight: 900, color: "#fde68a", background: "rgba(253,224,71,0.16)", border: "1px solid rgba(253,224,71,0.4)", borderRadius: 999, padding: "3px 10px", marginBottom: 9, letterSpacing: "0.02em" }}>⚡ 선착순 한정 혜택</span>
+              <span style={{ display: "block", fontSize: 19, fontWeight: 850, letterSpacing: "-0.02em", lineHeight: 1.35 }}>500 크레딧 이상 결제 시 — 아이비리그생 1:1 컨설팅</span>
+              <span style={{ display: "block", fontSize: 13.5, color: "rgba(255,255,255,0.85)", marginTop: 5, lineHeight: 1.6 }}>
+                현역 아이비리그 재학생과 <strong style={{ color: "#fff" }}>30분~1시간 1:1 컨설팅</strong>을 무료로 — 입시 전략·과목 선택·활동 설계까지. <strong style={{ color: "#fde68a" }}>선착순 마감</strong>이에요.
+              </span>
+            </span>
+            <span style={{ flexShrink: 0, background: "#fff", color: "#5b21b6", borderRadius: 9, padding: "12px 22px", fontSize: 14, fontWeight: 850, whiteSpace: "nowrap" }}>혜택 신청하기 →</span>
+          </button>
+
           {/* Quick icons */}
           <div style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e6ea", padding: "20px 16px", display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 8 }} className="quick-grid">
             {QUICK.map((q) => {
