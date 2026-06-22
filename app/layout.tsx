@@ -84,7 +84,7 @@ export default async function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              name: "인히어로",
+              name: "InHero",
               url: "https://inheroedu.com",
             }),
           }}

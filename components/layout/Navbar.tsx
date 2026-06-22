@@ -41,7 +41,7 @@ export default function Navbar() {
   // chrome there too and keep the user inside the /parents world.
   const [parentChrome, setParentChrome] = useState(false);
   const pathname = usePathname();
-  const { lang, toggle, t } = useLang();
+  const { t } = useLang();
   const supabase = createBrowserClient();
   const [user, setUser] = useState<{ email: string | undefined } | null>(null);
   // Defense-in-depth against React #418/#423 hydration mismatch — defer
@@ -243,25 +243,6 @@ export default function Navbar() {
 
         {/* Desktop CTA */}
         <div style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0 }} className="hidden md:flex">
-          <button
-            onClick={toggle}
-            title={lang === "ko" ? "View the English site" : "한국어로 보기"}
-            aria-label={lang === "ko" ? "Switch to English" : "한국어로 전환"}
-            style={{
-              padding: "7px 12px",
-              borderRadius: "999px",
-              border: "1px solid rgba(0,184,95,0.35)",
-              background: "rgba(0,184,95,0.06)",
-              color: "#0f8a52",
-              cursor: "pointer",
-              fontSize: "12px",
-              fontWeight: 800,
-              whiteSpace: "nowrap",
-              letterSpacing: "0.02em",
-            }}
-          >
-            {lang === "ko" ? "EN" : "한국어"}
-          </button>
           {!mounted ? (
             <div aria-hidden="true" style={{ width: 120, height: 32 }} />
           ) : user ? (
@@ -342,12 +323,6 @@ export default function Navbar() {
             gap: "1px",
           }}
         >
-          <button
-            onClick={() => { toggle(); setMenuOpen(false); }}
-            style={{ alignSelf: "flex-start", marginBottom: "8px", padding: "7px 13px", borderRadius: "999px", border: "1px solid rgba(0,184,95,0.35)", background: "rgba(0,184,95,0.06)", color: "#0f8a52", fontSize: "12.5px", fontWeight: 800, cursor: "pointer" }}
-          >
-            {lang === "ko" ? "EN" : "한국어"}
-          </button>
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}

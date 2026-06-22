@@ -109,13 +109,13 @@ export default function Footer() {
         {/* Business disclosure (전자상거래법) */}
         <div style={{ marginTop: "40px", padding: "16px 18px", border: "1px solid #e8ecf1", borderRadius: "14px", background: "#fff", color: "#94a3b8", fontSize: "11.5px", lineHeight: 1.8 }}>
           <strong style={{ color: "#64748b" }}>Business disclosure</strong>
-          <span> · 상호 {merchantInfo.companyName}</span>
-          <span> · 대표자 {merchantInfo.representative}</span>
-          <span> · 사업자등록번호 {merchantInfo.businessRegistrationNumber}</span>
-          <span> · 통신판매업 {merchantInfo.ecommerceRegistrationNumber}</span>
-          <span> · 주소 {merchantInfo.address}</span>
-          <span> · 연락처 {merchantInfo.phone}</span>
-          <span> · 이메일 {merchantInfo.email}</span>
+          <span> · Business name InHero Edu</span>
+          <span> · Representative Youngseo Kwak</span>
+          <span> · Business registration no. {merchantInfo.businessRegistrationNumber}</span>
+          <span> · E-commerce registration no. {merchantInfo.ecommerceRegistrationNumber}</span>
+          {merchantInfo.address && <span> · Address {merchantInfo.address}</span>}
+          {merchantInfo.phone && <span> · Phone {merchantInfo.phone}</span>}
+          <span> · Email {merchantInfo.email}</span>
         </div>
 
         <div style={{ marginTop: "22px", paddingTop: "22px", borderTop: "1px solid #e8ecf1", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "12px" }}>
