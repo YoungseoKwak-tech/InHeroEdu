@@ -9,14 +9,14 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-const MINT = "#00FFB2";
-const RED = "#ff6b6b";
-const INDIGO = "#8fa2ff";
-const BG = "#05070d";
-const PANEL = "#0b1018";
-const CARD = "#0e141d";
-const BORDER = "#1a2230";
-const SUBTLE = "#8793a4";
+const MINT = "#00b85f";
+const RED = "#dc2626";
+const INDIGO = "#4f46e5";
+const BG = "#ffffff";
+const PANEL = "#f7f8fa";
+const CARD = "#f7f8fa";
+const BORDER = "#e8ecf1";
+const SUBTLE = "#5b6675";
 
 interface NoteTerm { term: string; def: string }
 interface NoteTable { headers: string[]; rows: string[][] }
@@ -92,11 +92,11 @@ export default function CoreNotesPage() {
   const activeLabel = subjects.find((s) => s.courseId === active)?.label ?? "";
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: "#e8edf4" }}>
+    <div style={{ minHeight: "100vh", background: BG, color: "#0b1220" }}>
       <style>{`
         @keyframes cnShimmer { 0% { background-position: -480px 0 } 100% { background-position: 480px 0 } }
         .cn-skel {
-          background: linear-gradient(90deg, rgba(255,255,255,0.035) 25%, rgba(255,255,255,0.085) 37%, rgba(255,255,255,0.035) 63%);
+          background: linear-gradient(90deg, rgba(15,23,42,0.05) 25%, rgba(15,23,42,0.09) 37%, rgba(15,23,42,0.05) 63%);
           background-size: 960px 100%; animation: cnShimmer 1.4s ease-in-out infinite; border-radius: 8px;
         }
       `}</style>
@@ -128,8 +128,8 @@ export default function CoreNotesPage() {
                   display: "inline-flex", alignItems: "center", gap: 7, padding: "7px 13px",
                   borderRadius: 999, cursor: "pointer", fontSize: 13, fontWeight: 600,
                   border: `1px solid ${on ? MINT : BORDER}`,
-                  background: on ? "rgba(0,255,178,0.12)" : "transparent",
-                  color: on ? MINT : "#c3ccd9",
+                  background: on ? "rgba(0,184,95,0.10)" : "transparent",
+                  color: on ? MINT : "#1f2937",
                 }}
               >
                 <span>{s.emoji}</span><span>{s.label}</span>
@@ -174,12 +174,12 @@ export default function CoreNotesPage() {
                         display: "flex", gap: 10, width: "100%", textAlign: "left", cursor: "pointer",
                         padding: "10px 20px", fontSize: 13.5, lineHeight: 1.4,
                         border: "none", borderLeft: `3px solid ${on ? MINT : "transparent"}`,
-                        background: on ? "rgba(0,255,178,0.08)" : "transparent",
-                        color: on ? "#eafff8" : "#aeb8c6", fontWeight: on ? 600 : 400,
+                        background: on ? "rgba(0,184,95,0.10)" : "transparent",
+                        color: on ? "#0b1220" : "#5b6675", fontWeight: on ? 600 : 400,
                       }}
                     >
                       {num && (
-                        <span style={{ color: on ? MINT : "#5f6b7d", fontWeight: 700, flexShrink: 0, fontVariantNumeric: "tabular-nums" }}>
+                        <span style={{ color: on ? MINT : "#94a3b8", fontWeight: 700, flexShrink: 0, fontVariantNumeric: "tabular-nums" }}>
                           {num}
                         </span>
                       )}
@@ -218,7 +218,7 @@ function Spinner({ size = 28 }: { size?: number }) {
         role="status"
         style={{
           width: size, height: size, borderRadius: "50%", flexShrink: 0,
-          border: `${Math.max(2.5, size / 9)}px solid rgba(0,255,178,0.15)`,
+          border: `${Math.max(2.5, size / 9)}px solid rgba(0,184,95,0.18)`,
           borderTopColor: MINT, animation: "cnSpin 0.8s linear infinite",
         }}
       />
@@ -278,7 +278,7 @@ function NoteView({ note, lang = "en" }: { note: CoreNote; lang?: Lang }) {
             <span style={{ opacity: 0.4 }}>·</span>
             <span>
               {note.lessonNum != null && (
-                <strong style={{ color: "#cdd6e2" }}>{note.unit}.{note.lessonNum} </strong>
+                <strong style={{ color: "#0b1220" }}>{note.unit}.{note.lessonNum} </strong>
               )}
               Unit {note.unit}{note.unitName ? ` — ${note.unitName}` : ""}
             </span>
@@ -290,13 +290,13 @@ function NoteView({ note, lang = "en" }: { note: CoreNote; lang?: Lang }) {
         {note.title}
       </h2>
       {note.subtitle && (
-        <p style={{ fontSize: 16, color: "#aab4c2", lineHeight: 1.5, marginTop: 12 }}>{note.subtitle}</p>
+        <p style={{ fontSize: 16, color: "#5b6675", lineHeight: 1.5, marginTop: 12 }}>{note.subtitle}</p>
       )}
 
       {note.overview && (
         <div style={{ marginTop: 18 }}>
           {note.overview.split(/\n\n+/).map((p, i) => (
-            <p key={i} style={{ fontSize: 16, lineHeight: 1.75, color: "#d4dce8", margin: i ? "14px 0 0" : 0 }}>{p}</p>
+            <p key={i} style={{ fontSize: 16, lineHeight: 1.75, color: "#1f2937", margin: i ? "14px 0 0" : 0 }}>{p}</p>
           ))}
         </div>
       )}
@@ -305,13 +305,13 @@ function NoteView({ note, lang = "en" }: { note: CoreNote; lang?: Lang }) {
         <div
           style={{
             marginTop: 26, padding: "20px 22px", borderRadius: 16,
-            background: "rgba(0,255,178,0.05)", border: `1px solid rgba(0,255,178,0.22)`,
+            background: "rgba(0,184,95,0.08)", border: `1px solid rgba(0,184,95,0.30)`,
           }}
         >
           <div style={{ fontSize: 11.5, letterSpacing: "0.18em", fontWeight: 800, color: MINT }}>{L.remember}</div>
           <ul style={{ listStyle: "none", padding: 0, margin: "14px 0 0", display: "grid", gap: 11 }}>
             {note.objectives.map((o, i) => (
-              <li key={i} style={{ display: "flex", gap: 12, fontSize: 15, lineHeight: 1.5, color: "#e3e9f1" }}>
+              <li key={i} style={{ display: "flex", gap: 12, fontSize: 15, lineHeight: 1.5, color: "#1f2937" }}>
                 <span style={{ color: MINT, flexShrink: 0, fontWeight: 800 }}>◆</span>
                 <span>{o}</span>
               </li>
@@ -324,7 +324,7 @@ function NoteView({ note, lang = "en" }: { note: CoreNote; lang?: Lang }) {
         <div
           style={{
             marginTop: 22, padding: "16px 18px", borderRadius: 14,
-            background: "#070b12", border: `1px solid rgba(0,255,178,0.28)`,
+            background: "#f7f8fa", border: `1px solid rgba(0,184,95,0.30)`,
           }}
         >
           <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: MINT, marginBottom: 10 }}>
@@ -336,8 +336,8 @@ function NoteView({ note, lang = "en" }: { note: CoreNote; lang?: Lang }) {
                 key={i}
                 style={{
                   display: "block", fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-                  fontSize: 14, lineHeight: 1.5, color: "#dbe7f0",
-                  background: "rgba(255,255,255,0.03)", padding: "8px 12px", borderRadius: 8,
+                  fontSize: 14, lineHeight: 1.5, color: "#0b1220",
+                  background: "#fff", padding: "8px 12px", borderRadius: 8,
                   borderLeft: `2px solid ${MINT}`, whiteSpace: "pre-wrap",
                 }}
               >
@@ -354,23 +354,23 @@ function NoteView({ note, lang = "en" }: { note: CoreNote; lang?: Lang }) {
         <section key={i} style={{ marginTop: 40 }}>
           <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
             <span style={{ fontSize: 13, fontWeight: 800, color: MINT, opacity: 0.7 }}>{String(i + 1).padStart(2, "0")}</span>
-            <h3 style={{ fontSize: 20, fontWeight: 700, margin: 0, color: "#f4f7fb", letterSpacing: "-0.01em", lineHeight: 1.3 }}>
+            <h3 style={{ fontSize: 20, fontWeight: 700, margin: 0, color: "#0b1220", letterSpacing: "-0.01em", lineHeight: 1.3 }}>
               {s.title}
             </h3>
           </div>
           {s.body && (
             <div style={{ marginTop: 12 }}>
               {s.body.split(/\n\n+/).map((p, k) => (
-                <p key={k} style={{ fontSize: 15.5, lineHeight: 1.7, color: "#cdd6e2", margin: k ? "12px 0 0" : 0 }}>{p}</p>
+                <p key={k} style={{ fontSize: 15.5, lineHeight: 1.7, color: "#1f2937", margin: k ? "12px 0 0" : 0 }}>{p}</p>
               ))}
             </div>
           )}
           {s.keyIdea && (
-            <div style={{ marginTop: 16, display: "flex", gap: 12, alignItems: "flex-start", padding: "14px 18px", borderRadius: 12, background: "rgba(0,255,178,0.07)", border: `1px solid rgba(0,255,178,0.3)` }}>
+            <div style={{ marginTop: 16, display: "flex", gap: 12, alignItems: "flex-start", padding: "14px 18px", borderRadius: 12, background: "rgba(0,184,95,0.08)", border: `1px solid rgba(0,184,95,0.30)` }}>
               <span style={{ fontSize: 16, flexShrink: 0 }}>💡</span>
               <div>
                 <div style={{ fontSize: 10.5, letterSpacing: "0.16em", fontWeight: 800, color: MINT, marginBottom: 3 }}>{L.keyIdea}</div>
-                <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: "#e6f0ea" }}>{s.keyIdea}</p>
+                <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: "#1f2937" }}>{s.keyIdea}</p>
               </div>
             </div>
           )}
@@ -378,9 +378,9 @@ function NoteView({ note, lang = "en" }: { note: CoreNote; lang?: Lang }) {
           {s.terms.length > 0 && (
             <div style={{ margin: "18px 0 0", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
               {s.terms.map((t, j) => (
-                <div key={j} style={{ padding: "12px 14px", borderRadius: 12, background: "#0d141d", border: `1px solid ${BORDER}`, borderTop: `2px solid rgba(0,255,178,0.5)` }}>
+                <div key={j} style={{ padding: "12px 14px", borderRadius: 12, background: "#f7f8fa", border: `1px solid ${BORDER}`, borderTop: `2px solid rgba(0,184,95,0.5)` }}>
                   <div style={{ fontSize: 14.5, fontWeight: 700, color: MINT, letterSpacing: "-0.005em" }}>{t.term}</div>
-                  <div style={{ margin: "5px 0 0", fontSize: 14, lineHeight: 1.55, color: "#c2cbd9" }}>{t.def}</div>
+                  <div style={{ margin: "5px 0 0", fontSize: 14, lineHeight: 1.55, color: "#1f2937" }}>{t.def}</div>
                 </div>
               ))}
             </div>
@@ -389,11 +389,11 @@ function NoteView({ note, lang = "en" }: { note: CoreNote; lang?: Lang }) {
             <div
               style={{
                 marginTop: 20, padding: "16px 20px", borderRadius: 14,
-                background: "rgba(143,162,255,0.07)", border: `1px solid rgba(143,162,255,0.3)`,
+                background: "rgba(79,70,229,0.06)", border: `1px solid rgba(79,70,229,0.30)`,
               }}
             >
               <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: INDIGO }}>{L.example}</div>
-              <p style={{ margin: "8px 0 0", fontSize: 15, lineHeight: 1.7, color: "#dfe5f1", whiteSpace: "pre-line" }}>{s.example}</p>
+              <p style={{ margin: "8px 0 0", fontSize: 15, lineHeight: 1.7, color: "#1f2937", whiteSpace: "pre-line" }}>{s.example}</p>
             </div>
           )}
           {s.traps.map((trap, k) => (
@@ -401,11 +401,11 @@ function NoteView({ note, lang = "en" }: { note: CoreNote; lang?: Lang }) {
               key={k}
               style={{
                 marginTop: 16, padding: "16px 20px", borderRadius: 14,
-                background: "rgba(255,107,107,0.07)", border: `1px solid rgba(255,107,107,0.32)`,
+                background: "rgba(220,38,38,0.06)", border: `1px solid rgba(220,38,38,0.30)`,
               }}
             >
               <div style={{ fontSize: 11, letterSpacing: "0.16em", fontWeight: 800, color: RED }}>{L.trap}</div>
-              <p style={{ margin: "8px 0 0", fontSize: 15, lineHeight: 1.7, color: "#f3dede" }}>{trap}</p>
+              <p style={{ margin: "8px 0 0", fontSize: 15, lineHeight: 1.7, color: "#991b1b" }}>{trap}</p>
             </div>
           ))}
         </section>
@@ -421,15 +421,15 @@ function NoteTableView({ table }: { table: NoteTable }) {
         <thead>
           <tr>
             {table.headers.map((h, i) => (
-              <th key={i} style={{ textAlign: "left", padding: "10px 14px", background: "rgba(0,255,178,0.10)", color: MINT, fontWeight: 700, fontSize: 12.5, letterSpacing: "0.02em", borderBottom: `1px solid ${BORDER}` }}>{h}</th>
+              <th key={i} style={{ textAlign: "left", padding: "10px 14px", background: "rgba(0,184,95,0.10)", color: MINT, fontWeight: 700, fontSize: 12.5, letterSpacing: "0.02em", borderBottom: `1px solid ${BORDER}` }}>{h}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {table.rows.map((row, r) => (
-            <tr key={r} style={{ background: r % 2 ? "rgba(255,255,255,0.02)" : "transparent" }}>
+            <tr key={r} style={{ background: r % 2 ? "rgba(15,23,42,0.025)" : "transparent" }}>
               {row.map((cell, c) => (
-                <td key={c} style={{ padding: "10px 14px", color: c === 0 ? "#e6edf5" : "#c2cbd9", fontWeight: c === 0 ? 600 : 400, lineHeight: 1.5, borderBottom: r < table.rows.length - 1 ? `1px solid ${BORDER}` : "none", verticalAlign: "top" }}>{cell}</td>
+                <td key={c} style={{ padding: "10px 14px", color: c === 0 ? "#0b1220" : "#1f2937", fontWeight: c === 0 ? 600 : 400, lineHeight: 1.5, borderBottom: r < table.rows.length - 1 ? `1px solid ${BORDER}` : "none", verticalAlign: "top" }}>{cell}</td>
               ))}
             </tr>
           ))}
@@ -439,8 +439,8 @@ function NoteTableView({ table }: { table: NoteTable }) {
   );
 }
 
-const AXIS = "#3a4658";
-const DLABEL = "#9aa6b6";
+const AXIS = "#475569";
+const DLABEL = "#5b6675";
 const DIAGRAM_TITLES: Record<string, string> = {
   "supply-demand": "Supply & Demand", "ad-as": "AD–AS Model", "ppc": "Production Possibilities Curve",
   "bell-curve": "Normal Distribution (68–95–99.7)", "scatter-regression": "Scatterplot & Regression Line",
@@ -458,7 +458,7 @@ function Diagram({ kind, label = "▦ DIAGRAM", ko = false }: { kind: string; la
   if (!body) return null;
   const caption = DIAGRAM_TITLES[kind] ?? "";
   return (
-    <figure style={{ margin: "22px 0 0", padding: "18px 18px 12px", borderRadius: 14, background: "#070b12", border: `1px solid ${BORDER}` }}>
+    <figure style={{ margin: "22px 0 0", padding: "18px 18px 12px", borderRadius: 14, background: "#f7f8fa", border: `1px solid ${BORDER}` }}>
       <div style={{ fontSize: 11, letterSpacing: ko ? "0.05em" : "0.16em", fontWeight: 800, color: INDIGO, marginBottom: 8 }}>{label}</div>
       <svg viewBox="0 0 280 170" width="100%" style={{ maxWidth: 360, display: "block", margin: "0 auto" }}>{body}</svg>
       <figcaption style={{ textAlign: "center", fontSize: 12, color: DLABEL, marginTop: 6 }}>{caption}</figcaption>
@@ -490,7 +490,7 @@ function diagramBody(kind: string): React.ReactNode {
         <line x1="55" y1="35" x2="235" y2="125" stroke={INDIGO} strokeWidth="2.2" />
         <line x1="145" y1="80" x2="145" y2="140" stroke={AXIS} strokeDasharray="3 3" />
         <line x1="40" y1="80" x2="145" y2="80" stroke={AXIS} strokeDasharray="3 3" />
-        <circle cx="145" cy="80" r="3" fill="#fff" />
+        <circle cx="145" cy="80" r="3" fill="#0b1220" />
         {lbl(238, 33, up, MINT)}{lbl(238, 128, down, INDIGO)}
         {lbl(24, 84, "P*")}{lbl(140, 152, "Q*")}
         {lbl(18, 18, kind === "ad-as" ? "PL" : "P")}{lbl(250, 136, kind === "ad-as" ? "rGDP" : "Q")}
@@ -500,14 +500,14 @@ function diagramBody(kind: string): React.ReactNode {
       return (<>
         {axes()}
         <path d="M40,35 C 110,45 150,95 235,140" fill="none" stroke={MINT} strokeWidth="2.2" />
-        <circle cx="120" cy="78" r="3" fill="#fff" />{lbl(126, 74, "efficient")}
+        <circle cx="120" cy="78" r="3" fill="#0b1220" />{lbl(126, 74, "efficient")}
         <circle cx="85" cy="118" r="2.5" fill={INDIGO} />{lbl(92, 122, "inside = idle", INDIGO)}
         {lbl(20, 30, "A")}{lbl(244, 136, "B")}
       </>);
     case "bell-curve":
       return (<>
         <line x1="20" y1="135" x2="260" y2="135" stroke={AXIS} strokeWidth="1.5" />
-        <path d="M30,135 C 90,135 105,40 140,40 C 175,40 190,135 250,135" fill="rgba(0,255,178,0.08)" stroke={MINT} strokeWidth="2.2" />
+        <path d="M30,135 C 90,135 105,40 140,40 C 175,40 190,135 250,135" fill="rgba(0,184,95,0.12)" stroke={MINT} strokeWidth="2.2" />
         {[80, 110, 140, 170, 200].map((x, i) => (<line key={i} x1={x} y1="131" x2={x} y2="139" stroke={AXIS} strokeWidth="1.5" />))}
         <line x1="140" y1="40" x2="140" y2="135" stroke={AXIS} strokeDasharray="3 3" />
         {lbl(136, 150, "μ")}{lbl(99, 150, "−1σ")}{lbl(160, 150, "+1σ")}
@@ -527,7 +527,7 @@ function diagramBody(kind: string): React.ReactNode {
         <line x1="20" y1="90" x2="260" y2="90" stroke={AXIS} strokeWidth="1.5" />
         <line x1="55" y1="90" x2="95" y2="90" stroke={MINT} strokeWidth="2" />
         <line x1="55" y1="78" x2="55" y2="102" stroke={MINT} strokeWidth="2" />
-        <rect x="95" y="68" width="90" height="44" fill="rgba(0,255,178,0.08)" stroke={MINT} strokeWidth="2" />
+        <rect x="95" y="68" width="90" height="44" fill="rgba(0,184,95,0.12)" stroke={MINT} strokeWidth="2" />
         <line x1="140" y1="68" x2="140" y2="112" stroke={MINT} strokeWidth="2.4" />
         <line x1="185" y1="90" x2="230" y2="90" stroke={MINT} strokeWidth="2" />
         <line x1="230" y1="78" x2="230" y2="102" stroke={MINT} strokeWidth="2" />
@@ -538,13 +538,13 @@ function diagramBody(kind: string): React.ReactNode {
         {axes()}
         <path d="M50,130 Q 145,0 240,130" fill="none" stroke={INDIGO} strokeWidth="2.2" />
         <line x1="70" y1="120" x2="200" y2="40" stroke={MINT} strokeWidth="2" />
-        <circle cx="115" cy="71" r="3.2" fill="#fff" />
+        <circle cx="115" cy="71" r="3.2" fill="#0b1220" />
         {lbl(120, 64, "slope = f'(a)", MINT)}{lbl(108, 152, "a")}
       </>);
     case "area-under-curve":
       return (<>
         {axes()}
-        <path d="M40,140 L60,110 Q 140,40 230,95 L230,140 Z" fill="rgba(0,255,178,0.14)" stroke="none" />
+        <path d="M40,140 L60,110 Q 140,40 230,95 L230,140 Z" fill="rgba(0,184,95,0.16)" stroke="none" />
         <path d="M60,110 Q 140,40 230,95" fill="none" stroke={MINT} strokeWidth="2.2" />
         {lbl(118, 112, "∫ₐᵇ f(x) dx", MINT)}{lbl(56, 152, "a")}{lbl(224, 152, "b")}
       </>);
@@ -552,10 +552,10 @@ function diagramBody(kind: string): React.ReactNode {
       return (<>
         {/* dendrites */}
         <path d="M30,60 L60,80 M30,100 L60,80 M30,80 L60,80" stroke={INDIGO} strokeWidth="1.6" fill="none" />
-        <circle cx="72" cy="80" r="14" fill="rgba(0,255,178,0.10)" stroke={MINT} strokeWidth="2" />
+        <circle cx="72" cy="80" r="14" fill="rgba(0,184,95,0.12)" stroke={MINT} strokeWidth="2" />
         {/* axon with myelin */}
         <line x1="86" y1="80" x2="210" y2="80" stroke={MINT} strokeWidth="2" />
-        {[110, 145, 180].map((x, i) => (<rect key={i} x={x} y="73" width="22" height="14" rx="7" fill="rgba(143,162,255,0.18)" stroke={INDIGO} strokeWidth="1" />))}
+        {[110, 145, 180].map((x, i) => (<rect key={i} x={x} y="73" width="22" height="14" rx="7" fill="rgba(79,70,229,0.14)" stroke={INDIGO} strokeWidth="1" />))}
         {/* terminals */}
         <path d="M210,80 L235,66 M210,80 L235,94 M210,80 L238,80" stroke={MINT} strokeWidth="1.6" fill="none" />
         {lbl(20, 50, "dendrites", INDIGO)}{lbl(58, 112, "soma")}{lbl(120, 64, "myelin", INDIGO)}{lbl(150, 105, "axon", MINT)}{lbl(214, 56, "terminals")}
@@ -563,15 +563,15 @@ function diagramBody(kind: string): React.ReactNode {
     case "brain-lobes":
       return (<>
         <path d="M55,95 C 45,55 95,30 150,32 C 215,34 245,60 240,92 C 238,118 200,132 150,132 C 100,132 62,124 55,95 Z"
-          fill="rgba(143,162,255,0.06)" stroke={AXIS} strokeWidth="1.6" />
+          fill="rgba(79,70,229,0.06)" stroke={AXIS} strokeWidth="1.6" />
         <line x1="150" y1="34" x2="150" y2="130" stroke={AXIS} strokeDasharray="3 3" />
         <line x1="60" y1="92" x2="240" y2="86" stroke={AXIS} strokeDasharray="3 3" />
         {lbl(95, 62, "Frontal", MINT)}{lbl(178, 60, "Parietal", MINT)}{lbl(95, 116, "Temporal", INDIGO)}{lbl(196, 116, "Occipital", INDIGO)}
       </>);
     case "carbon-cycle": {
       const box = (x: number, y: number, t: string, c: string) => (<>
-        <rect x={x - 38} y={y - 14} width="76" height="28" rx="8" fill="#0d1320" stroke={c} strokeWidth="1.4" />
-        <text x={x} y={y + 3.5} textAnchor="middle" fill="#dde4ee" fontSize="9">{t}</text>
+        <rect x={x - 38} y={y - 14} width="76" height="28" rx="8" fill="#fff" stroke={c} strokeWidth="1.4" />
+        <text x={x} y={y + 3.5} textAnchor="middle" fill="#0b1220" fontSize="9">{t}</text>
       </>);
       return (<>
         <defs><marker id="arr" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill={AXIS} /></marker></defs>
@@ -586,8 +586,8 @@ function diagramBody(kind: string): React.ReactNode {
     }
     case "energy-pyramid": {
       const tier = (y: number, w: number, label: string, pct: string) => (<>
-        <rect x={140 - w / 2} y={y} width={w} height="26" fill="rgba(0,255,178,0.08)" stroke={MINT} strokeWidth="1.4" />
-        <text x={140} y={y + 17} textAnchor="middle" fill="#dde4ee" fontSize="9">{label}</text>
+        <rect x={140 - w / 2} y={y} width={w} height="26" fill="rgba(0,184,95,0.10)" stroke={MINT} strokeWidth="1.4" />
+        <text x={140} y={y + 17} textAnchor="middle" fill="#0b1220" fontSize="9">{label}</text>
         <text x={140 + w / 2 + 6} y={y + 17} fill={DLABEL} fontSize="8">{pct}</text>
       </>);
       return (<>
@@ -612,16 +612,16 @@ function diagramBody(kind: string): React.ReactNode {
       return (<>
         <line x1="140" y1="28" x2="140" y2="142" stroke={AXIS} strokeWidth="1.4" />
         {rows.map((r, i) => { const y = 30 + i * 22; return (<g key={i}>
-          <rect x={140 - r[0]} y={y} width={r[0]} height="18" fill="rgba(143,162,255,0.18)" stroke={INDIGO} strokeWidth="1" />
-          <rect x={140} y={y} width={r[1] + 30} height="18" fill="rgba(0,255,178,0.12)" stroke={MINT} strokeWidth="1" />
+          <rect x={140 - r[0]} y={y} width={r[0]} height="18" fill="rgba(79,70,229,0.14)" stroke={INDIGO} strokeWidth="1" />
+          <rect x={140} y={y} width={r[1] + 30} height="18" fill="rgba(0,184,95,0.14)" stroke={MINT} strokeWidth="1" />
         </g>); })}
         {lbl(60, 22, "male", INDIGO)}{lbl(196, 22, "female", MINT)}{lbl(120, 156, "age structure")}
       </>);
     }
     case "three-branches": {
       const box = (x: number, t1: string, t2: string) => (<>
-        <rect x={x - 48} y="34" width="96" height="40" rx="9" fill="#0d1320" stroke={MINT} strokeWidth="1.5" />
-        <text x={x} y="52" textAnchor="middle" fill="#eafff8" fontSize="9.5" fontWeight="700">{t1}</text>
+        <rect x={x - 48} y="34" width="96" height="40" rx="9" fill="#fff" stroke={MINT} strokeWidth="1.5" />
+        <text x={x} y="52" textAnchor="middle" fill="#00b85f" fontSize="9.5" fontWeight="700">{t1}</text>
         <text x={x} y="65" textAnchor="middle" fill={DLABEL} fontSize="8">{t2}</text>
       </>);
       return (<>
@@ -634,8 +634,8 @@ function diagramBody(kind: string): React.ReactNode {
     }
     case "bill-to-law": {
       const step = (x: number, t: string) => (<>
-        <rect x={x - 32} y="70" width="64" height="30" rx="8" fill="#0d1320" stroke={MINT} strokeWidth="1.4" />
-        <text x={x} y="89" textAnchor="middle" fill="#dde4ee" fontSize="9">{t}</text>
+        <rect x={x - 32} y="70" width="64" height="30" rx="8" fill="#fff" stroke={MINT} strokeWidth="1.4" />
+        <text x={x} y="89" textAnchor="middle" fill="#0b1220" fontSize="9">{t}</text>
       </>);
       return (<>
         <defs><marker id="a2" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill={MINT} /></marker></defs>
@@ -648,15 +648,15 @@ function diagramBody(kind: string): React.ReactNode {
     }
     case "rhetorical-triangle":
       return (<>
-        <path d="M140,30 L55,135 L225,135 Z" fill="rgba(0,255,178,0.05)" stroke={MINT} strokeWidth="2" />
+        <path d="M140,30 L55,135 L225,135 Z" fill="rgba(0,184,95,0.07)" stroke={MINT} strokeWidth="2" />
         {lbl(120, 24, "ETHOS", MINT)}{lbl(28, 140, "PATHOS", INDIGO)}{lbl(196, 140, "LOGOS", INDIGO)}
         {lbl(118, 88, "the message")}
         {lbl(70, 70, "speaker", DLABEL)}{lbl(170, 70, "audience", DLABEL)}
       </>);
     case "argument-structure": {
       const step = (y: number, t: string, c: string) => (<>
-        <rect x="80" y={y} width="120" height="26" rx="8" fill="#0d1320" stroke={c} strokeWidth="1.4" />
-        <text x="140" y={y + 17} textAnchor="middle" fill="#dde4ee" fontSize="9">{t}</text>
+        <rect x="80" y={y} width="120" height="26" rx="8" fill="#fff" stroke={c} strokeWidth="1.4" />
+        <text x="140" y={y + 17} textAnchor="middle" fill="#0b1220" fontSize="9">{t}</text>
       </>);
       return (<>
         <defs><marker id="a3" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill={AXIS} /></marker></defs>
@@ -669,8 +669,8 @@ function diagramBody(kind: string): React.ReactNode {
     }
     case "cause-effect": {
       const box = (x: number, t: string, c: string) => (<>
-        <rect x={x - 40} y="68" width="80" height="34" rx="9" fill="#0d1320" stroke={c} strokeWidth="1.4" />
-        <text x={x} y="89" textAnchor="middle" fill="#dde4ee" fontSize="9">{t}</text>
+        <rect x={x - 40} y="68" width="80" height="34" rx="9" fill="#fff" stroke={c} strokeWidth="1.4" />
+        <text x={x} y="89" textAnchor="middle" fill="#0b1220" fontSize="9">{t}</text>
       </>);
       return (<>
         <defs><marker id="a4" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill={AXIS} /></marker></defs>

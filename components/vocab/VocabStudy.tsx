@@ -43,12 +43,12 @@ function categoryOf(courseId: string): string {
 function palette(theme: Theme) {
   if (theme === "light") {
     return {
-      accent: "#00b85f", text: "#1a1a1f", sub: "#475569", muted: "#94a3b8",
-      cardBg: "#fff", cardBorder: "#e6e8ec", chipBg: "#f1f3f5", chipBorder: "#e2e6ea",
-      accentBg: "rgba(0,184,95,0.12)", accentBorder: "rgba(0,184,95,0.45)",
-      studyCardBg: "linear-gradient(160deg, rgba(0,184,95,0.07), #fff)", studyCardBorder: "rgba(0,184,95,0.35)",
-      track: "#e6e8ec", wrong: "#dc2626", wrongBg: "rgba(220,38,38,0.08)",
-      bookBg: "#fcfcfa", bookLine: "#eceae3", gutter: "#f7f6f1", knownRow: "rgba(0,184,95,0.05)",
+      accent: "#00b85f", text: "#0b1220", sub: "#5b6675", muted: "#94a3b8",
+      cardBg: "#fff", cardBorder: "#e8ecf1", chipBg: "#f7f8fa", chipBorder: "#e8ecf1",
+      accentBg: "rgba(0,184,95,0.10)", accentBorder: "#00b85f",
+      studyCardBg: "linear-gradient(160deg, rgba(0,184,95,0.07), #fff)", studyCardBorder: "#00b85f",
+      track: "#e8ecf1", wrong: "#dc2626", wrongBg: "rgba(220,38,38,0.08)",
+      bookBg: "#fff", bookLine: "#e8ecf1", gutter: "#f7f8fa", knownRow: "rgba(0,184,95,0.06)",
     };
   }
   return {
@@ -304,7 +304,7 @@ function VocabBook({ groups, hideEn, known, onToggle, Pa }: {
   onToggle: (t: VocabTerm) => void; Pa: P;
 }) {
   return (
-    <div style={{ borderRadius: 16, border: `1px solid ${Pa.cardBorder}`, background: Pa.bookBg, overflow: "hidden" }}>
+    <div style={{ borderRadius: 16, border: `1px solid ${Pa.cardBorder}`, background: Pa.bookBg, overflow: "hidden", boxShadow: "0 1px 2px rgba(16,24,40,0.04)" }}>
       {groups.map(([u, items], gi) => {
         const knownInUnit = items.reduce((n, t) => n + (known.has(termKey(t)) ? 1 : 0), 0);
         return (
@@ -395,7 +395,7 @@ function StudyDeck({ terms, Pa }: { terms: VocabTerm[]; Pa: P }) {
   if (done) {
     const correct = deck.length - wrong.length;
     return (
-      <div style={{ textAlign: "center", padding: "44px 20px", borderRadius: 18, border: `1px solid ${Pa.studyCardBorder}`, background: Pa.accentBg }}>
+      <div style={{ textAlign: "center", padding: "44px 20px", borderRadius: 18, border: `1px solid ${Pa.studyCardBorder}`, background: Pa.accentBg, boxShadow: "0 1px 2px rgba(16,24,40,0.04)" }}>
         <p style={{ fontSize: 34, margin: "0 0 8px" }}>🎉</p>
         <p style={{ fontSize: 19, fontWeight: 850, color: Pa.text, margin: "0 0 6px" }}>한 바퀴 완료!</p>
         <p style={{ fontSize: 14, color: Pa.sub, margin: "0 0 20px" }}>
@@ -423,7 +423,7 @@ function StudyDeck({ terms, Pa }: { terms: VocabTerm[]; Pa: P }) {
       </div>
 
       <div onClick={() => !revealed && setRevealed(true)}
-        style={{ borderRadius: 20, border: `1px solid ${Pa.studyCardBorder}`, background: Pa.studyCardBg,
+        style={{ borderRadius: 20, border: `1px solid ${Pa.studyCardBorder}`, background: Pa.studyCardBg, boxShadow: "0 1px 2px rgba(16,24,40,0.04)",
           minHeight: 240, padding: "34px 26px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
           textAlign: "center", cursor: revealed ? "default" : "pointer" }}>
         {card!.unit != null && (
@@ -458,7 +458,7 @@ function StudyDeck({ terms, Pa }: { terms: VocabTerm[]; Pa: P }) {
 function studyBtn(color: string, filled: boolean, Pa: P): React.CSSProperties {
   return {
     padding: "13px 18px", borderRadius: 12, cursor: "pointer", fontSize: 14, fontWeight: 800,
-    border: `1px solid ${filled ? color : Pa.chipBorder}`,
-    background: filled ? `${color}22` : Pa.chipBg, color,
+    border: `1.5px solid ${filled ? color : "#d8dee6"}`,
+    background: filled ? color : "#fff", color: filled ? "#fff" : color,
   };
 }

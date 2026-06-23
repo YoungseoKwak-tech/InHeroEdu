@@ -782,10 +782,11 @@ export default function LibraryPage() {
 
       <style jsx>{`
         .lib-root {
-          --accent: #5eead4;
+          --accent: #00b85f;
           --gold: #F4C95D;
           min-height: calc(100vh - 4rem);
-          color: #d8d9e6;
+          color: #0b1220;
+          background: #ffffff;
           font-family: Inter, Space Grotesk, system-ui, sans-serif;
           position: relative;
         }
@@ -822,11 +823,10 @@ export default function LibraryPage() {
         .lib-feed-col {
           min-width: 0;
           padding: 1.5rem;
-          background: rgba(15, 18, 24, 0.6);
-          border: 1px solid #232838;
+          background: #f7f8fa;
+          border: 1px solid #e8ecf1;
           border-radius: 12px;
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
+          box-shadow: 0 1px 2px rgba(16,24,40,0.04);
         }
         @media (max-width: 1024px) {
           .lib-with-sidebar { grid-template-columns: 1fr; gap: 1.25rem; }
@@ -839,10 +839,10 @@ export default function LibraryPage() {
           margin-bottom: 0.4rem;
         }
         .lib-title {
-          font-family: Cormorant Garamond, serif;
-          font-size: 2.1rem; font-weight: 600;
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 2.1rem; font-weight: 700;
           letter-spacing: -0.01em;
-          color: #f3f3fb;
+          color: #0b1220;
           margin: 0;
         }
 
@@ -860,16 +860,16 @@ export default function LibraryPage() {
           justify-content: center;
           min-height: 2.55rem;
           padding: 0.65rem 1rem;
-          border: 1px solid rgba(94,234,212,0.65);
+          border: 1px solid #00b85f;
           border-radius: 999px;
-          background: linear-gradient(135deg, #5eead4, #8cf6e8);
-          color: #071014;
+          background: #00b85f;
+          color: #fff;
           font-family: ui-monospace, monospace;
           font-size: 0.76rem;
           font-weight: 900;
           letter-spacing: 0.1em;
           cursor: pointer;
-          box-shadow: 0 12px 34px rgba(94,234,212,0.2);
+          box-shadow: 0 10px 26px rgba(0,184,95,0.28);
         }
         .lib-upload-btn:hover:not(:disabled) { filter: brightness(1.04); transform: translateY(-1px); }
         .lib-upload-btn:disabled { opacity: 0.55; cursor: default; }
@@ -877,23 +877,23 @@ export default function LibraryPage() {
           font-family: ui-monospace, monospace;
           font-size: 0.68rem;
           letter-spacing: 0.06em;
-          color: rgba(148,163,184,0.68);
+          color: #5b6675;
         }
         .lib-tabs { display: flex; gap: 0.25rem; }
         .lib-tab {
           font-family: ui-monospace, monospace;
           font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em;
           padding: 0.55rem 1rem;
-          background: transparent;
-          border: 1px solid rgba(255,255,255,0.08);
+          background: #fff;
+          border: 1px solid #e8ecf1;
           border-radius: 999px;
-          color: rgba(148,163,184,0.85);
+          color: #5b6675;
           cursor: pointer;
           transition: border-color 0.15s, color 0.15s, background 0.15s;
         }
-        .lib-tab:hover { color: #f3f3fb; border-color: rgba(94,234,212,0.3); }
+        .lib-tab:hover { color: #0b1220; border-color: rgba(0,184,95,0.4); }
         .lib-tab.is-active {
-          color: #0a0a10; background: var(--accent); border-color: var(--accent);
+          color: #fff; background: var(--accent); border-color: var(--accent);
         }
 
         .lib-filter-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
@@ -902,18 +902,18 @@ export default function LibraryPage() {
           font-family: inherit;
           font-size: 0.78rem; font-weight: 600;
           padding: 0.42rem 0.75rem;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.08);
+          background: #fff;
+          border: 1px solid #e8ecf1;
           border-radius: 0.5rem;
-          color: rgba(216,217,230,0.85);
+          color: #5b6675;
           cursor: pointer;
           transition: border-color 0.12s, background 0.12s, color 0.12s;
         }
-        .lib-chip:hover { border-color: rgba(94,234,212,0.4); color: #f3f3fb; }
+        .lib-chip:hover { border-color: rgba(0,184,95,0.4); color: #0b1220; }
         .lib-chip.is-active {
-          background: rgba(94,234,212,0.12);
-          border-color: rgba(94,234,212,0.5);
-          color: var(--accent);
+          background: rgba(0,184,95,0.10);
+          border-color: #00b85f;
+          color: #00b85f;
         }
         .lib-chip-sm { font-size: 0.72rem; padding: 0.32rem 0.6rem; }
 
@@ -925,7 +925,7 @@ export default function LibraryPage() {
           align-items: center;
           justify-content: center;
           padding: 1rem;
-          background: rgba(2,4,12,0.76);
+          background: rgba(11,18,32,0.45);
           backdrop-filter: blur(10px);
         }
         .lib-upload-panel {
@@ -933,13 +933,10 @@ export default function LibraryPage() {
           max-height: min(92vh, 48rem);
           overflow-y: auto;
           padding: 1.1rem;
-          border: 1px solid rgba(94,234,212,0.24);
+          border: 1px solid #e8ecf1;
           border-radius: 18px;
-          background:
-            radial-gradient(circle at 20% 0%, rgba(94,234,212,0.14), transparent 44%),
-            radial-gradient(circle at 100% 20%, rgba(244,201,93,0.1), transparent 38%),
-            rgba(8,10,20,0.98);
-          box-shadow: 0 28px 90px rgba(0,0,0,0.62), 0 0 36px rgba(94,234,212,0.12);
+          background: #ffffff;
+          box-shadow: 0 28px 90px rgba(16,24,40,0.18);
         }
         .lib-upload-head {
           display: flex;
@@ -957,22 +954,23 @@ export default function LibraryPage() {
         }
         .lib-upload-title {
           margin: 0.15rem 0 0;
-          font-family: Cormorant Garamond, serif;
+          font-family: 'Space Grotesk', sans-serif;
           font-size: 1.55rem;
+          font-weight: 700;
           line-height: 1.05;
-          color: #f3f3fb;
+          color: #0b1220;
         }
         .lib-upload-close {
           width: 2rem;
           height: 2rem;
-          border: 1px solid rgba(255,255,255,0.12);
+          border: 1px solid #e8ecf1;
           border-radius: 999px;
-          background: rgba(255,255,255,0.04);
-          color: rgba(216,217,230,0.85);
+          background: #fff;
+          color: #5b6675;
           font-size: 1.25rem;
           cursor: pointer;
         }
-        .lib-upload-close:hover:not(:disabled) { color: #ff8b7e; border-color: rgba(255,139,126,0.34); }
+        .lib-upload-close:hover:not(:disabled) { color: #dc2626; border-color: rgba(220,38,38,0.34); }
         .lib-upload-drop {
           display: flex;
           flex-direction: column;
@@ -981,9 +979,9 @@ export default function LibraryPage() {
           gap: 0.35rem;
           min-height: 9.5rem;
           padding: 1rem;
-          border: 1px dashed rgba(94,234,212,0.38);
+          border: 1px dashed rgba(0,184,95,0.38);
           border-radius: 14px;
-          background: rgba(94,234,212,0.05);
+          background: rgba(0,184,95,0.05);
           cursor: pointer;
           text-align: center;
         }
@@ -995,7 +993,7 @@ export default function LibraryPage() {
           align-items: center;
           justify-content: center;
           border-radius: 999px;
-          background: rgba(94,234,212,0.15);
+          background: rgba(0,184,95,0.15);
           color: var(--accent);
           font-family: ui-monospace, monospace;
           font-weight: 900;
@@ -1005,13 +1003,13 @@ export default function LibraryPage() {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          color: #f3f3fb;
+          color: #0b1220;
           font-weight: 800;
         }
         .lib-upload-drop-sub {
           font-family: ui-monospace, monospace;
           font-size: 0.68rem;
-          color: rgba(148,163,184,0.72);
+          color: #5b6675;
         }
         .lib-upload-field {
           display: flex;
@@ -1025,25 +1023,25 @@ export default function LibraryPage() {
           font-size: 0.66rem;
           font-weight: 900;
           letter-spacing: 0.14em;
-          color: rgba(216,217,230,0.76);
+          color: #5b6675;
           text-transform: uppercase;
         }
         .lib-upload-field input,
         .lib-upload-field select {
           width: 100%;
           min-height: 2.55rem;
-          border: 1px solid rgba(255,255,255,0.1);
+          border: 1px solid #d8dee6;
           border-radius: 10px;
-          background: rgba(255,255,255,0.04);
-          color: #f3f3fb;
+          background: #fff;
+          color: #0b1220;
           padding: 0.65rem 0.75rem;
           font-family: inherit;
           outline: none;
         }
         .lib-upload-field input:focus,
         .lib-upload-field select:focus {
-          border-color: rgba(94,234,212,0.65);
-          box-shadow: 0 0 0 1px rgba(94,234,212,0.3);
+          border-color: rgba(0,184,95,0.65);
+          box-shadow: 0 0 0 1px rgba(0,184,95,0.3);
         }
         .lib-upload-folder-label { margin-top: 0.85rem; margin-bottom: 0.45rem; }
         .lib-upload-groups {
@@ -1057,31 +1055,31 @@ export default function LibraryPage() {
           gap: 0.18rem 0.45rem;
           align-items: start;
           padding: 0.75rem;
-          border: 1px solid rgba(255,255,255,0.1);
+          border: 1px solid #e8ecf1;
           border-radius: 12px;
-          background: rgba(255,255,255,0.035);
-          color: rgba(216,217,230,0.9);
+          background: #fff;
+          color: #0b1220;
           text-align: left;
           cursor: pointer;
         }
         .lib-upload-group.is-active {
-          border-color: rgba(94,234,212,0.7);
-          background: rgba(94,234,212,0.12);
-          color: #f3f3fb;
+          border-color: #00b85f;
+          background: rgba(0,184,95,0.10);
+          color: #00b85f;
         }
         .lib-upload-group-emoji { grid-row: span 2; }
         .lib-upload-group-name { font-size: 0.82rem; font-weight: 800; }
         .lib-upload-group-blurb {
           font-size: 0.68rem;
-          color: rgba(148,163,184,0.74);
+          color: #5b6675;
         }
         .lib-upload-error {
           margin-top: 0.8rem;
           padding: 0.72rem 0.8rem;
-          border: 1px solid rgba(255,139,126,0.35);
+          border: 1px solid rgba(220,38,38,0.35);
           border-radius: 10px;
-          background: rgba(255,139,126,0.08);
-          color: #ff8b7e;
+          background: rgba(220,38,38,0.08);
+          color: #dc2626;
           font-size: 0.82rem;
         }
         .lib-upload-actions {
@@ -1102,14 +1100,14 @@ export default function LibraryPage() {
           cursor: pointer;
         }
         .lib-upload-cancel {
-          border: 1px solid rgba(255,255,255,0.12);
-          background: rgba(255,255,255,0.03);
-          color: rgba(216,217,230,0.88);
+          border: 1.5px solid #d8dee6;
+          background: #fff;
+          color: #0b1220;
         }
         .lib-upload-submit {
           border: 1px solid var(--accent);
           background: var(--accent);
-          color: #071014;
+          color: #fff;
         }
         .lib-upload-cancel:disabled,
         .lib-upload-submit:disabled {
@@ -1130,10 +1128,10 @@ export default function LibraryPage() {
           gap: 1rem;
           padding: 1rem 1.1rem;
           margin: 0 0 1rem;
-          background: linear-gradient(135deg, rgba(244,201,93,0.12), rgba(94,234,212,0.08));
-          border: 1px solid rgba(244,201,93,0.28);
+          background: linear-gradient(135deg, rgba(244,201,93,0.12), rgba(0,184,95,0.08));
+          border: 1px solid rgba(244,201,93,0.45);
           border-radius: 0.85rem;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+          box-shadow: 0 1px 2px rgba(16,24,40,0.04);
         }
         .lib-banner-copy { display: flex; flex-direction: column; gap: 0.3rem; }
         .lib-banner-kicker {
@@ -1146,13 +1144,13 @@ export default function LibraryPage() {
         .lib-banner-title {
           font-size: 1rem;
           font-weight: 700;
-          color: #f3f3fb;
+          color: #0b1220;
         }
         .lib-banner-sub {
           max-width: 56ch;
           font-size: 0.86rem;
           line-height: 1.5;
-          color: rgba(216,217,230,0.82);
+          color: #5b6675;
         }
         .lib-banner-cta {
           flex-shrink: 0;
@@ -1187,12 +1185,10 @@ export default function LibraryPage() {
           gap: 0.45rem;
           padding: 1.1rem 1.15rem;
           margin: 0 0 1rem;
-          background:
-            radial-gradient(circle at top left, rgba(94,234,212,0.14), transparent 52%),
-            linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-          border: 1px solid rgba(94,234,212,0.22);
+          background: linear-gradient(180deg,#f6f8fb,#ffffff);
+          border: 1px solid #e8ecf1;
           border-radius: 0.95rem;
-          box-shadow: 0 12px 32px rgba(0,0,0,0.24);
+          box-shadow: 0 1px 2px rgba(16,24,40,0.04);
         }
         .lib-login-kicker {
           font-family: ui-monospace, monospace;
@@ -1204,13 +1200,13 @@ export default function LibraryPage() {
         .lib-login-title {
           font-size: 1.05rem;
           font-weight: 800;
-          color: #f3f3fb;
+          color: #0b1220;
         }
         .lib-login-sub {
           max-width: 56ch;
           font-size: 0.88rem;
           line-height: 1.55;
-          color: rgba(216,217,230,0.82);
+          color: #5b6675;
         }
         .lib-login-actions {
           display: flex;
@@ -1226,7 +1222,7 @@ export default function LibraryPage() {
           min-height: 2.35rem;
           padding: 0.55rem 0.9rem;
           border-radius: 999px;
-          border: 1px solid rgba(94,234,212,0.25);
+          border: 1.5px solid #d8dee6;
           font-family: ui-monospace, monospace;
           font-size: 0.78rem;
           font-weight: 800;
@@ -1236,11 +1232,12 @@ export default function LibraryPage() {
         }
         .lib-login-cta {
           background: var(--accent);
-          color: #0a0a10;
+          border-color: var(--accent);
+          color: #fff;
         }
         .lib-login-secondary {
-          background: rgba(255,255,255,0.02);
-          color: #f3f3fb;
+          background: #fff;
+          color: #0b1220;
         }
         .lib-login-cta:hover,
         .lib-login-secondary:hover {
@@ -1249,10 +1246,10 @@ export default function LibraryPage() {
 
         .lib-error {
           padding: 0.85rem 1rem; margin-bottom: 1rem;
-          background: rgba(255,139,126,0.08);
-          border: 1px solid rgba(255,139,126,0.3);
+          background: rgba(220,38,38,0.08);
+          border: 1px solid rgba(220,38,38,0.3);
           border-radius: 0.5rem;
-          color: #ff8b7e;
+          color: #dc2626;
           font-size: 0.85rem;
         }
 
@@ -1283,8 +1280,8 @@ export default function LibraryPage() {
           text-align: center;
           font-family: ui-monospace, monospace;
           font-size: 0.85rem;
-          color: rgba(148,163,184,0.65);
-          border: 1px dashed rgba(94,234,212,0.18);
+          color: #5b6675;
+          border: 1px dashed rgba(0,184,95,0.30);
           border-radius: 0.6rem;
         }
         .lib-sentinel { height: 1px; }
@@ -1648,11 +1645,12 @@ function FeedCard({
           display: block;
           break-inside: avoid;
           margin-bottom: 1rem;
-          background: rgba(16,17,22,0.7);
-          border: 1px solid rgba(255,255,255,0.06);
+          background: #ffffff;
+          border: 1px solid #e8ecf1;
           border-radius: 0.7rem;
           overflow: hidden;
           position: relative;
+          box-shadow: 0 1px 2px rgba(16,24,40,0.04);
           transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
         }
 
@@ -1688,26 +1686,25 @@ function FeedCard({
           width: 28px; height: 28px;
           display: inline-flex; align-items: center; justify-content: center;
           border-radius: 6px;
-          background: rgba(0,0,0,0.6);
-          border: 1px solid rgba(255,255,255,0.08);
-          color: rgba(255,255,255,0.92);
+          background: #ffffff;
+          border: 1px solid #e8ecf1;
+          color: #0b1220;
           font-size: 16px;
           line-height: 1;
           cursor: pointer;
-          backdrop-filter: blur(8px);
+          box-shadow: 0 1px 2px rgba(16,24,40,0.04);
         }
-        .fc-menu-trigger:hover { background: rgba(0,0,0,0.85); }
+        .fc-menu-trigger:hover { background: #f7f8fa; }
         .fc-menu-dropdown {
           position: absolute;
           top: 32px;
           right: 0;
           min-width: 140px;
           padding: 4px;
-          background: rgba(10,6,18,0.96);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: #ffffff;
+          border: 1px solid #e8ecf1;
           border-radius: 8px;
-          backdrop-filter: blur(16px);
-          box-shadow: 0 10px 32px rgba(0,0,0,0.5);
+          box-shadow: 0 10px 32px rgba(16,24,40,0.12);
         }
         .fc-menu-item {
           display: block;
@@ -1716,20 +1713,20 @@ function FeedCard({
           background: none;
           border: 0;
           border-radius: 4px;
-          color: rgba(255,255,255,0.88);
+          color: #0b1220;
           text-align: left;
           font-family: inherit;
           font-size: 0.82rem;
           cursor: pointer;
         }
-        .fc-menu-delete:hover { background: rgba(239,68,68,0.16); color: #ff8b7e; }
+        .fc-menu-delete:hover { background: rgba(220,38,38,0.10); color: #dc2626; }
 
         .fc:hover {
           transform: translateY(-2px);
-          border-color: rgba(94,234,212,0.4);
-          box-shadow: 0 10px 32px rgba(0,0,0,0.4), 0 0 18px rgba(94,234,212,0.12);
+          border-color: rgba(0,184,95,0.4);
+          box-shadow: 0 10px 32px rgba(16,24,40,0.10);
         }
-        .fc.is-official:hover { border-color: rgba(244,201,93,0.5); box-shadow: 0 10px 32px rgba(0,0,0,0.4), 0 0 18px rgba(244,201,93,0.18); }
+        .fc.is-official:hover { border-color: rgba(244,201,93,0.6); box-shadow: 0 10px 32px rgba(16,24,40,0.10); }
 
         .fc-preview-wrap {
           position: relative;
@@ -1745,7 +1742,7 @@ function FeedCard({
         }
         .fc-preview {
           position: relative;
-          background: linear-gradient(135deg, rgba(94,234,212,0.06), rgba(110,96,255,0.04));
+          background: linear-gradient(135deg, rgba(0,184,95,0.06), rgba(15,23,42,0.04));
         }
         .fc-preview img { display: block; width: 100%; height: auto; }
         .fc-preview-img.is-blurred {
@@ -1757,14 +1754,16 @@ function FeedCard({
           top: 0.65rem;
           right: 0.65rem;
           padding: 0.18rem 0.5rem;
-          background: rgba(0,0,0,0.72);
-          color: rgba(255,255,255,0.92);
+          background: rgba(255,255,255,0.92);
+          color: #0b1220;
+          border: 1px solid #e8ecf1;
           font-family: ui-monospace, monospace;
           font-size: 0.58rem;
           font-weight: 700;
           letter-spacing: 0.1em;
           border-radius: 999px;
           backdrop-filter: blur(6px);
+          box-shadow: 0 1px 2px rgba(16,24,40,0.04);
           pointer-events: none;
         }
 
@@ -1797,9 +1796,11 @@ function FeedCard({
           align-items: center;
           gap: 0.45rem;
           padding: 0.22rem 0.55rem;
-          background: rgba(0,0,0,0.65);
+          background: rgba(255,255,255,0.92);
+          border: 1px solid #e8ecf1;
           backdrop-filter: blur(8px);
           border-radius: 999px;
+          box-shadow: 0 1px 2px rgba(16,24,40,0.04);
           opacity: 0;
           transition: opacity 0.18s ease;
           z-index: 4;
@@ -1812,13 +1813,13 @@ function FeedCard({
         .fc-carousel-arrow {
           background: transparent;
           border: 0;
-          color: rgba(255,255,255,0.88);
+          color: #0b1220;
           font-size: 0.7rem;
           padding: 0.18rem 0.32rem;
           cursor: pointer;
           border-radius: 4px;
         }
-        .fc-carousel-arrow:hover { background: rgba(255,255,255,0.14); }
+        .fc-carousel-arrow:hover { background: rgba(15,23,42,0.08); }
         .fc-carousel-dots {
           display: inline-flex;
           gap: 0.25rem;
@@ -1826,10 +1827,10 @@ function FeedCard({
         .fc-carousel-dot {
           width: 5px; height: 5px;
           border-radius: 50%;
-          background: rgba(255,255,255,0.32);
+          background: rgba(15,23,42,0.25);
           transition: background 0.12s;
         }
-        .fc-carousel-dot.is-active { background: rgba(255,255,255,0.95); }
+        .fc-carousel-dot.is-active { background: #00b85f; }
         .fc-placeholder {
           display: flex; flex-direction: column; align-items: center; justify-content: center;
           gap: 0.55rem;
@@ -1840,7 +1841,7 @@ function FeedCard({
         .fc-placeholder-mime {
           font-family: ui-monospace, monospace;
           font-size: 0.62rem; font-weight: 800; letter-spacing: 0.16em;
-          color: rgba(148,163,184,0.6);
+          color: #94a3b8;
         }
 
         .fc-badges {
@@ -1857,9 +1858,9 @@ function FeedCard({
           border-radius: 0.3rem;
           backdrop-filter: blur(6px);
         }
-        .fc-badge-official { background: rgba(244,201,93,0.85); color: #1a1306; }
-        .fc-badge-community { background: rgba(94,234,212,0.85); color: #062320; }
-        .fc-badge-week { background: rgba(125,211,252,0.9); color: #022035; }
+        .fc-badge-official { background: rgba(244,201,93,0.95); color: #1a1306; }
+        .fc-badge-community { background: #00b85f; color: #fff; }
+        .fc-badge-week { background: rgba(125,211,252,0.95); color: #022035; }
 
         .fc-body { padding: 0.7rem 0.85rem 0.85rem; }
 
@@ -1871,8 +1872,8 @@ function FeedCard({
         .fc-title-link:hover .fc-title { color: var(--accent); }
         .fc-title {
           font-size: 0.94rem;
-          font-weight: 600;
-          color: #f3f3fb;
+          font-weight: 700;
+          color: #0b1220;
           line-height: 1.35;
           margin-bottom: 0.4rem;
           display: -webkit-box;
@@ -1885,12 +1886,12 @@ function FeedCard({
         .fc-meta {
           font-family: ui-monospace, monospace;
           font-size: 0.66rem; font-weight: 600;
-          color: rgba(148,163,184,0.75);
+          color: #5b6675;
           letter-spacing: 0.04em;
           margin-bottom: 0.55rem;
         }
         .fc-lounge-link {
-          color: rgba(94,234,212,0.85);
+          color: #00b85f;
           text-decoration: none;
         }
         .fc-lounge-link:hover { color: var(--accent); text-decoration: underline; }
@@ -1899,11 +1900,11 @@ function FeedCard({
           display: flex; align-items: center; justify-content: space-between;
           gap: 0.5rem;
           padding-top: 0.5rem;
-          border-top: 1px solid rgba(255,255,255,0.05);
+          border-top: 1px solid #e8ecf1;
         }
         .fc-author {
           font-size: 0.72rem;
-          color: rgba(216,217,230,0.7);
+          color: #5b6675;
         }
         .fc-time {
           display: inline-flex;
@@ -1913,19 +1914,19 @@ function FeedCard({
           font-size: 0.62rem;
           font-weight: 700;
           letter-spacing: 0.06em;
-          color: rgba(0, 255, 178, 0.78);
-          background: rgba(0, 255, 178, 0.06);
-          border: 1px solid rgba(0, 255, 178, 0.20);
+          color: #00b85f;
+          background: rgba(0, 184, 95, 0.08);
+          border: 1px solid rgba(0, 184, 95, 0.20);
           padding: 0.18rem 0.5rem;
           border-radius: 9999px;
           flex-shrink: 0;
         }
         .fc-author em {
-          font-family: Cormorant Garamond, serif;
+          font-family: 'Space Grotesk', sans-serif;
           font-style: italic;
           font-size: 1.05em;
-          font-weight: 600;
-          color: #f3f3fb;
+          font-weight: 700;
+          color: #0b1220;
         }
         .fc-card-actions {
           display: inline-flex;
@@ -1934,10 +1935,10 @@ function FeedCard({
           margin-left: auto;
         }
         .fc-delete-direct {
-          border: 1px solid rgba(255,139,126,0.32);
+          border: 1px solid rgba(220,38,38,0.32);
           border-radius: 999px;
-          background: rgba(255,139,126,0.08);
-          color: #ff8b7e;
+          background: rgba(220,38,38,0.08);
+          color: #dc2626;
           padding: 0.22rem 0.48rem;
           font-family: ui-monospace, monospace;
           font-size: 0.58rem;
@@ -1947,17 +1948,17 @@ function FeedCard({
           cursor: pointer;
         }
         .fc-delete-direct:hover {
-          background: rgba(239,68,68,0.18);
-          border-color: rgba(255,139,126,0.58);
+          background: rgba(220,38,38,0.14);
+          border-color: rgba(220,38,38,0.58);
         }
         .fc-counts {
           display: inline-flex; gap: 0.55rem;
           font-family: ui-monospace, monospace;
           font-size: 0.66rem;
-          color: rgba(148,163,184,0.7);
+          color: #5b6675;
         }
         .fc-comments-link {
-          color: rgba(148,163,184,0.7);
+          color: #5b6675;
           text-decoration: none;
         }
         .fc-comments-link:hover { color: var(--accent); }
@@ -1978,9 +1979,9 @@ function ShimmerCard({ index }: { index: number }) {
         .sk {
           break-inside: avoid;
           margin-bottom: 1rem;
-          background: linear-gradient(110deg, rgba(255,255,255,0.04) 30%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 70%);
+          background: linear-gradient(110deg, rgba(15,23,42,0.05) 30%, rgba(15,23,42,0.09) 50%, rgba(15,23,42,0.05) 70%);
           background-size: 220% 100%;
-          border: 1px solid rgba(255,255,255,0.05);
+          border: 1px solid #e8ecf1;
           border-radius: 0.7rem;
           animation: sk-pulse 1.4s ease-in-out infinite;
         }

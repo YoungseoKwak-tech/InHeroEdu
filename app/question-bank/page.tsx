@@ -117,16 +117,16 @@ export default function QuestionBankPage() {
   const lockedRemaining = Math.max(filteredTotal - unlockedShown.length, lockedShown.length);
 
   return (
-    <div style={{ background: "#000", minHeight: "100vh", padding: "72px 24px 120px", fontFamily: "Inter, sans-serif" }}>
+    <div style={{ background: "#ffffff", minHeight: "100vh", padding: "72px 24px 120px", fontFamily: "Inter, sans-serif" }}>
       <div style={{ maxWidth: 880, margin: "0 auto" }}>
         {/* Header */}
-        <p style={{ fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(0,255,178,0.7)", marginBottom: 14 }}>
+        <p style={{ fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", color: "#00b85f", marginBottom: 14 }}>
           INHERO QUESTION BANK
         </p>
-        <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.4rem)", fontWeight: 850, color: "#fff", letterSpacing: "-0.05em", lineHeight: 1.02, marginBottom: 14 }}>
+        <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 5vw, 3.4rem)", fontWeight: 850, color: "#0b1220", letterSpacing: "-0.05em", lineHeight: 1.02, marginBottom: 14 }}>
           Every question.<br />Miss one, get one like it.
         </h1>
-        <p style={{ fontSize: 15, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, marginBottom: 30, maxWidth: 620 }}>
+        <p style={{ fontSize: 15, color: "#5b6675", lineHeight: 1.7, marginBottom: 30, maxWidth: 620 }}>
           {total.toLocaleString()} practice questions pulled straight from InHero lessons — answer one, and if
           you miss it you get the explanation plus a similar problem to lock it in.
         </p>
@@ -174,7 +174,7 @@ export default function QuestionBankPage() {
               border: "1px solid rgba(201,168,76,0.28)",
               background: "rgba(201,168,76,0.07)",
               padding: "22px 24px",
-              color: "rgba(255,255,255,0.72)",
+              color: "#5b6675",
               fontSize: 14,
               lineHeight: 1.7,
             }}
@@ -187,7 +187,7 @@ export default function QuestionBankPage() {
         ) : loading ? (
           <QuestionLoader />
         ) : questions.length === 0 ? (
-          <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14 }}>No questions here yet.</p>
+          <p style={{ color: "#94a3b8", fontSize: 14 }}>No questions here yet.</p>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {unlockedShown.map((q, i) => (
@@ -201,7 +201,7 @@ export default function QuestionBankPage() {
               />
             )}
             {lockedShown.length === 0 && filteredTotal > unlockedShown.length && (
-              <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, textAlign: "center", marginTop: 8 }}>
+              <p style={{ color: "#94a3b8", fontSize: 13, textAlign: "center", marginTop: 8 }}>
                 Showing first {unlockedShown.length} of {filteredTotal.toLocaleString()} — filter by subject to narrow.
               </p>
             )}
@@ -242,16 +242,16 @@ function UnitTab({ active, onClick, label, count }: { active: boolean; onClick: 
         display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10,
         padding: "9px 13px",
         borderRadius: 11,
-        border: active ? "1px solid rgba(0,255,178,0.55)" : "1px solid rgba(255,255,255,0.1)",
-        background: active ? "rgba(0,255,178,0.1)" : "rgba(255,255,255,0.03)",
-        color: active ? "#00FFB2" : "rgba(255,255,255,0.62)",
+        border: active ? "1px solid #00b85f" : "1px solid #e8ecf1",
+        background: active ? "rgba(0,184,95,0.10)" : "#fff",
+        color: active ? "#00b85f" : "#5b6675",
         fontSize: 13, fontWeight: active ? 800 : 600,
         cursor: "pointer", textAlign: "left", whiteSpace: "nowrap",
         transition: "border-color 150ms ease, background 150ms ease, color 150ms ease",
       }}
     >
       <span>{label}</span>
-      <span style={{ fontSize: 11, fontWeight: 700, color: active ? "rgba(0,255,178,0.75)" : "rgba(255,255,255,0.3)" }}>
+      <span style={{ fontSize: 11, fontWeight: 700, color: active ? "#00b85f" : "#94a3b8" }}>
         {count.toLocaleString()}
       </span>
     </button>
@@ -276,17 +276,17 @@ function QuestionLoader() {
           width: 72,
           height: 72,
           borderRadius: "50%",
-          border: "5px solid rgba(0,255,178,0.15)",
-          borderTopColor: "#00FFB2",
+          border: "5px solid rgba(0,184,95,0.15)",
+          borderTopColor: "#00b85f",
           animation: "qb-spin 0.8s linear infinite",
-          boxShadow: "0 0 32px rgba(0,255,178,0.25)",
+          boxShadow: "0 0 32px rgba(0,184,95,0.25)",
         }}
       />
       <div>
-        <p style={{ color: "#fff", fontSize: 17, fontWeight: 800, margin: "0 0 6px", letterSpacing: "-0.01em" }}>
+        <p style={{ color: "#0b1220", fontSize: 17, fontWeight: 800, margin: "0 0 6px", letterSpacing: "-0.01em" }}>
           Loading your questions…
         </p>
-        <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 13.5, margin: 0 }}>
+        <p style={{ color: "#5b6675", fontSize: 13.5, margin: 0 }}>
           Pulling practice problems from every InHero lesson.
         </p>
       </div>
@@ -346,19 +346,19 @@ function LockedStack({
         <div
           style={{
             borderRadius: 18,
-            border: "1px solid rgba(201,168,76,0.4)",
-            background: "rgba(10,10,10,0.92)",
-            boxShadow: "0 16px 48px rgba(0,0,0,0.6)",
+            border: "1px solid #e8ecf1",
+            background: "#fff",
+            boxShadow: "0 16px 48px rgba(16,24,40,0.12)",
             padding: "28px 32px",
             textAlign: "center",
             maxWidth: 420,
           }}
         >
           <p style={{ fontSize: 26, margin: "0 0 10px" }}>🔒</p>
-          <p style={{ color: "#fff", fontSize: 17, fontWeight: 850, letterSpacing: "-0.02em", margin: "0 0 8px" }}>
+          <p style={{ color: "#0b1220", fontSize: 17, fontWeight: 850, letterSpacing: "-0.02em", margin: "0 0 8px" }}>
             {lockedCount.toLocaleString()} more questions locked
           </p>
-          <p style={{ color: "rgba(255,255,255,0.55)", fontSize: 13.5, lineHeight: 1.65, margin: "0 0 18px" }}>
+          <p style={{ color: "#5b6675", fontSize: 13.5, lineHeight: 1.65, margin: "0 0 18px" }}>
             You tried the free ones — unlock the full bank with One Subject Elite or the All Subject Pass.
           </p>
           <a
@@ -396,9 +396,9 @@ function Chip({ active, onClick, label, emoji, count }: { active: boolean; onCli
         fontSize: 13,
         fontWeight: 700,
         cursor: "pointer",
-        border: active ? "1px solid rgba(0,255,178,0.55)" : "1px solid rgba(255,255,255,0.1)",
-        background: active ? "rgba(0,255,178,0.14)" : "rgba(255,255,255,0.03)",
-        color: active ? "#5eead4" : "rgba(255,255,255,0.7)",
+        border: active ? "1px solid #00b85f" : "1px solid #e8ecf1",
+        background: active ? "rgba(0,184,95,0.10)" : "#fff",
+        color: active ? "#00b85f" : "#5b6675",
         transition: "all .12s",
       }}
     >
@@ -414,26 +414,27 @@ function QuestionCard({ q, index, free = false }: { q: BankQuestion; index: numb
     <div
       style={{
         borderRadius: 16,
-        border: free ? "1px solid rgba(0,255,178,0.32)" : "1px solid rgba(255,255,255,0.08)",
-        background: free ? "rgba(0,255,178,0.04)" : "rgba(255,255,255,0.02)",
+        border: free ? "1px solid #00b85f" : "1px solid #e8ecf1",
+        background: free ? "rgba(0,184,95,0.05)" : "#fff",
+        boxShadow: "0 1px 2px rgba(16,24,40,0.04)",
         padding: "20px 22px",
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
-        <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.06em", color: "rgba(0,255,178,0.75)" }}>
+        <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.06em", color: "#00b85f" }}>
           {q.emoji} {q.subjectLabel}
         </span>
         {q.unit != null && (
-          <span style={{ fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.4)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 999, padding: "2px 8px" }}>
+          <span style={{ fontSize: 10, fontWeight: 700, color: "#5b6675", border: "1px solid #e8ecf1", borderRadius: 999, padding: "2px 8px" }}>
             Unit {q.unit}
           </span>
         )}
         {free && (
-          <span style={{ fontSize: 10, fontWeight: 900, letterSpacing: "0.1em", color: "#0a0a0a", background: "#00FFB2", borderRadius: 999, padding: "2px 9px" }}>
+          <span style={{ fontSize: 10, fontWeight: 900, letterSpacing: "0.1em", color: "#fff", background: "#00b85f", borderRadius: 999, padding: "2px 9px" }}>
             FREE · SOLVE IT
           </span>
         )}
-        <span style={{ marginLeft: "auto", fontSize: 11, color: "rgba(255,255,255,0.28)" }}>#{index + 1}</span>
+        <span style={{ marginLeft: "auto", fontSize: 11, color: "#94a3b8" }}>#{index + 1}</span>
       </div>
       <Askable prompt={q.prompt} options={q.options} explanation={q.explanation} explanationKorean={q.explanationKorean} similar={q.similar} />
     </div>
@@ -492,26 +493,26 @@ function Askable({
 
   return (
     <div>
-      <p style={{ fontSize: nested ? 14 : 15.5, fontWeight: 600, color: "#fff", lineHeight: 1.55, marginBottom: 14, whiteSpace: "pre-wrap" }}>
+      <p style={{ fontSize: nested ? 14 : 15.5, fontWeight: 600, color: "#0b1220", lineHeight: 1.55, marginBottom: 14, whiteSpace: "pre-wrap" }}>
         {prompt}
       </p>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {options.map((o, i) => {
           const chosen = picked === i;
-          let border = "1px solid rgba(255,255,255,0.1)";
-          let bg = "rgba(255,255,255,0.02)";
-          let color = "rgba(255,255,255,0.85)";
+          let border = "1px solid #e8ecf1";
+          let bg = "#fff";
+          let color = "#0b1220";
           if (answered) {
             if (o.correct) {
-              border = "1px solid rgba(0,255,178,0.55)";
-              bg = "rgba(0,255,178,0.12)";
-              color = "#5eead4";
+              border = "1px solid #00b85f";
+              bg = "rgba(0,184,95,0.10)";
+              color = "#00b85f";
             } else if (chosen) {
-              border = "1px solid rgba(255,107,107,0.55)";
-              bg = "rgba(255,107,107,0.12)";
-              color = "#ff8b8b";
+              border = "1px solid rgba(220,38,38,0.55)";
+              bg = "rgba(220,38,38,0.08)";
+              color = "#dc2626";
             } else {
-              color = "rgba(255,255,255,0.4)";
+              color = "#94a3b8";
             }
           }
           return (
@@ -544,12 +545,12 @@ function Askable({
       {answered && (
         <div style={{ marginTop: 14 }}>
           {pickedOpt?.feedback && (
-            <p style={{ fontSize: 13.5, lineHeight: 1.6, color: isWrong ? "#ffb3b3" : "rgba(0,255,178,0.85)", margin: "0 0 8px" }}>
+            <p style={{ fontSize: 13.5, lineHeight: 1.6, color: isWrong ? "#dc2626" : "#00b85f", margin: "0 0 8px" }}>
               {pickedOpt.feedback}
             </p>
           )}
           {explanation && (
-            <p style={{ fontSize: 13.5, lineHeight: 1.6, color: "rgba(255,255,255,0.6)", margin: 0, borderLeft: "2px solid rgba(255,255,255,0.15)", paddingLeft: 12 }}>
+            <p style={{ fontSize: 13.5, lineHeight: 1.6, color: "#5b6675", margin: 0, borderLeft: "2px solid #e8ecf1", paddingLeft: 12 }}>
               {explanation}
             </p>
           )}
@@ -563,9 +564,9 @@ function Askable({
                 marginTop: 10,
                 padding: "7px 13px",
                 borderRadius: 9,
-                border: "1px solid rgba(94,234,212,0.4)",
-                background: "rgba(0,255,178,0.08)",
-                color: "#5eead4",
+                border: "1px solid #00b85f",
+                background: "rgba(0,184,95,0.10)",
+                color: "#00b85f",
                 fontSize: 12,
                 fontWeight: 800,
                 letterSpacing: "0.02em",
@@ -577,17 +578,17 @@ function Askable({
           )}
 
           {ko.error && (
-            <p style={{ fontSize: 12.5, lineHeight: 1.6, color: "#ffb3b3", margin: "10px 0 0" }}>
+            <p style={{ fontSize: 12.5, lineHeight: 1.6, color: "#dc2626", margin: "10px 0 0" }}>
               {ko.error}
             </p>
           )}
 
           {ko.text && (
-            <div style={{ marginTop: 12, borderLeft: "2px solid rgba(0,255,178,0.4)", paddingLeft: 12 }}>
-              <p style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(0,255,178,0.7)", margin: "0 0 6px" }}>
+            <div style={{ marginTop: 12, borderLeft: "2px solid #00b85f", paddingLeft: 12 }}>
+              <p style={{ fontSize: 10, fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase", color: "#00b85f", margin: "0 0 6px" }}>
 Korean solution
               </p>
-              <p style={{ fontSize: 13.5, lineHeight: 1.7, color: "rgba(255,255,255,0.72)", margin: 0, whiteSpace: "pre-wrap" }}>
+              <p style={{ fontSize: 13.5, lineHeight: 1.7, color: "#5b6675", margin: 0, whiteSpace: "pre-wrap" }}>
                 {ko.text}
               </p>
             </div>
@@ -602,7 +603,7 @@ Korean solution
                 borderRadius: 10,
                 border: "1px solid rgba(201,168,76,0.5)",
                 background: "rgba(201,168,76,0.12)",
-                color: "#e8d9a8",
+                color: "#8a6d1f",
                 fontSize: 12.5,
                 fontWeight: 800,
                 letterSpacing: "0.04em",
