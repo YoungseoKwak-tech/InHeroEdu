@@ -127,46 +127,50 @@ export default function MockExamsLanding() {
     ],
   };
 
+  const INK = "#0b1220", SUB = "#5b6675", GREEN = "#00b85f", MAXW = 1080;
   return (
-    <div style={{ background: "#05070d", minHeight: "100vh", color: "#e8edf4", fontFamily: "Inter, sans-serif" }}>
+    <div style={{ background: "#ffffff", minHeight: "100vh", color: INK, fontFamily: "'Inter', -apple-system, sans-serif" }}>
       <PromoBanner ctaHref="/parents/sat?pay=1" sticky={false} navOffset={64} />
-      <div style={{ padding: "48px 22px 120px" }}>
       {/* eslint-disable-next-line react/no-danger */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <div style={{ maxWidth: 860, margin: "0 auto" }}>
-        <p style={{ fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(0,255,178,0.7)", marginBottom: 14 }}>
-          🖥️ Free practice exams
-        </p>
-        <h1 style={{ fontSize: "clamp(2rem, 5.4vw, 3.4rem)", fontWeight: 850, color: "#fff", letterSpacing: "-0.04em", lineHeight: 1.05, marginBottom: 16 }}>
-          {PHRASE}
-        </h1>
-        <p style={{ fontSize: 16, color: "rgba(255,255,255,0.6)", lineHeight: 1.8, marginBottom: 32, maxWidth: 660 }}>
-          <strong style={{ color: "#fff" }}>SAT and AP mock exams plus IB practice</strong>, all in one place. Adaptive digital SAT full mock exams,
-          a College Board Bluebook-style AP Section I exam mode, and IB Paper-style questions — answer them and see the
-          correct answers and detailed explanations right away.
-        </p>
+      <div style={{ background: "linear-gradient(180deg,#f6f8fb 0%, #ffffff 100%)", borderBottom: "1px solid #eef1f5" }}>
+        <div style={{ maxWidth: MAXW, margin: "0 auto", padding: "44px 28px 36px" }}>
+          <p style={{ fontSize: 11.5, letterSpacing: "0.18em", textTransform: "uppercase", color: GREEN, fontWeight: 800, marginBottom: 12 }}>
+            🖥️ Free practice exams
+          </p>
+          <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 5.4vw, 3.4rem)", fontWeight: 800, color: INK, letterSpacing: "-0.03em", lineHeight: 1.06, marginBottom: 16 }}>
+            {PHRASE}
+          </h1>
+          <p style={{ fontSize: 16, color: SUB, lineHeight: 1.8, marginBottom: 0, maxWidth: 680 }}>
+            <strong style={{ color: INK }}>SAT and AP mock exams plus IB practice</strong>, all in one place. Adaptive digital SAT full mock exams,
+            a College Board Bluebook-style AP Section I exam mode, and IB Paper-style questions — answer them and see the
+            correct answers and detailed explanations right away.
+          </p>
+        </div>
+      </div>
 
+      <div style={{ maxWidth: MAXW, margin: "0 auto", padding: "36px 28px 100px" }}>
         {/* Exam cards */}
         <div style={{ display: "grid", gap: 14, marginBottom: 44 }}>
           {EXAMS.map((e) => (
             <Link key={e.tag} href={e.href} style={{
               textDecoration: "none", display: "flex", alignItems: "center", gap: 18,
-              borderRadius: 16, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.03)", padding: "20px 22px",
+              borderRadius: 16, border: "1px solid #e8ecf1", background: "#fff", padding: "20px 22px", boxShadow: "0 1px 2px rgba(16,24,40,0.04)",
             }}>
-              <span style={{ fontSize: 13, fontWeight: 900, color: "#05070d", background: e.color, borderRadius: 8, padding: "6px 11px", flexShrink: 0 }}>{e.tag}</span>
+              <span style={{ fontSize: 13, fontWeight: 900, color: "#fff", background: e.color, borderRadius: 8, padding: "6px 11px", flexShrink: 0 }}>{e.tag}</span>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 17, fontWeight: 800, color: "#fff" }}>{e.title}</div>
-                <div style={{ fontSize: 13.5, color: "rgba(255,255,255,0.55)", marginTop: 4, lineHeight: 1.6 }}>{e.desc}</div>
+                <div style={{ fontSize: 17, fontWeight: 800, color: INK }}>{e.title}</div>
+                <div style={{ fontSize: 13.5, color: SUB, marginTop: 4, lineHeight: 1.6 }}>{e.desc}</div>
               </div>
-              <span style={{ fontSize: 15, fontWeight: 800, color: e.color, flexShrink: 0 }}>Try it →</span>
+              <span style={{ fontSize: 15, fontWeight: 800, color: GREEN, flexShrink: 0 }}>Try it →</span>
             </Link>
           ))}
         </div>
 
         {/* Why section — phrase-rich body for relevance */}
-        <h2 style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 14 }}>
-          Why InHero's SAT · AP mock exams + IB practice?
+        <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 22, fontWeight: 800, color: INK, letterSpacing: "-0.02em", marginBottom: 14 }}>
+          Why InHero&apos;s SAT · AP mock exams + IB practice?
         </h2>
         <ul style={{ margin: "0 0 44px", paddingLeft: 0, listStyle: "none", display: "grid", gap: 12 }}>
           {[
@@ -176,25 +180,24 @@ export default function MockExamsLanding() {
             "Free preview — get a taste of the exam-prep flow without even signing up.",
             "Built for international students — sharpen your exam instincts with a study flow designed by Ivy League students.",
           ].map((t) => (
-            <li key={t} style={{ display: "flex", gap: 10, fontSize: 14.5, color: "rgba(255,255,255,0.7)", lineHeight: 1.65 }}>
-              <span style={{ color: MINT, flexShrink: 0 }}>✓</span>{t}
+            <li key={t} style={{ display: "flex", gap: 10, fontSize: 14.5, color: SUB, lineHeight: 1.65 }}>
+              <span style={{ color: GREEN, flexShrink: 0, fontWeight: 800 }}>✓</span>{t}
             </li>
           ))}
         </ul>
 
         {/* FAQ — mirrors the JSON-LD FAQPage */}
-        <h2 style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", marginBottom: 16 }}>
+        <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 22, fontWeight: 800, color: INK, letterSpacing: "-0.02em", marginBottom: 16 }}>
           Frequently asked questions
         </h2>
         <div style={{ display: "grid", gap: 14 }}>
           {FAQ.map((f) => (
-            <div key={f.q} style={{ border: "1px solid rgba(255,255,255,0.1)", borderRadius: 14, padding: "18px 20px", background: "rgba(255,255,255,0.02)" }}>
-              <p style={{ fontSize: 15, fontWeight: 800, color: "#fff", margin: "0 0 8px" }}>Q. {f.q}</p>
-              <p style={{ fontSize: 14, color: "rgba(255,255,255,0.62)", margin: 0, lineHeight: 1.7 }}>{f.a}</p>
+            <div key={f.q} style={{ border: "1px solid #e8ecf1", borderRadius: 14, padding: "18px 20px", background: "#fff", boxShadow: "0 1px 2px rgba(16,24,40,0.04)" }}>
+              <p style={{ fontSize: 15, fontWeight: 800, color: INK, margin: "0 0 8px" }}>Q. {f.q}</p>
+              <p style={{ fontSize: 14, color: SUB, margin: 0, lineHeight: 1.7 }}>{f.a}</p>
             </div>
           ))}
         </div>
-      </div>
       </div>
     </div>
   );

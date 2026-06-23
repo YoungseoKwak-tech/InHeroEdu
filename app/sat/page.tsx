@@ -9,7 +9,10 @@ export const metadata = {
     "Just like the real Bluebook — two-stage adaptive modules, per-module timers, Mark for review, the Desmos graphing calculator, grid-in answers, and a 400–1600 projected score. Take it with 5 tests for 200 credits or unlimited for 500 credits.",
 };
 
-const MINT = "#00FFB2";
+const INK = "#0b1220";
+const SUB = "#5b6675";
+const GREEN = "#00b85f";
+const MAXW = 1080;
 
 const FEATURES = [
   { icon: "🧭", title: "Two-Stage Adaptive Modules", desc: "Just like the real digital SAT — your Module 1 performance sets the difficulty of Module 2." },
@@ -22,66 +25,67 @@ const FEATURES = [
 
 export default function SatLandingPage() {
   return (
-    <div style={{ background: "#05070d", minHeight: "100vh", color: "#e8edf4", fontFamily: "Inter, sans-serif" }}>
+    <div style={{ background: "#ffffff", minHeight: "100vh", color: INK, fontFamily: "'Inter', -apple-system, sans-serif" }}>
       <PromoBanner ctaHref="/parents/sat?pay=1" sticky={false} navOffset={64} />
-      <div style={{ padding: "48px 22px 120px" }}>
-        <div style={{ maxWidth: 820, margin: "0 auto" }}>
-        <p style={{ fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(0,255,178,0.7)", marginBottom: 14 }}>
-          ✏️ DIGITAL SAT · ADAPTIVE PRACTICE TEST
-        </p>
-        <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 850, color: "#fff", letterSpacing: "-0.04em", lineHeight: 1.05, marginBottom: 16 }}>
-          Practice adaptively,<br />just like the real Bluebook.
-        </h1>
-        <p style={{ fontSize: 15.5, color: "rgba(255,255,255,0.55)", lineHeight: 1.75, marginBottom: 30, maxWidth: 620 }}>
-          An adaptive practice test built with the same structure as the digital SAT. You go Reading & Writing → Math, each section runs as two timed modules,
-          and your Module 1 performance determines the difficulty of Module 2. These are original practice questions that mirror the real exam's adaptive structure, question types, and timing. (Not a copy of official College Board exams.)
-        </p>
-        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", margin: "-18px 0 18px", lineHeight: 1.65 }}>
-          For both SAT and TOEFL practice tests: <strong style={{ color: "#fff" }}>200 credits = 5 tests</strong> · <strong style={{ color: "#fff" }}>500 credits = unlimited</strong>
-        </p>
+      <div style={{ background: "linear-gradient(180deg,#f6f8fb 0%, #ffffff 100%)", borderBottom: "1px solid #eef1f5" }}>
+        <div style={{ maxWidth: MAXW, margin: "0 auto", padding: "44px 28px 36px" }}>
+          <p style={{ fontSize: 11.5, letterSpacing: "0.18em", textTransform: "uppercase", color: GREEN, fontWeight: 800, marginBottom: 12 }}>
+            ✏️ Digital SAT · Adaptive Practice Test
+          </p>
+          <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 800, color: INK, letterSpacing: "-0.03em", lineHeight: 1.06, marginBottom: 16 }}>
+            Practice adaptively,<br />just like the real Bluebook.
+          </h1>
+          <p style={{ fontSize: 16, color: SUB, lineHeight: 1.75, marginBottom: 18, maxWidth: 660 }}>
+            An adaptive practice test built with the same structure as the digital SAT. You go Reading &amp; Writing → Math, each section runs as two timed modules,
+            and your Module 1 performance determines the difficulty of Module 2. Original practice questions that mirror the real exam&apos;s adaptive structure, question types, and timing. (Not a copy of official College Board exams.)
+          </p>
+          <p style={{ fontSize: 13.5, color: SUB, margin: "0 0 22px", lineHeight: 1.65 }}>
+            For both SAT and TOEFL practice tests: <strong style={{ color: INK }}>200 credits = 5 tests</strong> · <strong style={{ color: INK }}>500 credits = unlimited</strong>
+          </p>
+          <Link href="/sat/sample" style={{ display: "inline-block", background: GREEN, color: "#fff", borderRadius: 12, padding: "14px 24px", fontWeight: 800, fontSize: 15, textDecoration: "none", boxShadow: "0 10px 26px rgba(0,184,95,0.28)" }}>
+            🎁 Try a free sample — real format and timer included
+          </Link>
+        </div>
+      </div>
 
-        <Link href="/sat/sample" style={{ display: "inline-block", background: "transparent", color: "#fff", border: "1.5px solid rgba(0,255,178,0.45)", borderRadius: 12, padding: "13px 22px", fontWeight: 800, fontSize: 15, textDecoration: "none", marginBottom: 28 }}>
-          🎁 Try a free sample — real format and timer included
-        </Link>
-
-        <SatHistory theme="dark" />
+      <div style={{ maxWidth: MAXW, margin: "0 auto", padding: "32px 28px 100px" }}>
+        <SatHistory theme="light" />
 
         {/* Test picker */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 40 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12, margin: "8px 0 40px" }}>
           {SAT_FULL_LENGTH_FORMS.map((f, i) => {
             const c = formCounts(f);
             return (
               <Link key={f.id} href={`/parents/sat?pay=1&form=${encodeURIComponent(f.id)}`} style={{
                 textDecoration: "none", display: "flex", alignItems: "center", gap: 16,
-                borderRadius: 16, border: "1px solid rgba(0,255,178,0.22)", background: "rgba(0,255,178,0.04)", padding: "18px 20px",
+                borderRadius: 16, border: "1px solid #e8ecf1", background: "#fff", padding: "18px 20px", boxShadow: "0 1px 2px rgba(16,24,40,0.04)",
               }}>
-                <span style={{ fontSize: 22, fontWeight: 900, color: MINT, width: 40, flexShrink: 0 }}>{i + 1}</span>
+                <span style={{ fontSize: 22, fontWeight: 900, color: GREEN, width: 40, flexShrink: 0 }}>{i + 1}</span>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 16, fontWeight: 800, color: "#fff" }}>
-                    Practice Test {i + 1}<span style={{ marginLeft: 8, fontSize: 11, fontWeight: 800, color: "#05070d", background: MINT, borderRadius: 999, padding: "2px 8px" }}>FULL-LENGTH</span>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: INK }}>
+                    Practice Test {i + 1}<span style={{ marginLeft: 8, fontSize: 11, fontWeight: 800, color: "#fff", background: GREEN, borderRadius: 999, padding: "2px 8px" }}>FULL-LENGTH</span>
                   </div>
-                  <div style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", marginTop: 3 }}>R&W {c.rw} questions · Math {c.math} questions · Adaptive</div>
+                  <div style={{ fontSize: 13, color: SUB, marginTop: 3 }}>R&amp;W {c.rw} questions · Math {c.math} questions · Adaptive</div>
                 </div>
-                <span style={{ fontSize: 13.5, fontWeight: 800, color: MINT }}>Choose a plan / Start →</span>
+                <span style={{ fontSize: 13.5, fontWeight: 800, color: GREEN }}>Choose a plan / Start →</span>
               </Link>
             );
           })}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 14 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>
           {FEATURES.map((f) => (
-            <div key={f.title} style={{ borderRadius: 16, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)", padding: "18px 18px" }}>
+            <div key={f.title} style={{ borderRadius: 16, border: "1px solid #e8ecf1", background: "#fff", padding: "18px 18px", boxShadow: "0 1px 2px rgba(16,24,40,0.04)" }}>
               <div style={{ fontSize: 24, marginBottom: 10 }}>{f.icon}</div>
-              <div style={{ fontSize: 15, fontWeight: 800, color: "#fff", marginBottom: 6 }}>{f.title}</div>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", lineHeight: 1.6, margin: 0 }}>{f.desc}</p>
+              <div style={{ fontSize: 15, fontWeight: 800, color: INK, marginBottom: 6 }}>{f.title}</div>
+              <p style={{ fontSize: 13, color: SUB, lineHeight: 1.6, margin: 0 }}>{f.desc}</p>
             </div>
           ))}
         </div>
 
-        <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.35)", lineHeight: 1.7, marginTop: 30 }}>
-          ※ Projected scores are estimates that reflect your adaptive path and may differ from your actual College Board score. Every Practice Test shown is full-length only (R&W 54 · Math 44).
+        <p style={{ fontSize: 12.5, color: "#94a3b8", lineHeight: 1.7, marginTop: 30 }}>
+          ※ Projected scores are estimates that reflect your adaptive path and may differ from your actual College Board score. Every Practice Test shown is full-length only (R&amp;W 54 · Math 44).
         </p>
-        </div>
       </div>
     </div>
   );
