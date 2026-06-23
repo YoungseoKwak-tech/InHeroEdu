@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import HandleOnboardingModal from "@/components/auth/HandleOnboardingModal";
+import AiTutor from "@/components/ai/AiTutor";
 import SpaceBackground from "@/components/SpaceBackground";
 import { LanguageProvider, LANG_COOKIE, type Lang } from "@/app/contexts/LanguageContext";
 import { cookies, headers } from "next/headers";
@@ -95,6 +96,7 @@ export default async function RootLayout({
           <main className="flex-1" style={{ position: 'relative' }}>{children}</main>
           <Footer />
           <HandleOnboardingModal />
+          <AiTutor />
         </LanguageProvider>
         <Analytics />
       </body>
