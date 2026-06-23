@@ -285,7 +285,7 @@ export default function SeminarClient() {
 
       {/* Hero */}
       <section style={{ background: DARK, color: "#fff", padding: "64px 20px 56px" }}>
-        <div style={{ maxWidth: 860, margin: "0 auto" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <a href="/parents/seminar/replay"
             style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, textDecoration: "none", background: "rgba(0,184,95,0.14)", border: "1px solid rgba(0,184,95,0.5)", borderRadius: 14, padding: "14px 18px", marginBottom: 22 }}>
             <span style={{ color: "#dff7ec", fontWeight: 700, fontSize: 14.5 }}>🎥 세미나가 끝났어요 — <b style={{ color: "#fff" }}>풀영상 다시보기 + 발표자료(PDF)</b></span>
@@ -337,7 +337,7 @@ export default function SeminarClient() {
       </section>
 
       {/* What we cover */}
-      <section style={{ maxWidth: 860, margin: "0 auto", padding: "56px 20px 10px" }}>
+      <section style={{ maxWidth: 1200, margin: "0 auto", padding: "56px 20px 10px" }}>
         <h2 style={{ fontSize: 25, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>이번 세미나에서 다루는 것</h2>
         <div style={{ display: "grid", gap: 12, marginTop: 22 }}>
           {COVERS.map(([t, d], i) => (
@@ -361,7 +361,7 @@ export default function SeminarClient() {
       </section>
 
       {/* Curriculum */}
-      <section style={{ maxWidth: 860, margin: "0 auto", padding: "46px 20px 10px" }}>
+      <section style={{ maxWidth: 1200, margin: "0 auto", padding: "46px 20px 10px" }}>
         <h2 style={{ fontSize: 25, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>세션 커리큘럼</h2>
         <p style={{ fontSize: 14.5, color: SUB, marginTop: 8 }}>책 『내가 아이비리그 공대에 오기까지』의 목차를 그대로 세미나 모듈로 옮겼습니다.</p>
         <div style={{ display: "grid", gap: 14, marginTop: 22 }}>
@@ -384,7 +384,7 @@ export default function SeminarClient() {
       </section>
 
       {/* Bonus */}
-      <section style={{ maxWidth: 860, margin: "0 auto", padding: "40px 20px 0" }}>
+      <section style={{ maxWidth: 1200, margin: "0 auto", padding: "40px 20px 0" }}>
         <div style={{ background: "linear-gradient(135deg,#0b1622,#143047)", color: "#fff", borderRadius: 16, padding: "28px 24px" }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: "#5fe0a0", letterSpacing: "0.04em" }}>참석자 무료 혜택</div>
           <h3 style={{ fontSize: 20, fontWeight: 800, margin: "8px 0 0", letterSpacing: "-0.01em" }}>
@@ -401,7 +401,7 @@ export default function SeminarClient() {
       </section>
 
       {/* Final CTA */}
-      <section id="apply" style={{ maxWidth: 860, margin: "0 auto", padding: "52px 20px 80px", textAlign: "center" }}>
+      <section id="apply" style={{ maxWidth: 1200, margin: "0 auto", padding: "52px 20px 80px", textAlign: "center" }}>
         <h2 style={{ fontSize: 24, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>{SEMINAR_LABEL}, 함께해요.</h2>
         <p style={{ fontSize: 15, color: SUB, marginTop: 10 }}>온라인 Zoom · 참가비 무료 · 선착순 {SEATS}명 마감</p>
         <div style={{ marginTop: 22 }}>{cta(false)}</div>

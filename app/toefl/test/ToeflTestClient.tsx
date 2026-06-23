@@ -287,7 +287,7 @@ function Shell({ children, showCredits = false, loggedIn = false }: { children: 
         <div style={{ flex: 1, textAlign: "center", fontWeight: 800 }}>TOEFL iBT Test Mode</div>
         {showCredits ? <CreditWidget loggedIn={loggedIn} /> : <div style={{ width: 60 }} />}
       </div>
-      <div style={{ maxWidth: 980, margin: "0 auto", padding: "28px 20px 90px" }}>{children}</div>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "28px 20px 90px" }}>{children}</div>
     </div>
   );
 }

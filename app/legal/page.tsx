@@ -16,7 +16,7 @@ export const metadata = {
 export default function LegalPage() {
   return (
     <main style={{ minHeight: "100vh", padding: "120px 24px 80px", background: "#02030a" }}>
-      <div style={{ maxWidth: 980, margin: "0 auto" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <p
           style={{
             fontFamily: "'JetBrains Mono', monospace",

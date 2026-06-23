@@ -131,13 +131,13 @@ export default function AmcClient() {
   return (
     <div style={{ position: "relative", zIndex: 10, minHeight: "100vh", background: "#eef1f4", color: "#1a1a1f", cursor: "auto", fontFamily: "'Inter', sans-serif" }}>
       <div style={{ position: "sticky", top: 0, zIndex: 20, background: "rgba(255,255,255,0.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #e2e6ea" }}>
-        <div style={{ maxWidth: 820, margin: "0 auto", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/parents/competitions" style={{ color: "#475569", textDecoration: "none", fontSize: 14, fontWeight: 600 }}>← 대회</Link>
           <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 15 }}>In<span style={{ color: GREEN }}>Hero</span> · 학부모</span>
         </div>
       </div>
 
-      <div style={{ maxWidth: 820, margin: "0 auto", padding: "36px 20px 90px" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "36px 20px 90px" }}>
         <p style={{ fontSize: 13, fontWeight: 700, color: "#dc2680", marginBottom: 10 }}>➗ AMC 연습문제</p>
         <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.6rem,3.6vw,2.3rem)", fontWeight: 800, letterSpacing: "-0.03em", marginBottom: 10 }}>
           AMC 10/12 실전 연습문제

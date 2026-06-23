@@ -43,7 +43,7 @@ export default function CasesClient() {
   return (
     <div style={{ position: "relative", zIndex: 10, minHeight: "100vh", background: "#f7f8fa", color: "#1a1a1f", cursor: "auto" }}>
       <div style={{ position: "sticky", top: 0, zIndex: 20, background: "rgba(255,255,255,0.92)", backdropFilter: "blur(8px)", borderBottom: "1px solid #e6e8ec" }}>
-        <div style={{ maxWidth: 900, margin: "0 auto", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/parents/story" style={{ color: "#475569", textDecoration: "none", fontSize: 14, fontWeight: 600 }}>← 합격까지의 모든 것</Link>
           <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 15, letterSpacing: "-0.02em" }}>
             In<span style={{ color: GREEN }}>Hero</span> · 학부모
@@ -51,7 +51,7 @@ export default function CasesClient() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "40px 20px 100px" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "40px 20px 100px" }}>
         <p style={{ fontSize: 13, fontWeight: 700, color: "#2563eb", letterSpacing: "0.04em", marginBottom: 10 }}>🗂️ 실제 합격 사례</p>
         <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.15, marginBottom: 14 }}>
           언론에 공개된 <span style={{ color: "#2563eb" }}>실제 합격생</span> 사례

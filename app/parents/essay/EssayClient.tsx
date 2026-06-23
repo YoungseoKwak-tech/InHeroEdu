@@ -61,13 +61,13 @@ export default function EssayClient() {
   return (
     <div style={{ position: "relative", zIndex: 10, minHeight: "100vh", background: "#eef1f4", color: "#1a1a1f", cursor: "auto", fontFamily: "'Inter', sans-serif" }}>
       <div style={{ position: "sticky", top: 0, zIndex: 20, background: "rgba(255,255,255,0.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #e2e6ea" }}>
-        <div style={{ maxWidth: 880, margin: "0 auto", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/parents" style={{ color: "#475569", textDecoration: "none", fontSize: 14, fontWeight: 600 }}>← 자료실</Link>
           <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 15 }}>In<span style={{ color: GREEN }}>Hero</span> · 학부모</span>
         </div>
       </div>
 
-      <div style={{ maxWidth: 880, margin: "0 auto", padding: "36px 20px 100px" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "36px 20px 100px" }}>
         <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginBottom: 12 }}>
           <span style={{ fontSize: 11.5, fontWeight: 800, color: "#b45309", background: "#fef3c7", borderRadius: 6, padding: "3px 9px" }}>🏆 합격 에세이 분석</span>
           <span style={{ fontSize: 11.5, fontWeight: 800, color: "#047857", background: "#e9fbf2", borderRadius: 6, padding: "3px 9px" }}>Cornell · Biomedical Engineering</span>

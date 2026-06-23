@@ -118,7 +118,7 @@ export default function QuestionBankPage() {
 
   return (
     <div style={{ background: "#ffffff", minHeight: "100vh", padding: "72px 24px 120px", fontFamily: "Inter, sans-serif" }}>
-      <div style={{ maxWidth: 880, margin: "0 auto" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         {/* Header */}
         <p style={{ fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", color: "#00b85f", marginBottom: 14 }}>
           INHERO QUESTION BANK

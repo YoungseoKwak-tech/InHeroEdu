@@ -53,13 +53,13 @@ export default function ReplayClient() {
   return (
     <div style={{ minHeight: "100vh", background: "#eef1f4", color: "#1a1a1f", fontFamily: "'Inter', sans-serif" }}>
       <div style={{ position: "sticky", top: 0, zIndex: 20, background: "rgba(255,255,255,0.94)", backdropFilter: "blur(8px)", borderBottom: "1px solid #e2e6ea" }}>
-        <div style={{ maxWidth: 980, margin: "0 auto", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/parents/seminar" style={{ color: "#475569", textDecoration: "none", fontSize: 14, fontWeight: 600 }}>← 세미나</Link>
           <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: 15 }}>In<span style={{ color: GREEN }}>Hero</span> · 학부모</span>
         </div>
       </div>
 
-      <div style={{ maxWidth: 980, margin: "0 auto", padding: "32px 20px 90px" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "32px 20px 90px" }}>
         <div style={{ marginBottom: 26, background: "linear-gradient(135deg,#0b3b2e,#0e7c54 60%,#16a36b)", color: "#fff", borderRadius: 16, padding: "26px 28px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", boxShadow: "0 10px 28px rgba(14,124,84,0.24)" }}>
           <div style={{ flex: 1, minWidth: 220 }}>
             <h2 style={{ fontSize: 18, fontWeight: 800, margin: "0 0 6px", letterSpacing: "-0.01em" }}>📚 더 많은 자료 보기</h2>

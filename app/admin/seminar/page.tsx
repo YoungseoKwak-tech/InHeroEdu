@@ -66,7 +66,7 @@ export default function AdminSeminarPage() {
   if (error) return <div style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center", color: "#c0392b", fontWeight: 600 }}>{error}</div>;
 
   return (
-    <div style={{ maxWidth: 1000, margin: "0 auto", padding: "32px 20px 80px" }}>
+    <div style={{ maxWidth: 1200, margin: "0 auto", padding: "32px 20px 80px" }}>
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
         <div>
           <h1 style={{ fontSize: 24, fontWeight: 800, margin: 0 }}>세미나 신청자</h1>
