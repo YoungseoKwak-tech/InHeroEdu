@@ -1,0 +1,264 @@
+{
+  "stream": "top-publics",
+  "title": "Top public universities — admit benchmarks (in-state, out-of-state, international)",
+  "generatedAt": "2026-06-14",
+  "schools": [
+    {
+      "name": "University of California, Berkeley",
+      "tier": "Public T20",
+      "admitRatePct": 11.4,
+      "admitRateByResidency": {
+        "inState": 14.9,
+        "outOfState": 7.3,
+        "international": 5.5
+      },
+      "cycle": "Fall 2024 (Class of 2028)",
+      "sat": { "p25": null, "p50": null, "p75": null },
+      "act": { "p25": null, "p50": null, "p75": null },
+      "gpa": { "note": "Test-blind, so GPA is the dominant academic signal. Weighted UC-capped GPA middle 50% ~4.12–4.29; ~89% of admits at or above 3.75." },
+      "testPolicy": "test-free (test-blind since Fall 2021 — SAT/ACT not used in admissions or scholarship decisions, by permanent UC Regents policy)",
+      "topMajors": ["Electrical Engineering & Computer Sciences (EECS)", "Engineering", "Business (Haas)"],
+      "ecPatterns": [],
+      "sources": [
+        { "title": "Berkeley News — Fall 2024 first-year admits (overall & residency rates)", "url": "https://news.berkeley.edu/2024/08/02/almost-80-of-uc-berkeleys-first-year-admits-are-from-california/" },
+        { "title": "UC Regents — permanent removal of SAT/ACT from admissions", "url": "https://www.universityofcalifornia.edu/press-room/university-california-board-regents-unanimously-approved-changes-standardized-testing" },
+        { "title": "UC Berkeley Common Data Set (Office of Planning & Analysis)", "url": "https://opa.berkeley.edu/campus-data/common-data-set" },
+        { "title": "UC first-year admit data — Berkeley", "url": "https://admission.universityofcalifornia.edu/campuses-majors/berkeley/first-year-admit-data.html" }
+      ]
+    },
+    {
+      "name": "University of California, Los Angeles (UCLA)",
+      "tier": "Public T20",
+      "admitRatePct": 9.0,
+      "admitRateByResidency": {
+        "inState": null,
+        "outOfState": null,
+        "international": null
+      },
+      "cycle": "Fall 2024 (and ~9% again Fall 2025)",
+      "sat": { "p25": null, "p50": null, "p75": null },
+      "act": { "p25": null, "p50": null, "p75": null },
+      "gpa": { "note": "Test-blind. UCLA officially reports average unweighted admitted GPA 3.95. Weighted figures circulate via aggregators (~4.4–4.7) but are inconsistent and not used here." },
+      "testPolicy": "test-free (test-blind since Fall 2021, permanent UC policy)",
+      "topMajors": ["Psychology", "Economics", "Ecology & Evolutionary Biology"],
+      "ecPatterns": [],
+      "sources": [
+        { "title": "UCLA First-Year Profile 2024 (admit rate, avg unweighted GPA 3.95)", "url": "https://admission.ucla.edu/apply/first-year/first-year-profile/2024" },
+        { "title": "UCLA First-Year Profile 2025", "url": "https://admission.ucla.edu/apply/first-year/first-year-profile/2025" },
+        { "title": "UCLA Newsroom — Fall 2024 admissions (most-applied-to university)", "url": "https://newsroom.ucla.edu/releases/first-year-california-students-underrepresented-students-fall-2024-admissions" },
+        { "title": "UCLA Newsroom — top 10 most popular majors", "url": "https://newsroom.ucla.edu/stories/the-top-10-most-popular-majors-242975" },
+        { "title": "UC Regents — permanent removal of SAT/ACT", "url": "https://www.universityofcalifornia.edu/press-room/university-california-board-regents-unanimously-approved-changes-standardized-testing" }
+      ]
+    },
+    {
+      "name": "University of California, San Diego (UCSD)",
+      "tier": "Public T30",
+      "admitRatePct": 27.0,
+      "admitRateByResidency": {
+        "inState": 26.0,
+        "outOfState": 34.0,
+        "international": 22.0
+      },
+      "cycle": "Fall 2024",
+      "sat": { "p25": null, "p50": null, "p75": null },
+      "act": { "p25": null, "p50": null, "p75": null },
+      "gpa": { "note": "Test-blind. Weighted UC-capped GPA middle 50% ~4.11–4.29 (aggregators reading the official UC admit-data profile)." },
+      "testPolicy": "test-free (test-blind since Fall 2021, permanent UC policy)",
+      "topMajors": ["Bioengineering", "Computer Science", "Cognitive Science", "Biological Sciences", "Earth/Ocean Sciences (Scripps)"],
+      "ecPatterns": [],
+      "sources": [
+        { "title": "College Kickstart — UC Fall 2024 admission trends (UCSD overall & residency rates)", "url": "https://www.collegekickstart.com/blog/item/university-of-california-fall-2024-admission-trends" },
+        { "title": "UCSD First-Year Application Requirements (test-blind)", "url": "https://admissions.ucsd.edu/first-year/application-requirements.html" },
+        { "title": "UC first-year admit data — San Diego", "url": "https://admission.universityofcalifornia.edu/campuses-majors/san-diego/first-year-admit-data.html" },
+        { "title": "Jacobs School of Engineering — undergraduate rankings", "url": "https://jacobsschool.ucsd.edu/news/release/3663?id=3663" }
+      ]
+    },
+    {
+      "name": "University of Michigan, Ann Arbor",
+      "tier": "Public T20",
+      "admitRatePct": 16.0,
+      "admitRateByResidency": {
+        "inState": null,
+        "outOfState": null,
+        "international": null
+      },
+      "cycle": "2024-2025 (CDS)",
+      "sat": { "p25": 1360, "p50": null, "p75": 1530 },
+      "act": { "p25": 31, "p50": 33, "p75": 34 },
+      "gpa": { "note": "CDS C12 admitted-GPA figure not cleanly sourced; omitted. 51% of enrollees submitted SAT, 18% ACT." },
+      "testPolicy": "test-optional (permanent test-optional beginning for students matriculating winter 2025; scores not required but considered)",
+      "topMajors": ["Business (Ross)", "Engineering", "Computer Science"],
+      "ecPatterns": [],
+      "sources": [
+        { "title": "University of Michigan Common Data Set 2024-25 (PDF)", "url": "https://obp.umich.edu/wp-content/uploads/pubdata/cds/CDS_2024-25_UMAA.pdf" },
+        { "title": "University of Michigan CDS landing page", "url": "https://obp.umich.edu/campus-statistics/common-data-set/" },
+        { "title": "Michigan Ross — undergraduate business rankings", "url": "https://michiganross.umich.edu/terms/rankings" }
+      ]
+    },
+    {
+      "name": "University of Virginia (UVA)",
+      "tier": "Public T20",
+      "admitRatePct": 16.8,
+      "admitRateByResidency": {
+        "inState": 22.8,
+        "outOfState": 9.3,
+        "international": null
+      },
+      "cycle": "2024-2025 (overall ~16.8%; Class of 2029 ~15.7%)",
+      "sat": { "p25": 1410, "p50": null, "p75": 1520 },
+      "act": { "p25": 32, "p50": null, "p75": 35 },
+      "gpa": { "note": "84% of admits in top tenth of HS class (CDS C12). >90% of admits reported 4.0+ and >95% above 3.75 (aggregators)." },
+      "testPolicy": "test-optional (confirmed for Fall 2026; no SAT/ACT preference). ~60% of admits submitted scores.",
+      "topMajors": ["Commerce (McIntire — #1 public undergraduate business)", "Public Policy (Batten)", "Liberal Arts / pre-law"],
+      "ecPatterns": [],
+      "sources": [
+        { "title": "UVA Common Data Set 2024-25 (PDF, Institutional Research & Analytics)", "url": "https://ira.virginia.edu/sites/ira/files/2025-03/CDS_2024-2025_508.pdf" },
+        { "title": "UVA Undergraduate Admission Statistics", "url": "https://admission.virginia.edu/admission/statistics" },
+        { "title": "UVA Test-Optional Policy", "url": "https://admission.virginia.edu/node/446" },
+        { "title": "UVA Magazine — Class of 2029 round-by-round offer rates (in-state vs OOS)", "url": "https://uvamagazine.org/articles/applications_up_offer_rates_down_for_class_of_2029" },
+        { "title": "McIntire #1 public undergraduate business (Poets&Quants 2026)", "url": "https://experience.mcintire.virginia.edu/news/mcintire-1-public-business-school-1-academic-experience-2-overall-poetsquants-2026-best-undergraduate-business-schools-ranking/" }
+      ]
+    },
+    {
+      "name": "University of North Carolina at Chapel Hill (UNC)",
+      "tier": "Public T30",
+      "admitRatePct": 15.3,
+      "admitRateByResidency": {
+        "inState": 38.0,
+        "outOfState": 8.1,
+        "international": null
+      },
+      "cycle": "2024-2025 (CDS)",
+      "sat": { "p25": 1400, "p50": null, "p75": 1530 },
+      "act": { "p25": 28, "p50": 31, "p75": 34 },
+      "gpa": { "note": "Average HS GPA 4.49; ~97% of admits had 4.0+; 76% in top tenth of HS class (Class of 2029)." },
+      "testPolicy": "test-optional for 2024-25 (UNC System), but applicants with weighted GPA below 2.8 were required to submit scores.",
+      "topMajors": ["Business (Kenan-Flagler)", "Journalism & Media (Hussman)", "Global Public Health", "Pre-med / Biology"],
+      "ecPatterns": [],
+      "sources": [
+        { "title": "UNC-Chapel Hill Common Data Set 2024-25 (PDF, OIRA)", "url": "https://oira.unc.edu/wp-content/uploads/sites/297/2025/08/CDS_UNCCH_2024-25_20250829.pdf" },
+        { "title": "UNC-Chapel Hill CDS archive", "url": "https://oira.unc.edu/reports/reports-archives/common-data-set/" },
+        { "title": "Oriel Admissions — UNC ~18% out-of-state enrollment cap (NC law)", "url": "https://orieladmissions.com/how-to-get-into-unc-chapel-hill-out-of-state-acceptance-rate/" }
+      ]
+    },
+    {
+      "name": "Georgia Institute of Technology (Georgia Tech)",
+      "tier": "Public T20",
+      "admitRatePct": 12.7,
+      "admitRateByResidency": {
+        "inState": 30.0,
+        "outOfState": 9.0,
+        "international": null
+      },
+      "cycle": "Fall 2025 (Class of 2029); 2024-25 CDS overall ~14.1%",
+      "sat": { "p25": 1370, "p50": null, "p75": 1530 },
+      "act": { "p25": 30, "p50": null, "p75": 34 },
+      "gpa": { "note": "Average weighted HS GPA 4.14 (2024-25 CDS). ~77% of admits submitted SAT, ~35% ACT." },
+      "testPolicy": "required (Georgia Tech maintained its test requirement; University System of Georgia mandate enforces testing system-wide from Fall 2026).",
+      "topMajors": ["Computer Science", "Engineering"],
+      "ecPatterns": ["~44% of admits intend engineering — STEM pool effectively more selective than headline rate"],
+      "sources": [
+        { "title": "Georgia Tech Common Data Set 2024-25 (PDF, IRP)", "url": "https://irp.gatech.edu/files/CDS/CDS_2024-2025_FINAL_20FEB2025.pdf" },
+        { "title": "Georgia Tech — Fall 2025 first-year decision release (12.7% overall)", "url": "https://news.em.gatech.edu/2025/03/31/final-decision-release-fall-2025-first-year/" },
+        { "title": "Georgia Tech Admission Snapshot (in-state vs out-of-state)", "url": "https://admission.gatech.edu/admission-snapshot" },
+        { "title": "Georgia Tech Standardized Tests policy (required)", "url": "https://admission.gatech.edu/first-year/standardized-tests" },
+        { "title": "University System of Georgia restoring test requirements 2026 (Capitol Beat)", "url": "https://capitol-beat.org/2024/05/university-system-of-georgia-restoring-test-score-admission-requirements-in-2026/" }
+      ]
+    },
+    {
+      "name": "University of Texas at Austin (UT Austin)",
+      "tier": "Public T30",
+      "admitRatePct": 22.2,
+      "admitRateByResidency": {
+        "inState": null,
+        "outOfState": 10.0,
+        "international": null
+      },
+      "cycle": "Fall 2025 (Class of 2029); 2024-25 CDS overall ~26.6%",
+      "sat": { "p25": 1230, "p50": null, "p75": 1490 },
+      "act": { "p25": 27, "p50": 31, "p75": 33 },
+      "gpa": { "note": "Admission is largely class-rank driven (auto-admit). Texas residents in the top 6% auto-admitted for Fall 2025/Spring 2026; threshold lowered to top 5% from Fall 2026. ~90% of first-year seats reserved for Texas residents." },
+      "testPolicy": "required (test requirement reinstated beginning Fall 2025 cycle; scores required even for auto-admits and used for major/honors review).",
+      "topMajors": ["Computer Science (major-level admit ~8–9%)", "Engineering (Cockrell)", "Business (McCombs)"],
+      "ecPatterns": ["Major choice is the real gate — auto-admit does not guarantee first-choice major"],
+      "sources": [
+        { "title": "UT Austin Review & Decision Process (test required)", "url": "https://admissions.utexas.edu/apply/review-decision-process/" },
+        { "title": "UT Austin official Common Data Set", "url": "https://reports.utexas.edu/common-data-set" },
+        { "title": "Texas Tribune — UT Austin lowering auto-admit threshold to top 5%", "url": "https://www.texastribune.org/2024/09/16/ut-austin-top-five-percent-threshold/" },
+        { "title": "Collegewise — UT Austin acceptance rate (Class of 2029 ~22.2%)", "url": "https://collegewise.com/blog/ut-austin-acceptance-rate" },
+        { "title": "NextGenAdmit — UT Austin admission statistics (2024-25 CDS-derived)", "url": "https://nextgenadmit.com/ut-austin-admission-statistics/" },
+        { "title": "Oriel Admissions — UT Austin out-of-state acceptance rate", "url": "https://orieladmissions.com/ut-austin-out-of-state-acceptance-rate/" }
+      ]
+    },
+    {
+      "name": "University of Illinois Urbana-Champaign (UIUC)",
+      "tier": "Public T30",
+      "admitRatePct": 36.6,
+      "admitRateByResidency": {
+        "inState": 49.3,
+        "outOfState": 29.0,
+        "international": 30.5
+      },
+      "cycle": "Fall 2025 (Class of 2029); residency splits 2024-25",
+      "sat": { "p25": 1390, "p50": null, "p75": 1520 },
+      "act": { "p25": 30, "p50": null, "p75": 34 },
+      "gpa": { "note": "Unweighted GPA middle 50% 3.65–4.00; 56% in top decile, 85% top quartile, 98% top half of HS class (official Class Profile)." },
+      "testPolicy": "test-optional (including Fall 2026 entry; no superscoring).",
+      "topMajors": ["Computer Science (pure CS admit ~7%)", "Engineering (Grainger, overall ~21%)", "Business (Gies, ~21%)"],
+      "ecPatterns": ["Admission is by major — headline 36.6% badly understates STEM selectivity (CS ~7%)"],
+      "sources": [
+        { "title": "UIUC official admit rate page (overall & by college)", "url": "https://www.admissions.illinois.edu/apply/freshman/admit-rate" },
+        { "title": "UIUC official Class Profile (test ranges, GPA, class rank)", "url": "https://www.admissions.illinois.edu/apply/freshman/profile" },
+        { "title": "UIUC application process / test policy (test-optional)", "url": "https://www.admissions.illinois.edu/apply/freshman/process" },
+        { "title": "Daily Illini — residency admit rates (49.3% in-state vs 29% OOS)", "url": "https://dailyillini.com/news-stories/university-news/2026/03/02/ui-increasingly-competitive/" },
+        { "title": "College Transitions — UIUC CS selectivity", "url": "https://www.collegetransitions.com/blog/how-to-get-into-the-university-of-illinois-urbana-champaign-uiuc/" }
+      ]
+    },
+    {
+      "name": "University of Wisconsin–Madison (UW-Madison)",
+      "tier": "Public T40",
+      "admitRatePct": 45.2,
+      "admitRateByResidency": {
+        "inState": null,
+        "outOfState": null,
+        "international": null
+      },
+      "cycle": "2024-2025 (Fall 2024)",
+      "sat": { "p25": 1370, "p50": null, "p75": 1490 },
+      "act": { "p25": 29, "p50": 31, "p75": 33 },
+      "gpa": { "note": "No primary-sourced CDS GPA distribution; omitted. Wisconsin residents in the top 5% of their HS class are guaranteed admission ('Wisconsin Guarantee')." },
+      "testPolicy": "test-optional (extended through spring 2027; self-reported scores not accepted). Only ~15% submitted SAT / ~29% ACT.",
+      "topMajors": ["Computer Science", "Business (#1 undergraduate Real Estate)"],
+      "ecPatterns": [],
+      "sources": [
+        { "title": "UW-Madison Test-Optional FAQ", "url": "https://admissions.wisc.edu/act_sat_faq/" },
+        { "title": "UW-Madison — Regents extend test-optional admissions", "url": "https://news.wisc.edu/regents-extend-test-optional-admissions/" },
+        { "title": "UW-Madison CDS landing page", "url": "https://data.wisc.edu/common-data-set-and-rankings/" },
+        { "title": "NextGenAdmit — UW-Madison admission statistics (CDS-derived)", "url": "https://nextgenadmit.com/university-of-wisconsin-madison-admission-statistics/" },
+        { "title": "WPR — Wisconsin Guarantee (top-5% admission)", "url": "https://www.wpr.org/news/wisconsin-top-5-percent-high-school-students-uw-madison-admissions" }
+      ]
+    }
+  ],
+  "insights": [
+    "Residency is the single biggest lever at almost every top public. The published overall rate badly overstates the odds for out-of-state and international applicants: Georgia Tech ~30% in-state vs ~9% OOS, UNC ~38% vs ~8% (NC law caps OOS enrollment at ~18%), UVA ~23% vs ~9%, UIUC 49.3% vs 29% (OOS) / 30.5% (international), UT Austin reserves ~90% of seats for Texas residents (OOS ~10%), and Berkeley admits CA residents at 14.9% vs 7.3% OOS and 5.5% international.",
+    "The 'admission by major' trap is the most important warning for STEM-focused families. Headline rates hide far lower program-level odds: UIUC pure CS ~7% (vs 36.6% overall), UT Austin CS ~8–9% (vs ~22% overall), and Georgia Tech's ~44%-engineering applicant pool. A strong overall profile is not enough — the target major is the real gate.",
+    "Test policy now splits the top publics. All three UCs are permanently TEST-FREE / test-blind (SAT/ACT not used at all since Fall 2021), so GPA + essays + activities carry the entire academic signal. Georgia Tech and UT Austin REQUIRE tests (UT reinstated Fall 2025; GT continues, with a University System of Georgia mandate from Fall 2026). Michigan, UVA, UNC, UIUC, and UW-Madison remain test-optional (UW locked through spring 2027).",
+    "Selectivity is rising sharply across the board. Georgia Tech hit a record-low 12.7%, UCLA holds near 9% as the most-applied-to U.S. university (~173k applications), UT Austin applications jumped +24% year over year, and UIUC fell from 63% (2020) to 37% (2025). For test-optional schools a strong submitted score still differentiates with no penalty for withholding."
+  ],
+  "caveats": [
+    "WebFetch and direct PDF download were blocked in this environment, so exact CDS C9 (SAT/ACT 25/50/75) and C12 (GPA/class-rank) line items were sourced from search summaries and reputable aggregators quoting the official Common Data Sets, not by opening the primary PDFs. The official CDS URLs are cited for each school and should be opened to confirm exact digits before any figure is shown user-facing.",
+    "All UC SAT/ACT percentiles are intentionally null because the UC system is test-blind — this is a policy fact, not missing data.",
+    "Several middle-50% test ranges are given as p25/p75 with p50 null where a discrete median was not separately sourced. UVA in-state/out-of-state rates vary by cycle and by whether 'international' is bundled with OOS; treat the ~23% in-state / ~9% OOS split as approximate."
+  ],
+  "sources": [
+    { "title": "UC Regents — permanent removal of SAT/ACT from admissions", "url": "https://www.universityofcalifornia.edu/press-room/university-california-board-regents-unanimously-approved-changes-standardized-testing" },
+    { "title": "UC Information Center — first-year admit data (per campus)", "url": "https://admission.universityofcalifornia.edu/campuses-majors/" },
+    { "title": "University of Michigan Common Data Set 2024-25", "url": "https://obp.umich.edu/wp-content/uploads/pubdata/cds/CDS_2024-25_UMAA.pdf" },
+    { "title": "UVA Common Data Set 2024-25", "url": "https://ira.virginia.edu/sites/ira/files/2025-03/CDS_2024-2025_508.pdf" },
+    { "title": "UNC-Chapel Hill Common Data Set 2024-25", "url": "https://oira.unc.edu/wp-content/uploads/sites/297/2025/08/CDS_UNCCH_2024-25_20250829.pdf" },
+    { "title": "Georgia Tech Common Data Set 2024-25", "url": "https://irp.gatech.edu/files/CDS/CDS_2024-2025_FINAL_20FEB2025.pdf" },
+    { "title": "UT Austin official Common Data Set", "url": "https://reports.utexas.edu/common-data-set" },
+    { "title": "UIUC official admit rate page", "url": "https://www.admissions.illinois.edu/apply/freshman/admit-rate" },
+    { "title": "UW-Madison Common Data Set landing", "url": "https://data.wisc.edu/common-data-set-and-rankings/" }
+  ]
+}

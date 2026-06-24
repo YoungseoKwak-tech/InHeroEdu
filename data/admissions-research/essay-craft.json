@@ -1,0 +1,131 @@
+{
+  "stream": "essay-craft",
+  "title": "Essay craft — structures, themes, techniques (original analysis)",
+  "generatedAt": "2026-06-24",
+  "patterns": [
+    {
+      "name": "Narrative / single-moment structure",
+      "whatItIs": "Classic storytelling arc built on one central experience or turning point: roughly equal attention to the challenge faced, what the writer did about it, and what they learned. It zooms in on a specific moment rather than surveying a life.",
+      "whyItWorks": "A single, vivid scene lets the reader live the experience alongside the writer, and the cause-and-effect of challenge-action-reflection produces visible growth — which is exactly what prompts like the Common App 'obstacles' and 'personal growth' questions reward.",
+      "whenToUse": "Best when the writer has faced a genuine, meaningful challenge (academic, personal, identity-related) and can trace concrete change from it. College Essay Guy frames the choice as: if you have a significant challenge you want to write about, use narrative.",
+      "originalMiniExample": "The first time my hands stopped shaking on the cello bow was the night my grandmother stopped recognizing my face. I learned to practice in her room anyway, playing the same eight bars until the notes meant 'I am still here' more than they meant 'I am getting it right.' By spring I no longer needed her to remember me to keep showing up.",
+      "sources": [
+        { "title": "College Essay Guy — Narrative Structure", "url": "https://www.collegeessayguy.com/guides/the-free-guide/narrative-essay" },
+        { "title": "Common App — 2025-2026 essay prompts", "url": "https://www.commonapp.org/blog/announcing-2025-2026-common-app-essay-prompts/" }
+      ]
+    },
+    {
+      "name": "Montage / 'thread' structure",
+      "whatItIs": "A series of thematically connected vignettes — often images, objects, or recurring scenes — stitched together by a single thread so that several small pieces add up to a larger portrait of the writer's values.",
+      "whyItWorks": "It lets a writer show range — multiple interests, skills, and sides of their personality — without becoming a scattered list, because the connecting thread gives the reader a through-line. Admissions readers praise essays that 'capture multiple aspects of the writer's personality' without becoming cluttered.",
+      "whenToUse": "Best when the writer has NOT faced one defining hardship but wants to convey breadth. College Essay Guy's 'five objects' exercise (five pairs of shoes, five photos in my room, five ways cooking shaped me) is a montage-generation tool, with each item tied to a different value.",
+      "originalMiniExample": "Every dialect I speak lives in a different drawer of my kitchen: my mother's Tagalog in the rice cooker that hums her lullabies, my coach's clipped English in the whistle on the third hook, the slangy Spanish I trade with the line cooks where I bus tables. I am fluent in none of them and at home in all of them. Translation, I've decided, is just the art of refusing to leave anyone out of the conversation.",
+      "sources": [
+        { "title": "College Essay Guy — Montage Structure", "url": "https://www.collegeessayguy.com/guides/the-free-guide/montage-structure-sample-essay" },
+        { "title": "Connecticut College — Essays that Worked", "url": "https://www.conncoll.edu/admission/apply/essays-that-worked/" }
+      ]
+    },
+    {
+      "name": "Strong-opener / in-scene hook",
+      "whatItIs": "Opening mid-action or with a concrete, slightly surprising image instead of throat-clearing context, then earning the backstory afterward. Hamilton's admission team explicitly advises a strong opener to catch attention 'right from the start.'",
+      "whyItWorks": "Readers move through thousands of essays; a specific, sensory first line buys attention and signals voice immediately. It also forces the writer into 'show' mode from sentence one.",
+      "whenToUse": "Nearly always — pairs with either structure. Especially valuable when the underlying topic is ordinary and needs voice to lift it.",
+      "originalMiniExample": "At 4 a.m. the bread doesn't care that I have a calculus test. The dough has risen, the oven is hot, and the only question that matters is whether my hands are awake yet. They usually aren't, which is how I learned that discipline is mostly just showing up before you feel ready.",
+      "sources": [
+        { "title": "Hamilton College — Tips for a Good College Essay", "url": "https://www.hamilton.edu/admission/apply/college-essays-that-worked/tips-for-a-good-college-essay" }
+      ]
+    },
+    {
+      "name": "Show-then-tell (mostly show, a little tell)",
+      "whatItIs": "Rendering values and growth through concrete, specific moments and details, then adding a small amount of direct reflection that names what those moments meant. Not pure 'show' — a deliberate blend.",
+      "whyItWorks": "Concrete detail makes the essay believable and unique to one writer; the short bursts of telling ensure the admissions reader doesn't miss the point. Guidance consistently lands on 'mostly show but also tell a little' rather than rigid show-only.",
+      "whenToUse": "Throughout any essay, but especially at the reflective beats where the writer connects an anecdote to a value or a change.",
+      "originalMiniExample": "I didn't write 'I am patient' on my robotics log; I wrote down the forty-one times the servo jammed before it didn't. Looking back, those tally marks were the first place I saw that I'd rather fail in public than quit in private.",
+      "sources": [
+        { "title": "College Essay Guy — How to Show Don't Tell", "url": "https://www.collegeessayguy.com/blog/show-dont-tell" },
+        { "title": "Hamilton College — Tips for a Good College Essay", "url": "https://www.hamilton.edu/admission/apply/college-essays-that-worked/tips-for-a-good-college-essay" }
+      ]
+    },
+    {
+      "name": "Authentic voice over polish",
+      "whatItIs": "Writing in language, phrasing, and sentence rhythm specific to the writer rather than an inflated 'admissions' register. Connecticut College's dean warns against writing 'the essay that's going to impress the committee'; Tufts tells students they don't have to 'sound like you already have your PhD.'",
+      "whyItWorks": "Voice is the one variable thousands of applicants writing about similar topics can't replicate. It makes the writer feel like a person an admissions reader could picture in a dorm, not a polished stranger.",
+      "whenToUse": "Always — it's a property of the whole essay, sharpened in revision by reading aloud (a Hamilton tip) and cutting any sentence the writer wouldn't actually say.",
+      "originalMiniExample": "I am the kid who argues with documentaries out loud. My family has learned to pause the TV when my hand goes up, because apparently 'well, actually' is my entire personality, and I have made peace with that.",
+      "sources": [
+        { "title": "Connecticut College — Essays that Worked", "url": "https://www.conncoll.edu/admission/apply/essays-that-worked/" },
+        { "title": "College Essay Guy — Tufts supplemental essay guide", "url": "https://www.collegeessayguy.com/blog/tufts-university-supplemental-essay" }
+      ]
+    },
+    {
+      "name": "Reflection / so-what payoff",
+      "whatItIs": "Balancing enough narrative to tell an engaging story with enough reflection to show how the writer changed or now thinks differently. The essay answers an implicit 'so what?' about the experience.",
+      "whyItWorks": "Connecticut College notes the best essays strike a balance between sharing enough of an experience and offering enough reflection to demonstrate change. Story without reflection is a diary entry; reflection without story is a self-help quote.",
+      "whenToUse": "In the final third of a narrative essay, and woven between vignettes in a montage, so insight feels earned rather than tacked on.",
+      "originalMiniExample": "Losing the debate round didn't teach me to argue better; it taught me I'd been arguing to win instead of to understand. Now I keep a column in my notes labeled 'where they're right,' and it's usually the most interesting thing on the page.",
+      "sources": [
+        { "title": "Connecticut College — Essays that Worked", "url": "https://www.conncoll.edu/admission/apply/essays-that-worked/" }
+      ]
+    },
+    {
+      "name": "Intellectual-curiosity essay (the 'lens collector')",
+      "whatItIs": "An essay (or supplement) that dramatizes genuine engagement with an idea — explaining not just WHAT fascinates the writer but WHY it makes them lose track of time, often through interdisciplinary connections. Maps directly onto Common App prompt 6 and Tufts-style supplements.",
+      "whyItWorks": "Tufts ranks intellectual curiosity at the top of its values; explaining why a topic excites you reveals character, not just interests. It signals the writer will keep learning on campus.",
+      "whenToUse": "When the writer has an authentic intellectual obsession (not a resume line) they can show in motion. Avoid 'I've always loved X since age five' framing for a passion discovered last year.",
+      "originalMiniExample": "I fell down the rabbit hole through a typo: a mistranslated subway sign in Seoul that turned 'exit' into 'escape.' Now I collect the seams where languages don't quite line up, because each gap is a tiny argument about how a culture decides what's worth a separate word for. Linguistics, etymology, even my chemistry textbook's loan-words — they're all the same hunt for me.",
+      "sources": [
+        { "title": "College Essay Guy — Tufts supplemental essay guide", "url": "https://www.collegeessayguy.com/blog/tufts-university-supplemental-essay" },
+        { "title": "Common App — 2025-2026 essay prompts", "url": "https://www.commonapp.org/blog/announcing-2025-2026-common-app-essay-prompts/" }
+      ]
+    },
+    {
+      "name": "The 'Why Us' supplement formula (fit, not flattery)",
+      "whatItIs": "A short, school-specific essay that connects concrete features of the college (named courses, professors, labs, programs, traditions) to the writer's specific goals and contributions — a two-way fit argument rather than generic praise.",
+      "whyItWorks": "Selective schools use 'Why us' to assess fit and demonstrated interest; readers can tell when a student has actually researched the school. Specificity that couldn't be copy-pasted to another college is the whole point.",
+      "whenToUse": "For any 'Why [School]?' or 'Why this major?' prompt. The reliable recipe: name 2-3 specific, verifiable offerings, link each to something the writer already does or wants to build, and show what they'd contribute back.",
+      "originalMiniExample": "I don't want a marine biology program; I want Professor Reyes's tide-pool seminar and the student-run oyster restoration lab two miles offshore, because I've spent three summers logging water quality on my own and I'm tired of doing it without a microscope. I'd bring the 400-point dataset I've already collected to the lab's first meeting.",
+      "sources": [
+        { "title": "College Essay Guy — Tufts supplemental essay guide", "url": "https://www.collegeessayguy.com/blog/tufts-university-supplemental-essay" },
+        { "title": "College Transitions — Colleges without supplemental essays (on the role of supplements)", "url": "https://www.collegetransitions.com/blog/colleges-without-supplemental-essays/" }
+      ]
+    }
+  ],
+  "commonAppThemes": [
+    "Background / identity / talent so central the application would feel incomplete without it (Prompt 1) — often cultural heritage, language, family role, or a defining 'thing' the student is known for.",
+    "Obstacle, setback, or failure and the lesson taken from it (Prompt 2) — powerful when the failure is real and the reflection is specific, dangerous when it slides into cliché (see failure modes).",
+    "Questioning or challenging a belief or idea (Prompt 3) — rewards intellectual honesty and a visible change of mind, not a debate win.",
+    "Gratitude — something someone did that motivated the writer in a surprising way (Prompt 4) — works when it reveals the writer's character through the relationship, not just thanks the helper.",
+    "Personal growth / a realization that sparked new self-understanding (Prompt 5) — the quiet, internal-shift essay; strongest with a concrete triggering moment.",
+    "Intellectual curiosity — a topic so engaging it makes the writer lose track of time (Prompt 6) — the natural home for 'lens collector' / nerd-out essays.",
+    "Everyday-small-world topics over grand ones — Hamilton: the simplest topic often leads to the best essay; Connecticut College: no need for dramatic, edge-of-your-seat stories.",
+    "Authentic self over the impressive-stranger persona — recurring theme across Hamilton, Connecticut College, and Tufts: substance and voice beat perfection."
+  ],
+  "supplementTips": [
+    "Budget real time for supplements; a common, avoidable mistake is perfecting the main essay then rushing school-specific supplements at the deadline.",
+    "For 'Why us': cite 2-3 specific, verifiable offerings (named courses, professors, labs, traditions) and tie each to your own goals — if the sentence would still be true after find-and-replacing the school name, cut it.",
+    "Make the fit two-way: show not just what the school gives you but what you'd contribute to its community — readers are judging what kind of community member you'll be.",
+    "For 'Why this major': explain why it excites you intellectually, not just that it does; the 'why' is where your character shows.",
+    "Keep your authentic voice even in 200-word supplements; you don't need to sound credentialed, you need to sound like you.",
+    "Reuse smartly but never generically — a 'Why major' core can be adapted across schools, but the school-specific hooks must be re-researched each time.",
+    "Demonstrated effort is legible: admissions counselors can see when a student dedicated real time to a supplement versus phoned it in."
+  ],
+  "insights": [
+    "There are essentially two load-bearing structures — narrative (one challenge, deep) and montage (many vignettes on a thread, broad). Pick by asking whether you have a real challenge worth the whole essay; if not, montage usually serves you better.",
+    "Specificity is the single highest-leverage move: concrete, slightly unexpected details (a jammed servo counted 41 times, a mistranslated sign) are what no other applicant can replicate and what makes 'show don't tell' actually work.",
+    "Aim for 'mostly show, a little tell.' Pure showing can leave the reader unsure of the point; a few lines of direct reflection name the value without lecturing.",
+    "Voice beats polish. Multiple admissions offices (Connecticut College, Tufts) explicitly warn against the impress-the-committee register; reading the draft aloud (a Hamilton tip) is the fastest voice and authenticity check.",
+    "Topic prestige is overrated. Hamilton and Connecticut College both say small, ordinary topics often produce the strongest essays — what matters is reflection and self-revelation, not drama.",
+    "'Why us' essays are won by research, not adjectives: name things only that school offers and connect them to what you already do. Generic praise reads as low interest.",
+    "Cliché topics (the big-game injury, the grandparent's death, the eye-opening mission trip) aren't banned — they fail when the takeaway is generic. If you must use one, find the unexpected, personal angle (e.g., an injury that opened a new passion).",
+    "Avoid the four classic openers admissions readers are tired of: famous quotes, dictionary definitions, the achievement-list 'brag montage,' and 'I've always known I wanted to…' (especially for a passion discovered recently)."
+  ],
+  "failureModes": [
+    "Cliché topic with a sanded-down, generic takeaway — sports injury, deceased grandparent, mission/service trip that 'changed my perspective' — thousands write these the same way.",
+    "The achievement-list / brag montage — cataloguing accomplishments instead of revealing who you are; the reader learns your resume, not your character.",
+    "Throat-clearing or borrowed openers — opening on an Einstein/Gandhi/coach quote or a 'Webster's defines…' dictionary line.",
+    "Thesaurus voice — inflated vocabulary that buries the writer; polish without personality reads as a stranger.",
+    "Show-only with no reflection — vivid scene, no 'so what'; the reader can't tell why it mattered.",
+    "Generic 'Why us' — praise that would survive swapping in any other college's name; signals you didn't research and lowers demonstrated interest.",
+    "Inauthentic 'impress the committee' framing — writing what you think readers want instead of what's true, which flattens voice (warned against by Connecticut College's dean of admission)."
+  ]
+}

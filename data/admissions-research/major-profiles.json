@@ -1,0 +1,207 @@
+{
+  "stream": "major-profiles",
+  "title": "Major profiles — what a competitive applicant looks like by intended major/field",
+  "generatedAt": "2026-06-24",
+  "note": "Schema adapted per task: a `fields` array replaces the standard `schools` array. Admit-rate figures are directional (most colleges do not publish per-major admit rates in their Common Data Sets); where a specific figure is cited it is attributed and labeled. Structural facts (admit-by-major vs. holistic) are confirmed against the colleges' own pages where possible. No fabrication: unverifiable numbers are described qualitatively rather than invented.",
+  "fields": [
+    {
+      "name": "Computer Science",
+      "competitiveContext": "CS is the most oversubscribed field at nearly every top school, but the mechanism differs by college. At admit-by-major schools, declaring CS places you in the hardest pool: UC Berkeley admits first-years directly into the EECS major (College of Engineering) and an alternate major is NOT reviewed, so EECS selectivity stands on its own and is far above Berkeley's overall rate. By contrast, Carnegie Mellon admits to the School of Computer Science as a whole — the department you list does NOT factor into the admissions decision — but SCS is itself a separate, far more selective admit pool than CMU's other colleges (commonly cited under ~5% vs. ~24% for Dietrich). At MIT and Stanford, you do not apply to a major at all; listing CS interest does not change your odds because the review is holistic and major is chosen after enrolling. Practical takeaway: research each school's structure before deciding whether to 'apply as CS.'",
+      "courseworkExpected": [
+        "Calculus through AB/BC; multivariable calculus or linear algebra if available",
+        "AP Computer Science A (and ideally beyond the standard curriculum: data structures, algorithms)",
+        "AP Physics (C preferred at engineering-housed programs like Berkeley EECS)",
+        "Demonstrated self-study or post-AP depth — strongest applicants go beyond what the school offers"
+      ],
+      "ecSignals": [
+        "USACO standing (Silver/Gold/Platinum) — a clean, externally-validated signal",
+        "Substantive personal projects: shipped apps/websites, open-source contributions",
+        "Hackathon wins; research at a university lab; technical startups",
+        "Depth over breadth — one or two serious 'spikes' beat a long shallow list"
+      ],
+      "notableSchools": [
+        "MIT (holistic; no major on application)",
+        "Stanford (holistic; CS most oversubscribed dept)",
+        "Carnegie Mellon SCS (admit to school; SCS pool ~<5%, dept listed is non-binding)",
+        "UC Berkeley EECS (admit directly into the major; alternate major not reviewed)",
+        "Georgia Tech (College of Computing; OOS especially competitive)"
+      ],
+      "sources": [
+        { "title": "Oriel Admissions — Acceptance Rates by Major: CS vs Humanities", "url": "https://orieladmissions.com/college-acceptance-rates-by-major/" },
+        { "title": "Oriel Admissions — Best Colleges for CS (CS-specific acceptance rates)", "url": "https://orieladmissions.com/best-colleges-for-computer-science/" },
+        { "title": "Carnegie Mellon — Computer Science Undergraduate Admission (department listed does not factor into admission)", "url": "https://www.cmu.edu/admission/majors-programs/school-of-computer-science/computer-science" },
+        { "title": "UC Berkeley EECS — EECS Bachelor of Science (admitted directly into the major)", "url": "https://eecs.berkeley.edu/academics/undergraduate/eecs-bs/" },
+        { "title": "UC Berkeley Admissions — Application FAQs (alternate major not reviewed)", "url": "https://admissions.berkeley.edu/application-faqs/" }
+      ]
+    },
+    {
+      "name": "Engineering",
+      "competitiveContext": "Engineering schools and majors are typically admit-by-college or admit-by-major, so the engineering pool is evaluated against engineering-specific expectations rather than the university-wide rate. At pure-STEM institutes (MIT, Caltech) essentially everyone is STEM, so the bar is the overall (low single-digit) rate. At large publics like Georgia Tech the College of Engineering is among the most competitive divisions and out-of-state engineering admission is markedly harder than the overall rate. Caltech's overall rate has been cited around 2-3%, with admitted students overwhelmingly at the top of the rigor scale.",
+      "courseworkExpected": [
+        "Most rigorous math/science available; calculus required, multivariable/linear algebra/differential equations a plus by senior year (Caltech-level)",
+        "AP Physics C (Mechanics and E&M), AP Chemistry; AP Calculus BC",
+        "Near-straight-A grades in STEM; Caltech expects close to a 4.0 unweighted with the hardest courseload",
+        "An additional advanced science elective signals depth"
+      ],
+      "ecSignals": [
+        "Original, domain-specific research — Caltech notes ~45% of admits did independent research; publication or competition validation carries more weight than data-collection internships",
+        "Building things: robotics (FIRST), Science Olympiad, design/build projects",
+        "National competition placement (science fairs, olympiads) as an external signal",
+        "Genuine depth in one or two pursuits over a broad résumé"
+      ],
+      "notableSchools": [
+        "MIT",
+        "Caltech (~2-3% overall; research-heavy admit profile)",
+        "Georgia Tech (College of Engineering; OOS ~9%, overall ~15%)",
+        "UC Berkeley (College of Engineering)",
+        "Stanford"
+      ],
+      "sources": [
+        { "title": "Oriel Admissions — How to Get Into Georgia Tech (15% overall, ~9% OOS, engineering strategy)", "url": "https://orieladmissions.com/how-to-get-into-georgia-tech/" },
+        { "title": "Oriel Admissions — Georgia Tech Engineering Admissions", "url": "https://orieladmissions.com/how-to-get-into-georgia-tech-engineering/" },
+        { "title": "Oriel Admissions — How to Get Into Caltech", "url": "https://orieladmissions.com/how-to-get-into-caltech/" },
+        { "title": "Rise Global Education — How to Get Into Caltech With Research (2.3% rate; ~45% did research)", "url": "https://riseglobaleducation.com/blogs/how-to-get-into-caltech-with-research-what-the-2.3-acceptance-rate-actually-means" },
+        { "title": "IvyWise — How to Get Into Georgia Tech", "url": "https://www.ivywise.com/blog/how-to-get-into-georgia-tech-all-you-need-to-know/" }
+      ]
+    },
+    {
+      "name": "Biology / Pre-med",
+      "competitiveContext": "Pre-med is NOT a major at most institutions — it is a set of prerequisites completed alongside any major, so applying 'pre-med' rarely changes undergraduate admission odds the way a restricted CS/engineering major does. The competitive signal is built through coursework rigor plus a coherent record of clinical exposure and research. At research-medical powerhouses like Johns Hopkins, the admitted academic profile is roughly a 3.95+ unweighted GPA with 8-10+ AP/IB-HL/post-AP courses; readers expect deliberate, focused course selection (AP Bio/Chem/Physics for a pre-med). Note that med-school-level expectations (clinical/shadowing hours) apply later — but starting that trajectory in high school/early college is what distinguishes a serious pre-med. BS/MD combined programs are a separate, extremely selective track.",
+      "courseworkExpected": [
+        "AP Biology, AP Chemistry, AP Physics — a pre-med who skips these 'raises questions' (JHU)",
+        "Calculus; strong English/writing (med-school prereqs and MCAT favor it)",
+        "8-10+ AP/IB-HL/post-AP courses by senior year at a competitive high school (JHU admit profile)",
+        "Near-top GPA; awareness that college science courses are often curved (As to top ~10-15%)"
+      ],
+      "ecSignals": [
+        "Sustained biomedical/biological research — strongest profiles show a published paper or multi-year lab work",
+        "Clinical exposure: hospital volunteering (JHU admits cited with 300+ hours), shadowing physicians",
+        "Depth concentrated in 2-3 areas rather than scattered activities",
+        "Authentic interest beyond pre-med checkboxes (e.g., public health, neuroscience engagement)"
+      ],
+      "notableSchools": [
+        "Johns Hopkins (~6% overall; top pre-med pipeline; popular majors: Neuroscience, BME, Molecular & Cellular Biology, Public Health)",
+        "Harvard",
+        "Stanford",
+        "Duke",
+        "Washington University in St. Louis (and selective BS/MD programs)"
+      ],
+      "sources": [
+        { "title": "Oriel Admissions — How to Get Into Johns Hopkins (~6% rate, pre-med, ED)", "url": "https://orieladmissions.com/how-to-get-into-johns-hopkins/" },
+        { "title": "Shemmassian Academic Consulting — How to Succeed as a Johns Hopkins Premed", "url": "https://www.shemmassianconsulting.com/blog/johns-hopkins-premed" },
+        { "title": "Johns Hopkins Pre-Professional Advising — Clinical Exposure & Shadowing", "url": "https://studentaffairs.jhu.edu/preprofadvising/pre-medhealth/relevant-experience/shadowing/" },
+        { "title": "AAMC Aspiring Docs — Shadowing a Doctor (clinical experience, alternates accepted)", "url": "https://students-residents.aamc.org/aspiring-docs-fact-sheets-get-experience/shadowing-doctor" },
+        { "title": "Harvard FAS Career Services — Getting Experience (Premed)", "url": "https://careerservices.fas.harvard.edu/getting-experience-premed/" }
+      ]
+    },
+    {
+      "name": "Business / Economics",
+      "competitiveContext": "Business is sharply admit-by-school at the marquee programs: Wharton (UPenn) admits separately and is widely understood to be more selective than UPenn overall (UPenn's overall rate has run ~6.5%, with ~93.5% of applicants rejected in 2024-25). Specialized coordinated dual-degree tracks (e.g., Penn's Huntsman in International Studies & Business) require freshman application and are more selective still. Many elite economics programs, however, sit inside the college of arts & sciences and are NOT admit-by-major — at MIT Sloan-adjacent or Harvard/Columbia, you generally are not locked into 'business' at application. The signal that matters is concrete, tangible evidence of business/quantitative drive.",
+      "courseworkExpected": [
+        "AP Calculus (BC preferred), AP Statistics, AP Economics (Micro/Macro)",
+        "Strong overall rigor and GPA near the top of class (UPenn admit avg GPA ~3.9; SAT ~1510-1560)",
+        "Quantitative strength is read closely for economics/finance intent",
+        "Writing ability for essays that must show 'a business-minded thinker'"
+      ],
+      "ecSignals": [
+        "National-level business competitions: DECA / FBLA finalists (ICDC), Wharton Global High School Investment Competition",
+        "Entrepreneurship with real traction: Diamond Challenge, Conrad Challenge, an actual venture with revenue/users",
+        "Demonstrable leadership in team environments (Wharton explicitly values this)",
+        "Quantitative/research signals (economics): math competitions, data projects, econ research"
+      ],
+      "notableSchools": [
+        "Wharton, UPenn (admit-by-school; below UPenn's ~6.5% overall)",
+        "MIT Sloan (and MIT Economics)",
+        "Harvard (Economics, via the College)",
+        "Columbia",
+        "NYU Stern"
+      ],
+      "sources": [
+        { "title": "Quad Education — How to Get into Wharton Undergrad", "url": "https://www.quadeducationgroup.com/blog/how-to-get-into-wharton-undergrad-the-complete-guide" },
+        { "title": "Wharton Global Youth — Investment Competition", "url": "https://globalyouth.wharton.upenn.edu/competitions/investment-competition/" },
+        { "title": "UPenn — Coordinated Dual-Degree Programs (Huntsman freshman admission)", "url": "https://undergrad.wharton.upenn.edu/coordinated-dual-degree-programs/" },
+        { "title": "DECA — High School Competitive Events", "url": "https://www.deca.org/compete" },
+        { "title": "AdmissionSight — Top Business Competitions for High School Students", "url": "https://admissionsight.com/business-competitions-for-high-school-students/" }
+      ]
+    },
+    {
+      "name": "Humanities",
+      "competitiveContext": "Most humanities applicants apply to the college of arts & sciences (or undeclared) and are reviewed holistically, so the intended major rarely raises the bar mechanically. Instead, the bar is qualitative: top schools want demonstrated intellectual depth and writing ability. Yale is known for humanities/social sciences and weights intellectual curiosity and contribution to a collaborative campus; Princeton is research-intensive and requires a year-long senior thesis of every A.B. student, signaling that it values applicants who can do sustained independent scholarship. Both Harvard and Princeton admit roughly 3-4% overall; Yale and Princeton early rounds run materially higher than RD.",
+      "courseworkExpected": [
+        "AP English Literature and AP English Language",
+        "AP US History, AP European History, and/or AP World History",
+        "At least one AP world language (depth in language signals humanistic seriousness)",
+        "Top-of-class GPA with rigorous courseload; SAT ~1500+ for the most selective Ivies"
+      ],
+      "ecSignals": [
+        "Serious writing/research credentials — publication in The Concord Review (history) is a recognized signal cited by a former Harvard dean of admissions",
+        "Selective writing programs, journalism, debate, Model UN at a high competitive level",
+        "Original creative or scholarly work; awards in writing (e.g., Scholastic, national essay contests)",
+        "Depth in a humanistic 'spike' (a sustained intellectual project) over scattered clubs"
+      ],
+      "notableSchools": [
+        "Yale (humanities/social-science strength; values intellectual curiosity)",
+        "Princeton (research-intensive; mandatory senior thesis)",
+        "Harvard",
+        "Brown",
+        "Columbia"
+      ],
+      "sources": [
+        { "title": "Oriel Admissions — Most Competitive Colleges (Harvard/Princeton ~3-4%; Yale/Princeton EA vs RD)", "url": "https://orieladmissions.com/most-competitive-colleges/" },
+        { "title": "Cosmic College Consulting — Yale vs Princeton 2026 (humanities focus; senior thesis)", "url": "https://www.cosmic.nyc/blog/yale-vs-princeton-2026" },
+        { "title": "The Concord Review (history research journal for high schoolers)", "url": "https://www.tcr.org/" },
+        { "title": "AdmissionSight — The Concord Review: A Complete Guide (admissions signal)", "url": "https://admissionsight.com/the-concord-review/" },
+        { "title": "Quad Education — Yale vs. Princeton", "url": "https://www.quadeducationgroup.com/blog/yale-vs-princeton" }
+      ]
+    },
+    {
+      "name": "Physics / Math",
+      "competitiveContext": "For physics and math, the dominant story is the outsized weight of national/international olympiad achievement at technical institutes. Aggregator analyses of MIT outcomes report USAMO qualifiers admitted at rates well above 50% vs. an overall rate below ~7%, and U.S. Physics Team (Top 24) members admitted at MIT/Caltech at rates exceeding 60%; USAPhO Semifinalist status alone is associated with materially elevated odds. These are correlations (olympiad qualifiers are exceptional across the board, not just at the test), but they reflect how strongly MIT, Caltech, and Harvey Mudd value competition distinction. Major is usually not a separate admit pool at these schools, but the signal set is field-specific.",
+      "courseworkExpected": [
+        "Calculus BC plus post-AP math (multivariable calculus, linear algebra, proof-based math) where available",
+        "AP Physics C (Mechanics and E&M) or equivalent, often taken early",
+        "Coursework beyond the standard high-school curriculum (university courses, advanced self-study)",
+        "Top grades in all math/science"
+      ],
+      "ecSignals": [
+        "Math: AMC -> AIME -> USAMO qualification; USAMO is the standout signal at technical schools",
+        "Physics: F=ma -> USAPhO Semifinalist -> U.S. Physics Team (Top 24); strong elevation at each tier",
+        "Research combined with competitions — advanced independent work amplifies the olympiad signal",
+        "Genuine, deep passion demonstrated through sustained problem-solving, not breadth"
+      ],
+      "notableSchools": [
+        "MIT (olympiad qualifiers admitted far above base rate)",
+        "Caltech (Top-24 physics admits >60% per aggregator analysis)",
+        "Princeton",
+        "Harvey Mudd",
+        "Stanford"
+      ],
+      "sources": [
+        { "title": "Collegebase — USAMO Qualification & College Admissions (MIT >50% vs <7% overall)", "url": "https://www.collegebase.org/blog/usamo-qualification-college-admissions" },
+        { "title": "Collegebase — U.S. Physics Team Top 24 & Admissions (MIT/Caltech >60%)", "url": "https://www.collegebase.org/blog/us-physics-team-top-24-college-admissions" },
+        { "title": "Collegebase — USAPhO Semifinalist & Admissions", "url": "https://www.collegebase.org/blog/usapho-semifinalist-college-admissions" },
+        { "title": "MIT Admissions — MIT Olympians (blog on olympiad admits)", "url": "https://mitadmissions.org/blogs/entry/mit_olympians_part_2/" }
+      ]
+    }
+  ],
+  "insights": [
+    "Whether applying to a major 'raises the bar' depends entirely on the school's structure — not the field's prestige. Admit-by-major schools (UC Berkeley EECS, Wharton) put your declared major in a harder pool; holistic schools (MIT, Stanford, most Ivies) let you choose later and your stated interest does not change odds.",
+    "Read each school's mechanism before strategizing. Confusingly, CMU admits to the School of Computer Science as a whole and the specific department you list does NOT factor in — but SCS itself is a separate, far more selective pool than CMU's other colleges.",
+    "Pre-med is not a major and rarely changes undergraduate odds directly; the competitive signal is built through rigor (AP Bio/Chem/Physics), sustained research, and clinical exposure — at JHU, omitting the core science APs 'raises questions.'",
+    "Field-specific external validation is the strongest lever: USACO/USAMO for CS and math, USAPhO/U.S. Physics Team for physics, The Concord Review for humanities, DECA/FBLA/investment competitions for business, original research for engineering and pre-med.",
+    "Across every field, top admissions offices reward depth ('spike') over breadth — one or two sustained, externally-validated pursuits beat a long shallow activity list.",
+    "Olympiad-qualifier admit rates (e.g., MIT USAMO >50%) are correlations, not guarantees: qualifiers are exceptional across their whole application. Treat them as evidence of how much the signal is valued, not a formula."
+  ],
+  "sources": [
+    { "title": "Oriel Admissions — Acceptance Rates by Major", "url": "https://orieladmissions.com/college-acceptance-rates-by-major/" },
+    { "title": "Carnegie Mellon — CS Undergraduate Admission", "url": "https://www.cmu.edu/admission/majors-programs/school-of-computer-science/computer-science" },
+    { "title": "UC Berkeley EECS — Bachelor of Science", "url": "https://eecs.berkeley.edu/academics/undergraduate/eecs-bs/" },
+    { "title": "Oriel Admissions — How to Get Into Caltech", "url": "https://orieladmissions.com/how-to-get-into-caltech/" },
+    { "title": "Oriel Admissions — How to Get Into Georgia Tech", "url": "https://orieladmissions.com/how-to-get-into-georgia-tech/" },
+    { "title": "Oriel Admissions — How to Get Into Johns Hopkins", "url": "https://orieladmissions.com/how-to-get-into-johns-hopkins/" },
+    { "title": "Quad Education — How to Get into Wharton Undergrad", "url": "https://www.quadeducationgroup.com/blog/how-to-get-into-wharton-undergrad-the-complete-guide" },
+    { "title": "Collegebase — USAMO Qualification & College Admissions", "url": "https://www.collegebase.org/blog/usamo-qualification-college-admissions" },
+    { "title": "The Concord Review", "url": "https://www.tcr.org/" },
+    { "title": "AAMC Aspiring Docs — Shadowing a Doctor", "url": "https://students-residents.aamc.org/aspiring-docs-fact-sheets-get-experience/shadowing-doctor" }
+  ]
+}

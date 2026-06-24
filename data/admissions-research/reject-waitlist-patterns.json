@@ -1,0 +1,133 @@
+{
+  "stream": "reject-waitlist-patterns",
+  "title": "Reject & waitlist patterns — why strong-on-paper applicants get rejected/waitlisted at elite schools, and how waitlists work",
+  "generatedAt": "2026-06-24",
+  "schools": [
+    {
+      "name": "Princeton University",
+      "tier": "T20",
+      "cycle": "2024-2025 (Class of 2029)",
+      "waitlist": {
+        "offered": 1734,
+        "accepted": 1396,
+        "admitted": 40,
+        "admitRateOfAcceptedPct": 2.9,
+        "note": "From Princeton's Common Data Set 2024-2025 (Section C2). Princeton's waitlist rate is highly volatile year-to-year (historically ~0% to >16%) because it depends entirely on yield."
+      },
+      "sources": [
+        { "title": "Princeton Common Data Set 2024-2025 (Office of Institutional Research)", "url": "https://ir.princeton.edu/document/546" },
+        { "title": "Princeton Common Data Set landing page", "url": "https://ir.princeton.edu/other-university-data/common-data-set" }
+      ]
+    },
+    {
+      "name": "Yale University",
+      "tier": "T20",
+      "cycle": "2024-2025 (Class of 2029)",
+      "waitlist": {
+        "offered": 773,
+        "accepted": 565,
+        "admitted": 23,
+        "admitRateOfAcceptedPct": 4.1,
+        "note": "From Yale's Common Data Set 2024-2025 (Section C2), published by Yale Office of Institutional Research."
+      },
+      "sources": [
+        { "title": "Yale Common Data Set 2024-2025 (PDF, Yale OIR)", "url": "https://oir.yale.edu/sites/default/files/yale_cds_2024-25_rmd_20250612.pdf" },
+        { "title": "Yale Common Data Set landing page (Yale OIR)", "url": "https://oir.yale.edu/common-data-set" }
+      ]
+    },
+    {
+      "name": "Harvard University",
+      "tier": "T20",
+      "cycle": "recent cycles",
+      "waitlist": {
+        "offered": null,
+        "accepted": null,
+        "admitted": null,
+        "admitRateOfAcceptedPct": null,
+        "note": "Harvard typically places ~2,000 students on its waitlist, of whom ~1,600 accept. In recent years it has admitted roughly 50–150 from the waitlist, i.e. a ~3%–9% rate, but the figure swings sharply with yield. Exact CDS figures vary by cycle; verify against Harvard's published CDS for the specific year."
+      },
+      "sources": [
+        { "title": "Harvard Common Data Set (Office of Institutional Research & Analytics)", "url": "https://oira.harvard.edu/common-data-set/" },
+        { "title": "Harvard Waitlist: How Hard Is It to Get Off of It? (IvyWise)", "url": "https://www.ivywise.com/blog/harvard-waitlist-how-hard-is-it-to-get-off-of-it/" },
+        { "title": "Harvard College Admissions Statistics", "url": "https://college.harvard.edu/admissions/admissions-statistics" }
+      ]
+    },
+    {
+      "name": "Stanford University",
+      "tier": "T20",
+      "cycle": "recent cycles",
+      "waitlist": {
+        "offered": 1700,
+        "accepted": 1200,
+        "admitted": null,
+        "admitRateOfAcceptedPct": null,
+        "note": "Stanford waitlists ~1,700 applicants, ~1,200 accept the spot. In recent years it has admitted between 0 and ~100 from the waitlist — a historical range of roughly 0%–8%. In some years no one is admitted off the waitlist. Offered/accepted figures are approximate aggregate ranges; verify exact admit count against Stanford's CDS for the target cycle.",
+        "approximate": true
+      },
+      "sources": [
+        { "title": "Stanford Common Data Set (Institutional Research & Decision Support)", "url": "https://irds.stanford.edu/data-findings/cds" },
+        { "title": "College Waitlist Rates: Every Top 25 School Compared (Oriel Admissions)", "url": "https://orieladmissions.com/college-waitlist-rates-top-25-schools/" }
+      ]
+    },
+    {
+      "name": "Cornell University",
+      "tier": "T20",
+      "cycle": "2023-2024 (Class of 2028); 2024-2025 figures pending",
+      "waitlist": {
+        "offered": 6190,
+        "accepted": null,
+        "admitted": 388,
+        "admitRateOfAcceptedPct": 6.3,
+        "note": "Cornell runs the largest waitlist in the Ivy League. For the Class of 2028 it admitted 388 of 6,190 waitlisted applicants who confirmed a spot (~6.3%). Historical highs off the waitlist: 388 (Class of 2028), 362 (Class of 2027), 260 (Class of 2026). Class of 2029 (2024-2025 CDS) figures were not yet released at time of research."
+      },
+      "sources": [
+        { "title": "Cornell Waitlist: Acceptance Rate and Timeline (Oriel Admissions)", "url": "https://orieladmissions.com/cornell-waitlist/" },
+        { "title": "Cornell University Class of 2030 Admissions Statistics (Ivy Coach)", "url": "https://www.ivycoach.com/the-ivy-coach-blog/college-admissions/cornell-waitlist-acceptance-rate/" },
+        { "title": "Cornell Common Data Set (Institutional Research & Planning)", "url": "https://irp.cornell.edu/common-data-set" },
+        { "title": "Cornell Waitlist Information (Undergraduate Admissions)", "url": "https://admissions.cornell.edu/resources/waitlist-information" }
+      ]
+    }
+  ],
+  "insights": [
+    "The core reality: at the most selective schools, being academically qualified is the floor, not a differentiator. Former Harvard Dean of Admissions William Fitzsimmons has publicly said Harvard could fill its class 'three or four times over' with equally qualified students — so the overwhelming majority of rejected applicants are fully able to succeed there. Source: thecrimson.com/article/2025/11/11/tobin-harvard-admissions-meritocracy/",
+    "Roughly half of an elite school's applicant pool already has excellent academic credentials; grades and scores show you can do the work but say little about who you are. Holistic review then decides among the qualified on essays, story, fit, and what you'd add to the class. Source: collegewise.com/blog/harvard-acceptance-rates",
+    "Perfect stats do not make you safe. Even applicants with a 4.0 GPA and ~1580 SAT are rejected at rates exceeding 90% at Stanford; reporting indicates a large majority of perfect-1600 scorers are still denied. The takeaway for parents: stats get you considered, not admitted. Source: orieladmissions.com/stanford-gpa-requirements/",
+    "Holistic review means no single factor decides the outcome — academics, context, leadership, initiative, and voice are weighed together. MIT states it 'admits people, not numbers,' and at least a dozen people discuss a strong file before an admit decision; a committee structure deliberately prevents any one reader from controlling a result. Sources: mitadmissions.org/apply/process/selection/, mitadmissions.org/blogs/entry/in-praise-of-holistic-admissions/",
+    "Institutional priorities shape the class as much as merit: yield management, recruited athletes, legacy/relations, first-generation and geographic goals, and program/major balance all claim seats. A strong applicant can be rejected simply because their profile doesn't match what the class still needs that year. Source: fortunaadmissions.com/how-ivy-league-schools-review-applications/",
+    "Over-representation is real friction. When many applicants share the same high-stat profile and the same handful of activities (common in dense, competitive feeder pools), each looks less distinctive to readers building a varied class. The fix is a 'spike' — depth and impact in one or two areas — not a longer list of memberships. Source: ingeniusprep.com/blog/college-application-mistakes/",
+    "'Yield protection' can cause very strong students to be rejected or deferred at less-selective schools that fear the applicant won't enroll — protecting the school's yield statistic. It most affects high-stat applicants who show no demonstrated interest at schools that track it. Sources: orieladmissions.com/yield-protection-why-top-students-rejected-safety-schools/, essai.in/ivy-league-yield-protection/",
+    "Demonstrated interest matters at some schools and not others. Per NACAC, roughly 16–20% of colleges weigh it as moderately or considerably important. Schools known to track it include WashU, Vanderbilt, Tufts, Boston College, and Carnegie Mellon; most Ivies, MIT, Caltech, and Stanford say they do NOT track it. Schools log visits, info-session RSVPs, email engagement, interviews, and whether you applied ED/EA via CRMs like Slate. Sources: orieladmissions.com/demonstrated-interest-which-colleges-track-it/, collegewise.com/blog/truth-about-demonstrated-interest",
+    "Avoidable mistake #1 — the generic 'Why Us?' essay. Counselors estimate a large share of supplemental essays are shallow and could apply to any school (location, weather, campus beauty, rankings). Specific, school-only reasons signal genuine fit; generic ones signal weak fit. Sources: solomonadmissions.com/post/common-college-application-mistakes/, ingeniusprep.com/blog/college-application-mistakes/",
+    "Avoidable mistake #2 — no spike. Being a 'member' of ten clubs highlights nothing; sustained, high-impact focus in one or two areas reads far better. Trying to showcase everything ends up showcasing nothing. Source: ivywise.com/ivywise-knowledgebase/10-college-application-mistakes-to-avoid/",
+    "Avoidable mistake #3 — a mismatched school list. Applying only to reaches (no targets/likelies) is the single most common way strong students end up with all rejections. A balanced list researched for genuine fit is the simplest protection. Source: solomonadmissions.com/post/common-college-application-mistakes/",
+    "Avoidable mistake #4 — application errors and rushed materials: missing or incomplete sections, forgotten supplemental essays, generic recommendation letters, and starting too late. Build in time for a counselor or teacher to review before submission. Sources: uc.edu/blog/common-college-application-mistakes-to-avoid.html, kdcollegeprep.com/20-college-application-mistakes-avoid/",
+    "How a waitlist works: waitlisted students met the bar but couldn't be offered a seat immediately; they are admitted only if the class under-enrolls. Whether the waitlist moves at all is driven almost entirely by yield — if admitted students enroll as expected, the waitlist may go untouched (sometimes zero admits). This is why rates swing wildly year to year. Sources: ivywise.com/blog/waitlist-admission-rates/, orieladmissions.com/princeton-waitlist/",
+    "Top-school waitlist admit rates are low and volatile: Princeton ~2.9% (40 of 1,396 who accepted, 2024-2025), Yale ~4.1% (23 of 565, 2024-2025), Harvard roughly 3%–9% in recent years, Stanford roughly 0%–8% (sometimes zero), and Cornell — the Ivy with the most movement — ~6.3% (388 admitted, Class of 2028). Sources: ir.princeton.edu/document/546, oir.yale.edu/common-data-set, orieladmissions.com/cornell-waitlist/",
+    "If waitlisted, the standard play is a Letter of Continued Interest (LOCI): follow the school's instructions first (if they say don't send one, don't); send within about two weeks; keep it to ~one page; reaffirm the school is a top choice and that you'd attend if admitted (only if true); and add genuinely new achievements. Don't mention deposits or status at other schools. Source: collegeessayguy.com/blog/letter-of-continued-interest"
+  ],
+  "sources": [
+    { "title": "Princeton Common Data Set 2024-2025 (Office of Institutional Research)", "url": "https://ir.princeton.edu/document/546" },
+    { "title": "Yale Common Data Set 2024-2025 (Yale OIR, PDF)", "url": "https://oir.yale.edu/sites/default/files/yale_cds_2024-25_rmd_20250612.pdf" },
+    { "title": "Harvard Common Data Set (Office of Institutional Research & Analytics)", "url": "https://oira.harvard.edu/common-data-set/" },
+    { "title": "Stanford Common Data Set (Institutional Research & Decision Support)", "url": "https://irds.stanford.edu/data-findings/cds" },
+    { "title": "Cornell Common Data Set (Institutional Research & Planning)", "url": "https://irp.cornell.edu/common-data-set" },
+    { "title": "MIT Admissions — Our selection process", "url": "https://mitadmissions.org/apply/process/selection/" },
+    { "title": "MIT Admissions — In Praise of Holistic Admissions", "url": "https://mitadmissions.org/blogs/entry/in-praise-of-holistic-admissions/" },
+    { "title": "How Ivy League Schools Review Applications (Fortuna Admissions)", "url": "https://fortunaadmissions.com/how-ivy-league-schools-review-applications/" },
+    { "title": "Why Top Students Get Rejected by the Ivy League (Rostrum)", "url": "https://rostrumedu.com/why-top-students-get-rejected-by-the-ivy-league/" },
+    { "title": "Yield Protection: Why Top Students Get Rejected From Safety Schools (Oriel)", "url": "https://orieladmissions.com/yield-protection-why-top-students-rejected-safety-schools/" },
+    { "title": "Demonstrated Interest: Which Colleges Track It (Oriel)", "url": "https://orieladmissions.com/demonstrated-interest-which-colleges-track-it/" },
+    { "title": "Demonstrated Interest in College Admissions (Collegewise)", "url": "https://collegewise.com/blog/truth-about-demonstrated-interest" },
+    { "title": "NACAC State of College Admission report", "url": "https://www.nacacnet.org/state-of-college-admission-report/" },
+    { "title": "Common College Application Mistakes (InGenius Prep)", "url": "https://ingeniusprep.com/blog/college-application-mistakes/" },
+    { "title": "Common College Application Mistakes (Solomon Admissions)", "url": "https://www.solomonadmissions.com/post/common-college-application-mistakes/" },
+    { "title": "10 College Application Mistakes to Avoid (IvyWise)", "url": "https://www.ivywise.com/ivywise-knowledgebase/10-college-application-mistakes-to-avoid/" },
+    { "title": "Waitlist Admission Rates (IvyWise)", "url": "https://www.ivywise.com/blog/waitlist-admission-rates/" },
+    { "title": "College Waitlist Rates: Every Top 25 School Compared (Oriel)", "url": "https://orieladmissions.com/college-waitlist-rates-top-25-schools/" },
+    { "title": "Princeton Waitlist: Acceptance Rate, Timeline & Tips (Oriel)", "url": "https://orieladmissions.com/princeton-waitlist/" },
+    { "title": "Cornell Waitlist: Acceptance Rate and Timeline (Oriel)", "url": "https://orieladmissions.com/cornell-waitlist/" },
+    { "title": "How to Write a Great Letter of Continued Interest (College Essay Guy)", "url": "https://www.collegeessayguy.com/blog/letter-of-continued-interest" },
+    { "title": "I Didn't Deserve To Be Admitted To Harvard (Harvard Crimson, Fitzsimmons quote)", "url": "https://www.thecrimson.com/article/2025/11/11/tobin-harvard-admissions-meritocracy/" },
+    { "title": "Stanford GPA Requirements / perfect-stat rejection context (Oriel)", "url": "https://orieladmissions.com/stanford-gpa-requirements/" }
+  ]
+}

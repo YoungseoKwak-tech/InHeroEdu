@@ -1,0 +1,151 @@
+{
+  "stream": "ec-spike-patterns",
+  "title": "Extracurricular & award patterns of elite admits — spike, tiers, and signal",
+  "generatedAt": "2026-06-24",
+  "patterns": [
+    {
+      "name": "Spike over well-rounded",
+      "whatItIs": "A 'spike' is one area of demonstrated, deep, distinctive excellence (e.g., a published research line, a competition track, a built organization) rather than a broad but shallow set of involvements. The original 'well-rounded student vs. well-rounded class' idea is usually traced to Columbia's 1960s admissions framing.",
+      "whyItWorks": "Selective colleges build a class of specialists. A spike gives an admissions officer a one-line 'hook' to advocate for the file in committee; 'did a lot of different things' is not a hook. Quality is weighted over quantity — being world-class in one field is not meaningfully out-earned by being good in several.",
+      "whenToUse": "When a student must choose how to allocate limited time, concentrate on deepening one authentic area rather than adding more activities.",
+      "lowSignalContrast": "A long, even list of mid-level activities reads as 'well-rounded,' which at the most selective schools functions as a euphemism for 'not distinctive.'",
+      "sources": [
+        { "title": "Cosmic College Consulting — Do Colleges Want Well-Rounded Students?", "url": "https://www.cosmic.nyc/blog/parents-and-college-admissions-y3yns-m9zlr" },
+        { "title": "Cirkled In — The 'Spike' vs. 'Well-Rounded' Strategy", "url": "https://www.cirkledin.com/library/extracurricular-activities-and-leadership/college-application-spike-well-rounded-strategy/" },
+        { "title": "Harvard College — What admissions criteria do you use?", "url": "https://college.harvard.edu/resources/faq/what-admissions-criteria-do-you-use" }
+      ]
+    },
+    {
+      "name": "Activities-tier framework (national/international vs. school-level)",
+      "whatItIs": "Counselors commonly sort activities into ~4 tiers. Tier 1: rare national/international distinction (e.g., USAMO win, IBO/IMO selection, major science awards, founding an org with real reach and press). Tier 2: state/regional achievement or leadership (state champion, statewide org officer). Tier 3: school/community engagement (club president, newspaper editor, sustained service). Tier 4: hobbies and general participation.",
+      "whyItWorks": "Tier reflects rarity and verifiability. The higher the level (international > national > state > school), the stronger the implied selectivity behind the accomplishment, so it carries more signal in a holistic read.",
+      "whenToUse": "Use the tiers descriptively, to gauge where current activities sit and where deepening could raise the ceiling — not as a checklist to collect one of each.",
+      "lowSignalContrast": "Tiers are about achieved level, not titles. A Tier 3 'president' of an inactive club is weaker than a Tier 3 member who drove a real, sustained outcome.",
+      "sources": [
+        { "title": "CollegeVine — Breaking Down the 4 Tiers of Extracurricular Activities", "url": "https://blog.collegevine.com/breaking-down-the-4-tiers-of-extracurricular-activities" },
+        { "title": "AdmissionSight — Tier 1 Extracurriculars", "url": "https://admissionsight.com/tier-1-extracurriculars/" }
+      ]
+    },
+    {
+      "name": "High-signal academic competitions (olympiads)",
+      "whatItIs": "Top-of-funnel competition tracks: AMC 10/12 → AIME → USAMO (top ~500 in the US reach USAMO), and the International Mathematical Olympiad; analogous biology (USABO/IBO), physics, chemistry, and informatics (USACO) ladders.",
+      "whyItWorks": "These are externally verified, extremely selective, and read like a 'talent' flag — counselors describe medalists being treated similarly to recruited athletes and given extra attention. The accomplishment is hard to fake because the funnel is public and proctored.",
+      "whenToUse": "For students with genuine quantitative/scientific strength, the AMC ladder is a high-ceiling, verifiable spike worth committing to over multiple years.",
+      "lowSignalContrast": "Merely 'participating' in math/science clubs without advancing the competition funnel is ordinary Tier 3 engagement, not a distinction.",
+      "sources": [
+        { "title": "AdmissionSight — USA Math Olympiad: A Complete Guide", "url": "https://admissionsight.com/usa-math-olympiad/" },
+        { "title": "Collegebase — IMO Medalist & College Admissions", "url": "https://www.collegebase.org/blog/international-mathematical-olympiad-imo-medalist-college-admissions" },
+        { "title": "Rise — Top National Competitions That Impress College Applications", "url": "https://riseglobaleducation.com/blogs/top-national-competitions-that-impress-college-applications" }
+      ]
+    },
+    {
+      "name": "Selective research programs (RSI and peers) and ISEF",
+      "whatItIs": "Cost-free, highly selective summer research programs — most prominently MIT's Research Science Institute (RSI), run by the Center for Excellence in Education — plus science-fair distinction at the Regeneron International Science and Engineering Fair (ISEF).",
+      "whyItWorks": "RSI takes roughly 100 students from ~3,000+ applicants (about a 2.5–3% admit rate), so acceptance itself verifies capacity for advanced original research. ISEF finalists demonstrate a level of cross-cultural scientific engagement admissions officers rarely see in applicants.",
+      "whenToUse": "As the capstone of a genuine research spike. Note: RSI/ISEF verify ability but do not guarantee admission — an RSI admit can still be rejected at a target school.",
+      "lowSignalContrast": "Naming a program as a goal without sustained underlying research work is not a substitute for the work itself.",
+      "sources": [
+        { "title": "Center for Excellence in Education — Research Science Institute", "url": "https://www.cee.org/programs/research-science-institute" },
+        { "title": "MIT Admissions — Summer programs", "url": "https://mitadmissions.org/apply/prepare/summer/" },
+        { "title": "InGenius Prep — Science Competitions That Stand Out", "url": "https://ingeniusprep.com/blog/science-competitions-for-high-school-students/" }
+      ]
+    },
+    {
+      "name": "Published research — high signal only when authentic and peer-reviewed",
+      "whatItIs": "A research paper appearing in the Common App activities/honors section, ideally in a legitimately peer-reviewed, indexed journal.",
+      "whyItWorks": "It is third-party-validated and verifiable. Penn reported nearly a third of one admitted class had engaged in research; Caltech noted ~45% of an admitted class documented prior research. Verifiable scholarship correlates with admission.",
+      "whenToUse": "When the research is genuine and the venue applies real peer review (meaningful rejection rate, indexed, asks for revisions).",
+      "lowSignalContrast": "ProPublica documented a 'fast-growing epidemic' of pay-to-publish student journals; officers now scrutinize publications harder. A predatory-journal placement can read as bought rather than earned, eroding rather than adding signal.",
+      "sources": [
+        { "title": "ProPublica — The Newest Way to Buy an Advantage in College Admissions", "url": "https://www.propublica.org/article/college-high-school-research-peer-review-publications" },
+        { "title": "Pioneer Academics — The Truth About High School Research Publication", "url": "https://pioneeracademics.com/helpful-resources/publishing-as-high-school-students/the-truth-about-high-school-research-publication-what-you-must-know/" }
+      ]
+    },
+    {
+      "name": "Founding an organization — impact over the act of founding",
+      "whatItIs": "Starting a club, initiative, or nonprofit. The signal lives in measurable outcomes (who it served, reach, longevity), not in the founding itself.",
+      "whyItWorks": "When real, it shows initiative, leadership, and sustained ownership. Selective offices want to know what the organization actually accomplished and what kind of leader the student became.",
+      "whenToUse": "When a student has a genuine cause, can sustain it over years, and can show concrete results.",
+      "lowSignalContrast": "Officers are increasingly skeptical of nonprofits founded mainly for applications; many founders abandon them. Filing a 501(c)(3) is not itself an achievement, and running several thin nonprofits at once is a red flag for resume-driven motivation.",
+      "sources": [
+        { "title": "Ivy Scholars — Why Starting a Nonprofit Won't Boost College Admissions", "url": "https://www.ivyscholars.com/non-profit-for-college-admissions/" },
+        { "title": "Education Next — Service or Signaling? The Surge of Youth Nonprofit Founders", "url": "https://www.educationnext.org/service-or-signaling-surge-of-youth-nonprofit-founders/" }
+      ]
+    },
+    {
+      "name": "Leadership depth over breadth",
+      "whatItIs": "Sustained, deepening responsibility within one or two activities — motivating others, making decisions, and effecting change — rather than collecting titles across many groups.",
+      "whyItWorks": "Harvard lists 'leadership and distinction in extracurricular activities' among its criteria. Roughly 72% of admissions officers prefer consistent involvement in one issue over a spread across many causes. Depth shows trajectory and real impact.",
+      "whenToUse": "Concentrate on advancing within a small number of commitments — visible growth from member to driver of outcomes.",
+      "lowSignalContrast": "A title with no underlying contribution (passive 'president') reads as box-checking.",
+      "sources": [
+        { "title": "Harvard College — What admissions criteria do you use?", "url": "https://college.harvard.edu/resources/faq/what-admissions-criteria-do-you-use" },
+        { "title": "College Match Point — The Pitfalls of Resume Padding", "url": "https://www.collegematchpoint.com/the-pitfalls-of-resume-padding-in-highly-selective-college-admissions" }
+      ]
+    },
+    {
+      "name": "What reads as low-signal",
+      "whatItIs": "Patterns that consume effort but generate little admissions signal: long lists of passive memberships, 'checklist-style' activities pursued briefly with no investment, titles without contribution, and pay-to-publish or pay-to-found credentials.",
+      "whyItWorks": "(Inverse) Officers describe seeing 'right through' resume padding; a file with five deeply pursued activities beats one with fifteen superficial ones. MIT structurally caps applicants to four activities, signaling that depth, not volume, is what's read.",
+      "whenToUse": "As a pruning guide — drop or deprioritize involvements that exist only to lengthen the list.",
+      "lowSignalContrast": "This pattern IS the low-signal contrast.",
+      "sources": [
+        { "title": "College Match Point — The Pitfalls of Resume Padding", "url": "https://www.collegematchpoint.com/the-pitfalls-of-resume-padding-in-highly-selective-college-admissions" },
+        { "title": "Spark Admissions — How Many Extracurriculars & Awards on the MIT App", "url": "https://www.sparkadmissions.com/blog/how-many-extracurriculars-awards-on-mit-app/" }
+      ]
+    }
+  ],
+  "schools": [
+    {
+      "name": "Massachusetts Institute of Technology",
+      "tier": "T20",
+      "ecPatterns": [
+        "App caps activities at four — structural signal that depth > quantity",
+        "Values 'the few things that excite and motivate you'; sustained, authentic, deepening involvement",
+        "Olympiad medalists and RSI/research spikes read strongly"
+      ],
+      "sources": [
+        { "title": "Spark Admissions — MIT App Extracurriculars & Awards", "url": "https://www.sparkadmissions.com/blog/how-many-extracurriculars-awards-on-mit-app/" },
+        { "title": "MIT Admissions — Summer programs", "url": "https://mitadmissions.org/apply/prepare/summer/" }
+      ]
+    },
+    {
+      "name": "Harvard College",
+      "tier": "T20",
+      "ecPatterns": [
+        "Holistic review explicitly weighs 'leadership and distinction in extracurricular activities' and community involvement",
+        "Quality over quantity; world-class in one field not meaningfully out-earned by spreading across many"
+      ],
+      "sources": [
+        { "title": "Harvard College — Admissions criteria FAQ", "url": "https://college.harvard.edu/resources/faq/what-admissions-criteria-do-you-use" }
+      ]
+    }
+  ],
+  "insights": [
+    "Pick a spike: depth in one verifiable area beats a long, even activity list — at the most selective schools 'well-rounded' often reads as 'not distinctive.'",
+    "Aim for higher tiers by raising the level of achievement (international > national > state > school), not by collecting more activities.",
+    "Olympiad ladders (AMC→AIME→USAMO/IMO, USABO/IBO, USACO) and selective research (RSI, ISEF) are high-signal because they are externally verified and extremely selective.",
+    "Published research helps only when peer review is real; pay-to-publish journals are now scrutinized and can backfire (per ProPublica).",
+    "Founding an org counts for its measurable impact and longevity, not the act of founding; running several thin nonprofits is a red flag.",
+    "Leadership is read as depth and outcomes, not titles — about 72% of officers prefer sustained focus on one issue over breadth.",
+    "Officers see through resume padding; MIT even caps the app at four activities. Five deep activities beat fifteen shallow ones."
+  ],
+  "sources": [
+    { "title": "Cosmic — Do Colleges Want Well-Rounded Students?", "url": "https://www.cosmic.nyc/blog/parents-and-college-admissions-y3yns-m9zlr" },
+    { "title": "Cirkled In — Spike vs. Well-Rounded Strategy", "url": "https://www.cirkledin.com/library/extracurricular-activities-and-leadership/college-application-spike-well-rounded-strategy/" },
+    { "title": "Harvard College — Admissions criteria FAQ", "url": "https://college.harvard.edu/resources/faq/what-admissions-criteria-do-you-use" },
+    { "title": "CollegeVine — 4 Tiers of Extracurricular Activities", "url": "https://blog.collegevine.com/breaking-down-the-4-tiers-of-extracurricular-activities" },
+    { "title": "AdmissionSight — Tier 1 Extracurriculars", "url": "https://admissionsight.com/tier-1-extracurriculars/" },
+    { "title": "AdmissionSight — USA Math Olympiad Guide", "url": "https://admissionsight.com/usa-math-olympiad/" },
+    { "title": "Collegebase — IMO Medalist & College Admissions", "url": "https://www.collegebase.org/blog/international-mathematical-olympiad-imo-medalist-college-admissions" },
+    { "title": "Center for Excellence in Education — Research Science Institute", "url": "https://www.cee.org/programs/research-science-institute" },
+    { "title": "MIT Admissions — Summer programs", "url": "https://mitadmissions.org/apply/prepare/summer/" },
+    { "title": "InGenius Prep — Science Competitions That Stand Out", "url": "https://ingeniusprep.com/blog/science-competitions-for-high-school-students/" },
+    { "title": "ProPublica — Buying an Advantage via Research Publications", "url": "https://www.propublica.org/article/college-high-school-research-peer-review-publications" },
+    { "title": "Pioneer Academics — The Truth About HS Research Publication", "url": "https://pioneeracademics.com/helpful-resources/publishing-as-high-school-students/the-truth-about-high-school-research-publication-what-you-must-know/" },
+    { "title": "Ivy Scholars — Starting a Nonprofit Won't Boost Admissions", "url": "https://www.ivyscholars.com/non-profit-for-college-admissions/" },
+    { "title": "Education Next — Service or Signaling? Youth Nonprofit Founders", "url": "https://www.educationnext.org/service-or-signaling-surge-of-youth-nonprofit-founders/" },
+    { "title": "College Match Point — Pitfalls of Resume Padding", "url": "https://www.collegematchpoint.com/the-pitfalls-of-resume-padding-in-highly-selective-college-admissions" },
+    { "title": "Spark Admissions — MIT App Extracurriculars & Awards", "url": "https://www.sparkadmissions.com/blog/how-many-extracurriculars-awards-on-mit-app/" }
+  ]
+}

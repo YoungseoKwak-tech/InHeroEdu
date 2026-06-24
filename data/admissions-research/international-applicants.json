@@ -1,0 +1,235 @@
+{
+  "stream": "international-applicants",
+  "title": "International applicants to top US universities — admit rates, aid policies, and differentiators",
+  "generatedAt": "2026-06-24",
+  "schools": [
+    {
+      "name": "Massachusetts Institute of Technology",
+      "tier": "T20",
+      "admitRatePct": 4.6,
+      "intlAdmitRatePct": 2.0,
+      "intlPctOfClass": 11,
+      "cycle": "2024-2025 (Class of 2029)",
+      "testPolicy": "test-required (SAT/ACT); English proficiency exam optional for undergrads",
+      "needPolicyForIntl": "need-blind for international applicants; meets 100% of demonstrated need",
+      "topMajors": ["Computer Science", "Engineering", "Math/Physics"],
+      "ecPatterns": [
+        "Need-blind for internationals: ability to pay does not affect the admit decision (one of a small handful of US schools).",
+        "International admit rate is far below the overall rate — MIT admitted 136 of 6,926 international applicants (under 2%) for the Class of 2029 vs. ~4.6% overall.",
+        "Undergrad applicants from non-English-speaking countries do NOT have to submit TOEFL; MIT only strongly recommends an English proficiency exam if the student has used English fewer than 5 years or does not speak it regularly.",
+        "International students are ~11% of the enrolled Class of 2029, from ~138 countries."
+      ],
+      "sources": [
+        { "title": "MIT Admissions — Admissions statistics", "url": "https://mitadmissions.org/apply/process/stats/" },
+        { "title": "MIT Admissions — International applicants", "url": "https://mitadmissions.org/apply/firstyear/international/" },
+        { "title": "MIT International Admit Rate 2026 Data Snapshot (Amerigo)", "url": "https://www.amerigoeducation.com/news/mit-international-admit-rate-for-high-school-applicants-2026-data-snapshot" }
+      ]
+    },
+    {
+      "name": "Harvard College",
+      "tier": "T20",
+      "admitRatePct": 3.59,
+      "intlAdmitRatePct": null,
+      "intlPctOfClass": 15.4,
+      "cycle": "2023-2024 (Class of 2028)",
+      "testPolicy": "test-required (reinstated)",
+      "needPolicyForIntl": "need-blind for international applicants; meets 100% of demonstrated need",
+      "topMajors": null,
+      "ecPatterns": [
+        "Need-blind for internationals — family ability to pay is not a factor for any applicant, anywhere in the world.",
+        "International students are ~15.4% of the Class of 2028, from 94 countries; top countries are Canada, the UK, and China.",
+        "International share has risen over recent cycles (11.8% Class of 2024 → 15.6% Class of 2027 → ~15.4% Class of 2028).",
+        "Overall admit rate was 3.59% for the Class of 2028; Harvard does not publish a separate international admit rate."
+      ],
+      "sources": [
+        { "title": "Harvard College — Admissions Statistics", "url": "https://college.harvard.edu/admissions/admissions-statistics" },
+        { "title": "Harvard Crimson — Harvard Accepts 3.59% to Class of 2028", "url": "https://www.thecrimson.com/article/2024/3/29/harvard-class-of-2028-regular-decision/" },
+        { "title": "Harvard Magazine — Harvard College Admits Class of 2028", "url": "https://www.harvardmagazine.com/2024/03/harvard-college-class-of-2028-acceptance-rate" }
+      ]
+    },
+    {
+      "name": "Princeton University",
+      "tier": "T20",
+      "admitRatePct": 4.6,
+      "intlAdmitRatePct": null,
+      "intlPctOfClass": 14,
+      "cycle": "2023-2024 (Class of 2028)",
+      "testPolicy": "test-required",
+      "needPolicyForIntl": "need-blind for international applicants; meets 100% of demonstrated need with grant aid (no loans)",
+      "topMajors": null,
+      "ecPatterns": [
+        "Need-blind for internationals and meets 100% of demonstrated need with grant (not loan) aid — one of a handful of US schools applying the same aid policy to internationals.",
+        "International students were ~217 of 1,868 admits (~14%) for the Class of 2028, representing 56 countries in the enrolled class.",
+        "Accepts TOEFL, IELTS Academic, Duolingo English Test (DET), or PTE Academic; exempt if English is native or the student spent 3+ years at an English-instruction secondary school. No published minimum score for undergrads.",
+        "Overall admit rate 4.6% (Class of 2028); 4.4% for the Class of 2029."
+      ],
+      "sources": [
+        { "title": "Princeton Admission — Admission Statistics", "url": "https://admission.princeton.edu/apply/admission-statistics" },
+        { "title": "Princeton Admission — International Students", "url": "https://admission.princeton.edu/apply/international-students" },
+        { "title": "Daily Princetonian — Princeton admitted 4.4% for Class of 2029", "url": "https://www.dailyprincetonian.com/article/2025/09/princeton-news-adpol-university-admits-4-percent-of-applicants-class-of-2029" }
+      ]
+    },
+    {
+      "name": "Yale University",
+      "tier": "T20",
+      "admitRatePct": null,
+      "intlAdmitRatePct": null,
+      "intlPctOfClass": null,
+      "cycle": "2025-2026 policy",
+      "testPolicy": "test-flexible (accepts SAT/ACT/AP/IB)",
+      "needPolicyForIntl": "need-blind for international applicants; meets 100% of demonstrated need without loans",
+      "topMajors": null,
+      "ecPatterns": [
+        "Financial-aid policy for foreign citizens mirrors that for US citizens: need-blind admission and need-based aid.",
+        "A family's ability to pay is not a factor in admission for any student, anywhere in the world.",
+        "Meets 100% of demonstrated need without loans, regardless of citizenship or immigration status."
+      ],
+      "sources": [
+        { "title": "Yale Admissions — Extraordinary Need-Based Financial Aid (international)", "url": "https://admissions.yale.edu/financial-aid-international-applicants" },
+        { "title": "Yale Admissions — Are international students eligible for financial aid?", "url": "https://admissions.yale.edu/are-international-students-eligible-financial-aid-if-so-how-do-i-apply" }
+      ]
+    },
+    {
+      "name": "Stanford University",
+      "tier": "T20",
+      "admitRatePct": null,
+      "intlAdmitRatePct": null,
+      "intlPctOfClass": 14,
+      "cycle": "2025-2026 policy",
+      "testPolicy": "test-required (reinstated); English proficiency exams optional but recommended",
+      "needPolicyForIntl": "NEED-AWARE for international applicants (unlike Harvard/Princeton/Yale/MIT/Dartmouth); still offers full aid to admitted internationals",
+      "topMajors": null,
+      "ecPatterns": [
+        "Need-AWARE for internationals — among peers like Harvard, Princeton, Yale, MIT, and Dartmouth, Stanford alone is not international need-blind, so ability to pay can factor into the decision for non-US applicants.",
+        "Despite being need-aware, admitted internationals can still receive full financial aid.",
+        "English proficiency exams (TOEFL/IELTS/DET) are optional; no preferred exam. Reported recommended bands: TOEFL 100+ iBT, IELTS 7.0+, Duolingo 125+.",
+        "International students are roughly 11.5%–14% of undergrads depending on the source/year."
+      ],
+      "sources": [
+        { "title": "Stanford Undergraduate Admission — International Applicants", "url": "https://admission.stanford.edu/apply/international/index.html" },
+        { "title": "Stanford Review — A Call for Need-Blind International Financial Aid", "url": "https://stanfordreview.org/a-call-for-need-blind-international-financial-aid/" },
+        { "title": "Wikipedia — Need-blind admission (list of intl need-blind schools)", "url": "https://en.wikipedia.org/wiki/Need-blind_admission" }
+      ]
+    },
+    {
+      "name": "Dartmouth College",
+      "tier": "T20",
+      "admitRatePct": null,
+      "intlAdmitRatePct": null,
+      "intlPctOfClass": null,
+      "cycle": "Class of 2026 onward",
+      "testPolicy": "test-required (reinstated)",
+      "needPolicyForIntl": "need-blind for international applicants (since Class of 2026); meets 100% of demonstrated need",
+      "topMajors": null,
+      "ecPatterns": [
+        "Extended its long-standing need-blind policy to ALL international citizens beginning with the Class of 2026 — became the sixth US school with universal need-blind admission paired with a 100%-of-need commitment.",
+        "No parent contribution for families with income ≤ $65,000 (and typical assets).",
+        "Full-tuition scholarship without loans for families with income ≤ $125,000 (and typical assets)."
+      ],
+      "sources": [
+        { "title": "Dartmouth Admissions — Universal Need-Blind Policy", "url": "https://admissions.dartmouth.edu/apply-dartmouth/universal-need-blind-policy" },
+        { "title": "Dartmouth Financial Aid — International Students", "url": "https://financialaid.dartmouth.edu/apply-aid/international-students" }
+      ]
+    },
+    {
+      "name": "Brown University",
+      "tier": "T20",
+      "admitRatePct": null,
+      "intlAdmitRatePct": null,
+      "intlPctOfClass": null,
+      "cycle": "Class of 2029 onward",
+      "testPolicy": "test-required (reinstated)",
+      "needPolicyForIntl": "need-blind for international applicants beginning with the Class of 2029; meets 100% of demonstrated need",
+      "topMajors": null,
+      "ecPatterns": [
+        "Transitioned to need-blind admission for international undergraduates starting with the Class of 2029, after meeting a $120M fundraising goal — becoming one of only ~8 US schools that are international need-blind.",
+        "Aid penetration is rising: ~15% of international undergrads received aid before the initiative; ~40% in the Class of 2027 receive aid.",
+        "Admitted 2,418 students to the Class of 2029."
+      ],
+      "sources": [
+        { "title": "Brown University — Need-blind admission for international undergraduates", "url": "https://president.brown.edu/president/need-blind-admission-international-undergraduates" },
+        { "title": "Brown — Plans to become need-blind for international undergraduates", "url": "https://www.brown.edu/news/2024-01-25/international-financial-aid" },
+        { "title": "Brown — Admits 2,418 to Class of 2029", "url": "https://www.brown.edu/news/2025-03-27/admitted" }
+      ]
+    },
+    {
+      "name": "Columbia University",
+      "tier": "T20",
+      "admitRatePct": null,
+      "intlAdmitRatePct": null,
+      "intlPctOfClass": 13,
+      "cycle": "2025-2026 policy",
+      "testPolicy": "test-required; English proficiency required for non-native speakers",
+      "needPolicyForIntl": "NEED-AWARE for international applicants; still meets 100% of demonstrated need for those admitted",
+      "topMajors": null,
+      "ecPatterns": [
+        "Need-AWARE for internationals — ability to pay can influence the admit decision for non-US applicants — but admitted internationals receive aid meeting 100% of demonstrated need.",
+        "International students are roughly 13% of undergraduate enrollment (note: the university-wide figure including graduate schools is far higher, ~39%).",
+        "Undergrad TOEFL minimum: 105 iBT for exams on/before Jan 20, 2026 (the score scale changes Jan 21, 2026)."
+      ],
+      "sources": [
+        { "title": "Columbia Undergraduate Admissions — International Applicants", "url": "https://undergrad.admissions.columbia.edu/apply/international" },
+        { "title": "Columbia Undergraduate Admissions — English Proficiency Requirements", "url": "https://undergrad.admissions.columbia.edu/apply/international/english-proficiency" }
+      ]
+    },
+    {
+      "name": "University of Pennsylvania",
+      "tier": "T20",
+      "admitRatePct": null,
+      "intlAdmitRatePct": null,
+      "intlPctOfClass": 13,
+      "cycle": "2025-2026 policy",
+      "testPolicy": "test-required; English proficiency expected for non-native speakers",
+      "needPolicyForIntl": "NEED-AWARE for international applicants; meets 100% of demonstrated need for those admitted",
+      "topMajors": null,
+      "ecPatterns": [
+        "Need-AWARE for internationals — ability to pay can factor into the decision — though Penn meets full demonstrated need for admitted students.",
+        "International students are roughly 13% of undergraduate enrollment.",
+        "Competitive TOEFL applicants tend to score 100+ iBT with consistency across all four sections."
+      ],
+      "sources": [
+        { "title": "Penn Admissions — International Applicants", "url": "https://admissions.upenn.edu/how-to-apply/international-applicants" },
+        { "title": "Penn Admissions — International Application Guidelines", "url": "https://admissions.upenn.edu/how-to-apply/international-applicants/guidelines" }
+      ]
+    },
+    {
+      "name": "Cornell University",
+      "tier": "T20",
+      "admitRatePct": null,
+      "intlAdmitRatePct": null,
+      "intlPctOfClass": 10.3,
+      "cycle": "2025-2026 policy",
+      "testPolicy": "test-required; English proficiency required for non-native speakers",
+      "needPolicyForIntl": "NEED-AWARE for international applicants; meets 100% of demonstrated need for those admitted",
+      "topMajors": null,
+      "ecPatterns": [
+        "Need-AWARE for internationals — ability to pay can influence admission — but Cornell meets 100% of demonstrated need for admitted students who qualify.",
+        "International students are roughly 10.3% of undergraduate admits (1,649 of 16,071 in the cited cycle).",
+        "Undergrad TOEFL minimum: 100 iBT for exams before Jan 2026 (the score scale changes in Jan 2026, with a recommended 5.5 band thereafter)."
+      ],
+      "sources": [
+        { "title": "Cornell Undergraduate Admissions — First-Year International Applicants", "url": "https://admissions.cornell.edu/how-to-apply/first-year-international-applicants" }
+      ]
+    }
+  ],
+  "insights": [
+    "Two-tier reality among the Ivies+: Harvard, Princeton, Yale, MIT, Dartmouth, and (from the Class of 2029) Brown are NEED-BLIND for internationals, while Stanford, Columbia, Penn, and Cornell are NEED-AWARE — meaning a family's ability to pay can affect the admit decision for non-US applicants at those four. All of them still meet 100% of demonstrated need for admitted internationals.",
+    "The international admit rate is materially lower than the overall rate where it is disclosed: MIT admitted under 2% of international applicants (136 of 6,926) for the Class of 2029 vs. ~4.6% overall. Most peers do not publish a separate international admit rate, so treat the overall rate as a ceiling, not the realistic odds, for internationals.",
+    "International students are roughly 10–15% of a top-school class (MIT ~11%, Harvard ~15.4%, Princeton ~14%, Stanford ~11.5–14%, Columbia/Penn ~13% undergrad, Cornell ~10.3%). Do not confuse university-wide international shares (which include large graduate programs, e.g. Columbia ~39%) with the undergraduate figure.",
+    "English-proficiency expectations vary and are loosening: MIT does NOT require TOEFL for undergrads (only recommends it), Stanford treats it as optional, while Columbia (105 iBT) and Cornell (100 iBT) publish hard minimums. Duolingo English Test is now widely accepted (Princeton, Stanford). Score scales change in Jan 2026 — verify the current band before testing.",
+    "For Korean/Asian families: 'need-blind' is the lever that matters most. Targeting Harvard/Princeton/Yale/MIT/Dartmouth/Brown means financial need will not be held against the applicant; at Stanford/Columbia/Penn/Cornell, applying without aid (or with modest need) can be a real advantage at the margin.",
+    "What differentiates strong international applicants: nationally/internationally benchmarked distinction (IMO/IOI/IPhO medals, national-team selection) reads clearly across borders — universities like MIT, Harvard, and Stanford actively recognize IMO medalists. Because admissions officers best understand the US competition structure, internationals should explicitly frame achievements relative to their country's selectivity (e.g., 'top 6 nationally out of N participants')."
+  ],
+  "sources": [
+    { "title": "Wikipedia — Need-blind admission (cross-school policy reference)", "url": "https://en.wikipedia.org/wiki/Need-blind_admission" },
+    { "title": "Cosmic College Consulting — Financial Aid Policies of Ivy League Schools 2026", "url": "https://www.cosmic.nyc/blog/financial-aid-polices-of-ivy-league-schools-2026" },
+    { "title": "MIT Admissions — Admissions statistics", "url": "https://mitadmissions.org/apply/process/stats/" },
+    { "title": "Harvard College — Admissions Statistics", "url": "https://college.harvard.edu/admissions/admissions-statistics" },
+    { "title": "Princeton Admission — International Students", "url": "https://admission.princeton.edu/apply/international-students" },
+    { "title": "Yale Admissions — Financial Aid for International Applicants", "url": "https://admissions.yale.edu/financial-aid-international-applicants" },
+    { "title": "Stanford Undergraduate Admission — International Applicants", "url": "https://admission.stanford.edu/apply/international/index.html" },
+    { "title": "Dartmouth Admissions — Universal Need-Blind Policy", "url": "https://admissions.dartmouth.edu/apply-dartmouth/universal-need-blind-policy" },
+    { "title": "Brown University — Need-blind admission for international undergraduates", "url": "https://president.brown.edu/president/need-blind-admission-international-undergraduates" },
+    { "title": "Collegebase — Science Olympiad National Medals in admissions", "url": "https://www.collegebase.org/blog/science-olympiad-national-medals-college-admissions" }
+  ]
+}

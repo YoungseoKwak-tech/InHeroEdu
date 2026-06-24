@@ -1,0 +1,241 @@
+{
+  "stream": "liberal-arts",
+  "title": "Top liberal-arts colleges — admit benchmarks, test profiles, and fit signals",
+  "generatedAt": "2026-06-24",
+  "schools": [
+    {
+      "name": "Williams College",
+      "tier": "Top LAC",
+      "admitRatePct": 7.5,
+      "cycle": "2024-2025 CDS (Class of 2028)",
+      "sat": { "p25": 1500, "p50": 1540, "p75": 1560 },
+      "act": { "p25": 34, "p50": 34, "p75": 35 },
+      "gpa": { "note": "Williams' CDS reports class-rank bands rather than a single mean GPA; the vast majority of enrolled students ranked at the very top of their class. Aggregator estimates of an admitted GPA near 3.94 are not CDS-published and should be treated as estimates." },
+      "testPolicy": "test-optional",
+      "character": "Defined by its Oxford-style tutorial system (two students, one professor, weekly, alternating presenting and critiquing arguments), which rewards intellectual independence and depth over breadth. Pairs academic seriousness with an unusually strong scholar-athlete culture as a perennial NESCAC power.",
+      "ecPatterns": ["intellectual depth and self-directed scholarship (tutorial-style readiness)", "athletics (recruited and walk-on; NESCAC D-III, central to campus life)", "comfort presenting and defending ideas in small settings", "research and close faculty mentorship", "leadership in a tight-knit residential community"],
+      "sources": [
+        { "title": "Williams College 2024-2025 Common Data Set (V5)", "url": "https://www.williams.edu/institutional-research/files/2025/06/CDS_2024_2025_Williams_V5.pdf" },
+        { "title": "The Williams Record — College admits 7.5 percent of 15,411 applicants to Class of 2028", "url": "https://williamsrecord.com/466417/news/williams-class-of-2028-regular-decision/" },
+        { "title": "PrepScholar — Williams College SAT Scores and GPA", "url": "https://www.prepscholar.com/sat/s/colleges/Williams-College-sat-scores-GPA" },
+        { "title": "Williams College — Tutorials (academic culture)", "url": "https://www.williams.edu/academics/tutorials/" }
+      ]
+    },
+    {
+      "name": "Amherst College",
+      "tier": "Top LAC",
+      "admitRatePct": 9.0,
+      "cycle": "2024-2025 CDS (Class of 2028)",
+      "sat": { "p25": 1500, "p50": null, "p75": 1560 },
+      "act": { "p25": 33, "p50": null, "p75": 35 },
+      "gpa": { "note": "Amherst's CDS does not publish a single mean GPA; it reports class-rank distributions (the large majority of enrolled students were in the top decile). Aggregator figures (~4.1 weighted) are estimates, not CDS data." },
+      "testPolicy": "test-optional",
+      "character": "Identity centers on its open curriculum — no core, no distribution requirements — so students chart an individual path through 800+ courses with faculty advisers, selecting for self-directed, intellectually passionate applicants. Membership in the Five College Consortium adds the resources of a larger institution.",
+      "ecPatterns": ["intellectual curiosity and self-directed academic interests (open-curriculum fit)", "demonstrated depth/passion in a chosen field", "leadership and community engagement", "athletics (NESCAC D-III)", "cross-disciplinary exploration"],
+      "sources": [
+        { "title": "Amherst College — Common Data Set 2024-2025 (Section C, First-Time First-Year Admission)", "url": "https://www.amherst.edu/system/files/C%20First-Time,%20First-Year%20Admission_3.pdf" },
+        { "title": "Amherst College — 2024 Common Data Sets index", "url": "https://www.amherst.edu/about/facts/common_data_sets/2024" },
+        { "title": "collegedata.fyi — Amherst College Common Data Set 2024-25", "url": "https://www.collegedata.fyi/schools/amherst/2024-25" },
+        { "title": "Amherst College — Our Open Curriculum", "url": "https://www.amherst.edu/academiclife/open-curriculum" }
+      ]
+    },
+    {
+      "name": "Swarthmore College",
+      "tier": "Top LAC",
+      "admitRatePct": 7.46,
+      "cycle": "2024-2025 CDS (Class of 2028)",
+      "sat": { "p25": 1500, "p50": 1530, "p75": 1550 },
+      "act": { "p25": 33, "p50": 34, "p75": 35 },
+      "gpa": { "note": "Swarthmore's CDS reports class-rank bands rather than a mean GPA; the overwhelming majority of enrolled students ranked in the top tenth of their class. No single mean GPA is published in the CDS." },
+      "testPolicy": "test-optional",
+      "character": "Known for graduate-school-level academic intensity, anchored by an Honors Program built on small seminars and external examiners in the Oxford tradition, plus rare breadth across humanities, sciences, and engineering for its size. Quaker roots produce an earnest, social-justice-oriented, non-competitive culture rewarding authentic curiosity.",
+      "ecPatterns": ["deep intellectual engagement and love of learning for its own sake", "social justice / ethical and civic commitment (Quaker tradition)", "willingness to wrestle with complex, difficult questions", "collaborative rather than competitive achievement", "strength in STEM/engineering or humanities research"],
+      "sources": [
+        { "title": "Swarthmore College — Common Data Set 2024-2025", "url": "https://www.swarthmore.edu/sites/default/files/assets/documents/institutional-effectiveness-research-assessment/Swarthmore-College-CDS-2024-2025.pdf" },
+        { "title": "Swarthmore College — Quaker Roots (character/culture)", "url": "https://www.swarthmore.edu/meet-swarthmore/quaker-roots" }
+      ]
+    },
+    {
+      "name": "Pomona College",
+      "tier": "Top LAC",
+      "admitRatePct": 7.1,
+      "cycle": "2024-2025 CDS (Class of 2028)",
+      "sat": { "p25": 1470, "p50": null, "p75": 1550 },
+      "act": { "p25": 33, "p50": null, "p75": 35 },
+      "gpa": { "note": "Pomona's CDS does not report GPA; it reports class rank, with roughly 89-90% of admitted/enrolled students in the top 10% of their class. Aggregator estimates of an unweighted average around 3.9 are not CDS-sourced." },
+      "testPolicy": "test-optional",
+      "character": "Offers a small-college core within the Claremont Colleges Consortium, where students cross-register across ~2,700 classes at four neighboring institutions — intimate, mentorship-driven classes with the breadth of a mid-sized university. Culture is repeatedly described as collaborative, supportive, and unusually high in student happiness.",
+      "ecPatterns": ["intellectual curiosity with a collaborative (non-cutthroat) disposition", "undergraduate research and faculty mentorship", "cross-disciplinary breadth via the 5C consortium", "community-building, inclusivity, and leadership", "athletics (SCIAC D-III)"],
+      "sources": [
+        { "title": "Pomona College — Common Data Set (Institutional Research)", "url": "https://www.pomona.edu/administration/institutional-research/information-center/common-data-set" },
+        { "title": "The Koppelman Group — Pomona Admissions Statistics 2025", "url": "https://www.koppelmangroup.com/blog/2026/3/26/pomona-admissions-statistics-2025" },
+        { "title": "PrepScholar — Pomona College SAT Scores and GPA", "url": "https://www.prepscholar.com/sat/s/colleges/Pomona-College-sat-scores-GPA" },
+        { "title": "Pomona College — The Claremont Colleges (consortium/culture)", "url": "https://www.pomona.edu/about/claremont-colleges" }
+      ]
+    },
+    {
+      "name": "Bowdoin College",
+      "tier": "Top LAC",
+      "admitRatePct": 6.8,
+      "cycle": "2025-2026 CDS (Class of 2029)",
+      "sat": { "p25": 1470, "p50": null, "p75": 1540 },
+      "act": { "p25": 33, "p50": null, "p75": 35 },
+      "gpa": { "note": "Bowdoin does not publish a headline mean GPA, but admitted students are overwhelmingly top of class — roughly 85% of recent classes reporting class rank graduated in the top 10%. Rigor of record, GPA, and class rank are rated 'very important' in holistic review." },
+      "testPolicy": "test-optional",
+      "character": "A small, rigorous LAC defined by its core value of 'the common good'; seeks intellectually curious students willing to take academic risks who also show empathy, leadership, and a desire to make a positive community impact. Long-standing test-optional pioneer (since 1969).",
+      "ecPatterns": ["deep, sustained commitment to a few activities over a long shallow list", "demonstrated leadership and tangible impact within an activity or community", "service and 'common good' oriented involvement", "authentic passion and intellectual risk-taking", "distinctive talent developed over time (athletics, arts, research)"],
+      "sources": [
+        { "title": "Bowdoin College Common Data Set 2025-2026 (Office of Institutional Research)", "url": "https://www.bowdoin.edu/ir/pdf/bowdoin-cds_2025-2026.pdf" },
+        { "title": "Bowdoin College Common Data Set 2024-2025", "url": "https://www.bowdoin.edu/ir/pdf/bowdoin-cds_2024-2025.pdf" },
+        { "title": "About the Class of 2029 | Bowdoin College", "url": "https://www.bowdoin.edu/admissions/at-a-glance/class-of-2029.html" },
+        { "title": "Bowdoin College's Acceptance Results for the Class of 2029 | Crimson Education", "url": "https://www.crimsoneducation.org/us/blog/bowdoin-college-acceptance-rate" }
+      ]
+    },
+    {
+      "name": "Wellesley College",
+      "tier": "Top LAC",
+      "admitRatePct": 14.05,
+      "cycle": "2024-2025 CDS (Class of 2028)",
+      "sat": { "p25": 1470, "p50": 1520, "p75": 1550 },
+      "act": { "p25": 33, "p50": 34, "p75": 35 },
+      "gpa": { "note": "Wellesley's 2024-2025 CDS leaves the GPA distribution blank, so no average GPA is reported. As a proxy, class-rank data show 90% of enrolled first-years in the top tenth and 99% in the top quarter (of the 23% who submitted class rank)." },
+      "testPolicy": "test-optional",
+      "character": "A highly selective women's LAC known for academic rigor, an empowering women-centered environment, and producing influential leaders (Hillary Clinton, Madeleine Albright). Fit favors intellectually serious, ambitious students drawn to a tight-knit residential community and to advancing women's leadership.",
+      "ecPatterns": ["leadership and initiative, especially advancing women or community causes", "sustained, deep commitment to a few activities over breadth", "strong character/personal qualities (rated 'very important' in the CDS)", "intellectual curiosity beyond the classroom", "volunteer/community service and meaningful work experience", "focused talent (arts, research, athletics)"],
+      "sources": [
+        { "title": "Wellesley College Common Data Set 2024-2025 (Office of Institutional Research)", "url": "https://wellesley-college.files.svdcdn.com/production/administrative-departments/OIR/CDS_2024-2025-FINAL-1.pdf?dm=1741971016" },
+        { "title": "Wellesley College — Office of Institutional Research, Common Data Sets", "url": "https://www.wellesley.edu/about-us/offices-departments/office-of-institutional-research/public-data" },
+        { "title": "Wellesley College — Standardized Testing FAQ (test-optional policy)", "url": "https://www.wellesley.edu/admission-aid/faqs#standardized-testing" }
+      ]
+    },
+    {
+      "name": "Carleton College",
+      "tier": "Top LAC",
+      "admitRatePct": 21.78,
+      "cycle": "Class of 2029 admit rate (third-party); SAT/ACT from 2023-2024 CDS",
+      "sat": { "p25": 1470, "p50": null, "p75": 1540 },
+      "act": { "p25": 32, "p50": null, "p75": 34 },
+      "gpa": { "note": "Carleton does not publish an official mean GPA and states it is not looking for a specific GPA. Aggregators estimate ~3.9 unweighted and ~69% of enrolled freshmen in the top 10%. Treat as third-party estimates, not official figures." },
+      "testPolicy": "test-optional",
+      "character": "A small, intellectually intense LAC on the trimester system in Northfield, MN, known for a collaborative (non-cutthroat) culture, strong STEM/quantitative rigor, and a quirky, self-aware student personality. Holistic review emphasizes curiosity, community fit, and genuine engagement.",
+      "ecPatterns": ["intellectual curiosity and love of learning for its own sake", "depth and authentic engagement in a few activities over a long resume", "collaborative, community-minded involvement", "quirkiness/individuality (the supplement invites personality)", "research, quantitative, or STEM interests, plus arts and writing", "leadership through initiative and impact"],
+      "sources": [
+        { "title": "Carleton College — 2023-2024 Common Data Set (official, IRA)", "url": "https://carleton-wp-production.s3.amazonaws.com/uploads/sites/292/2024/05/CDS_UNL2_2023_2024_Carleton-FINAL.pdf" },
+        { "title": "Carleton College — Class of 2029 Profile (official admissions)", "url": "https://www.carleton.edu/admissions/apply/steps/profile/" },
+        { "title": "Carleton implements permanent test-optional policy (Carleton News)", "url": "https://www.carleton.edu/news/stories/test-optional-policy-college-admissions-pilot-analysis/" },
+        { "title": "Final Admissions Data Class of 2029 — 6,796 apps, 1,480 admitted, 21.78% (Expert Admissions)", "url": "https://expertadmissions.com/final-admissions-data-class-of-2029/" }
+      ]
+    },
+    {
+      "name": "Claremont McKenna College",
+      "tier": "Top LAC",
+      "admitRatePct": 9.59,
+      "cycle": "2024-2025 CDS (Class of 2028)",
+      "sat": { "p25": 1480, "p50": 1510, "p75": 1540 },
+      "act": { "p25": 33, "p50": 34, "p75": 35 },
+      "gpa": { "note": "CMC does not publish a mean enrolled GPA, citing the lack of standardized GPA scales and a large international applicant share. As a proxy, ~75% of the Class of 2028 ranked in the top tenth; aggregator GPA figures (~3.9) are estimates." },
+      "testPolicy": "test-optional",
+      "character": "A small, pre-professional LAC with a distinctive concentration in economics, government, and public affairs, anchored by the Robert Day School of Economics and Finance and 11 applied research institutes. Recruits ambitious, leadership-minded students who want to apply ideas to real-world policy, finance, and public service. Note: faculty voted to reinstate testing, intended for fall 2028 (Class of 2032).",
+      "ecPatterns": ["leadership in student government, debate, Model UN, or organizations (founder/president roles valued)", "economics, finance, or business engagement (DECA, finance clubs, internships)", "government, politics, policy, and public service", "applied/social-science research tied to CMC's institutes", "quantitative and analytical strength paired with strong writing", "initiative and impact over breadth"],
+      "sources": [
+        { "title": "Claremont McKenna College Common Data Set 2024-2025 (6,529 applied / 626 admitted = 9.59%)", "url": "https://www.cmc.edu/sites/default/files/CDS_2024-2025.pdf" },
+        { "title": "Common Data Set | Claremont McKenna College (Office of Institutional Research)", "url": "https://www.cmc.edu/institutional-research/common-data-set" },
+        { "title": "Test-Optional Admission Policy FAQ | Claremont McKenna College (test-required intended for fall 2028)", "url": "https://www.cmc.edu/admission/first-year-application-instructions/test-optional-policy-faq" },
+        { "title": "Claremont McKenna Common Data Set Insights | CollegeVine (GPA reporting note)", "url": "https://www.collegevine.com/faq/25736/claremont-mckenna-common-data-set-insights" }
+      ]
+    },
+    {
+      "name": "Middlebury College",
+      "tier": "Top LAC",
+      "admitRatePct": 13.9,
+      "cycle": "Class of 2029 admit rate; SAT/ACT from 2024-2025 CDS (Class of 2028)",
+      "sat": { "p25": 1450, "p50": 1500, "p75": 1530 },
+      "act": { "p25": 33, "p50": 34, "p75": 35 },
+      "gpa": { "note": "Middlebury's CDS does not publish a single mean GPA; admitted students are overwhelmingly top of class. Aggregators report an approximate average unweighted GPA near 3.89, which should be treated as an estimate, not an official CDS figure." },
+      "testPolicy": "test-optional",
+      "character": "Tight-knit LAC in rural Vermont known for environmental studies, its renowned Language Schools, and a strong outdoor/civic-engagement culture; weighs character and personal qualities as 'very important' and prizes genuine community fit. ~44% of admitted Class of 2029 did not submit scores.",
+      "ecPatterns": ["depth over breadth — a developed 'spike' with leadership in one or two areas", "demonstrated interest and authentic fit (Language Schools, environmental center, Mountain Club)", "civic engagement, community service, social responsibility", "intellectual curiosity and strong, self-aware essay writing", "outdoor/environmental and language/global interests"],
+      "sources": [
+        { "title": "Middlebury Admits Class of 2029 and 2029.5 — Middlebury News (13.9% admit; 44% admitted didn't submit scores)", "url": "https://www.middlebury.edu/announcements/announcements/2025/05/middlebury-admits-class-2029-and-20295" },
+        { "title": "Middlebury College Common Data Set 2024-2025 (Office of Institutional Research)", "url": "https://www.middlebury.edu/sites/default/files/2025-04/Middlebury%20CDS%202024_2025.pdf?fv=_3Gr6e2c" },
+        { "title": "Middlebury SAT Scores and GPA — PrepScholar", "url": "https://www.prepscholar.com/sat/s/colleges/Middlebury-sat-scores-GPA" }
+      ]
+    },
+    {
+      "name": "Davidson College",
+      "tier": "Top LAC",
+      "admitRatePct": 12.6,
+      "cycle": "Class of 2029 admit rate; GPA bands from 2024-2025 CDS (Class of 2028)",
+      "sat": { "p25": 1400, "p50": null, "p75": 1520 },
+      "act": { "p25": 31, "p50": null, "p75": 35 },
+      "gpa": { "note": "Davidson reports GPA in bands, not a single mean. Per the 2024-25 CDS (Class of 2028), ~40.6% of enrolled students had a 4.0 and ~32.8% had a 3.75-4.0; the large majority hold 3.5+. For the Class of 2029, ~68% of admits graduated top 10% of class." },
+      "testPolicy": "test-optional",
+      "character": "Small, intensely academic LAC built around a student-run Honor Code that enables unproctored, self-scheduled, and take-home exams. Admissions explicitly weighs character, integrity, and authentic community engagement alongside academic strength.",
+      "ecPatterns": ["sustained, deep engagement in one or two substantive areas", "authentic community service, leadership, and civic responsibility", "intellectual depth via independent work, research, or competition", "values alignment with Honor Code culture (integrity, trust)", "genuine, non-generic engagement with Davidson's mission in supplements"],
+      "sources": [
+        { "title": "Class of 2029 Profile (Incoming Class Statistics) — Davidson College", "url": "https://www.davidson.edu/admission-and-financial-aid/incoming-class-statistics" },
+        { "title": "How to Get Into Davidson College: 12.6% Rate — Oriel Admissions", "url": "https://orieladmissions.com/how-to-get-into-davidson-college/" },
+        { "title": "Davidson College Goes Permanently Test-Optional — Davidson News", "url": "https://www.davidson.edu/news/2022/04/11/davidson-college-goes-permanently-test-optional" },
+        { "title": "Davidson College GPA Requirements (2024-25 CDS figures) — Ivy Coach", "url": "https://www.ivycoach.com/the-ivy-coach-blog/college-admissions/davidson-college-gpa-requirements/" }
+      ]
+    },
+    {
+      "name": "Vassar College",
+      "tier": "Top LAC",
+      "admitRatePct": 20.93,
+      "cycle": "Class of 2029 admit rate; CDS 2024-2025; averages from Class of 2028 profile",
+      "sat": { "p25": 1460, "p50": 1488, "p75": 1550 },
+      "act": { "p25": 33, "p50": 33, "p75": 35 },
+      "gpa": { "note": "Vassar's CDS does not publish a single mean GPA. Vassar's own Class of 2028 profile reports a mean unweighted GPA of ~3.9/4.0; admitted students are overwhelmingly at or near the top of their class." },
+      "testPolicy": "test-optional",
+      "character": "Highly selective LAC (formerly a women's college) in Poughkeepsie, NY, known for an open, flexible curriculum with no distribution requirements, a strong arts/humanities and interdisciplinary identity, and a progressive, intellectually independent, creative student culture. Fit favors students who thrive with academic freedom.",
+      "ecPatterns": ["intellectual curiosity and self-directed exploration (open-curriculum fit)", "arts, creative writing, theater, music, and other creative pursuits", "depth and sustained commitment over a long resume", "social justice, community service, civic/advocacy engagement", "independent research, original projects, or interdisciplinary work"],
+      "sources": [
+        { "title": "Vassar College Common Data Set 2024-2025 (Office of Institutional Research)", "url": "https://offices.vassar.edu/institutional-research/wp-content/uploads/sites/23/2025/03/Vassar-College-CDS-2024-2025-1.pdf" },
+        { "title": "Vassar College Class of 2028 — Class Profile / Quick Facts", "url": "https://www.vassar.edu/admission/quick-facts/class-profile/" },
+        { "title": "Vassar Makes Test-Optional Policy Permanent", "url": "https://www.vassar.edu/news/vassar-makes-test-optional-policy-permanent-applicants" }
+      ]
+    },
+    {
+      "name": "Colby College",
+      "tier": "Top LAC",
+      "admitRatePct": 8.0,
+      "cycle": "2025-2026 (Class of 2030)",
+      "sat": { "p25": 1470, "p50": 1510, "p75": 1530 },
+      "act": { "p25": 32, "p50": 34, "p75": 34 },
+      "gpa": { "note": "Colby does not publish a mean GPA (no Common Data Set since 2016). Class rank is the primary published signal: ~86% of the Class of 2028 were top 10% of their HS class, and ~95% of the Class of 2029 were expected to graduate top 10%." },
+      "testPolicy": "test-optional",
+      "character": "Highly selective NESCAC LAC in Waterville, Maine, that prizes intellectually adventurous students likely to contribute to a tight-knit residential community. Its 'DavisConnects' model integrates funded research, internships, and global experiences for every student; civic engagement is central to fit.",
+      "ecPatterns": ["depth and sustained commitment over a long activity list", "demonstrated leadership and significant contribution in a few core activities", "community service and civic engagement (Colby Volunteer Center)", "intellectual curiosity / 'intellectually adventurous' pursuits, including research", "global or cross-cultural engagement aligned with DavisConnects"],
+      "sources": [
+        { "title": "Class of 2030 Admitted to Colby — Colby News (8% admit; SAT median 1510; ACT median 34)", "url": "https://news.colby.edu/story/class-of-2030-admitted-to-colby/" },
+        { "title": "College Profile — Colby College Admissions", "url": "https://afa.colby.edu/apply/college-profile/" },
+        { "title": "Colby College Requirements for Admission (SAT/ACT percentiles) — PrepScholar", "url": "https://www.prepscholar.com/sat/s/colleges/Colby-College-admission-requirements" }
+      ]
+    }
+  ],
+  "insights": [
+    "Every school in this set is currently test-optional — none is test-required, test-blind, or test-free. Watch Claremont McKenna: its faculty voted to reinstate testing, intended for fall 2028 (Class of 2032), so it stays optional for current cycles.",
+    "Submitted-score rates are low (e.g., Williams ~35%, Swarthmore ~39%, Middlebury ~56% submit; ~44% of Middlebury admits sent no scores). The reported 25/75 SAT/ACT bands describe a self-selected subset and overstate what a typical applicant needs — a crucial caveat when advising families.",
+    "None of these colleges publishes a mean high-school GPA in its CDS. They report class rank instead, and the consistent signal is 'top 10% of class.' Any specific GPA number (e.g., ~3.9) is an aggregator estimate, not an official figure.",
+    "Test bands are remarkably tight and clustered (SAT 25th ~1450-1500, 75th ~1530-1560; ACT 25th 31-34, 75th 34-35), so scores are a near-uniform threshold rather than a differentiator at this tier. Fit and character are the real selection axis.",
+    "Admit rates span a wide reach/target gradient despite near-identical academic profiles: Bowdoin ~6.8%, Pomona ~7.1%, Swarthmore ~7.5%, Williams ~7.5%, Colby ~8% (hard reaches) → Amherst ~9%, CMC ~9.6% → Davidson ~12.6%, Middlebury ~13.9%, Wellesley ~14% → Carleton ~21.8%, Vassar ~20.9% (high-targets).",
+    "Differentiation is structural and cultural, mapping to distinct fit archetypes: Williams (Oxford tutorials + scholar-athlete), Amherst & Vassar (open curriculum / self-direction), Swarthmore (graduate-level intensity + Quaker social justice), Pomona (Claremont consortium breadth + happiness), Bowdoin (the 'common good' / service), Wellesley (women's leadership), Carleton (quirky collaborative intellect), CMC (pre-professional econ/govt/leadership), Davidson (Honor Code integrity), Middlebury (environment/languages/outdoors), Colby (intellectually adventurous + DavisConnects).",
+    "Across all twelve the EC philosophy is identical: depth over breadth, demonstrated leadership and impact in a few areas, and authentic civic/community engagement that aligns with the school's stated mission — not a long, shallow resume.",
+    "Data-quality caveat for the parent-facing feature: Colby publishes NO CDS (none since 2016) and its figures come from official news releases only; several schools' freshest admit rate (Class of 2029/2030) is newer than their freshest published score distribution (Class of 2028 CDS); and Carleton's Class-of-2029 admit rate is third-party (its CDS for that cycle isn't out). Cite the per-school cycle when displaying numbers."
+  ],
+  "sources": [
+    { "title": "Williams College 2024-2025 Common Data Set", "url": "https://www.williams.edu/institutional-research/files/2025/06/CDS_2024_2025_Williams_V5.pdf" },
+    { "title": "Amherst College Common Data Set 2024-2025", "url": "https://www.amherst.edu/about/facts/common_data_sets/2024" },
+    { "title": "Swarthmore College Common Data Set 2024-2025", "url": "https://www.swarthmore.edu/sites/default/files/assets/documents/institutional-effectiveness-research-assessment/Swarthmore-College-CDS-2024-2025.pdf" },
+    { "title": "Pomona College Common Data Set (Institutional Research)", "url": "https://www.pomona.edu/administration/institutional-research/information-center/common-data-set" },
+    { "title": "Bowdoin College Common Data Set 2025-2026", "url": "https://www.bowdoin.edu/ir/pdf/bowdoin-cds_2025-2026.pdf" },
+    { "title": "Wellesley College Common Data Set 2024-2025", "url": "https://wellesley-college.files.svdcdn.com/production/administrative-departments/OIR/CDS_2024-2025-FINAL-1.pdf?dm=1741971016" },
+    { "title": "Carleton College Common Data Set 2023-2024", "url": "https://carleton-wp-production.s3.amazonaws.com/uploads/sites/292/2024/05/CDS_UNL2_2023_2024_Carleton-FINAL.pdf" },
+    { "title": "Claremont McKenna College Common Data Set 2024-2025", "url": "https://www.cmc.edu/sites/default/files/CDS_2024-2025.pdf" },
+    { "title": "Middlebury College Common Data Set 2024-2025", "url": "https://www.middlebury.edu/sites/default/files/2025-04/Middlebury%20CDS%202024_2025.pdf?fv=_3Gr6e2c" },
+    { "title": "Davidson College Class of 2029 Profile", "url": "https://www.davidson.edu/admission-and-financial-aid/incoming-class-statistics" },
+    { "title": "Vassar College Common Data Set 2024-2025", "url": "https://offices.vassar.edu/institutional-research/wp-content/uploads/sites/23/2025/03/Vassar-College-CDS-2024-2025-1.pdf" },
+    { "title": "Colby College Class of 2030 Admitted — Colby News", "url": "https://news.colby.edu/story/class-of-2030-admitted-to-colby/" }
+  ]
+}

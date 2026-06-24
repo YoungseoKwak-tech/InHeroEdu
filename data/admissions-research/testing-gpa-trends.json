@@ -1,0 +1,179 @@
+{
+  "stream": "testing-gpa-trends",
+  "title": "Standardized testing & GPA landscape by selectivity tier (2025-2026)",
+  "generatedAt": "2026-06-24",
+  "schools": [
+    {
+      "name": "Massachusetts Institute of Technology",
+      "tier": "T20",
+      "testPolicy": "required",
+      "testPolicyDetail": "Reinstated SAT/ACT requirement (announced March 2022), among the first to return; hardship exceptions only. SAT Math median is a perfect 800.",
+      "cycle": "2024-2025 (Class of 2029)",
+      "sat": { "p25": null, "p50": null, "p75": null, "note": "CDS reports SAT Math median 800; full composite mid-50% not extracted from CDS in this pass" },
+      "act": { "p25": 35, "p50": null, "p75": 36 },
+      "gpa": { "note": "CDS reports class-rank/GPA bands, not a single mean; of the ~28% submitting class rank, 99% were in the top tenth. 83% of enrolled submitted SAT, 29% ACT (Fall 2024)." },
+      "sources": [
+        { "title": "MIT Admissions — We are reinstating our SAT/ACT requirement", "url": "https://mitadmissions.org/blogs/entry/we-are-reinstating-our-sat-act-requirement-for-future-admissions-cycles/" },
+        { "title": "MIT Institutional Research — 2024-25 Common Data Set", "url": "https://ir.mit.edu/projects/2024-25-common-data-set/" }
+      ]
+    },
+    {
+      "name": "Harvard University",
+      "tier": "T20",
+      "testPolicy": "required",
+      "testPolicyDetail": "Reinstated mandatory SAT/ACT submission (announced April 11, 2024) starting with applicants for Fall 2025 (Class of 2029); had previously been test-optional through Class of 2030. Other eligible tests accepted only when applicants cannot access SAT/ACT.",
+      "cycle": "2024-2025 (Class of 2029)",
+      "sat": { "p25": 1510, "p50": 1550, "p75": 1580 },
+      "act": { "p25": null, "p50": null, "p75": null },
+      "gpa": { "note": "CDS reports GPA/class-rank bands, not a single mean" },
+      "sources": [
+        { "title": "Harvard Gazette — Harvard announces return to required testing", "url": "https://news.harvard.edu/gazette/story/2024/04/harvard-announces-return-to-required-testing/" },
+        { "title": "Harvard OIRA — 2024-25 Common Data Set published", "url": "https://oira.harvard.edu/2025/06/13/2024-25-common-data-set-cds-published/" }
+      ]
+    },
+    {
+      "name": "Yale University",
+      "tier": "T20",
+      "testPolicy": "required",
+      "testPolicyDetail": "Reinstated testing (announced Feb 2024) after six years of flexibility, but adopted a 'test-flexible' policy: applicants may submit SAT, ACT, AP, or IB scores. Effective for Fall 2024 applicants onward.",
+      "cycle": "2024-2025 (Class of 2029)",
+      "sat": { "p25": 1480, "p50": null, "p75": 1560, "note": "Middle 50% of admitted students" },
+      "act": { "p25": null, "p50": null, "p75": null },
+      "gpa": { "note": "CDS reports bands; 96% of admitted were in the top tenth of their high school class" },
+      "sources": [
+        { "title": "Yale Admissions — Standardized Testing requirements", "url": "https://admissions.yale.edu/standardized-testing" },
+        { "title": "Yale OIR — Common Data Set 2024-25", "url": "https://oir.yale.edu/sites/default/files/yale_cds_2024-25_rmd_20250612.pdf" }
+      ]
+    },
+    {
+      "name": "Dartmouth College",
+      "tier": "T20",
+      "testPolicy": "required",
+      "testPolicyDetail": "Among the first Ivies to reinstate (announced Feb 2024), citing internal research that scores predict first-year performance, especially where grading is inflated.",
+      "cycle": "2024-2025",
+      "sat": { "p25": 1500, "p50": 1540, "p75": 1570, "note": "Range cited for accepted students; admitted vs enrolled reporting varies by source" },
+      "act": { "p25": null, "p50": null, "p75": null },
+      "gpa": { "note": "CDS reports bands, not a single mean" },
+      "sources": [
+        { "title": "Dartmouth — SAT/undergraduate admissions research", "url": "https://home.dartmouth.edu/sites/home/files/2024-02/sat-undergrad-admissions.pdf" },
+        { "title": "Dartmouth OIR — Common Data Set 2024-2025", "url": "https://www.dartmouth.edu/oir/pdfs/cds_2024-2025.pdf" }
+      ]
+    },
+    {
+      "name": "Brown University",
+      "tier": "T20",
+      "testPolicy": "required",
+      "testPolicyDetail": "Reinstated SAT/ACT requirement (announced March 2024), joining Yale, Dartmouth, and MIT.",
+      "cycle": "2024-2025",
+      "sat": { "p25": 1500, "p50": null, "p75": 1570, "note": "Aggregator reports for enrolled students; some sources cite 1490-1580" },
+      "act": { "p25": null, "p50": null, "p75": null },
+      "gpa": { "note": "CDS reports bands, not a single mean" },
+      "sources": [
+        { "title": "Brown Undergraduate Admission — Admission by the Numbers", "url": "https://admission.brown.edu/explore/brown-admission-numbers" },
+        { "title": "PrepScholar — Yale, Brown, Dartmouth end test-optional", "url": "https://blog.prepscholar.com/yale-dartmouth-ending-test-optional" }
+      ]
+    },
+    {
+      "name": "California Institute of Technology (Caltech)",
+      "tier": "T20",
+      "testPolicy": "required",
+      "testPolicyDetail": "Ended its multi-year test-blind moratorium (announced April 2024); SAT/ACT required for first-year applicants beginning Fall 2024 application cycle (Fall 2025 entry, Class of 2029). No preferred exam, no cut-off score.",
+      "cycle": "2024-2025 (Class of 2029)",
+      "sat": { "p25": 1500, "p50": null, "p75": 1580, "note": "Aggregator-reported middle 50%" },
+      "act": { "p25": 34, "p50": null, "p75": 36 },
+      "gpa": { "note": "CDS reports bands; near-universal top-decile representation typical for Caltech" },
+      "sources": [
+        { "title": "Caltech — Restores Standardized Test Requirement for Undergraduate Admission", "url": "https://www.caltech.edu/about/news/caltech-restores-standardized-test-requirement-for-undergraduate-admission" },
+        { "title": "Caltech Undergraduate Admissions — Standardized Tests", "url": "https://www.admissions.caltech.edu/apply/first-year-applicants/standardized-tests" }
+      ]
+    },
+    {
+      "name": "Georgetown University",
+      "tier": "T20",
+      "testPolicy": "required",
+      "testPolicyDetail": "Never went permanently test-optional in the way most peers did; all applicants are required to submit SAT or ACT. Georgetown also has its own application (not the Common App).",
+      "cycle": "2024-2025",
+      "sat": { "p25": 1430, "p50": null, "p75": 1560, "note": "Aggregator-reported range" },
+      "act": { "p25": 33, "p50": null, "p75": 35 },
+      "gpa": { "note": "CDS reports bands, not a single mean" },
+      "sources": [
+        { "title": "Georgetown Office of Undergraduate Admissions — Standardized Test Scores", "url": "https://uadmissions.georgetown.edu/applying/transfer-test-scores/" },
+        { "title": "Georgetown 2025-2026 Undergraduate Bulletin — Admissions", "url": "https://bulletin.georgetown.edu/admissions/" }
+      ]
+    },
+    {
+      "name": "Stanford University",
+      "tier": "T20",
+      "testPolicy": "required",
+      "testPolicyDetail": "Will resume requiring SAT or ACT beginning with students applying in Fall 2025 for the Class of 2030; remained test-optional for Fall 2024 applicants (Class of 2029).",
+      "cycle": "2025-2026 (Class of 2030)",
+      "sat": { "p25": null, "p50": null, "p75": null },
+      "act": { "p25": null, "p50": null, "p75": null },
+      "gpa": { "note": "CDS reports bands; Stanford does not publish a single GPA mean" },
+      "sources": [
+        { "title": "Crimson Education — Top colleges that require SAT/ACT 2025/26", "url": "https://www.crimsoneducation.org/us/blog/colleges-that-require-sat-act" }
+      ]
+    },
+    {
+      "name": "Johns Hopkins University",
+      "tier": "T20",
+      "testPolicy": "required",
+      "testPolicyDetail": "Testing required for undergraduate admission to the Krieger School of Arts & Sciences and Whiting School of Engineering beginning Fall 2025; decision followed internal data analysis showing scores predict success.",
+      "cycle": "2024-2025",
+      "sat": { "p25": null, "p50": null, "p75": null },
+      "act": { "p25": null, "p50": null, "p75": null },
+      "gpa": { "note": "CDS C11/C12: over 70% of enrolled first-years had a 4.0 (unweighted band) and over 90% had 3.75+" },
+      "sources": [
+        { "title": "Applerouth — Johns Hopkins reinstates SAT/ACT requirements", "url": "https://www.applerouth.com/blog/johns-hopkins-reinstates-sat-act-requirements" },
+        { "title": "JHU OIRA — Common Data Set 2024-2025", "url": "https://oira.jhu.edu/wp-content/uploads/CDS_2024-2025_JHU.pdf" }
+      ]
+    },
+    {
+      "name": "University of Texas at Austin",
+      "tier": "Public flagship",
+      "testPolicy": "required",
+      "testPolicyDetail": "Returned to required SAT/ACT beginning with Fall 2025 applications after four years test-optional; ~90%+ of applicants already tested, and submitters performed better in the first semester. Notable as a major public flagship reinstating.",
+      "cycle": "2024-2025 (Class of 2029)",
+      "sat": { "p25": null, "p50": null, "p75": null },
+      "act": { "p25": null, "p50": null, "p75": null },
+      "gpa": { "note": "Admissions weight GPA + test together; CDS reports bands" },
+      "sources": [
+        { "title": "UT Austin News — UT Austin Reinstates Standardized Test Scores in Admissions", "url": "https://news.utexas.edu/2024/03/11/ut-austin-reinstates-standardized-test-scores-in-admissions/" }
+      ]
+    },
+    {
+      "name": "University of California (system: Berkeley, UCLA, UCSD, UCI, UCSB, UCD, UCR, UCSC, UC Merced)",
+      "tier": "Public flagship / system",
+      "testPolicy": "test-free",
+      "testPolicyDetail": "Fully test-blind / test-free since 2021: SAT/ACT scores are not considered at all in admissions. Stems from the 2021 Smith v. Regents settlement; the Board of Regents affirmed test-blind 'for the foreseeable future.' (BOARS began re-examining testing in late 2024/early 2025 amid grade-inflation and math-readiness concerns, but the test-free policy remains in effect.)",
+      "cycle": "2024-2025",
+      "sat": { "p25": null, "p50": null, "p75": null, "note": "Not collected/used for admissions" },
+      "act": { "p25": null, "p50": null, "p75": null, "note": "Not collected/used for admissions" },
+      "gpa": { "note": "UC weights GPA heavily (capped weighted UC GPA); scores play no role" },
+      "sources": [
+        { "title": "University of California — Board of Regents approved changes to standardized testing requirement", "url": "https://www.universityofcalifornia.edu/press-room/university-california-board-regents-unanimously-approved-changes-standardized-testing" }
+      ]
+    }
+  ],
+  "insights": [
+    "Required testing is back across nearly the entire top tier: MIT (2022), then Dartmouth, Yale, Brown, Harvard, Caltech, Stanford (Class of 2030), Johns Hopkins, and UT Austin all reinstated for the 2024-2025/2025-2026 cycles. For applicants targeting T20s, plan to submit an SAT or ACT — test-optional is effectively gone at this tier.",
+    "Policies are not identical 'required': Yale is test-FLEXIBLE (SAT, ACT, AP, or IB accepted), Stanford's requirement starts one cycle later (Class of 2030), and most schools allow narrow hardship exceptions. Read each school's exact wording.",
+    "The University of California system is the major outlier: fully test-free / test-blind since 2021 — scores are not considered at all. Korean families applying to UCs should redirect prep energy from the SAT toward the capped weighted UC GPA and the 8 personal-insight questions.",
+    "Mid-50% SAT at the very top is compressed and high: roughly 1480-1580 (Harvard ~1510-1580, Yale ~1480-1560, Dartmouth/Brown/Caltech ~1500-1580), with ACT 34-36. A score below the 25th percentile is a real flag at these schools; the practical target is the median (~1550) or above.",
+    "Common Data Sets do NOT publish a single 'average GPA.' Section C11/C12 reports GPA in BANDS (% with 4.0, 3.75-3.99, etc.) plus class-rank bands. At the most selective schools the top band is crowded — e.g., JHU reports 70%+ of enrolled first-years with a 4.0 and 90%+ at 3.75+; MIT reports ~99% of rank-reporting students in the top tenth.",
+    "Grade inflation is the explicit reason scores came back. ACT research shows average high-school GPA rose from 3.22 (2010) to 3.39 (2021) while ACT scores fell — a top-25% test-taker's average GPA climbed from 3.5 (2010) to 3.7 (2021). A 4.0 no longer differentiates, so admissions offices lean on test scores to compare applicants across high schools with different grading scales."
+  ],
+  "sources": [
+    { "title": "MIT Admissions — reinstating SAT/ACT requirement", "url": "https://mitadmissions.org/blogs/entry/we-are-reinstating-our-sat-act-requirement-for-future-admissions-cycles/" },
+    { "title": "Harvard Gazette — return to required testing", "url": "https://news.harvard.edu/gazette/story/2024/04/harvard-announces-return-to-required-testing/" },
+    { "title": "Yale Admissions — Standardized Testing requirements", "url": "https://admissions.yale.edu/standardized-testing" },
+    { "title": "Caltech — Restores Standardized Test Requirement", "url": "https://www.caltech.edu/about/news/caltech-restores-standardized-test-requirement-for-undergraduate-admission" },
+    { "title": "UT Austin News — Reinstates Standardized Test Scores", "url": "https://news.utexas.edu/2024/03/11/ut-austin-reinstates-standardized-test-scores-in-admissions/" },
+    { "title": "University of California — test-free policy press release", "url": "https://www.universityofcalifornia.edu/press-room/university-california-board-regents-unanimously-approved-changes-standardized-testing" },
+    { "title": "ACT Newsroom — High School Grade Inflation on Rise, Especially in Math", "url": "https://leadershipblog.act.org/2023/08/grade-inflation-math.html" },
+    { "title": "Hechinger Report — New evidence of high school grade inflation", "url": "https://hechingerreport.org/proof-points-new-evidence-of-high-school-grade-inflation/" },
+    { "title": "Harvard OIRA — Common Data Set", "url": "https://oira.harvard.edu/common-data-set/" },
+    { "title": "MIT Institutional Research — 2024-25 Common Data Set", "url": "https://ir.mit.edu/projects/2024-25-common-data-set/" },
+    { "title": "Yale OIR — Common Data Set 2024-25", "url": "https://oir.yale.edu/common-data-set" }
+  ]
+}

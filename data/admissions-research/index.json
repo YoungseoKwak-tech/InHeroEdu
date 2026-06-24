@@ -1,0 +1,104 @@
+{
+  "generatedAt": "2026-06-24",
+  "streams": [
+    {
+      "stream": "ivy-stem",
+      "title": "Ivy League + MIT/Stanford/Caltech — STEM admit benchmarks",
+      "entries": 11,
+      "insights": 7,
+      "sourceURLs": 47,
+      "json": "ivy-stem.json",
+      "md": "ivy-stem.md"
+    },
+    {
+      "stream": "ivy-humanities",
+      "title": "Ivy League + Stanford/Duke/UChicago/Georgetown/Northwestern — humanities & social-science admit benchmarks",
+      "entries": 13,
+      "insights": 6,
+      "sourceURLs": 52,
+      "json": "ivy-humanities.json",
+      "md": "ivy-humanities.md"
+    },
+    {
+      "stream": "liberal-arts",
+      "title": "Top liberal-arts colleges — admit benchmarks, test profiles, and fit signals",
+      "entries": 12,
+      "insights": 8,
+      "sourceURLs": 54,
+      "json": "liberal-arts.json",
+      "md": "liberal-arts.md"
+    },
+    {
+      "stream": "top-publics",
+      "title": "Top public universities — admit benchmarks (in-state, out-of-state, international)",
+      "entries": 10,
+      "insights": 4,
+      "sourceURLs": 54,
+      "json": "top-publics.json",
+      "md": "top-publics.md"
+    },
+    {
+      "stream": "international-applicants",
+      "title": "International applicants to top US universities — admit rates, aid policies, and differentiators",
+      "entries": 10,
+      "insights": 6,
+      "sourceURLs": 34,
+      "json": "international-applicants.json",
+      "md": "international-applicants.md"
+    },
+    {
+      "stream": "korean-asian-applicants",
+      "title": "Korean / East-Asian applicants to top US schools — post-SFFA context, profile differentiation, and representation data",
+      "entries": 5,
+      "insights": 10,
+      "sourceURLs": 25,
+      "json": "korean-asian-applicants.json",
+      "md": "korean-asian-applicants.md"
+    },
+    {
+      "stream": "ec-spike-patterns",
+      "title": "Extracurricular & award patterns of elite admits — spike, tiers, and signal",
+      "entries": 10,
+      "insights": 7,
+      "sourceURLs": 38,
+      "json": "ec-spike-patterns.json",
+      "md": "ec-spike-patterns.md"
+    },
+    {
+      "stream": "testing-gpa-trends",
+      "title": "Standardized testing & GPA landscape by selectivity tier (2025-2026)",
+      "entries": 11,
+      "insights": 6,
+      "sourceURLs": 30,
+      "json": "testing-gpa-trends.json",
+      "md": "testing-gpa-trends.md"
+    },
+    {
+      "stream": "major-profiles",
+      "title": "Major profiles — what a competitive applicant looks like by intended major/field",
+      "entries": 6,
+      "insights": 6,
+      "sourceURLs": 39,
+      "json": "major-profiles.json",
+      "md": "major-profiles.md"
+    },
+    {
+      "stream": "reject-waitlist-patterns",
+      "title": "Reject & waitlist patterns — why strong-on-paper applicants get rejected/waitlisted at elite schools, and how waitlists work",
+      "entries": 5,
+      "insights": 15,
+      "sourceURLs": 36,
+      "json": "reject-waitlist-patterns.json",
+      "md": "reject-waitlist-patterns.md"
+    },
+    {
+      "stream": "essay-craft",
+      "title": "Essay craft — structures, themes, techniques (original analysis)",
+      "entries": 8,
+      "insights": 8,
+      "sourceURLs": 14,
+      "json": "essay-craft.json",
+      "md": "essay-craft.md"
+    }
+  ]
+}

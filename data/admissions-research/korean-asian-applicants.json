@@ -1,0 +1,91 @@
+{
+  "stream": "korean-asian-applicants",
+  "title": "Korean / East-Asian applicants to top US schools — post-SFFA context, profile differentiation, and representation data",
+  "generatedAt": "2026-06-24",
+  "schools": [
+    {
+      "name": "Harvard University",
+      "tier": "T20",
+      "cycle": "Class of 2027 → 2028 → 2029 (first three cycles spanning the SFFA ban)",
+      "asianAmericanSharePct": { "class2027": 29.9, "class2028": 37, "class2029": 41 },
+      "otherShareNotes": "Black/African American: 14% (2028) → 11.5% (2029). Hispanic/Latino: 16% (2028) → 11% (2029). Harvard no longer considers race; students may self-report after a decision is made.",
+      "sources": [
+        { "title": "Black and Hispanic Enrollment Drops, Asian Enrollment Rises for Harvard's Class of 2029 — The Harvard Crimson", "url": "https://www.thecrimson.com/article/2025/10/23/admissions-data-class-2029/" },
+        { "title": "Harvard's Class of 2029 Reflects Shifts in Racial Makeup After Affirmative Action Ends — Harvard Magazine", "url": "https://www.harvardmagazine.com/university-news/harvard-admissions-class-2029-admissions-data-ethnicity" }
+      ]
+    },
+    {
+      "name": "Massachusetts Institute of Technology",
+      "tier": "T20",
+      "cycle": "Class of 2027 → 2028 (first cycle under SFFA ban)",
+      "asianAmericanSharePct": { "class2027": 40, "class2028": 47 },
+      "otherShareNotes": "Black: 15% → 5%; Hispanic: 16% → 11%; combined Black/Hispanic/Indigenous fell ~14 points to ~17%. Admissions dean Stu Schmill said the quantifiable academic characteristics of the class did not change. MIT was the first highly selective school to publish post-SFFA demographics.",
+      "sources": [
+        { "title": "MIT's first freshman class since the affirmative-action ban is unmistakably less diverse — Fortune", "url": "https://fortune.com/2024/08/22/mit-freshman-class-2028-supreme-court-affirmative-action-harvard-unc-diversity-race-admissions/" },
+        { "title": "MIT reports drop in Black, Hispanic enrollment after Supreme Court ends affirmative action — Bay State Banner", "url": "https://baystatebanner.com/2024/09/04/mit-reports-drop-in-black-hispanic-enrollment-after-supreme-court-ends-affirmative-action/" }
+      ]
+    },
+    {
+      "name": "Yale University",
+      "tier": "T20",
+      "cycle": "Class of 2027 → 2028 → 2029",
+      "asianAmericanSharePct": { "class2027": 30, "class2028": 24, "class2029": 30 },
+      "otherShareNotes": "Asian American share fell from ~30% to ~24% in the first post-SFFA class (2028), then rebounded to ~30% in 2029. Black and Latine shares stayed relatively stable. Illustrates that the immediate post-ban shift was not uniform across schools.",
+      "sources": [
+        { "title": "In first Yale class since the end of affirmative action, Asian American share decreases — Yale Daily News", "url": "https://yaledailynews.com/articles/in-first-yale-class-since-the-end-of-affirmative-action-black-and-latine-enrollment-share-remains-stable-while-asian-american-decreases" },
+        { "title": "Small racial shifts in second class admitted without affirmative action — Yale Daily News", "url": "https://yaledailynews.com/articles/small-racial-shifts-in-second-class-admitted-without-affirmative-action" }
+      ]
+    },
+    {
+      "name": "Princeton University",
+      "tier": "T20",
+      "cycle": "Class of 2027 → 2028",
+      "asianAmericanSharePct": { "class2028": 23.8 },
+      "otherShareNotes": "Asian American enrollment fell ~2.2 percentage points for the Class of 2028 vs. the Class of 2027, to 23.8%. Demonstrates the mixed, school-by-school pattern in the first post-SFFA cycle.",
+      "sources": [
+        { "title": "Asian Americans see mixed results in enrollment after end of affirmative action — NBC News", "url": "https://www.nbcnews.com/news/asian-america/affirmative-action-enrollment-asian-americans-rcna170716" }
+      ]
+    },
+    {
+      "name": "Caltech / UC Berkeley (STEM-heavy reference points)",
+      "tier": "T20",
+      "cycle": "2024 tracking period",
+      "asianAmericanSharePct": { "caltech": 35.2, "ucBerkeley": 35.0, "mitOverall": 33.7 },
+      "otherShareNotes": "STEM-focused elite institutions reliably enroll classes where one-third or more of students identify as Asian. Provided as a representation benchmark, not an admit-rate claim.",
+      "sources": [
+        { "title": "Colleges with the Highest Asian Population — College Transitions", "url": "https://www.collegetransitions.com/blog/colleges-with-the-highest-asian-population/" },
+        { "title": "Racial Preferences on Campus: Trends in Asian Enrollment — Manhattan Institute", "url": "https://manhattan.institute/article/racial-preferences-on-campus-trends-in-asian-enrollment-at-u-s-colleges" }
+      ]
+    }
+  ],
+  "insights": [
+    "On June 29, 2023, the Supreme Court ruled in Students for Fair Admissions v. Harvard (and the companion UNC case) that race-conscious admissions violate the Equal Protection Clause; the suit was brought on the theory that Harvard's process disadvantaged Asian American applicants. Colleges may no longer consider race as a factor. (NPR; McGuireWoods)",
+    "Roberts' majority opinion left one explicit door open: 'Nothing in this opinion should be construed as prohibiting universities from considering an applicant's discussion of how race affected his or her life, be it through discrimination, inspiration, or otherwise' — but any such benefit must be tied to a quality of character or unique ability of the individual, not to race itself. (Harvard Crimson 'Inside the Decision'; ACE issue brief)",
+    "Post-ban enrollment outcomes for Asian American students were mixed, not uniform: Asian share at MIT rose 40%→47% and at Harvard 29.9%→37%→41% across the first cycles, but fell at Yale (30%→24%, then back to 30%) and Princeton (down ~2.2 pts to 23.8%). The takeaway for families: the ruling did not produce a single predictable shift. (NBC News; Fortune; Yale Daily News)",
+    "The Common App still shows a race checkbox, but colleges suppress that field so admissions readers do not see self-reported race. Practically, race is now visible to readers only if and how the applicant chooses to write about it. (College Essay Guy; UW School of Law)",
+    "Highly selective schools build a 'well-rounded class' out of specialists, not out of uniformly well-rounded individuals. For T20 targets, a clear 'spike' — deep, sustained, high-achieving commitment in one or two areas — generally reads as more memorable and admissible than ten moderate activities. (CollegeVine; Veritas Essays; A+ Test Prep)",
+    "Differentiation advice for Asian/Korean applicants is consistently framed as authenticity, not avoidance: do not abandon genuine interests (e.g., violin, math, premed) to engineer a 'less Asian' file, but do surface what is specifically yours within them. Princeton reader notes surfaced in litigation flagged some Asian files as 'very familiar' or 'standard premeds' — the differentiation problem is about a generic narrative, not about the activities themselves. (College Transitions; Shemmassian Consulting)",
+    "The 'spike' has to be authentic and not reverse-engineered into a formulaic persona; admissions readers are attuned to packaging. For Korean families used to a credential-stacking model, the strategic reframe is depth-with-a-story over breadth-of-titles. (myPrompt; Spike Lab)",
+    "Asian Americans are roughly 6% of U.S. 18–22-year-olds but are substantially overrepresented at elite institutions (Caltech ~35%, UC Berkeley ~35%, MIT ~34% in recent tracking; one-third-plus at several STEM-heavy schools). This context matters for setting realistic expectations: high representation coexists with intense within-pool competition. (Manhattan Institute; College Transitions; BestColleges)",
+    "Post-SFFA, schools have leaned on race-neutral levers — socioeconomic background, geographic diversity, first-generation status, and personal adversity tied to individual character. Essays and adversity-focused prompts have grown in frequency. This is the legitimate channel through which any applicant, including Korean/Asian applicants, can convey context. (American University JGSPL; ACE)",
+    "Caveat for families: none of this is a generalization about Korean or Asian students as people. It is strategy for how an individual file reads inside a specific, competitive admissions pool. The recurring expert advice is to lead with genuine identity and a distinctive narrative rather than to chase or flee a demographic 'type.'"
+  ],
+  "sources": [
+    { "title": "Supreme Court guts affirmative action, effectively ending race-conscious admissions — NPR", "url": "https://www.npr.org/2023/06/29/1181138066/affirmative-action-supreme-court-decision" },
+    { "title": "U.S. Supreme Court Issues Landmark SFFA College Affirmative Action Decision — McGuireWoods", "url": "https://www.mcguirewoods.com/client-resources/alerts/2023/6/us-supreme-court-landmark-college-affirmative-action-decision-sffa/" },
+    { "title": "Inside the Decision: Here's What the Supreme Court Said About Affirmative Action — The Harvard Crimson", "url": "https://www.thecrimson.com/article/2023/6/30/scotus-affirmative-action-analysis/" },
+    { "title": "Post-SFFA v. Harvard & UNC Decision Resources — American Council on Education", "url": "https://www.acenet.edu/Research-Insights/Pages/Post-SFFA-Decision-Resources.aspx" },
+    { "title": "Black and Hispanic Enrollment Drops, Asian Enrollment Rises for Harvard's Class of 2029 — The Harvard Crimson", "url": "https://www.thecrimson.com/article/2025/10/23/admissions-data-class-2029/" },
+    { "title": "MIT's first freshman class since the affirmative-action ban is unmistakably less diverse — Fortune", "url": "https://fortune.com/2024/08/22/mit-freshman-class-2028-supreme-court-affirmative-action-harvard-unc-diversity-race-admissions/" },
+    { "title": "Asian Americans see mixed results in enrollment after end of affirmative action — NBC News", "url": "https://www.nbcnews.com/news/asian-america/affirmative-action-enrollment-asian-americans-rcna170716" },
+    { "title": "In first Yale class since the end of affirmative action, Asian American share decreases — Yale Daily News", "url": "https://yaledailynews.com/articles/in-first-yale-class-since-the-end-of-affirmative-action-black-and-latine-enrollment-share-remains-stable-while-asian-american-decreases" },
+    { "title": "Is It 'Okay' to Talk About Race in Your College Application — College Essay Guy", "url": "https://www.collegeessayguy.com/blog/race-in-college-essays" },
+    { "title": "Three-Minute Legal Talks: Race and Ethnicity in College Applications — UW School of Law", "url": "https://www.law.uw.edu/news-events/news/2024/sffa-v-harvard" },
+    { "title": "How important is having a theme (spike vs well rounded student) — CollegeVine", "url": "https://www.collegevine.com/questions/12201/how-important-is-having-a-theme-spike-vs-well-rounded-student-in-your-application" },
+    { "title": "Having a Spike Is Better than Being Well-Rounded — Veritas Essays", "url": "https://veritasessays.org/college-admissions-blog/posts/college-admissions-well-rounded-v-spike" },
+    { "title": "Advice for Asian American College Applicants — College Transitions", "url": "https://www.collegetransitions.com/blog/asian-bias-college-admission/" },
+    { "title": "Asian American Discrimination in College Admissions: Myths, Facts, and Strategies — Shemmassian Academic Consulting", "url": "https://www.shemmassianconsulting.com/blog/asian-american-discrimination" },
+    { "title": "Racial Preferences on Campus: Trends in Asian Enrollment at U.S. Colleges — Manhattan Institute", "url": "https://manhattan.institute/article/racial-preferences-on-campus-trends-in-asian-enrollment-at-u-s-colleges" },
+    { "title": "AAPI Students in Higher Education: Facts and Statistics — BestColleges", "url": "https://www.bestcolleges.com/research/aanhpi-asian-student-statistics/" }
+  ]
+}

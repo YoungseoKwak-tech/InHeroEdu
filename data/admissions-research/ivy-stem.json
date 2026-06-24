@@ -1,0 +1,226 @@
+{
+  "stream": "ivy-stem",
+  "title": "Ivy League + MIT/Stanford/Caltech — STEM admit benchmarks",
+  "generatedAt": "2026-06-24",
+  "scope": "The 8 Ivy League schools plus MIT, Stanford, and Caltech (11 schools). Figures are STEM-relevant admit benchmarks drawn from each school's most recent available Common Data Set (CDS) and official admissions pages, supplemented by reputable aggregators where the official PDF was not directly machine-readable.",
+  "caveats": [
+    "SAT/ACT 25th/75th percentile ranges from test-optional cycles (Brown, Columbia, Cornell, Dartmouth Class of 2028, Stanford Class of 2028, etc.) are upward-biased because only stronger testers chose to submit. Several schools (MIT, Caltech, Harvard, Yale, Penn, Dartmouth, Brown, Stanford-from-2030) have since reinstated testing.",
+    "Most Ivy/peer CDS reports publish only 25th and 75th composite percentiles, so p50 is frequently null rather than fabricated.",
+    "These schools report class-rank bands (CDS C11) rather than a mean GPA; GPA notes reflect that.",
+    "EC/spike patterns are factual synthesis from official 'what we look for' pages and admissions guidance, not per-applicant statistics."
+  ],
+  "schools": [
+    {
+      "name": "Massachusetts Institute of Technology",
+      "tier": "T20",
+      "admitRatePct": 4.56,
+      "cycle": "2024-2025 (Class of 2029)",
+      "sat": { "p25": 1510, "p50": null, "p75": 1580 },
+      "act": { "p25": 34, "p50": null, "p75": 36 },
+      "gpa": { "note": "MIT reports no mean GPA; ~92% of admitted students ranked in the top 5% of their high school class. SAT Math mid-50% is roughly 780-800." },
+      "testPolicy": "required",
+      "topMajors": ["Electrical Engineering & Computer Science (Course 6)", "Mechanical Engineering", "Mathematics", "Physics", "Computer Science & Molecular Biology"],
+      "ecPatterns": ["National/international olympiad distinction (USAMO, USAPhO, USACO, USNCO; Olympiad team members heavily overrepresented)", "Original research with concrete output (ISEF/Regeneron STS finalists)", "Maker/builder spikes — shipped software, built hardware, robotics", "Deep single-domain STEM 'spike' over broad resume padding"],
+      "sources": [
+        { "title": "MIT Admissions — Admissions statistics", "url": "https://mitadmissions.org/apply/process/stats/" },
+        { "title": "MIT Institutional Research — 2024-25 Common Data Set", "url": "https://ir.mit.edu/projects/2024-25-common-data-set/" },
+        { "title": "MIT Admissions — We are reinstating our SAT/ACT requirement", "url": "https://mitadmissions.org/blogs/entry/we-are-reinstating-our-sat-act-requirement-for-future-admissions-cycles/" },
+        { "title": "MIT Admissions — First-year class profile", "url": "https://mitadmissions.org/apply/process/profile/" }
+      ]
+    },
+    {
+      "name": "Stanford University",
+      "tier": "T20",
+      "admitRatePct": 3.61,
+      "cycle": "2024-2025 CDS (Class of 2028 entering)",
+      "sat": { "p25": 1510, "p50": null, "p75": 1570 },
+      "act": { "p25": 34, "p50": null, "p75": 35 },
+      "gpa": { "note": "CDS reports a class-rank distribution rather than a single GPA; the vast majority of enrolled ranked in the top 10% of their class. Score ranges reflect the test-optional Class of 2028 (50.3% submitted SAT, 19% ACT)." },
+      "testPolicy": "required",
+      "topMajors": ["Computer Science (~18% of undergrad degrees)", "Engineering", "Human Biology", "Symbolic Systems", "Economics"],
+      "ecPatterns": ["High-level research, frequently with publication or lab placement", "Olympiad / national-level competition results (USACO, AMC/AIME/USAMO, USAPhO)", "Top science-fair placement (ISEF/Regeneron STS finalist)", "Founder/builder spikes — shipping software or hardware, often AI-adjacent given Silicon Valley pull"],
+      "sources": [
+        { "title": "Stanford Institutional Research & Decision Support — Common Data Set", "url": "https://irds.stanford.edu/data-findings/cds" },
+        { "title": "Stanford Report — Final enrollment data for Class of 2028 reported in CDS", "url": "https://news.stanford.edu/stories/2025/01/final-enrollment-data-for-class-of-2028-reported-in-common-data-set" },
+        { "title": "Stanford Report — Stanford to resume standardized test requirement (Class of 2030)", "url": "https://news.stanford.edu/stories/2024/06/stanford-to-resume-standardized-test-requirement" },
+        { "title": "Stanford IRDS — Degrees Conferred", "url": "https://irds.stanford.edu/data-findings/degrees-conferred" }
+      ]
+    },
+    {
+      "name": "California Institute of Technology",
+      "tier": "T20",
+      "admitRatePct": 3.78,
+      "cycle": "2024-2025 (Class of 2029)",
+      "sat": { "p25": 1530, "p50": null, "p75": 1570 },
+      "act": { "p25": null, "p50": null, "p75": null },
+      "gpa": { "note": "Among admits reporting class rank, ~87% were in the top 10% and 100% in the top half. CDS lists rigor of record, test scores, essays, recommendations, and character as 'very important'; GPA/rank/ECs only 'important'." },
+      "testPolicy": "required",
+      "topMajors": ["Engineering (~36% of degrees)", "Computer Science (~30%)", "Physical Sciences (~16%)", "Mathematics & Statistics (~11%)", "Biological Sciences (~6%)"],
+      "ecPatterns": ["Sustained, substantive engagement in 1-2 STEM areas with concrete output (RSI/SSP or independent research)", "National/international competition recognition (USAMO, USAPhO, USACO Platinum, USNCO, International Olympiads, Regeneron STS, Davidson Fellow)", "Substantial maker project — built robot, published software, original engineering contribution", "Proof-based math readiness and demonstrated 'depth' over breadth"],
+      "sources": [
+        { "title": "Caltech Institutional Research Office — Common Data Set 2024-2025", "url": "https://iro.caltech.edu/documents/31491/Caltech_CDS_2024-2025_May_2025.pdf" },
+        { "title": "Caltech — Caltech Restores Standardized Test Requirement", "url": "https://www.caltech.edu/about/news/caltech-restores-standardized-test-requirement-for-undergraduate-admission" },
+        { "title": "Caltech Undergraduate Admissions — What We Look For", "url": "https://www.admissions.caltech.edu/apply/what-we-look-for" },
+        { "title": "Caltech Undergraduate Admissions — Standardized Tests", "url": "https://www.admissions.caltech.edu/apply/first-year-applicants/standardized-tests" }
+      ]
+    },
+    {
+      "name": "Harvard University",
+      "tier": "T20",
+      "admitRatePct": 3.6,
+      "cycle": "2024-25 CDS (Class of 2028 entering)",
+      "sat": { "p25": 1510, "p50": null, "p75": 1580 },
+      "act": { "p25": 34, "p50": null, "p75": 36 },
+      "gpa": { "note": "~94% of enrolled first-years ranked in the top tenth of their high school class (CDS 2024-25, C11). Harvard does not report a mean GPA." },
+      "testPolicy": "required",
+      "topMajors": ["Computer Science", "Mathematics & Statistics", "Biology", "Engineering", "Economics"],
+      "ecPatterns": ["Original research / lab work and competition-level science projects (ISEF/Regeneron STS)", "Math/science olympiad distinction (USAMO, USACO, USNCO, USAPhO)", "Demonstrated single-domain 'spike' depth rather than broad resume padding"],
+      "sources": [
+        { "title": "Harvard OIRA — 2024-25 Common Data Set (Published)", "url": "https://oira.harvard.edu/2025/06/13/2024-25-common-data-set-cds-published/" },
+        { "title": "Harvard OIRA — Common Data Set archive", "url": "https://oira.harvard.edu/common-data-set/" },
+        { "title": "Harvard Common Data Set 2023-2024 (commondatasets.fyi)", "url": "https://www.commondatasets.fyi/harvard" }
+      ]
+    },
+    {
+      "name": "Princeton University",
+      "tier": "T20",
+      "admitRatePct": 4.4,
+      "cycle": "2024-2025 (Class of 2029)",
+      "sat": { "p25": 1500, "p50": null, "p75": 1560 },
+      "act": { "p25": 32, "p50": null, "p75": 35 },
+      "gpa": { "note": "Princeton's CDS reports class-rank bands rather than a mean GPA; the vast majority of enrolled rank in the top decile. Standardized scores are rated 'Very Important' in the CDS." },
+      "testPolicy": "test-optional",
+      "topMajors": ["Computer Science (B.S.E.)", "Electrical & Computer Engineering", "Operations Research & Financial Engineering", "Molecular Biology", "Economics / Econometrics"],
+      "ecPatterns": ["Engineering/research spikes feeding the SEAS pipeline, especially AI/ML projects", "Competition distinction (USACO, AMC/AIME, science olympiads)", "Independent or lab research with measurable output (ISEF/Regeneron, publications)"],
+      "sources": [
+        { "title": "Princeton Institutional Research — Common Data Set 2024-2025", "url": "https://ir.princeton.edu/document/546" },
+        { "title": "Princeton Admission — Admission Statistics", "url": "https://admission.princeton.edu/apply/admission-statistics" },
+        { "title": "Princeton Admission — Degrees & Departments", "url": "https://admission.princeton.edu/academics/degrees-departments" }
+      ]
+    },
+    {
+      "name": "Yale University",
+      "tier": "T20",
+      "admitRatePct": 3.9,
+      "cycle": "2024-2025 CDS (Class of 2028 entering)",
+      "sat": { "p25": 1480, "p50": null, "p75": 1560 },
+      "act": { "p25": 33, "p50": null, "p75": 35 },
+      "gpa": { "note": "~96% of enrolled first-years ranked in the top tenth of their high school class (CDS 2024-25). Yale does not report a mean GPA." },
+      "testPolicy": "test-flexible",
+      "topMajors": ["Computer Science", "Biology / Molecular Biology", "Mathematics", "Engineering", "Economics"],
+      "ecPatterns": ["Sustained independent research and science-fair recognition (ISEF/Regeneron STS)", "Olympiad / competition distinction (AMC/AIME, USACO, science olympiads)", "Intellectual-vitality 'spike' — deep, self-driven engagement in one STEM area paired with leadership"],
+      "sources": [
+        { "title": "Yale Office of Institutional Research — Common Data Set 2024-25 (PDF)", "url": "https://oir.yale.edu/sites/default/files/yale_cds_2024-25_rmd_20250612.pdf" },
+        { "title": "Yale OIR — First-Year Student SAT Scores (W032)", "url": "https://oir.yale.edu/data-browser/student-data/admissions/yale-college-first-year-student-sat-scores-w032" },
+        { "title": "Yale Common Data Set 2024-2025 (Cosmic College Consulting)", "url": "https://www.cosmic.nyc/blog/yale-admissions-2024-2025" }
+      ]
+    },
+    {
+      "name": "Columbia University",
+      "tier": "T20",
+      "admitRatePct": 3.9,
+      "cycle": "2023-2024 (Class of 2027 entering)",
+      "sat": { "p25": 1510, "p50": null, "p75": 1560 },
+      "act": { "p25": 34, "p50": null, "p75": 35 },
+      "gpa": { "note": "CDS reports SAT/ACT bands rather than a GPA mean; Columbia is highly rank-driven. Only ~44% of enrolled first-years submitted SAT and ~29% ACT under the test-optional policy." },
+      "testPolicy": "test-optional",
+      "topMajors": ["Computer Science", "Engineering (Columbia Engineering / SEAS)", "Applied Mathematics", "Biological Sciences", "Economics"],
+      "ecPatterns": ["Original research and lab experience (often via Columbia/NYC-area programs)", "Math/science olympiad and AMC/AIME distinction", "USACO for CS-track applicants", "ISEF/Regeneron science-fair recognition", "Single-domain STEM 'spike' depth over breadth"],
+      "sources": [
+        { "title": "Columbia Office of Planning & Institutional Research — Common Data Set", "url": "https://opir.columbia.edu/cds" },
+        { "title": "Columbia College & Columbia Engineering 2023-24 Common Data Set (PDF)", "url": "https://opir.columbia.edu/sites/opir.columbia.edu/files/content/Common%20Data%20Set/2023-24_Columbia_College_and_Columbia_Engineering_CDS.pdf" },
+        { "title": "Columbia Undergraduate Admissions — Testing Policy", "url": "https://undergrad.admissions.columbia.edu/apply/process/testing" }
+      ]
+    },
+    {
+      "name": "University of Pennsylvania",
+      "tier": "T20",
+      "admitRatePct": 5.4,
+      "cycle": "2023-2024 (Class of 2028 entering)",
+      "sat": { "p25": 1500, "p50": null, "p75": 1570 },
+      "act": { "p25": 34, "p50": null, "p75": 35 },
+      "gpa": { "note": "Per CDS-derived reporting, ~58% of admitted students had a 4.0 and another ~31% fell between 3.75 and 3.99; Penn does not publish a single CDS GPA mean." },
+      "testPolicy": "required",
+      "topMajors": ["Computer Science (SEAS)", "Bioengineering / Biomedical Engineering", "Finance / Financial Analytics (Wharton)", "Economics / Econometrics", "Biology"],
+      "ecPatterns": ["Quantitative/research spikes bridging STEM and business (Wharton-STEM dual interest)", "Computer-science competition record (USACO) and AMC/AIME math distinction", "Independent or university-affiliated research, ISEF/Regeneron recognition", "Bioengineering applicants with wet-lab or clinical research", "Leadership in a focused STEM venture or publication"],
+      "sources": [
+        { "title": "Penn Institutional Research & Analysis — Common Data Set", "url": "https://ira.upenn.edu/penn-numbers/common-data-set" },
+        { "title": "Penn Admissions — Testing (SAT/ACT required, 2025-26 cycle)", "url": "https://admissions.upenn.edu/how-to-apply/preparing-your-application/testing" },
+        { "title": "Penn Today — Penn reinstates standardized testing", "url": "https://penntoday.upenn.edu/announcements/penn-reinstates-standardized-testing-undergraduate-admissions" }
+      ]
+    },
+    {
+      "name": "Cornell University",
+      "tier": "T20",
+      "admitRatePct": 8.38,
+      "cycle": "2024-2025 (Class of 2029)",
+      "sat": { "p25": 1510, "p50": null, "p75": 1560 },
+      "act": { "p25": 33, "p50": null, "p75": 35 },
+      "gpa": { "note": "~90% of admitted students in the top 10% of their high school class; CDS reports class-rank bands, not a mean GPA. Engineering/Dyson applicants skew higher (mid-50% SAT ~1520-1570)." },
+      "testPolicy": "test-optional",
+      "topMajors": ["Computer Science", "Engineering", "Biological & Biomedical Sciences", "Applied Economics (Dyson)", "Physical Sciences"],
+      "ecPatterns": ["Research (often via summer programs / faculty mentorship)", "USACO/competitive programming and AMC/AIME math distinction for CS & Engineering admits", "Science/engineering fair placement (ISEF/Regeneron)", "Domain-specific 'spike' aligned to the specific Cornell college applied to (Engineering, CALS, CAS)"],
+      "sources": [
+        { "title": "Cornell Common Data Set 2024-2025 (Cosmic College Consulting)", "url": "https://www.cosmic.nyc/blog/cornell-admissions-2024-2025" },
+        { "title": "Cornell Office of Institutional Research & Planning — Common Data Set", "url": "https://irp.dpb.cornell.edu/wp-content/uploads/2023/03/CDS_2022-2023_Cornell-University-v5.pdf" },
+        { "title": "Cornell Admission Statistics 2025 (NextGenAdmit)", "url": "https://nextgenadmit.com/cornell-admission-statistics/" }
+      ]
+    },
+    {
+      "name": "Dartmouth College",
+      "tier": "T20",
+      "admitRatePct": 6.0,
+      "cycle": "2024-2025 CDS (Class of 2028); RD-only rate for Class of 2029 was ~4.4%",
+      "sat": { "p25": 1500, "p50": null, "p75": 1560 },
+      "act": { "p25": 33, "p50": null, "p75": 35 },
+      "gpa": { "note": "CDS reports class-rank bands; large majority of enrolled in the top 10% of class. SAT/ACT ranges reflect the test-optional Class of 2028 cohort (upward-biased)." },
+      "testPolicy": "required",
+      "topMajors": ["Computer Science", "Engineering (Thayer)", "Mathematics", "Biological Sciences", "Economics"],
+      "ecPatterns": ["Research output, often interdisciplinary", "Math/CS competition distinction (AMC/AIME, USACO)", "Science fair recognition (ISEF/Regeneron)", "Demonstrated intellectual initiative beyond the classroom — independent projects"],
+      "sources": [
+        { "title": "Dartmouth College Common Data Set 2024-2025 (PDF) — Office of Institutional Research", "url": "https://www.dartmouth.edu/oir/pdfs/cds_2024-2025.pdf" },
+        { "title": "Dartmouth — Office of Institutional Research, CDS index", "url": "https://www.dartmouth.edu/oir/data-reporting/cds/index.html" },
+        { "title": "Dartmouth reinstates SAT/ACT requirement (PDF)", "url": "https://home.dartmouth.edu/sites/home/files/2024-02/sat-undergrad-admissions.pdf" }
+      ]
+    },
+    {
+      "name": "Brown University",
+      "tier": "T20",
+      "admitRatePct": 5.38,
+      "cycle": "2024-2025 (Class of 2029)",
+      "sat": { "p25": 1510, "p50": null, "p75": 1560 },
+      "act": { "p25": 34, "p50": null, "p75": null },
+      "gpa": { "note": "Brown's CDS reports test bands rather than a GPA mean; admits cluster near the 99th percentile nationally. ~61% of enrolled first-years submitted SAT and ~24% ACT." },
+      "testPolicy": "required",
+      "topMajors": ["Computer Science (most-conferred major)", "Computational & Applied Mathematics", "Biology", "Engineering", "Economics"],
+      "ecPatterns": ["Self-directed research aligned with Brown's Open Curriculum (interdisciplinary STEM)", "USACO and competitive-programming record for CS applicants", "AMC/AIME/USAMO math-olympiad distinction", "ISEF/Regeneron science-fair recognition", "Coherent intellectual 'spike' crossing STEM and another field, fitting the Open Curriculum narrative"],
+      "sources": [
+        { "title": "Brown Office of Institutional Research — Common Data Set", "url": "https://oir.brown.edu/institutional-data/common-data-set" },
+        { "title": "Brown Common Data Set 2024-2025 (Cosmic College Consulting)", "url": "https://www.cosmic.nyc/blog/brown-admissions-2024-2025" },
+        { "title": "Brown University 2026 Common Data Set: Visualized (GradGPT)", "url": "https://www.gradgpt.com/common-data-set/brown-university" }
+      ]
+    }
+  ],
+  "insights": [
+    "Across all 11 schools the STEM admit bar clusters tightly: composite SAT mid-50% roughly 1500-1580 and ACT 33-36. A score below ~1500 SAT / 33 ACT is a meaningful outlier at every school here.",
+    "The math half of the SAT effectively must be near-perfect for STEM admits — MIT's SAT Math mid-50% runs ~780-800. For STEM applicants the EBRW score has more slack than the math score.",
+    "Testing has swung back to required: MIT, Caltech, Harvard, Yale (test-flexible), Penn, Dartmouth, Brown require scores, and Stanford requires them starting the Class of 2030. Of this set only Columbia, Cornell, and Princeton were still test-optional in their most recent published cycle — so a strong score is increasingly non-negotiable.",
+    "Grades/rank are necessary but not differentiating: 90%+ of admits sit in the top 10% (often top 5%) of their high school class. Above that floor, the decision is driven by the 'spike,' not by squeezing out the last tenth of GPA.",
+    "The consistent STEM differentiator is concrete, externally-validated output: olympiad placement (USAMO/USAPhO/USACO Platinum/USNCO), science-fair recognition (ISEF, Regeneron STS), or published/mentored research — not club titles. Caltech states this most explicitly ('depth' over breadth; what you produced, not your position).",
+    "Computer Science is the #1 or #2 most-conferred major at essentially all 11 schools, so the CS applicant pool is the most saturated — a USACO Platinum/Gold record or shipped software project is closer to table stakes than a bonus for CS-track applicants.",
+    "Per-college fit matters at the school level: Cornell, Penn, and Princeton admit into specific colleges/schools (Engineering, Wharton, SEAS), so a STEM spike should be aimed at the right division, while Brown rewards a spike that bridges STEM with another field via the Open Curriculum."
+  ],
+  "sources": [
+    { "title": "MIT Admissions — Admissions statistics", "url": "https://mitadmissions.org/apply/process/stats/" },
+    { "title": "Caltech Institutional Research Office — Common Data Set 2024-2025", "url": "https://iro.caltech.edu/documents/31491/Caltech_CDS_2024-2025_May_2025.pdf" },
+    { "title": "Stanford Institutional Research & Decision Support — Common Data Set", "url": "https://irds.stanford.edu/data-findings/cds" },
+    { "title": "Harvard OIRA — Common Data Set archive", "url": "https://oira.harvard.edu/common-data-set/" },
+    { "title": "Yale Office of Institutional Research — Common Data Set", "url": "https://oir.yale.edu/sites/default/files/yale_cds_2024-25_rmd_20250612.pdf" },
+    { "title": "Princeton Institutional Research — Common Data Set 2024-2025", "url": "https://ir.princeton.edu/document/546" },
+    { "title": "Columbia Office of Planning & Institutional Research — Common Data Set", "url": "https://opir.columbia.edu/cds" },
+    { "title": "Penn Institutional Research & Analysis — Common Data Set", "url": "https://ira.upenn.edu/penn-numbers/common-data-set" },
+    { "title": "Cornell Office of Institutional Research & Planning", "url": "https://irp.dpb.cornell.edu/" },
+    { "title": "Dartmouth Office of Institutional Research — Common Data Set", "url": "https://www.dartmouth.edu/oir/data-reporting/cds/index.html" },
+    { "title": "Brown Office of Institutional Research — Common Data Set", "url": "https://oir.brown.edu/institutional-data/common-data-set" }
+  ]
+}

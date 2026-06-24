@@ -1,0 +1,265 @@
+{
+  "stream": "ivy-humanities",
+  "title": "Ivy League + Stanford/Duke/UChicago/Georgetown/Northwestern — humanities & social-science admit benchmarks",
+  "generatedAt": "2026-06-14",
+  "note": "Admit-rate, score, and rank figures are school-wide (CDS does not break out by intended major). topMajors and ecPatterns focus on humanities & social-science fields. No school reports a mean GPA — the CDS records class-rank bands instead. SAT/ACT 50th percentile (p50) is null where the school's CDS reports only 25th/75th. Test policy reflects the current (2025-26) cycle and is in flux at several schools; where a school's most recent CDS cohort predates a policy change, that is noted.",
+  "schools": [
+    {
+      "name": "Harvard University",
+      "tier": "T20",
+      "admitRatePct": 3.65,
+      "cycle": "2024-2025 CDS (Class of 2028); 1,970 admitted / 54,008 applicants",
+      "sat": { "p25": 1510, "p50": null, "p75": 1580, "note": "CDS prints by section: EBRW 740/760/780, Math 770/790/800 (25/50/75). Composite band approximate; p50 not given by section composite." },
+      "act": { "p25": 34, "p50": 35, "p75": 36, "note": "p50 aggregator-derived; official C9 page was truncated." },
+      "gpa": { "note": "No mean GPA. Class rank marked 'Not considered' in CDS C7, so no rank band reported. GPA marked 'Considered.'" },
+      "testPolicy": "required",
+      "testPolicyNote": "SAT/ACT required from Fall 2025 / Class of 2029 onward; AP/IB substitute only in exceptional cases. The Fall 2024 CDS cohort was still test-optional.",
+      "topMajors": ["Economics", "Government", "Social Studies (interdisciplinary honors)", "History", "English", "History & Literature"],
+      "ecPatterns": ["depth over breadth", "debate / Model UN / policy", "archival & social-science research (e.g. BLISS)", "writing / publication / journalism", "mission-driven service"],
+      "sources": [
+        { "title": "Harvard CDS 2024-2025 (official PDF)", "url": "https://bpb-us-e1.wpmucdn.com/sites.harvard.edu/dist/6/210/files/2025/06/HarvardUniversity_CDS_2024-2025.pdf" },
+        { "title": "Harvard CDS landing (OIRA)", "url": "https://oira.harvard.edu/common-data-set/" },
+        { "title": "Harvard returns to required testing", "url": "https://news.harvard.edu/gazette/story/2024/04/harvard-announces-return-to-required-testing/" },
+        { "title": "Harvard CDS percentile aggregate", "url": "https://www.gradgpt.com/common-data-set/harvard-university" }
+      ]
+    },
+    {
+      "name": "Yale University",
+      "tier": "T20",
+      "admitRatePct": 3.87,
+      "cycle": "2024-2025 CDS (Class of 2028); 2,227 admitted / 57,517 applicants",
+      "sat": { "p25": 1480, "p50": 1530, "p75": 1560, "note": "p50 reported directly. EBRW 730/760/780; Math 740/780/790. 61% submitted SAT." },
+      "act": { "p25": 33, "p50": 34, "p75": 35, "note": "25% submitted ACT." },
+      "gpa": { "note": "No mean GPA. Among the 33% who submitted rank: 96% top tenth, 99% top quarter, 100% top half (CDS C10)." },
+      "testPolicy": "test-flexible",
+      "testPolicyNote": "Test-flexible (SAT/ACT/AP/IB) through Fall 2026 entry. SAT or ACT REQUIRED beginning Class of 2031 / Fall 2027 (announced May 2026); AP/IB no longer accepted in lieu.",
+      "topMajors": ["Economics", "History", "Political Science & Government", "English", "Global Affairs", "Ethics, Politics & Economics (EPE)", "Humanities"],
+      "ecPatterns": ["debate / Mock Trial / Model UN", "journalism / literary magazines / essay competitions", "humanities & policy research and advocacy", "depth + demonstrated impact"],
+      "sources": [
+        { "title": "Yale CDS 2024-2025 (official PDF)", "url": "https://oir.yale.edu/sites/default/files/yale_cds_2024-25_rmd_20250612.pdf" },
+        { "title": "Yale undergraduate admissions testing-policy update (May 2026)", "url": "https://news.yale.edu/2026/05/27/undergraduate-admissions-updates-testing-policy" },
+        { "title": "Yale standardized testing policy", "url": "https://admissions.yale.edu/standardized-testing" }
+      ]
+    },
+    {
+      "name": "Princeton University",
+      "tier": "T20",
+      "admitRatePct": 4.62,
+      "cycle": "2024-2025 (Class of 2028); 1,868 admitted / 40,468 applicants",
+      "sat": { "p25": 1500, "p50": null, "p75": 1560, "note": "EBRW 740-780; Math 770-800. p50 not reported in Princeton's CDS C9." },
+      "act": { "p25": 34, "p50": null, "p75": 35, "note": "p50 not reported." },
+      "gpa": { "note": "No mean GPA. Class rank essentially not collected/reported (most admit high schools do not rank)." },
+      "testPolicy": "test-optional",
+      "testPolicyNote": "Test-optional for Fall 2026 and Fall 2027 entry; REQUIRED beginning the 2027-28 cycle (Fall 2028 entry). No score minimums; military exempt.",
+      "topMajors": ["Economics", "School of Public and International Affairs (SPIA)", "Politics", "History", "English", "Philosophy"],
+      "ecPatterns": ["writing / publication central (application requires a graded written paper)", "sustained depth + leadership", "debate / Model UN / policy / journalism", "research tied to intended major"],
+      "sources": [
+        { "title": "Princeton admission statistics (official)", "url": "https://admission.princeton.edu/apply/admission-statistics" },
+        { "title": "Princeton standardized testing policy", "url": "https://admission.princeton.edu/apply/standardized-testing" },
+        { "title": "Princeton CDS mirror", "url": "https://www.commondatasets.fyi/princeton" }
+      ]
+    },
+    {
+      "name": "Brown University",
+      "tier": "T20",
+      "admitRatePct": 5.2,
+      "cycle": "Class of 2028 (2,521 admitted / 48,898 applicants, per Brown news). Latest officially posted CDS is 2023-2024 (Class of 2027, ~5%).",
+      "sat": { "p25": 1500, "p50": 1530, "p75": 1560, "note": "Brown news cites admitted Class of 2028 mid-50% = 1480-1560; avg ~1540. Per-section 25th percentiles unverified." },
+      "act": { "p25": 34, "p50": null, "p75": 35, "note": "Brown news Class of 2028 mid-50% = 34-35; avg 35. p50 not distinctly published." },
+      "gpa": { "note": "No mean GPA in CDS. ~90% of admits in top tenth of HS class." },
+      "testPolicy": "required",
+      "testPolicyNote": "SAT or ACT required from the 2024-25 cycle onward (reversed test-optional). The latest CDS-year cohort (2023-24) was still test-optional.",
+      "topMajors": ["Economics", "International & Public Affairs", "English", "History", "Political Science", "Philosophy", "Comparative Literature"],
+      "ecPatterns": ["depth over breadth tied to the Open Curriculum", "debate / Model UN", "independent research", "writing / publication / journalism", "policy & public-affairs engagement", "advanced humanities coursework"],
+      "sources": [
+        { "title": "Brown CDS landing (OIR)", "url": "https://oir.brown.edu/institutional-data/common-data-set" },
+        { "title": "Brown admitted-class news (Class of 2028)", "url": "https://www.brown.edu/news/2024-03-28/admitted" },
+        { "title": "Brown CDS mirror", "url": "https://www.commondatasets.fyi/brown" }
+      ]
+    },
+    {
+      "name": "Columbia University",
+      "tier": "T20",
+      "admitRatePct": 3.9,
+      "cycle": "2023-2024 CDS (Class of 2027); ~2,284 admitted / ~57,126 applicants (approximate). No newer undergraduate CDS posted.",
+      "sat": { "p25": 1500, "p50": null, "p75": 1560, "note": "p50 not reported in CDS C9." },
+      "act": { "p25": 34, "p50": null, "p75": 35, "note": "p50 not reported." },
+      "gpa": { "note": "No mean GPA. ~95.7% of admits in top 10% of HS class (CDS C10, Fall 2023)." },
+      "testPolicy": "test-optional",
+      "testPolicyNote": "Permanently test-optional (announced March 2023) — the only Ivy with a permanent test-optional policy.",
+      "topMajors": ["Economics", "Political Science", "History", "English & Comparative Literature", "Philosophy"],
+      "ecPatterns": ["2-4 high-tier sustained activities with leadership/impact", "debate", "independent research / writing", "published writing / journalism", "policy & social-justice work"],
+      "sources": [
+        { "title": "Columbia CDS 2023-24 (official PDF)", "url": "https://opir.columbia.edu/sites/default/files/content/Common%20Data%20Set/2023-24_Columbia_College_and_Columbia_Engineering_CDS.pdf" },
+        { "title": "Columbia first-year admissions / test policy", "url": "https://undergrad.admissions.columbia.edu/apply/firstyear" },
+        { "title": "Columbia CDS mirror", "url": "https://www.commondatasets.fyi/columbia" }
+      ]
+    },
+    {
+      "name": "University of Pennsylvania",
+      "tier": "T20",
+      "admitRatePct": 5.4,
+      "cycle": "2024-2025 CDS (Fall 2024 entering class; cycle was test-optional). Penn's lowest admit rate on record.",
+      "sat": { "p25": 1500, "p50": null, "p75": 1570, "note": "An ~1540 figure appears reported as an 'average' rather than a strict CDS p50." },
+      "act": { "p25": 34, "p50": null, "p75": 35, "note": "p50 not reported." },
+      "gpa": { "note": "No mean GPA. ~91-93% top tenth, ~98% top quarter, ~52% with 4.0 (only ~22% submitted rank — small subset)." },
+      "testPolicy": "required",
+      "testPolicyNote": "Test-required beginning the 2025-26 cycle (Fall 2026 entry) after four years test-optional; hardship waiver available. The most recent CDS cycle was still test-optional.",
+      "topMajors": ["Economics", "Politics, Philosophy & Economics (PPE)", "Political Science", "History", "English", "Philosophy"],
+      "ecPatterns": ["depth & leadership over breadth", "debate (Penn Debate Society)", "Model UN (UPMUNC)", "research (Summer Humanities Internships)", "writing / journalism", "policy & civic engagement (Penn-in-Washington)"],
+      "sources": [
+        { "title": "Penn CDS landing (IRA)", "url": "https://ira.upenn.edu/penn-numbers/common-data-set" },
+        { "title": "Penn reinstates standardized testing", "url": "https://penntoday.upenn.edu/announcements/penn-reinstates-standardized-testing-undergraduate-admissions" },
+        { "title": "Penn CDS-derived admission statistics", "url": "https://nextgenadmit.com/university-of-pennsylvania-admission-statistics/" }
+      ]
+    },
+    {
+      "name": "Dartmouth College",
+      "tier": "T20",
+      "admitRatePct": 6.02,
+      "cycle": "2025-2026 CDS (Class of 2029); 1,699 admitted / 28,230 applicants. Prior year 5.40% (Fall 2024).",
+      "sat": { "p25": 1440, "p50": 1520, "p75": 1550, "note": "median reported this cycle. 69% submitted SAT." },
+      "act": { "p25": 32, "p50": 34, "p75": 35, "note": "33% submitted ACT." },
+      "gpa": { "note": "No mean GPA (GPA fields left blank). Class rank (CDS C10, Fall 2025): 96% top tenth, 99% top quarter (44% submitted rank)." },
+      "testPolicy": "required",
+      "testPolicyNote": "Test-required — first Ivy to reinstate, beginning Class of 2029.",
+      "topMajors": ["Economics", "Government / Political Science", "History", "English", "Philosophy"],
+      "ecPatterns": ["depth over breadth — one distinctive pursuit", "debate (national parliamentary)", "independent research (one-page research abstract accepted)", "writing / publication / journalism / policy"],
+      "sources": [
+        { "title": "Dartmouth CDS 2025-26 (official PDF)", "url": "https://www.dartmouth.edu/oir/pdfs/cds_2025-26.pdf" },
+        { "title": "Dartmouth testing policy", "url": "https://admissions.dartmouth.edu/apply/testing-policy" }
+      ]
+    },
+    {
+      "name": "Cornell University",
+      "tier": "T20",
+      "admitRatePct": null,
+      "cycle": "2024-2025 CDS (Fall 2024). Admit rate suppressed by Cornell (no public applicant/admit counts since Class of 2024); a ~8.4% third-party estimate exists but is not official.",
+      "sat": { "p25": 1510, "p50": null, "p75": 1560, "note": "~41-45% submitted. p50 not reported." },
+      "act": { "p25": 33, "p50": null, "p75": 35, "note": "~15-20% submitted. p50 not reported." },
+      "gpa": { "note": "No mean GPA. Among the ~18% who reported rank: 85.6% top tenth, 95.5% top quarter." },
+      "testPolicy": "required",
+      "testPolicyNote": "Mixed for Fall 2025 (test-optional for A&S, Engineering, Human Ecology, Brooks/Public Policy, ILR; test-blind for CALS, AAP, SC Johnson Business). Test-required for all eight colleges starting Fall 2026.",
+      "topMajors": ["Industrial & Labor Relations (ILR)", "Economics", "Government", "History", "English", "Philosophy", "Sociology", "Brooks School of Public Policy"],
+      "ecPatterns": ["debate & Model UN (ILR runs its own debate program)", "policy / advocacy / public service", "research / writing / publication / journalism", "mission-aligned leadership and strong 'Why ILR/Why major' fit"],
+      "sources": [
+        { "title": "Cornell CDS 2024-2025 (official PDF)", "url": "https://irp.dpb.cornell.edu/wp-content/uploads/2025/07/CDS-2024-2025-v6-print.pdf" },
+        { "title": "Cornell standardized testing policy", "url": "https://admissions.cornell.edu/policies/standardized-testing-policy" },
+        { "title": "Cornell to reinstate test requirements (Fall 2026)", "url": "https://news.cornell.edu/stories/2024/04/cornell-reinstate-standardized-test-requirements-fall-2026" }
+      ]
+    },
+    {
+      "name": "Stanford University",
+      "tier": "T20",
+      "admitRatePct": 3.6,
+      "cycle": "2024-2025 CDS (Class of 2028); 57,326 applications / 2,067 offers / 1,693 enrolled.",
+      "sat": { "p25": 1510, "p50": null, "p75": 1570, "note": "EBRW 740-780, Math 770-800. Only 50.3% of enrollees submitted SAT. p50 not reported." },
+      "act": { "p25": 34, "p50": null, "p75": 35, "note": "19% submitted ACT. p50 not reported." },
+      "gpa": { "note": "No mean GPA. Class rank: 97.8% top tenth, 100% top quarter (among the 18.8% who submitted rank)." },
+      "testPolicy": "required",
+      "testPolicyNote": "Required — reinstated for the Fall 2025 cycle (Class of 2030) onward; was test-optional 2020-2024.",
+      "topMajors": ["Economics", "Political Science", "International Relations", "English", "History", "Philosophy", "Public Policy"],
+      "ecPatterns": ["debate / Model UN / student government with leadership tiers", "mentored research", "writing / journalism / publication", "policy internships & civic engagement", "a clear sustained 'spike'"],
+      "sources": [
+        { "title": "Stanford CDS landing (IRDS)", "url": "https://irds.stanford.edu/data-findings/cds" },
+        { "title": "Stanford 2024-2025 admissions summary", "url": "https://www.cosmic.nyc/blog/stanford-admissions-2024-2025" },
+        { "title": "Stanford to resume standardized test requirement", "url": "https://news.stanford.edu/stories/2024/06/stanford-to-resume-standardized-test-requirement" }
+      ]
+    },
+    {
+      "name": "Duke University",
+      "tier": "T20",
+      "admitRatePct": 5.1,
+      "cycle": "2024-2025 CDS (Class of 2028, Fall 2024). ED ~12.9%, RD ~4.1%.",
+      "sat": { "p25": 1500, "p50": null, "p75": 1570, "note": "avg ~1540; one source showed 1490/1560 — verify against PDF. p50 not reported." },
+      "act": { "p25": 34, "p50": null, "p75": 35, "note": "p50 not reported." },
+      "gpa": { "note": "No mean GPA. Class rank: ~80% top tenth, ~99% top quarter (only ~27% submitted rank)." },
+      "testPolicy": "test-optional",
+      "testPolicyNote": "Test-optional for 2025-2026; scores considered if sent, no disadvantage for omitting.",
+      "topMajors": ["Public Policy (Sanford School)", "Economics", "Political Science", "History", "Sociology", "English"],
+      "ecPatterns": ["depth-over-breadth 'spiky' profiles", "debate / Mock Trial / Model UN", "campaign & law internships", "independent research & publication", "interdisciplinary work (Bass Connections)"],
+      "sources": [
+        { "title": "Duke CDS 2024-25 (official PDF)", "url": "https://ir.provost.duke.edu/sites/default/files/CDS-2024-25-Final-2.pdf" },
+        { "title": "Duke admissions / test policy", "url": "https://admissions.duke.edu/apply/" },
+        { "title": "Duke CDS-derived stats", "url": "https://www.gradgpt.com/common-data-set/duke-university" }
+      ]
+    },
+    {
+      "name": "University of Chicago",
+      "tier": "T20",
+      "admitRatePct": 4.48,
+      "cycle": "2024-2025 CDS (Class of 2028, Fall 2024); 43,612 applicants / 1,955 admitted / 1,726 enrolled.",
+      "sat": { "p25": 1510, "p50": 1540, "p75": 1560, "note": "p50 reported. 49% submitted SAT." },
+      "act": { "p25": 34, "p50": 35, "p75": 35, "note": "27% submitted ACT." },
+      "gpa": { "note": "No mean GPA. Class rank (C10): 96% top 10%, 99% top 25%. GPA bands (C11): 58.5% had 4.0; 30.1% 3.75-3.99 (25.5% submitted rank)." },
+      "testPolicy": "test-optional",
+      "testPolicyNote": "Test-optional (long-standing since 2018); CDS C8A confirms SAT/ACT 'not required but considered if submitted' for Fall 2026.",
+      "topMajors": ["Economics", "Political Science", "Public Policy Studies", "History", "English", "Philosophy"],
+      "ecPatterns": ["intellectual depth over titles", "published writing / research", "faculty-mentored projects", "national debate / RSI", "journalism / policy", "Model UN"],
+      "sources": [
+        { "title": "UChicago CDS 2024-2025 (official PDF)", "url": "https://bpb-us-w2.wpmucdn.com/voices.uchicago.edu/dist/8/2077/files/2025/08/CDS_2024-2025_to_publish.pdf" },
+        { "title": "UChicago CDS landing", "url": "https://data.uchicago.edu/common-data-set/" },
+        { "title": "UChicago majors breakdown (Maroon)", "url": "https://chicagomaroon.com/22284/news/breakdown-of-undergraduates-by-major/" }
+      ]
+    },
+    {
+      "name": "Georgetown University",
+      "tier": "T20",
+      "admitRatePct": 12.9,
+      "cycle": "2024-2025 cycle (Class of 2028).",
+      "sat": { "p25": 1400, "p50": null, "p75": 1540, "note": "one source cited 1410-1560 — verify against raw PDF. p50 not reported." },
+      "act": { "p25": 31, "p50": null, "p75": 35, "note": "p50 not reported." },
+      "gpa": { "note": "No mean GPA. Class rank: ~85% top 10%, ~95% top 25%, ~99% top 50%." },
+      "testPolicy": "required",
+      "testPolicyNote": "Required — all applicants must submit SAT or ACT for 2025-2026 (not optional, not blind). Superscored; Writing not used.",
+      "topMajors": ["International Politics / International Relations (Walsh School of Foreign Service, SFS)", "International Economics", "Government", "Economics", "History", "Philosophy", "Public Policy (McCourt)"],
+      "ecPatterns": ["Model UN", "debate", "government / policy internships", "research", "journalism / publication", "global service — leadership and tangible impact, depth over breadth"],
+      "sources": [
+        { "title": "Georgetown CDS landing (OADS)", "url": "https://oads.georgetown.edu/commondataset/" },
+        { "title": "Georgetown admissions / required testing", "url": "https://bulletin.georgetown.edu/admissions/" },
+        { "title": "Georgetown SFS #1 in Foreign Policy rankings", "url": "https://sfs.georgetown.edu/news/georgetown-ranks-1-in-foreign-policy-2024-rankings/" }
+      ]
+    },
+    {
+      "name": "Northwestern University",
+      "tier": "T20",
+      "admitRatePct": 7.7,
+      "cycle": "2024-2025 CDS (Class of 2028, Fall 2024); 49,474 applicants / 3,806 admitted.",
+      "sat": { "p25": 1510, "p50": 1540, "p75": 1560, "note": "p50 reported. EBRW 740/760/770, Math 770/780/800. 46% submitted SAT." },
+      "act": { "p25": 34, "p50": 34, "p75": 35, "note": "23% submitted ACT." },
+      "gpa": { "note": "Not reported — Northwestern left both the class-rank (C10) and GPA (C11) tables blank. Any GPA figure elsewhere is non-CDS." },
+      "testPolicy": "test-optional",
+      "testPolicyNote": "Test-optional — CDS C8 (Fall 2026 policy) marks SAT/ACT 'not required but considered if submitted.'",
+      "topMajors": ["Journalism (Medill School)", "Economics", "Political Science", "History", "English", "Philosophy", "International Relations", "Legal Studies", "Social Policy"],
+      "ecPatterns": ["leadership, depth, impact", "journalism: newspaper/magazine, published writing, media internships", "PoliSci/IR: Model UN, debate, Youth & Government, mock trial, campaign/policy work", "humanities: research papers, writing competitions, literary magazines"],
+      "sources": [
+        { "title": "Northwestern CDS 2024-2025 (official PDF)", "url": "https://enrollment.northwestern.edu/data/2024-2025.pdf" },
+        { "title": "Northwestern Medill undergraduate journalism", "url": "https://www.medill.northwestern.edu/journalism/undergraduate-journalism/" },
+        { "title": "Northwestern admissions guidance (CollegeVine)", "url": "https://blog.collegevine.com/what-is-northwesterns-acceptance-rate-and-admissions-requirements" }
+      ]
+    }
+  ],
+  "insights": [
+    "Admit rates for humanities/social-science applicants are governed by the same school-wide numbers shown here — the CDS does not break out admit rate by intended major, so treat these as the realistic baseline regardless of field.",
+    "SAT 25th percentiles cluster tightly at 1480-1510 and 75th at 1550-1580 across the Ivies + peers; Georgetown is the clear outlier (25th ~1400, admit ~12.9%) and the most realistic 'reach with strong humanities fit' on this list.",
+    "Test policy is in active flux — required now at Harvard, Brown, Dartmouth, Stanford, Georgetown, and Penn (Fall 2026); Cornell all-colleges required Fall 2026; required soon at Yale (Class of 2031) and Princeton (Fall 2028). Columbia (permanent), UChicago, Duke, and Northwestern remain test-optional. Verify the policy for the exact entry year before advising.",
+    "No school publishes a mean GPA — they report class-rank bands, and most admits come from a small self-reporting subset (often <30%). Roughly 85-98% of admits who reported rank were in the top tenth; Northwestern reports no GPA/rank at all.",
+    "Each school has a signature humanities/social-science draw worth naming in a 'why us' essay: Georgetown SFS (International Relations, #1 in Foreign Policy), Princeton SPIA + graded-paper requirement, Cornell ILR (applied social science), Northwestern Medill (journalism), Duke Sanford (public policy), Penn PPE, Yale EPE, Brown's Open Curriculum.",
+    "EC patterns are strikingly consistent: depth-over-breadth 'spikes' in debate/Model UN, mentored or independent research, writing/publication/journalism, and policy or civic engagement — leadership and tangible impact matter more than a long activity list."
+  ],
+  "sources": [
+    { "title": "Harvard CDS 2024-2025", "url": "https://bpb-us-e1.wpmucdn.com/sites.harvard.edu/dist/6/210/files/2025/06/HarvardUniversity_CDS_2024-2025.pdf" },
+    { "title": "Yale CDS 2024-2025", "url": "https://oir.yale.edu/sites/default/files/yale_cds_2024-25_rmd_20250612.pdf" },
+    { "title": "Princeton admission statistics", "url": "https://admission.princeton.edu/apply/admission-statistics" },
+    { "title": "Brown CDS / admitted-class news", "url": "https://www.brown.edu/news/2024-03-28/admitted" },
+    { "title": "Columbia CDS 2023-24", "url": "https://opir.columbia.edu/sites/default/files/content/Common%20Data%20Set/2023-24_Columbia_College_and_Columbia_Engineering_CDS.pdf" },
+    { "title": "Penn CDS landing (IRA)", "url": "https://ira.upenn.edu/penn-numbers/common-data-set" },
+    { "title": "Dartmouth CDS 2025-26", "url": "https://www.dartmouth.edu/oir/pdfs/cds_2025-26.pdf" },
+    { "title": "Cornell CDS 2024-2025", "url": "https://irp.dpb.cornell.edu/wp-content/uploads/2025/07/CDS-2024-2025-v6-print.pdf" },
+    { "title": "Stanford CDS landing (IRDS)", "url": "https://irds.stanford.edu/data-findings/cds" },
+    { "title": "Duke CDS 2024-25", "url": "https://ir.provost.duke.edu/sites/default/files/CDS-2024-25-Final-2.pdf" },
+    { "title": "UChicago CDS 2024-2025", "url": "https://bpb-us-w2.wpmucdn.com/voices.uchicago.edu/dist/8/2077/files/2025/08/CDS_2024-2025_to_publish.pdf" },
+    { "title": "Georgetown CDS landing (OADS)", "url": "https://oads.georgetown.edu/commondataset/" },
+    { "title": "Northwestern CDS 2024-2025", "url": "https://enrollment.northwestern.edu/data/2024-2025.pdf" }
+  ]
+}
