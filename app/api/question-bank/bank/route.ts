@@ -135,15 +135,27 @@ export async function GET(req: NextRequest) {
     );
     const unitParam = parseInt(searchParams.get("unit") ?? "", 10);
 
-    // Fast path for the parent portal's locked browse: serve a build-time
-    // preview snapshot instead of building the full ~170k-question pool on a
-    // cold start. Paid/credit-unlocked requests and unit-filtered requests still
-    // use the live builder so they receive the complete, exact payload.
-    if (subject && freePerSubject > 0 && !Number.isFinite(unitParam) && !courseUnlocked(subject)) {
+    // Fast path for ANY locked browse (both the public /question-bank and the
+    // /parents portal): serve the build-time preview snapshot instead of
+    // building the full ~170k-question pool on a cold start — that live build is
+    // what made subject clicks take many seconds and time out. The snapshot
+    // covers every subject, so a locked visitor (freePerSubject 0 → all cards
+    // locked teasers, or N → first N answerable) gets an instant response.
+    // Only paid/credit-unlocked requests fall through to the live builder, where
+    // the complete, exact, answerable payload is actually needed.
+    if (subject && !courseUnlocked(subject)) {
       const preview = previewBySubject[subject];
       if (preview) {
+        // If a unit is selected, narrow the sample to it; the snapshot is small,
+        // so fall back to the full sample rather than ever showing an empty pane
+        // (every card is locked for these visitors anyway).
+        const scoped = Number.isFinite(unitParam)
+          ? preview.questions.filter((q) => q.unit === unitParam)
+          : preview.questions;
+        const pool = scoped.length > 0 ? scoped : preview.questions;
+
         let freeUsed = 0;
-        const questions = preview.questions.slice(0, limit).map((q) => {
+        const questions = pool.slice(0, limit).map((q) => {
           const withCourse = { ...q, courseId: subject };
           if (freeUsed < freePerSubject) {
             freeUsed += 1;
@@ -152,12 +164,12 @@ export async function GET(req: NextRequest) {
           return lockQuestion(withCourse);
         });
 
+        const total = Number.isFinite(unitParam)
+          ? preview.units.find((u) => u.unit === unitParam)?.count ?? preview.total
+          : preview.total;
+
         return NextResponse.json(
-          {
-            questions,
-            total: preview.total,
-            units: preview.units,
-          },
+          { questions, total, units: preview.units },
           { headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600" } }
         );
       }
