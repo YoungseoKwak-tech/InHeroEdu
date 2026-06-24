@@ -13,7 +13,7 @@ import { getToeflForm, toeflCounts, TOEFL_FORMS } from "@/lib/toefl/forms";
 import type { ToeflMCQ, ToeflReadingSet, ToeflListeningSet, ToeflSpeakingTask, ToeflWritingTask } from "@/lib/toefl/types";
 import { scaledScore, sectionBand, TOEFL_TIMING } from "@/lib/toefl/types";
 import { autoScore } from "@/lib/toefl/autoScore";
-import { getClientSession } from "@/lib/client-auth";
+import { authFetch, getClientSession } from "@/lib/client-auth";
 import CreditGate from "@/components/parents/CreditGate";
 import CreditWidget from "@/components/parents/CreditWidget";
 import { CREDIT_COSTS } from "@/lib/credits";
@@ -655,7 +655,7 @@ function SpeakingFlow({ tasks, onDone, banner }: { tasks: ToeflSpeakingTask[]; o
     if (transcript.trim().split(/\s+/).length < 5) { window.alert("답변이 너무 짧아요. 전사된 답변을 채워넣은 뒤 채점해 주세요."); return; }
     setAiLoading(true);
     try {
-      const res = await fetch("/api/toefl/score-speaking", {
+      const res = await authFetch("/api/toefl/score-speaking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ taskType: task.type, prompt: task.prompt, readingText: task.readingText, transcript }),
