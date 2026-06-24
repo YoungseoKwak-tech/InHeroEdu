@@ -53,7 +53,7 @@ describe("NICEPAY approval callback", () => {
     mocks.attachStoredOrderProviderDetails.mockResolvedValue(undefined);
   });
 
-  it("keeps the order pending and avoids /payment/fail when the approval API rejects after auth success", async () => {
+  it("keeps the order pending and redirects to failure when the approval API rejects after auth success", async () => {
     mocks.approveNicePayPayment.mockRejectedValue(
       new Error("사용자 정보가 존재하지 않습니다.")
     );
@@ -67,10 +67,11 @@ describe("NICEPAY approval callback", () => {
     const location = res.headers.get("location") ?? "";
 
     expect(res.status).toBe(303);
-    expect(location).toContain("/payment/success");
+    expect(location).toContain("/payment/fail");
     expect(location).toContain("provider=nicepay");
-    expect(location).toContain("localOrderId=order-1");
-    expect(location).not.toContain("/payment/fail");
+    expect(location).toContain("serviceId=one_subject");
+    expect(location).toContain("code=approval_api_failed");
+    expect(location).not.toContain("/payment/success");
     expect(mocks.markStoredOrderFailed).not.toHaveBeenCalled();
     expect(mocks.attachStoredOrderProviderDetails).toHaveBeenCalledWith(
       expect.anything(),

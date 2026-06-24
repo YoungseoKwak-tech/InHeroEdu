@@ -392,10 +392,8 @@ async function confirmNicePayPayment({
   }
 
   if (storedOrder.status === "paid") {
-    if (userId) {
-      const ownershipError = ensureOrderBelongsToUser(storedOrder, userId);
-      if (ownershipError) return ownershipError;
-    }
+    const ownershipError = ensureOrderBelongsToUser(storedOrder, userId);
+    if (ownershipError) return ownershipError;
 
     if (storedOrder.serviceId.startsWith("credits:")) {
       if (!storedOrder.userId) {

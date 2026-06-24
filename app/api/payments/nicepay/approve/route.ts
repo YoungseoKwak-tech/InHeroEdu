@@ -244,9 +244,10 @@ async function handleNicePayApproval(req: NextRequest) {
       rawResponse: errorPayload,
     });
     return NextResponse.redirect(
-      buildSuccessUrl(req, {
-        localOrderId,
+      buildFailUrl(req, {
         serviceId: storedOrder.serviceId,
+        code: "approval_api_failed",
+        message: "NICEPAY approval could not be confirmed.",
         returnTo: safeReturnTo,
       }),
       303
