@@ -22,6 +22,7 @@ import {
 } from "@/lib/apExamConfig";
 import LiveStatBadge from "@/components/social/LiveStatBadge";
 import CreditGate from "@/components/parents/CreditGate";
+import ConsultOffer from "@/components/parents/ConsultOffer";
 import { CREDIT_COSTS } from "@/lib/credits";
 import { consumeMock, mockRemaining, mockTier, MOCK_PACK_LIMIT } from "@/lib/mockAccess";
 
@@ -293,6 +294,9 @@ export default function ExamPage() {
             <option value="" disabled>{subjects.length ? "과목을 선택하세요" : "과목 불러오는 중…"}</option>
             {subjects.map((s) => <option key={s.courseId!} value={s.courseId!}>{s.emoji} {s.label} ({s.count})</option>)}
           </select>
+
+          {/* 500-credit consulting reward — shown right at the purchase point. */}
+          <div style={{ marginTop: 24 }}><ConsultOffer /></div>
 
           {/* Practice sets — paid bundle (SAT 모의고사와 동일 구조). 한 번 열면
               모든 과목의 Test 1·2·3 풀세트를 계속 응시할 수 있어요. */}

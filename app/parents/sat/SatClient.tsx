@@ -12,6 +12,7 @@ import ParentHubShell from "@/components/parents/ParentHubShell";
 import { SAT_FULL_LENGTH_FORMS, formCounts } from "@/lib/sat/forms";
 import SatHistory from "@/components/sat/SatHistory";
 import CreditGate from "@/components/parents/CreditGate";
+import ConsultOffer from "@/components/parents/ConsultOffer";
 import { CREDIT_COSTS } from "@/lib/credits";
 import { mockRemaining, mockTier, MOCK_PACK_LIMIT } from "@/lib/mockAccess";
 
@@ -112,6 +113,9 @@ export default function SatClient() {
       </Link>
 
       <SatHistory theme="light" />
+
+      {/* 500-credit consulting reward — shown right at the purchase point. */}
+      <div style={{ marginBottom: 18 }}><ConsultOffer /></div>
 
       {/* Test picker — paid (ULTRA tier). Unlock once to access all forms. */}
       <CreditGate
