@@ -108,6 +108,7 @@ const SOCIAL_STATS = [
 ];
 
 const NAV = [
+  { label: "🎓 시그니처 프로그램", route: "/parents/program", gated: false },
   { label: "SAT 모의고사", route: "/parents/sat", gated: false },
   { label: "AP 모의고사", route: "/parents/question-bank/exam", gated: false },
   { label: "TOEFL 모의고사", route: "/parents/toefl", gated: false },
@@ -129,6 +130,7 @@ const NAV = [
 ];
 
 const QUICK = [
+  { emoji: "🎓", label: "시그니처 프로그램", route: "/parents/program", gated: false },
   { emoji: "✏️", label: "SAT 모의고사", route: "/parents/sat", gated: false },
   { emoji: "🖥️", label: "AP 모의고사", route: "/parents/question-bank/exam", gated: false },
   { emoji: "📝", label: "TOEFL 모의고사", route: "/parents/toefl", gated: false },
