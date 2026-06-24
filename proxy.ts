@@ -13,7 +13,21 @@ import type { NextRequest } from "next/server";
  * correct language server-side — no flash.
  */
 export function proxy(request: NextRequest) {
-  const lang = request.cookies.get("inhero_lang")?.value === "ko" ? "ko" : "en";
+  const langCookie = request.cookies.get("inhero_lang")?.value;
+  const lang = langCookie === "ko" ? "ko" : "en";
+
+  // Korean inbound (e.g. the Korean Google result for inheroedu.com) should land
+  // on the Korean parent portal, not the English student home. A returning
+  // Korean visitor (cookie=ko) or a first-timer whose browser prefers Korean
+  // (Accept-Language ko) is redirected from the root to /parents. Explicitly
+  // choosing English (cookie=en) opts out, so the student home stays reachable.
+  if (request.nextUrl.pathname === "/") {
+    const acceptsKo = (request.headers.get("accept-language")?.toLowerCase() ?? "").startsWith("ko");
+    if (langCookie === "ko" || (!langCookie && acceptsKo)) {
+      return NextResponse.redirect(new URL("/parents", request.url), 307);
+    }
+  }
+
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-inhero-lang", lang);
   return NextResponse.next({ request: { headers: requestHeaders } });
