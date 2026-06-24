@@ -27,6 +27,7 @@ import precomputedSubjects from "@/lib/data/precomputed/questionBankSubjects.jso
 import precomputedPreview from "@/lib/data/precomputed/questionBankPreview.json";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 
 // The page only renders the first ~150 cards; sending all ~2,200 questions
 // (multi-MB JSON) is what made the response slow. Cap the payload and
@@ -107,11 +108,16 @@ export async function GET(req: NextRequest) {
     // Anonymous visitors can browse: every subject's counts plus a couple of
     // free questions each. Signed-in students additionally unlock the subjects
     // in their paid plan. No auth → no paid access (empty set), not a 401.
-    const user = await getAuthenticatedUser(req);
-    const accessIds = user ? await getPaidSubjectAccessIds(user) : new Set<string>();
+    const user = await getAuthenticatedUser(req).catch(() => null);
+    // Access resolution must never break the browse: if the orders/unlocks
+    // lookups throw (schema/network), degrade to "no extra access" and still
+    // return the question list (locked) rather than 500ing the whole page.
+    const accessIds = user
+      ? await getPaidSubjectAccessIds(user).catch(() => new Set<string>())
+      : new Set<string>();
     // Credit unlocks (the /parents portal) grant access the same as a paid
     // order. all-pass → everything; per-subject key → that subject only.
-    const unlockCtx = user ? await getUnlockContext(req) : null;
+    const unlockCtx = user ? await getUnlockContext(req).catch(() => null) : null;
     const hasAllPass = !!unlockCtx && hasAnyUnlock(unlockCtx, [QBANK_ALL_KEY]);
     const courseUnlocked = (courseId: string | null) => {
       if (hasPaidSubjectAccess(accessIds, courseId)) return true;
