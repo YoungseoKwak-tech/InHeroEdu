@@ -21,6 +21,28 @@ const GREEN = "#00b85f";
 const ALL_KEY = "parents:question-bank"; // all-pass; per-subject = `${ALL_KEY}:${courseId}`
 const PREVIEW_N = 10; // first 10 questions free as a sample; the rest are paid
 
+// This client is AP-only, so a single "AP" track header adds little. Instead we
+// group AP subjects into College Board's official discipline areas so the left
+// rail reads as an organized index (mirrors /question-bank's track-section
+// pattern). The data carries no per-question difficulty — discipline is the
+// honest axis, so we do NOT fabricate a difficulty/level split.
+const AREA_ORDER = ["math", "science", "social", "english"] as const;
+type AreaKey = (typeof AREA_ORDER)[number];
+const AREA_META: Record<AreaKey, { label: string; hint: string }> = {
+  math: { label: "수학 · 컴퓨터과학", hint: "Math & CS" },
+  science: { label: "과학", hint: "Sciences" },
+  social: { label: "사회 · 역사", hint: "History & Social Sciences" },
+  english: { label: "영어", hint: "English" },
+};
+function areaOf(courseId: string | null): AreaKey {
+  const id = courseId ?? "";
+  if (/calculus|statistics|computer-science|precalculus/.test(id)) return "math";
+  if (/physics|chemistry|biology|environmental/.test(id)) return "science";
+  if (/english|literature|seminar|research/.test(id)) return "english";
+  // economics, geography, history, government, psychology, world/us history…
+  return "social";
+}
+
 interface BankOption { label: string; correct: boolean; feedback?: string | null; }
 interface BankQuestion {
   id: string; courseId?: string | null; subjectLabel: string; emoji: string; unit: number | null;
@@ -141,6 +163,12 @@ export default function QuestionBankClient() {
   const hasLocked = lockedQs.length > 0;
   const activeSubject = subjects.find((s) => s.courseId === active);
   const lockedCount = Math.max(lockedQs.length, filteredTotal - answerable.length);
+
+  // Bucket AP subjects into discipline areas for the rail's section headers.
+  const grouped = AREA_ORDER.map((area) => ({
+    area,
+    items: subjects.filter((s) => areaOf(s.courseId) === area),
+  })).filter((g) => g.items.length > 0);
   // While loading, fall back to the subject's known count so the header never
   // flashes "0문항" (the count is in the precomputed subject list already).
   const displayTotal = loading ? (activeSubject?.count ?? filteredTotal ?? 0) : filteredTotal;
@@ -190,31 +218,46 @@ export default function QuestionBankClient() {
 
         {/* Two-pane workspace */}
         <div className="pqb-shell" style={{ marginTop: 26 }}>
-          {/* LEFT RAIL — subjects + units */}
-          <aside className="pqb-rail">
-            <div style={{ fontSize: 11.5, fontWeight: 800, color: "#94a3b8", letterSpacing: "0.06em", textTransform: "uppercase", margin: "0 0 8px 4px" }}>과목</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              {subjects.map((s) => (
-                <div key={s.courseId ?? s.label}>
-                  <RailItem
-                    active={active === s.courseId}
-                    emoji={s.emoji}
-                    label={s.label}
-                    count={s.count}
-                    onClick={() => s.courseId && selectSubject(s.courseId)}
-                  />
-                  {/* Units of the selected subject, nested under it */}
-                  {active === s.courseId && units.length > 0 && (
-                    <div style={{ display: "flex", flexDirection: "column", gap: 2, margin: "4px 0 6px 0", paddingLeft: 12, borderLeft: "2px solid #e2e6ea" }}>
-                      <UnitItem active={activeUnit === null} label="전체 유닛" count={s.count} onClick={() => selectUnit(null)} />
-                      {units.map((u) => (
-                        <UnitItem key={u.unit} active={activeUnit === u.unit} label={`Unit ${u.unit}`} count={u.count} onClick={() => selectUnit(u.unit)} />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+          {/* LEFT RAIL — AP subjects grouped by discipline, units nested under the active one */}
+          <aside className="pqb-rail" aria-label="과목">
+            {/* Track header: this client is AP-only, so one labeled "AP" band sits
+                above the discipline sections (consistent with /question-bank). */}
+            <div style={{ display: "flex", alignItems: "baseline", gap: 7, margin: "0 0 12px 4px" }}>
+              <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 13, fontWeight: 800, color: "#0a0a14", letterSpacing: "0.02em" }}>AP</span>
+              <span style={{ fontSize: 10.5, color: "#94a3b8", fontWeight: 600 }}>College Board</span>
             </div>
+            {grouped.map((g) => (
+              <div key={g.area} style={{ marginBottom: 16 }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 7, margin: "0 0 7px 4px" }}>
+                  <span style={{ fontSize: 11.5, fontWeight: 800, color: "#475569", letterSpacing: "0.04em" }}>
+                    {AREA_META[g.area].label}
+                  </span>
+                  <span style={{ fontSize: 10, color: "#94a3b8", fontWeight: 600 }}>{AREA_META[g.area].hint}</span>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  {g.items.map((s) => (
+                    <div key={s.courseId ?? s.label}>
+                      <RailItem
+                        active={active === s.courseId}
+                        emoji={s.emoji}
+                        label={s.label}
+                        count={s.count}
+                        onClick={() => s.courseId && selectSubject(s.courseId)}
+                      />
+                      {/* Units of the selected subject, nested under it */}
+                      {active === s.courseId && units.length > 0 && (
+                        <div style={{ display: "flex", flexDirection: "column", gap: 2, margin: "4px 0 6px 0", paddingLeft: 12, borderLeft: "2px solid #e2e6ea" }}>
+                          <UnitItem active={activeUnit === null} label="전체 유닛" count={s.count} onClick={() => selectUnit(null)} />
+                          {units.map((u) => (
+                            <UnitItem key={u.unit} active={activeUnit === u.unit} label={`Unit ${u.unit}`} count={u.count} onClick={() => selectUnit(u.unit)} />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
           </aside>
 
           {/* RIGHT PANE — questions */}

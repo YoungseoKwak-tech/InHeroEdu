@@ -1,5 +1,6 @@
 import SampleExam, { type SampleItem } from "@/components/mock/SampleExam";
-import { SAT_FULL_LENGTH_FORMS } from "@/lib/sat/forms";
+import { loadSatForm, DEFAULT_SAT_FORM_ID } from "@/lib/sat/form-loader";
+import type { SatForm } from "@/lib/sat/types";
 
 export const metadata = {
   title: "SAT Practice Test Sample (Free Preview)",
@@ -10,8 +11,7 @@ export const metadata = {
 // short so it's free. The full timed/adaptive exam lives behind the gate.
 const MINT = "#00FFB2";
 
-function buildItems(): SampleItem[] {
-  const f = SAT_FULL_LENGTH_FORMS[0];
+function buildItems(f: SatForm): SampleItem[] {
   const rw = (f?.rw.m1 ?? []).filter((q) => q.type === "mcq").slice(0, 2);
   const math = (f?.math.m1 ?? []).filter((q) => q.type === "mcq").slice(0, 1);
   return [...rw, ...math].map((q) => ({
@@ -24,12 +24,14 @@ function buildItems(): SampleItem[] {
   }));
 }
 
-export default function SatSamplePage() {
+export default async function SatSamplePage() {
+  // Server-side, on-demand load of just the first form's chunk for the preview.
+  const f = await loadSatForm(DEFAULT_SAT_FORM_ID);
   return (
     <SampleExam
       title="SAT Practice Test Sample"
       sectionLabel="Digital SAT · Sample"
-      items={buildItems()}
+      items={buildItems(f)}
       seconds={5 * 60}
       accent={MINT}
       fullHref="/parents/sat"

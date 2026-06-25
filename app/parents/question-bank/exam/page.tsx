@@ -255,7 +255,7 @@ export default function ExamPage() {
           <div style={{ width: 80 }} />
         </div>
 
-        <div style={{ maxWidth: 760, margin: "0 auto", padding: "32px 20px 80px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "32px 28px 80px" }}>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
             <LiveStatBadge base={45} emoji="💳" label="오늘 결제" tone={BLUE} />
             <LiveStatBadge base={128} emoji="🎯" label="오늘 응시" tone="#0f7b53" />
@@ -396,7 +396,7 @@ export default function ExamPage() {
     return (
       <div style={{ minHeight: "100vh", background: "#fff", color: "#1d2733" }}>
         <TopBar subject={subjectLabel} setNumber={setNumber} center={<span style={{ fontWeight: 700 }}>채점 결과</span>} />
-        <div style={{ maxWidth: 760, margin: "0 auto", padding: "32px 20px 80px" }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto", padding: "32px 24px 80px" }}>
           <div style={{ background: "#f4f8ff", border: `1px solid ${BLUE}33`, borderRadius: 16, padding: "26px 24px", textAlign: "center" }}>
             <div style={{ fontSize: 14, color: "#5b6b7b", fontWeight: 700 }}>{subjectLabel} · Practice Test {setNumber} · Section I (MCQ)</div>
             <div style={{ fontSize: 44, fontWeight: 800, color: BLUE, marginTop: 6 }}>{score} / {total}</div>
@@ -468,10 +468,10 @@ export default function ExamPage() {
     return (
       <div style={{ minHeight: "100vh", background: "#fff", color: "#1d2733", display: "flex", flexDirection: "column" }}>
         <TopBar subject={subjectLabel} setNumber={setNumber} center={<Timer remaining={remaining} hidden={timerHidden} onToggle={() => setTimerHidden((v) => !v)} />} />
-        <div style={{ flex: 1, maxWidth: 720, margin: "0 auto", padding: "32px 20px", width: "100%" }}>
+        <div style={{ flex: 1, width: "100%", maxWidth: 1080, margin: "0 auto", padding: "32px clamp(20px, 4vw, 56px)" }}>
           <h2 style={{ fontSize: 22, fontWeight: 800, margin: 0 }}>검토 페이지</h2>
           <p style={{ color: "#5b6b7b", fontSize: 14, marginTop: 8 }}>제출 전, 표시한 문항이나 미응답을 확인하세요. ({part.label} 응답 {activeAnsweredCount}/{activeQuestions.length})</p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(52px,1fr))", gap: 10, marginTop: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(56px,1fr))", gap: 10, marginTop: 20 }}>
             {activeQuestions.map((item, i) => {
               const globalIndex = partStart + i;
               const done = answers[item.id] != null;
@@ -520,7 +520,7 @@ export default function ExamPage() {
         </div>
       )}
 
-      <div style={{ flex: 1, width: "100%", maxWidth: 720, margin: "0 auto", padding: "20px 20px 24px" }}>
+      <div style={{ flex: 1, width: "100%", maxWidth: 1080, margin: "0 auto", padding: "20px clamp(20px, 5vw, 64px) 28px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid #eef2f5", paddingBottom: 12 }}>
           <span style={{ fontWeight: 800, fontSize: 14 }}>{idx + 1} <span style={{ color: "#9aa6b2", fontWeight: 600 }}>/ {total}</span><span style={{ marginLeft: 8, color: "#5b6b7b", fontWeight: 700 }}>{part.label}</span></span>
           <button onClick={toggleMark} style={{ display: "inline-flex", alignItems: "center", gap: 6, border: "none", background: "none", cursor: "pointer", fontSize: 13.5, fontWeight: 700, color: marked[q.id] ? "#d98324" : "#57606a" }}>
@@ -528,9 +528,9 @@ export default function ExamPage() {
           </button>
         </div>
 
-        <p style={{ fontSize: 17, lineHeight: 1.7, margin: "20px 0 22px", fontWeight: 600 }}>{q.prompt}</p>
+        <p style={{ fontSize: 17, lineHeight: 1.7, margin: "20px 0 22px", fontWeight: 600, maxWidth: 760 }}>{q.prompt}</p>
 
-        <div style={{ display: "grid", gap: 12 }}>
+        <div style={{ display: "grid", gap: 12, maxWidth: 760 }}>
           {q.options.map((o, oi) => {
             const isSel = sel === oi;
             const isCrossed = !!qCross[oi];

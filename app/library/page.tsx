@@ -791,19 +791,17 @@ export default function LibraryPage() {
           position: relative;
         }
 
-        /* Centered shell. The 1600px cap + 48px side padding give both
-           panels real breathing room without going edge-to-edge on
-           ultrawide. Header lives inside the shell so it lines up with
-           the panel edges. */
+        /* Edge-filling shell. A high 2160px cap plus a clamped side
+           gutter lets both panels fill wide screens (no big empty
+           margins) while still centering gracefully on ultrawide.
+           Header lives inside the shell so it lines up with the panel
+           edges. */
         .lib-shell {
-          max-width: 1800px;
+          max-width: 2160px;
           margin: 0 auto;
-          padding: 2rem 3rem 4rem;
+          padding: 2rem clamp(16px, 3vw, 40px) 4rem;
           position: relative;
           z-index: 1;
-        }
-        @media (max-width: 1024px) {
-          .lib-shell { padding: 1.75rem 1.5rem 3.5rem; }
         }
         @media (max-width: 760px) {
           .lib-shell { padding: 1.25rem 0.85rem 3rem; }

@@ -20,7 +20,8 @@ export const metadata: Metadata = {
 const INK = "#0b1220";
 const SUB = "#5b6675";
 const GREEN = "#00b85f";
-const MAXW = 1080;
+const MAXW = 1440;
+const PADX = "clamp(16px,3vw,40px)";
 
 const SECTIONS = [
   { tag: "Reading", title: "Reading · 35 min", desc: "Two ~700-word academic passages · 10 questions each (20 total). Real question types: factual, inference, vocabulary, rhetorical purpose, sentence simplification, insert text, and summary. Auto-graded with explanations right after you finish.", color: "#1D9E75" },
@@ -53,7 +54,7 @@ export default function ToeflLanding() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <div style={{ background: "linear-gradient(180deg,#f6f8fb 0%, #ffffff 100%)", borderBottom: "1px solid #eef1f5" }}>
-        <div style={{ maxWidth: MAXW, margin: "0 auto", padding: "44px 28px 36px" }}>
+        <div style={{ maxWidth: MAXW, margin: "0 auto", padding: `44px ${PADX} 36px` }}>
           <p style={{ fontSize: 11.5, letterSpacing: "0.18em", textTransform: "uppercase", color: GREEN, fontWeight: 800, marginBottom: 12 }}>📝 TOEFL iBT · Practice Test</p>
           <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 5.4vw, 3.4rem)", fontWeight: 800, color: INK, letterSpacing: "-0.03em", lineHeight: 1.06, marginBottom: 16 }}>
             The TOEFL,<br />just like the real exam.
@@ -77,7 +78,7 @@ export default function ToeflLanding() {
         </div>
       </div>
 
-      <div style={{ maxWidth: MAXW, margin: "0 auto", padding: "36px 28px 100px" }}>
+      <div style={{ maxWidth: MAXW, margin: "0 auto", padding: `36px ${PADX} 100px` }}>
         <div style={{ display: "grid", gap: 14, marginBottom: 44 }}>
           {SECTIONS.map((s) => (
             <div key={s.tag} style={{ display: "flex", alignItems: "center", gap: 18, borderRadius: 16, border: "1px solid #e8ecf1", background: "#fff", padding: "18px 20px", boxShadow: "0 1px 2px rgba(16,24,40,0.04)" }}>

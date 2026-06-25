@@ -12,6 +12,7 @@ import Link from "next/link";
 import type { SatForm, SatQuestion } from "@/lib/sat/types";
 import { gridMatches } from "@/lib/sat/types";
 import { appendSatAttempt } from "@/lib/sat/history";
+import { loadSatForm } from "@/lib/sat/form-loader";
 import SatHistory from "@/components/sat/SatHistory";
 import { consumeMock } from "@/lib/mockAccess";
 
@@ -38,7 +39,38 @@ function sectionScore(correct: number, total: number, hardPath: boolean): number
   return Math.round(raw / 10) * 10;
 }
 
-export default function SatTestClient({ form, attemptId }: { form: SatForm; attemptId?: string }) {
+/**
+ * Loads the chosen form's heavy data on demand (per-form code-split chunk), so
+ * only the form the student actually starts is downloaded. While it resolves we
+ * show a brief "Loading test…" state. Once loaded, the runner below behaves
+ * exactly as before — none of the test logic changes.
+ */
+export default function SatTestClient({ formId, attemptId }: { formId: string; attemptId?: string }) {
+  const [form, setForm] = useState<SatForm | null>(null);
+
+  useEffect(() => {
+    let alive = true;
+    loadSatForm(formId).then((f) => { if (alive) setForm(f); });
+    return () => { alive = false; };
+  }, [formId]);
+
+  if (!form) return <SatLoadingMessage />;
+  return <SatTestRunner form={form} attemptId={attemptId} />;
+}
+
+function SatLoadingMessage() {
+  return (
+    <div style={{ minHeight: "100vh", background: "#fff", color: "#0b1220", display: "grid", placeItems: "center", padding: 24, fontFamily: "Inter, sans-serif" }}>
+      <div style={{ textAlign: "center" }}>
+        <div style={{ fontSize: 34, marginBottom: 12 }}>📝</div>
+        <div style={{ fontSize: 18, fontWeight: 800, color: "#0b1220", marginBottom: 6 }}>Loading test…</div>
+        <div style={{ fontSize: 13.5, color: "#5b6675" }}>Preparing your adaptive practice test.</div>
+      </div>
+    </div>
+  );
+}
+
+function SatTestRunner({ form, attemptId }: { form: SatForm; attemptId?: string }) {
   type Phase = "rw1" | "rw2" | "math1" | "math2" | "results";
   const [phase, setPhase] = useState<Phase>("rw1");
   const [rwHard, setRwHard] = useState(false);
@@ -169,7 +201,7 @@ function ModuleRunner({
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 50, background: "#fff", color: "#0f172a", display: "flex", flexDirection: "column", fontFamily: "Inter, sans-serif" }}>
       {/* Top bar */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 22px", borderBottom: "1px solid #e6e8ec" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px clamp(16px, 3vw, 48px)", borderBottom: "1px solid #e6e8ec" }}>
         <div>
           <div style={{ fontSize: 14, fontWeight: 800 }}>{section}</div>
           <div style={{ fontSize: 12, color: "#64748b" }}>{moduleLabel}</div>
@@ -186,10 +218,10 @@ function ModuleRunner({
         </div>
       </div>
 
-      {/* Body */}
+      {/* Body — fills the full viewport width (no narrow centered column). */}
       {!review ? (
         <div style={{ flex: 1, overflowY: "auto" }}>
-          <div style={{ maxWidth: q.passage ? 1040 : 720, margin: "0 auto", padding: "26px 22px 40px", display: q.passage ? "grid" : "block", gridTemplateColumns: q.passage ? "1fr 1fr" : undefined, gap: 28 }}>
+          <div style={{ width: "100%", maxWidth: q.passage ? 1680 : 1040, margin: "0 auto", padding: "26px clamp(16px, 3vw, 48px) 40px", display: q.passage ? "grid" : "block", gridTemplateColumns: q.passage ? "1fr 1fr" : undefined, gap: 40 }}>
             {q.passage && (
               <div>
                 <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 8 }}>
@@ -260,7 +292,7 @@ function ModuleRunner({
       )}
 
       {/* Bottom bar */}
-      <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 22px", borderTop: "1px solid #e6e8ec" }}>
+      <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px clamp(16px, 3vw, 48px)", borderTop: "1px solid #e6e8ec" }}>
         <button onClick={() => setIdx((i) => Math.max(0, i - 1))} disabled={idx === 0 || review} style={{ ...navBtn, opacity: idx === 0 || review ? 0.4 : 1 }}>← Back</button>
 
         <button onClick={() => setNavOpen((v) => !v)} style={{ fontSize: 13, fontWeight: 800, cursor: "pointer", background: "#0f172a", color: "#fff", border: "none", borderRadius: 8, padding: "8px 16px" }}>

@@ -9,8 +9,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { getToeflForm, toeflCounts, TOEFL_FORMS } from "@/lib/toefl/forms";
-import type { ToeflMCQ, ToeflReadingSet, ToeflListeningSet, ToeflSpeakingTask, ToeflWritingTask } from "@/lib/toefl/types";
+import { TOEFL_FORM_META, getToeflFormMeta, loadToeflForm, DEFAULT_TOEFL_FORM_ID } from "@/lib/toefl/forms-meta";
+import type { ToeflForm, ToeflMCQ, ToeflReadingSet, ToeflListeningSet, ToeflSpeakingTask, ToeflWritingTask } from "@/lib/toefl/types";
 import { scaledScore, sectionBand, TOEFL_TIMING } from "@/lib/toefl/types";
 import { autoScore } from "@/lib/toefl/autoScore";
 import { authFetch, getClientSession } from "@/lib/client-auth";
@@ -29,9 +29,13 @@ function fmt(sec: number) {
 }
 
 export default function ToeflTestClient() {
-  const [formId, setFormId] = useState<string | undefined>(undefined);
-  const form = getToeflForm(formId);
-  const counts = toeflCounts(form);
+  const [formId, setFormId] = useState<string>(DEFAULT_TOEFL_FORM_ID);
+  const meta = getToeflFormMeta(formId);
+  const counts = meta.counts;
+  // Heavy form data is loaded on demand (code-split per form). `form` is the
+  // resolved payload for `formId`, or null until it has loaded.
+  const [form, setForm] = useState<ToeflForm | null>(null);
+  const [loadingForm, setLoadingForm] = useState(false);
   const [view, setView] = useState<View>("home");
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
 
@@ -60,11 +64,22 @@ export default function ToeflTestClient() {
     }
   }, [mounted, loggedIn]);
 
+  // Load the selected form's heavy data on demand, then run `after`. If it's
+  // already loaded for this id, runs immediately.
+  const ensureForm = useCallback((after: () => void) => {
+    if (form && form.id === formId) { after(); return; }
+    setLoadingForm(true);
+    loadToeflForm(formId)
+      .then((f) => { setForm(f); after(); })
+      .catch(() => { window.alert("테스트를 불러오지 못했어요. 잠시 후 다시 시도해 주세요."); })
+      .finally(() => setLoadingForm(false));
+  }, [form, formId]);
+
   // Starting any SAT/TOEFL mock attempt consumes one of the 5-pack starts
   // (unlimited never decrements), so section practice cannot bypass payment.
   const startMock = (next: View) => {
     const r = consumeMock("toefl");
-    if (r.ok) { setView(next); return; }
+    if (r.ok) { ensureForm(() => setView(next)); return; }
     if (r.reason === "exhausted") {
       window.alert("You've used all 5 attempts. Upgrade to the unlimited pass (500 credits) to keep taking the test.");
     }
@@ -76,6 +91,19 @@ export default function ToeflTestClient() {
 
   // Login required (like every other paid asset) before the test opens.
   if (loggedIn === null) return <Shell><div style={{ textAlign: "center", color: "#5b6b7b", padding: "40px 0" }}>Checking…</div></Shell>;
+  // The selected form's data is code-split; show a brief loading state while
+  // its chunk resolves after the user starts a test.
+  if (loadingForm && view === "home") {
+    return (
+      <Shell>
+        <div style={{ textAlign: "center", color: "#5b6b7b", padding: "56px 0" }}>
+          <div style={{ width: 34, height: 34, margin: "0 auto 14px", border: "3px solid #e6ebf0", borderTopColor: BLUE, borderRadius: "50%", animation: "toeflspin 0.8s linear infinite" }} />
+          <div style={{ fontWeight: 800, fontSize: 15, color: "#1d2733" }}>Loading test…</div>
+          <style jsx>{`@keyframes toeflspin{ to { transform: rotate(360deg); } }`}</style>
+        </div>
+      </Shell>
+    );
+  }
   if (!loggedIn) {
     return (
       <Shell>
@@ -91,16 +119,16 @@ export default function ToeflTestClient() {
 
   if (view === "home") {
     const cards: { key: View; tag: string; title: string; meta: string; color: string }[] = [
-      { key: "reading", tag: "Reading", title: "Reading", meta: `${form.reading.length} passages · ${counts.reading} questions · 35 min · auto-graded`, color: "#1D9E75" },
-      { key: "listening", tag: "Listening", title: "Listening", meta: `${form.listening.length} audio clips · ${counts.listening} questions · ~36 min · audio playback`, color: "#7DD3FC" },
+      { key: "reading", tag: "Reading", title: "Reading", meta: `${meta.readingSets} passages · ${counts.reading} questions · 35 min · auto-graded`, color: "#1D9E75" },
+      { key: "listening", tag: "Listening", title: "Listening", meta: `${meta.listeningSets} audio clips · ${counts.listening} questions · ~36 min · audio playback`, color: "#7DD3FC" },
       { key: "speaking", tag: "Speaking", title: "Speaking", meta: `${counts.speaking} tasks · 16 min · recording + AI scoring`, color: "#F59E0B" },
       { key: "writing", tag: "Writing", title: "Writing", meta: `${counts.writing} tasks · 29 min · timer + word count`, color: "#A78BFA" },
     ];
     return (
       <Shell showCredits loggedIn={loggedIn}>
-        <p style={{ fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", color: "#94a3b8", fontWeight: 800, marginBottom: 8 }}>📝 TOEFL iBT · Test Mode</p>
-        <h1 style={{ fontSize: 26, fontWeight: 850, margin: "0 0 8px", letterSpacing: "-0.02em" }}>Take it just like the real TOEFL</h1>
-        <p style={{ color: "#5b6b7b", fontSize: 14.5, lineHeight: 1.7, marginBottom: 8 }}>{form.title} — practice all four sections (Reading, Listening, Speaking, Writing) in the real exam format.</p>
+        <p style={{ fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", color: "#00b85f", fontWeight: 800, marginBottom: 8 }}>📝 TOEFL iBT · Test Mode</p>
+        <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 28, fontWeight: 800, margin: "0 0 8px", letterSpacing: "-0.02em", color: "#0b1220" }}>Take it just like the real TOEFL</h1>
+        <p style={{ color: "#5b6b7b", fontSize: 14.5, lineHeight: 1.7, marginBottom: 8 }}>{meta.label} — practice all four sections (Reading, Listening, Speaking, Writing) in the real exam format.</p>
         <div style={{ background: "#eef4ff", border: `1px solid ${BLUE}33`, borderRadius: 12, padding: "13px 15px", marginBottom: 20 }}>
           <p style={{ fontSize: 13, fontWeight: 800, color: "#1a3f8f", margin: "0 0 4px" }}>Practice questions built in the exact format of the real exam</p>
           <p style={{ fontSize: 12.5, color: "#3a4756", lineHeight: 1.65, margin: 0 }}>
@@ -108,14 +136,14 @@ export default function ToeflTestClient() {
           </p>
         </div>
 
-        {TOEFL_FORMS.length > 1 && (
+        {TOEFL_FORM_META.length > 1 && (
           <div style={{ marginBottom: 18 }}>
             <p style={{ fontSize: 12, fontWeight: 800, color: "#94a3b8", margin: "0 0 8px" }}>Choose a test</p>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              {TOEFL_FORMS.map((f, i) => {
-                const on = (formId ?? TOEFL_FORMS[0].id) === f.id;
+              {TOEFL_FORM_META.map((m, i) => {
+                const on = formId === m.id;
                 return (
-                  <button key={f.id} onClick={() => setFormId(f.id)} style={{ padding: "8px 14px", borderRadius: 999, fontSize: 13, fontWeight: 800, cursor: "pointer", border: `1.5px solid ${on ? BLUE : "#d8dee5"}`, background: on ? "#eaf2ff" : "#fff", color: on ? BLUE : "#5b6b7b" }}>
+                  <button key={m.id} onClick={() => setFormId(m.id)} style={{ padding: "8px 14px", borderRadius: 999, fontSize: 13, fontWeight: 800, cursor: "pointer", border: `1.5px solid ${on ? BLUE : "#d8dee5"}`, background: on ? "#eaf2ff" : "#fff", color: on ? BLUE : "#5b6b7b" }}>
                     Test {i + 1}
                   </button>
                 );
@@ -173,6 +201,11 @@ export default function ToeflTestClient() {
     );
   }
   const home = () => setView("home");
+  // Section/full views require the heavy form data. ensureForm() resolves it
+  // before switching off "home", but guard in case it is still resolving.
+  if (!form) {
+    return <Shell><div style={{ textAlign: "center", color: "#5b6b7b", padding: "40px 0" }}>Loading test…</div></Shell>;
+  }
   if (view === "reading") return <ReadingFlow sets={form.reading} onDone={home} />;
   if (view === "listening") return <ListeningFlow sets={form.listening} onDone={home} />;
   if (view === "speaking") return <SpeakingFlow tasks={form.speaking} onDone={home} />;
@@ -190,7 +223,7 @@ const SECTION_INTRO: Record<string, { name: string; emoji: string; lines: string
 };
 
 // ── FULL TEST — sequence all four sections, then a /120 report ────────────────
-function FullTest({ form, onExit }: { form: ReturnType<typeof getToeflForm>; onExit: () => void }) {
+function FullTest({ form, onExit }: { form: ToeflForm; onExit: () => void }) {
   const order = ["reading", "listening", "speaking", "writing"] as const;
   const [step, setStep] = useState(0);
   const [intro, setIntro] = useState(true);
@@ -281,13 +314,13 @@ function FullTest({ form, onExit }: { form: ReturnType<typeof getToeflForm>; onE
 
 function Shell({ children, showCredits = false, loggedIn = false }: { children: React.ReactNode; showCredits?: boolean; loggedIn?: boolean }) {
   return (
-    <div style={{ minHeight: "100vh", background: "#f6f8fa", color: "#1d2733" }}>
-      <div style={{ height: 56, borderBottom: "1px solid #e6ebf0", display: "flex", alignItems: "center", padding: "0 18px", background: "#fff" }}>
-        <Link href="/toefl" style={{ color: "#475569", textDecoration: "none", fontWeight: 600, fontSize: 14 }}>← TOEFL</Link>
-        <div style={{ flex: 1, textAlign: "center", fontWeight: 800 }}>TOEFL iBT Test Mode</div>
+    <div style={{ minHeight: "100vh", background: "#ffffff", color: "#0b1220" }}>
+      <div style={{ height: 56, borderBottom: "1px solid #e8ecf1", display: "flex", alignItems: "center", padding: "0 clamp(16px,3vw,40px)", background: "#fff", position: "sticky", top: 0, zIndex: 5 }}>
+        <Link href="/toefl" style={{ color: "#5b6675", textDecoration: "none", fontWeight: 600, fontSize: 14 }}>← TOEFL</Link>
+        <div style={{ flex: 1, textAlign: "center", fontWeight: 800, fontFamily: "'Space Grotesk', sans-serif", letterSpacing: "-0.01em" }}>TOEFL iBT Test Mode</div>
         {showCredits ? <CreditWidget loggedIn={loggedIn} /> : <div style={{ width: 60 }} />}
       </div>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "28px 20px 90px" }}>{children}</div>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "28px clamp(16px,3vw,40px) 90px" }}>{children}</div>
     </div>
   );
 }

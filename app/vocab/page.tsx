@@ -19,8 +19,8 @@ export default function VocabPage() {
 
   return (
     <div style={{ background: BG, minHeight: "100vh", fontFamily: "'Inter', -apple-system, sans-serif", color: "#0b1220" }}>
-      <div style={{ background: "linear-gradient(180deg,#f6f8fb 0%, #ffffff 100%)", borderBottom: "1px solid #eef1f5", padding: "64px 22px 36px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+      <div style={{ background: "linear-gradient(180deg,#f6f8fb 0%, #ffffff 100%)", borderBottom: "1px solid #eef1f5", padding: "64px clamp(16px,3vw,40px) 36px" }}>
+        <div style={{ maxWidth: 1440, margin: "0 auto" }}>
           <p style={{ fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", color: "#00b85f", fontWeight: 800, marginBottom: 12 }}>
             📒 VOCABULARY
           </p>
@@ -33,7 +33,7 @@ export default function VocabPage() {
           </p>
         </div>
       </div>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "28px 22px 120px" }}>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "28px clamp(16px,3vw,40px) 120px" }}>
         <VocabStudy theme="light" />
       </div>
     </div>

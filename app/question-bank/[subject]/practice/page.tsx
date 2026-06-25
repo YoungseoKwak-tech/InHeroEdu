@@ -1,11 +1,29 @@
 "use client";
 
+/**
+ * Per-subject practice runner — light-premium, full-bleed.
+ *
+ * Theme matches /question-bank: white bg, INK/SUB/FAINT ink ramp, GREEN accent,
+ * #e8ecf1 borders, soft card shadow, Space Grotesk headings. Loads only the
+ * working set (limit=20 + difficulty/type filters server-side) with a skeleton
+ * while it streams in. Scoring, answer-checking, attempt-saving, and the
+ * thinking-analyzer handoff are UNCHANGED — only presentation was reworked.
+ */
+
 import { useEffect, useState, use, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getSubjectById } from "@/lib/subjects";
 import { authFetch } from "@/lib/client-auth";
 import { Suspense } from "react";
+
+const GREEN = "#00b85f";
+const INK = "#0b1220";
+const SUB = "#5b6675";
+const FAINT = "#94a3b8";
+const BORDER = "#e8ecf1";
+const RED = "#dc2626";
+const CARD_SHADOW = "0 1px 2px rgba(16,24,40,0.04)";
 
 interface Question {
   id: string;
@@ -30,12 +48,55 @@ interface AttemptRecord {
   timeSpent: number;
 }
 
-const DIFF_COLOR: Record<string, string> = {
-  easy:   "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400",
-  medium: "bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400",
-  hard:   "bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400",
-};
 const DIFF_LABEL: Record<string, string> = { easy: "Easy", medium: "Medium", hard: "Hard" };
+const DIFF_DOT: Record<string, string> = { easy: "#00b85f", medium: "#d9930b", hard: "#dc2626" };
+
+const cardStyle: React.CSSProperties = {
+  border: `1px solid ${BORDER}`,
+  borderRadius: 16,
+  background: "#fff",
+  boxShadow: CARD_SHADOW,
+};
+
+const primaryBtn: React.CSSProperties = {
+  display: "inline-block",
+  padding: "12px 22px",
+  borderRadius: 999,
+  background: GREEN,
+  color: "#fff",
+  fontSize: 14,
+  fontWeight: 800,
+  letterSpacing: "0.02em",
+  textDecoration: "none",
+  border: "none",
+  cursor: "pointer",
+};
+
+const secondaryBtn: React.CSSProperties = {
+  display: "inline-block",
+  padding: "12px 22px",
+  borderRadius: 999,
+  background: "#fff",
+  color: INK,
+  fontSize: 14,
+  fontWeight: 800,
+  letterSpacing: "0.02em",
+  textDecoration: "none",
+  border: `1px solid ${BORDER}`,
+  cursor: "pointer",
+  textAlign: "center",
+};
+
+function Dots() {
+  return (
+    <div style={{ display: "flex", gap: 6 }}>
+      {[0, 1, 2].map((i) => (
+        <div key={i} style={{ width: 11, height: 11, borderRadius: 999, background: GREEN, animation: `qbp-bounce 0.9s ${i * 0.15}s infinite ease-in-out` }} />
+      ))}
+      <style>{`@keyframes qbp-bounce { 0%,80%,100% { transform: translateY(0); opacity: .5 } 40% { transform: translateY(-7px); opacity: 1 } }`}</style>
+    </div>
+  );
+}
 
 function PracticeInner({ subjectId }: { subjectId: string }) {
   const searchParams = useSearchParams();
@@ -158,25 +219,18 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
   // ── Loading / Error ──────────────────────────────────────────────────────────
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="flex gap-1.5">
-          {[0, 1, 2].map((i) => (
-            <div key={i} className="w-3 h-3 bg-primary-400 rounded-full animate-bounce"
-              style={{ animationDelay: `${i * 0.15}s` }} />
-          ))}
-        </div>
+      <div style={{ background: "#fff", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <Dots />
       </div>
     );
   }
 
   if (error || !questions.length) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4 text-gray-400">
-        <div className="text-4xl">📭</div>
-        <p className="font-semibold">{error || "No questions available"}</p>
-        <Link href={`/question-bank/${subjectId}`} className="btn-primary text-sm py-2.5 px-6">
-          Back
-        </Link>
+      <div style={{ background: "#fff", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16, fontFamily: "'Inter', sans-serif" }}>
+        <div style={{ fontSize: 40 }}>📭</div>
+        <p style={{ color: INK, fontWeight: 700, margin: 0 }}>{error || "No questions available"}</p>
+        <Link href={`/question-bank/${subjectId}`} style={primaryBtn}>Back</Link>
       </div>
     );
   }
@@ -185,69 +239,62 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
   if (phase === "results") {
     const accuracy = Math.round((correctCount / attempts.length) * 100);
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 py-10">
-        <div className="max-w-2xl mx-auto px-4 space-y-6">
-          <div className="text-center card p-10">
-            <div className="text-5xl mb-4">
+      <div style={{ background: "#fff", minHeight: "100vh", color: INK, fontFamily: "'Inter', sans-serif", padding: "44px clamp(16px,3vw,40px)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gap: 18 }}>
+          <div style={{ ...cardStyle, padding: "40px 30px", textAlign: "center" }}>
+            <div style={{ fontSize: 46, marginBottom: 14 }}>
               {accuracy >= 80 ? "🎉" : accuracy >= 60 ? "👍" : "📚"}
             </div>
-            <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">
-              Session complete!
+            <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 26, fontWeight: 850, letterSpacing: "-0.03em", color: INK, margin: "0 0 6px" }}>
+              Session complete
             </h1>
-            <div className="flex justify-center gap-6 mt-6">
-              <div className="text-center">
-                <p className="text-3xl font-black text-gray-900 dark:text-white">{correctCount}</p>
-                <p className="text-xs text-gray-400 mt-1">Correct</p>
-              </div>
-              <div className="text-center">
-                <p className="text-3xl font-black text-red-500">{attempts.length - correctCount}</p>
-                <p className="text-xs text-gray-400 mt-1">Wrong</p>
-              </div>
-              <div className="text-center">
-                <p className="text-3xl font-black text-primary-500">{accuracy}%</p>
-                <p className="text-xs text-gray-400 mt-1">Accuracy</p>
-              </div>
+            <div style={{ display: "flex", justifyContent: "center", gap: 40, marginTop: 26 }}>
+              <Stat value={correctCount} label="Correct" color={INK} />
+              <Stat value={attempts.length - correctCount} label="Wrong" color={RED} />
+              <Stat value={`${accuracy}%`} label="Accuracy" color={GREEN} />
             </div>
           </div>
 
-          {wrongTopics.length > 0 && (
-            <div className="card p-5">
-              <h2 className="font-bold text-gray-900 dark:text-white mb-3 text-sm">Weak topics</h2>
-              <div className="flex flex-wrap gap-2">
-                {wrongTopics.map((t) => (
-                  <span key={t} className="text-xs bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-3 py-1 rounded-full border border-red-100 dark:border-red-800">
-                    {t}
-                  </span>
-                ))}
+          <div style={{ display: "grid", gridTemplateColumns: wrongTopics.length > 0 ? "minmax(0,1fr)" : "1fr", gap: 18 }}>
+            {wrongTopics.length > 0 && (
+              <div style={{ ...cardStyle, padding: "20px 22px" }}>
+                <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 14, fontWeight: 800, color: INK, margin: "0 0 12px" }}>Weak topics</h2>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                  {wrongTopics.map((t) => (
+                    <span key={t} style={{ fontSize: 12, fontWeight: 700, color: RED, background: "rgba(220,38,38,0.06)", border: "1px solid rgba(220,38,38,0.25)", borderRadius: 999, padding: "4px 12px" }}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {wrongAttempts.length > 0 && (
-            <div className="card p-5">
-              <h2 className="font-bold text-gray-900 dark:text-white mb-3 text-sm">
-                Wrong ({wrongAttempts.length})
-              </h2>
-              <div className="space-y-2">
-                {wrongAttempts.map((a) => {
-                  const q = questions.find((q) => q.id === a.questionId);
-                  if (!q) return null;
-                  return (
-                    <div key={a.questionId} className="p-3 bg-red-50 dark:bg-red-900/10 rounded-xl border border-red-100 dark:border-red-800">
-                      <p className="text-xs text-gray-700 dark:text-gray-300 line-clamp-2">{q.question_text}</p>
-                      <div className="flex items-center gap-3 mt-1.5 text-xs">
-                        <span className="text-red-500">Your answer: {a.selectedAnswer}</span>
-                        <span className="text-emerald-500">Correct: {q.correct_answer}</span>
+            {wrongAttempts.length > 0 && (
+              <div style={{ ...cardStyle, padding: "20px 22px" }}>
+                <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 14, fontWeight: 800, color: INK, margin: "0 0 12px" }}>
+                  Wrong ({wrongAttempts.length})
+                </h2>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 10 }}>
+                  {wrongAttempts.map((a) => {
+                    const q = questions.find((q) => q.id === a.questionId);
+                    if (!q) return null;
+                    return (
+                      <div key={a.questionId} style={{ padding: "12px 14px", background: "rgba(220,38,38,0.04)", borderRadius: 12, border: "1px solid rgba(220,38,38,0.2)" }}>
+                        <p style={{ fontSize: 12.5, color: "#334155", lineHeight: 1.5, margin: 0, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{q.question_text}</p>
+                        <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 7, fontSize: 12 }}>
+                          <span style={{ color: RED }}>You: {a.selectedAnswer}</span>
+                          <span style={{ color: GREEN }}>Correct: {q.correct_answer}</span>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Link href={`/question-bank/${subjectId}`} className="btn-secondary text-sm py-3 flex-1 text-center">
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+            <Link href={`/question-bank/${subjectId}`} style={{ ...secondaryBtn, flex: 1, minWidth: 180 }}>
               Back to question list
             </Link>
             <button
@@ -256,12 +303,12 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
                 setCurrentIdx(0);
                 setPhase("practice");
               }}
-              className="btn-secondary text-sm py-3 flex-1"
+              style={{ ...secondaryBtn, flex: 1, minWidth: 180 }}
             >
               🔄 Try again
             </button>
             {wrongAttempts.length > 0 && (
-              <button onClick={handleThinkingAnalyzer} className="btn-primary text-sm py-3 flex-1">
+              <button onClick={handleThinkingAnalyzer} style={{ ...primaryBtn, flex: 1, minWidth: 180 }}>
                 🔍 Deep thinking analysis
               </button>
             )}
@@ -288,76 +335,81 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
 
   const sessionCorrect = attempts.filter((a) => a.isCorrect).length;
   const sessionRate = attempts.length > 0 ? Math.round((sessionCorrect / attempts.length) * 100) : null;
+  const progressPct = ((currentIdx + (submitted ? 1 : 0)) / questions.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <div style={{ background: "#fff", minHeight: "100vh", color: INK, fontFamily: "'Inter', sans-serif" }}>
       {/* Top bar */}
-      <div className="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-4 py-3">
-        <div className="max-w-3xl mx-auto flex items-center justify-between gap-4">
-          <Link href={`/question-bank/${subjectId}`} className="text-xs text-gray-400 hover:text-primary-500 transition-colors">
+      <div style={{ borderBottom: `1px solid ${BORDER}`, background: "#fff", padding: "12px clamp(16px,3vw,40px)" }}>
+        <div style={{ maxWidth: 880, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+          <Link href={`/question-bank/${subjectId}`} style={{ fontSize: 12.5, color: FAINT, textDecoration: "none", fontWeight: 600, whiteSpace: "nowrap" }}>
             ← {subject?.name}
           </Link>
-
-          {/* Progress bar */}
-          <div className="flex-1 max-w-xs">
-            <div className="h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-primary-500 rounded-full transition-all duration-300"
-                style={{ width: `${((currentIdx + (submitted ? 1 : 0)) / questions.length) * 100}%` }}
-              />
+          <div style={{ flex: 1, maxWidth: 320 }}>
+            <div style={{ height: 7, background: "#eef1f5", borderRadius: 999, overflow: "hidden" }}>
+              <div style={{ height: "100%", background: GREEN, borderRadius: 999, width: `${progressPct}%`, transition: "width 300ms ease" }} />
             </div>
-            <p className="text-xs text-gray-400 text-center mt-1">
+            <p style={{ fontSize: 11, color: FAINT, textAlign: "center", margin: "5px 0 0", fontWeight: 600 }}>
               {currentIdx + 1} / {questions.length}
             </p>
           </div>
-
           {sessionRate !== null && (
-            <div className="text-xs text-right">
-              <span className="font-bold text-primary-500">{sessionRate}%</span>
-              <span className="text-gray-400 ml-1">Accuracy</span>
+            <div style={{ fontSize: 12.5, whiteSpace: "nowrap" }}>
+              <span style={{ fontWeight: 800, color: GREEN }}>{sessionRate}%</span>
+              <span style={{ color: FAINT, marginLeft: 5 }}>Accuracy</span>
             </div>
           )}
         </div>
       </div>
 
       {/* Question card */}
-      <div className="max-w-3xl mx-auto px-4 py-8 space-y-4">
-        <div className="card p-6 md:p-8">
+      <div style={{ maxWidth: 880, margin: "0 auto", padding: "30px clamp(16px,3vw,40px)", display: "grid", gap: 16 }}>
+        <div style={{ ...cardStyle, padding: "26px 28px" }}>
           {/* Meta */}
-          <div className="flex items-center gap-2 mb-5 flex-wrap">
-            <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${DIFF_COLOR[currentQuestion.difficulty] ?? ""}`}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 18, flexWrap: "wrap" }}>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 11.5, fontWeight: 800, color: SUB }}>
+              <span style={{ width: 8, height: 8, borderRadius: 999, background: DIFF_DOT[currentQuestion.difficulty] ?? FAINT }} />
               {DIFF_LABEL[currentQuestion.difficulty] ?? currentQuestion.difficulty}
             </span>
-            <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-500 px-2.5 py-1 rounded-full">
+            <span style={{ fontSize: 10.5, fontWeight: 700, color: SUB, border: `1px solid ${BORDER}`, borderRadius: 999, padding: "3px 9px" }}>
               {currentQuestion.type === "multiple_choice" ? "Multiple choice" : "Free response"}
             </span>
-            {currentQuestion.topic && (
-              <span className="text-xs text-gray-400">{currentQuestion.topic}</span>
-            )}
+            {currentQuestion.topic && <span style={{ fontSize: 12, color: FAINT }}>{currentQuestion.topic}</span>}
           </div>
 
           {/* Question */}
-          <p className="text-base md:text-lg font-semibold text-gray-900 dark:text-white leading-relaxed mb-6">
+          <p style={{ fontSize: 17, fontWeight: 650, color: INK, lineHeight: 1.6, margin: "0 0 22px", whiteSpace: "pre-wrap" }}>
             {currentQuestion.question_text}
           </p>
 
           {/* Options (multiple choice) */}
           {currentQuestion.type === "multiple_choice" && (
-            <div className="space-y-2">
+            <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
               {opts.map(({ letter, text }) => {
-                let btnClass = "w-full text-left p-4 rounded-xl border text-sm transition-all ";
+                let border = `1px solid ${BORDER}`;
+                let bg = "#fff";
+                let color = "#334155";
+                let weight = 500;
                 if (!submitted) {
-                  btnClass +=
-                    selectedAnswer === letter
-                      ? "border-primary-400 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 font-semibold"
-                      : "border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-600 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300";
+                  if (selectedAnswer === letter) {
+                    border = `1.5px solid ${GREEN}`;
+                    bg = "rgba(0,184,95,0.08)";
+                    color = "#047a45";
+                    weight = 700;
+                  }
                 } else {
                   if (letter === currentQuestion.correct_answer.toUpperCase()) {
-                    btnClass += "border-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 font-semibold";
+                    border = `1.5px solid ${GREEN}`;
+                    bg = "rgba(0,184,95,0.10)";
+                    color = "#047a45";
+                    weight = 700;
                   } else if (letter === selectedAnswer && !isCorrect) {
-                    btnClass += "border-red-400 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 font-semibold";
+                    border = `1.5px solid rgba(220,38,38,0.55)`;
+                    bg = "rgba(220,38,38,0.06)";
+                    color = RED;
+                    weight = 700;
                   } else {
-                    btnClass += "border-gray-100 dark:border-gray-800 text-gray-400 dark:text-gray-600";
+                    color = FAINT;
                   }
                 }
                 return (
@@ -365,15 +417,18 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
                     key={letter}
                     disabled={submitted}
                     onClick={() => setSelectedAnswer(letter)}
-                    className={btnClass}
+                    style={{
+                      textAlign: "left", padding: "13px 16px", borderRadius: 12, border, background: bg, color,
+                      fontSize: 14.5, fontWeight: weight, lineHeight: 1.5, cursor: submitted ? "default" : "pointer", transition: "all .1s",
+                    }}
                   >
-                    <span className="font-bold mr-3">{letter}.</span>
+                    <span style={{ fontWeight: 800, marginRight: 12 }}>{letter}.</span>
                     {text}
                     {submitted && letter === currentQuestion.correct_answer.toUpperCase() && (
-                      <span className="ml-2 text-emerald-500">✓</span>
+                      <span style={{ marginLeft: 8, color: GREEN }}>✓</span>
                     )}
                     {submitted && letter === selectedAnswer && !isCorrect && (
-                      <span className="ml-2 text-red-500">✗</span>
+                      <span style={{ marginLeft: 8, color: RED }}>✗</span>
                     )}
                   </button>
                 );
@@ -389,7 +444,10 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
               onChange={(e) => setSelectedAnswer(e.target.value)}
               disabled={submitted}
               placeholder="Type your answer…"
-              className="w-full resize-none border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-sm bg-white dark:bg-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-400 disabled:opacity-70"
+              style={{
+                width: "100%", resize: "none", border: `1px solid ${BORDER}`, borderRadius: 12, padding: "12px 16px",
+                fontSize: 14, background: "#fff", color: INK, outline: "none", fontFamily: "inherit", opacity: submitted ? 0.7 : 1,
+              }}
             />
           )}
 
@@ -398,7 +456,7 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
             <button
               onClick={handleSubmit}
               disabled={!selectedAnswer.trim()}
-              className="mt-5 w-full btn-primary py-3 disabled:opacity-40"
+              style={{ ...primaryBtn, width: "100%", marginTop: 20, opacity: selectedAnswer.trim() ? 1 : 0.4, cursor: selectedAnswer.trim() ? "pointer" : "default" }}
             >
               Submit
             </button>
@@ -407,63 +465,64 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
 
         {/* Explanation (after submit) */}
         {submitted && (
-          <div className={`card p-6 border-l-4 ${isCorrect ? "border-emerald-400" : "border-red-400"}`}>
-            <div className="flex items-center gap-2 mb-3">
-              <span className={`text-lg ${isCorrect ? "text-emerald-500" : "text-red-500"}`}>
+          <div style={{ ...cardStyle, padding: "24px 26px", borderLeft: `4px solid ${isCorrect ? GREEN : RED}` }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
+              <span style={{ fontSize: 17, fontWeight: 800, color: isCorrect ? GREEN : RED }}>
                 {isCorrect ? "✓ Correct!" : "✗ Wrong"}
               </span>
               {!isCorrect && (
-                <span className="text-sm text-gray-500 dark:text-gray-400">
-                  Correct: <strong className="text-emerald-600 dark:text-emerald-400">{currentQuestion.correct_answer}</strong>
+                <span style={{ fontSize: 13.5, color: SUB }}>
+                  Correct: <strong style={{ color: GREEN }}>{currentQuestion.correct_answer}</strong>
                 </span>
               )}
             </div>
 
             {/* Explanation toggle */}
-            <div className="flex gap-2 mb-3">
+            <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
               <button
                 onClick={() => setShowKorean(false)}
-                className={`text-xs font-semibold px-3 py-1.5 rounded-full transition-colors ${
-                  !showKorean ? "bg-primary-500 text-white" : "bg-gray-100 dark:bg-gray-800 text-gray-500"
-                }`}
+                style={{ fontSize: 12, fontWeight: 700, padding: "6px 14px", borderRadius: 999, border: "none", cursor: "pointer",
+                  background: !showKorean ? GREEN : "#f1f4f8", color: !showKorean ? "#fff" : SUB }}
               >
                 🇺🇸 English
               </button>
               {currentQuestion.explanation_korean && (
                 <button
                   onClick={() => setShowKorean(true)}
-                  className={`text-xs font-semibold px-3 py-1.5 rounded-full transition-colors ${
-                    showKorean ? "bg-primary-500 text-white" : "bg-gray-100 dark:bg-gray-800 text-gray-500"
-                  }`}
+                  style={{ fontSize: 12, fontWeight: 700, padding: "6px 14px", borderRadius: 999, border: "none", cursor: "pointer",
+                    background: showKorean ? GREEN : "#f1f4f8", color: showKorean ? "#fff" : SUB }}
                 >
                   🇰🇷 Korean
                 </button>
               )}
             </div>
 
-            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+            <p style={{ fontSize: 14, color: "#334155", lineHeight: 1.7, margin: 0 }}>
               {showKorean ? currentQuestion.explanation_korean : currentQuestion.explanation}
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 mt-5">
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 20 }}>
               {!isCorrect && (
-                <button
-                  onClick={handleThinkingAnalyzer}
-                  className="btn-secondary text-sm py-2.5 flex items-center justify-center gap-2"
-                >
+                <button onClick={handleThinkingAnalyzer} style={secondaryBtn}>
                   🔍 Deep analysis of this miss
                 </button>
               )}
-              <button
-                onClick={handleNext}
-                className="btn-primary text-sm py-2.5 flex-1"
-              >
+              <button onClick={handleNext} style={{ ...primaryBtn, flex: 1, minWidth: 160 }}>
                 {currentIdx + 1 >= questions.length ? "See results →" : "Next question →"}
               </button>
             </div>
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+function Stat({ value, label, color }: { value: React.ReactNode; label: string; color: string }) {
+  return (
+    <div style={{ textAlign: "center" }}>
+      <p style={{ fontSize: 32, fontWeight: 850, color, margin: 0, letterSpacing: "-0.02em" }}>{value}</p>
+      <p style={{ fontSize: 12, color: FAINT, margin: "4px 0 0" }}>{label}</p>
     </div>
   );
 }
@@ -482,13 +541,8 @@ export default function PracticePage({
   const { subject: subjectId } = use(params);
   return (
     <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="flex gap-1.5">
-          {[0, 1, 2].map((i) => (
-            <div key={i} className="w-3 h-3 bg-primary-400 rounded-full animate-bounce"
-              style={{ animationDelay: `${i * 0.15}s` }} />
-          ))}
-        </div>
+      <div style={{ background: "#fff", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <Dots />
       </div>
     }>
       <PracticeInner subjectId={subjectId} />

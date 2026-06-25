@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SAT_FULL_LENGTH_FORMS, formCounts } from "@/lib/sat/forms";
+import { SAT_FULL_LENGTH_FORM_META } from "@/lib/sat/forms-meta";
 import SatHistory from "@/components/sat/SatHistory";
 import PromoBanner from "@/components/parents/PromoBanner";
 
@@ -12,7 +12,9 @@ export const metadata = {
 const INK = "#0b1220";
 const SUB = "#5b6675";
 const GREEN = "#00b85f";
-const MAXW = 1080;
+// Edge-filling container: fill wide screens instead of a narrow centered column.
+const MAXW = 1440;
+const SIDE_PAD = "clamp(16px, 3vw, 40px)";
 
 const FEATURES = [
   { icon: "🧭", title: "Two-Stage Adaptive Modules", desc: "Just like the real digital SAT — your Module 1 performance sets the difficulty of Module 2." },
@@ -28,7 +30,7 @@ export default function SatLandingPage() {
     <div style={{ background: "#ffffff", minHeight: "100vh", color: INK, fontFamily: "'Inter', -apple-system, sans-serif" }}>
       <PromoBanner ctaHref="/parents/sat?pay=1" sticky={false} navOffset={64} />
       <div style={{ background: "linear-gradient(180deg,#f6f8fb 0%, #ffffff 100%)", borderBottom: "1px solid #eef1f5" }}>
-        <div style={{ maxWidth: MAXW, margin: "0 auto", padding: "44px 28px 36px" }}>
+        <div style={{ maxWidth: MAXW, margin: "0 auto", padding: `44px ${SIDE_PAD} 36px` }}>
           <p style={{ fontSize: 11.5, letterSpacing: "0.18em", textTransform: "uppercase", color: GREEN, fontWeight: 800, marginBottom: 12 }}>
             ✏️ Digital SAT · Adaptive Practice Test
           </p>
@@ -48,13 +50,13 @@ export default function SatLandingPage() {
         </div>
       </div>
 
-      <div style={{ maxWidth: MAXW, margin: "0 auto", padding: "32px 28px 100px" }}>
+      <div style={{ maxWidth: MAXW, margin: "0 auto", padding: `32px ${SIDE_PAD} 100px` }}>
         <SatHistory theme="light" />
 
         {/* Test picker */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12, margin: "8px 0 40px" }}>
-          {SAT_FULL_LENGTH_FORMS.map((f, i) => {
-            const c = formCounts(f);
+          {SAT_FULL_LENGTH_FORM_META.map((f, i) => {
+            const c = { rw: f.rwCount, math: f.mathCount };
             return (
               <Link key={f.id} href={`/parents/sat?pay=1&form=${encodeURIComponent(f.id)}`} style={{
                 textDecoration: "none", display: "flex", alignItems: "center", gap: 16,

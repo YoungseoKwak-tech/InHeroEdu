@@ -1,5 +1,5 @@
 import SampleExam, { type SampleItem } from "@/components/mock/SampleExam";
-import { getToeflForm } from "@/lib/toefl/forms";
+import { TOEFL_FORM_1 } from "@/lib/toefl/form1";
 
 export const metadata = {
   title: "TOEFL Practice Test Sample (Free)",
@@ -11,7 +11,7 @@ const BLUE = "#1f6feb";
 // First reading passage + its first 3 items from the real form — a free taste of
 // the actual Reading section format and timer.
 function buildItems(): SampleItem[] {
-  const form = getToeflForm();
+  const form = TOEFL_FORM_1;
   const set = form.reading[0];
   if (!set) return [];
   return set.questions.slice(0, 3).map((q) => ({

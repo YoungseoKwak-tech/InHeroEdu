@@ -192,9 +192,9 @@ export default function CoreNotesPage() {
           )}
         </aside>
 
-        {/* Main: one focused note */}
-        <main style={{ flex: 1, minWidth: 0, padding: "34px 40px 120px", display: "flex", justifyContent: "center" }}>
-          <div style={{ width: "100%", maxWidth: 720 }}>
+        {/* Main: one focused note — fills remaining width, prose stays readable but centered */}
+        <main style={{ flex: 1, minWidth: 0, padding: "34px clamp(40px, 6vw, 120px) 120px", display: "flex", justifyContent: "center" }}>
+          <div style={{ width: "100%", maxWidth: 1180 }}>
             {loading ? (
               <NoteSkeleton />
             ) : current ? (

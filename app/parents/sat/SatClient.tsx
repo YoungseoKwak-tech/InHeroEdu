@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ParentHubShell from "@/components/parents/ParentHubShell";
-import { SAT_FULL_LENGTH_FORMS, formCounts } from "@/lib/sat/forms";
+import { SAT_FULL_LENGTH_FORM_META } from "@/lib/sat/forms-meta";
 import SatHistory from "@/components/sat/SatHistory";
 import CreditGate from "@/components/parents/CreditGate";
 import ConsultOffer from "@/components/parents/ConsultOffer";
@@ -141,8 +141,8 @@ export default function SatClient() {
         );
       })()}
       <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 28 }}>
-        {SAT_FULL_LENGTH_FORMS.map((f, i) => {
-          const c = formCounts(f);
+        {SAT_FULL_LENGTH_FORM_META.map((f, i) => {
+          const c = { rw: f.rwCount, math: f.mathCount };
           return (
             <button key={f.id} onClick={() => startTest(f.id)} style={{
               textAlign: "left", cursor: "pointer", width: "100%", display: "flex", alignItems: "center", gap: 16,

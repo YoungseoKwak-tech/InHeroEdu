@@ -298,20 +298,25 @@ function unitChip(Pa: P, on: boolean): React.CSSProperties {
   };
 }
 
-/** The "real vocabulary book": unit pages, numbered rows, checkbox gutter. */
+/** The "real vocabulary book": unit pages, numbered rows, checkbox gutter.
+ *  Units flow into an edge-filling, responsive multi-column grid so wide
+ *  screens are used instead of one thin centered column. Each unit is its
+ *  own self-contained "page" card; CSS column-fill keeps long pages intact. */
 function VocabBook({ groups, hideEn, known, onToggle, Pa }: {
   groups: [number | null, VocabTerm[]][]; hideEn: boolean; known: Set<string>;
   onToggle: (t: VocabTerm) => void; Pa: P;
 }) {
   return (
-    <div style={{ borderRadius: 16, border: `1px solid ${Pa.cardBorder}`, background: Pa.bookBg, overflow: "hidden", boxShadow: "0 1px 2px rgba(16,24,40,0.04)" }}>
+    <div style={{ columnWidth: 460, columnGap: 18 }}>
       {groups.map(([u, items], gi) => {
         const knownInUnit = items.reduce((n, t) => n + (known.has(termKey(t)) ? 1 : 0), 0);
         return (
-          <div key={u ?? `none-${gi}`}>
+          <div key={u ?? `none-${gi}`}
+            style={{ breakInside: "avoid", marginBottom: 18, borderRadius: 16, border: `1px solid ${Pa.cardBorder}`,
+              background: Pa.bookBg, overflow: "hidden", boxShadow: "0 1px 2px rgba(16,24,40,0.04)" }}>
             {/* Unit header — like a "Day 01" page divider */}
             <div style={{ display: "flex", alignItems: "baseline", gap: 10, padding: "14px 18px",
-              background: Pa.gutter, borderTop: gi === 0 ? "none" : `1px solid ${Pa.bookLine}`, borderBottom: `1px solid ${Pa.bookLine}` }}>
+              background: Pa.gutter, borderBottom: `1px solid ${Pa.bookLine}` }}>
               <span style={{ fontSize: 14, fontWeight: 850, color: Pa.text, letterSpacing: "-0.01em" }}>
                 {u == null ? "기타" : `Unit ${u}`}
               </span>
@@ -395,7 +400,7 @@ function StudyDeck({ terms, Pa }: { terms: VocabTerm[]; Pa: P }) {
   if (done) {
     const correct = deck.length - wrong.length;
     return (
-      <div style={{ textAlign: "center", padding: "44px 20px", borderRadius: 18, border: `1px solid ${Pa.studyCardBorder}`, background: Pa.accentBg, boxShadow: "0 1px 2px rgba(16,24,40,0.04)" }}>
+      <div style={{ maxWidth: 620, margin: "0 auto", textAlign: "center", padding: "44px 20px", borderRadius: 18, border: `1px solid ${Pa.studyCardBorder}`, background: Pa.accentBg, boxShadow: "0 1px 2px rgba(16,24,40,0.04)" }}>
         <p style={{ fontSize: 34, margin: "0 0 8px" }}>🎉</p>
         <p style={{ fontSize: 19, fontWeight: 850, color: Pa.text, margin: "0 0 6px" }}>한 바퀴 완료!</p>
         <p style={{ fontSize: 14, color: Pa.sub, margin: "0 0 20px" }}>
@@ -412,7 +417,7 @@ function StudyDeck({ terms, Pa }: { terms: VocabTerm[]; Pa: P }) {
   }
 
   return (
-    <div>
+    <div style={{ maxWidth: 620, margin: "0 auto" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14, fontSize: 12.5, color: Pa.sub }}>
         <span>{pos + 1} / {deck.length}</span>
         <div style={{ flex: 1, height: 6, borderRadius: 999, background: Pa.track, overflow: "hidden" }}>

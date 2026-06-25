@@ -1,5 +1,5 @@
 import SatTestClient from "./SatTestClient";
-import { getSatForm, SAT_FULL_LENGTH_FORMS } from "@/lib/sat/forms";
+import { DEFAULT_SAT_FORM_ID, hasSatForm } from "@/lib/sat/form-loader";
 
 export const metadata = {
   title: "SAT Practice Test (Bluebook Mode)",
@@ -12,6 +12,9 @@ export default async function SatTestPage({
   searchParams: Promise<{ form?: string; attempt?: string }>;
 }) {
   const { form, attempt } = await searchParams;
-  const chosen = getSatForm(form) ?? SAT_FULL_LENGTH_FORMS[0];
-  return <SatTestClient form={chosen} attemptId={attempt} />;
+  // Resolve to a known form id here (cheap, no payload). The heavy form data is
+  // loaded on demand, client-side, inside the runner — so only the chosen
+  // form's chunk is ever downloaded.
+  const formId = hasSatForm(form) ? form! : DEFAULT_SAT_FORM_ID;
+  return <SatTestClient formId={formId} attemptId={attempt} />;
 }
