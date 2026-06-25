@@ -32,3 +32,6 @@ scripts/textbook/build/
 /AP Calc BC.png
 합격/
 __pycache__/
+
+# Marp PPTX render browser (downloaded, not source)
+chrome/

@@ -34,3 +34,7 @@ scripts/textbook/
 
 # Admit-sample source folder
 합격/
+
+# Marp render browser + generated slide binaries (never needed at runtime)
+chrome/
+docs/program-slides/**/*.pptx
