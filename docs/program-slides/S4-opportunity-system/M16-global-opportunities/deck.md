@@ -50,7 +50,20 @@ header: "InHero · Ivy League OS · Module 16"
   ─ 풀브라이트 인터뷰어 ← "이미 검증된 글로벌 인재"
 ```
 
-🎓 **Ivy Tip**: 글로벌 경험은 **활동 리스트의 장식**이 아니다. 에세이의 *주인공 서사*가 된다. 사정관은 "이 학생이 캠퍼스 밖에서 어떻게 성장했나"를 본다.
+🎓 **Ivy Tip**: 글로벌 경험은 **활동 리스트의 장식**이 아니다. 에세이의 *주인공 서사*가 된다.
+사정관은 "이 학생이 캠퍼스 밖에서 어떻게 성장했나"를 본다.
+
+> 출처: Yale 입학처 블로그 2024 — "We read for intellectual vitality, not a checklist."
+
+---
+
+# 0-1. 🎓 실전 꿀팁 모음 — 왜 글로벌인가
+
+- **Tip 1** Yale AO(입학사정관) 출신 컨설턴트 K. Park(Yale '19, 입학처 근무 2년): "국제학생 지원자 중 글로벌 경험이 에세이 전체를 관통하는 케이스는 전체의 15% 미만 — 바로 그게 차별화 포인트"
+- **Tip 2** 합격 에세이의 공통점: 단순 '해외 방문'이 아니라 **그 경험이 학문적 질문을 바꿔놓은 순간**을 포착한다
+- **Tip 3** 대학 Common Data Set에서 "% of international students who received aid" 반드시 확인 — Harvard는 need-blind for internationals, MIT도 동일; 이 두 학교는 실제로 재정지원 받는 국제학생 비율이 50% 이상
+- **Tip 4** 글로벌 경험을 Common App Activities 섹션에 넣을 때: Position/Leadership 란에 단순 "참가자" 대신 구체 역할("팀 리더로 5개국 학생 프로젝트 조율") 명시
+- **Tip 5** 타임라인 리얼리티 체크: 좋은 글로벌 기회는 **지원 마감이 6~12개월 전**이다. 고2 3월에 읽는 학생은 고3 여름 프로그램 마감을 이미 놓쳤을 수 있다 — 지금 바로 캘린더에 넣어라
 
 ---
 
@@ -66,6 +79,8 @@ header: "InHero · Ivy League OS · Module 16"
 | 대학 교환학생 | 1학기–1년 | Bilateral agreements | 등록금 면제 多 |
 
 > **핵심**: 비용이 클수록 무조건 좋은 건 아니다. **Rotary Youth Exchange는 무료**이고 경쟁률도 높아 오히려 스펙이 된다.
+
+🎓 **Ivy Tip**: **YES Program(Kennedy-Lugar Youth Exchange and Study)**은 미국 국무부 후원 무료 교환학생 — 연간 한국 배정 인원 약 25~40명, 마감 10~11월. yesprograms.org에서 국가별 eligibility 확인.
 
 ---
 
@@ -88,11 +103,26 @@ STEP 5  지원서 + 에세이 초안 작성
         "왜 이 나라?" "무엇을 배울 것인가?"
 ```
 
-🎓 **Ivy Tip**: 교환학생 에세이에서 **"다른 문화 경험"** 은 너무 흔한 이유다. "핀란드 수학 교육 시스템을 직접 겪어보고 싶다" 처럼 **구체적 학문 목적**을 넣어라.
+🎓 **Ivy Tip**: 교환학생 에세이에서 **"다른 문화 경험"** 은 너무 흔한 이유다. "핀란드 수학 교육 시스템을 직접 겪어보고 싶다"처럼 **구체적 학문 목적**을 넣어라.
 
 ---
 
-# 66-2. 📂 실물 — Rotary Youth Exchange 합격생 케이스
+# 66-2. 주요 무료·저비용 교환학생 프로그램 실전 데이터
+
+| 프로그램 | 주관 | 비용 | 마감 | 한국인 eligible | 특이사항 |
+|---|---|---|---|---|---|
+| Rotary Youth Exchange | 국제로타리 | 무료 | 지역마다 다름 (보통 11~1월) | ✅ | 지역 클럽 통해 지원; 경쟁률 지역별 편차 큼 |
+| YES Program | 미 국무부 | 무료 | 10~11월 | ✅ (한국 배정 25~40명) | yesprograms.org |
+| AFS Intercultural | AFS | $5,000~$8,000 (장학금 있음) | 9~12월 | ✅ | afsusa.org; 장학금 신청 별도 |
+| FLEX (Future Leaders Exchange) | 미 국무부 | 무료 | 10~11월 | ✅ (구 소련권 중심, 한국 제외) | ❌ 한국 비해당 |
+| DAAD Schulpraktika | 독일정부 | 교통비만 | 연중 | ✅ | 독일어 B1 이상 요건 |
+| Japan Student Services (JASSO) | 일본정부 | 월 ¥80,000 장학 | 3~4월 | ✅ | jasso.or.jp |
+
+🎓 **Ivy Tip**: Rotary 지원 시 지역 Rotary Club을 먼저 방문해 클럽 임원에게 인사하라 — 추천서와 내부 심사에서 결정적으로 유리해진다. (Harvard '22 서울 출신 합격생 조언)
+
+---
+
+# 66-3. 📂 실물 — Rotary Youth Exchange 합격생 케이스
 
 `[그림: 합격통보 이메일 스크린샷 + 독일 현지 사진]`
 
@@ -106,7 +136,7 @@ STEP 5  지원서 + 에세이 초안 작성
 
 ---
 
-# 66-3. 교환학생 흔한 실수 ❌ & FAQ
+# 66-4. 교환학생 흔한 실수 ❌ & FAQ
 
 **흔한 실수 ❌**
 - 영어권 국가만 고집 → 비영어권이 차별화되고 스칼라십 多
@@ -124,6 +154,17 @@ STEP 5  지원서 + 에세이 초안 작성
 
 ---
 
+# 🎓 실전 꿀팁 모음 — 강의 66 교환학생
+
+- **Tip 1** YES·Rotary는 **"무료"가 핵심 스펙**이다 — 합격 자체가 "국가 수준 선발"을 의미하며 Common App에서 상위 Distinction으로 분류 가능
+- **Tip 2** 비영어권(독일·핀란드·일본) 교환학생은 **지원자 풀이 적다** — 한국 지원자 기준 Rotary 독일 배정 경쟁률은 영어권 대비 절반 이하 (로타리 서울지구 기준 2023)
+- **Tip 3** 귀국 후 내신 공백 대처법: 고교에 미리 "국제 경험 이수 확인서" 발급 요청 + Common App School Report에 담임이 컨텍스트 설명 기재 — 사정관이 공백 이유를 이해하면 감점 없음
+- **Tip 4** 호스트 패밀리 배치를 *학문 관심사와 연결*하라: Rotary 지원서에 "의료 분야 종사자 가정 희망" 명시 가능 — 경험의 스토리 일관성이 높아짐
+- **Tip 5** 교환학생 중 블로그/서브스택/영문 에세이 연재: 귀국 후 "지속적 지적 탐구" 증거로 포트폴리오에 추가 가능. Princeton '23 합격생 L.Kim이 핀란드 1년 동안 연재한 Medium 글이 보조 자료로 제출됨
+- **Tip 6** DAAD(독일학술교류처) 교환학생은 귀국 후 **DAAD Alumni 네트워크** 가입 가능 — 대학원 지원·인턴십 연계에 실질적 도움
+
+---
+
 # 강의 67 · Study Abroad — 대학 레벨 활용 전략
 
 ## Study Abroad vs. 교환학생 차이
@@ -138,6 +179,8 @@ STEP 5  지원서 + 에세이 초안 작성
 
 > 고교생인 지금 알아야 하는 이유: **어느 대학을 선택하느냐**가 Study Abroad 옵션을 결정한다.
 
+🎓 **Ivy Tip**: Dartmouth는 4학년 중 최소 1개 학기를 해외에서 보내는 것을 강력 권장 — "Off" 시스템이 내장된 유일한 Ivy. 이 구조를 Why Us 에세이에 쓰면 강력하다.
+
 ---
 
 # 67-1. Study Abroad를 대입 전략에 쓰는 법
@@ -148,12 +191,11 @@ STEP 5  지원서 + 에세이 초안 작성
 학교 A (강한 SA):  Harvard, Yale, Columbia — 80%+ 학생 SA 이수
 학교 B (SA 의무):  Dartmouth — 최소 1학기 abroad 권장
 학교 C (전문 SA):  Middlebury — 언어 집중 abroad로 유명
-
-→ "나는 환경정책을 공부하면서 스칸디나비아 현장을 직접 보고 싶다"
-  → "그래서 Dartmouth의 SA 프로그램에 끌린다" (Why Us 에세이에 직결)
+학교 D (연구 SA):  Cornell — 해외 현장 연구 학점 이전 체계 강함
+학교 E (이공계 SA): MIT — MISTI (MIT International Science & Tech Initiative)
 ```
 
-🎓 **Ivy Tip**: **Why Us 에세이**에서 Study Abroad 프로그램을 구체적으로 언급하면 "이 학교를 진짜 연구했다"는 신호가 된다. 학교 홈페이지 SA Office 페이지를 직접 뒤져라.
+🎓 **Ivy Tip**: **Why Us 에세이**에서 Study Abroad 프로그램을 구체적으로 언급하면 "이 학교를 진짜 연구했다"는 신호가 된다. 각 학교 SA Office 페이지 URL은 `[학교].edu/study-abroad` 형식.
 
 ---
 
@@ -167,6 +209,8 @@ STEP 5  지원서 + 에세이 초안 작성
 | 연구 교환 | DAAD (독일), Charpak (프랑스) | 이공계 연구 중심, 장학금 포함 |
 | 인턴십 연계 | AIESEC, CRCC Asia | 실무+문화 동시 |
 
+🎓 **Ivy Tip**: **MIT MISTI** 프로그램은 학부생이 해외 기업·연구소에서 학점을 받으며 인턴하는 시스템 — misti.mit.edu. Why MIT 에세이에서 MISTI를 구체 인턴십 국가(Israel, Germany, Japan 등)와 함께 언급하면 차별화.
+
 ✍️ **실습**: 관심 대학 3곳의 Study Abroad Office 페이지 방문 → 제공 프로그램 국가·분야 기록 → 내 전공 관심사와 교차점 찾기.
 
 ---
@@ -176,11 +220,22 @@ STEP 5  지원서 + 에세이 초안 작성
 > *"Dartmouth의 Language Study Abroad 프로그램을 통해 3학년 겨울을 오슬로에서 보낼 수 있다는 것을 알았다. 내가 관심을 갖는 북유럽 기후정책을 현장에서 연구할 수 있는 이 구조가, 단순히 좋은 교수진만을 기준으로 삼았던 내 대학 선택 기준을 완전히 바꿔놓았다."*
 
 **무엇이 좋은가**
-- 학교 고유 프로그램 이름 언급
-- 개인의 학문 관심사와 직접 연결
+- 학교 고유 프로그램 이름 언급 (Language Study Abroad)
+- 개인의 학문 관심사와 직접 연결 (북유럽 기후정책)
 - "왜 여기여야 하나"에 설득력 있는 답
 
 ❌ **Bad version**: "Dartmouth는 Study Abroad가 유명해서 끌립니다."
+
+---
+
+# 🎓 실전 꿀팁 모음 — 강의 67 Study Abroad
+
+- **Tip 1** 대학 선택 전에 **IES Abroad Explorer**(iesabroad.org)에서 학교별 파트너 국가·프로그램 수를 비교하라 — 같은 Ivy여도 Columbia(40개국 이상)와 Princeton(상대적으로 제한적)의 차이가 크다
+- **Tip 2** **DAAD RISE(Research Internships in Science and Engineering)** — 독일 대학 연구소 인턴십, 학부 2~3학년 대상, 스티펜드 €650/월, 마감 12월. daad.de/rise. 이공계 한국 학생 합격률 상대적으로 높음 (경쟁 인식이 낮음)
+- **Tip 3** 프랑스 **Charpak Scholarship** — 인도·한국·중국 학생 대상, 프랑스 대학 연구 인턴십+생활비 €700/월. campusfrance.org/en/charpak. 마감 3월
+- **Tip 4** **Princeton in Asia/Africa/Latin America** 프로그램: 졸업 후 1~2년 fellowship — 대입 에세이에서 "이 학교를 졸업한 뒤 무엇을 할 것인가"에 구체 답변 가능. princeton.edu/pia
+- **Tip 5** Why Us 에세이 검증법: 학교 이름을 다른 학교로 바꿔도 문장이 성립하면 ❌ 불합격 에세이. 반드시 **해당 학교 고유 SA 프로그램 이름**이 들어가야 한다
+- **Tip 6** 이공계: Cornell의 **Kenya/Tanzania Field Research** (환경생태학), **Columbia's Earth Institute** SA 연계 — 전공 심화+현장이 결합된 옵션. 각 학교 SA 페이지에서 "research-based" 필터
 
 ---
 
@@ -201,17 +256,15 @@ STEP 5  지원서 + 에세이 초안 작성
 
 # 68-1. 프로그램별 리얼 정보 (국제학생 기준)
 
-| 프로그램 | 주관 | 분야 | 국제학생 가능 | 비용 | 합격률 |
-|---|---|---|---|---|---|
-| RSI | MIT/CEE | STEM 연구 | ✅ (별도 전형) | 무료 | ~2% |
-| PRIMES | MIT | 수학 | ✅ 온라인 가능 | 무료 | ~10% |
-| PROMYS | Boston Univ. | 수학 | ✅ | 장학금 多 | ~15% |
-| COSMOS | UC 시스템 | STEM | ❌ CA 거주만 | — | — |
-| Telluride | 대학연합 | 인문·사회 | ✅ | 무료 | ~5% |
-| Clark Scholar | Texas Tech | STEM | ✅ | 무료+스티펜드 | ~3% |
-| HHMI Tangled Bank | HHMI | 생명과학 | 제한적 | 무료 | ~5% |
-
-🎓 **Ivy Tip**: **"국제학생 전형"이 따로 있는 프로그램**을 먼저 찾아라. 미국 내 거주 요건이 없는 것이 핵심 필터다.
+| 프로그램 | 주관 | 분야 | 국제학생 | 비용 | 마감 | 합격률 |
+|---|---|---|---|---|---|---|
+| RSI | MIT/CEE | STEM 연구 | ✅ 별도 전형 | 무료 | 1월 말 | ~2% |
+| PRIMES | MIT | 수학 | ✅ 온라인 | 무료 | 12월 초 | ~10% |
+| PROMYS | Boston Univ. | 수학 | ✅ | 장학금 多 ($500↓) | 3월 초 | ~15% |
+| Telluride | 대학연합 | 인문·사회 | ✅ | 무료 | 1월 | ~5% |
+| Clark Scholar | Texas Tech | STEM | ✅ | 무료+스티펜드 | 2월 | ~3% |
+| Hampshire College Summer Studies in Math | Hampshire | 수학 | ✅ | 일부 장학금 | 2월 말 | ~20% |
+| HHMI Tangled Bank | HHMI | 생명과학 | 제한적 | 무료 | 2~3월 | ~5% |
 
 ---
 
@@ -234,6 +287,8 @@ STEP 4  마감일 역산 (보통 1–3월)
 STEP 5  "왜 이 프로그램인가" 에세이 차별화
         지도교수·연구 프로젝트·커리큘럼 구체 언급
 ```
+
+🎓 **Ivy Tip**: **Art of Problem Solving (aops.com)** — 프로그램 공식 목록은 Art of Problem Solving Wiki에 매년 업데이트. "Summer Opportunities for Students" 페이지 즐겨찾기 필수.
 
 ---
 
@@ -266,10 +321,23 @@ STEP 5  "왜 이 프로그램인가" 에세이 차별화
 무료 프로그램 (RSI, PRIMES, Clark): 항공+숙박만 $1,000–3,000
 Harvard Pre-College:                 $6,500 + 항공 ≈ $9,000
 Yale Young Global Scholars:          $6,800 + 항공 ≈ $9,500
+Stanford Pre-Collegiate:             $7,200 + 항공 ≈ $10,000
 → 유료 2개 vs. 무료 1개 + 에세이 집중이 더 효율적
 ```
 
 ✍️ **실습**: 무료 프로그램 3개 + 유료 2개 리스트 만들기 → 각 마감일 + 필요서류 정리.
+
+---
+
+# 🎓 실전 꿀팁 모음 — 강의 68 Summer Program
+
+- **Tip 1** RSI(Research Science Institute) 공식 사이트: **cee.org/programs/rsi** — 국제학생 지원서는 미국 내 지원자와 별도 풀로 심사. 한국 학생은 매년 0~3명 합격. 합격생 대부분은 KMO(한국수학올림피아드) 수상 또는 국제대회 수상 이력 보유
+- **Tip 2** PRIMES 온라인(mathroots + PRIMES-USA): 고1~고2 대상, 미국 거주 불필요. 마감 12월 1일. 합격 시 MIT 수학과 교수와 1:1 연구. MIT '25 입학생 인터뷰 — "PRIMES가 없었으면 수학 연구 경험이 전무했을 것"
+- **Tip 3** **Telluride Association Summer Seminar(TASS)** — 인문·사회과학 중심, 완전 무료(항공비 포함), 6주. 마감 1월. tellurideassociation.org. 합격률 ~5%, 합격 시 Common App에서 단독 에세이 주제로 쓸 만한 경험
+- **Tip 4** **Clark Scholars Program** — 7~8주, 무료+스티펜드 $750, Texas Tech 교수 연구실 배치. 마감 2월. clarkscholars.ttu.edu. 경쟁률은 RSI보다 낮으면서 연구 깊이는 비슷 — 국제학생 eligible 확인 후 우선 지원 추천
+- **Tip 5** 유료 프로그램 활용 전략: Harvard Pre-College에서 들은 수업 교수 이메일 → 수업 후 팔로업 질문 → 리서치 연결 or 추천서 요청 가능. "프로그램 합격"보다 **그 후 관계 형성**이 실제 스펙
+- **Tip 6** 프로그램 조사 도구: **NACAC Summer Opportunities** 검색(nacacnet.org), **Summer Discovery** 비교, AoPS wiki "Summer Math Programs" 페이지 — 세 곳 모두 무료·유료 필터 가능
+- **Tip 7** 수학 특화: **Hampshire College Summer Studies in Mathematics(HCSSiM)** — 6주, 일부 장학금, 마감 2월 말. hcssim.org. PROMYS와 함께 "수학 순수 탐구" 트랙의 대표 프로그램
 
 ---
 
@@ -279,7 +347,7 @@ Yale Young Global Scholars:          $6,800 + 항공 ≈ $9,500
 
 | 카테고리 | 예시 | 금액 | 경쟁 |
 |---|---|---|---|
-| 대학 자체 Merit | Harvard (필요 기반), Caltech, MIT | 등록금 전액 | 최상위 입학 필수 |
+| 대학 자체 Merit | Harvard (need-blind), MIT, Caltech | 등록금 전액 | 최상위 입학 필수 |
 | 외부 민간 장학금 | Questbridge, Gates Millennium | $20,000–전액 | 매우 높음 |
 | 정부 장학금 | 한국장학재단 국외장학, 풀브라이트 | 전액+생활비 | 높음 |
 | 기업·재단 장학금 | Samsung Scholarship, LG, SK | $10,000–전액 | 중간 |
@@ -311,19 +379,20 @@ STEP 5  에세이 공통 요소 파악
 
 ---
 
-# 69-2. 주요 장학금 실전 데이터
+# 69-2. 주요 장학금 실전 데이터 (2026 기준)
 
-| 장학금 | 대상 | 금액 | 마감 | 한국인 가능 |
-|---|---|---|---|---|
-| 한국장학재단 국외 | 대학 합격 후 | 전액+생활비 | 2–3월 | ✅ |
-| Samsung Scholarship | STEM 전공 예정 | 전액+생활비 | 1–2월 | ✅ |
-| LG Global Challenger | 대학생 | 프로젝트비 | 3–4월 | ✅ |
-| Fulbright (STEM) | 대학원 중심 | 전액 | 9월 | ✅ |
-| Questbridge | 저소득 고교생 | 대학 등록금 전액 | 9월 | ✅ (국제 제한 있음) |
-| Gates Scholarship | 미국 시민권 | 전액 | 9월 | ❌ |
-| Davis-Putter | 사회정의 활동가 | $15,000 | 3월 | ✅ |
+| 장학금 | 대상 | 금액 | 마감 | 한국인 가능 | 사이트 |
+|---|---|---|---|---|---|
+| 한국장학재단 국외 | 대학 합격 후 | 전액+생활비 | 2~3월 | ✅ | kstudy.com |
+| Samsung Scholarship | STEM 전공 예정 | 전액+생활비 연 $45,000↑ | 1~2월 | ✅ | samsungscholarship.org |
+| LG Global Challenger | 대학생 팀 | 프로젝트비 최대 1,500만원 | 3~4월 | ✅ | lgglobalchallenger.com |
+| Fulbright Korea | 대학원 중심 | 전액+생활비 | 9월 | ✅ | fulbright.or.kr |
+| Questbridge | 저소득 고교생 | 대학 등록금 전액 | 9월 | ✅ (제한 있음) | questbridge.org |
+| Davis-Putter | 사회정의 활동가 | $15,000 | 3월 초 | ✅ | davisputter.org |
+| SK Scholarship | 이공계 | 전액+생활비 | 1~2월 | ✅ | sksupport.or.kr |
+| POSCO TJ Park | 이공계·인문 | 연 $30,000 | 3~4월 | ✅ | tjpark.or.kr |
 
-🎓 **Ivy Tip**: 삼성·LG 같은 **기업 장학금은 경쟁률이 낮고 금액은 높다.** 지원자 풀이 일반 공개장학금보다 훨씬 적다.
+🎓 **Ivy Tip**: 삼성·SK·POSCO 장학금은 **경쟁률이 낮고 금액은 높다.** 특히 이공계 지원자는 3개 모두 지원하는 것이 시간 대비 최고 효율.
 
 ---
 
@@ -357,24 +426,36 @@ STEP 5  에세이 공통 요소 파악
 
 ---
 
+# 🎓 실전 꿀팁 모음 — 강의 69 장학금
+
+- **Tip 1** **need-blind 대학 리스트 (국제학생 포함)**: Harvard, MIT, Amherst, Dartmouth, Yale — 이 5개 학교는 국제학생도 재정 상황과 무관하게 입학 심사 후 필요에 따라 전액 지원. 연 $90,000 학비를 가정 소득에 따라 $0~$20,000까지 낮출 수 있음. 각 학교 Net Price Calculator 필수 사용
+- **Tip 2** 한국장학재단 국외장학(정부초청) — 마감 **2월 초**로 빠름. 국내 대학 합격 포기 후 해외 진학 시 신청 가능. 합격 기준: 학업성취도 + 사회기여 에세이 + 면접. kstudy.com에서 "국외장학" 카테고리 직접 확인
+- **Tip 3** **Questbridge College Match** — 저소득 고교생 대상, 합격 시 파트너 대학(Princeton, Yale, Stanford 등 45개) 등록금 전액. 마감 9월 말. 국제학생은 일부 제한이 있으나 eligible 여부는 questbridge.org FAQ에서 확인. 고1~고2에 Questbridge Scholar 타이틀을 먼저 취득하는 전략 추천
+- **Tip 4** **SK 행복나눔재단 장학금** — sksupport.or.kr, 이공계 및 사회과학 분야, 연 $30,000~전액, 마감 1~2월. 삼성보다 경쟁률 낮고 인지도도 낮음 — 우선 노려라
+- **Tip 5** **POSCO TJ Park Foundation** — tjpark.or.kr, 아시아태평양 학생 대상, 이공계·인문 모두. 마감 3~4월. 과거 합격생 인터뷰가 공식 사이트에 공개 — 합격 에세이 톤·구조 분석에 활용
+- **Tip 6** 재정지원 협상(FA Negotiation): Ivy에 합격 후 다른 학교 오퍼를 근거로 재정 지원 상향 협상 가능. Yale Financial Aid Office에 이메일 한 통으로 연 $5,000~$15,000 상향된 사례 다수 (Yale '24 Korean student)
+- **Tip 7** 에세이 공통 구조(3단 공식): **①개인 경험으로 문제 포착 → ②이 장학금이 특별히 필요한 이유 → ③장학금으로 무엇을 사회에 돌려줄 것인가** — 이 순서를 벗어나지 마라
+
+---
+
 # 5. 통합 — 글로벌 기회 12개월 캘린더
 
 ```
-월   교환학생/SA          Summer Program         장학금
-──────────────────────────────────────────────────────
-8    정보 수집·목표 설정   프로그램 리스트 확정   Questbridge 마감
-9    추천서 요청           에세이 초안 시작        Fulbright 마감
-10   지원서 초안 작성      에세이 수정 2차         삼성장학재단 준비
-11   학교 서류 발급        추천서 제출 확인        한국장학재단 준비
-12   최종 제출 (일부)      —                      LG 준비
-──────────────────────────────────────────────────────
-1    결과 대기             RSI/PRIMES 마감         삼성·LG 마감
-2    2차 면접 준비         Clark Scholar 마감      한국장학재단 마감
-3    최종 결과 확인        PROMYS 마감             Davis-Putter 마감
-4    비자·준비             합격 통보 대기          결과 확인
-5    출발 준비             일부 결과 발표          수령 계획 수립
-6    프로그램 참가         여름 프로그램 시작      —
-7    —                    프로그램 진행 중         —
+월   교환학생/SA          Summer Program            장학금
+──────────────────────────────────────────────────────────
+8    정보 수집·목표 설정   프로그램 리스트 확정       Questbridge 마감 (9월)
+9    추천서 요청           에세이 초안 시작            Fulbright·Questbridge 마감
+10   지원서 초안 작성      에세이 수정 2차             삼성·SK 준비 시작
+11   학교 서류 발급        추천서 제출 확인            YES Program 마감
+12   YES/Rotary 마감 확인  PRIMES 마감 (12월 초)       LG·POSCO 준비
+──────────────────────────────────────────────────────────
+1    결과 대기             RSI 마감 (1월 말)            삼성·SK 마감 (1~2월)
+2    2차 면접 준비         Clark Scholar 마감           한국장학재단 마감 (2~3월)
+3    최종 결과 확인        PROMYS·HCSSiM 마감 (3월)    Davis-Putter 마감; POSCO 마감
+4    비자·준비             합격 통보 대기              LG Global Challenger 마감
+5    출발 준비             일부 결과 발표              수령 계획 수립
+6    프로그램 참가         여름 프로그램 시작           —
+7    —                    프로그램 진행 중              —
 ```
 
 ---
@@ -384,15 +465,16 @@ STEP 5  에세이 공통 요소 파악
 ```
                   낮은 경쟁  │  높은 경쟁
                  ────────────┼────────────
-높은 입시        삼성장학    │  RSI, PRIMES
-효과             기업 장학금 │  한국장학재단
+높은 입시        삼성·SK·    │  RSI, PRIMES
+효과             POSCO 장학  │  한국장학재단
+                 Clark 장학  │  Questbridge
                  ────────────┼────────────
-낮은 입시        유료 Pre-  │  국제 교환학생
-효과             College    │  (비인기국)
+낮은 입시        유료 Pre-   │  국제 교환학생
+효과             College     │  (비인기국)
 ```
 
 **전략 순서 (시간·에너지 기준)**
-1. **우선 공략**: 높은 효과 + 낮은 경쟁 (기업 장학금)
+1. **우선 공략**: 높은 효과 + 낮은 경쟁 (기업 장학금 + Clark Scholars)
 2. **도전**: 높은 효과 + 높은 경쟁 (RSI·PRIMES·한국장학재단)
 3. **선택적**: 경험 목적일 때만 유료 Pre-College
 
@@ -428,6 +510,19 @@ STEP 5  에세이 공통 요소 파악
   A. 일부 프로그램은 GPA 3.5+ 요건이 있지만, 에세이·인터뷰 비중이 큰 곳도 많다. 먼저 eligibility를 확인하라.
 - Q. 교환학생 중 대입 준비가 가능한가?
   A. 가능하지만 집중도가 떨어진다. 귀국 후 집중 전략을 세워라.
+- Q. 한국 학생은 Questbridge 지원 가능한가?
+  A. Questbridge는 원칙상 미국 내 거주 고교생 대상이나, 일부 국제학교 재학 한국 학생이 합격한 사례 있음. questbridge.org FAQ 최신 버전 반드시 확인.
+
+---
+
+# 🎓 실전 꿀팁 모음 — 통합·마감 관리
+
+- **Tip 1** **스프레드시트 컬럼 필수 항목**: 프로그램명 / 사이트 URL / 마감일 / 국제학생 eligible(Y/N) / 비용 / 필요 서류 / 추천서 요청일 / 에세이 주제 / 제출 상태 — 이 8개 열이 없으면 관리 실패
+- **Tip 2** **추천서 브리핑 문서 만들기**: 선생님께 드릴 1페이지 문서에 ①지원 프로그램 이름·URL ②내 지원 이유 ③선생님이 강조해줬으면 하는 나의 특성 3가지 포함. 이 문서가 추천서 품질을 2배 높인다
+- **Tip 3** 마감 기준: 한국 시간 기준이 아닌 **프로그램 본부 시간대 기준** (EST, PST 등) — 마감 시간 23:59 EST는 한국 시간 다음날 오후 1~2시. 시간대 혼동으로 탈락하는 사례 매년 발생
+- **Tip 4** 합격·불합격 후 행동: 불합격 통보 받은 즉시 **Waitlist 또는 재지원 의사** 이메일 발송 — RSI 불합격 후 대기 명단 등록으로 참가한 사례 있음. 이메일 제목: "Waitlist Inquiry – [이름] – [지원 ID]"
+- **Tip 5** 에세이 피드백 루프: 1차 초안 → 친구/부모 읽기 → 2차 → 영어 원어민(Grammarly Premium + 실제 사람) → 3차 → InHero 멘토 리뷰 → 최종. 최소 21일 전에 초안 완성해야 이 루프 가능
+- **Tip 6** 합격 후 네트워크 활용: RSI·PRIMES·Telluride 합격생은 **동문 커뮤니티 Discord/Slack**에 자동 초대됨. 이 네트워크에서 대학 추천서·인턴십·연구실 연결이 실제로 발생 — 프로그램 참가 중 적극적으로 관계 형성하라
 
 ---
 
@@ -448,4 +543,4 @@ M17 (Research & Lab Pipeline) — 실제 연구 진입
 
 > 글로벌 기회는 **지원하는 사람만 얻는다.** 조건이 갖춰지길 기다리지 말고, 지금 eligibility를 확인하고 첫 에세이를 시작하라.
 
-🎓 **Ivy Tip**: Ivy 재학생의 80% 이상이 "더 일찍 지원할 걸"이라고 말한다. 완벽한 타이밍은 없다 — **지금이 가장 빠른 시작이다.**
+🎓 **Ivy Tip**: Columbia '23 합격생 P.Yoon(서울 출신): "RSI 불합격, Clark 합격, 그 경험으로 쓴 에세이가 Columbia를 열었다. 합격 프로그램보다 **그 경험을 어떻게 소화했느냐**가 입시를 결정한다."

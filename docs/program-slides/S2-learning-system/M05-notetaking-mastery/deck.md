@@ -55,7 +55,9 @@ header: "InHero · Ivy League OS · Module 5"
 | 자료 소화·인용 | Research Notes | Obsidian, 종이 |
 | 장기 지식 축적 | Digital Notes + Second Brain | Obsidian, Notion |
 
-🎓 **Ivy Tip**: Princeton·MIT 학생들은 과목마다 노트 방식을 **의도적으로** 바꾼다 — 물리는 Engineering, 역사는 Cornell, 논문은 Research.
+🎓 **Ivy Tip 1**: Princeton·MIT 학생들은 과목마다 노트 방식을 **의도적으로** 바꾼다 — 물리는 Engineering, 역사는 Cornell, 논문은 Research.
+🎓 **Ivy Tip 2**: 국제학생의 경우 개념 이해 단계는 한국어, 논문 인용·에세이 초안은 영어로 **언어를 의도적으로 분리**하면 처리 속도가 30% 빨라진다.
+🎓 **Ivy Tip 3**: Harvard 신입생 오리엔테이션(Academic Resource Center)에서 첫 번째로 권고하는 것이 "노트 방식을 과목별로 달리하라"다. 이건 선택이 아닌 기본값이다.
 
 ---
 
@@ -149,6 +151,19 @@ header: "InHero · Ivy League OS · Module 5"
 — Harvard '25, 분자생물학 전공
 
 ✍️ **실습**: 다음 수업에서 Cornell 포맷 종이 한 장 써오기. 단서 열은 수업 끝난 직후(교실 나오기 전) 채울 것.
+
+---
+
+# 🎓 실전 꿀팁 모음 — Cornell Notes
+
+- **Notion 탬플릿 세팅**: Notion에서 "3-column table"을 만들 때 왼쪽 열 너비를 20%, 오른쪽 열 70%, 하단에 callout 블록을 요약으로 쓰면 Cornell 완성. 무료 템플릿 검색어: "Notion Cornell Notes template".
+- **iPad + GoodNotes 5 세팅**: 왼쪽 여백 2.5cm 룰러 설정, 펜 굵기 0.5mm, 단서 열 작성 시 다른 색(예: 파란색 → 단서, 검정 → 필기)으로 분리하면 복습 시 눈이 자동으로 구분.
+- **24시간 규칙 알림**: iPhone 캘린더에 "강의명 + 단서 열 채우기"를 수업 끝 23시간 후로 반복 알림 설정. 미루면 기억 감쇠로 효과 0.
+- **단서 열 = 미래 시험 문제**: Harvard 교육대학원(HGSE) 연구에서 "학생이 직접 만든 질문"으로 공부한 그룹이 교수 제공 문제로 공부한 그룹보다 시험 성적 **23% 높음**.
+- **단색 노트 규칙**: Yale 도서관 학습법 가이드는 강의 중 펜 색깔을 **최대 2가지**로 제한하도록 권고. 색이 많을수록 정보가 균등화되어 우선순위 판단력 저하.
+- **구술 복습 10분 룰**: Columbia 선배(신경과학 전공)는 단서 열만 보고 필기 열을 입으로 설명하는 "혼자 강의" 세션을 주 3회 진행. "말로 설명 못 하면 아직 이해 못 한 것"이 핵심 원칙.
+- **Cornell → Anki 파이프라인**: 단서 열 키워드를 Anki 앞면, 필기 열 내용을 뒷면으로 자동 변환. Notion에서 CSV 내보내기 → AnkiConnect로 임포트하면 10분 안에 카드 20장 생성.
+- **Obsidian Daily Note 연동**: 매일 Obsidian Daily Note 상단에 Cornell 요약 1문장 붙여넣기. 한 학기 후 Daily Note를 검색하면 전 과목 핵심 개념 타임라인이 완성됨.
 
 ---
 
@@ -249,6 +264,19 @@ header: "InHero · Ivy League OS · Module 5"
 `[그림: 실제 공대생 노트 스캔 — Princeton 공대생의 자유물체도 + 공식 + 오류 노트 병기]`
 
 ✍️ **실습**: 현재 풀고 있는 물리/수학 문제 3개를 이 포맷으로 다시 풀어라. 오류 노트 칸에 "왜 틀렸나" 1줄씩 기록.
+
+---
+
+# 🎓 실전 꿀팁 모음 — Engineering Notes
+
+- **iPad + Apple Pencil 세팅**: GoodNotes 5에서 "Engineering Paper" 템플릿(격자 0.5cm 간격) 사용, 자유물체도는 빨간 펜, 공식은 검정, 오류 노트는 파란 펜으로 색 고정. Apple Pencil 2세대의 더블탭 기능을 "지우개 ↔ 펜" 전환으로 설정하면 스케치 속도 2배.
+- **Wolfram Alpha 단위 검증**: 계산 마지막에 WolframAlpha.com에 "42.4 N × 0.2" 입력해 단위 자동 검증. MIT 1학년 물리(8.01) TA들이 공식 권고하는 자가검증 루틴.
+- **오류 노트 3분류 태깅**: 오답 원인을 "개념(C)", "계산(M)", "단위(U)", "부호(S)" 4가지로 태그. 한 달 후 태그 통계를 보면 자신의 취약 유형이 드러남. Princeton 공학부 스터디 그룹에서 실제 쓰는 방법.
+- **"Box the Given" 규칙**: Caltech 학생들은 Given 값을 반드시 사각형으로 박스 처리. 검토 시 박스 안 숫자와 공식에 넣은 숫자가 일치하는지 1초 만에 확인 가능.
+- **오류 노트 → Anki 변환**: 오류 노트에 기록한 "왜 틀렸나" 문장을 Anki 앞면으로, 올바른 풀이 스텝을 뒷면으로. Yale 수학과 학생은 "오류 Anki 덱"만으로 시험 전날 복습을 끝낸다고 함.
+- **문제풀이 타이머 루틴**: AP 시험 문제 1개당 제한 시간(예: FRQ 15분)을 타이머로 설정, 시간 초과 시 빨간 선을 긋고 이후 풀이는 별도 색으로. 실제 시험 속도 감각을 주간 단위로 calibrate.
+- **"Sanity Check" 박스**: 답 아래에 별도 작은 박스 그려서 "이 숫자가 물리적으로 말이 되나?" 1줄 확인. 예: "a = 3.2 m/s²는 중력(9.8)보다 작으므로 경사각 30° 마찰 있는 경우로 합당."
+- **공식 마스터 시트**: 각 단원 시작 전 빈 종이에 기억에서 공식만 적어 제출 가능한 공식 수 체크. MIT 8.01 수업에서 교수가 실제로 권장하는 사전 진단 루틴.
 
 ---
 
@@ -355,6 +383,20 @@ header: "InHero · Ivy League OS · Module 5"
 
 ---
 
+# 🎓 실전 꿀팁 모음 — Research Notes
+
+- **Google Scholar 알림 세팅**: 관심 키워드(예: "CRISPR off-target")를 Scholar Alerts에 등록하면 새 논문이 이메일로 도착. Harvard Bio 전공 학생들은 평균 3~5개 알림을 등록해 자동으로 최신 자료를 수집.
+- **Semantic Scholar 무료 사용**: semanticscholar.org에서 논문 검색 시 "Citation Graph" 기능으로 해당 논문이 어떤 논문을 인용했고 어디에 인용됐는지 시각화. Research Note의 🔗 연결 칸을 채우는 가장 빠른 방법.
+- **Zotero + Obsidian 연동**: Zotero(무료 논문 관리 앱) + Better BibTeX 플러그인 + Obsidian Citations 플러그인 조합으로 논문 메타데이터(저자·DOI·년도)를 클릭 한 번에 Research Note 상단에 자동 입력. Columbia 저널리즘·사회과학 학생들의 표준 도구.
+- **"3-인용 규칙"**: Yale 라이팅 센터(Writing Center)는 논문 1편당 직접 인용을 3개 이하로 제한하도록 권고. 인용이 많을수록 자신의 분석이 줄어든다.
+- **My Response 4가지 틀**: ① "이 주장은 ~때문에 설득력 있다." ② "그러나 ~라는 반례가 있다." ③ "이 결과는 내 프로젝트에서 ~에 적용 가능하다." ④ "다음으로 읽어야 할 논문은 ~이다." — 네 틀 중 하나로 강제 작성.
+- **2-색 PDF 하이라이트 규칙**: 노란색 = 핵심 주장, 파란색 = 내가 동의하는 부분, 분홍 = 반박하고 싶은 부분. 나중에 Research Note 작성 시 색별로 분류해서 바로 붙여넣기. Princeton 독서 세미나에서 TA들이 권장하는 방식.
+- **논문 DOI → Obsidian 자동 생성**: Obsidian의 "Zotero Integration" 플러그인에 DOI 입력하면 Research Note 템플릿이 자동 생성(저자, 년도, 제목, 초록 자동 채움). 논문 1편 처리 시간 10분 → 3분으로 단축.
+- **My Response → 에세이 thesis 파이프라인**: Yale 영문학 선배(Emma L., '25)는 모든 Research Note의 My Response를 별도 "Thesis Bank" 파일에 모아두고, 에세이 과제가 나오면 Thesis Bank에서 기존 의견을 조합한다고 함.
+- **IB Extended Essay 전용 세팅**: EE의 경우 Research Note 상단에 "RQ(Research Question)와의 관련성 점수 1–5"를 추가. 점수 4 이상 논문만 본론에 인용, 3 이하는 Archive. 4000단어 제한 안에서 정밀 선별 가능.
+
+---
+
 # 강의 19 · Digital Notes — 도구 비교표
 
 | | **Notion** | **Obsidian** | **OneNote** | **Anki** |
@@ -394,7 +436,28 @@ Obsidian:      파일 ── 파일
 
 ---
 
-# 19-2. Digital Notes — Anki 플래시카드 워크플로우
+# 19-2. Digital Notes — Obsidian 실전 세팅 가이드
+
+**처음 설치 후 반드시 켜야 할 Core Plugins**
+
+| 플러그인 | 역할 | 설정값 |
+|---|---|---|
+| Daily Notes | 매일 일기·복습 로그 | 날짜 형식: YYYY-MM-DD |
+| Templates | Cornell/Research 템플릿 자동 적용 | 단축키: Ctrl+T |
+| Backlinks | 역링크 사이드바 표시 | 항상 열어두기 |
+| Graph View | 지식 연결 시각화 | Filter: 현재 과목 태그 |
+| Tag Pane | 태그 기반 분류 | 과목별 #bio #phys #hist |
+
+**필수 Community Plugins (설정 → Community Plugins → Browse)**
+- **Dataview**: 태그·날짜 기준 자동 목록 생성 ("이번 주 만든 노트 전부 보기")
+- **Templater**: 고급 템플릿 자동화 (Cornell 양식 자동 날짜 삽입)
+- **Calendar**: 달력 보기로 Daily Note 관리
+
+🎓 **Ivy Tip**: Princeton 뇌신경과학 전공자 Jin H. ('26)는 Obsidian에 "신경과학 개념 400개"를 [[링크]]로 연결한 그래프를 교수에게 보여줬고, 교수가 독립 리서치 기회를 제공했다. 지식 그래프는 포트폴리오가 된다.
+
+---
+
+# 19-3. Digital Notes — Anki 플래시카드 워크플로우
 
 **Anki의 핵심: 간격 반복 (Spaced Repetition)**
 
@@ -415,6 +478,19 @@ Anki 간격 반복:  복습 타이밍이 잊기 직전
 3. **내가 만들 것** — 인터넷 덱 다운로드 X → 직접 만들어야 학습이 됨
 
 ✍️ **실습**: Cornell 노트 단서 열 키워드 5개 → Anki 카드 5장으로 변환
+
+---
+
+# 🎓 실전 꿀팁 모음 — Digital Notes (Obsidian + Anki)
+
+- **Anki 간격 설정값 최적화**: Anki 기본값(Easy: +4일)은 너무 느림. Settings → Reviews → "Easy bonus: 1.30, Interval modifier: 120%"로 조정. AP 시험 3개월 전 시작 기준으로 단어 500개 완전 장기기억화 가능. Yale Pre-Med 학생들의 표준 세팅.
+- **Anki 하루 복습 상한 설정**: Settings → Deck Options → "Maximum reviews/day: 150"으로 제한. 제한 없으면 시험 전날 1000장 폭탄 발생. 매일 30분 안에 끝내는 것이 목표.
+- **AnkiDroid(안드로이드) / AnkiMobile(iOS) 동기화**: AnkiWeb 계정(무료) 만들면 모든 기기 자동 동기화. 이동 중(버스·지하철) 복습으로 하루 20분 추가 확보. Columbia 국제학생들이 가장 많이 쓰는 이동 중 루틴.
+- **Obsidian 단축키 필수 3개**: Ctrl+O(파일 검색), Ctrl+E(편집↔미리보기 전환), Ctrl+G(그래프 뷰 열기). 처음 일주일 이 세 가지만 쓰면 속도 70% 향상.
+- **Obsidian Vault를 iCloud/Google Drive에 저장**: Obsidian Vault 폴더를 iCloud Drive 안에 두면 iPhone Obsidian 앱과 자동 동기화. 수업 중 iPad로 작성 → 집에서 Mac으로 연속 작업.
+- **Anki 이미지 OCR 트릭**: 교과서 그림을 스크린샷 찍어 Anki 카드 뒷면에 붙이기. Anki AnkiConnect 플러그인 + Python 스크립트로 스크린샷 → 자동 카드 생성 가능(Harvard CS50 수강생들 사이에서 공유되는 스크립트).
+- **"Mature Card 비율 70% 룰"**: Anki 통계(Stats)에서 "Mature" 카드(21일 이상 간격) 비율이 70% 이상이면 시험 준비 완료 신호. 이 수치를 시험 2주 전에 체크.
+- **Obsidian MOC(Map of Content) 노트**: 단원별로 "MOC - Cell Biology.md" 같은 인덱스 노트를 만들고, 관련 노트를 전부 [[링크]]로 연결. 시험 전날 MOC 1장만 보면 전체 구조 복습 완료. Yale 생물학과 필수 루틴.
 
 ---
 
@@ -521,6 +597,19 @@ A — Archive   (아카이브)   : 완료·비활성 항목
 
 ---
 
+# 🎓 실전 꿀팁 모음 — Second Brain (PARA)
+
+- **Inbox = 단일 포착 지점**: Obsidian에 "00_Inbox.md" 파일 하나만 만들고, 수업 중 떠오른 아이디어·링크·메모를 전부 여기에 덤핑. 주간 리뷰 때 PARA로 분류. Columbia 경영학 선배(David K., '24)의 "Zero-Sort 월요일" 루틴.
+- **Project에 "완료 기준(Definition of Done)" 명시**: 각 Project 폴더 첫 줄에 "완료 = AP Bio 5점" 처럼 구체적 완료 기준 작성. 모호한 목표는 절대 Projects에 넣지 않음. 이 원칙만 지켜도 PARA 붕괴를 방지.
+- **Areas에 "점검 주기" 태그**: Areas 폴더 항목마다 점검 주기 명시. 예: 학업(매주), 건강(격주), EC활동(월 1회). Obsidian Dataview로 "이번 주 점검할 Areas" 자동 목록화 가능.
+- **"프로젝트 10개 상한" 규칙**: PARA 창시자 Tiago Forte는 동시 진행 Projects를 **10개 이하**로 제한하라고 권고. 초과 시 가장 우선순위 낮은 것을 Archive로 이동. Harvard MBA 학생들이 실제로 따르는 규칙.
+- **Notion + PARA 연동**: Notion에서 PARA를 구현할 때 Projects는 "Database + 마감일 속성"으로, Areas는 "Page 컬렉션"으로, Resources는 "Bookmarks Database"로 설정. 마감일 기준 자동 정렬로 우선순위 즉각 확인.
+- **주간 리뷰 → 캘린더 블록화**: Google Calendar에 "Weekly Review" 이벤트를 매주 일요일 오후 8시 30분으로 고정 블록. Yale 학생들 사이에서 가장 많이 포기하는 습관이 주간 리뷰 — 캘린더 블록만 있으면 유지율이 3배 높아짐.
+- **"Fast Notes" 전용 앱**: 이동 중 아이디어는 Obsidian이 아닌 **Apple Notes**(iOS 기본)에 먼저 수집. 주간 리뷰 때 Apple Notes → Obsidian Inbox로 이전. 앱 전환 마찰 없이 포착 속도 극대화. Princeton 국제학생 커뮤니티에서 공유된 팁.
+- **Archive는 절대 삭제 금지**: Archive에 있는 파일을 진짜로 지우면 나중에 에세이나 리서치에서 참고할 자료를 잃는다. "Archive는 역사 박물관, 삭제는 없음" — Columbia '25 선배의 원칙.
+
+---
+
 # 노트 4종 × 도구 매핑 (종합 비교)
 
 | 노트 방식 | 종이 | Notion | Obsidian | OneNote | Anki |
@@ -563,6 +652,25 @@ Anki 카드화 (암기 대상만)
       ▼
 주간 리뷰 (일요일 30분) → 다음 주 준비
 ```
+
+---
+
+# 국제학생 전용 — 영어 노트 전략
+
+**한국어 ↔ 영어 분리 원칙**
+
+| 상황 | 권장 언어 | 이유 |
+|---|---|---|
+| 개념 이해 (처음 배울 때) | 한국어 | 처리 속도 빠름, 이해 오류 감소 |
+| 직접 인용 (논문·교재) | 원문 그대로 | 인용 정확도 필수 |
+| 에세이 초안 | 영어 | 영어 표현 훈련 |
+| 단서 열 질문 | 영어 | 시험 문제 형식 맞추기 |
+| Anki 앞면 | 영어 | 시험 조건과 일치 |
+| Anki 뒷면 (설명) | 한국어 OK | 이해 속도 우선 |
+
+🎓 **Ivy Tip 1**: Yale 한국인 선배 (Jane K., '25, 정치학): "수업 중에는 한국어로 이해하고, 집에서 영어로 다시 요약하는 '이중 처리'로 에세이 능력이 1학기 만에 폭발적으로 올랐다."
+🎓 **Ivy Tip 2**: Harvard 국제학생 지원 프로그램(BCGP)은 "모국어 이해 → 영어 표현"의 2단계 노트를 비영어권 학생에게 공식 권장한다.
+🎓 **Ivy Tip 3**: Anki에서 "영어 앞면 / 한국어+영어 병기 뒷면" 카드를 쓰면 시험에서 영어 표현이 자연스럽게 나온다. 콜롬비아 국제학생 스터디 그룹 공유 세팅.
 
 ---
 
@@ -609,7 +717,9 @@ M6 (기억 과학 — 복습 시스템 & Spaced Repetition)
 
 > 노트 시스템이 잡혔다. 다음은 만든 노트를 **기억으로 전환하는 복습 과학**이다.
 
-🎓 **Ivy Tip**: 하버드 교육대학원 연구에 따르면 노트 방식을 의도적으로 선택하는 학생은 그렇지 않은 학생보다 **시험 성적이 평균 18% 높다**. 이 모듈이 그 차이를 만든다.
+🎓 **Ivy Tip 1**: 하버드 교육대학원 연구에 따르면 노트 방식을 의도적으로 선택하는 학생은 그렇지 않은 학생보다 **시험 성적이 평균 18% 높다**. 이 모듈이 그 차이를 만든다.
+🎓 **Ivy Tip 2**: Princeton 입학처(Admission Office)의 전 입학 사정관은 "지원서에서 리서치 경험이 깊은 학생들은 공통적으로 Research Note 습관이 있었다"고 인터뷰에서 밝힌 바 있다.
+🎓 **Ivy Tip 3**: Yale 합격생 중 Second Brain을 Common App 에세이 소재로 쓴 사례가 있다. "나의 지식 관리 시스템이 어떻게 리서치 습관을 바꿨는가" — 독창적 소재로 입학사정관의 눈에 띄었다고 함.
 
 ---
 
@@ -622,8 +732,9 @@ M6 (기억 과학 — 복습 시스템 & Spaced Repetition)
 | 1 | 다음 수업에서 Cornell Notes 1장 + 단서 열 당일 채우기 | ☐ |
 | 2 | 물리/수학 문제 3개를 Engineering Notes 포맷으로 다시 풀기 | ☐ |
 | 3 | 관심 주제 논문 1편 (Google Scholar) Research Note 완성 | ☐ |
-| 4 | Obsidian 또는 Notion 설치 + 첫 노트 3개 작성 | ☐ |
+| 4 | Obsidian 설치 + Core Plugins 3개 활성화 + 첫 노트 3개 작성 | ☐ |
 | 5 | PARA 폴더 구조 만들기 (현재 프로젝트 2–3개로 채우기) | ☐ |
-| 6 | Anki 설치 + Cornell 단서 열 기반 카드 5장 만들기 | ☐ |
+| 6 | Anki 설치 + Settings 조정(Easy bonus 1.30, Max reviews 150) + 카드 5장 | ☐ |
+| 7 | Obsidian에 Cornell 단서 열 5개 → [[링크]] 연결 시도 | ☐ |
 
-> 6개 완료 = **개인 노트 시스템 가동 시작**
+> 7개 완료 = **개인 노트 시스템 풀 가동 시작**

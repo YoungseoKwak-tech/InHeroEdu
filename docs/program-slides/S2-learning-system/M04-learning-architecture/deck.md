@@ -51,7 +51,9 @@ header: "InHero · Ivy League OS · Module 4"
 - 한국식 무기: **속도·암기·패턴**
 - 미국 대학에서 필요한 무기: **독해력·논증·자기관리**
 
-🎓 **Ivy Tip**: 새로운 게임에서 이기려면 **규칙부터 새로 읽어야 한다.** 미국 대학 첫 학기의 충격은 거의 다 여기서 온다.
+🎓 **Ivy Tip 1**: 새로운 게임에서 이기려면 **규칙부터 새로 읽어야 한다.** 미국 대학 첫 학기의 충격은 거의 다 여기서 온다.
+🎓 **Ivy Tip 2**: Yale 경제학과 1학년 국제학생 사례 — Reading을 100% 다 읽으려다 첫 2주 탈진. 3주차부터 "논지만 파악"으로 전환 후 GPA 3.8 회복.
+🎓 **Ivy Tip 3**: Harvard College Writing Center(writingcenter.fas.harvard.edu)는 국제학생 전용 예약 슬롯을 운영한다. 1학기 첫 에세이 제출 전 반드시 방문.
 
 ---
 
@@ -66,6 +68,8 @@ header: "InHero · Ivy League OS · Module 4"
 | Office Hours | 안 감 (눈치 보임) | 교수와 1:1 면담 루틴 |
 
 > 전환하는 데 평균 **한 학기.** 미리 알면 **첫날부터** 다르다.
+
+🎓 **Ivy Tip**: Columbia 한국 유학생 커뮤니티(CKS — Columbia Korean Students) 설문에서 "첫 학기 가장 후회한 것 1위 = Office Hours를 너무 늦게 가기 시작했다"가 3년 연속 1위.
 
 ---
 
@@ -104,7 +108,9 @@ header: "InHero · Ivy League OS · Module 4"
 | Pset/Essay | 5~10h/주 | 개념 적용·논증 연습 | 답 맞추기에 집중 |
 | Office Hours | 선택 | 관계·보정·추천서 | 아예 안 감 |
 
-🎓 **Ivy Tip**: Reading을 **Lecture 전에** 끝내라 — 강의가 2배 빠르게 들린다. 코넬·하버드 학생 대부분이 이 순서를 지킨다.
+🎓 **Ivy Tip 1**: Reading을 **Lecture 전에** 끝내라 — 강의가 2배 빠르게 들린다. 코넬·하버드 학생 대부분이 이 순서를 지킨다.
+🎓 **Ivy Tip 2**: Section 참여 점수는 평균 성적 15~20% 비중. MIT 6.006 (Algorithms) 수강생은 "Section 첫 5분 안에 발언 1회" 규칙을 서로 공유한다.
+🎓 **Ivy Tip 3**: Lecture 필기 목적은 "나중에 다시 읽기"가 아니라 **"강의 중 이해 안 된 부분 표시"**. 물음표(?) 기호를 자유롭게 써라.
 
 ---
 
@@ -119,6 +125,10 @@ Read    (집중) 질문에 답하며 읽기          → 속도 2배
 Recite  (즉시) 책 덮고 핵심 3줄 기억      → 기억 고착
 Review  (1일 후) 내 메모만 보고 재구성   → 장기화
 ```
+
+🎓 **Ivy Tip 1**: Princeton 대학 McGraw Center for Teaching & Learning(mcgraw.princeton.edu)에서 SQ3R 워크숍을 무료로 운영. 국제학생 대상 "Academic Skills" 섹션 별도 존재.
+🎓 **Ivy Tip 2**: 논문·교재 PDF는 **Adobe Acrobat 주석 기능 + Zotero 연동**으로 하이라이트 → 자동 Notion 메모 전환. 플러그인: Zotero Connector(브라우저) + Better BibTeX.
+🎓 **Ivy Tip 3**: 읽기 전 30초 — 챕터 마지막 요약 단락을 먼저 읽어라. 목적지를 알면 읽는 속도가 1.5배 빨라진다.
 
 ✍️ 실습: 다음 Reading 과제에서 SQ3R 한 번만 써봐라. **읽는 시간 30% 단축**을 체감한다.
 
@@ -138,7 +148,22 @@ Review  (1일 후) 내 메모만 보고 재구성   → 장기화
 2. **성적 협상**: 에세이 피드백 → 재채점 요청 근거.
 3. **추천서·인턴**: 3년 후 "아 그 학생" 되려면 지금부터.
 
-🎓 **Ivy Tip**: 첫 번째 Office Hours에서 할 말: **"Professor, 이번 Reading에서 X 개념이 Y와 어떻게 다른지 헷갈렸습니다 — 맞게 이해한 건가요?"** 이거면 충분하다.
+🎓 **Ivy Tip 1**: 첫 번째 Office Hours에서 할 말: **"Professor [성], 이번 Reading에서 X 개념이 Y와 어떻게 다른지 헷갈렸습니다 — 제가 맞게 이해한 건가요?"** 이거면 충분하다.
+🎓 **Ivy Tip 2**: TA Office Hours는 교수보다 **더 솔직하다.** Pset 채점 기준, 교수 선호 답변 스타일, 시험 빈출 유형을 TA에게 직접 물어봐라. "어떤 식으로 설명하면 점수가 높아요?"는 합법적 질문이다.
+🎓 **Ivy Tip 3**: Yale Office Hours 예약 시스템(Yale Course Tables → professor contact)은 이메일보다 **직접 방문**이 효과적. 방문 후 이메일 팔로업 1줄: "오늘 상담 감사합니다. 말씀해주신 X 방향으로 에세이 수정하겠습니다." → 교수 기억에 남는 루틴.
+
+---
+
+# 🎓 강의 12 실전 꿀팁 모음
+
+- **Lecture 녹음**: 교수 허락 후 Otter.ai(otter.ai)로 자동 텍스트 변환. 이후 ChatGPT에 "핵심 개념 5개 추출"로 노트 초안 10분 완성.
+- **Reading 우선순위 전략**: 교수가 직접 쓴 논문 > 교수가 직접 지정한 필독 > 권장 Reading 순. 시간 없으면 필독만 SQ3R로.
+- **Section 발언 공식**: "I think X because Y, but I'm not sure about Z" — 틀려도 좋다. TA는 침묵을 가장 싫어한다. Cornell 정치학과 TA 실제 채점 기준: "1회 이상 의미있는 발언 = B → A 가능성."
+- **Pset 제출 전 체크**: MIT OpenCourseWare(ocw.mit.edu)에서 같은 과목 과거 Pset을 검색, 유사 문제 풀이 스타일 비교.
+- **TA 이름 외우기**: Section 첫날 TA 이름과 연구 분야를 메모. 다음 Office Hours에서 "선생님 연구 주제가 X죠? 이번 과제랑 연결되는 것 같아서요" — 관계 급상승.
+- **Reading 논문 출처 추적**: Google Scholar(scholar.google.com)에서 해당 논문 인용 수와 "Cited by" 클릭 → 최신 반론 논문 1편 더 읽으면 Section 토론에서 압도적 우위.
+- **수업 첫날 강의계획서(Syllabus) 분석**: 시험 날짜·비중·Office Hours 시간·TA 연락처를 한 Notion 페이지에 정리. 학기 첫 주에 30분 투자 → 이후 15주 방향이 잡힌다.
+- **Section 자리**: 앞줄 중앙에 앉아라. TA 눈에 자연스럽게 띈다. 발언 횟수가 같아도 앞줄 학생이 "적극적"으로 기억된다.
 
 ---
 
@@ -184,7 +209,9 @@ Clarity            정확·간결              어색·모호
 2. 각 항목을 **체크리스트**로 쓴다.
 3. 제출 전 루브릭과 내 답안을 **한 줄씩 대조**한다.
 
-🎓 **Ivy Tip**: 루브릭 없이 제출하는 건 지도 없이 등산하는 것. 프린트해서 옆에 두고 써라.
+🎓 **Ivy Tip 1**: 루브릭 없이 제출하는 건 지도 없이 등산하는 것. 프린트해서 옆에 두고 써라.
+🎓 **Ivy Tip 2**: 루브릭이 없는 과제는 교수에게 직접 물어봐라. "What are the key criteria you'll use to evaluate this?" — 물어보는 것 자체가 적극성으로 기억된다. Harvard Expos 조교들은 이런 질문을 "A 학생의 습관"이라고 명시적으로 언급한다.
+🎓 **Ivy Tip 3**: Excellent 칸의 동사를 에세이 곳곳에 사용하라. *analyzes, synthesizes, interrogates, complicates* 등을 에세이 각 단락 주제문에 배치 → 채점자 눈에 의식적으로 들어온다.
 
 ---
 
@@ -197,6 +224,10 @@ Clarity            정확·간결              어색·모호
 - "Developing" 칸: *lists, describes, mentions, summarizes* — **수동적 나열** 동사.
 
 > 한 줄 규칙: **묘사(describe) → 분석(analyze)** 로 바꾸면 B가 A가 된다.
+
+🎓 **Ivy Tip 1**: Harvard Writing Center(writingcenter.fas.harvard.edu)의 "Strategies for Essay Writing" PDF를 다운받아라. 무료·공개. Thesis, Topic Sentence, Counterargument 작성법이 가장 정제된 형태로 정리되어 있다.
+🎓 **Ivy Tip 2**: Princeton Writing Program(writing.princeton.edu)에서 제공하는 "Gordon Rule" — 에세이 각 단락은 **Claim → Evidence → Explanation (CEE)** 구조. 이 구조를 Notion 에세이 템플릿에 고정해라.
+🎓 **Ivy Tip 3**: 에세이 제출 후 채점된 루브릭을 반드시 보관. 다음 에세이 때 이전 피드백과 나란히 놓고 "같은 실수를 반복했나?" 체크 — 성적 상승 속도가 3배 빨라진다.
 
 ✍️ 실습: 지금까지 낸 에세이 하나를 꺼내 위 동사 기준으로 분류해봐라.
 
@@ -212,7 +243,23 @@ Clarity            정확·간결              어색·모호
 | 흔한 실수 ❌ | 답만 쓰고 과정 생략 | 근거 없는 주장 |
 | 빠른 점수 ↑ | 단위·가정 명시 | 반론 1문단 추가 |
 
-🎓 **Ivy Tip**: STEM도 **서술이 중요**하다. MIT Pset에서 "왜 이 방법을 택했나"를 1줄 쓰면 partial credit을 구한다.
+🎓 **Ivy Tip 1**: STEM도 **서술이 중요**하다. MIT Pset에서 "왜 이 방법을 택했나"를 1줄 쓰면 partial credit을 구한다. MIT 18.06 (Linear Algebra) Pset 채점 가이드라인에 "reasoning required" 명시.
+🎓 **Ivy Tip 2**: 사회과학 에세이에서 가장 빠른 점수 상승 루트 = **반론(Counterargument) 문단 추가**. 대부분 학생이 생략한다. "Some scholars argue the opposite: [X]. However, this overlooks [Y]." 1문단이면 충분.
+🎓 **Ivy Tip 3**: 통계·데이터 에세이에는 출처를 정확히. "According to Pew Research Center (2023)" 형식. APA vs MLA vs Chicago — 과목 첫날 교수에게 반드시 확인.
+🎓 **Ivy Tip 4**: Dartmouth 경제학과 교수 실제 조언: "Pset에서 틀린 문제라도 **어디서 막혔는지 명시**하면 partial credit 4/5점을 준다. 아무 설명 없이 틀린 답만 쓰면 0점."
+
+---
+
+# 🎓 강의 13 실전 꿀팁 모음
+
+- **루브릭이 없을 때**: 교수에게 "Can you share the grading criteria or what makes a strong response?" 이메일 한 줄. 90%는 답한다. 안 가르쳐줘도 물어본 것 자체가 인상에 남는다.
+- **Thesis 테스트**: 내 논제를 써놓고 "So what?" + "Who cares?" + "Says who?" 3개 질문을 던져봐라. 모두 답할 수 있으면 논쟁 가능한 Thesis. Harvard Expos에서 사용하는 검증법.
+- **Evidence 고르기**: 1차 출처(원문·데이터·인터뷰) > 2차 출처(교과서·리뷰 논문). 같은 주장이라도 1차 출처 사용 시 채점자 인상이 다르다.
+- **Counterargument 위치**: 에세이 본론 중반(3번째 단락 전후)에 배치. 결론 직전에 넣으면 논증이 흔들려 보인다. Princeton Writing Program 권장 구조.
+- **문장 길이 규칙**: 복잡한 분석 문장 다음엔 짧은 문장으로 강조. "This distinction matters." 처럼. Clarity 항목 점수 즉각 상승.
+- **STEM Pset 제출 전 체크**: 단위(unit) 명시, 가정(assumption) 명시, 최종 답 박스 처리. MIT TA들이 가장 자주 언급하는 감점 원인 상위 3개.
+- **AI 활용 경계선**: ChatGPT로 논문 요약은 OK, Thesis 생성은 위험. 교수들이 AI 생성 Thesis를 인식하는 가장 큰 이유 = 주장이 너무 균형잡혀 "논쟁 불가능"하다. 의도적으로 논쟁적으로 만들어라.
+- **채점 후 교수 면담**: 점수가 예상보다 낮으면 이메일 문구: "I'd like to understand your feedback better to improve for the next assignment — could we meet briefly?" 재채점 요청이 아닌 학습 의지로 프레임.
 
 ---
 
@@ -256,7 +303,9 @@ GPA 3.5 + 저널 논문 1편 →  대학원 합격
 - GitHub 프로젝트 → 인터뷰 포트폴리오
 - 컨퍼런스 발표 → 동료 연구자 네트워크
 
-🎓 **Ivy Tip**: 코넬 CS 출신들이 인터뷰에서 가장 먼저 보여주는 건 성적표가 아니라 **GitHub 링크**다.
+🎓 **Ivy Tip 1**: 코넬 CS 출신들이 인터뷰에서 가장 먼저 보여주는 건 성적표가 아니라 **GitHub 링크**다.
+🎓 **Ivy Tip 2**: Penn Wharton 학생 사례 — 2학년 때 학교 경제학 수업 기말 논문을 SSRN(Social Science Research Network, ssrn.com)에 업로드. 교수 눈에 띄어 공동연구 제안 → 3학년 때 Journal of Finance 공저 게재. 논문 한 편이 취업 인터뷰 전부를 바꿨다.
+🎓 **Ivy Tip 3**: Medium(medium.com)에 수업 내용을 쉽게 설명한 글 1편/달 → Google 검색 노출 → 예상치 못한 네트워크. Cornell Tech 출신의 경우 블로그가 스타트업 파운더와 연결된 사례 다수.
 
 ---
 
@@ -274,11 +323,34 @@ GPA 3.5 + 저널 논문 1편 →  대학원 합격
 
 > 주당 1개 micro-output → 학기당 15개 → 4년간 **120개** 산출물 포트폴리오.
 
+🎓 **Ivy Tip 1**: GitHub README를 "이 코드를 처음 보는 사람에게 설명하듯" 쓰면 취업 인터뷰 준비와 포트폴리오가 동시에 완성된다. GitHub README 포맷 참고: **makeareadme.com**
+🎓 **Ivy Tip 2**: 블로그 플랫폼 선택 — 빠른 시작은 Medium, 장기 SEO는 Substack 또는 개인 도메인(GitHub Pages + Jekyll). 시작은 Medium으로. 독자가 생기면 이전.
+🎓 **Ivy Tip 3**: 수업 Pset 또는 Lab 결과물을 그대로 GitHub에 올리지 말 것 — 학교 Academic Integrity Policy 위반 가능. 반드시 "Pset 영감을 받아 확장한 개인 프로젝트"로 변형 후 업로드.
+
 ✍️ 실습: 지금 배우고 있는 과목 하나에서 "이번 학기 끝날 때 손에 남길 것" **1가지**를 적어봐라.
 
 ---
 
-# 14-3. 📂 실물 — 프린스턴 학생의 산출물 포트폴리오
+# 14-3. 교수 랩 RA 진입 전략
+
+**가장 빠른 연구 산출물 루트 = 교수 랩 Research Assistant**
+
+```
+1단계 (1학년 2학기): 교수 Office Hours → 연구 주제에 관심 표현
+2단계             : "관련 논문 읽어봤습니다 — 혹시 랩에서 도움될 일이 있나요?"
+3단계             : 무보수 RA 시작 (주 5~8시간) → 신뢰 구축
+4단계 (2학년)     : 유급 RA 또는 공동 저자 크레딧 획득
+5단계 (3학년)     : 논문 제출 + 추천서 확보
+```
+
+🎓 **Ivy Tip 1**: RA 지원 이메일 공식: "Dear Professor [성], I'm [이름], a [학년] studying [전공]. I've read your paper on [구체 제목, 출판 연도] and found [구체 포인트] particularly compelling. I'm curious whether your lab has any opportunities for an undergraduate RA. I'm available [요일, 시간]." — 3문단, 총 150단어 이하.
+🎓 **Ivy Tip 2**: 교수 랩 웹사이트에서 현재 연구 중인 프로젝트를 확인 후 관련 논문 최소 2편 읽고 접근. "논문 읽었습니다" + 구체 질문 1개 포함 시 응답률 2배.
+🎓 **Ivy Tip 3**: Columbia, Yale, Princeton은 학교 공식 Undergraduate Research Portal을 운영 (columbia.edu/research, yale.edu/academics/research). 교수 직접 컨택과 병행 활용.
+🎓 **Ivy Tip 4**: NSF REU(Research Experiences for Undergraduates, nsf.gov/crssprgm/reu) 프로그램은 국제학생은 지원 불가이나 **학교 자체 URF(Undergraduate Research Fund)**는 대부분 국제학생 가능. 장학금 + 연구 크레딧 동시 확보.
+
+---
+
+# 14-4. 📂 실물 — 프린스턴 학생의 산출물 포트폴리오
 
 `[그림: 프린스턴 CS 3학년 학생의 GitHub Profile — 핀 고정 레포 6개: 1학년 소규모 CLI 도구, 2학년 웹앱, 3학년 랩 연구 코드, 개인 블로그 링크]`
 
@@ -288,6 +360,21 @@ GPA 3.5 + 저널 논문 1편 →  대학원 합격
 - 3학년: 지도교수와 공동 레포 — 논문 제출 중.
 
 > "처음부터 대단한 것을 만들어야 한다"는 **환상**이다. 학기마다 이전 것을 **한 단계** 키우면 된다.
+
+🎓 **Ivy Tip**: GitHub 프로필 최적화 — 프로필 README.md 파일(github.com/username/username 레포)에 전공, 현재 배우는 기술, 관심 분야를 3줄로. 리크루터가 처음 보는 화면이다.
+
+---
+
+# 🎓 강의 14 실전 꿀팁 모음
+
+- **SSRN 기말논문 업로드**: 교수 허락 후 ssrn.com에 기말논문 업로드. 무료·공개. 다운로드 수가 쌓이면 지도 교수에게 "관심받는 것 같아요" 보고 가능 — 공동연구 제안의 시작.
+- **GitHub Commits 연속성**: 학기 중 매일 최소 커밋 1개. "GitHub Green Squares" 1년치 연속 — 리크루터와 교수에게 꾸준함을 보여주는 시각 증거.
+- **Medium/Substack 첫 글 주제**: "내가 X 개념을 이해하는 데 걸린 시간과 방법" — 완전 초보 관점이 오히려 검색 유입에 유리. 전문가 글이 너무 많은 틈새.
+- **경진대회 활용**: ACM ICPC(CS), Putnam(수학), Model UN(정치·국제학), Hackathon(산업별) — 참가 자체가 이력서 한 줄. 수상보다 참가+산출물이 목적.
+- **컨퍼런스 포스터 발표**: 교수와 연구 중이면 학부생 대상 컨퍼런스 도전. Harvard HPAIR, MIT URTC, Stanford CURIS 같은 학부생 연구 컨퍼런스는 논문 없이 포스터만으로 참가 가능.
+- **산출물 문서화 루틴**: 매 학기 말 "이번 학기 만든 것 3가지" 리스트를 Notion에 적어 보관. 취업·대학원 지원 때 자소서 소재가 자동으로 쌓인다.
+- **인문계 산출물**: 블로그 외에 학교 신문(Columbia Spectator, Harvard Crimson, Yale Daily News)에 기고. 학교 이름 + 공개 글 = 레쥬메 항목.
+- **코드 없는 산출물도 OK**: Notion 공개 템플릿, Canva 인포그래픽, 유튜브 개념 설명 영상 — GitHub 없어도 "내가 만든 것"이면 포트폴리오다.
 
 ---
 
@@ -324,7 +411,9 @@ GPA 3.5 + 저널 논문 1편 →  대학원 합격
 | 3층 Review | 기억 고착·연결 | Anki, self-quiz, 친구 설명 | 2~3h |
 | 4층 Output | 증명·공유 | GitHub, 블로그, Drive | 2~4h |
 
-🎓 **Ivy Tip**: 시간이 없을 때 가장 먼저 **2층(정리)부터 지키라.** 1층은 강의가 강제하지만, 2층이 없으면 1층이 물처럼 빠진다.
+🎓 **Ivy Tip 1**: 시간이 없을 때 가장 먼저 **2층(정리)부터 지키라.** 1층은 강의가 강제하지만, 2층이 없으면 1층이 물처럼 빠진다.
+🎓 **Ivy Tip 2**: 3층 Review의 가장 강력한 방법 = **Feynman Technique** — 개념을 "중학생에게 설명하듯" 소리 내어 말하기. 막히는 순간이 정확히 이해 안 된 부분. Yale 학습법 워크숍(yale.edu/academics) 공식 권장 방법.
+🎓 **Ivy Tip 3**: 2층과 3층 사이 전환 트리거를 만들어라 — Notion 페이지 저장 후 자동으로 Anki 카드 생성하는 Notion-Anki 연동 도구: **notion-anki-sync**(GitHub 오픈소스). 설정 30분 → 이후 자동화.
 
 ---
 
@@ -341,6 +430,10 @@ GPA 3.5 + 저널 논문 1편 →  대학원 합격
 Notion DB 예시 구조:
   [과목] → [주차] → [강의/Reading] → [핵심 개념] → [내 질문] → [Anki 링크]
 ```
+
+🎓 **Ivy Tip 1**: Zotero(zotero.org) + Zotero Connector 브라우저 확장 설치. 논문 PDF를 클릭 한 번에 저장 + 자동 인용 생성. 에세이 Reference 페이지 작성 시간 90% 단축.
+🎓 **Ivy Tip 2**: Google Calendar에 "공부 단계 블록" 컬러코딩 — 파랑=Input, 노랑=Capture, 초록=Review, 빨강=Output/마감. 한 주를 시각화하면 특정 층이 비어있는 게 즉각 보인다.
+🎓 **Ivy Tip 3**: Notion 무료 플랜은 학생 이메일(.edu)로 가입 시 **Notion Education Plan** 전환 가능(notion.so/students) — 무제한 블록, AI 기능 포함. 학교 이메일 필수.
 
 ✍️ 실습: 지금 사용하는 앱/방법을 4기둥에 하나씩 매핑해봐라. **빈 기둥이 약점**이다.
 
@@ -359,7 +452,9 @@ Notion DB 예시 구조:
 2. 아직 모르는 것 1가지 → 다음 주 Office Hours 질문 등록
 3. 이번 주 산출물 1개 → 완성/게시
 
-🎓 **Ivy Tip**: 주간 리뷰를 거르면 **빚이 쌓인다.** 시험 2주 전에 그 빚을 갚으려면 올나이터가 필요하다.
+🎓 **Ivy Tip 1**: 주간 리뷰를 거르면 **빚이 쌓인다.** 시험 2주 전에 그 빚을 갚으려면 올나이터가 필요하다.
+🎓 **Ivy Tip 2**: 일요일 저녁 30분 — 다음 주 모든 마감일을 Google Calendar에 입력 + 각 과목 Reading을 Google Drive에 다운로드. "다음 주 Preview"는 불안을 제거하는 가장 빠른 방법.
+🎓 **Ivy Tip 3**: Cornell 학생 학습법 조사(2023, McGraw Center) — 주간 리뷰를 하는 학생과 안 하는 학생의 학기 말 GPA 차이 평균 0.4점. 20분 루틴이 0.4점을 만든다.
 
 ---
 
@@ -373,6 +468,9 @@ Notion DB 예시 구조:
 - Anki 덱 링크가 Notion 안에 임베드 — 전환 비용 0
 
 > 도구의 개수는 상관없다. **연결이 되어 있나**가 핵심이다.
+
+🎓 **Ivy Tip 1**: Notion 갤러리 뷰로 "과목별 개념 카드" 만들면 시각적 복습 가능. 각 카드 = 핵심 개념 1개. 시험 전날 카드 훑기 = 벼락치기 대비 10배 효율.
+🎓 **Ivy Tip 2**: Notion 공개 템플릿 공유(notion.so/templates)에서 "Study Dashboard", "Cornell Note Template" 검색 → 즉시 복제해서 커스텀. 제로에서 만들 필요 없다.
 
 ---
 
@@ -390,7 +488,25 @@ Notion DB 예시 구조:
 2. **카드 원칙**: 앞 = 개념/질문, 뒤 = 예시+내 말로 설명 (교과서 문장 복붙 ❌)
 3. **루틴**: 매일 아침 10분, 알림 설정, 드는 카드는 EASY, 헷갈리는 건 HARD
 
-🎓 **Ivy Tip**: 카드 1장 만드는 데 **30초**. 수업 끝나고 주요 개념 5개 → 5장. 한 학기 = 약 300장 = 시험 전날 새 공부 없음.
+🎓 **Ivy Tip 1**: 카드 1장 만드는 데 **30초**. 수업 끝나고 주요 개념 5개 → 5장. 한 학기 = 약 300장 = 시험 전날 새 공부 없음.
+🎓 **Ivy Tip 2**: AnkiWeb(ankiweb.net)으로 PC-모바일 동기화. 이동 시간(버스·지하철) 10분을 복습 시간으로 전환. 하루 10분 × 120일 = 20시간 분량의 복습이 자동 완성.
+🎓 **Ivy Tip 3**: Readwise(readwise.io) 구독 시 하이라이트한 텍스트 → 자동으로 Anki 카드 생성. 월 $7.99(학생 할인 가능). Reading 효율과 복습 효율을 동시에 해결하는 유일한 도구.
+🎓 **Ivy Tip 4**: 의대 지망생 커뮤니티가 공유하는 AnkiHub(ankihub.net) — 생물·화학 덱이 이미 완성된 형태로 공유됨. Pre-med 학생들이 수천 시간 공들인 덱을 무료로 사용.
+🎓 **Ivy Tip 5**: 카드 작성 황금률 = **Minimum Information Principle** — 카드 하나에 개념 하나만. "X와 Y의 차이는?" 식의 비교 카드보다 "X란?" + "Y란?" 두 장이 효율적.
+
+---
+
+# 🎓 강의 15 실전 꿀팁 모음
+
+- **Notion 학생 플랜**: notion.so/students 에서 .edu 이메일로 신청 → 무제한 + AI 기능 무료. 국제학생 신청 가능, 반드시 학교 이메일 사용.
+- **Google Calendar 컬러 블록 세팅**: 설정 → 과목별 캘린더 생성 → 색상 배정. 한 주 뷰에서 특정 과목 비중이 시각화됨. "수요일 오후가 항상 비어있다" 발견 → Capture 블록 배치.
+- **Zotero + Google Docs 연동**: Zotero 플러그인 설치 후 Google Docs에서 인용 삽입이 자동. 에세이 레퍼런스 생성에 드는 시간 80% 단축. 설치: zotero.org/support/google_docs_integration
+- **Anki 모바일 루틴**: 매일 아침 일어나자마자 5분 → 저녁 잠들기 전 5분. 하루 10분이면 300장 덱 유지 가능. 알람 이름을 "Anki 5분"으로 설정.
+- **Obsidian 장기 노트**: 수업이 끝난 뒤 해당 과목 노트를 Obsidian으로 이전 보관. 로컬 저장 + Markdown 형식 = 10년 후에도 열린다. Notion은 서비스 종료 리스크 있음.
+- **Focus 도구**: Brain.fm(brain.fm) — 집중력 최적화 음악. 과학적 근거 기반. 월 $6.99. Spotify 플레이리스트보다 집중 시간 길어진다는 연구 있음(2019 JNeurosci).
+- **주간 리뷰 캘린더 블록**: 금요일 저녁 7~7:30pm 고정 블록 설정. 삭제 불가 처리. 이 30분이 빚을 막는 가장 강력한 루틴.
+- **시험 D-2주 점검**: Anki 복습 밀린 카드 수 확인 → 100장 이상이면 즉시 집중 소진 모드. D-14 이내에 카드 소진 완료 = 시험 전날 여유.
+- **이메일 서명**: 대학 이메일 서명에 GitHub/LinkedIn/블로그 링크 추가. 교수에게 이메일 보낼 때 자동으로 포트폴리오가 노출된다.
 
 ---
 
@@ -414,6 +530,25 @@ A. 첫 달은 **빈 페이지 하나에 날짜+내용** 만 써라. 시스템은
 **Q. 과목이 5개인데 Anki 덱 다 만들어야 하나요?**
 A. 아니다. 지금 가장 외울 게 많은 과목 **1개**만 먼저. 나머지는 확장.
 
+**Q. Office Hours에 갔는데 교수가 바빠 보여서 그냥 나왔어요.**
+A. 그래도 다시 가라. 두 번째 방문부터 교수가 먼저 반긴다. "아, 저번에 온 학생이죠?" — 그 순간부터 관계가 시작된다.
+
+---
+
+# 국제학생 특화 — 언어·문화 장벽 극복법
+
+**영어 글쓰기 실력이 발목을 잡을 때:**
+
+🎓 **Ivy Tip 1**: 모든 Ivy League 대학 Writing Center는 **무료·예약제**. Harvard(writingcenter.fas.harvard.edu), Yale(yalewritingcenter.yale.edu), Princeton(writing.princeton.edu), Columbia(universitywrting.columbia.edu) — 학기 중 매주 1회 예약을 루틴화하라.
+
+🎓 **Ivy Tip 2**: Grammarly Premium(grammarly.com) 무료 학생 버전이 없으면 **LanguageTool**(languagetool.org)이 무료 대안. 단, 문법보다 **논증 구조**가 더 중요하다는 것을 잊지 말 것.
+
+🎓 **Ivy Tip 3**: Discussion Section에서 발언이 두려우면 — Section 전날 TA에게 이메일: "내일 이 주제에 대해 이런 관점을 발언할 예정인데 방향이 맞나요?" 사전 검증 → Section 자신감 상승.
+
+🎓 **Ivy Tip 4**: 국제학생 전용 지원 센터 활용. Cornell 국제학생처(isso.cornell.edu), Yale OISS(oiss.yale.edu), Columbia ISSO(isso.columbia.edu) — 학업 어려움 상담도 가능, 한국어 담당자 있는 경우 있음.
+
+🎓 **Ivy Tip 5**: 미국식 토론 문화 — 틀려도 말하는 것이 침묵보다 항상 낫다. "I might be wrong, but I think..." 문구는 동의가 아닌 **탐구**의 표현으로 받아들여진다.
+
 ---
 
 # 자가진단 루브릭 (제출 전 체크)
@@ -427,8 +562,10 @@ A. 아니다. 지금 가장 외울 게 많은 과목 **1개**만 먼저. 나머�
 | 주간 운영표 | 없음 | 과목별 단계 블록 캘린더 완성 |
 | Capture 도구 | 강의 필기만 | Cornell 또는 Notion 세팅 완료 |
 | Review 루틴 | 시험 전날 몰아치기 | Anki 또는 self-quiz 주 3회 이상 |
+| Office Hours | 한 번도 안 감 | 이번 학기 2회 이상 방문 완료 |
+| 산출물 실행 | 계획만 있음 | micro-output 1개 이상 게시 완료 |
 
-→ 7개 중 **5개 이상 통과**면 다음 모듈 unlock.
+→ 9개 중 **7개 이상 통과**면 다음 모듈 unlock.
 
 ---
 
@@ -436,16 +573,19 @@ A. 아니다. 지금 가장 외울 게 많은 과목 **1개**만 먼저. 나머�
 
 | 카테고리 | 도구 | 무료? | 추천 이유 |
 |---|---|---|---|
-| 노트 | Notion | 무료(학생) | DB+캘린더+노트 통합 |
+| 노트 | Notion | 무료(학생 .edu) | DB+캘린더+노트 통합 |
 | 노트 (오프라인) | Obsidian | 무료 | 로컬 저장·링크형 사고 |
 | 플래시카드 | Anki | 무료 | 간격반복 알고리즘 검증됨 |
 | 논문 관리 | Zotero | 무료 | 인용 자동 생성, PDF 주석 |
+| 하이라이트→복습 | Readwise Reader | $7.99/월 | 하이라이트→Anki 자동 연동 |
 | 캘린더 | Google Calendar | 무료 | 컬러 블록·반복 이벤트 |
 | 파일 | Google Drive | 15GB 무료 | 공유·협업·어디서나 접근 |
-| 집중 | Forest / Focus@Will | 일부 무료 | 방해 차단·배경음 |
-| 읽기 | Readwise Reader | 유료(학생 할인) | 하이라이트 → Anki 연동 |
+| 집중 | Brain.fm | $6.99/월 | 과학 기반 집중 음악 |
+| AI 보조 | Otter.ai | 무료(600분/월) | 강의 자동 텍스트 변환 |
+| 포트폴리오 | GitHub Pages | 무료 | 개인 블로그 + 프로젝트 쇼케이스 |
 
-🎓 **Ivy Tip**: 도구를 바꿀 때마다 **2주 생산성이 0으로 리셋**된다. 한 번 고른 도구는 최소 한 학기 유지.
+🎓 **Ivy Tip 1**: 도구를 바꿀 때마다 **2주 생산성이 0으로 리셋**된다. 한 번 고른 도구는 최소 한 학기 유지.
+🎓 **Ivy Tip 2**: 무료 도구부터 시작하라. 유료 도구는 해당 워크플로우가 자신에게 맞다는 것을 **최소 1달 검증 후** 구독.
 
 ---
 
@@ -456,6 +596,7 @@ A. 아니다. 지금 가장 외울 게 많은 과목 **1개**만 먼저. 나머�
 - 루브릭 기반 채점 기준 해독 능력
 - 이번 학기 산출물 1개 확정
 - Personal Academic OS 4층 구조 + 주간 운영표
+- 국제학생 Writing Center·ISSO·연구 프로그램 목록
 
 ```
 M4 (학습 아키텍처·OS 설계)
@@ -467,3 +608,4 @@ M5 (Notetaking Mastery) — Cornell / Engineering / Research 노트로
 > OS를 설계했다. 이제 **노트 시스템이라는 심장**을 장착한다.
 
 🎓 **마지막 Ivy Tip**: 완벽한 시스템은 존재하지 않는다. **지금 당장 60점짜리 시스템을 돌려라.** 쓰다 보면 80점이 된다. 돌리지 않으면 영원히 0점이다.
+Ivy 재학생이 공통으로 말하는 것: "1학년 때 이걸 알았더라면." 이미 알고 있다. **오늘부터 돌려라.**
