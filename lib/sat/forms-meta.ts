@@ -48,6 +48,11 @@ export const SAT_FORM_META: SatFormMeta[] = [
   { id: "practice-23", label: "InHero SAT Practice Test 23", rwCount: 54, mathCount: 44, isFullLength: true },
   { id: "practice-24", label: "InHero SAT Practice Test 24", rwCount: 54, mathCount: 44, isFullLength: true },
   { id: "practice-25", label: "InHero SAT Practice Test 25", rwCount: 54, mathCount: 44, isFullLength: true },
+  { id: "practice-26", label: "InHero SAT Practice Test 26", rwCount: 54, mathCount: 44, isFullLength: true },
+  { id: "practice-27", label: "InHero SAT Practice Test 27", rwCount: 54, mathCount: 44, isFullLength: true },
+  { id: "practice-28", label: "InHero SAT Practice Test 28", rwCount: 54, mathCount: 44, isFullLength: true },
+  { id: "practice-29", label: "InHero SAT Practice Test 29", rwCount: 54, mathCount: 44, isFullLength: true },
+  { id: "practice-30", label: "InHero SAT Practice Test 30", rwCount: 54, mathCount: 44, isFullLength: true },
 ];
 
 /** Full-length forms only (what the public picker offers), in display order. */

@@ -39,6 +39,11 @@ const LOADERS: Record<string, FormLoader> = {
   "practice-23": () => import("./form23").then((m) => m.SAT_FORM_23),
   "practice-24": () => import("./form24").then((m) => m.SAT_FORM_24),
   "practice-25": () => import("./form25").then((m) => m.SAT_FORM_25),
+  "practice-26": () => import("./form26").then((m) => m.SAT_FORM_26),
+  "practice-27": () => import("./form27").then((m) => m.SAT_FORM_27),
+  "practice-28": () => import("./form28").then((m) => m.SAT_FORM_28),
+  "practice-29": () => import("./form29").then((m) => m.SAT_FORM_29),
+  "practice-30": () => import("./form30").then((m) => m.SAT_FORM_30),
 };
 
 /** Default form id used when none/an unknown id is requested. */
