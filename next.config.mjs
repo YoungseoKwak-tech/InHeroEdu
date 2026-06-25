@@ -28,9 +28,35 @@ const nextConfig = {
     "pdf-parse",
     "pdfjs-dist",
   ],
-  // Ship the private (non-public) gated PDF with its API route on Vercel.
+  // Ship the gated PDFs with their API routes on Vercel (the routes read them
+  // from process.cwd(), which the tracer can't resolve statically).
   outputFileTracingIncludes: {
     "/api/parents/story/file": ["./private-docs/ivy-engineering-journey.pdf"],
+    "/api/parents/essay/file": ["./public/parents-docs/cornell-bme-essay-_q7m2x9p4k.pdf"],
+  },
+  // Those same process.cwd() reads make Next's tracer conservatively sweep the
+  // whole working dir into the lambda — pushing api/parents/essay/file past
+  // Vercel's 250MB function limit (471MB). These heavy source artifacts (seed
+  // corpus, textbook PDFs, seminar media, slide decks, cover images) are never
+  // needed at runtime; exclude them from EVERY function's trace. The runtime
+  // PDFs are re-included explicitly above, so they survive.
+  outputFileTracingExcludes: {
+    "*": [
+      "scripts/question-bank-seed/**",
+      "scripts/textbook/**",
+      "chrome/**",
+      "docs/**",
+      "AP_*_PDFs_*/**",
+      "AP_*_build/**",
+      "합격/**",
+      "**/*.mp4",
+      "**/*.key",
+      "**/*.pptx",
+      "**/*.docx",
+      "*.pdf",
+      "AP_Biology_ultimate*",
+      "*.png",
+    ],
   },
 };
 
