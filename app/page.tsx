@@ -15,17 +15,34 @@ const SUB = "#5b6675";
 const GREEN = "#00b85f";
 const MAXW = 1340;
 
-type Tile = { emoji: string; tag: string; title: string; desc: string; href: string; accent: string };
+type Tile = { emoji: string; tag: string; title: string; desc: string; href: string; accent: string; badge?: string };
+type Group = { eyebrow: string; title: string; hint: string; tiles: Tile[] };
 
-const TILES: Tile[] = [
-  { emoji: "🖥️", tag: "DIGITAL SAT", title: "SAT Practice Test", desc: "Bluebook-style adaptive full test — modules, Desmos, 400–1600 score.", href: "/sat", accent: "#1f6feb" },
-  { emoji: "📝", tag: "AP MOCK EXAMS", title: "AP Question Bank", desc: "170,000+ College-Board-style questions with instant grading & explanations.", href: "/question-bank", accent: "#7c3aed" },
-  { emoji: "🌍", tag: "IB PRACTICE", title: "IB Paper-Style Sets", desc: "Paper 1 / 2 / 3-style problems across IB subjects (HL & SL).", href: "/mock-exams", accent: "#0e9f6e" },
-  { emoji: "🎧", tag: "TOEFL iBT", title: "TOEFL Practice Test", desc: "All four sections in real format — audio, recording, rubric scoring.", href: "/toefl", accent: "#f59e0b" },
-  { emoji: "📒", tag: "AP CORE NOTES", title: "One Screen, One Concept", desc: "Each AP unit distilled to exactly what to remember in the exam room.", href: "/core-notes", accent: "#dc2680" },
-  { emoji: "📚", tag: "INHERO ORIGINALS", title: "Digital Textbooks", desc: "Original AP textbooks — exam alerts, FRQ/MCQ walkthroughs, deep-dives.", href: "/library", accent: "#0ea5e9" },
-  { emoji: "🗂️", tag: "VOCAB", title: "High-Yield Vocab", desc: "Spaced-repetition decks for SAT & AP — the words that actually appear.", href: "/vocab", accent: "#0d9488" },
-  { emoji: "🏆", tag: "MOCK EXAMS", title: "Full Mock Exams", desc: "Real-format, full-length SAT · AP · IB · TOEFL practice in one place.", href: "/mock-exams", accent: "#e11d48" },
+// Grouped so the first screen reads as a clear hierarchy — "take a test" vs.
+// "study a topic" — instead of one flat wall of equal-weight tiles.
+const GROUPS: Group[] = [
+  {
+    eyebrow: "PRACTICE EXAMS",
+    title: "Take a real-format test",
+    hint: "Same screen, timing, and scoring as the real exam — answer and see explanations instantly.",
+    tiles: [
+      { emoji: "🖥️", tag: "DIGITAL SAT", title: "SAT Practice Test", desc: "Bluebook-style adaptive full test — modules, Desmos, 400–1600 score.", href: "/sat", accent: "#1f6feb", badge: "Free sample" },
+      { emoji: "📝", tag: "AP", title: "AP Question Bank", desc: "170,000+ College-Board-style questions with instant grading & explanations.", href: "/question-bank", accent: "#7c3aed", badge: "Free preview" },
+      { emoji: "🌍", tag: "IB", title: "IB Paper-Style Sets", desc: "Paper 1 / 2 / 3-style problems across IB subjects (HL & SL).", href: "/mock-exams", accent: "#0e9f6e" },
+      { emoji: "🎧", tag: "TOEFL iBT", title: "TOEFL Practice Test", desc: "All four sections in real format — audio, recording, rubric scoring.", href: "/toefl", accent: "#f59e0b", badge: "Free sample" },
+      { emoji: "🏆", tag: "ALL EXAMS", title: "Full Mock Exams", desc: "Real-format, full-length SAT · AP · IB · TOEFL practice in one place.", href: "/mock-exams", accent: "#e11d48" },
+    ],
+  },
+  {
+    eyebrow: "STUDY TOOLS",
+    title: "Learn it, then remember it",
+    hint: "The concepts, books, and words behind the score — built to make studying stick.",
+    tiles: [
+      { emoji: "📒", tag: "AP CORE NOTES", title: "Core Notes", desc: "Each AP unit distilled to exactly what to remember in the exam room.", href: "/core-notes", accent: "#dc2680" },
+      { emoji: "📚", tag: "ORIGINALS", title: "Digital Textbooks", desc: "Original AP textbooks — exam alerts, FRQ/MCQ walkthroughs, deep-dives.", href: "/library", accent: "#0ea5e9" },
+      { emoji: "🗂️", tag: "VOCAB", title: "High-Yield Vocab", desc: "Spaced-repetition decks for SAT & AP — the words that actually appear.", href: "/vocab", accent: "#0d9488" },
+    ],
+  },
 ];
 
 const STATS = [
@@ -64,27 +81,40 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Feature tiles — every tool, clickable on the first screen ── */}
+      {/* ── Feature tiles — grouped into a clear hierarchy ──────────── */}
       <section style={{ maxWidth: MAXW, margin: "0 auto", padding: "26px 28px 20px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
-          {TILES.map((t) => (
-            <Link key={t.title} href={t.href}
-              style={{ textDecoration: "none", color: INK, background: "#fff", border: "1px solid #e8ecf1", borderRadius: 16, padding: "18px 18px", display: "flex", flexDirection: "column", boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 160ms, box-shadow 200ms, border-color 160ms" }}
-              onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 34px rgba(16,24,40,0.12)"; e.currentTarget.style.borderColor = `${t.accent}55`; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 1px 2px rgba(16,24,40,0.04)"; e.currentTarget.style.borderColor = "#e8ecf1"; }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-                <span style={{ fontSize: 22, width: 40, height: 40, borderRadius: 11, display: "flex", alignItems: "center", justifyContent: "center", background: `${t.accent}14`, flexShrink: 0 }}>{t.emoji}</span>
-                <span style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: "0.05em", color: t.accent, background: `${t.accent}12`, borderRadius: 6, padding: "3px 8px" }}>{t.tag}</span>
-              </div>
-              <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 17, fontWeight: 800, letterSpacing: "-0.01em", margin: "0 0 5px" }}>{t.title}</h3>
-              <p style={{ fontSize: 13, color: SUB, lineHeight: 1.55, margin: 0, flex: 1 }}>{t.desc}</p>
-              <span style={{ marginTop: 12, fontSize: 13, fontWeight: 800, color: t.accent }}>Open →</span>
-            </Link>
-          ))}
-        </div>
+        {GROUPS.map((g, gi) => (
+          <div key={g.eyebrow} style={{ marginTop: gi === 0 ? 0 : 30 }}>
+            {/* Section header → gives the eye an anchor before the tiles */}
+            <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap", marginBottom: 14, paddingBottom: 12, borderBottom: "1px solid #eef1f5" }}>
+              <span style={{ fontSize: 11, fontWeight: 900, letterSpacing: "0.16em", color: GREEN }}>{g.eyebrow}</span>
+              <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 20, fontWeight: 800, letterSpacing: "-0.02em", margin: 0, color: INK }}>{g.title}</h2>
+              <span style={{ fontSize: 13, color: "#94a3b8", flex: 1, minWidth: 200 }}>{g.hint}</span>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
+              {g.tiles.map((t) => (
+                <Link key={t.title} href={t.href}
+                  style={{ textDecoration: "none", color: INK, background: "#fff", border: "1px solid #e8ecf1", borderRadius: 16, padding: "18px 18px", display: "flex", flexDirection: "column", boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 160ms, box-shadow 200ms, border-color 160ms" }}
+                  onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 34px rgba(16,24,40,0.12)"; e.currentTarget.style.borderColor = `${t.accent}55`; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = "0 1px 2px rgba(16,24,40,0.04)"; e.currentTarget.style.borderColor = "#e8ecf1"; }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                    <span style={{ fontSize: 22, width: 40, height: 40, borderRadius: 11, display: "flex", alignItems: "center", justifyContent: "center", background: `${t.accent}14`, flexShrink: 0 }}>{t.emoji}</span>
+                    <span style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: "0.05em", color: t.accent, background: `${t.accent}12`, borderRadius: 6, padding: "3px 8px" }}>{t.tag}</span>
+                    {t.badge && (
+                      <span style={{ marginLeft: "auto", fontSize: 10, fontWeight: 900, letterSpacing: "0.04em", color: "#fff", background: GREEN, borderRadius: 999, padding: "3px 9px" }}>{t.badge}</span>
+                    )}
+                  </div>
+                  <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 17, fontWeight: 800, letterSpacing: "-0.01em", margin: "0 0 5px" }}>{t.title}</h3>
+                  <p style={{ fontSize: 13, color: SUB, lineHeight: 1.55, margin: 0, flex: 1 }}>{t.desc}</p>
+                  <span style={{ marginTop: 12, fontSize: 13, fontWeight: 800, color: t.accent }}>Open →</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
 
         {/* stat strip */}
-        <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginTop: 22 }}>
+        <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginTop: 26 }}>
           {STATS.map((s) => (
             <div key={s.label} style={{ background: "#fff", border: "1px solid #eef1f5", borderRadius: 12, padding: "11px 20px", minWidth: 140, textAlign: "center", boxShadow: "0 1px 2px rgba(16,24,40,0.04)" }}>
               <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 17, fontWeight: 800, color: INK }}>{s.n}</div>
