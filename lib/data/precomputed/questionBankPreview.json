@@ -2,7 +2,7 @@
   "aime": {
     "label": "AIME",
     "emoji": "🥇",
-    "total": 10764,
+    "total": 12103,
     "units": [],
     "questions": [
       {
@@ -458,7 +458,7 @@
   "amc-10": {
     "label": "AMC 10",
     "emoji": "🏆",
-    "total": 19120,
+    "total": 22838,
     "units": [],
     "questions": [
       {
@@ -914,7 +914,7 @@
   "amc-12": {
     "label": "AMC 12",
     "emoji": "🏆",
-    "total": 24186,
+    "total": 24769,
     "units": [],
     "questions": [
       {
@@ -12864,7 +12864,7 @@
   "ib-math-aa": {
     "label": "IB Math: Analysis and Approaches",
     "emoji": "∫",
-    "total": 66648,
+    "total": 68190,
     "units": [
       {
         "unit": 1,
@@ -13706,7 +13706,7 @@
   "ib-physics": {
     "label": "IB Physics",
     "emoji": "🔬",
-    "total": 4130,
+    "total": 4131,
     "units": [
       {
         "unit": 1,
@@ -14568,7 +14568,7 @@
   "sat-math": {
     "label": "SAT Math",
     "emoji": "📝",
-    "total": 27559,
+    "total": 35637,
     "units": [
       {
         "unit": 1,

@@ -4,40 +4,40 @@
       "courseId": "ib-math-aa",
       "label": "IB Math: Analysis and Approaches",
       "emoji": "∫",
-      "count": 66648,
-      "examPool": 66648,
+      "count": 68190,
+      "examPool": 68190,
       "examReady": true
     },
     {
       "courseId": "sat-math",
       "label": "SAT Math",
       "emoji": "📝",
-      "count": 27559,
-      "examPool": 27559,
+      "count": 35637,
+      "examPool": 35637,
       "examReady": true
     },
     {
       "courseId": "amc-12",
       "label": "AMC 12",
       "emoji": "🏆",
-      "count": 24186,
-      "examPool": 24186,
+      "count": 24769,
+      "examPool": 24769,
       "examReady": true
     },
     {
       "courseId": "amc-10",
       "label": "AMC 10",
       "emoji": "🏆",
-      "count": 19120,
-      "examPool": 19120,
+      "count": 22838,
+      "examPool": 22838,
       "examReady": true
     },
     {
       "courseId": "aime",
       "label": "AIME",
       "emoji": "🥇",
-      "count": 10764,
-      "examPool": 10764,
+      "count": 12103,
+      "examPool": 12103,
       "examReady": true
     },
     {
@@ -52,8 +52,8 @@
       "courseId": "ib-physics",
       "label": "IB Physics",
       "emoji": "🔬",
-      "count": 4130,
-      "examPool": 4130,
+      "count": 4131,
+      "examPool": 4131,
       "examReady": true
     },
     {
@@ -257,5 +257,5 @@
       "examReady": true
     }
   ],
-  "total": 172646
+  "total": 187907
 }
