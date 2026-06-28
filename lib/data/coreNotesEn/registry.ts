@@ -45,6 +45,44 @@ import { IB_PSYCHOLOGY_U3_EN } from "./ib-psychology-u3";
 import { IB_ESS_U3_EN } from "./ib-ess-u3";
 import { IB_CS_U3_EN } from "./ib-cs-u3";
 
+// Honors curricula — English Core Notes (4 units × 3 lessons each) ──
+import { HONORS_ALGEBRA_2_U1_EN } from "./honors-algebra-2-u1";
+import { HONORS_ALGEBRA_2_U2_EN } from "./honors-algebra-2-u2";
+import { HONORS_ALGEBRA_2_U3_EN } from "./honors-algebra-2-u3";
+import { HONORS_ALGEBRA_2_U4_EN } from "./honors-algebra-2-u4";
+import { HONORS_BIOLOGY_U1_EN } from "./honors-biology-u1";
+import { HONORS_BIOLOGY_U2_EN } from "./honors-biology-u2";
+import { HONORS_BIOLOGY_U3_EN } from "./honors-biology-u3";
+import { HONORS_BIOLOGY_U4_EN } from "./honors-biology-u4";
+import { HONORS_CHEMISTRY_U1_EN } from "./honors-chemistry-u1";
+import { HONORS_CHEMISTRY_U2_EN } from "./honors-chemistry-u2";
+import { HONORS_CHEMISTRY_U3_EN } from "./honors-chemistry-u3";
+import { HONORS_CHEMISTRY_U4_EN } from "./honors-chemistry-u4";
+import { HONORS_ENGLISH_9_U1_EN } from "./honors-english-9-u1";
+import { HONORS_ENGLISH_9_U2_EN } from "./honors-english-9-u2";
+import { HONORS_ENGLISH_9_U3_EN } from "./honors-english-9-u3";
+import { HONORS_ENGLISH_9_U4_EN } from "./honors-english-9-u4";
+import { HONORS_GEOMETRY_U1_EN } from "./honors-geometry-u1";
+import { HONORS_GEOMETRY_U2_EN } from "./honors-geometry-u2";
+import { HONORS_GEOMETRY_U3_EN } from "./honors-geometry-u3";
+import { HONORS_GEOMETRY_U4_EN } from "./honors-geometry-u4";
+import { HONORS_PHYSICS_U1_EN } from "./honors-physics-u1";
+import { HONORS_PHYSICS_U2_EN } from "./honors-physics-u2";
+import { HONORS_PHYSICS_U3_EN } from "./honors-physics-u3";
+import { HONORS_PHYSICS_U4_EN } from "./honors-physics-u4";
+import { HONORS_PRECALCULUS_U1_EN } from "./honors-precalculus-u1";
+import { HONORS_PRECALCULUS_U2_EN } from "./honors-precalculus-u2";
+import { HONORS_PRECALCULUS_U3_EN } from "./honors-precalculus-u3";
+import { HONORS_PRECALCULUS_U4_EN } from "./honors-precalculus-u4";
+import { HONORS_US_HISTORY_U1_EN } from "./honors-us-history-u1";
+import { HONORS_US_HISTORY_U2_EN } from "./honors-us-history-u2";
+import { HONORS_US_HISTORY_U3_EN } from "./honors-us-history-u3";
+import { HONORS_US_HISTORY_U4_EN } from "./honors-us-history-u4";
+import { HONORS_WORLD_HISTORY_U1_EN } from "./honors-world-history-u1";
+import { HONORS_WORLD_HISTORY_U2_EN } from "./honors-world-history-u2";
+import { HONORS_WORLD_HISTORY_U3_EN } from "./honors-world-history-u3";
+import { HONORS_WORLD_HISTORY_U4_EN } from "./honors-world-history-u4";
+
 export const CORE_NOTES_EN_LIST: CoreNote[] = [
   ...IB_BIOLOGY_U1_EN,
   ...IB_CHEMISTRY_U1_EN,
@@ -79,4 +117,14 @@ export const CORE_NOTES_EN_LIST: CoreNote[] = [
   ...IB_PSYCHOLOGY_U3_EN,
   ...IB_ESS_U3_EN,
   ...IB_CS_U3_EN,
+  // Honors
+  ...HONORS_ALGEBRA_2_U1_EN, ...HONORS_ALGEBRA_2_U2_EN, ...HONORS_ALGEBRA_2_U3_EN, ...HONORS_ALGEBRA_2_U4_EN,
+  ...HONORS_BIOLOGY_U1_EN, ...HONORS_BIOLOGY_U2_EN, ...HONORS_BIOLOGY_U3_EN, ...HONORS_BIOLOGY_U4_EN,
+  ...HONORS_CHEMISTRY_U1_EN, ...HONORS_CHEMISTRY_U2_EN, ...HONORS_CHEMISTRY_U3_EN, ...HONORS_CHEMISTRY_U4_EN,
+  ...HONORS_ENGLISH_9_U1_EN, ...HONORS_ENGLISH_9_U2_EN, ...HONORS_ENGLISH_9_U3_EN, ...HONORS_ENGLISH_9_U4_EN,
+  ...HONORS_GEOMETRY_U1_EN, ...HONORS_GEOMETRY_U2_EN, ...HONORS_GEOMETRY_U3_EN, ...HONORS_GEOMETRY_U4_EN,
+  ...HONORS_PHYSICS_U1_EN, ...HONORS_PHYSICS_U2_EN, ...HONORS_PHYSICS_U3_EN, ...HONORS_PHYSICS_U4_EN,
+  ...HONORS_PRECALCULUS_U1_EN, ...HONORS_PRECALCULUS_U2_EN, ...HONORS_PRECALCULUS_U3_EN, ...HONORS_PRECALCULUS_U4_EN,
+  ...HONORS_US_HISTORY_U1_EN, ...HONORS_US_HISTORY_U2_EN, ...HONORS_US_HISTORY_U3_EN, ...HONORS_US_HISTORY_U4_EN,
+  ...HONORS_WORLD_HISTORY_U1_EN, ...HONORS_WORLD_HISTORY_U2_EN, ...HONORS_WORLD_HISTORY_U3_EN, ...HONORS_WORLD_HISTORY_U4_EN,
 ];
