@@ -49,6 +49,12 @@
       "count": 54
     },
     {
+      "courseId": "ap-us-history",
+      "label": "AP US History",
+      "emoji": "🗽",
+      "count": 46
+    },
+    {
       "courseId": "ap-computer-science-a",
       "label": "AP Computer Science A",
       "emoji": "💻",
@@ -59,6 +65,18 @@
       "label": "AP Human Geography",
       "emoji": "🗺️",
       "count": 40
+    },
+    {
+      "courseId": "ap-physics-c-em",
+      "label": "AP Physics C: E&M",
+      "emoji": "⚡",
+      "count": 40
+    },
+    {
+      "courseId": "honors-biology",
+      "label": "Honors Biology",
+      "emoji": "🧬",
+      "count": 34
     },
     {
       "courseId": "ib-chemistry",
@@ -73,10 +91,34 @@
       "count": 32
     },
     {
+      "courseId": "ap-precalculus",
+      "label": "AP Precalculus",
+      "emoji": "📐",
+      "count": 32
+    },
+    {
+      "courseId": "ap-cs-principles",
+      "label": "AP Computer Science Principles",
+      "emoji": "🖥️",
+      "count": 30
+    },
+    {
+      "courseId": "honors-chemistry",
+      "label": "Honors Chemistry",
+      "emoji": "⚗️",
+      "count": 29
+    },
+    {
       "courseId": "ap-physics-c-mechanics",
       "label": "ap-physics-c-mechanics",
       "emoji": "📘",
       "count": 28
+    },
+    {
+      "courseId": "ap-european-history",
+      "label": "AP European History",
+      "emoji": "🏛️",
+      "count": 25
     },
     {
       "courseId": "ib-ess",
@@ -91,9 +133,33 @@
       "count": 24
     },
     {
+      "courseId": "honors-precalculus",
+      "label": "Honors Precalculus",
+      "emoji": "📐",
+      "count": 22
+    },
+    {
       "courseId": "ap-english-language",
       "label": "AP English Language and Composition",
       "emoji": "✍️",
+      "count": 21
+    },
+    {
+      "courseId": "honors-algebra",
+      "label": "Honors Algebra",
+      "emoji": "➕",
+      "count": 21
+    },
+    {
+      "courseId": "honors-physics",
+      "label": "Honors Physics",
+      "emoji": "🔭",
+      "count": 21
+    },
+    {
+      "courseId": "honors-us-history",
+      "label": "Honors US History",
+      "emoji": "🗽",
       "count": 21
     },
     {
@@ -101,6 +167,36 @@
       "label": "IB Computer Science",
       "emoji": "💻",
       "count": 21
+    },
+    {
+      "courseId": "geometry",
+      "label": "Geometry",
+      "emoji": "📐",
+      "count": 20
+    },
+    {
+      "courseId": "ap-art-history",
+      "label": "AP Art History",
+      "emoji": "🎨",
+      "count": 19
+    },
+    {
+      "courseId": "ap-music-theory",
+      "label": "AP Music Theory",
+      "emoji": "🎵",
+      "count": 19
+    },
+    {
+      "courseId": "honors-english",
+      "label": "Honors English",
+      "emoji": "📖",
+      "count": 19
+    },
+    {
+      "courseId": "ap-english-literature",
+      "label": "AP English Literature and Composition",
+      "emoji": "📚",
+      "count": 18
     },
     {
       "courseId": "ap-psychology",
@@ -113,6 +209,12 @@
       "label": "IB Biology",
       "emoji": "🧬",
       "count": 18
+    },
+    {
+      "courseId": "algebra",
+      "label": "Algebra",
+      "emoji": "➕",
+      "count": 16
     },
     {
       "courseId": "ap-macroeconomics",
@@ -139,6 +241,24 @@
       "count": 15
     },
     {
+      "courseId": "integrated-science",
+      "label": "Integrated Science",
+      "emoji": "🔬",
+      "count": 15
+    },
+    {
+      "courseId": "ap-spanish-language",
+      "label": "AP Spanish Language and Culture",
+      "emoji": "🌎",
+      "count": 14
+    },
+    {
+      "courseId": "core-english",
+      "label": "English",
+      "emoji": "📖",
+      "count": 14
+    },
+    {
       "courseId": "ap-microeconomics",
       "label": "AP Microeconomics",
       "emoji": "📉",
@@ -151,21 +271,21 @@
       "count": 13
     },
     {
-      "courseId": "honors-algebra-2",
-      "label": "Honors Algebra 2",
-      "emoji": "➗",
-      "count": 12
-    },
-    {
-      "courseId": "honors-biology",
-      "label": "Honors Biology",
+      "courseId": "core-biology",
+      "label": "Biology",
       "emoji": "🧬",
       "count": 12
     },
     {
-      "courseId": "honors-chemistry",
-      "label": "Honors Chemistry",
+      "courseId": "core-chemistry",
+      "label": "Chemistry",
       "emoji": "⚗️",
+      "count": 12
+    },
+    {
+      "courseId": "honors-algebra-2",
+      "label": "Honors Algebra 2",
+      "emoji": "➗",
       "count": 12
     },
     {
@@ -181,24 +301,6 @@
       "count": 12
     },
     {
-      "courseId": "honors-physics",
-      "label": "Honors Physics",
-      "emoji": "⚛️",
-      "count": 12
-    },
-    {
-      "courseId": "honors-precalculus",
-      "label": "Honors Precalculus",
-      "emoji": "📈",
-      "count": 12
-    },
-    {
-      "courseId": "honors-us-history",
-      "label": "Honors US History",
-      "emoji": "🇺🇸",
-      "count": 12
-    },
-    {
       "courseId": "honors-world-history",
       "label": "Honors World History",
       "emoji": "🌍",
@@ -211,6 +313,24 @@
       "count": 12
     },
     {
+      "courseId": "core-physics",
+      "label": "Physics",
+      "emoji": "🔭",
+      "count": 12
+    },
+    {
+      "courseId": "us-history",
+      "label": "US History",
+      "emoji": "🗽",
+      "count": 12
+    },
+    {
+      "courseId": "ap-comparative-government",
+      "label": "AP Comparative Government and Politics",
+      "emoji": "🌐",
+      "count": 11
+    },
+    {
       "courseId": "ib-english",
       "label": "IB English A",
       "emoji": "📖",
@@ -221,13 +341,7 @@
       "label": "IB Psychology",
       "emoji": "🧠",
       "count": 9
-    },
-    {
-      "courseId": "ap-us-history",
-      "label": "AP US History",
-      "emoji": "🗽",
-      "count": 7
     }
   ],
-  "total": 1038
+  "total": 1505
 }

@@ -11,20 +11,29 @@ const here = dirname(fileURLToPath(import.meta.url));
 const breakdown = JSON.parse(readFileSync(join(here, "..", "..", "lib", "data", "ap-lesson-breakdown.json"), "utf8"));
 const outFile = join(here, "..", "..", "lib", "data", "coreNotesSeed.json");
 
-// breakdown courseId -> Core Notes courseId (must match question-bank/courses meta)
-const MAP = {
-  "ap-psychology": "ap-psychology",
-  "ap-world-history": "ap-world-history",
-  "ap-environmental-science": "ap-environmental-science",
-  "ap-us-government": "ap-us-government",
-  "ap-english-language": "ap-english-language",
-  "ap-human-geography": "ap-human-geography",
-  "ap-calculus-bc": "ap-calculus-bc",
-  "ap-statistics": "ap-statistics",
+// breakdown courseId -> Core Notes courseId (must match courses.ts ids).
+// Built dynamically so EVERY subject in the curriculum breakdown that has a
+// matching course gets seeded — not just a hand-picked 11.
+const ALIAS = {
   "ap-cs-a": "ap-computer-science-a",
-  "ap-macroeconomics": "ap-macroeconomics",
-  "ap-microeconomics": "ap-microeconomics",
+  "ap-physics-c-mechanics": "ap-physics-c-mech",
+  "english": "core-english",
+  "chemistry": "core-chemistry",
+  "biology": "core-biology",
+  "physics": "core-physics",
 };
+// Valid Core Notes course ids (from lib/data/courses.ts).
+const VALID = new Set([
+  "ap-biology","ap-chemistry","ap-environmental-science","ap-physics-1","ap-physics-2","ap-physics-c-mech","ap-physics-c-em","ap-calculus-ab","ap-calculus-bc","ap-precalculus","ap-statistics","ap-computer-science-a","ap-cs-principles","ap-us-history","ap-world-history","ap-european-history","ap-macroeconomics","ap-microeconomics","ap-psychology","ap-us-government","ap-comparative-government","ap-human-geography","ap-english-language","ap-english-literature","ap-art-history","ap-music-theory","ap-spanish-language","honors-biology","honors-chemistry","honors-physics","honors-precalculus","honors-english","honors-algebra","honors-us-history","integrated-science","geometry","algebra","core-english","us-history","core-chemistry","core-biology","core-physics",
+]);
+// These already have richer DB-backed lesson_scripts notes — don't double-seed.
+const DB_BACKED = new Set(["ap-biology","ap-chemistry","ap-physics-1","ap-physics-2","ap-physics-c-mech","ap-calculus-ab"]);
+const MAP = {};
+for (const c of breakdown.courses) {
+  const target = ALIAS[c.courseId] || c.courseId;
+  if (!VALID.has(target) || DB_BACKED.has(target)) continue;
+  MAP[c.courseId] = target;
+}
 const QUANT = new Set(["ap-calculus-bc", "ap-statistics", "ap-computer-science-a", "ap-macroeconomics", "ap-microeconomics"]);
 
 // Key formulas per (courseId | unitNumber) — attached to each lesson in the unit.
@@ -146,7 +155,8 @@ for (const [bid, courseId] of Object.entries(MAP)) {
         lessonNum: l.lessonNumber,
         unitName: u.unitTitle,
         title: l.lessonTitle,
-        subtitle: null,
+        subtitle: u.unitTitle,
+        overview: `${u.unitTitle} 단원의 핵심 주제예요. 아래 개념을 정확히 잡고, 빨간 함정을 피하는 데 집중하세요.`,
         objectives,
         ...(formulas ? { formulas } : {}),
         ...(diagram ? { diagram } : {}),
