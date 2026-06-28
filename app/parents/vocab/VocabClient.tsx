@@ -24,6 +24,7 @@ export default function VocabClient() {
           <span style={{ fontSize: 12.5, color: "#94a3b8" }}>※ 단어장(체크·자가 테스트) · 플래시카드(암기) · 오늘의 단어 모드를 지원합니다. 과목은 과학·수학·통계 등 분야별로 묶여 있고, 한국어 핵심노트가 채워질수록 단어장도 자동으로 늘어납니다.</span>
         </>
       }
+      maxWidth="100%"
     >
       <VocabStudy
         theme="light"

@@ -29,8 +29,9 @@ export default function ParentHubShell({
   intro: ReactNode;
   ctaTitle?: string;
   ctaDesc?: string;
-  /** Content column width. Wider (e.g. 1280) for tool-heavy pages like SAT. */
-  maxWidth?: number;
+  /** Content column width. Wider (e.g. 1280) for tool-heavy pages like SAT,
+   *  or "100%" for full-bleed pages like the vocab study grid. */
+  maxWidth?: number | string;
   children: ReactNode;
 }) {
   const router = useRouter();

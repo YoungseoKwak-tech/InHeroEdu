@@ -87,6 +87,17 @@ function dailySubset(terms: VocabTerm[], subject: string): VocabTerm[] {
 
 const termKey = (t: VocabTerm) => t.en.toLowerCase();
 
+// Heuristic difficulty: multi-word terms, long single words, or Latinate/
+// academic morphology read as "hard" — there's no difficulty field in the data,
+// so this lets learners drill the genuinely tough terms (electronegativity,
+// stoichiometry, photoelectron spectroscopy …).
+function isHardTerm(t: VocabTerm): boolean {
+  const en = t.en.trim();
+  if (en.split(/\s+/).length >= 2) return true;
+  if (en.replace(/[^a-zA-Z]/g, "").length >= 11) return true;
+  return /(tion|sion|ance|ence|ity|ization|ological|ogenesis|metric|phoresis|lysis|genesis)$/i.test(en);
+}
+
 export default function VocabStudy({ theme, renderGate }: {
   theme: Theme;
   // When provided, wraps the selected subject's content in a per-subject gate
@@ -101,6 +112,7 @@ export default function VocabStudy({ theme, renderGate }: {
   const [loading, setLoading] = useState(true);
   const [mode, setMode] = useState<"list" | "study" | "daily">("list");
   const [unit, setUnit] = useState<number | null>(null);
+  const [hardOnly, setHardOnly] = useState(false);
   const [hideEn, setHideEn] = useState(false);
   const [hideKnown, setHideKnown] = useState(false);
   const [known, setKnown] = useState<Set<string>>(new Set());
@@ -117,7 +129,7 @@ export default function VocabStudy({ theme, renderGate }: {
 
   useEffect(() => {
     if (!active) return;
-    setLoading(true); setUnit(null); setHideKnown(false);
+    setLoading(true); setUnit(null); setHideKnown(false); setHardOnly(false);
     fetch(`/api/vocab?subject=${encodeURIComponent(active)}`).then((r) => r.json())
       .then((d) => setTerms(d.terms ?? []))
       .catch(() => setTerms([]))
@@ -145,11 +157,14 @@ export default function VocabStudy({ theme, renderGate }: {
     return [...s].sort((a, b) => a - b);
   }, [terms]);
 
+  const hardCount = useMemo(() => terms.reduce((n, t) => n + (isHardTerm(t) ? 1 : 0), 0), [terms]);
+
   const filtered = useMemo(() => {
     let out = unit == null ? terms : terms.filter((t) => t.unit === unit);
+    if (hardOnly) out = out.filter(isHardTerm);
     if (hideKnown) out = out.filter((t) => !known.has(termKey(t)));
     return out;
-  }, [terms, unit, hideKnown, known]);
+  }, [terms, unit, hardOnly, hideKnown, known]);
 
   // Group the (filtered) list by unit for the book layout.
   const grouped = useMemo(() => {
@@ -218,11 +233,23 @@ export default function VocabStudy({ theme, renderGate }: {
 
           {/* Unit filter */}
           {units.length > 0 && (
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 14 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 10 }}>
               <button onClick={() => setUnit(null)} style={unitChip(Pa, unit === null)}>전체</button>
               {units.map((u) => (
                 <button key={u} onClick={() => setUnit(u)} style={unitChip(Pa, unit === u)}>U{u}</button>
               ))}
+            </div>
+          )}
+
+          {/* Difficulty filter */}
+          {hardCount > 0 && (
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 14, alignItems: "center" }}>
+              <span style={{ fontSize: 11.5, fontWeight: 700, color: Pa.muted, marginRight: 2 }}>난이도</span>
+              <button onClick={() => setHardOnly(false)} style={unitChip(Pa, !hardOnly)}>전체</button>
+              <button onClick={() => setHardOnly(true)}
+                style={{ ...unitChip(Pa, hardOnly), ...(hardOnly ? { background: "#fee2e2", color: "#b91c1c", borderColor: "#fca5a5" } : {}) }}>
+                🔴 어려운 단어 {hardCount}
+              </button>
             </div>
           )}
 
