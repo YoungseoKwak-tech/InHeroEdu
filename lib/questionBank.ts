@@ -48,6 +48,8 @@ export interface BankQuestion {
   explanationKorean?: string | null;
   /** A near-variant to offer when the student answers wrong. */
   similar?: { prompt: string; options: BankOption[] } | null;
+  /** easy | medium | hard (authored `questions` rows); null for lesson-derived. */
+  difficulty?: string | null;
 }
 
 const courseMeta = new Map(
@@ -239,6 +241,7 @@ interface AdminQuestionRow {
   correct_answer: string | null;
   explanation: string | null;
   explanation_korean: string | null;
+  difficulty: string | null;
   tags: string[] | null;
 }
 
@@ -286,6 +289,7 @@ function fromAdminRow(row: AdminQuestionRow): BankQuestion | null {
     explanation: row.explanation,
     explanationKorean: row.explanation_korean,
     similar: null,
+    difficulty: row.difficulty ?? null,
   };
 }
 
@@ -368,7 +372,7 @@ async function rebuildBank(): Promise<BankQuestion[]> {
       supabase
         .from("questions")
         .select(
-          "id, subject, topic, question_text, option_a, option_b, option_c, option_d, option_e, correct_answer, explanation, explanation_korean, tags"
+          "id, subject, topic, question_text, option_a, option_b, option_c, option_d, option_e, correct_answer, explanation, explanation_korean, difficulty, tags"
         )
         .order("id", { ascending: true })
     ),
@@ -459,7 +463,7 @@ async function rebuildBankForSubject(variants: string[]): Promise<BankQuestion[]
       supabase
         .from("questions")
         .select(
-          "id, subject, topic, question_text, option_a, option_b, option_c, option_d, option_e, correct_answer, explanation, explanation_korean, tags"
+          "id, subject, topic, question_text, option_a, option_b, option_c, option_d, option_e, correct_answer, explanation, explanation_korean, difficulty, tags"
         )
         .in("subject", variants)
         .order("id", { ascending: true })

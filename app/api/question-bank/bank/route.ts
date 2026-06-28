@@ -140,6 +140,14 @@ export async function GET(req: NextRequest) {
       Number.isFinite(limitParam) && limitParam > 0 ? limitParam : DEFAULT_LIMIT
     );
     const unitParam = parseInt(searchParams.get("unit") ?? "", 10);
+    const difficulty = (searchParams.get("difficulty") ?? "").trim().toLowerCase();
+    // Narrow to a difficulty (easy/medium/hard). Falls back to the unfiltered
+    // set if the filter would empty the pane (e.g. a subject with no tagged rows).
+    const byDifficulty = <T extends { difficulty?: string | null }>(arr: T[]): T[] => {
+      if (!difficulty) return arr;
+      const f = arr.filter((q) => (q.difficulty ?? "").toLowerCase() === difficulty);
+      return f.length > 0 ? f : arr;
+    };
 
     // Fast path for ANY locked browse (both the public /question-bank and the
     // /parents portal): serve the build-time preview snapshot instead of
@@ -197,9 +205,11 @@ export async function GET(req: NextRequest) {
       .map(([unit, count]) => ({ unit, count }))
       .sort((a, b) => a.unit - b.unit);
 
-    const questions = Number.isFinite(unitParam)
-      ? allInSubject.filter((q) => q.unit === unitParam)
-      : allInSubject;
+    const questions = byDifficulty(
+      Number.isFinite(unitParam)
+        ? allInSubject.filter((q) => q.unit === unitParam)
+        : allInSubject
+    );
 
     // Accessible subjects (paid order OR credit unlock) come through untouched.
     // For everything else the first few questions per subject stay answerable as

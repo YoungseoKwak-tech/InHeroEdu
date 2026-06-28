@@ -123,13 +123,19 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
     if (diff) params.set("difficulty", diff);
     if (type) params.set("type", type);
 
-    authFetch(`/api/question-bank?${params}`)
+    // Fresh session whenever the subject/difficulty changes — otherwise a shorter
+    // re-filtered set could leave currentIdx out of range.
+    setLoading(true); setError(""); setQuestions([]); setCurrentIdx(0); setPhase("practice"); setAttempts([]);
+
+    // Hard timeout so a hung request can never leave an infinite spinner.
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 12000);
+    let done = false;
+
+    authFetch(`/api/question-bank?${params}`, { signal: controller.signal })
       .then(async (r) => {
-        const data = await r.json();
-        if (!r.ok) {
-          setError(questionBankAccessMessage(data.reason));
-          return null;
-        }
+        const data = await r.json().catch(() => null);
+        if (!r.ok) { setError(questionBankAccessMessage(data?.reason)); return null; }
         return data;
       })
       .then((data) => {
@@ -137,8 +143,10 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
         if (!data.questions?.length) setError("No questions available.");
         setQuestions(data.questions ?? []);
       })
-      .catch(() => setError("Could not load questions."))
-      .finally(() => setLoading(false));
+      .catch(() => setError(controller.signal.aborted ? "시간이 초과됐어요. 다시 시도해 주세요." : "Could not load questions."))
+      .finally(() => { done = true; clearTimeout(timer); setLoading(false); });
+
+    return () => { clearTimeout(timer); if (!done) controller.abort(); };
   }, [subjectId, searchParams]);
 
   useEffect(() => {
@@ -359,6 +367,28 @@ function PracticeInner({ subjectId }: { subjectId: string }) {
               <span style={{ color: FAINT, marginLeft: 5 }}>Accuracy</span>
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Difficulty switcher — updates the URL so the set re-loads at that level */}
+      <div style={{ borderBottom: `1px solid ${BORDER}`, background: "#fbfcfe", padding: "9px clamp(16px,3vw,40px)" }}>
+        <div style={{ maxWidth: 880, margin: "0 auto", display: "flex", alignItems: "center", gap: 7, flexWrap: "wrap" }}>
+          <span style={{ fontSize: 11.5, fontWeight: 800, color: FAINT, marginRight: 2 }}>난이도</span>
+          {([["", "전체"], ["easy", "쉬움"], ["medium", "보통"], ["hard", "어려움"]] as const).map(([val, label]) => {
+            const active = (searchParams.get("difficulty") ?? "") === val;
+            return (
+              <button key={val || "all"} onClick={() => {
+                const p = new URLSearchParams(Array.from(searchParams.entries()));
+                if (val) p.set("difficulty", val); else p.delete("difficulty");
+                router.replace(`/question-bank/${subjectId}/practice?${p.toString()}`);
+              }}
+                style={{ fontSize: 12, fontWeight: 700, cursor: "pointer", borderRadius: 999, padding: "5px 13px",
+                  border: `1px solid ${active ? GREEN : BORDER}`, background: active ? "rgba(0,184,95,0.10)" : "#fff",
+                  color: active ? "#047a45" : SUB }}>
+                {label}
+              </button>
+            );
+          })}
         </div>
       </div>
 
