@@ -12,6 +12,19 @@
 
 export interface SatVocabTerm { en: string; ko: string; def: string; unit?: number | null }
 
+// Expansion batches — themed tiers (units 7–16). Duplicate headwords across
+// batches are collapsed downstream by lib/vocab.ts (dedup by `en`, first wins).
+import { SAT_BATCH_1 } from "./vocabSat/batch1";   // academic verbs
+import { SAT_BATCH_2 } from "./vocabSat/batch2";   // character adjectives
+import { SAT_BATCH_3 } from "./vocabSat/batch3";   // rhetoric & language
+import { SAT_BATCH_4 } from "./vocabSat/batch4";   // emotion & mood
+import { SAT_BATCH_5 } from "./vocabSat/batch5";   // criticism & conflict
+import { SAT_BATCH_6 } from "./vocabSat/batch6";   // praise & virtue
+import { SAT_BATCH_7 } from "./vocabSat/batch7";   // science & change
+import { SAT_BATCH_8 } from "./vocabSat/batch8";   // society & politics
+import { SAT_BATCH_9 } from "./vocabSat/batch9";   // abstract nouns
+import { SAT_BATCH_10 } from "./vocabSat/batch10"; // high-yield misc
+
 // ── Tier 1 — most common SAT words ──────────────────────────────────────────
 const TIER1: SatVocabTerm[] = [
   { en: "abate", ko: "약해지다, 줄다", def: "강도·정도가 점점 줄어들다." },
@@ -283,4 +296,14 @@ export const SAT_VOCAB: SatVocabTerm[] = [
   ...TIER4.map((t) => ({ ...t, unit: 4 })),
   ...TIER5.map((t) => ({ ...t, unit: 5 })),
   ...TIER6.map((t) => ({ ...t, unit: 6 })),
+  ...SAT_BATCH_1.map((t) => ({ ...t, unit: 7 })),
+  ...SAT_BATCH_2.map((t) => ({ ...t, unit: 8 })),
+  ...SAT_BATCH_3.map((t) => ({ ...t, unit: 9 })),
+  ...SAT_BATCH_4.map((t) => ({ ...t, unit: 10 })),
+  ...SAT_BATCH_5.map((t) => ({ ...t, unit: 11 })),
+  ...SAT_BATCH_6.map((t) => ({ ...t, unit: 12 })),
+  ...SAT_BATCH_7.map((t) => ({ ...t, unit: 13 })),
+  ...SAT_BATCH_8.map((t) => ({ ...t, unit: 14 })),
+  ...SAT_BATCH_9.map((t) => ({ ...t, unit: 15 })),
+  ...SAT_BATCH_10.map((t) => ({ ...t, unit: 16 })),
 ];
