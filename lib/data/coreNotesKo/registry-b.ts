@@ -133,6 +133,10 @@ import { IB_CHEMISTRY_U9_KO } from "./ib-chemistry-u9";
 import { IB_CHEMISTRY_U10_KO } from "./ib-chemistry-u10";
 import { IB_CHEMISTRY_U11_KO } from "./ib-chemistry-u11";
 
+// Honors Chemistry — Unit 5·6 (29강 "why" 커리큘럼 완성: U5 Kinetics & Equilibrium, U6 Electrochemistry)
+import { HONORS_CHEMISTRY_U5_KO } from "./honors-chemistry-u5";
+import { HONORS_CHEMISTRY_U6_KO } from "./honors-chemistry-u6";
+
 export const REGISTRY_B: CoreNote[] = [
   ...HONORS_BIOLOGY_U1_KO,
   ...HONORS_CHEMISTRY_U1_KO,
@@ -170,6 +174,8 @@ export const REGISTRY_B: CoreNote[] = [
   ...HONORS_ENGLISH_9_U4_KO,
   ...HONORS_WORLD_HISTORY_U4_KO,
   ...HONORS_US_HISTORY_U4_KO,
+  ...HONORS_CHEMISTRY_U5_KO,
+  ...HONORS_CHEMISTRY_U6_KO,
   ...IB_BIOLOGY_U1_KO,
   ...IB_CHEMISTRY_U1_KO,
   ...IB_PHYSICS_U1_KO,

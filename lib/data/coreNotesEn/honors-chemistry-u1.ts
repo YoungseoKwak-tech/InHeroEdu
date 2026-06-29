@@ -1,7 +1,8 @@
 /**
- * Core Notes English version — Honors Chemistry Unit 1 (Matter, Measurement & Atomic Structure).
- * Faithful English translation of the Korean storytelling Core Notes, IB-EN depth.
+ * Core Notes English version — Honors Chemistry Unit 1 (Atomic Structure).
+ * Faithful English rendering of the Korean storytelling Core Notes, IB-EN depth.
  * Terms are given in English with precise, exam-ready definitions.
+ * Source: lib/data/authored-corenotes/honors-chemistry.json, unit 1 (lessonNum 1-5).
  */
 import type { CoreNote } from "@/lib/coreNotes";
 
@@ -13,71 +14,50 @@ export const HONORS_CHEMISTRY_U1_EN: CoreNote[] = [
     emoji: "⚗️",
     unit: 1,
     lessonNum: 1,
-    unitName: "Matter, Measurement & Atomic Structure",
-    title: "Classification and Changes of Matter",
-    subtitle: "The difference between elements, compounds, and mixtures — and how to distinguish physical from chemical change",
+    unitName: "Atomic Structure",
+    title: "Why Atoms Are Mostly Empty Space (And What That Means)",
+    subtitle: "Rutherford's gold-foil experiment, the nuclear atom, and why almost all of an atom's volume is empty",
     overview:
-      "The first question of chemistry is 'what is the world made of?' All matter divides into pure substances and mixtures, and pure substances divide again into elements and compounds. Mastering this classification scheme gives you the eye to read the periodic table and chemical formulae. Adding physical change and chemical change to that framework lets you systematically analyze every phenomenon you observe in the laboratory. In this lesson the goal is not to memorize the categories but to understand 'why we divide them this way' at the mechanistic level.",
+      "Before 1911 the atom was pictured as a uniform 'plum pudding' of positive charge studded with electrons. Rutherford fired alpha particles at thin gold foil and found that a tiny fraction bounced almost straight back — impossible unless the positive charge and nearly all the mass were concentrated in a minuscule, dense nucleus. The nucleus occupies about 1/100,000 of the atom's diameter, so the atom is overwhelmingly empty space in which electrons occupy the vast outer region. This single picture explains why matter is both mostly 'nothing' and yet feels solid: it is electron–electron repulsion, not physical contact, that makes solids resist.",
     objectives: [
-      "Classify matter as element, compound, homogeneous mixture, or heterogeneous mixture, and explain the criterion for each category at the particle level",
-      "Distinguish physical properties from chemical properties with examples, and explain which experiment measures each property",
-      "Decide whether a change is physical or chemical based on energy change and the formation of a new substance",
-      "Interpret the indicators of chemical change (gas evolution, color change, precipitate formation, energy change) by connecting them to experimental observations",
+      "Describe Rutherford's gold-foil experiment and its conclusion",
+      "Compare the plum-pudding model with the nuclear model",
+      "Explain why the atom is mostly empty space yet matter feels solid",
+      "Relate nuclear size and density to the atom as a whole",
+    ],
+    formulas: [
+      "Nucleus diameter ≈ 10⁻¹⁵ m; atom diameter ≈ 10⁻¹⁰ m (≈ 1:100,000)",
+      "Nuclear density ≈ 10¹⁷ kg/m³ (essentially all the atom's mass)",
     ],
     sections: [
       {
-        title: "Classifying Matter — Elements, Compounds, and Mixtures",
-        subtitle: "How particle-level differences become the basis of classification",
+        title: "The Gold-Foil Experiment and the Nuclear Atom",
+        subtitle: "How one surprising result rewrote the model of the atom",
+        body: "Rutherford expected alpha particles to pass straight through the foil if positive charge were spread evenly (the plum-pudding model). Instead, about 1 in 8,000 deflected by more than 90°. He reasoned that only a tiny, dense, positively charged core could repel a fast, massive alpha particle so violently. This core — the nucleus — holds the protons (and later, neutrons) and essentially all the atom's mass, while electrons occupy the enormous surrounding volume.",
+        keyIdea: "Most alpha particles passed through → the atom is mostly empty; a few bounced back → a tiny dense nucleus exists.",
         terms: [
-          {
-            term: "Element",
-            def: "A pure substance that cannot be broken down into simpler substances by chemical means. It consists of only one kind of atom, and each cell of the periodic table corresponds to one element. Examples: oxygen (O₂), iron (Fe), gold (Au).",
-          },
-          {
-            term: "Compound",
-            def: "A pure substance in which two or more elements are chemically bonded in a fixed mass ratio. Its properties differ completely from those of its constituent elements, and it can be separated into those elements only by chemical means. Examples: water (H₂O), salt (NaCl), carbon dioxide (CO₂).",
-          },
-          {
-            term: "Homogeneous mixture",
-            def: "A mixture of two or more pure substances whose composition is uniform throughout, so the components cannot be distinguished by eye. A solution is the classic example, and its components can be separated by physical methods such as distillation or evaporation.",
-          },
-          {
-            term: "Heterogeneous mixture",
-            def: "A mixture whose components are not uniformly distributed, so the composition varies from region to region. Suspensions and colloids belong here, and the components can be separated by filtration, centrifugation, and similar methods. Examples: sand + water, salad dressing.",
-          },
+          { term: "Nucleus", def: "The tiny, dense, positively charged center of an atom containing protons and neutrons; holds ~99.9% of the mass." },
+          { term: "Alpha particle", def: "A helium nucleus (2 protons + 2 neutrons), positively charged; used as the 'probe' in Rutherford's experiment." },
+          { term: "Plum-pudding model", def: "Thomson's earlier model: a diffuse positive 'pudding' with embedded electrons — disproved by the deflections." },
+          { term: "Nuclear model", def: "Rutherford's model: a dense central nucleus surrounded by mostly empty space where electrons move." },
         ],
         traps: [
-          "The key criteria that distinguish a compound from a mixture are 'fixed composition' and 'chemical bonding.' Water (H₂O) is always hydrogen : oxygen = 1 : 8 by mass, but salt water's composition changes with how much salt is added. Also, the components of a mixture keep their original properties, whereas the elements in a compound lose theirs. Don't assume 'two elements combined → automatically a compound'; confirm a fixed composition and new properties.",
-          "Do not confuse an element with an elemental substance. The element oxygen refers to element number 8 on the periodic table, while the elemental substance O₂ is matter made of only oxygen atoms. Graphite and diamond are both the element carbon, but their structures differ so their properties differ completely — this relationship is called allotropy.",
+          "Students say the deflections prove electrons are heavy — it is the dense NUCLEUS, not electrons, that causes back-scattering.",
+          "'Empty space' does not mean 'nothing happens there' — electrons and their fields fill it.",
         ],
-        example:
-          "Consider how to decide whether water (H₂O) is a compound or a mixture. Any sample of pure water has a fixed hydrogen : oxygen mass ratio of 1 : 8 (fixed composition), and electrolysis decomposes it into hydrogen gas and oxygen gas — components with completely different properties (chemical separation). Seawater, by contrast, has a different salt concentration in every sample (variable composition), and the salt can be separated by evaporation alone (physical separation). Therefore water is a compound and seawater is a mixture.",
       },
       {
-        title: "Physical Change and Chemical Change",
-        subtitle: "Whether the identity of the substance changes is the line that separates the two",
+        title: "Why Solids Feel Solid",
+        subtitle: "Repulsion, not contact",
+        body: "If atoms are mostly empty, why can't your hand pass through a table? Because when electron clouds approach, they repel each other electrostatically, and the Pauli exclusion principle forbids them from overlapping. 'Touch' is really the force of electron–electron repulsion. This is why density depends on how tightly packed and how massive the nuclei are, not on filling space with solid matter.",
+        keyIdea: "Solidity comes from electromagnetic repulsion between electron clouds, not from atoms physically touching.",
         terms: [
-          {
-            term: "Physical property",
-            def: "A property that can be measured without changing the chemical composition of the substance. Density, melting point, boiling point, color, hardness, and electrical conductivity belong here. On exams the test is: 'can it be observed without a chemical reaction?'",
-          },
-          {
-            term: "Chemical property",
-            def: "A property that appears when a substance is converted into a different substance through a chemical change. Flammability, reactivity, and tendency to oxidize belong here. Measuring the property itself changes the substance.",
-          },
-          {
-            term: "Physical change",
-            def: "A change in which the chemical composition (the kinds of molecules/atoms and their bonds) is unchanged and only shape or state changes. Boiling, freezing, melting, breaking, and dissolving belong here. The original substance can often be recovered.",
-          },
-          {
-            term: "Chemical change",
-            def: "A change in which bonds between atoms break and re-form to create a new substance different from the original. Combustion, oxidation, fermentation, and neutralization belong here; gas evolution, color change, precipitate formation, and energy exchange are indicators of chemical change.",
-          },
+          { term: "Electrostatic repulsion", def: "The outward force between like charges; keeps electron clouds of different atoms from overlapping." },
+          { term: "Density", def: "Mass per unit volume; for atoms it reflects nuclear mass and packing, not 'solid filling' of space." },
         ],
         traps: [
-          "Sugar dissolving in water is a physical change — the sugar molecules (C₁₂H₂₂O₁₁) remain intact and can be recovered by evaporation. However, sugar caramelizing on heating is a chemical change in which new compounds form. When you see the word 'dissolve,' don't automatically declare it a physical change; check what is dissolving and whether a new substance forms.",
+          "Don't claim atoms 'touch' — repulsion stops them before contact.",
         ],
-        example: null,
       },
     ],
   },
@@ -88,79 +68,55 @@ export const HONORS_CHEMISTRY_U1_EN: CoreNote[] = [
     emoji: "⚗️",
     unit: 1,
     lessonNum: 2,
-    unitName: "Matter, Measurement & Atomic Structure",
-    title: "Measurement, Significant Figures, and Dimensional Analysis",
-    subtitle: "The SI system, the rules of significant figures, and dimensional analysis as a systematic tool for unit conversion",
+    unitName: "Atomic Structure",
+    title: "Why Electrons Exist in Energy Levels, Not Orbits",
+    subtitle: "From Bohr's orbits to the quantum-mechanical model: orbitals as probability clouds, the four quantum numbers, and electron configuration",
     overview:
-      "Chemistry is a quantitative science — an experimental result is meaningless if you cannot express it as a number. This lesson covers three essentials: recording measurements accurately using SI units, communicating the precision of a measurement using significant figures, and converting units using dimensional analysis. These three tools reappear throughout all of Honors Chemistry, so mastering them perfectly now becomes the foundation of every later calculation.",
+      "Bohr pictured electrons circling the nucleus on fixed orbits, which explained hydrogen's line spectrum but failed for every multi-electron atom. The quantum-mechanical model replaces orbits with orbitals — regions where an electron is most likely to be found (probability clouds). An electron's state is described by four quantum numbers (n, l, mₗ, mₛ), and electrons fill orbitals according to the Aufbau principle, Hund's rule, and the Pauli exclusion principle. The notorious trap is filling order: 4s fills before 3d (lower energy) even though 3d is written before 4s in the final configuration.",
     objectives: [
-      "Memorize the 7 SI base units and the common prefixes (nano-, micro-, milli-, centi-, kilo-, mega-) and apply them to unit conversion",
-      "Apply the rules for significant figures to count the significant figures of a measurement correctly, and apply the different rounding rules for addition/subtraction versus multiplication/division",
-      "Use dimensional analysis (the unit-factor method) to carry out multi-step unit conversions without error",
-      "Calculate density from mass and volume, and use density to identify a substance or find its volume or mass",
-      "Distinguish accuracy from precision in the context of experimental data",
+      "Contrast Bohr's model with the quantum-mechanical model",
+      "Describe orbitals as probability clouds",
+      "State the meaning of the four quantum numbers (n, l, mₗ, mₛ)",
+      "Write electron configurations using Aufbau, Hund, and Pauli rules",
     ],
     formulas: [
-      "Density = mass / volume  →  D = m / V",
-      "Celsius → Kelvin: K = °C + 273.15",
-      "Percent error = |experimental value − accepted value| / accepted value × 100",
+      "Principal quantum number n = 1, 2, 3, … (energy-level size)",
+      "Angular momentum l = 0 … n−1 (s=0, p=1, d=2, f=3)",
+      "Max electrons per orbital = 2; per subshell = 2(2l+1)",
+      "Filling order (diagonal rule): 1s 2s 2p 3s 3p 4s 3d 4p …",
     ],
     sections: [
       {
-        title: "The SI System and Density",
-        subtitle: "The common language of measurement: base and derived units, and density as a tool for identifying substances",
+        title: "From Bohr Orbits to Probability Clouds",
+        subtitle: "Why we can no longer say where an electron is",
+        body: "Bohr's circular orbits explained hydrogen's spectrum but collapsed for atoms with more than one electron. Heisenberg's uncertainty principle states we cannot know an electron's exact position and momentum simultaneously, so we describe instead a region of high probability — an orbital. Each orbital has a characteristic shape (s = spherical, p = dumbbell, d = cloverleaf) and can hold at most two electrons.",
+        keyIdea: "An orbital is not a path but a 'probability cloud' — where the electron is likely to be found.",
         terms: [
-          {
-            term: "SI (International System of Units)",
-            def: "The international standard system of units used throughout science. It consists of 7 base units (length m, mass kg, time s, temperature K, electric current A, amount of substance mol, luminous intensity cd) and derived units built from their combinations.",
-          },
-          {
-            term: "Density",
-            def: "Mass per unit volume (D = m/V). Written in g/mL or g/cm³, it has a value unique to each substance and is used to identify pure substances. As temperature rises, volume increases, so density generally decreases (water is the exception: maximum density at 4 °C).",
-          },
-          {
-            term: "Accuracy",
-            def: "A measure of how close a measured value is to the accepted (true) value. The smaller the systematic error, the higher the accuracy.",
-          },
-          {
-            term: "Precision",
-            def: "A measure of how closely repeated measurements cluster together. The smaller the random error, the higher the precision. High precision can still go with low accuracy.",
-          },
+          { term: "Bohr model", def: "Electrons travel fixed circular orbits; works only for hydrogen-like (one-electron) species." },
+          { term: "Orbital", def: "A region of space where an electron is most likely to be found; holds at most 2 electrons." },
+          { term: "Uncertainty principle", def: "Heisenberg's rule that position and momentum cannot both be known exactly at once." },
+          { term: "Probability cloud", def: "The visual representation of an orbital — denser where the electron is more likely." },
         ],
         traps: [
-          "Mass and weight are different. Mass is the amount of matter (kg, invariant); weight is the force gravity exerts on that mass (N = kg·m/s²) and varies with location. In chemistry, even when we say 'weigh,' what we measure is mass. On exams it is more accurate to write 'mass' rather than 'weight.'",
-          "Always check the units in density problems. The density of a gas is usually given in g/L, while liquids and solids use g/mL (= g/cm³). Knowing that 1 mL = 1 cm³ makes conversions simple, but if a problem mixes units, unify them before you start calculating.",
+          "Orbitals are not 2-D paths; they are 3-D probability regions.",
+          "Bohr's model is not 'wrong everywhere' — it still nails hydrogen's line spectrum.",
         ],
-        example:
-          "Consider identifying a substance using density. An unknown metal chunk has a mass of 89.6 g, and when placed in a graduated cylinder the volume rose from 48.0 mL to 56.0 mL. The volume change = 56.0 − 48.0 = 8.0 mL, so density D = 89.6 g ÷ 8.0 mL = 11.2 g/mL. Lead's density is 11.3 g/mL, so the metal is most likely lead. Watch significant figures: 8.0 mL has 2 significant figures, so the answer should be rounded to 2 figures, 11 g/mL.",
       },
       {
-        title: "Significant Figures and Dimensional Analysis",
-        subtitle: "How to embed measurement uncertainty in a number, and a strategy that prevents errors in unit conversion",
+        title: "Quantum Numbers and Electron Configuration",
+        subtitle: "Four addresses for every electron, and the order they fill",
+        body: "Four quantum numbers locate an electron: n (level), l (subshell shape), mₗ (orientation), and mₛ (spin, ±½). Electrons fill from lowest energy up (Aufbau), occupy degenerate orbitals singly before pairing (Hund), and no two electrons share all four numbers (Pauli). The classic exam trap: 4s (lower energy) fills before 3d, so potassium is [Ar]4s¹, but once written, the 3d block is listed before 4s in numerical order.",
+        keyIdea: "Fill by energy (4s before 3d), but write by level number (3d before 4s).",
         terms: [
-          {
-            term: "Significant figures",
-            def: "The number of reliable digits in a measured value. Nonzero digits are always significant; zeros between two nonzero digits are significant; trailing zeros after a decimal point are significant. Leading zeros are not significant.",
-          },
-          {
-            term: "Significant-figure rule for multiplication/division",
-            def: "The number of significant figures in the result equals the smallest number of significant figures among the values used. Example: 2.5 × 3.42 = 8.6 (2 figures), 12.11 ÷ 4.0 = 3.0 (2 figures).",
-          },
-          {
-            term: "Significant-figure rule for addition/subtraction",
-            def: "The number of decimal places in the result equals the fewest decimal places among the values used. Example: 12.52 + 349.0 + 8.24 = 369.8 (to the first decimal place).",
-          },
-          {
-            term: "Dimensional analysis",
-            def: "A method of canceling units by multiplying by conversion factors. Arranging each fraction so the desired unit is in the numerator and the unit to cancel is in the denominator systematically prevents unit errors.",
-          },
+          { term: "Aufbau principle", def: "Electrons occupy the lowest-energy available orbital first." },
+          { term: "Hund's rule", def: "Within equal-energy orbitals, electrons spread out singly (parallel spins) before pairing." },
+          { term: "Pauli exclusion principle", def: "No two electrons in an atom can have the same set of four quantum numbers." },
+          { term: "Valence electrons", def: "The outermost-shell electrons that determine chemical behavior." },
         ],
         traps: [
-          "Misapplying the significant-figure rules to addition is extremely common. Addition and subtraction round based on 'decimal places,' not on 'number of significant figures.' For example, in 1000 + 1.245, the 1000 has 1 significant figure but 0 decimal places, so the result must be 1001 (no decimals). Mixing the two rules loses marks.",
-          "Flipping a conversion factor the wrong way is a frequent exam error in dimensional analysis. Before converting, always fix the direction — 'the final unit must remain in the numerator' — then place the factors. Checking that the units cancel to leave only the desired unit catches calculation mistakes.",
+          "Writing 3d before 4s when FILLING — energetically 4s fills first.",
+          "Forgetting Hund's rule: don't pair electrons in p or d until each orbital has one.",
         ],
-        example:
-          "Do a multi-step conversion with dimensional analysis: convert a car's speed of 65 miles/hour into m/s. Conversion factors: 1 mile = 1609 m, 1 hour = 3600 s. Calculation: 65 miles/hr × (1609 m / 1 mile) × (1 hr / 3600 s) = 65 × 1609 / 3600 m/s ≈ 29 m/s. Significant figures: 65 has 2 figures, so the result is 2 figures, 29 m/s. Writing the units and crossing them off as they cancel secures partial credit safely.",
       },
     ],
   },
@@ -171,107 +127,164 @@ export const HONORS_CHEMISTRY_U1_EN: CoreNote[] = [
     emoji: "⚗️",
     unit: 1,
     lessonNum: 3,
-    unitName: "Matter, Measurement & Atomic Structure",
-    title: "Atomic Structure and Introduction to the Periodic Table",
-    subtitle: "Subatomic particles, isotopes, average atomic mass — and the principle by which elements are arranged on the periodic table",
+    unitName: "Atomic Structure",
+    title: "How Electron Configuration Predicts Periodic Trends",
+    subtitle: "Effective nuclear charge, shielding, and how configuration explains atomic radius, ionization energy, and electronegativity",
     overview:
-      "The atom is the basic unit of chemistry. Our understanding of atomic structure has evolved from Dalton's atomic theory in the 19th century to the modern quantum model, but the core for Honors Chemistry is clear: how the three particles — protons, neutrons, and electrons — determine an atom's identity (atomic number) and mass (mass number), and how isotopes (same element, different neutron counts) contribute to the average atomic mass. These concepts form the basis for reading the periodic table, which then leads to electron configuration and periodic trends.",
+      "The periodic table is organized so that elements in a column share the same valence configuration and therefore similar properties. Two competing effects — increasing nuclear charge (pull in) and electron shielding (push out) — set the effective nuclear charge (Z_eff) felt by valence electrons. Z_eff explains the major trends: across a period radius shrinks and ionization energy/electronegativity rise; down a group radius grows and ionization energy/electronegativity fall.",
     objectives: [
-      "Compare the mass, charge, and location of protons, neutrons, and electrons, and explain the role each plays in determining atomic number and mass number",
-      "Calculate the number of neutrons from atomic number (Z) and mass number (A), and find the number of electrons in an ion",
-      "State the definition of isotopes and calculate an element's average atomic mass from each isotope's natural abundance and mass",
-      "Locate periods, groups, metals, nonmetals, and metalloids on the periodic table, and predict why elements in the same group have similar chemical properties by linking it to electron configuration",
-      "Describe, in chronological order, the key experiments and revisions of the Dalton, Thomson, Rutherford, Bohr, and modern atomic models",
+      "Define effective nuclear charge and shielding",
+      "Explain periodic trends in atomic radius",
+      "Explain trends in ionization energy and electronegativity",
+      "Connect valence configuration to an element's group behavior",
     ],
     formulas: [
-      "Mass number A = number of protons (Z) + number of neutrons (N)",
-      "Number of neutrons N = A − Z",
-      "Average atomic mass = Σ (isotope mass × fractional natural abundance)",
-      "Number of electrons in an ion = Z − ionic charge",
+      "Z_eff ≈ Z (protons) − S (shielding electrons)",
+      "Atomic radius: ↓ across a period, ↑ down a group",
+      "Ionization energy & electronegativity: ↑ across a period, ↓ down a group",
     ],
     sections: [
       {
-        title: "Subatomic Particles and the Identity of the Atom",
-        subtitle: "How protons, neutrons, and electrons determine the kind of element and its ions",
+        title: "Effective Nuclear Charge and Shielding",
+        subtitle: "The tug-of-war that sets every trend",
+        body: "Valence electrons feel less than the full nuclear charge because inner (core) electrons shield them. The net pull is the effective nuclear charge, Z_eff ≈ (protons) − (core electrons). Across a period, protons increase but shielding stays roughly constant, so Z_eff rises and electrons are pulled tighter. Down a group, a new shell is added each time, so even though Z grows, the added distance and shielding dominate.",
+        keyIdea: "Z_eff rises across a period (tighter atoms) and the added shells dominate down a group (looser atoms).",
         terms: [
-          {
-            term: "Atomic number (Z)",
-            def: "The number of protons in the nucleus. It is the sole criterion that determines an element's chemical identity, and the same element always has the same Z. In a neutral atom, Z = number of electrons.",
-          },
-          {
-            term: "Mass number (A)",
-            def: "The sum of the protons and neutrons in the nucleus (A = Z + N). The electron's mass is negligibly small, so most of an atom's mass is concentrated in the nucleus. Nuclear symbol notation: ᴬzX (e.g. ¹²₆C is carbon-12).",
-          },
-          {
-            term: "Ion",
-            def: "An atom or molecule that has gained or lost electrons and therefore carries a charge. Losing electrons makes a cation, gaining them makes an anion. Number of electrons in an ion = Z − ionic charge (e.g. Na⁺ has 10 electrons, Cl⁻ has 18 electrons).",
-          },
-          {
-            term: "Isotope",
-            def: "Atoms of the same element with the same atomic number (protons) but different neutron counts, and therefore different mass numbers. Their chemical properties are identical, but the difference in mass causes slight differences in physical properties such as density and reaction rate. Examples: ¹H, ²H (deuterium), ³H (tritium).",
-          },
+          { term: "Effective nuclear charge (Z_eff)", def: "The net positive pull a valence electron actually experiences after shielding." },
+          { term: "Shielding", def: "The reduction of nuclear pull on outer electrons caused by inner-shell electrons." },
+          { term: "Atomic radius", def: "A measure of atom size; reflects how tightly Z_eff holds the outermost electrons." },
         ],
         traps: [
-          "The atomic number (Z) defines the element — changing the neutron count does not change the element. Carbon-12 and carbon-14 have different mass numbers but are both carbon (Z = 6). On the other hand, an atom with 6 neutrons but 7 protons is nitrogen (Z = 7). Don't fall for the trap that 'changing the neutrons makes a different element.'",
-          "Confusing ions with isotopes is common. An ion has a changed number of electrons giving it a charge; an isotope has a different number of neutrons giving it a different mass. ²³Na and ²⁴Na are isotopes of each other, while Na and Na⁺ are an atom and its ion.",
+          "Z_eff is not just the number of protons — subtract the shielding core electrons.",
+          "Down a group radius increases even though Z increases, because a whole new shell is added.",
         ],
-        example:
-          "Analyze the isotopes of chlorine (Cl). On the periodic table Cl has atomic number 17. ³⁵Cl has A = 35, so neutrons = 35 − 17 = 18; ³⁷Cl has neutrons = 37 − 17 = 20. Both isotopes have 17 protons so both are Cl, but their neutron counts differ. The Cl⁻ ion (chloride) gained 1 electron, so its electron count = 17 + 1 = 18. When a question asks about ³⁵Cl versus Cl⁻, be careful not to mix up the nuclear symbol notation with the ion notation.",
       },
       {
-        title: "Average Atomic Mass and Introduction to the Periodic Table",
-        subtitle: "How isotopic abundance sets the atomic mass, and how the periodic table arranges the elements",
+        title: "Ionization Energy and Electronegativity",
+        subtitle: "Why metals lose and nonmetals grab",
+        body: "Ionization energy is the energy to remove an electron; electronegativity is the tendency to attract a bonding electron. Both track Z_eff: high Z_eff (top-right of the table, e.g. F, O) means electrons are held tightly, so ionization energy and electronegativity are high. Low Z_eff (bottom-left, e.g. Cs) means electrons are loosely held, so metals readily lose them. This is the configuration-level reason for metallic vs nonmetallic behavior.",
+        keyIdea: "High Z_eff (top-right) → hard to remove, strong to attract; low Z_eff (bottom-left) → easy to lose.",
         terms: [
-          {
-            term: "Average atomic mass",
-            def: "The weighted average of the atomic masses of the naturally occurring isotopes, each weighted by its fractional natural abundance. The unit is the atomic mass unit (amu or u). The atomic mass shown on the periodic table is this weighted average.",
-          },
-          {
-            term: "Period",
-            def: "A horizontal row of the periodic table. Elements in the same period have the same number of electron shells (energy levels). The elements through period 3 (Na–Ar) are frequently dealt with in Honors Chemistry.",
-          },
-          {
-            term: "Group (Family)",
-            def: "A vertical column of the periodic table (1–18). Elements in the same group have the same number of valence electrons, so their chemical properties are similar. Group 1 is the alkali metals, group 17 the halogens, and group 18 the noble gases.",
-          },
-          {
-            term: "Metal / Nonmetal / Metalloid",
-            def: "A staircase line crossing the periodic table separates three regions. Metals (left/bottom): luster, electrical conductivity, ductility. Nonmetals (upper right): electrical insulators, brittle. Metalloids (adjacent to the staircase): semiconducting properties, including silicon (Si) and germanium (Ge).",
-          },
+          { term: "Ionization energy", def: "Energy required to remove the most loosely held electron from a gaseous atom." },
+          { term: "Electronegativity", def: "A relative measure of how strongly an atom attracts shared bonding electrons." },
         ],
         traps: [
-          "In average-atomic-mass calculations you must convert abundance into a fraction (decimal). If an abundance is given as 75.77%, change it to 0.7577 before multiplying. Multiplying by the percentage as-is makes the atomic mass 100 times too large. Also check your work by confirming the result falls between the masses of the isotopes.",
-          "Don't get confused by the periodic table numbering systems. The old naming (IA, IIA, etc.) and the current IUPAC 1–18 system are used interchangeably. Honors exams generally use 1–18, but remembering 'Group IA = Group 1 = alkali metals' lets you handle any notation.",
+          "Ionization energy generally rises across a period but dips at small steps (e.g. B<Be, O<N) due to subshell stability.",
+          "Noble gases are not assigned electronegativity in the usual sense — they rarely bond.",
         ],
-        example:
-          "Calculate the average atomic mass of chlorine (Cl). In nature ³⁵Cl is 75.77% and ³⁷Cl is 24.23%. Average atomic mass = (34.969 amu × 0.7577) + (36.966 amu × 0.2423) = 26.496 + 8.957 = 35.453 amu. This matches the Cl atomic mass on the periodic table (35.45 amu). The simple average of the two isotope masses (35, 37) is 36, but the actual atomic mass 35.45 is closer to 35 because ³⁵Cl is far more abundant — that is the meaning of a weighted average.",
+      },
+    ],
+  },
+  {
+    lessonId: "honors-chemistry-u1-l4",
+    courseId: "honors-chemistry",
+    subjectLabel: "Honors Chemistry",
+    emoji: "⚗️",
+    unit: 1,
+    lessonNum: 4,
+    unitName: "Atomic Structure",
+    title: "What Isotopes and Atomic Mass Really Tell Us",
+    subtitle: "Isotopes, mass number vs atomic number, and how weighted average gives the atomic mass on the periodic table",
+    overview:
+      "All atoms of an element share the same number of protons (atomic number, Z) but can differ in neutrons, giving isotopes with different mass numbers (A = protons + neutrons). The atomic mass printed on the periodic table is not a single isotope's mass but the weighted average of all naturally occurring isotopes, weighted by abundance. That is why chlorine's atomic mass is 35.45 — a blend of Cl-35 and Cl-37, not a 'fractional atom.'",
+    objectives: [
+      "Distinguish atomic number, mass number, and atomic mass",
+      "Define isotopes and write isotope notation",
+      "Calculate average atomic mass from isotopic abundances",
+      "Explain why periodic-table masses are non-integers",
+    ],
+    formulas: [
+      "Atomic number Z = number of protons (= electrons in a neutral atom)",
+      "Mass number A = protons + neutrons",
+      "Average atomic mass = Σ (isotope mass × fractional abundance)",
+    ],
+    sections: [
+      {
+        title: "Isotopes and Isotope Notation",
+        subtitle: "Same element, different neutron count",
+        body: "Changing neutron count does not change the element (protons fix identity) but changes the mass. Isotopes are written as A_Z X or as 'element-A' (e.g., carbon-14). Most elements exist as a natural mix of isotopes. Because chemical behavior is set by electrons (and thus protons), isotopes of an element react almost identically — the difference shows up in mass and in nuclear stability.",
+        keyIdea: "Protons fix the element; neutrons change the isotope (mass), not the chemistry.",
+        terms: [
+          { term: "Atomic number (Z)", def: "Number of protons; defines which element the atom is." },
+          { term: "Mass number (A)", def: "Total protons + neutrons in the nucleus; an integer for a specific isotope." },
+          { term: "Isotopes", def: "Atoms of the same element with the same Z but different numbers of neutrons (different A)." },
+          { term: "Isotope notation", def: "Way to label an isotope, e.g. ¹⁴C or carbon-14, showing the mass number." },
+        ],
+        traps: [
+          "Different isotopes are still the SAME element — protons are unchanged.",
+          "Mass number (A) is for one isotope and is an integer; atomic mass is an average and is usually a decimal.",
+        ],
       },
       {
-        title: "Historical Development of the Atomic Model",
-        subtitle: "How decisive experiments revised the atomic model over time",
+        title: "Average Atomic Mass",
+        subtitle: "Why the periodic table shows decimals",
+        body: "The atomic mass on the table is the abundance-weighted average of the isotopes. For chlorine (75.77% Cl-35 at 34.97 u and 24.23% Cl-37 at 36.97 u): average = 0.7577×34.97 + 0.2423×36.97 ≈ 35.45 u. The result lies closer to the more abundant isotope. No single chlorine atom weighs 35.45 — it is a statistical average over the natural mix.",
+        keyIdea: "Atomic mass = Σ(isotope mass × fractional abundance); it sits nearer the most abundant isotope.",
         terms: [
-          {
-            term: "Dalton's atomic theory",
-            def: "Proposed in 1803. Key points: ① elements are made of indivisible atoms, ② atoms of the same element are identical, ③ compounds are combinations of atoms in fixed ratios, ④ chemical reactions rearrange atoms. It was unaware of subatomic particles and was later revised, but it grounds the law of definite proportions.",
-          },
-          {
-            term: "Thomson's cathode-ray experiment and 'plum pudding' model",
-            def: "In 1897, the cathode-ray-tube experiment discovered the electron. The atom was proposed as a sphere of evenly distributed positive charge with electrons embedded in it. It was the first to reveal the existence of electrons but could not account for the nucleus.",
-          },
-          {
-            term: "Rutherford's gold foil experiment",
-            def: "In 1911, alpha particles fired at gold foil mostly passed through, but a few scattered greatly. Conclusion: the atom's mass is concentrated in a small, dense, positively charged nucleus, and electrons orbit the empty space around it. This proposed the nuclear (planetary) model.",
-          },
-          {
-            term: "Bohr model",
-            def: "Proposed in 1913 to explain the line spectrum of the hydrogen atom. Electrons exist only in discrete orbits (energy levels) of specific energy, and they absorb or emit light when transitioning between orbits. It fits hydrogen well but is inaccurate for multi-electron atoms.",
-          },
+          { term: "Average atomic mass", def: "The abundance-weighted mean mass of an element's natural isotopes (units: u or g/mol)." },
+          { term: "Fractional abundance", def: "The proportion (as a decimal) of an isotope among all atoms of the element." },
         ],
         traps: [
-          "When interpreting Rutherford's results, the key evidence is that 'most alpha particles passed through.' If positive charge were spread out as in Thomson's model, all alpha particles should be deflected slightly and evenly. The fact that most passed straight through while only a few rebounded sharply is evidence that the atom's interior is mostly empty space with positive charge concentrated in one place (the nucleus). You must be able to describe the observation → inference chain in written form.",
+          "Use FRACTIONAL abundance (decimal), not the percentage directly, in the weighted sum.",
+          "The average is not the simple mean of the isotope masses — it is weighted by abundance.",
         ],
-        example:
-          "Explain hydrogen's Balmer series line spectrum with the Bohr model. When an electron falls from the n = 3 to the n = 2 orbit, it emits light corresponding to the difference between the two energy levels (ΔE) — this is the red visible line (656 nm). The n = 4 → n = 2 transition has a larger ΔE, so it gives shorter-wavelength blue-green light (486 nm). Because energy exists only in discrete orbits, only specific wavelengths are emitted, producing a 'line spectrum.' The reason it is not a continuous spectrum is precisely the quantization of energy levels.",
+      },
+    ],
+  },
+  {
+    lessonId: "honors-chemistry-u1-l5",
+    courseId: "honors-chemistry",
+    subjectLabel: "Honors Chemistry",
+    emoji: "⚗️",
+    unit: 1,
+    lessonNum: 5,
+    unitName: "Atomic Structure",
+    title: "How Light and Matter Exchange Energy",
+    subtitle: "Photons, quantized energy levels, and how emission and absorption spectra reveal electron transitions",
+    overview:
+      "Light carries energy in discrete packets called photons, with energy proportional to frequency (E = hf). Because an atom's electrons occupy quantized energy levels, an electron can only jump between levels by absorbing or emitting a photon whose energy exactly matches the gap. Absorbing a photon promotes an electron to a higher level; falling back releases a photon. The specific gaps in each element produce a unique line spectrum — an atomic 'fingerprint' used to identify elements in stars and labs.",
+    objectives: [
+      "Relate photon energy to frequency and wavelength",
+      "Explain quantized energy levels and electron transitions",
+      "Distinguish emission and absorption spectra",
+      "Explain why each element has a unique line spectrum",
+    ],
+    formulas: [
+      "E = h f  (photon energy; h = 6.626 × 10⁻³⁴ J·s)",
+      "c = λ f  (c = 3.0 × 10⁸ m/s) → E = hc/λ",
+      "ΔE_level = E_photon (energy of absorbed/emitted photon = level gap)",
+    ],
+    sections: [
+      {
+        title: "Photons and Quantized Energy",
+        subtitle: "Light comes in packets, levels come in steps",
+        body: "Energy is not absorbed or emitted continuously: light is quantized into photons of energy E = hf. Higher frequency (bluer) light means higher-energy photons; lower frequency (redder) means lower energy. Because the atom's electron energy levels are also quantized (discrete steps), only photons matching a level gap can be absorbed or emitted — a key break from classical physics.",
+        keyIdea: "A photon is absorbed/emitted only if its energy exactly equals the gap between two electron levels.",
+        terms: [
+          { term: "Photon", def: "A quantum (packet) of light energy; E = hf." },
+          { term: "Frequency (f)", def: "Cycles per second of a wave (Hz); higher f → higher photon energy." },
+          { term: "Quantized energy levels", def: "The discrete (step-like) energies an electron may have in an atom." },
+          { term: "Planck's constant (h)", def: "6.626 × 10⁻³⁴ J·s; links photon energy to frequency." },
+        ],
+        traps: [
+          "Energy is proportional to frequency, but INVERSELY proportional to wavelength (E = hc/λ).",
+          "Electrons cannot have energies between levels — transitions are all-or-nothing.",
+        ],
+      },
+      {
+        title: "Emission and Absorption Spectra",
+        subtitle: "Each element's barcode of light",
+        body: "When electrons drop to lower levels they emit photons, producing bright lines at specific wavelengths — an emission spectrum. When white light passes through a cool gas, electrons absorb exactly those same energies, leaving dark lines — an absorption spectrum. Because each element's level spacings are unique, its spectral lines are a fingerprint, letting chemists and astronomers identify elements remotely.",
+        keyIdea: "Emission = bright lines from electrons falling; absorption = dark lines from electrons rising; both are element-specific.",
+        terms: [
+          { term: "Emission spectrum", def: "Bright lines emitted as excited electrons fall to lower energy levels." },
+          { term: "Absorption spectrum", def: "Dark lines where electrons absorb specific photon energies from a continuous source." },
+          { term: "Line spectrum", def: "A discrete set of wavelengths unique to an element — its spectral 'fingerprint'." },
+        ],
+        traps: [
+          "Emission and absorption lines of an element occur at the SAME wavelengths (same level gaps).",
+          "A line spectrum is discrete, not a continuous rainbow — that is the whole point of quantization.",
+        ],
       },
     ],
   },

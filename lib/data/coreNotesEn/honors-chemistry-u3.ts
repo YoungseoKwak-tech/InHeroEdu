@@ -1,7 +1,8 @@
 /**
- * Core Notes English version — Honors Chemistry Unit 3 (Chemical Reactions & Stoichiometry).
- * Faithful English translation of the Korean storytelling Core Notes, IB-EN depth.
+ * Core Notes English version — Honors Chemistry Unit 3 (Stoichiometry).
+ * Faithful English rendering of the Korean storytelling Core Notes, IB-EN depth.
  * Terms are given in English with precise, exam-ready definitions.
+ * Source: lib/data/authored-corenotes/honors-chemistry.json, unit 3 (lessonNum 1-5).
  */
 import type { CoreNote } from "@/lib/coreNotes";
 
@@ -13,71 +14,87 @@ export const HONORS_CHEMISTRY_U3_EN: CoreNote[] = [
     emoji: "⚗️",
     unit: 3,
     lessonNum: 1,
-    unitName: "Chemical Reactions & Stoichiometry",
-    title: "Types of Chemical Reactions and Balancing Equations",
-    subtitle: "A systematic strategy for classifying five reaction types and balancing coefficients, grounded in conservation of atoms",
+    unitName: "Stoichiometry",
+    title: "Why the Mole Is the Chemist's Dozen",
+    subtitle: "The mole is chemistry's 'dozen' — using Avogadro's number and dimensional analysis to link particles, mass, and moles",
     overview:
-      "A chemical equation is an exact ledger of the atoms before and after a reaction. The law of conservation of mass, one of the most fundamental laws of chemistry, states that the kinds and numbers of atoms must be the same before and after a reaction — atoms are neither created nor destroyed. That is why we balance equations, adjusting coefficients to make the atom counts equal on both sides. At the same time, knowing reaction patterns lets you predict which products will form. The five reaction types — synthesis, decomposition, single displacement, double displacement, and combustion — are core topics that recur on AP exams and in Honors Chemistry. Tying reaction type and balancing together into one flow makes the stoichiometry you'll learn later far easier.",
+      "Atoms and molecules are so small they cannot be counted individually, so chemists bundle 6.022 × 10²³ of them into one unit called the mole. Molar mass is the mass of one mole (g/mol) and is read directly from the atomic masses on the periodic table. Converting among mass, moles, and number of particles becomes painless when you use dimensional analysis — setting up conversion factors so that units cancel — because the direction of multiplication or division is determined automatically by which unit you want to eliminate.",
     objectives: [
-      "Distinguish the features of synthesis, decomposition, single-displacement, double-displacement, and combustion reactions, and classify a given equation by type",
-      "Balance a chemical equation by adjusting coefficients on the basis of conservation of mass, and interpret the balanced coefficients as mole ratios",
-      "Predict the products of the complete combustion of a hydrocarbon and balance the equation",
-      "Distinguish precipitation, acid-base neutralization, and gas-evolution reactions among double-displacement reactions and write the net ionic equation",
+      "Explain Avogadro's number and the mole concept",
+      "Read molar mass from the periodic table",
+      "Interconvert mass, moles, and number of particles using dimensional analysis",
+      "Determine whether to multiply or divide by inspecting unit cancellation",
     ],
     formulas: [
-      "Conservation of mass: number of reactant atoms = number of product atoms (for each element)",
-      "Complete combustion: CₓHᵧ + (x + y/4) O₂ → x CO₂ + (y/2) H₂O",
+      "1 mol = 6.022 × 10²³ particles (Avogadro's number)",
+      "moles = mass (g) ÷ molar mass (g/mol)",
+      "mass (g) = moles × molar mass (g/mol)",
+      "number of particles = moles × 6.022 × 10²³",
     ],
     sections: [
       {
-        title: "The Five Reaction Types",
-        subtitle: "Classifying reactions by reactant/product pattern lets you predict the products",
+        title: "The Mole and Avogadro's Number",
+        subtitle: "A counting unit that makes the invisible measurable",
+        body: "Just as eggs are counted in dozens of 12, chemists count particles in moles of 6.022 × 10²³. That enormous number — Avogadro's number — was defined as the number of atoms in exactly 12 g of carbon-12. Because the same count applies to any particle, one mole is a universal 'bundle': one mole of water molecules, one mole of sodium ions, or one mole of electrons each contains exactly 6.022 × 10²³ units. This lets us connect the invisible atomic world to the gram-scale world of the laboratory.",
+        keyIdea: "The mole is chemistry's 'dozen': one bundle = 6.022 × 10²³ particles.",
         terms: [
           {
-            term: "Synthesis reaction",
-            def: "A reaction in which two or more substances combine to make a single new substance. General form: A + B → AB. Examples: 2Na + Cl₂ → 2NaCl, CaO + H₂O → Ca(OH)₂. Typical cases include an active metal reacting with oxygen, sulfur, or a halogen, or a metal oxide reacting with water to form a base.",
+            term: "Mole (mol)",
+            def: "The SI unit of amount of substance. One mole contains 6.022 × 10²³ particles.",
           },
           {
-            term: "Decomposition reaction",
-            def: "A reaction in which one compound breaks into two or more simpler substances. General form: AB → A + B. Often requires an energy input (heat, light, or electricity). Examples: 2H₂O₂ → 2H₂O + O₂, CaCO₃ (heated) → CaO + CO₂, 2HgO (heated) → 2Hg + O₂.",
+            term: "Avogadro's number",
+            def: "The number of particles in one mole: 6.022 × 10²³ mol⁻¹.",
           },
           {
-            term: "Single displacement reaction",
-            def: "A reaction in which one element displaces another from a compound. General form: A + BC → AC + B. For the reaction to actually occur, the displacing element must be higher in the activity series than the element it displaces. Examples: Zn + 2HCl → ZnCl₂ + H₂↑, Fe + CuSO₄ → FeSO₄ + Cu. You must know the metal activity series to predict whether products form.",
-          },
-          {
-            term: "Double displacement reaction",
-            def: "A reaction in which two ionic compounds exchange cations. General form: AB + CD → AD + CB. Precipitation, acid-base neutralization, and gas-evolution reactions fall into this type. Examples: AgNO₃ + NaCl → AgCl↓ + NaNO₃, HCl + NaOH → NaCl + H₂O. A 'driving force' must exist for the reaction to occur: an insoluble precipitate, water, or a gas must form.",
+            term: "Amount of substance",
+            def: "The quantity of matter measured in moles.",
           },
         ],
-        traps: [
-          "Memorizing a combustion reaction simply as 'reacting with oxygen' fails to distinguish it from incomplete combustion. In complete combustion the products of a hydrocarbon are CO₂ and H₂O; if oxygen is insufficient, CO or C (soot) forms. Also, if the O₂ coefficient comes out as a fraction in a combustion equation, you must double all coefficients to make them whole numbers — coefficients must be the smallest whole numbers.",
-          "Without knowing the activity series, you cannot even judge whether a single-displacement reaction occurs. Cu + ZnSO₄ → no reaction, Zn + CuSO₄ → reaction — these two pairs are frequent exam traps. Hydrogen's position matters too: metals more active than H (Na, Mg, Al, Zn, Fe, etc.) displace the H⁺ of an acid to evolve H₂ gas, but metals less active than H, such as Cu, Ag, and Au, do not react with acids.",
-        ],
-        example:
-          "Balance the complete-combustion equation of propane (C₃H₈). Step 1: write the unbalanced equation → C₃H₈ + O₂ → CO₂ + H₂O. Step 2: balance C first → coefficient of CO₂ = 3. Step 3: balance H → C₃H₈ has 8 H, so coefficient of H₂O = 4. Step 4: balance O → right-side O = 3×2 + 4×1 = 10, so coefficient of O₂ = 5. Step 5: complete → C₃H₈ + 5O₂ → 3CO₂ + 4H₂O. Check: C 3=3 ✓, H 8=8 ✓, O 10=10 ✓. The coefficients 1·5·3·4 are the smallest whole-number ratio, so no reduction is needed.",
+        traps: [],
+        example: null,
       },
       {
-        title: "Balancing Chemical Equations",
-        subtitle: "A coefficient-adjustment strategy — element order and fraction handling to finish without mistakes",
+        title: "Reading Molar Mass",
+        subtitle: "The periodic table gives you molar mass for free",
+        body: "Molar mass is the mass of one mole of a substance, expressed in g/mol. For any element, the atomic mass shown on the periodic table in amu is numerically equal to the molar mass in g/mol — carbon's atomic mass is 12.01 amu per atom and simultaneously 12.01 g/mol. For a compound, add up (molar mass × number of atoms) for every element present. For example, H₂O = 2(1.01) + 16.00 = 18.02 g/mol. Molar mass serves as the conversion factor between mass and moles.",
         terms: [
           {
-            term: "Balanced chemical equation",
-            def: "An equation in which coefficients are placed before the formulae so that the number of atoms of each element is equal on both reactant and product sides. The coefficients must be the smallest whole-number ratio, and you must never change the subscripts of a formula — changing a subscript makes a different substance.",
+            term: "Molar mass",
+            def: "The mass of one mole of a substance (g/mol). Read numerically from the periodic table's atomic mass values.",
           },
           {
-            term: "Spectator ion",
-            def: "An ion that is present in solution during a double-displacement reaction but does not participate in the actual reaction and is unchanged before and after. In the net ionic equation, spectator ions are removed, leaving only the ions that actually react. Example: in AgNO₃ + NaCl → AgCl↓ + NaNO₃, Na⁺ and NO₃⁻ are spectators, and the net ionic equation is Ag⁺(aq) + Cl⁻(aq) → AgCl(s).",
+            term: "Atomic mass",
+            def: "The weighted average mass of an element's naturally occurring isotopes (amu). Numerically equal to molar mass (g/mol).",
           },
           {
-            term: "Solubility rules",
-            def: "Empirical rules for judging whether a precipitate forms in a double-displacement reaction. Key rules: ① all Na⁺, K⁺, NH₄⁺, NO₃⁻, and CH₃COO⁻ compounds are soluble; ② Cl⁻, Br⁻, I⁻ are insoluble when combined with Ag⁺, Pb²⁺, Hg₂²⁺; ③ SO₄²⁻ is insoluble when combined with Ba²⁺, Pb²⁺, Ca²⁺; ④ CO₃²⁻, PO₄³⁻, OH⁻ are mostly insoluble (except with alkali metals and NH₄⁺).",
+            term: "Formula mass",
+            def: "The sum of the atomic masses of all atoms in one formula unit of a compound.",
+          },
+        ],
+        traps: [],
+        example: "CO₂ molar mass = 12.01 + 2(16.00) = 44.01 g/mol.",
+      },
+      {
+        title: "Dimensional Analysis: Multiply or Divide?",
+        subtitle: "Let unit cancellation decide — stop memorizing the direction",
+        body: "Instead of trying to remember whether to multiply or divide, arrange conversion factors so that the unit you want to eliminate appears in the denominator. To convert grams to moles, write (1 mol / molar mass) so that grams cancel: g × (mol / g) = mol. To convert moles to particles, multiply by (6.022 × 10²³ particles / 1 mol) so that mol cancels. The rule is simple: place the unit you want to get rid of in the denominator, and the direction of the calculation takes care of itself.",
+        keyIdea: "Put the unit you want to eliminate in the denominator — the direction of multiplication or division follows automatically.",
+        terms: [
+          {
+            term: "Dimensional analysis",
+            def: "A method of converting between units by multiplying by conversion factors chosen so that unwanted units cancel.",
+          },
+          {
+            term: "Conversion factor",
+            def: "A fraction whose numerator and denominator are equal in value but in different units (e.g. 1 mol / 18 g).",
           },
         ],
         traps: [
-          "Changing a formula's subscript while balancing is a frequent cause of lost marks in Honors Chemistry. Changing H₂O to H₃O is an act of creating a completely different substance. Adjust only the coefficients, and if a polyatomic ion is unchanged, keep the parentheses and subscripts as-is and only raise the coefficient. Example: a coefficient of 2 on Ca(OH)₂ gives 2Ca(OH)₂, not Ca(OH)₄.",
+          "Dividing when you should multiply, and vice versa — set up dimensional analysis so units cancel instead of guessing direction. Converting grams to moles means dividing by molar mass (g → mol: divide by g/mol).",
+          "Calculating a compound's molar mass using only one atom — multiply the atomic mass by the subscript for every element and sum the results (H₂O = 2 × H + 1 × O, not just H or O alone).",
         ],
-        example: null,
+        example: "36 g H₂O → mol: 36 g × (1 mol / 18.02 g) = 2.00 mol (g cancels).",
       },
     ],
   },
@@ -88,71 +105,85 @@ export const HONORS_CHEMISTRY_U3_EN: CoreNote[] = [
     emoji: "⚗️",
     unit: 3,
     lessonNum: 2,
-    unitName: "Chemical Reactions & Stoichiometry",
-    title: "The Mole Concept and Molar Mass",
-    subtitle: "Why Avogadro's number is the only bridge connecting the atomic world to the laboratory world",
+    unitName: "Stoichiometry",
+    title: "How to Balance Equations Without Changing the Chemistry",
+    subtitle: "Balancing adjusts coefficients only — changing a subscript creates a different substance",
     overview:
-      "The mass of a single atom is on the order of 10⁻²³ g — absurdly small and impossible to weigh directly. Yet in chemistry experiments we measure substances in grams. The unit that connects these two worlds is the mole. One mole is a 'bundle' of an enormous number of particles, 6.022 × 10²³ (Avogadro's number). The key point is that with this bundle, the number in atomic mass units (amu) becomes, unchanged, the molar mass in grams — C is 12 amu/atom and simultaneously 12 g/mol. This symmetry is the foundation of all stoichiometric calculation. The ability to convert freely among moles, mass, number of particles, and gas volume is used repeatedly across every calculation unit of this course.",
+      "Balancing a chemical equation is the act of expressing conservation of mass in symbolic form: atoms are rearranged in a reaction but are never created or destroyed. The number of atoms of each element must be the same on both sides, and the only permitted adjustment is the coefficient in front of each formula. Changing the subscript inside a formula would change the identity of the substance itself. Recognizing polyatomic ions as intact units speeds up the process considerably.",
     objectives: [
-      "Use Avogadro's number (6.022 × 10²³) and the definition of the mole to interconvert number of particles and moles",
-      "Use the atomic masses on the periodic table to calculate the molar mass of elements and compounds, and convert between mass (g) and moles (mol)",
-      "Find a compound's empirical formula and molecular formula from its percent composition",
-      "Use the molar volume of a gas (22.4 L/mol at 0 °C, 1 atm) to convert between moles and volume of a gas",
+      "Explain the law of conservation of mass as it applies to chemical equations",
+      "Balance chemical equations by adjusting coefficients only",
+      "Balance equations more efficiently by treating intact polyatomic ions as single units",
+      "Explain why subscripts must never be changed while balancing",
     ],
     formulas: [
-      "Moles (mol) = mass (g) ÷ molar mass (g/mol)",
-      "Number of particles = moles × 6.022 × 10²³",
-      "Percent composition = (molar mass of element × number of atoms / molar mass of compound) × 100%",
-      "Gas volume (STP) = moles × 22.4 L/mol",
+      "Balancing condition: number of atoms of each element is equal on both sides",
+      "Permitted adjustment: coefficients (the numbers in front of formulas) only",
+      "Forbidden adjustment: subscripts (numbers inside formulas)",
+      "Intact polyatomic ions (SO₄²⁻, NO₃⁻, etc.) that appear unchanged can be counted as single units",
     ],
     sections: [
       {
-        title: "The Mole and Avogadro's Number",
-        subtitle: "The conversion factor that links the atomic/molecular world to the gram-scale laboratory world",
+        title: "Conservation of Mass Is the Balance",
+        subtitle: "Atoms are rearranged, never created or destroyed",
+        body: "In every chemical reaction, atoms are shuffled into new arrangements — bonds break and new ones form — but no atom vanishes and no new atom appears (law of conservation of mass). A balanced equation is a precise record of this fact: the atom count for every element must be identical on the reactant side and the product side. Only a balanced equation can be trusted for the mole ratios and quantitative calculations that come next. Think of balancing as chemistry's accounting ledger.",
+        keyIdea: "Atoms do not disappear — equating atom counts on both sides is what balancing means.",
         terms: [
           {
-            term: "Mole",
-            def: "An SI base unit; a quantity containing the same number of particles (6.022 × 10²³) as the number of atoms in 12 g of carbon-12. It applies to any particle — atoms, molecules, ions, electrons. Because the mole is simply a 'counting unit,' '1 mole of apples' = 6.022 × 10²³ apples in the same way.",
+            term: "Law of conservation of mass",
+            def: "Mass (and therefore the number of atoms) is conserved in a chemical reaction. No atoms are created or destroyed.",
           },
           {
-            term: "Avogadro's number",
-            def: "The number of particles in 1 mole: Nₐ = 6.022 × 10²³ mol⁻¹. It is defined as the number of atoms in 12 g of carbon-12. Used as a conversion factor: number of particles = moles × 6.022 × 10²³, moles = number of particles ÷ 6.022 × 10²³.",
+            term: "Chemical equation",
+            def: "A symbolic representation of a chemical reaction showing reactants on the left and products on the right of an arrow.",
           },
           {
-            term: "Molar mass",
-            def: "The mass of 1 mole of a substance, in g/mol. For an element, the atomic-mass value (amu) from the periodic table becomes the g/mol value directly. The molar mass of a compound is the sum of (atomic mass × number of atoms) for each element. Example: H₂SO₄ = 2(1.008) + 32.07 + 4(16.00) = 98.09 g/mol.",
+            term: "Reactant",
+            def: "A substance present before the reaction; appears on the left side of the arrow.",
           },
           {
-            term: "Percent composition",
-            def: "The mass fraction (%) that each element contributes to a compound's total molar mass. Percent composition = (total mass of element / molar mass of compound) × 100. In H₂O, the percent composition of H = (2 × 1.008) / 18.02 × 100 = 11.19%, O = 88.81%. From an experimentally measured percent composition you can work back to the empirical formula.",
+            term: "Product",
+            def: "A substance formed by the reaction; appears on the right side of the arrow.",
           },
         ],
-        traps: [
-          "Don't confuse atomic mass with mass number. Atomic mass is a weighted average reflecting the abundances of naturally occurring isotopes, so it has a decimal value rather than a whole number — Cl's atomic mass is 35.45 g/mol, not 35 or 37. Mass number, by contrast, is the whole-number sum of protons + neutrons for a specific isotope. Always use the periodic table's atomic mass (the decimal value) for molar-mass calculations.",
-          "Problems distinguishing empirical formula from molecular formula trip students up often. Percent composition always yields the empirical formula. To find the molecular formula, multiply by the integer n = molecular mass (usually measured by mass spectrometry) ÷ empirical formula mass. Example: from glucose's percent composition the empirical formula = CH₂O (empirical mass 30), and the actual molecular mass = 180, so n = 180/30 = 6 → molecular formula = C₆H₁₂O₆.",
-        ],
-        example:
-          "Find the molecular formula of a compound whose elemental analysis gives C 40.00%, H 6.73%, O 53.27% with a molar mass of 60.05 g/mol. Step 1: assume 100 g → C = 40.00 g, H = 6.73 g, O = 53.27 g. Step 2: convert to moles → C = 40.00/12.01 = 3.331 mol, H = 6.73/1.008 = 6.677 mol, O = 53.27/16.00 = 3.329 mol. Step 3: divide by the smallest (O = 3.329) → C ≈ 1, H ≈ 2, O ≈ 1 → empirical formula CH₂O. Step 4: empirical formula mass = 12.01 + 2(1.008) + 16.00 = 30.03 g/mol. Step 5: n = 60.05 / 30.03 ≈ 2 → molecular formula = C₂H₄O₂ (acetic acid).",
+        traps: [],
+        example: null,
       },
       {
-        title: "The Mole Conversion Roadmap",
-        subtitle: "Training to move freely among mass ↔ moles ↔ number of particles ↔ gas volume",
+        title: "Coefficients Only — Never Touch Subscripts",
+        subtitle: "The coefficient counts molecules; the subscript defines what molecule it is",
+        body: "A coefficient written in front of a formula — for example the '2' in 2H₂O — tells you how many formula units are present. Changing the coefficient does not change the identity of the substance. A subscript written inside a formula — the '2' in H₂O — defines how many of each atom are bonded together in one molecule. Changing H₂O to H₂O₂ produces hydrogen peroxide, an entirely different compound. The single most common and damaging balancing mistake is editing subscripts to make atom counts work out: it is chemically wrong and will cost marks on every exam.",
+        keyIdea: "Coefficient = how many (change freely); subscript = what substance (never change while balancing).",
         terms: [
           {
-            term: "Dimensional analysis",
-            def: "A methodology of multiplying or dividing by conversion factors aimed at the desired unit. Because each conversion factor has equal numerator and denominator, the value itself is unchanged and only the units change. Mass → moles → particles path: mass (g) × (1 mol / molar mass) × (6.022×10²³ / 1 mol) in continuous conversion.",
+            term: "Coefficient",
+            def: "The number placed in front of a chemical formula in a balanced equation. It tells how many formula units are present and can be adjusted during balancing.",
           },
           {
-            term: "Molar volume at STP",
-            def: "The volume occupied by 1 mole of an ideal gas at standard conditions (STP: 0 °C, 1 atm) = 22.4 L/mol. Derived from the ideal gas law (PV = nRT). At SATP (25 °C, 100 kPa) it becomes 24.8 L/mol, so always confirm which conditions a problem specifies.",
+            term: "Subscript",
+            def: "The number written below and to the right of an element symbol within a formula. It defines the composition of the substance and must not be changed during balancing.",
+          },
+        ],
+        traps: [],
+        example: "2H₂ + O₂ → 2H₂O — the coefficient '2' is added in front of H₂ and H₂O to balance; subscripts remain unchanged throughout.",
+      },
+      {
+        title: "Polyatomic Ions — Count Them as Single Units",
+        subtitle: "Group unchanged ions together to reach balance faster",
+        body: "When a polyatomic ion such as SO₄²⁻ or NO₃⁻ appears in both reactants and products without being broken apart, you do not need to track its individual atoms. Treat the whole ion as one unit and count how many appear on each side — this turns a multi-atom tally into a simple one-unit count. As a general strategy, start by balancing the most complex formula first, leave elemental substances such as O₂ and H₂ for last, and convert any fractional coefficients to the smallest whole-number set by multiplying through.",
+        terms: [
+          {
+            term: "Polyatomic ion",
+            def: "A group of atoms bonded together that carries an overall charge (e.g. SO₄²⁻, NO₃⁻, NH₄⁺). When the group is unchanged by the reaction, it can be counted as a single unit while balancing.",
           },
           {
-            term: "Mole roadmap",
-            def: "The skeleton of stoichiometric calculation: ① mass (g) ÷ molar mass (g/mol) = moles (mol); ② moles (mol) × Avogadro's number = number of particles; ③ moles (mol) × 22.4 L/mol (STP) = gas volume. When crossing from reactant to product, apply the mole ratio (the coefficient ratio of the balanced equation) in between.",
+            term: "Balancing by inspection",
+            def: "The trial-and-error method of adjusting coefficients one element (or polyatomic ion) at a time until all atom counts are equal on both sides.",
           },
         ],
         traps: [
-          "The STP molar volume of 22.4 L/mol applies only to ideal gases. Real gases can differ from this value, and if the temperature or pressure is not STP you must use PV = nRT directly. Also, when IUPAC redefined STP in 2010 as 0 °C and 1 bar, the molar volume changed from 22.4 L/mol to 22.7 L/mol, but most Honors/AP textbooks still use 22.4 L/mol (0 °C, 1 atm). Check the conditions given in the problem.",
+          "Changing subscripts to balance — changing subscripts changes the identity of the substance (H₂O₂ ≠ H₂O). Only adjust coefficients.",
+          "Breaking a polyatomic ion into individual atoms when the ion is intact throughout — count it as one unit to save time and avoid confusion.",
         ],
         example: null,
       },
@@ -165,73 +196,238 @@ export const HONORS_CHEMISTRY_U3_EN: CoreNote[] = [
     emoji: "⚗️",
     unit: 3,
     lessonNum: 3,
-    unitName: "Chemical Reactions & Stoichiometry",
-    title: "Stoichiometry — Mole Ratio, Limiting Reactant, and Percent Yield",
-    subtitle: "The moment you use the coefficients of a balanced equation as conversion factors, every stoichiometric calculation converges to one algorithm",
+    unitName: "Stoichiometry",
+    title: "How the Mole Ratio Connects Reactants to Products",
+    subtitle: "The mole ratio is the bridge — mass → moles → (mole ratio) → moles → mass, and what percent yield means",
     overview:
-      "Stoichiometry is the technique of calculating the quantitative relationships between reactants and products in a balanced chemical equation. The starting point of all these calculations is the coefficients of the balanced equation, because those coefficients are the mole ratio. In 2H₂ + O₂ → 2H₂O, when 2 mol of H₂ react, 1 mol of O₂ is consumed and 2 mol of H₂O are produced. Using this ratio you can calculate the amount of any other substance from any given amount. In reality, reactants are not supplied in exactly the right ratio — there is always a limiting reactant that runs out first and stops the reaction. And the amount actually obtained in an experiment (actual yield) is always less than or equal to the theoretically calculated amount (theoretical yield). These three concepts — mole ratio, limiting reactant, and percent yield — are the highest-frequency calculation question type in Honors Chemistry.",
+      "The coefficients of a balanced equation give you the mole ratio between every reactant and product. Because you cannot convert mass directly to mass of a different substance, every stoichiometric calculation must pass through the sequence: mass → moles → apply mole ratio → moles → mass. The amount you actually obtain in an experiment (actual yield) is always less than the theoretically calculated maximum (theoretical yield), and their ratio expressed as a percentage is the percent yield.",
     objectives: [
-      "Interpret the coefficients of a balanced equation as a mole ratio, and calculate the mass of product from a given reactant mass using dimensional analysis",
-      "When the amounts of both reactants are given, determine the limiting reactant and calculate the amount of excess reactant remaining",
-      "Explain the difference between theoretical yield and actual yield and calculate the percent yield",
-      "Calculate the overall yield of a multi-step reaction by multiplying the yields of each step",
+      "Read the mole ratio from a balanced equation",
+      "Carry out a mass-to-mass stoichiometric calculation step by step",
+      "Distinguish theoretical yield from actual yield",
+      "Calculate percent yield",
     ],
     formulas: [
-      "Theoretical yield: reactant (g) × (1 mol / molar mass) × (product coefficient / reactant coefficient) × molar mass (product) = theoretical yield (g)",
-      "Percent yield (% yield) = (actual yield / theoretical yield) × 100%",
-      "Identifying the limiting reactant: calculate the moles of product obtainable from each reactant → the reactant giving the smaller value is the limiting reactant",
-      "Overall yield of a multi-step reaction = %yield₁ × %yield₂ × … (convert to decimals first, then multiply)",
+      "mole ratio = ratio of the coefficients in the balanced equation",
+      "path: mass A → mol A → (mole ratio) → mol B → mass B",
+      "percent yield = (actual yield ÷ theoretical yield) × 100%",
     ],
     sections: [
       {
-        title: "Mole Ratio and Stoichiometric Calculation",
-        subtitle: "The 4-step algorithm: mass → moles → apply mole ratio → moles → mass",
+        title: "The Mole Ratio: What the Equation Gives You",
+        subtitle: "Balanced coefficients are a mole-to-mole conversion factor",
+        body: "The coefficients of a balanced equation express the ratio of moles (or molecules) that react and are produced. In N₂ + 3H₂ → 2NH₃ the ratio N₂ : H₂ : NH₃ = 1 : 3 : 2. This tells you that 1 mol of N₂ reacts with exactly 3 mol of H₂ to give exactly 2 mol of NH₃. The mole ratio is a conversion factor that lets you move from the moles of any one substance to the moles of any other. The critical point: the coefficients express a mole ratio, not a mass ratio.",
+        keyIdea: "Balanced equation coefficients = mole ratio. Not a mass ratio — a particle (mole) ratio.",
         terms: [
           {
             term: "Mole ratio",
-            def: "The ratio of the coefficients of each substance in a balanced chemical equation. Used as a conversion factor in dimensional analysis. Example: in N₂ + 3H₂ → 2NH₃, the mole ratio of H₂ to NH₃ is 3:2, so when x mol of H₂ react, x × (2/3) mol of NH₃ form. The mole ratio must always be read from a balanced equation.",
+            def: "The ratio of the coefficients of substances in a balanced equation. Used as a conversion factor to move from moles of one substance to moles of another.",
           },
           {
-            term: "Theoretical yield",
-            def: "The maximum amount of product calculated stoichiometrically when the limiting reactant reacts completely. The amount actually obtained in the lab is at or below the theoretical yield due to reaction irreversibility, side reactions, and experimental losses. It can be expressed as mass (g), moles (mol), or volume (L, for gases).",
-          },
-          {
-            term: "Actual yield & percent yield",
-            def: "Actual yield is the amount of product actually obtained in an experiment; percent yield = (actual yield / theoretical yield) × 100%. Percent yield cannot exceed 100% (that would violate conservation of mass); if a result above 100% appears, the product contains impurities (e.g. unreacted reagent, moisture).",
-          },
-          {
-            term: "Limiting & excess reactant",
-            def: "The limiting reactant is the one consumed first that stops the reaction, and it determines the maximum amount of product. The excess reactant is the one with some remaining after the reaction. Identifying the limiting reactant: calculate the moles of product obtainable from each reactant; the one giving the smaller amount of product is the limiting reactant.",
+            term: "Stoichiometry",
+            def: "The branch of chemistry concerned with the quantitative relationships between reactants and products in a chemical reaction.",
           },
         ],
-        traps: [
-          "In limiting-reactant problems, simply comparing 'the reactant with fewer given moles is the limiting reactant' is wrong. You must account for the coefficient ratio of the balanced equation. In N₂ + 3H₂ → 2NH₃, given 4 mol N₂ and 9 mol H₂, H₂ (9 mol) intuitively looks like more, but 9 mol H₂ can consume only 3 mol N₂. N₂ is 4 mol while H₂ is 9 mol → the N₂ needed for reaction = 9/3 = 3 mol < 4 mol → H₂ is the limiting reactant. Always calculate and compare 'the moles of product obtainable from each reactant.'",
-          "When calculating percent yield, the 'theoretical yield' must be found based on the limiting reactant. Calculating theoretical yield from the excess reactant gives a larger theoretical yield than reality, making the percent yield unrealistically low. Follow the order: determine limiting reactant → calculate theoretical yield → calculate percent yield.",
-        ],
-        example:
-          "In the reaction Fe₂O₃ + 3CO → 2Fe + 3CO₂, when 200 g of Fe₂O₃ reacts with 100 g of CO, find ① the limiting reactant, ② the theoretical yield (mass of Fe), and ③ the percent yield if the actual yield is 98.5 g. ① Mole calculation: Fe₂O₃ = 200 / 159.7 = 1.252 mol, CO = 100 / 28.01 = 3.570 mol. Fe obtainable from each: from Fe₂O₃ → 1.252 × 2 = 2.504 mol Fe; from CO → 3.570 × (2/3) = 2.380 mol Fe. CO gives less Fe, so CO is the limiting reactant. ② Theoretical yield: 2.380 mol Fe × 55.85 g/mol = 132.9 g Fe. ③ % yield = (98.5 / 132.9) × 100% = 74.1%.",
+        traps: [],
+        example: null,
       },
       {
-        title: "Excess-Reactant Calculation and Multi-Step Yield",
-        subtitle: "Advanced applications: quantifying the leftover reactant and assessing the overall efficiency of sequential reactions",
+        title: "The Mass-to-Mass Path",
+        subtitle: "Three steps every time: mass → moles → mole ratio → moles → mass",
+        body: "To calculate the mass of a product from the mass of a reactant, follow three steps in order. First, divide the given mass by the molar mass of that reactant to get moles. Second, apply the mole ratio from the balanced equation to convert moles of reactant to moles of product. Third, multiply by the molar mass of the product to get grams. Skipping the mole ratio step and jumping directly from mass to mass is the most common stoichiometry error. Always check that your units cancel correctly at each step.",
+        keyIdea: "You cannot jump from mass to mass directly — you must pass through moles and apply the mole ratio.",
         terms: [
           {
-            term: "Calculating the leftover excess reactant",
-            def: "Once the limiting reactant is determined, use the mole ratio to calculate how much excess reactant is consumed when the limiting reactant reacts completely, then subtract that from the initial moles of excess reactant to find the leftover. Convert to grams by leftover (mol) × molar mass (g/mol).",
+            term: "Mass-to-mass stoichiometry",
+            def: "A three-step calculation that converts a reactant mass to a product mass: (1) mass → moles via molar mass, (2) moles → moles via mole ratio, (3) moles → mass via molar mass.",
+          },
+        ],
+        traps: [],
+        example: "28 g N₂ → g NH₃: 28 g ÷ 28 g/mol = 1 mol N₂ → × (2 mol NH₃ / 1 mol N₂) = 2 mol NH₃ → × 17 g/mol = 34 g NH₃.",
+      },
+      {
+        title: "Theoretical Yield and Percent Yield",
+        subtitle: "The calculation gives the maximum; the experiment gives less",
+        body: "The theoretical yield is the maximum amount of product calculated from stoichiometry, assuming the limiting reactant reacts completely and no product is lost. In real experiments, side reactions, incomplete conversion, and handling losses always reduce the amount obtained. The actual yield is what you collect. Percent yield expresses the efficiency of the reaction: (actual ÷ theoretical) × 100%. Percent yield is almost always below 100%. A value above 100% signals an error — most likely that the product is contaminated with impurities or that the theoretical yield was calculated from the wrong substance.",
+        terms: [
+          {
+            term: "Theoretical yield",
+            def: "The maximum mass of product predicted by stoichiometry, calculated from the limiting reactant reacting completely.",
           },
           {
-            term: "Overall yield in multi-step synthesis",
-            def: "In reactions that proceed through several steps (such as organic synthesis), convert each step's percent yield to a decimal and multiply to get the overall yield. Example: in a 3-step reaction with step yields of 90%, 85%, and 80%, the overall yield = 0.90 × 0.85 × 0.80 = 0.612 = 61.2%. Because the overall yield drops sharply as steps are added, minimizing the number of steps is important in industrial processes.",
+            term: "Actual yield",
+            def: "The mass of product actually obtained in an experiment. Always ≤ theoretical yield under ideal conditions.",
           },
           {
-            term: "Significant figures in stoichiometry",
-            def: "The significant figures of a calculated result follow the value with the fewest significant figures among the given data. Keep significant figures (or one extra digit) through intermediate calculations and round only at the final answer. Premature rounding in intermediate steps causes accumulated rounding error that can make the final answer wrong.",
+            term: "Percent yield",
+            def: "(Actual yield ÷ theoretical yield) × 100%. A measure of the efficiency of a reaction. Cannot exceed 100% under conservation of mass.",
           },
         ],
         traps: [
-          "Treating a percent yield above 100% as 'the calculation is correct' is a major error. Realistically a yield above 100% is impossible (conservation of mass), and such a result means one of: ① the product contains moisture or impurities; ② the theoretical yield was calculated from the excess reactant instead of the limiting reactant; ③ a unit-conversion mistake. If you get a result above 100%, retrace the calculation to find where the error occurred.",
+          "Skipping the mole ratio and converting the reactant's moles directly to the product's mass — the balanced equation's mole ratio must always be applied between the reactant moles and the product moles.",
+          "Treating the coefficients as a mass ratio — coefficients are mole (count) ratios. To get mass you must multiply by each substance's molar mass.",
         ],
         example: null,
+      },
+    ],
+  },
+  {
+    lessonId: "honors-chemistry-u3-l4",
+    courseId: "honors-chemistry",
+    subjectLabel: "Honors Chemistry",
+    emoji: "⚗️",
+    unit: 3,
+    lessonNum: 4,
+    unitName: "Stoichiometry",
+    title: "How to Find the Ingredient That Runs Out First",
+    subtitle: "Limiting reactant — compare moles against the mole ratio, not grams, to see which runs out first",
+    overview:
+      "When two reactants are mixed, they are rarely in exactly the stoichiometric ratio, so one will be completely consumed before the other. That first-to-run-out substance is the limiting reactant, and it determines the maximum amount of product. Identifying the limiting reactant requires converting both masses to moles and comparing them against the ratio demanded by the balanced equation — the reactant with fewer grams is not necessarily the limiting reactant. The substance left over after the reaction is the excess reactant.",
+    objectives: [
+      "Define limiting reactant and excess reactant",
+      "Identify the limiting reactant by comparing mole ratios",
+      "Calculate the amount of product from the limiting reactant",
+      "Calculate the amount of excess reactant remaining after the reaction",
+    ],
+    formulas: [
+      "limiting reactant = the reactant that yields the smaller amount of product",
+      "comparison method: (moles of each reactant) ÷ (its coefficient) → smaller quotient = limiting reactant",
+      "excess remaining = initial moles − moles consumed (from limiting reactant via mole ratio)",
+    ],
+    sections: [
+      {
+        title: "What the Limiting Reactant Means",
+        subtitle: "The ingredient that runs out first controls how much product you get",
+        body: "Imagine making sandwiches: you have 4 slices of bread and 10 slices of ham. Each sandwich needs 2 slices of bread and 1 of ham. You can make at most 2 sandwiches before the bread is gone — no matter how much ham remains. The bread is the limiting ingredient. In the same way, when two chemicals react, the one that is fully consumed first limits how far the reaction can proceed. The other reactant has some left over; it is in excess. The amount of product is determined entirely by the limiting reactant.",
+        keyIdea: "The amount of product is set by the ingredient (reactant) that runs out first — the limiting reactant.",
+        terms: [
+          {
+            term: "Limiting reactant",
+            def: "The reactant that is completely consumed first, stopping the reaction and determining the maximum amount of product.",
+          },
+          {
+            term: "Excess reactant",
+            def: "The reactant that remains after the reaction is complete because the limiting reactant ran out first.",
+          },
+        ],
+        traps: [],
+        example: null,
+      },
+      {
+        title: "Identifying the Limiting Reactant by Mole Ratio",
+        subtitle: "Grams can be misleading — convert to moles and compare against the stoichiometric ratio",
+        body: "The reactant with fewer grams is not necessarily the limiting reactant, because molar mass and coefficients both matter. The reliable method is to convert each reactant's mass to moles, then divide each mole value by that reactant's coefficient in the balanced equation. The reactant with the smaller quotient is the limiting reactant. Alternatively, pick one reactant and calculate how many moles of the other would be needed to react with it completely, then compare that to what you actually have. Either way, you must work in moles, not grams.",
+        keyIdea: "Divide each reactant's moles by its coefficient — the smaller quotient identifies the limiting reactant.",
+        terms: [
+          {
+            term: "Stoichiometric ratio",
+            def: "The ratio of moles of reactants required by the balanced equation. Comparing actual mole ratios against this ratio reveals which reactant is limiting.",
+          },
+        ],
+        traps: [],
+        example: "N₂ + 3H₂ → 2NH₃ with 1 mol N₂ and 2 mol H₂: H₂ needs 3 mol to react with 1 mol N₂, but only 2 mol are available → H₂ is the limiting reactant.",
+      },
+      {
+        title: "Calculating Product and Excess Remaining",
+        subtitle: "Use the limiting reactant for yield; subtract consumed moles for the leftover",
+        body: "Once the limiting reactant is identified, base all product calculations on its moles — ignore the excess reactant when calculating how much product forms. Apply the mole ratio from the balanced equation to convert limiting-reactant moles to product moles, then multiply by the product's molar mass to get grams. To find the excess reactant remaining, use the mole ratio to determine how many moles of the excess reactant were consumed when the limiting reactant reacted completely, then subtract that from the initial moles of the excess reactant.",
+        terms: [
+          {
+            term: "Initial moles",
+            def: "The number of moles of a reactant present before the reaction begins.",
+          },
+          {
+            term: "Amount remaining",
+            def: "The moles (or grams) of excess reactant left over after the limiting reactant is fully consumed.",
+          },
+        ],
+        traps: [
+          "Declaring the reactant with fewer grams the limiting reactant — convert to moles and compare against the stoichiometric ratio. The heavier reactant can still be the limiting one.",
+          "Calculating product yield from the excess reactant — yield is always calculated from the limiting reactant's moles only.",
+        ],
+        example: null,
+      },
+    ],
+  },
+  {
+    lessonId: "honors-chemistry-u3-l5",
+    courseId: "honors-chemistry",
+    subjectLabel: "Honors Chemistry",
+    emoji: "⚗️",
+    unit: 3,
+    lessonNum: 5,
+    unitName: "Stoichiometry",
+    title: "Reading a Molecular Formula to Get Empirical and Molecular Formulas",
+    subtitle: "Empirical and molecular formulas — never round a non-integer ratio; multiply to reach whole numbers",
+    overview:
+      "The empirical formula shows the simplest whole-number ratio of atoms in a compound; the molecular formula shows the actual number of atoms in one molecule. The molecular formula is always an integer multiple of the empirical formula. When deriving the empirical formula from percent composition, the mole ratios often come out as non-integers such as 0.33, 0.67, or 0.5. These must not be rounded off carelessly — instead, multiply all values by the appropriate integer (3, 3, or 2 respectively) to convert them to whole numbers.",
+    objectives: [
+      "Calculate the percent composition of a compound from its formula",
+      "Derive the empirical formula from percent-by-mass data",
+      "Determine the molecular formula from the empirical formula and the molar mass",
+      "Handle non-integer mole ratios correctly by multiplying to obtain whole numbers",
+    ],
+    formulas: [
+      "percent composition = (element mass ÷ compound molar mass) × 100%",
+      "empirical formula: g of each element → mol → divide by smallest mol → multiply to integers",
+      "molecular formula = n × (empirical formula), where n = molar mass ÷ empirical formula mass",
+    ],
+    sections: [
+      {
+        title: "Percent Composition",
+        subtitle: "The mass fingerprint of a compound",
+        body: "Percent composition tells you what fraction of a compound's mass comes from each element. If you know the formula, calculate each element's contribution: multiply the atomic mass by the number of atoms of that element, divide by the compound's molar mass, and multiply by 100%. The result is the percent composition. Percent composition is the starting point for working backwards to find the empirical formula from experimental data. It is also called elemental analysis.",
+        terms: [
+          {
+            term: "Percent composition",
+            def: "The mass percentage of each element in a compound: (total mass of element / molar mass of compound) × 100%.",
+          },
+          {
+            term: "Molar mass",
+            def: "The mass of one mole of a compound (g/mol). Used as the denominator in percent composition calculations.",
+          },
+        ],
+        traps: [],
+        example: "H₂O: H = (2.02 / 18.02) × 100 ≈ 11.2%; O = (16.00 / 18.02) × 100 ≈ 88.8%.",
+      },
+      {
+        title: "Finding the Empirical Formula",
+        subtitle: "Percent → grams → moles → smallest ratio → whole numbers",
+        body: "Assume a 100 g sample so that each element's percent directly becomes grams. Convert each mass to moles by dividing by the element's molar mass. Divide all mole values by the smallest value to get a ratio. If the ratio values are whole numbers (or very close, e.g. 0.99 or 1.01), those are the subscripts of the empirical formula. If any value is not close to a whole number — such as 1.33, 1.67, or 1.5 — do not round it off. Instead, multiply all values by the integer that clears the decimal (3 for thirds, 2 for halves). The key is to get an exact whole-number ratio without losing accuracy through premature rounding.",
+        keyIdea: "Percent → 100 g → moles → divide by smallest → multiply to whole numbers if needed.",
+        terms: [
+          {
+            term: "Empirical formula",
+            def: "The formula showing the simplest whole-number ratio of atoms in a compound. Derived from percent composition data.",
+          },
+          {
+            term: "Mole ratio reduction",
+            def: "The step of dividing all mole values by the smallest among them to produce the simplest ratio, then multiplying by an integer if any value is not a whole number.",
+          },
+        ],
+        traps: [],
+        example: null,
+      },
+      {
+        title: "Multiplying to Whole Numbers and Finding the Molecular Formula",
+        subtitle: "0.67 → × 3; 0.5 → × 2; then use molar mass to find n",
+        body: "When a mole ratio produces non-integer values, multiply every element's ratio by the smallest integer that converts all values to whole numbers: multiply by 3 if you see thirds (0.33 or 0.67), by 2 if you see halves (0.5), and by 4 if you see quarters (0.25 or 0.75). For example, a raw ratio of 1 : 2.67 : 1 multiplied by 3 gives 3 : 8 : 3. Once you have the empirical formula, find the integer n by dividing the experimentally determined molar mass by the empirical formula mass. The molecular formula = n × (empirical formula). For example, if the empirical formula is CH₂O (formula mass 30 g/mol) and the actual molar mass is 180 g/mol, then n = 180/30 = 6, giving the molecular formula C₆H₁₂O₆.",
+        keyIdea: "0.67/0.33 → multiply by 3; 0.5 → multiply by 2. Never round these to the nearest integer.",
+        terms: [
+          {
+            term: "Molecular formula",
+            def: "The formula showing the actual number of atoms of each element in one molecule of a compound. Always an integer multiple (n) of the empirical formula.",
+          },
+          {
+            term: "Empirical formula mass",
+            def: "The molar mass calculated from the empirical formula. Used as the denominator when finding n.",
+          },
+        ],
+        traps: [
+          "Rounding a ratio too early — 2.67 is not 3; it is a signal to multiply all values by 3 (giving 8 for 2.67). 0.5 → × 2, 0.33/0.67 → × 3.",
+          "Treating the empirical formula as the molecular formula — the molecular formula = n × (empirical formula), where n = molar mass ÷ empirical formula mass.",
+        ],
+        example: "Empirical formula CH₂O (30 g/mol), molar mass 180 g/mol → n = 180/30 = 6 → molecular formula C₆H₁₂O₆.",
       },
     ],
   },
