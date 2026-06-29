@@ -29,7 +29,25 @@ export interface AuthoredNote {
   sections: AuthoredSection[];
 }
 
+// Per-subject authored Core Notes (full-length, curriculum-accurate, bilingual
+// terms → also feed the 단어장). Written by Claude directly (no API). Each file
+// is an AuthoredNote[]; merged into CORE_NOTES_AUTHORED below.
+import apPrecalculus from "./authored-corenotes/ap-precalculus.json";
+import apWorldHistory from "./authored-corenotes/ap-world-history.json";
+import honorsEnglish from "./authored-corenotes/honors-english.json";
+import honorsChemistry from "./authored-corenotes/honors-chemistry.json";
+import honorsPhysics from "./authored-corenotes/honors-physics.json";
+
+const AUTHORED_FILES = [
+  ...(apPrecalculus as AuthoredNote[]),
+  ...(apWorldHistory as AuthoredNote[]),
+  ...(honorsEnglish as AuthoredNote[]),
+  ...(honorsChemistry as AuthoredNote[]),
+  ...(honorsPhysics as AuthoredNote[]),
+];
+
 export const CORE_NOTES_AUTHORED: AuthoredNote[] = [
+  ...AUTHORED_FILES,
   {
     courseId: "ap-psychology", unit: 1, lessonNum: 1,
     unitName: "Scientific Foundations of Psychology",
