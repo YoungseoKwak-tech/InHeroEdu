@@ -2,6 +2,7 @@ import "server-only";
 import { CORE_NOTES_KO } from "@/lib/data/coreNotesKo";
 import { CORE_NOTES_AUTHORED } from "@/lib/data/coreNotesAuthored";
 import { courses } from "@/lib/data/courses";
+import { englishDef } from "@/lib/data/vocabEnglishDefs";
 import { MATH_VOCAB } from "@/lib/data/vocabMathTerms";
 import { SAT_VOCAB } from "@/lib/data/vocabSatWords";
 import { TOEFL_VOCAB } from "@/lib/data/vocabToeflWords";
@@ -23,6 +24,7 @@ export interface VocabTerm {
   en: string;          // English term (what the student must recall)
   ko: string;          // Korean term / gloss (the prompt they already know)
   def: string;         // Korean definition for context
+  defEn?: string;      // English definition (for English-only learners; 영어 버전)
   unit: number | null;
 }
 
@@ -141,9 +143,14 @@ function build(): Map<string, Bucket> {
       courseId: cid,
       label: b.label,
       emoji: b.emoji,
-      terms: [...b.seen.values()].sort(
-        (a, z) => (a.unit ?? 0) - (z.unit ?? 0) || a.en.localeCompare(z.en)
-      ),
+      // Attach the authored English definition (if any) so 영어 버전 can show a
+      // real English gloss; falls back to the Korean def in the UI when absent.
+      terms: [...b.seen.values()]
+        .map((t) => {
+          const en = englishDef(cid, t.en.toLowerCase());
+          return en ? { ...t, defEn: en } : t;
+        })
+        .sort((a, z) => (a.unit ?? 0) - (z.unit ?? 0) || a.en.localeCompare(z.en)),
     });
   }
   return out;

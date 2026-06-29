@@ -16,7 +16,8 @@
 
 import { useEffect, useMemo, useState, useCallback, type ReactNode } from "react";
 
-export interface VocabTerm { en: string; ko: string; def: string; unit: number | null }
+export interface VocabTerm { en: string; ko: string; def: string; defEn?: string; unit: number | null }
+export type VocabLang = "ko" | "en";
 interface VocabSubject { courseId: string; label: string; emoji: string; count: number }
 
 type Theme = "dark" | "light";
@@ -115,6 +116,9 @@ export default function VocabStudy({ theme, renderGate }: {
   const [hardOnly, setHardOnly] = useState(false);
   const [hideEn, setHideEn] = useState(false);
   const [hideKnown, setHideKnown] = useState(false);
+  // 영어 버전: when "en", cards lead with the English term + an English
+  // definition (for learners who only read English). Default Korean.
+  const [lang, setLang] = useState<VocabLang>("ko");
   const [known, setKnown] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -264,6 +268,13 @@ export default function VocabStudy({ theme, renderGate }: {
                 </button>
               ))}
             </div>
+            <button onClick={() => setLang((v) => (v === "ko" ? "en" : "ko"))}
+              title={lang === "ko" ? "Switch to English definitions" : "한국어 뜻으로 보기"}
+              style={{ padding: "7px 14px", borderRadius: 999, cursor: "pointer", fontSize: 12.5, fontWeight: 800,
+                border: `1px solid ${lang === "en" ? Pa.accentBorder : Pa.chipBorder}`,
+                background: lang === "en" ? Pa.accentBg : Pa.chipBg, color: lang === "en" ? Pa.accent : Pa.sub }}>
+              {lang === "ko" ? "🌐 English" : "🇰🇷 한국어"}
+            </button>
             {mode === "list" && (
               <>
                 <button onClick={() => setHideEn((v) => !v)}
@@ -297,9 +308,9 @@ export default function VocabStudy({ theme, renderGate }: {
           {hideKnown ? "이 범위는 전부 외웠어요! 🎉" : "이 범위의 단어가 없어요."}
         </p>
       ) : mode === "list" ? (
-        <VocabBook groups={grouped} hideEn={hideEn} known={known} onToggle={toggleKnown} Pa={Pa} />
+        <VocabBook groups={grouped} hideEn={hideEn} known={known} onToggle={toggleKnown} Pa={Pa} lang={lang} />
       ) : (
-        <StudyDeck key={`${active}-${unit}-${mode}`} terms={deckTerms} Pa={Pa} />
+        <StudyDeck key={`${active}-${unit}-${mode}-${lang}`} terms={deckTerms} Pa={Pa} lang={lang} />
       )}
           </>
         );
@@ -329,9 +340,9 @@ function unitChip(Pa: P, on: boolean): React.CSSProperties {
  *  Units flow into an edge-filling, responsive multi-column grid so wide
  *  screens are used instead of one thin centered column. Each unit is its
  *  own self-contained "page" card; CSS column-fill keeps long pages intact. */
-function VocabBook({ groups, hideEn, known, onToggle, Pa }: {
+function VocabBook({ groups, hideEn, known, onToggle, Pa, lang }: {
   groups: [number | null, VocabTerm[]][]; hideEn: boolean; known: Set<string>;
-  onToggle: (t: VocabTerm) => void; Pa: P;
+  onToggle: (t: VocabTerm) => void; Pa: P; lang: VocabLang;
 }) {
   return (
     <div style={{ columnWidth: 460, columnGap: 18 }}>
@@ -352,7 +363,7 @@ function VocabBook({ groups, hideEn, known, onToggle, Pa }: {
             </div>
             {items.map((t, i) => (
               <BookRow key={`${termKey(t)}-${i}`} t={t} index={i + 1} hideEn={hideEn}
-                isKnown={known.has(termKey(t))} onToggle={() => onToggle(t)} Pa={Pa} />
+                isKnown={known.has(termKey(t))} onToggle={() => onToggle(t)} Pa={Pa} lang={lang} />
             ))}
           </div>
         );
@@ -361,11 +372,17 @@ function VocabBook({ groups, hideEn, known, onToggle, Pa }: {
   );
 }
 
-function BookRow({ t, index, hideEn, isKnown, onToggle, Pa }: {
-  t: VocabTerm; index: number; hideEn: boolean; isKnown: boolean; onToggle: () => void; Pa: P;
+function BookRow({ t, index, hideEn, isKnown, onToggle, Pa, lang }: {
+  t: VocabTerm; index: number; hideEn: boolean; isKnown: boolean; onToggle: () => void; Pa: P; lang: VocabLang;
 }) {
   const [revealed, setRevealed] = useState(false);
   const showEn = !hideEn || revealed;
+  // 영어 버전: lead with the English term + English definition; the revealable
+  // word becomes the Korean gloss. Falls back to the Korean def when no English
+  // definition is authored yet for this term.
+  const headword = lang === "en" ? t.en : t.ko;
+  const secondary = lang === "en" ? t.ko : t.en;
+  const definition = lang === "en" ? (t.defEn ?? t.def) : t.def;
   return (
     <div style={{ display: "flex", alignItems: "stretch", borderBottom: `1px solid ${Pa.bookLine}`, background: isKnown ? Pa.knownRow : "transparent" }}>
       {/* Gutter: checkbox + number */}
@@ -386,25 +403,25 @@ function BookRow({ t, index, hideEn, isKnown, onToggle, Pa }: {
       <div style={{ flex: 1, minWidth: 0, padding: "13px 16px" }}>
         <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
           <span style={{ fontSize: 15.5, fontWeight: 800, color: Pa.text, letterSpacing: "-0.01em",
-            textDecoration: isKnown ? "none" : "none", opacity: isKnown ? 0.7 : 1 }}>{t.ko}</span>
+            textDecoration: isKnown ? "none" : "none", opacity: isKnown ? 0.7 : 1 }}>{headword}</span>
           <span style={{ marginLeft: "auto" }}>
             {showEn ? (
-              <span style={{ fontSize: 14.5, fontWeight: 800, color: Pa.accent, letterSpacing: "-0.01em" }}>{t.en}</span>
+              <span style={{ fontSize: 14.5, fontWeight: 800, color: Pa.accent, letterSpacing: "-0.01em" }}>{secondary}</span>
             ) : (
               <button onClick={() => setRevealed(true)}
                 style={{ fontSize: 12, fontWeight: 700, color: Pa.accent, background: Pa.accentBg, border: `1px solid ${Pa.accentBorder}`, borderRadius: 8, padding: "3px 11px", cursor: "pointer" }}>
-                영어 확인
+                {lang === "en" ? "뜻 확인" : "영어 확인"}
               </button>
             )}
           </span>
         </div>
-        <p style={{ fontSize: 12.5, color: Pa.sub, lineHeight: 1.6, margin: "6px 0 0" }}>{t.def}</p>
+        <p style={{ fontSize: 12.5, color: Pa.sub, lineHeight: 1.6, margin: "6px 0 0" }}>{definition}</p>
       </div>
     </div>
   );
 }
 
-function StudyDeck({ terms, Pa }: { terms: VocabTerm[]; Pa: P }) {
+function StudyDeck({ terms, Pa, lang }: { terms: VocabTerm[]; Pa: P; lang: VocabLang }) {
   const [deck, setDeck] = useState<VocabTerm[]>(() => shuffle(terms));
   const [pos, setPos] = useState(0);
   const [revealed, setRevealed] = useState(false);
@@ -461,14 +478,22 @@ function StudyDeck({ terms, Pa }: { terms: VocabTerm[]; Pa: P }) {
         {card!.unit != null && (
           <span style={{ fontSize: 10.5, fontWeight: 700, color: Pa.muted, border: `1px solid ${Pa.chipBorder}`, borderRadius: 999, padding: "2px 9px", marginBottom: 16 }}>Unit {card!.unit}</span>
         )}
-        <p style={{ fontSize: 26, fontWeight: 850, color: Pa.text, letterSpacing: "-0.02em", margin: 0, lineHeight: 1.3 }}>{card!.ko}</p>
+        <p style={{ fontSize: 26, fontWeight: 850, color: Pa.text, letterSpacing: "-0.02em", margin: 0, lineHeight: 1.3 }}>
+          {lang === "en" ? card!.en : card!.ko}
+        </p>
         {!revealed ? (
-          <p style={{ fontSize: 13, color: Pa.accent, marginTop: 18 }}>영어 용어를 떠올려보고 — 탭하면 정답</p>
+          <p style={{ fontSize: 13, color: Pa.accent, marginTop: 18 }}>
+            {lang === "en" ? "Recall the meaning — tap to reveal" : "영어 용어를 떠올려보고 — 탭하면 정답"}
+          </p>
         ) : (
           <>
             <div style={{ width: 60, height: 1, background: Pa.cardBorder, margin: "20px 0" }} />
-            <p style={{ fontSize: 24, fontWeight: 850, color: Pa.accent, letterSpacing: "-0.01em", margin: 0 }}>{card!.en}</p>
-            <p style={{ fontSize: 13.5, color: Pa.sub, lineHeight: 1.65, margin: "14px 0 0", maxWidth: 460 }}>{card!.def}</p>
+            <p style={{ fontSize: 24, fontWeight: 850, color: Pa.accent, letterSpacing: "-0.01em", margin: 0 }}>
+              {lang === "en" ? card!.ko : card!.en}
+            </p>
+            <p style={{ fontSize: 13.5, color: Pa.sub, lineHeight: 1.65, margin: "14px 0 0", maxWidth: 460 }}>
+              {lang === "en" ? (card!.defEn ?? card!.def) : card!.def}
+            </p>
           </>
         )}
       </div>
