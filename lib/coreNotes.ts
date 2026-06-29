@@ -257,6 +257,30 @@ async function rebuild(): Promise<CoreNote[]> {
   const authoredKeys = new Set(authored.map((n) => `${n.courseId}|${n.unit}|${n.lessonNum}`));
   notes = notes.filter((n) => !authoredKeys.has(`${n.courseId}|${n.unit}|${n.lessonNum}`)).concat(authored);
 
+  // Courses with a COMPLETE bilingual concept set (coreNotesEn spanning ≥3 units —
+  // i.e. the Honors curricula) must use THAT rich, EN/KO-aligned set as the single
+  // source of truth. Otherwise the sparse auto-generated "why" stubs win the English
+  // column while the Korean fetch pulls the aligned concept note (different topic,
+  // same lessonId) → too-short English + EN/KO mismatch. Drop those courses' seed/
+  // authored notes and use coreNotesEn (its lessonIds match coreNotesKo exactly).
+  const enByCourse = new Map<string, CoreNote[]>();
+  for (const n of CORE_NOTES_EN.values()) {
+    if (!n.courseId) continue;
+    const arr = enByCourse.get(n.courseId) ?? [];
+    arr.push(n);
+    enByCourse.set(n.courseId, arr);
+  }
+  const fullEnCourses = new Set<string>();
+  for (const [courseId, ns] of enByCourse) {
+    if (new Set(ns.map((n) => n.unit)).size >= 3) fullEnCourses.add(courseId);
+  }
+  if (fullEnCourses.size > 0) {
+    notes = notes.filter((n) => !n.courseId || !fullEnCourses.has(n.courseId));
+    for (const n of CORE_NOTES_EN.values()) {
+      if (n.courseId && fullEnCourses.has(n.courseId)) notes.push(n);
+    }
+  }
+
   // Korean-only curricula (Honors / IB) live only in the 한국어 registry and have
   // no English source — surface those subjects directly so they appear as
   // their own chips/lessons (the notes are already complete Korean CoreNotes).
