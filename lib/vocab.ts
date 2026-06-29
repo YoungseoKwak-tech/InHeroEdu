@@ -1,7 +1,12 @@
 import "server-only";
 import { CORE_NOTES_KO } from "@/lib/data/coreNotesKo";
+import { CORE_NOTES_AUTHORED } from "@/lib/data/coreNotesAuthored";
+import { courses } from "@/lib/data/courses";
 import { MATH_VOCAB } from "@/lib/data/vocabMathTerms";
 import { SAT_VOCAB } from "@/lib/data/vocabSatWords";
+import { TOEFL_VOCAB } from "@/lib/data/vocabToeflWords";
+
+const COURSE_META = new Map(courses.map((c) => [c.id, { label: c.subjectEn, emoji: c.icon }]));
 
 /**
  * Subject vocabulary 단어장 — built from the Korean Core Notes, whose terms are
@@ -70,6 +75,29 @@ function build(): Map<string, Bucket> {
     }
   }
 
+  // Also pull bilingual terms from hand-authored Core Notes (override channel) —
+  // these subjects (e.g. AP Precalculus, Honors English) aren't in CORE_NOTES_KO
+  // but their authored notes carry "한국어 (English)" terms for the 단어장.
+  for (const note of CORE_NOTES_AUTHORED) {
+    if (!note.courseId) continue;
+    const meta = COURSE_META.get(note.courseId);
+    let b = acc.get(note.courseId);
+    if (!b) {
+      b = { courseId: note.courseId, label: meta?.label ?? note.courseId, emoji: meta?.emoji ?? "📘", seen: new Map() };
+      acc.set(note.courseId, b);
+    }
+    for (const sec of note.sections ?? []) {
+      for (const t of sec.terms ?? []) {
+        const s = splitBilingual(t.term);
+        if (!s) continue;
+        const key = s.en.toLowerCase();
+        if (!b.seen.has(key)) {
+          b.seen.set(key, { en: s.en, ko: s.ko, def: t.def, unit: note.unit ?? null });
+        }
+      }
+    }
+  }
+
   // Dedicated, CLEAN 수학 개념용어 단어책 — only the curated standard math terms
   // (한글 보고 → 영어 떠올리기), deduped across calculus + statistics. Kept as
   // its own subject so it isn't diluted by the noisier auto-extracted decks.
@@ -93,6 +121,17 @@ function build(): Map<string, Bucket> {
   }
   if (satSeen.size > 0) {
     acc.set("sat-essential", { courseId: "sat-essential", label: "SAT 필수단어", emoji: "📕", seen: satSeen });
+  }
+
+  // TOEFL 필수단어장 — academic English from TOEFL iBT lecture/reading passages
+  // (영어 보고 → 한국어 뜻). Its own subject, like the SAT deck.
+  const toeflSeen = new Map<string, VocabTerm>();
+  for (const t of TOEFL_VOCAB) {
+    const key = t.en.toLowerCase();
+    if (!toeflSeen.has(key)) toeflSeen.set(key, { en: t.en, ko: t.ko, def: t.def, unit: t.unit ?? null });
+  }
+  if (toeflSeen.size > 0) {
+    acc.set("toefl-essential", { courseId: "toefl-essential", label: "TOEFL 필수단어", emoji: "📘", seen: toeflSeen });
   }
 
   const out = new Map<string, Bucket>();
