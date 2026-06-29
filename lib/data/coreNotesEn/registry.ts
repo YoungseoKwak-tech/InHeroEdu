@@ -45,6 +45,41 @@ import { IB_PSYCHOLOGY_U3_EN } from "./ib-psychology-u3";
 import { IB_ESS_U3_EN } from "./ib-ess-u3";
 import { IB_CS_U3_EN } from "./ib-cs-u3";
 
+// IB DP — English Core Notes for units 4+ (rendered from the complete Korean
+// set so EN now spans every Korean unit; ib-english/ib-psychology stop at U3).
+import { IB_BIOLOGY_U4_EN } from "./ib-biology-u4";
+import { IB_BIOLOGY_U5_EN } from "./ib-biology-u5";
+import { IB_BIOLOGY_U6_EN } from "./ib-biology-u6";
+import { IB_CHEMISTRY_U4_EN } from "./ib-chemistry-u4";
+import { IB_CHEMISTRY_U5_EN } from "./ib-chemistry-u5";
+import { IB_CHEMISTRY_U6_EN } from "./ib-chemistry-u6";
+import { IB_CHEMISTRY_U7_EN } from "./ib-chemistry-u7";
+import { IB_CHEMISTRY_U8_EN } from "./ib-chemistry-u8";
+import { IB_CHEMISTRY_U9_EN } from "./ib-chemistry-u9";
+import { IB_CHEMISTRY_U10_EN } from "./ib-chemistry-u10";
+import { IB_CHEMISTRY_U11_EN } from "./ib-chemistry-u11";
+import { IB_CS_U4_EN } from "./ib-cs-u4";
+import { IB_CS_U5_EN } from "./ib-cs-u5";
+import { IB_CS_U6_EN } from "./ib-cs-u6";
+import { IB_CS_U7_EN } from "./ib-cs-u7";
+import { IB_ECONOMICS_U4_EN } from "./ib-economics-u4";
+import { IB_ESS_U4_EN } from "./ib-ess-u4";
+import { IB_ESS_U5_EN } from "./ib-ess-u5";
+import { IB_ESS_U6_EN } from "./ib-ess-u6";
+import { IB_ESS_U7_EN } from "./ib-ess-u7";
+import { IB_ESS_U8_EN } from "./ib-ess-u8";
+import { IB_HISTORY_U4_EN } from "./ib-history-u4";
+import { IB_HISTORY_U5_EN } from "./ib-history-u5";
+import { IB_MATH_AA_U4_EN } from "./ib-math-aa-u4";
+import { IB_MATH_AA_U5_EN } from "./ib-math-aa-u5";
+import { IB_MATH_AI_U4_EN } from "./ib-math-ai-u4";
+import { IB_MATH_AI_U5_EN } from "./ib-math-ai-u5";
+import { IB_PHYSICS_U4_EN } from "./ib-physics-u4";
+import { IB_PHYSICS_U5_EN } from "./ib-physics-u5";
+import { IB_PHYSICS_U6_EN } from "./ib-physics-u6";
+import { IB_PHYSICS_U7_EN } from "./ib-physics-u7";
+import { IB_PHYSICS_U8_EN } from "./ib-physics-u8";
+
 // Honors curricula — English Core Notes (4 units × 3 lessons each) ──
 import { HONORS_ALGEBRA_2_U1_EN } from "./honors-algebra-2-u1";
 import { HONORS_ALGEBRA_2_U2_EN } from "./honors-algebra-2-u2";
@@ -119,6 +154,16 @@ export const CORE_NOTES_EN_LIST: CoreNote[] = [
   ...IB_PSYCHOLOGY_U3_EN,
   ...IB_ESS_U3_EN,
   ...IB_CS_U3_EN,
+  // IB DP — units 4+ (English now mirrors the full Korean set)
+  ...IB_BIOLOGY_U4_EN, ...IB_BIOLOGY_U5_EN, ...IB_BIOLOGY_U6_EN,
+  ...IB_CHEMISTRY_U4_EN, ...IB_CHEMISTRY_U5_EN, ...IB_CHEMISTRY_U6_EN, ...IB_CHEMISTRY_U7_EN, ...IB_CHEMISTRY_U8_EN, ...IB_CHEMISTRY_U9_EN, ...IB_CHEMISTRY_U10_EN, ...IB_CHEMISTRY_U11_EN,
+  ...IB_CS_U4_EN, ...IB_CS_U5_EN, ...IB_CS_U6_EN, ...IB_CS_U7_EN,
+  ...IB_ECONOMICS_U4_EN,
+  ...IB_ESS_U4_EN, ...IB_ESS_U5_EN, ...IB_ESS_U6_EN, ...IB_ESS_U7_EN, ...IB_ESS_U8_EN,
+  ...IB_HISTORY_U4_EN, ...IB_HISTORY_U5_EN,
+  ...IB_MATH_AA_U4_EN, ...IB_MATH_AA_U5_EN,
+  ...IB_MATH_AI_U4_EN, ...IB_MATH_AI_U5_EN,
+  ...IB_PHYSICS_U4_EN, ...IB_PHYSICS_U5_EN, ...IB_PHYSICS_U6_EN, ...IB_PHYSICS_U7_EN, ...IB_PHYSICS_U8_EN,
   // Honors
   ...HONORS_ALGEBRA_2_U1_EN, ...HONORS_ALGEBRA_2_U2_EN, ...HONORS_ALGEBRA_2_U3_EN, ...HONORS_ALGEBRA_2_U4_EN,
   ...HONORS_BIOLOGY_U1_EN, ...HONORS_BIOLOGY_U2_EN, ...HONORS_BIOLOGY_U3_EN, ...HONORS_BIOLOGY_U4_EN,

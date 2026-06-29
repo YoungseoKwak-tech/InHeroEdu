@@ -73,12 +73,6 @@
       "count": 40
     },
     {
-      "courseId": "honors-biology",
-      "label": "Honors Biology",
-      "emoji": "🧬",
-      "count": 34
-    },
-    {
       "courseId": "ib-chemistry",
       "label": "IB Chemistry",
       "emoji": "⚗️",
@@ -122,7 +116,7 @@
     },
     {
       "courseId": "ib-ess",
-      "label": "IB ESS",
+      "label": "IB Environmental Systems & Societies",
       "emoji": "🌱",
       "count": 24
     },
@@ -131,12 +125,6 @@
       "label": "IB Physics",
       "emoji": "⚛️",
       "count": 24
-    },
-    {
-      "courseId": "honors-precalculus",
-      "label": "Honors Precalculus",
-      "emoji": "📐",
-      "count": 22
     },
     {
       "courseId": "ap-english-language",
@@ -148,18 +136,6 @@
       "courseId": "honors-algebra",
       "label": "Honors Algebra",
       "emoji": "➕",
-      "count": 21
-    },
-    {
-      "courseId": "honors-physics",
-      "label": "Honors Physics",
-      "emoji": "🔭",
-      "count": 21
-    },
-    {
-      "courseId": "honors-us-history",
-      "label": "Honors US History",
-      "emoji": "🗽",
       "count": 21
     },
     {
@@ -289,6 +265,12 @@
       "count": 12
     },
     {
+      "courseId": "honors-biology",
+      "label": "Honors Biology",
+      "emoji": "🧬",
+      "count": 12
+    },
+    {
       "courseId": "honors-english-9",
       "label": "Honors English 9",
       "emoji": "📖",
@@ -298,6 +280,24 @@
       "courseId": "honors-geometry",
       "label": "Honors Geometry",
       "emoji": "📐",
+      "count": 12
+    },
+    {
+      "courseId": "honors-physics",
+      "label": "Honors Physics",
+      "emoji": "⚛️",
+      "count": 12
+    },
+    {
+      "courseId": "honors-precalculus",
+      "label": "Honors Precalculus",
+      "emoji": "📈",
+      "count": 12
+    },
+    {
+      "courseId": "honors-us-history",
+      "label": "Honors US History",
+      "emoji": "🇺🇸",
       "count": 12
     },
     {
@@ -343,5 +343,5 @@
       "count": 9
     }
   ],
-  "total": 1505
+  "total": 1455
 }

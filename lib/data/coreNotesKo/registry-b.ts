@@ -137,6 +137,12 @@ import { IB_CHEMISTRY_U11_KO } from "./ib-chemistry-u11";
 import { HONORS_CHEMISTRY_U5_KO } from "./honors-chemistry-u5";
 import { HONORS_CHEMISTRY_U6_KO } from "./honors-chemistry-u6";
 
+// Honors English — 한국어 (영어 authored 19강 'why' 세트의 한국어 대응본; courseId "honors-english")
+import { HONORS_ENGLISH_U1_KO } from "./honors-english-u1";
+import { HONORS_ENGLISH_U2_KO } from "./honors-english-u2";
+import { HONORS_ENGLISH_U3_KO } from "./honors-english-u3";
+import { HONORS_ENGLISH_U4_KO } from "./honors-english-u4";
+
 export const REGISTRY_B: CoreNote[] = [
   ...HONORS_BIOLOGY_U1_KO,
   ...HONORS_CHEMISTRY_U1_KO,
@@ -176,6 +182,10 @@ export const REGISTRY_B: CoreNote[] = [
   ...HONORS_US_HISTORY_U4_KO,
   ...HONORS_CHEMISTRY_U5_KO,
   ...HONORS_CHEMISTRY_U6_KO,
+  ...HONORS_ENGLISH_U1_KO,
+  ...HONORS_ENGLISH_U2_KO,
+  ...HONORS_ENGLISH_U3_KO,
+  ...HONORS_ENGLISH_U4_KO,
   ...IB_BIOLOGY_U1_KO,
   ...IB_CHEMISTRY_U1_KO,
   ...IB_PHYSICS_U1_KO,
