@@ -335,18 +335,31 @@ const subjectBankInFlight = new Map<string, Promise<BankQuestion[]>>();
 // PostgREST caps a single select at 1000 rows, so every table that can exceed
 // that (the questions bank especially) must be read in pages or the bank
 // silently sees only the first 1000 rows.
+//
+// We page by KEYSET (WHERE col > last ORDER BY col LIMIT n), not OFFSET
+// (.range). Without an index on questions.subject, OFFSET pagination re-scans
+// from row 0 every page, so deep pages on a big subject (AP Physics 1 ~4.4k
+// rows) blow past Postgres' statement timeout and the whole build 500s — which
+// surfaced as "0문항" for unlocked/admin users. Keyset reads each page from
+// where the last one stopped, so the cost is flat. `keysetColumn` must be
+// unique, sortable, and present in the SELECT (id, or lesson_id).
 async function selectAllPaged<T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  build: () => any
+  build: () => any,
+  keysetColumn: string
 ): Promise<T[]> {
   const PAGE = 1000;
   const rows: T[] = [];
-  for (let from = 0; ; from += PAGE) {
-    const { data, error } = await build().range(from, from + PAGE - 1);
+  let last: string | number | null = null;
+  for (;;) {
+    let q = build().order(keysetColumn, { ascending: true }).limit(PAGE);
+    if (last != null) q = q.gt(keysetColumn, last);
+    const { data, error } = await q;
     if (error) throw error;
     const batch = (data ?? []) as T[];
     rows.push(...batch);
     if (batch.length < PAGE) break;
+    last = (batch[batch.length - 1] as Record<string, unknown>)[keysetColumn] as string | number;
   }
   return rows;
 }
@@ -358,23 +371,23 @@ async function rebuildBank(): Promise<BankQuestion[]> {
     selectAllPaged<ScriptRow>(() =>
       supabase
         .from("lesson_scripts")
-        .select("lesson_id, chapter_json")
-        .order("lesson_id", { ascending: true })
+        .select("lesson_id, chapter_json"),
+      "lesson_id"
     ),
     selectAllPaged<OverlayRow>(() =>
       supabase
         .from("overlays")
         .select("id, lesson_id, type, data")
-        .in("type", ["tap_quick", "question_sprint"])
-        .order("id", { ascending: true })
+        .in("type", ["tap_quick", "question_sprint"]),
+      "id"
     ),
     selectAllPaged<AdminQuestionRow>(() =>
       supabase
         .from("questions")
         .select(
           "id, subject, topic, question_text, option_a, option_b, option_c, option_d, option_e, correct_answer, explanation, explanation_korean, difficulty, tags"
-        )
-        .order("id", { ascending: true })
+        ),
+      "id"
     ),
   ]);
   const scriptRes = { data: scriptRows };
@@ -448,16 +461,16 @@ async function rebuildBankForSubject(variants: string[]): Promise<BankQuestion[]
       supabase
         .from("lesson_scripts")
         .select("lesson_id, chapter_json")
-        .or(orLessonId)
-        .order("lesson_id", { ascending: true })
+        .or(orLessonId),
+      "lesson_id"
     ),
     selectAllPaged<OverlayRow>(() =>
       supabase
         .from("overlays")
         .select("id, lesson_id, type, data")
         .in("type", ["tap_quick", "question_sprint"])
-        .or(orLessonId)
-        .order("id", { ascending: true })
+        .or(orLessonId),
+      "id"
     ),
     selectAllPaged<AdminQuestionRow>(() =>
       supabase
@@ -465,8 +478,8 @@ async function rebuildBankForSubject(variants: string[]): Promise<BankQuestion[]
         .select(
           "id, subject, topic, question_text, option_a, option_b, option_c, option_d, option_e, correct_answer, explanation, explanation_korean, difficulty, tags"
         )
-        .in("subject", variants)
-        .order("id", { ascending: true })
+        .in("subject", variants),
+      "id"
     ),
   ]);
 

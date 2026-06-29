@@ -106,9 +106,17 @@ export default function QuestionBankClient() {
     if (activeUnit != null) params.set("unit", String(activeUnit));
     params.set("preview", String(PREVIEW_N));
     authFetch(`/api/question-bank/bank?${params.toString()}`, { signal: controller.signal })
-      .then((r) => r.json())
-      .then((d) => {
+      .then(async (r) => ({ ok: r.ok, d: await r.json().catch(() => null) }))
+      .then(({ ok, d }) => {
         if (controller.signal.aborted || requestId !== requestSeq.current) return;
+        // A failed response (e.g. a transient build timeout) must NOT wipe the
+        // pane to "0문항" — keep the subject's known count from the rail so the
+        // header stays honest; just clear the (unavailable) question cards.
+        if (!ok || !d) {
+          setQuestions([]);
+          setFilteredTotal(subjects.find((s) => s.courseId === active)?.count ?? 0);
+          return;
+        }
         const scoped = Array.isArray(d?.questions)
           ? d.questions.filter((q: BankQuestion) => q.courseId === active)
           : [];
@@ -121,7 +129,7 @@ export default function QuestionBankClient() {
         if (controller.signal.aborted || requestId !== requestSeq.current) return;
         console.error("[parents/question-bank] failed to load subject", active, e);
         setQuestions([]);
-        setFilteredTotal(0);
+        setFilteredTotal(subjects.find((s) => s.courseId === active)?.count ?? 0);
       })
       .finally(() => {
         if (!controller.signal.aborted && requestId === requestSeq.current) {
