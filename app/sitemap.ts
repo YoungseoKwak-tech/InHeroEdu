@@ -28,6 +28,13 @@ export default function sitemap() {
       priority: 0.84,
     },
     {
+      // "바이오 인강" exact-match SEO landing — AP·IB·내신 생물 인터넷강의.
+      url: `${baseUrl}/kr/bio-inkang`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/pricing`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
