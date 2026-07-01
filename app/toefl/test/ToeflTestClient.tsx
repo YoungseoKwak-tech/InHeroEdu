@@ -463,32 +463,76 @@ function ReadingFlow({ sets, onDone, banner }: { sets: ToeflReadingSet[]; onDone
   );
 }
 
+// Keep-alive so Chrome/Safari don't silently stop mid-playback (the engine
+// goes idle after ~15s). Cleared whenever speech stops.
+let speakKeepAlive: ReturnType<typeof setInterval> | null = null;
+
+/** Cancel any in-flight narration and clear the keep-alive timer. */
+function stopSpeech(): void {
+  if (speakKeepAlive) { clearInterval(speakKeepAlive); speakKeepAlive = null; }
+  try { window.speechSynthesis?.cancel(); } catch { /* ignore */ }
+}
+
 // Multi-voice playback: assigns a distinct voice per speaker (Narrator,
 // Professor, Student, Librarian…) so conversations sound like two people.
+//
+// Reliability: browsers silently stall when many utterances are queued at once
+// (a full lecture is dozens of lines) and Chrome stops the engine after ~15s.
+// So we speak ONE short line at a time — chaining via onend — keep the engine
+// awake with a periodic resume(), and make sure the voice list is loaded first
+// (it populates lazily, which otherwise yields no audio on the first play).
 function speakTranscript(transcript: string, onEnd: () => void): void {
   const synth = window.speechSynthesis;
-  synth.cancel();
-  const all = synth.getVoices?.() ?? [];
-  const voices = all.filter((v) => /^en[-_]/i.test(v.lang));
-  const pool = voices.length ? voices : all;
-  const speakerVoice: Record<string, SpeechSynthesisVoice | undefined> = {};
-  let vi = 0;
-  const lines = transcript.split(/\n+/).map((l) => l.trim()).filter(Boolean);
-  const utts: SpeechSynthesisUtterance[] = [];
-  for (const line of lines) {
-    const m = line.match(/^([A-Za-z]+):\s*(.*)$/);
-    const speaker = m ? m[1] : "_";
-    const text = (m ? m[2] : line).trim();
-    if (!text) continue;
-    if (!(speaker in speakerVoice)) { speakerVoice[speaker] = pool[vi % Math.max(1, pool.length)]; vi++; }
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "en-US"; u.rate = speaker === "Narrator" ? 1 : 0.94;
-    const v = speakerVoice[speaker]; if (v) u.voice = v;
-    utts.push(u);
+  if (!synth) { onEnd(); return; }
+  stopSpeech();
+
+  const run = () => {
+    const all = synth.getVoices?.() ?? [];
+    const voices = all.filter((v) => /^en[-_]/i.test(v.lang));
+    const pool = voices.length ? voices : all;
+    const speakerVoice: Record<string, SpeechSynthesisVoice | undefined> = {};
+    let vi = 0;
+    const lines = transcript.split(/\n+/).map((l) => l.trim()).filter(Boolean);
+    const utts: SpeechSynthesisUtterance[] = [];
+    for (const line of lines) {
+      const m = line.match(/^([A-Za-z]+):\s*(.*)$/);
+      const speaker = m ? m[1] : "_";
+      const text = (m ? m[2] : line).trim();
+      if (!text) continue;
+      if (!(speaker in speakerVoice)) { speakerVoice[speaker] = pool[vi % Math.max(1, pool.length)]; vi++; }
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "en-US"; u.rate = speaker === "Narrator" ? 1 : 0.94;
+      const v = speakerVoice[speaker]; if (v) u.voice = v;
+      utts.push(u);
+    }
+    if (utts.length === 0) { onEnd(); return; }
+
+    speakKeepAlive = setInterval(() => {
+      try { if (synth.speaking && !synth.paused) synth.resume(); } catch { /* ignore */ }
+    }, 8000);
+
+    let idx = 0;
+    const speakNext = () => {
+      if (idx >= utts.length) { stopSpeech(); onEnd(); return; }
+      const u = utts[idx++];
+      u.onend = speakNext;
+      u.onerror = speakNext; // a failed line shouldn't kill the whole clip
+      try { synth.resume(); } catch { /* ignore */ }
+      synth.speak(u);
+    };
+    speakNext();
+  };
+
+  // Voices load lazily; if the list is empty, wait once for it (with a timeout
+  // fallback) so the very first "Play" isn't silent.
+  if ((synth.getVoices?.() ?? []).length === 0 && "onvoiceschanged" in synth) {
+    let ran = false;
+    const go = () => { if (ran) return; ran = true; run(); };
+    try { synth.onvoiceschanged = go; } catch { /* ignore */ }
+    setTimeout(go, 300);
+  } else {
+    run();
   }
-  if (utts.length === 0) { onEnd(); return; }
-  utts[utts.length - 1].onend = onEnd;
-  for (const u of utts) synth.speak(u);
 }
 
 // ── LISTENING ─────────────────────────────────────────────────────────────────
@@ -501,10 +545,17 @@ function ListeningFlow({ sets, onDone, banner }: { sets: ToeflListeningSet[]; on
   const [done, setDone] = useState(false);
   const set = sets[si];
 
-  const stop = useCallback(() => { try { window.speechSynthesis?.cancel(); } catch { /* ignore */ } setSpeaking(false); }, []);
+  const stop = useCallback(() => { stopSpeech(); setSpeaking(false); }, []);
   useEffect(() => () => stop(), [stop]);
-  // Warm up the voice list (some browsers populate it lazily).
-  useEffect(() => { try { window.speechSynthesis?.getVoices(); } catch { /* ignore */ } }, []);
+  // Warm up the voice list (browsers populate it lazily; without this the first
+  // "Play" can be silent). Trigger getVoices now and again on voiceschanged.
+  useEffect(() => {
+    try {
+      const synth = window.speechSynthesis;
+      synth?.getVoices();
+      if (synth && "onvoiceschanged" in synth) synth.onvoiceschanged = () => { try { synth.getVoices(); } catch { /* ignore */ } };
+    } catch { /* ignore */ }
+  }, []);
 
   const totalCorrect = sets.reduce((n, s) => n + s.questions.reduce((m, q) => m + (gradeMCQ(q, answers[q.id]) ? 1 : 0), 0), 0);
   const totalQ = sets.reduce((n, s) => n + s.questions.length, 0);
