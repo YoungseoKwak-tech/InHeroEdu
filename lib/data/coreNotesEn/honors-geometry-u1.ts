@@ -160,7 +160,8 @@ export const HONORS_GEOMETRY_U1_EN: CoreNote[] = [
         traps: [
           "After solving for x in a vertical-angle problem, always verify the angle measures. If ∠1 = 5x − 10 and its vertical angle ∠3 = 3x + 20, then 5x − 10 = 3x + 20 gives x = 15 and ∠1 = ∠3 = 65°. But you should also check that the adjacent angles sum to 180° (65 + 115 = 180) to confirm the condition that 'the two lines actually intersect.' Solving for x but skipping the angle check can cost partial marks.",
         ],
-        example: null,
+        example:
+          "Ray BD bisects ∠ABC, with ∠ABD = 4x + 5 and ∠DBC = 6x − 15. Find x and the full measure of ∠ABC. Since BD is an angle bisector, the two parts are congruent: 4x + 5 = 6x − 15, so 20 = 2x, x = 10. Each half is then ∠ABD = 4(10) + 5 = 45°, and by the Angle Addition Postulate ∠ABC = 2(45°) = 90°. Check: ∠DBC = 6(10) − 15 = 45° = ∠ABD ✓. Set the two half-angles equal first, then double to recover the whole angle.",
       },
     ],
   },

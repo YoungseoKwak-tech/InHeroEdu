@@ -74,7 +74,8 @@ export const IB_BIOLOGY_U4_EN: CoreNote[] = [
           "Decomposer and detritivore are not the same concept. Detritivores (e.g. earthworms, woodlice) physically fragment fallen leaves or carcasses and digest them internally, whereas decomposers (e.g. fungi, bacteria) secrete enzymes to break matter down chemically outside the body and then absorb it. IB mark schemes require these two terms to be used distinctly, and using them interchangeably such as 'decomposer = earthworm' is penalised.",
           "Misclassifying chemoautotrophs as heterotrophs is a common mistake. Chemoautotrophic bacteria simply do not use light; they obtain energy from inorganic chemical reactions (e.g. sulfur oxidation, ammonia oxidation) to synthesise their own organic matter — they are clearly autotrophs. Beware the faulty logic that 'if it obtains energy without light, it is a heterotroph.'",
         ],
-        example: null,
+        example:
+          "A deep-sea hydrothermal vent community shows every one of these nutritional modes at once. Sunlight never reaches these depths, so the producers are chemoautotrophic bacteria that oxidise hydrogen sulfide (H2S) escaping from the vent and use the released energy to fix carbon dioxide into sugars. Giant tube worms host these bacteria inside their bodies in a mutualism and rely on them for food, while crabs and fish act as heterotrophic consumers eating the worms and bacterial mats. When any of these organisms dies, decomposer bacteria break the remains down by extracellular digestion, returning minerals to the water. IB may ask you to classify each organism here and explain why a whole ecosystem can exist with no photosynthesis at all.",
       },
     ],
   },

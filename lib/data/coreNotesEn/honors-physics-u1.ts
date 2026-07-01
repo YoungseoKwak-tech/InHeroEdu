@@ -80,7 +80,8 @@ export const HONORS_PHYSICS_U1_EN: CoreNote[] = [
           "The magnitudes of average speed and average velocity are not always equal. For a round trip where the displacement is zero, the average velocity is zero but the average speed is positive. Writing 'if average velocity is zero then the object was at rest' on an exam is incorrect.",
           "The magnitude of velocity (|v|) is speed — but average speed differs from the 'magnitude of average velocity'. The magnitude of average velocity = |v̄| = |Δx|/Δt, whereas average speed = total distance/Δt. These two values can differ unless the path is a straight line.",
         ],
-        example: null,
+        example:
+          "A runner goes 100 m east in 20 s, then 60 m west in 10 s (east = +). Find the average speed and the average velocity for the full trip. Total distance = 100 + 60 = 160 m over Δt = 30 s, so average speed = 160 / 30 = 5.3 m/s. Displacement = +100 − 60 = +40 m, so average velocity = 40 / 30 = +1.3 m/s (eastward). The two differ because the path was not a straight line — this is exactly why 'speed = magnitude of average velocity' is false in general.",
       },
     ],
   },
@@ -158,7 +159,8 @@ export const HONORS_PHYSICS_U1_EN: CoreNote[] = [
         traps: [
           "v̄ = (v₀ + v)/2 can be used only for uniformly accelerated motion. If the acceleration is not constant, this formula does not hold. Do not use it when the velocity–time graph is a curve rather than a straight line.",
         ],
-        example: null,
+        example:
+          "A car moving at v₀ = 30 m/s brakes uniformly and stops (v = 0) over a distance of Δx = 90 m. Find the acceleration. Here time is neither given nor asked, so choose the time-independent equation v² = v₀² + 2aΔx. Substituting: 0² = (30)² + 2a(90), so 0 = 900 + 180a, giving a = −900/180 = −5.0 m/s². The negative sign means the acceleration opposes the motion (braking). Recognising that no t appears is the cue to pick this equation immediately.",
       },
     ],
   },

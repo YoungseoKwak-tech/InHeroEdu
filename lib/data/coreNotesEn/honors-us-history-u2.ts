@@ -79,7 +79,8 @@ export const HONORS_US_HISTORY_U2_EN: CoreNote[] = [
           "Describing Jackson only as a 'hero of democracy' loses marks at the Honors level. Jackson expanded white male democracy, but he also carried out forced removal amounting to ethnic cleansing of Native peoples and was a slaveholder who actively supported slavery. The fact that he ignored the Supreme Court's ruling in favor of the Cherokee (Worcester v. Georgia, 1832) and forced removal anyway shows how limited his 'democracy' was.",
           "Do not simplify Jackson's defense of federal authority in the Nullification Crisis as 'oppressing the South.' The surface issue was the tariff, but South Carolina's real fear was that the federal government might one day regulate slavery. The tariff conflict was a rehearsal for the slavery conflict.",
         ],
-        example: null,
+        example:
+          "See the contradiction of Jacksonian Democracy in the Trail of Tears. In Worcester v. Georgia (1832), Chief Justice John Marshall ruled that the Cherokee Nation was a sovereign entity and that Georgia had no authority over its lands. Jackson, who had signed the Indian Removal Act in 1830, effectively ignored the ruling and pressed forward with removal. The result was the Trail of Tears (1838–1839), a forced winter march of roughly 16,000 Cherokee to Indian Territory in present-day Oklahoma, on which around 4,000 died of cold, hunger, and disease. The same president who expanded suffrage for common white men trampled a Supreme Court decision to carry out what amounted to the ethnic cleansing of a Native nation — proof that his 'democracy' was strictly for white men.",
       },
     ],
   },
@@ -157,7 +158,8 @@ export const HONORS_US_HISTORY_U2_EN: CoreNote[] = [
           "Writing that all abolitionists supported full racial equality is an overgeneralization. There was a spectrum within abolitionism — William Lloyd Garrison demanded immediate, unconditional abolition, while Lincoln in the 1860 election opposed only the spread of slavery into new territories, not abolition in existing slave states. Do not portray Lincoln as a 'complete abolitionist' from the start.",
           "Do not evaluate John Brown's actions simply as the work of a madman. His methods were controversial even in the contemporary North, but his goal of abolishing slavery was shared by many. At the Honors level the key is to analyze 'why this event threw the South into panic' — as the explosion of white Southern fear of an armed Black uprising.",
         ],
-        example: null,
+        example:
+          "See how moral confrontation swallowed politics through John Brown's raid on Harpers Ferry (1859). Brown, a radical abolitionist, seized the federal arsenal at Harpers Ferry, Virginia, intending to arm enslaved people and ignite a mass uprising. The raid failed within days, and after a trial Brown was hanged in December 1859. But the two sides read the same event in opposite ways: Northern figures like Ralph Waldo Emerson called Brown a martyr and church bells tolled for him, while white Southerners saw proof that the North wanted to incite a bloody slave revolt like the one they feared from Nat Turner (1831). After Harpers Ferry, moderate compromise became almost impossible — each side now saw the other as an existential threat, and Lincoln's election a year later triggered secession.",
       },
     ],
   },

@@ -77,7 +77,8 @@ export const IB_ENGLISH_U1_EN: CoreNote[] = [
         traps: [
           "Do not reduce context to mere 'historical background.' In IB, context includes not only the time and place in which a text was written, but also the time and place in which a reader encounters it. When a contemporary high school student reads a war poem written in 1945, the difference in context of reception changes the way meaning is made.",
         ],
-        example: null,
+        example:
+          "Take a public-health billboard reading 'Text your ex, not while you drive.' Plot it on the triangle: the purpose is to persuade, specifically to deter distracted driving; the audience is constructed as young drivers who text habitually, signalled by the casual imperative and the joke about an 'ex'; the context of production is a road-safety campaign responding to smartphone-era crash statistics. Each choice becomes legible only once the three coordinates are fixed — the flippant tone would be inexplicable for an older audience or a solemn purpose. Reading the wit as merely 'funny,' without anchoring it to purpose and audience, is exactly the surface-level move IB penalises.",
       },
       {
         title: "The Dynamic Triangle: Reader, Writer, and Text",
@@ -100,7 +101,8 @@ export const IB_ENGLISH_U1_EN: CoreNote[] = [
         traps: [
           "Confusing authorial intent with textual effect will cost you marks. If you claim 'the writer intended X,' you must supply textual evidence to support that claim. Unsupported speculation about intention receives low marks from IB examiners.",
         ],
-        example: null,
+        example:
+          "Consider a charity appeal that opens 'You have already scrolled past three children who will not eat tonight.' The constructed reader is a comfortable, distracted social-media user — the text assumes someone scrolling, and 'already' presupposes that reader's guilt before a single donation is made. Two readers, however, may respond differently: one feels the intended prick of conscience and gives, while another, fatigued by such appeals, reads the same second person as manipulative and clicks away. The example shows how the text strategically builds an implied reader through the pronoun 'you,' while actual reader response remains contingent — and note that any claim about the writer's intent here rests on the textual evidence of that direct address, not on guesswork.",
       },
     ],
   },
@@ -176,7 +178,8 @@ export const IB_ENGLISH_U1_EN: CoreNote[] = [
         traps: [
           "In structural analysis, avoid simply counting paragraphs. IB does not want 'this text has three paragraphs'; it wants 'why did the writer place this argument first and that evidence last, and what effect does that sequencing have on the reader?'",
         ],
-        example: null,
+        example:
+          "Consider a short paragraph built on accumulating syntax: 'She checked the locks. She checked the windows. She checked the door she had already checked twice.' The parallelism of the three clauses creates a rhythm of compulsion, and the final inversion of expectation — 'already checked twice' — breaks the pattern to expose the speaker's anxiety rather than her caution. A structural reading notes that the short, declarative syntax accelerates the pace and that placing the revealing clause last makes the paragraph withhold its meaning until the final beat. The analysis lies not in observing 'there are three sentences' but in explaining how their arrangement enacts the psychology the passage is about.",
       },
       {
         title: "Connecting Stylistic Devices to Effect",
@@ -301,7 +304,8 @@ export const IB_ENGLISH_U1_EN: CoreNote[] = [
         traps: [
           "Ignoring or treating the guiding question superficially is one of the most damaging mistakes in IB Paper 1. The guiding question is the assessment anchor — build a thesis that directly answers it and verify that every paragraph converges on that thesis. The goal is not to 'write everything you know about the text' but to 'write precisely what is needed to answer the guiding question.' That precision is the hallmark of a top-band response.",
         ],
-        example: null,
+        example:
+          "Suppose the guiding question is 'How does the writer use structure to convey a sense of loss?' A weak thesis restates the prompt: 'The writer uses structure to show loss.' A strong thesis narrows to a specific, arguable claim tied to a line of reasoning: 'The writer conveys loss by moving from tightly ordered opening paragraphs into increasingly fragmented syntax, so that the collapse of grammatical control formally enacts the speaker's inability to hold the memory together.' Each body paragraph then advances one stage of that movement — the ordered opening, the transitional fracture, the final fragmentation — rather than cataloguing unrelated features. Notice that the thesis answers the question directly and dictates the paragraph sequence, which is exactly what lifts a Paper 1 response into the top band.",
       },
     ],
   },

@@ -73,7 +73,8 @@ export const HONORS_BIOLOGY_U3_EN: CoreNote[] = [
         traps: [
           "Simplifying meiosis II as 'identical to mitosis' is wrong. The starting cell of mitosis is diploid (2n), but the starting cell of meiosis II is already haploid (n). As a result, meiosis II ends with haploid (n) cells while mitosis ends with diploid (2n) cells. The processes look similar, but the chromosome numbers differ.",
         ],
-        example: null,
+        example:
+          "Track a cell with 2n = 4 through both processes to expose the difference. In mitosis, the 2n = 4 parent cell replicates its DNA and divides once, producing two daughter cells that are each still 2n = 4 — full diploid copies for growth and repair. In meiosis, the same 2n = 4 cell replicates once but divides twice: meiosis I separates the two homologous pairs to give two n = 2 cells, and meiosis II then separates the sister chromatids to give four n = 2 gametes. So although meiosis II and mitosis both split sister chromatids and look alike under the microscope, the meiosis II cell enters already haploid (n = 2) and leaves haploid, whereas mitosis enters and leaves diploid (2n = 4).",
       },
     ],
   },

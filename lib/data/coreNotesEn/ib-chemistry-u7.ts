@@ -73,7 +73,8 @@ export const IB_CHEMISTRY_U7_EN: CoreNote[] = [
         traps: [
           "The ratio of reactant and product concentrations at equilibrium is independent of the starting composition. Whether you begin with only reactants or only products, you converge to equilibrium concentrations satisfying the same Kc value at the same temperature. The notion that 'adding more reactant changes the equilibrium constant' is wrong — the position of equilibrium (the concentration values) may change, but Kc is always constant at the same temperature.",
         ],
-        example: null,
+        example:
+          "Demonstrating path independence for H₂(g) + I₂(g) ⇌ 2HI(g) at 500 °C, where Kc = 64. Approach A starts with only reactants, 1.00 mol dm⁻³ H₂ and 1.00 mol dm⁻³ I₂ and no HI; the system runs forward until [H₂] = [I₂] = 0.20 and [HI] = 1.60, giving (1.60)² / (0.20 × 0.20) = 64. Approach B starts with only product, 2.00 mol dm⁻³ HI and no reactants; HI decomposes until [HI] = 1.60 and [H₂] = [I₂] = 0.20 — the identical equilibrium mixture. Both routes reach the same concentrations satisfying Kc = 64 because Kc depends on temperature alone, not on where you began.",
       },
     ],
   },

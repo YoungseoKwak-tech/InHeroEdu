@@ -74,7 +74,8 @@ export const IB_CS_U7_EN: CoreNote[] = [
           "In IB exams, when describing the components of a control system, listing only 'sensor → controller → actuator' and omitting the transducer (ADC/DAC) earns only partial marks. Since an analogue sensor signal cannot enter the controller directly, and the controller's digital output often cannot connect directly to the actuator, you must explicitly include the roles of the ADC and DAC for a complete answer.",
           "Writing only that an actuator is an 'output device' without explaining the specific physical action will not earn high IB marks. For example, you must describe specifically what physical result it produces in that system: 'the actuator in a temperature control system is a heater, which turns the power on or off according to the controller's command to regulate the room temperature.'",
         ],
-        example: null,
+        example:
+          "Let's trace one full Input-Process-Output cycle in an automatic greenhouse ventilation system.\n\n[Input]\n  Thermistor detects greenhouse air at 32°C (analogue) → ADC converts it to the digital value 163 → passed to the microcontroller\n\n[Process]\n  Controller holds setpoint 28°C (digital value 143)\n  Error = 143 − 163 = −20 (current temperature is above the setpoint)\n  Pre-programmed rule: if temperature > setpoint, open the vent window\n\n[Output]\n  Controller issues an 'open vent' command → the signal drives the actuator, an electric motor, which rotates to open the roof window → hot air escapes and the greenhouse cools\n\nIB point: the actuator here is not merely an 'output device' — it is an electric motor performing the specific physical action of rotating the vent window open, and the DAC/driver stage is what lets the controller's digital command reach it.",
       },
     ],
   },
@@ -146,7 +147,8 @@ export const IB_CS_U7_EN: CoreNote[] = [
           "In IB exams, writing that 'with feedback, accurate control is always guaranteed' is wrong. Even with feedback, perfect control is difficult due to overshoot, oscillation, and system lag. A high-scoring IB answer includes the realistic limitation: 'closed-loop control is more precise than open-loop, but overshoot or oscillation can occur depending on system lag and the setting of control parameters.'",
           "Many answers omit the effect of the sampling interval on control quality. If the sampling interval is too long, rapid environmental changes are not detected in time and the error grows; if it is too short, the controller's processing load and power consumption increase. Including the sampling interval in an IB extended-response asking about 'factors to consider when designing a system' makes for a differentiated answer.",
         ],
-        example: null,
+        example:
+          "Let's trace how overshoot and oscillation appear in an over-aggressive oven controller (setpoint 180°C) with significant lag.\n\n  Time 0min: 20°C → error +160°C → heater ON at full power\n  Time 5min: 180°C reached → heater OFF, but lag means the element is still hot\n  Time 7min: temperature keeps rising to 205°C → OVERSHOOT of +25°C above setpoint\n  Time 10min: controller sees error −25°C → heater stays OFF, oven cools\n  Time 14min: temperature falls to 160°C → UNDERSHOOT of −20°C → heater ON again\n  Time 18min: rises to 195°C → overshoot again, smaller this time\n  → the temperature OSCILLATES around 180°C, gradually settling\n\nIB point: even with correct negative feedback, system lag causes overshoot and oscillation, so feedback does not guarantee perfect control. Real controllers reduce this using PID control and a well-chosen sampling interval — sampling too slowly would let the temperature drift even further before each correction.",
       },
     ],
   },

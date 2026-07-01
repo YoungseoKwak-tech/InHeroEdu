@@ -85,7 +85,8 @@ export const HONORS_PRECALCULUS_U4_EN: CoreNote[] = [
           "In S_∞ = a₁/(1 − r), mistaking r² or another value for the common ratio is an error. Clear cases like 1 + 1/3 + 1/9 + ⋯ are fine, but with 3/4 + 3/16 + 3/64 + ⋯ you must separate a₁ from r = a₂/a₁. Always state a₁ and r = a₂/a₁ explicitly before applying the formula.",
           "Assuming an infinite sum exists when |r| ≥ 1 gives nonsense. Computing 1 + 2 + 4 + 8 + ⋯ as 1/(1 − 2) = −1 is obviously wrong. The S_∞ formula is valid only for |r| < 1; make checking |r| < 1 the first item on your checklist.",
         ],
-        example: null,
+        example:
+          "Evaluate the infinite series 3/4 + 3/16 + 3/64 + ⋯. First identify a₁ and r explicitly: a₁ = 3/4 and r = a₂/a₁ = (3/16)/(3/4) = 1/4. Since |r| = 1/4 < 1, the series converges, so S_∞ = a₁/(1 − r) = (3/4)/(1 − 1/4) = (3/4)/(3/4) = 1. For contrast, the partial sum of the first 3 terms is S₃ = (3/4)(1 − (1/4)³)/(1 − 1/4) = (3/4)(63/64)/(3/4) = 63/64, which is already close to the infinite sum of 1.",
       },
     ],
   },

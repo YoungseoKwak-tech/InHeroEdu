@@ -81,7 +81,8 @@ export const IB_MATH_AI_U1_EN: CoreNote[] = [
         traps: [
           "In the percentage error formula, the denominator must be the expected (true) value v_E — never the approximate value. Swapping them gives a completely different result. IB problems sometimes reverse 'approximate' and 'true' as a deliberate trap, so always identify which value is v_A and which is v_E before substituting.",
         ],
-        example: null,
+        example:
+          "Let's see why relative size matters more than absolute size. Estimating a room's length as 5.1 m when the true value is 5.0 m gives absolute error |5.1 − 5.0| = 0.1 m, and percentage error = 0.1 / 5.0 × 100 = 2%. Estimating a marathon distance as 42.3 km when the true value is 42.2 km gives the same absolute error of 0.1 km, but percentage error = 0.1 / 42.2 × 100 ≈ 0.24%. The identical 0.1 absolute error is far more serious for the small room measurement than for the long race, which is exactly why relative (percentage) error, with the true value v_E in the denominator, is the fair way to compare precision across different scales.",
       },
     ],
   },
@@ -192,7 +193,8 @@ export const IB_MATH_AI_U1_EN: CoreNote[] = [
         traps: [
           "In annuity problems, you must distinguish whether payments are made at the beginning of each period (annuity-due) or at the end (ordinary annuity). IB exams usually assume end-of-period payments, but always check if the question specifies. When using the GDC TVM (Time Value of Money) function, the Begin/End setting changes the result.",
         ],
-        example: null,
+        example:
+          "Let's find the present value needed to reach a future goal. A student wants €10,000 in 5 years for university and can invest at an annual rate of 6% compounded annually (k = 1, n = 5). Rearranging the compound interest formula for PV: PV = FV / (1 + r/100k)^(kn) = 10000 / (1 + 6/100)^5 = 10000 / (1.06)^5. Since (1.06)^5 ≈ 1.33823, PV = 10000 / 1.33823 ≈ €7472.58. So depositing about €7472.58 today grows to the €10,000 target — this discounting is the reverse of the future-value calculation, and for an annuity of several equal deposits you would instead sum each payment's growth as a geometric series.",
       },
     ],
   },

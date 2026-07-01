@@ -139,7 +139,8 @@ export const IB_BIOLOGY_U6_EN: CoreNote[] = [
           "The lungs have no muscle, so they cannot expand or contract on their own. Changes in lung volume depend entirely on changes in thoracic volume produced by contraction and relaxation of the diaphragm and intercostal muscles. Writing 'the lungs contract to cause expiration' is incorrect; you must write the causal chain 'decreased thoracic volume → elastic recoil of the lungs → rise in intrapulmonary pressure → expiration.'",
           "Gas exchange occurs not by active transport but by simple diffusion. No energy (ATP) is consumed, and the driving force is the partial-pressure gradient. O₂ has a higher partial pressure on the alveolar side and so moves into the blood; CO₂ has a higher partial pressure on the blood side and so moves into the alveolus. Writing 'cells actively take up O₂' will immediately cost marks.",
         ],
-        example: null,
+        example:
+          "Trace oxygen across an alveolus using real partial-pressure values. Air in the alveolus has an oxygen partial pressure of about 13.3 kPa, while blood arriving in the surrounding capillaries from the body has an oxygen partial pressure of only about 5.3 kPa. Because O2 diffuses down this gradient of roughly 8 kPa across the very short diffusion distance of a single squamous epithelial cell plus the capillary wall, oxygen passes into the blood until the blood leaving the lung reaches about 13.3 kPa. Carbon dioxide simultaneously diffuses the opposite way, from about 6.1 kPa in the blood to about 5.3 kPa in the alveolus. The steady blood flow through the dense capillary network keeps replacing saturated blood with fresh deoxygenated blood, maintaining the gradient so diffusion continues without any ATP being used.",
       },
     ],
   },

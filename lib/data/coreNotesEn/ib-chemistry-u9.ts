@@ -70,7 +70,8 @@ export const IB_CHEMISTRY_U9_EN: CoreNote[] = [
         traps: [
           "Writing the direction of a displacement reaction backwards is the most common error on IB Paper 1. 'A less reactive metal displaces the ion of a more reactive metal' is impossible. Example: Cu + ZnSO₄(aq) → no reaction (reactivity of Cu < Zn). Always confirm the direction 'the more reactive species pushes out the less reactive ion.' The position of hydrogen (H₂) in the reactivity series also matters — only metals more reactive than H₂ react with acids to release H₂.",
         ],
-        example: null,
+        example:
+          "Predicting a displacement reaction with the reactivity series (IB Paper 1 type). A strip of zinc is placed in blue copper(II) sulfate solution. Since Zn is more reactive than Cu (Zn > Cu), the zinc is oxidised and displaces the copper ions: Zn(s) + CuSO₄(aq) → ZnSO₄(aq) + Cu(s). Oxidation states: Zn goes 0 → +2 (oxidised, reducing agent) and Cu²⁺ goes +2 → 0 (reduced, oxidising agent), so the observations are the blue colour fading as Cu²⁺ is consumed and a reddish-brown copper coating forming on the zinc. Reversing the metals — placing copper in ZnSO₄(aq) — gives no reaction, because the less reactive Cu cannot displace the ion of the more reactive Zn.",
       },
     ],
   },

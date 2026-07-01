@@ -78,7 +78,8 @@ export const IB_CS_U2_EN: CoreNote[] = [
         traps: [
           "When an IB question asks you to state two ways to improve CPU performance, the trap is listing only clock speed and core count. A stronger answer also includes increasing cache size or widening the bus. The key is to explain in at least one sentence why each factor improves performance — a bare list earns only 2 marks.",
         ],
-        example: null,
+        example:
+          "Compare two CPUs to see why a single number misleads. CPU X runs at 4.0 GHz with 2 cores and 2 MB of cache; CPU Y runs at 3.2 GHz with 8 cores and 16 MB of cache. Rendering a video that splits cleanly into parallel chunks, CPU Y wins easily because 8 cores process 8 segments at once, and its larger cache means fewer slow RAM fetches (a higher cache hit rate). But running an old single-threaded game bound to one core, CPU X's higher 4.0 GHz clock finishes each instruction faster and wins. This is why '4.0 GHz beats 3.2 GHz' is only true for single-threaded work — core count and cache size decide the parallel case.",
       },
     ],
   },
@@ -178,7 +179,8 @@ export const IB_CS_U2_EN: CoreNote[] = [
         traps: [
           "Writing Unicode and UTF-8 as if they are the same thing will cost you marks. Unicode is the standard that assigns a code point to each character; UTF-8 is one encoding scheme — an implementation — that maps those code points to actual bytes. Always distinguish them in IB answers as 'standard vs. encoding method.'",
         ],
-        example: null,
+        example:
+          "Let's encode the word 'Hi!' in ASCII and calculate its storage. 'H' = 72 = 0100 1000, 'i' = 105 = 0110 1001, '!' = 33 = 0010 0001. Each character is 1 byte (8 bits), so the 3-character string needs 3 bytes = 24 bits. A 200-page plain-text document averaging 2,000 ASCII characters per page would need 2,000 × 200 = 400,000 bytes ≈ 391 KB (dividing by 1,024). Note that in UTF-8 these three characters still take 1 byte each because they are ASCII, but a character such as an emoji would take 4 bytes, so Unicode text of the same character count can occupy far more storage.",
       },
     ],
   },

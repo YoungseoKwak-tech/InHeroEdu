@@ -53,7 +53,7 @@ export const HONORS_CHEMISTRY_U5_EN: CoreNote[] = [
         traps: [
           "Saying that 'any collision causes a reaction' — only effective collisions (energy ≥ Ea AND correct orientation) yield products. Most everyday collisions at room temperature are too gentle and/or mis-aligned.",
         ],
-        example: null,
+        example: "In the reaction NO + O₃ → NO₂ + O₂, the nitrogen atom of NO must strike an outer oxygen of O₃. A collision where the oxygen end of NO hits O₃ has the wrong orientation and bounces off without reacting, even if the two molecules carry more than enough kinetic energy to exceed Ea.",
       },
       {
         title: "Activation Energy and the Transition State",
@@ -150,7 +150,7 @@ export const HONORS_CHEMISTRY_U5_EN: CoreNote[] = [
         traps: [
           "Reading reaction orders directly from the balanced equation — this is the most common kinetics error. The exponents in a rate law reflect the reaction mechanism, not the overall stoichiometry. For example, 2 NO₂ → 2 NO + O₂ is experimentally second-order in NO₂, but that happens to equal the coefficient; for other reactions they do not match.",
         ],
-        example: null,
+        example: "If a reaction has rate = k[A][B]², it is first-order in A, second-order in B, and third-order overall (1 + 2). Doubling [B] alone multiplies the rate by 2² = 4, while doubling [A] alone only doubles the rate.",
       },
       {
         title: "Method of Initial Rates: Determining Orders from Data",
@@ -190,7 +190,7 @@ export const HONORS_CHEMISTRY_U5_EN: CoreNote[] = [
         traps: [
           "Assuming all half-lives are concentration-independent — only first-order half-lives are constant. Second-order half-lives lengthen as the reaction proceeds because [A]₀ decreases.",
         ],
-        example: null,
+        example: "A first-order reaction has k = 0.0231 s⁻¹. Its half-life is t₁/₂ = 0.693/k = 0.693/0.0231 = 30 s, and this stays 30 s no matter the starting concentration. After 90 s (three half-lives) the concentration has dropped to (1/2)³ = 1/8 of its original value.",
       },
     ],
   },
@@ -242,7 +242,7 @@ export const HONORS_CHEMISTRY_U5_EN: CoreNote[] = [
           "Thinking equilibrium means the reaction has stopped — at equilibrium both the forward and reverse reactions continue. Only the net change in concentration is zero.",
           "Thinking equilibrium means equal concentrations of products and reactants — the system may heavily favor one side. 'Equal' refers to the rates, not the amounts.",
         ],
-        example: null,
+        example: "For N₂O₄ ⇌ 2NO₂ in a sealed flask, once equilibrium is reached the flask's color stops changing, yet individual N₂O₄ molecules are still splitting into NO₂ and NO₂ molecules are still recombining. The forward and reverse rates are equal, so the amounts stay constant even though the reaction never actually stops.",
       },
       {
         title: "The Equilibrium Constant Keq",
@@ -282,7 +282,7 @@ export const HONORS_CHEMISTRY_U5_EN: CoreNote[] = [
           "Including solid or liquid concentrations in Keq — a common test error. For example, for CaCO₃(s) ⇌ CaO(s) + CO₂(g), the correct expression is Keq = [CO₂]. Neither solid appears.",
           "Excluding dissolved water (as a solute) — if water is a reactant or product in aqueous solution in stoichiometric amounts that matter, it should be included. The exclusion applies specifically to water as the bulk solvent.",
         ],
-        example: null,
+        example: "For 2H₂O(l) ⇌ 2H₂(g) + O₂(g), the liquid water is a pure liquid with activity 1 and is left out, so Keq = [H₂]²[O₂]. Only the two gaseous products appear in the expression.",
       },
     ],
   },
@@ -370,7 +370,7 @@ export const HONORS_CHEMISTRY_U5_EN: CoreNote[] = [
           "Thinking concentration or pressure changes alter Keq — they do not. They shift position (change Q) until Q returns to the same K value.",
           "Claiming a catalyst shifts the equilibrium position — it does not. It only accelerates the rate at which equilibrium is reached.",
         ],
-        example: null,
+        example: "For the exothermic reaction 2SO₂(g) + O₂(g) ⇌ 2SO₃(g), raising the temperature from 400 °C to 600 °C lowers the value of Keq, so less SO₃ is present at the new equilibrium. Adding more O₂ at constant temperature instead only raises Q temporarily, shifting the position right until Q returns to the same unchanged Keq.",
       },
     ],
   },
@@ -455,7 +455,7 @@ export const HONORS_CHEMISTRY_U5_EN: CoreNote[] = [
         traps: [
           "Using [H⁺] = initial concentration for a weak acid — only valid for strong acids. For weak acids, [H⁺] << initial concentration, so an equilibrium calculation is required.",
         ],
-        example: null,
+        example: "0.010 M HCl is a strong acid, so [H⁺] = 0.010 M directly and pH = −log(0.010) = 2.00. A 0.010 M solution of the weak acid HF (Ka = 6.8 × 10⁻⁴) dissociates only partly, giving [H⁺] ≈ √(6.8 × 10⁻⁴ × 0.010) = 2.6 × 10⁻³ M and pH ≈ 2.59 — higher (less acidic) than the strong acid at the same concentration.",
       },
       {
         title: "The ICE Table and the 5% Rule for Weak Acids",

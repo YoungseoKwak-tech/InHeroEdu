@@ -75,7 +75,8 @@ export const HONORS_US_HISTORY_U3_EN: CoreNote[] = [
           "Writing that the AFL was 'more progressive' than the Knights of Labor is an error. The AFL actually restricted its organization to skilled workers, systematically excluding unskilled workers, immigrants, Black people, and women. While the Knights were inclusive, the AFL reproduced inequality within the labor movement. Distinguish 'more practical' from 'more inclusive' — they are entirely different evaluations.",
           "Do not simplify all 19th-century labor strikes as connected to violent anarchism. There was no evidence that whoever threw the bomb at Haymarket belonged to the Knights of Labor, yet the press manufactured the link, and the courts executed activists who had led an eight-hour-workday rally. This is a case showing how media, courts, and business used the fear of 'radicalism' to suppress the labor movement.",
         ],
-        example: null,
+        example:
+          "See why the 19th-century labor movement kept failing through the Homestead Strike (1892). At Carnegie Steel's Homestead plant in Pennsylvania, workers struck against wage cuts while Andrew Carnegie was conveniently abroad. His manager Henry Clay Frick hired 300 armed Pinkerton private guards to break the strike, and a gun battle on the Monongahela River left workers and Pinkertons dead. The governor then sent 8,000 state militia, the plant reopened with strikebreakers, and the union was crushed. The pattern repeats across the era — Homestead, Pullman (1894), Haymarket (1886): companies could summon private guards, state militia, courts, and federal troops, while unions had only the strike, so organized labor lost nearly every major confrontation before 1900.",
       },
     ],
   },
@@ -149,7 +150,8 @@ export const HONORS_US_HISTORY_U3_EN: CoreNote[] = [
           "Do not record the Populist Party merely as a 'failed farmers' revolt.' The policies it demanded — a progressive income tax (16th Amendment, 1913), the direct election of senators (17th Amendment, 1913), stronger railroad regulation — were substantially realized decades later through the Progressive Era and the New Deal. The Populists should be evaluated not as 'losers of their age' but as those who 'laid out the roadmap for future policy.'",
           "Do not read Bryan's 'Cross of Gold' speech as merely a religious one. The line 'you shall not crucify mankind upon a cross of gold' borrowed religious rhetoric to deliver an economic message — a political speech. To analyze why it provoked an explosive response among Southern and Western farmers, connect it to the real suffering the gold standard inflicted on indebted farmers.",
         ],
-        example: null,
+        example:
+          "See how the Election of 1896 fractured and ended the Populist movement. William Jennings Bryan, only 36, electrified the 1896 Democratic convention with his 'Cross of Gold' speech demanding free silver, and the Populists fused behind him rather than run their own candidate. Republican William McKinley, backed by industrialist Mark Hanna's unprecedented campaign war chest of some $3.5 million from banks and corporations, defended the gold standard and won 271 to 176 electoral votes. Once the Populists had poured their identity into Bryan and lost, the third party effectively dissolved. Yet within two decades their platform was law — the progressive income tax (16th Amendment, 1913) and direct election of senators (17th Amendment, 1913) — showing they lost the election but wrote the future policy agenda.",
       },
     ],
   },

@@ -183,7 +183,8 @@ export const IB_PHYSICS_U2_EN: CoreNote[] = [
         traps: [
           "Memorising 'going up means N > mg' is a trap. Even while moving upward, if the elevator is decelerating (speed is decreasing), the acceleration points downward and N = m(g − a) < mg. Always determine the direction of acceleration first, then write F_net = ma in that direction. 'Moving upward' and 'acceleration is upward' are not the same statement.",
         ],
-        example: null,
+        example:
+          "Find the apparent weight of a 70 kg person on a scale in an accelerating elevator. Taking g = 9.8 m/s^2, the person's true weight is mg = 70 x 9.8 = 686 N. If the elevator accelerates upward at a = 2.0 m/s^2, the net force must point upward, so N - mg = ma, giving N = m(g + a) = 70 x (9.8 + 2.0) = 826 N and the scale reads heavier. If instead the elevator accelerates downward at 2.0 m/s^2, N = m(g - a) = 70 x (9.8 - 2.0) = 546 N and the person feels lighter. In the limiting case of free fall, a = g = 9.8 m/s^2 downward, so N = m(g - g) = 0 N, which is the sensation of weightlessness.",
       },
     ],
   },

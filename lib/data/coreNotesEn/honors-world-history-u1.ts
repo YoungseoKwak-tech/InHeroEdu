@@ -82,7 +82,8 @@ export const HONORS_WORLD_HISTORY_U1_EN: CoreNote[] = [
         traps: [
           "Do not mistake the Indus Valley civilization for a 'less developed' civilization. Mohenjo-daro's urban planning — grid streets, a public bath, a sewage system — was actually more advanced than contemporary Mesopotamia or Egypt. We simply know less about its internal social structure because its script has not been deciphered.",
         ],
-        example: null,
+        example:
+          "Compare how the same environmental variable — river behavior — shaped Mesopotamia and Egypt in opposite directions. In Mesopotamia the Tigris and Euphrates flooded violently and unpredictably, so the Sumerians developed a pessimistic worldview (reflected in the Epic of Gilgamesh's grim flood myth) and a fragmented map of competing city-states like Ur, Uruk, and Lagash that fought over water. In Egypt the Nile flooded on a gentle, predictable annual schedule, guaranteeing a reliable surplus, which supported an optimistic culture and a single centralized theocracy under the pharaoh — Egypt achieved political unification around 3100 BCE under Narmer and stayed largely unified for millennia. Same 'river valley' checkbox, but the character of the river produced a fractured Mesopotamia and a unified Egypt: geography did not just enable civilization, it shaped its political form.",
       },
       {
         title: "Writing and Social Stratification — The Core Engine of Civilization",
@@ -109,7 +110,8 @@ export const HONORS_WORLD_HISTORY_U1_EN: CoreNote[] = [
         traps: [
           "Do not read the Code of Hammurabi as 'fair law.' The 'eye for an eye' principle looks like equal punishment, but a close reading shows that penalties varied by the social class of victim and offender — the punishment differed when a noble harmed a commoner versus when a commoner harmed a noble. The code was also a tool that codified class inequality into written law.",
         ],
-        example: null,
+        example:
+          "See how writing functioned as a tool for monopolizing power in Egypt through the scribe class. Learning hieroglyphics took years of training that only the elite could afford, so literacy remained confined to a tiny minority — perhaps 1% of the population. Because scribes alone could read tax rolls, record harvests, and inscribe royal decrees, they controlled the flow of administrative and religious knowledge, and the famous text 'The Satire of the Trades' openly urged students to become scribes precisely because it exempted them from manual labor and taxation. The very first cuneiform tablets from Sumer were likewise not poetry but inventory and tax records, confirming that writing arose to manage surplus and, in doing so, handed the literate elite a lever over everyone else. Writing was less a means of communication than a technology of control.",
       },
     ],
   },
@@ -216,7 +218,8 @@ export const HONORS_WORLD_HISTORY_U1_EN: CoreNote[] = [
         traps: [
           "Do not memorize the classical philosophers in isolation from their era and region. Confucius emphasized social order and ethics as a response to the chaos of the Spring and Autumn / Warring States period; the Buddha emphasized individual practice as a critique of the caste system and Brahmin ritual; Socrates emphasized individual rational inquiry as a critique of the collective decision-making of Athenian democracy. Explaining philosophy in its historical context is what earns Honors-level marks.",
         ],
-        example: null,
+        example:
+          "Read Confucius against his own moment to see why his ideas took the shape they did. He lived during the Spring and Autumn period (roughly 551–479 BCE), when the Zhou dynasty's authority had collapsed and rival states waged constant war — the disorder that would deepen into the Warring States period. Confronting this breakdown, Confucius did not call for new laws or armies but for the restoration of moral relationships: if rulers governed with ren (benevolence) and everyone honored li (ritual propriety) and xiao (filial piety) within the five key relationships, harmony would return from the family outward to the state. This is why his philosophy centers on hierarchy and duty rather than, say, individual liberation — it was a direct prescription for the specific chaos he witnessed, which is exactly the historical context an Honors answer must supply instead of a bare list of virtues.",
       },
     ],
   },
@@ -323,7 +326,8 @@ export const HONORS_WORLD_HISTORY_U1_EN: CoreNote[] = [
         traps: [
           "When comparing the classical empires, do not inject Western-centric value judgments like 'Rome was the greatest.' Honors World History assesses your ability to compare and analyze multiple civilizations on equal terms. Concrete comparative statements like 'Han China had a larger population than Rome and developed its administrative system earlier' are what earn high marks.",
         ],
-        example: null,
+        example:
+          "Compare how Rome and Han China each solved the same problem — governing a vast conquered population — on equal terms rather than ranking them. Both empires peaked around the same era (Rome under the Pax Romana, 27 BCE–180 CE; the Han, 206 BCE–220 CE) and each held roughly 50–60 million people, but they integrated subjects differently. Rome bound its provinces together with a shared legal citizenship — culminating in the Edict of Caracalla in 212 CE, which extended citizenship to nearly all free inhabitants — plus roads, a common currency, and Latin. Han China instead relied on a Confucian bureaucracy recruited by examination and standardized writing to tie the provinces to the emperor, a merit-based administrative model that had no real Roman equivalent and that outlasted Rome's citizenship strategy by centuries. Setting citizenship against bureaucracy as two parallel answers to the same governance problem, without declaring a winner, is the analytical move that earns Honors-level marks.",
       },
     ],
   },

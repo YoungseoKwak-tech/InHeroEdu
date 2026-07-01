@@ -78,7 +78,8 @@ export const HONORS_BIOLOGY_U2_EN: CoreNote[] = [
         traps: [
           "Ribosomes are present in BOTH prokaryotic and eukaryotic cells. The defining feature of a prokaryote is the absence of membrane-bound organelles, not the absence of ribosomes. The fact that the prokaryotic ribosome (70S) is smaller than the eukaryotic ribosome (80S) is the basis for how certain antibiotics work.",
         ],
-        example: null,
+        example:
+          "See why the 70S vs. 80S ribosome difference lets antibiotics work. Bacteria (prokaryotes) build proteins on smaller 70S ribosomes, while our own cells (eukaryotes) use larger 80S ribosomes. The antibiotic tetracycline binds specifically to the 30S subunit of the bacterial 70S ribosome and blocks tRNA from delivering amino acids, halting bacterial protein synthesis, but it does not fit the human 80S ribosome. This is the principle of 'selective toxicity': the drug can poison the invader's protein factory while sparing the patient's own — a direct, life-saving consequence of one structural difference between prokaryotic and eukaryotic cells.",
       },
     ],
   },
@@ -153,7 +154,8 @@ export const HONORS_BIOLOGY_U2_EN: CoreNote[] = [
         traps: [
           "Do not confuse the role of unsaturated fatty acids in membrane fluidity. The kinks created by the double bonds of unsaturated fatty acids prevent tight packing of the phospholipid chains, raising fluidity. Conversely, more saturated fatty acids let chains pack straight and densely, lowering fluidity. This is exactly why bacteria living in cold environments raise their proportion of unsaturated fatty acids to maintain membrane fluidity.",
         ],
-        example: null,
+        example:
+          "See selective permeability at work at the cell surface. A small nonpolar molecule like oxygen (O₂) or carbon dioxide (CO₂) slips straight through the hydrophobic interior of the phospholipid bilayer by simple diffusion — no protein needed. But a charged ion like Na⁺ or a large polar molecule like glucose is repelled by that oily core and cannot cross on its own; it must pass through a specific integral protein — a channel or transporter. Cholesterol wedged among the phospholipids acts as a 'fluidity buffer,' keeping the membrane from getting too rigid when cold or too leaky when warm. Thus the membrane is not a passive wall but an intelligent gate that decides passage by a molecule's size, polarity, and charge.",
       },
     ],
   },

@@ -73,7 +73,8 @@ export const IB_ESS_U2_EN: CoreNote[] = [
         traps: [
           "Do not mistake J-curve growth for 'sustainable growth.' J-curve growth ignores carrying capacity and represents a short-term explosion that inevitably leads to overshoot and collapse — or to resource exhaustion. When drawing a J-curve on an IB ESS exam, you must also explain why such growth cannot continue, in order to achieve full marks.",
         ],
-        example: null,
+        example:
+          "Compare the two growth curves using reindeer on St. Matthew Island (Alaska). When 29 reindeer were introduced in 1944 onto an island with abundant lichen and no predators, the population grew almost exponentially — a textbook J-curve — reaching about 6,000 animals by 1963. But lichen grows back extremely slowly, so the herd had overshot the island's carrying capacity, stripping its winter food supply; in the harsh winter of 1963–64 almost the entire population starved, crashing to fewer than 50 individuals. By contrast, a population limited from the start by predators and food competition would have traced an S-curve, levelling off near K rather than exploding and collapsing. The reindeer case is the classic real-world illustration of why a J-curve cannot persist: unchecked exponential growth ends in overshoot and die-back, not stability.",
       },
     ],
   },

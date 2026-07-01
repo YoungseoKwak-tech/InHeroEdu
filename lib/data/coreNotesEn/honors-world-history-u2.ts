@@ -82,7 +82,8 @@ export const HONORS_WORLD_HISTORY_U2_EN: CoreNote[] = [
         traps: [
           "Knowing that the word 'algebra' itself comes from the Arabic 'al-jabr' (in al-Khwarizmi's work) shows that the legacy of the Islamic Golden Age is engraved even in a single word. If an exam asks about the influence of the Golden Age, go beyond the rote line 'it transmitted Greek knowledge to Europe' and stress that Arab scholars not only preserved the originals but independently advanced them before passing them on — that is the Honors-level response.",
         ],
-        example: null,
+        example:
+          "Trace one book to see how the House of Wisdom both preserved and advanced knowledge. Around 830 CE in Baghdad, al-Khwarizmi wrote 'Kitab al-jabr wa'l-muqabala,' which did not merely copy Greek geometry but built a new systematic method for solving equations — the discipline that took his book's word 'al-jabr' as its name, algebra. His name itself, Latinized, gave us the word 'algorithm.' Scholars there also absorbed the Indian decimal place-value system and the numeral for zero, refined it, and transmitted it westward, which is why Europeans call the digits 'Arabic numerals.' When these works were translated from Arabic into Latin in 12th-century Toledo, they seeded European mathematics and the later Scientific Revolution — proof that Abbasid scholars were original creators, not just librarians of Greek learning.",
       },
     ],
   },
@@ -186,7 +187,8 @@ export const HONORS_WORLD_HISTORY_U2_EN: CoreNote[] = [
         traps: [
           "Do not see the Black Death merely as 'a simple catastrophe.' From Europe's standpoint it was a great disaster in the short term, but over the medium-to-long term it accelerated structural changes toward modern Europe — the dissolution of feudal order, rising labor wages, the weakening of Church authority, the growth of individualism. Understanding the pattern by which large-scale catastrophe performs a function of 'creative destruction' — dismantling an existing order and creating a new system — lets you analyze the later Renaissance, Reformation, and rise of the modern state more deeply.",
         ],
-        example: null,
+        example:
+          "Trace the causal chain by which a plague dismantled feudalism in England. The Black Death of 1347–1351 killed perhaps a third to half of England's people, so suddenly labor was scarce and surviving serfs and peasants could demand higher wages or simply walk to another manor that would pay them. Lords and the crown tried to freeze this shift by law — the Ordinance of Labourers (1349) and Statute of Labourers (1351) capped wages at pre-plague levels — but the artificial ceiling only stoked resentment, helping ignite the Peasants' Revolt of 1381. Within a few generations the old system of unfree labor bound to a lord's land had eroded across much of Western Europe, replaced by wage labor and rent. The demographic shock did not just kill people; by inverting the balance of power between labor and land, it performed a 'creative destruction' that dissolved the economic foundation of feudalism itself.",
       },
     ],
   },

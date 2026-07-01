@@ -103,7 +103,8 @@ export const IB_ENGLISH_U2_EN: CoreNote[] = [
         traps: [
           "When comparing two texts, a 'ping-pong comparison' — 'Text A does X, and Text B does Y' — is not sufficient. What IB requires is an integrated argument: 'how does this difference between the two texts reflect the difference in their respective contexts (time, space, culture)?' Comparison is a tool, not an end in itself.",
         ],
-        example: null,
+        example:
+          "Compare two war poems: Wilfred Owen's 'Dulce et Decorum Est' (1917), written from the trenches of the First World War, and Yusef Komunyakaa's 'Facing It' (1988), written by an African American veteran of Vietnam. Owen's visceral present-tense imagery of gassing indicts the patriotic rhetoric of his moment, when 'dying for one's country' was still publicly celebrated. Komunyakaa's speaker, by contrast, stands quietly before a reflective granite memorial, so that his perspective is filtered through decades of national ambivalence and his doubled position as a Black soldier. The integrated point is that the shift from Owen's raw denunciation to Komunyakaa's meditative, mirrored self-examination is not merely stylistic — it registers the difference between a wartime context that still needed the myth punctured and a postwar context in which grief had become institutionalised in stone.",
       },
     ],
   },
@@ -198,7 +199,8 @@ export const IB_ENGLISH_U2_EN: CoreNote[] = [
         traps: [
           "Do not spend your analytical energy verifying whether the content of a documentary is factually accurate. The object of IB analysis is not the truth or falsity of claims but 'how this text constructs a particular reality through language, structure, and visual choices.' 'This is false' is not the language of IB analysis — 'this is constructed in the following way' is.",
         ],
-        example: null,
+        example:
+          "Consider a nature documentary sequence in which a lone predator stalks its prey. The raw footage might have been shot over many hours and across separate animals, but narrative editing splices the shots into a single suspenseful chase, a swelling musical score cues the audience to feel tension, and an authoritative voice-over declares 'she has one chance to feed her cubs.' None of these choices is a lie, yet together they construct a reality — the drama of a solitary mother's struggle — that is an edit of nature rather than a window onto it. The IB analysis does not ask whether the hunt 'really' happened that way; it examines how the pairing of continuity editing, the emotive minor-key soundtrack, and the paternalistic narration frames the animal as a relatable protagonist and steers the viewer's sympathy.",
       },
     ],
   },
@@ -270,7 +272,8 @@ export const IB_ENGLISH_U2_EN: CoreNote[] = [
         traps: [
           "Avoid the trap of mechanically applying theoretical lenses (postcolonialism, feminism, etc.). It is not enough to declare 'this is a postcolonial text' and stop there. You must show 'how this theoretical lens allows us to read this specific part of the text in a new way.' Theory is a tool for enriching analysis, not a template that overwrites the text.",
         ],
-        example: null,
+        example:
+          "Read Jean Rhys's Wide Sargasso Sea (1966) through a postcolonial lens. The novel rewrites Charlotte Brontë's Jane Eyre by giving a Creole voice and history to Bertha Mason, the 'madwoman in the attic' who is denied speech in the English source text — a clear instance of restoring the subaltern's silenced perspective. Applying Homi Bhabha's concept of hybridity sharpens the reading further: Antoinette belongs fully to neither the Black Caribbean world nor the white English one, and the novel's shifting narrators and unstable place-names formally enact that in-between identity rather than merely describing it. The lens earns its place because it opens a specific textual feature — the fractured narration — to a new interpretation, instead of hovering over the book as a label.",
       },
       {
         title: "Individual Oral Preparation — Contextual Comparison of Literary and Non-Literary Texts",

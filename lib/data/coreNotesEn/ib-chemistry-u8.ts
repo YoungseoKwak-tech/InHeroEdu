@@ -70,7 +70,8 @@ export const IB_CHEMISTRY_U8_EN: CoreNote[] = [
           "Confusing strong/weak acid (strength) with concentrated/dilute acid (concentration) is the most common error on IB exams. 'Strong acid' refers to the degree of ionisation, while 'concentrated acid' refers to the number of moles of solute per unit volume (concentration). Concentrated CH₃COOH has a high concentration but is still a weak acid. Dilute HCl has a low concentration but is still a strong acid. Swapping these two terms in an IB Paper 2 written answer is an instant loss of marks.",
           "HF, because of the high electronegativity of F, intuitively 'looks like it should be a strong acid,' but in reality it is a weak acid (low degree of ionisation). Unlike HCl, HBr, and HI, HF does not ionise completely in aqueous solution. Choosing HF in a 'select the strong acid' question on IB Paper 1 is a wrong answer.",
         ],
-        example: null,
+        example:
+          "Distinguishing strength from concentration experimentally. Compare equal 1.0 mol dm⁻³ solutions of HCl (strong acid) and CH₃COOH (weak acid) of identical concentration. HCl ionises fully, HCl → H⁺ + Cl⁻, so [H⁺] ≈ 1.0 mol dm⁻³ and the pH ≈ 0, whereas CH₃COOH ionises only about 0.4 %, giving [H⁺] ≈ 4 × 10⁻³ mol dm⁻³ and pH ≈ 2.4, even though the two solutions have the same concentration. Adding magnesium to each shows the difference directly: the HCl fizzes vigorously because of its high [H⁺], while the CH₃COOH reacts noticeably more slowly. This proves that 'strong' refers to the degree of ionisation, not to how concentrated the acid is — a dilute HCl is still strong and a concentrated ethanoic acid is still weak.",
       },
     ],
   },
@@ -144,7 +145,8 @@ export const IB_CHEMISTRY_U8_EN: CoreNote[] = [
         traps: [
           "In Ka calculations, you must judge whether you can neglect the change x from the initial concentration on the grounds that a weak acid's degree of ionisation is small. The '5% rule': if x / [HA]₀ × 100% < 5%, it can be neglected. Otherwise you must solve the quadratic equation. Omitting this judgement on IB HL Paper 2 results in a loss of partial marks.",
         ],
-        example: null,
+        example:
+          "Calculating the pH of a weak acid using Ka and an ICE table. Find the pH of 0.100 mol dm⁻³ CH₃COOH, given Ka = 1.8 × 10⁻⁵. For CH₃COOH ⇌ H⁺ + CH₃COO⁻, the ICE table gives equilibrium [H⁺] = [CH₃COO⁻] = x and [CH₃COOH] = 0.100 − x, so Ka = x² / (0.100 − x). Because the acid is weak, assume 0.100 − x ≈ 0.100, giving x² = 1.8 × 10⁻⁵ × 0.100 = 1.8 × 10⁻⁶, so x = [H⁺] = 1.34 × 10⁻³ mol dm⁻³ and pH = −log(1.34 × 10⁻³) = 2.87. Check the approximation: x / 0.100 × 100 % = 1.3 % < 5 %, so neglecting x was valid and the quadratic was unnecessary.",
       },
     ],
   },

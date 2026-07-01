@@ -80,7 +80,8 @@ export const HONORS_GEOMETRY_U2_EN: CoreNote[] = [
         traps: [
           "When using a converse theorem, state clearly 'which two lines are parallel.' In a complex diagram where a transversal meets three lines, it is easy to confuse which pair is parallel. After the name of the converse theorem you cite, always write a specific conclusion such as '∴ l ∥ m' with the actual line names, to avoid losing marks in a two-column proof.",
         ],
-        example: null,
+        example:
+          "A transversal crosses lines l and m, forming alternate interior angles ∠3 = 3x + 15 and ∠6 = 5x − 25. Find the value of x that forces l ∥ m, then confirm the parallelism. To make the lines parallel, the alternate interior angles must be congruent: 3x + 15 = 5x − 25, so 40 = 2x, x = 20. Then ∠3 = 3(20) + 15 = 75° and ∠6 = 5(20) − 25 = 75°, so ∠3 ≅ ∠6. By the Converse of the Alternate Interior Angles Theorem, ∴ l ∥ m. Always cite the converse (not the original theorem) when the goal is to conclude parallelism.",
       },
     ],
   },
@@ -156,7 +157,8 @@ export const HONORS_GEOMETRY_U2_EN: CoreNote[] = [
         traps: [
           "Avoid trying to use CPCTC in the middle of a congruence proof. For instance, claiming 'this angle is equal so I can use SAS' and citing CPCTC as the reason creates circular reasoning. CPCTC may be used only on the line after congruence is fully established. Plan from the start so the second-to-last line is the congruence condition and the last line is CPCTC.",
         ],
-        example: null,
+        example:
+          "Given: M is the midpoint of both $\\overline{AB}$ and $\\overline{CD}$. Prove: ∠A ≅ ∠B.\n\n| Statement | Reason |\n|---|---|\n| 1. M is the midpoint of AB and CD | 1. Given |\n| 2. $\\overline{AM} \\cong \\overline{BM}$, $\\overline{CM} \\cong \\overline{DM}$ | 2. Definition of midpoint |\n| 3. ∠AMC ≅ ∠BMD | 3. Vertical Angles Theorem |\n| 4. △AMC ≅ △BMD | 4. SAS Congruence Postulate |\n| 5. ∠A ≅ ∠B | 5. CPCTC |\n\nNotice the flow: build the congruence with SAS on line 4, then and only then reach ∠A ≅ ∠B by CPCTC on the final line. CPCTC always sits immediately after the congruence is declared.",
       },
     ],
   },

@@ -78,7 +78,8 @@ export const IB_BIOLOGY_U3_EN: CoreNote[] = [
           "IB questions often ask how many cells result from meiosis I versus meiosis II. After meiosis I there are 2 cells; after meiosis II there are 4 haploid cells in total. A common point of confusion is the chromosome content immediately after meiosis I: homologous chromosomes have separated so each cell is haploid (n), but each chromosome still consists of two sister chromatids, meaning the DNA content is still 2C. Understanding that such a cell is 'haploid in chromosome number but 2C in DNA amount' is essential.",
           "Crossing over occurs between non-sister chromatids, not between sister chromatids. An exchange between sister chromatids produces no new allele combinations because the sequences are identical. Writing 'crossing over between sister chromatids' in an IB answer will cost marks.",
         ],
-        example: null,
+        example:
+          "Quantify how much diversity independent assortment alone produces. Each pair of homologous chromosomes can orient two ways at metaphase I, so with n chromosome pairs the number of possible gamete combinations is 2^n. In humans, n = 23, giving 2^23 = 8,388,608 (about 8.4 million) genetically different gametes from a single individual before crossing over is even considered. When crossing over is added, each of those combinations is further reshuffled, and the fusion of two random gametes at fertilization multiplies the variation to roughly 8.4 million times 8.4 million, which is why no two siblings (except identical twins) are genetically identical.",
       },
     ],
   },

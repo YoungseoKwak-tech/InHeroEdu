@@ -80,7 +80,8 @@ export const IB_PHYSICS_U1_EN: CoreNote[] = [
         traps: [
           "For multiplication and division, match the number of significant figures; for addition and subtraction, match the number of decimal places. Confusing these two rules is one of the most frequent errors. For example, 2.35 × 1.4 = 3.29, but it must be reported as 3.3 (2 significant figures). By contrast, 2.351 + 1.4 is rounded to one decimal place, giving 3.8. In IB Paper 3 experimental questions, reporting too many significant figures is penalised as 'unjustified precision.'",
         ],
-        example: null,
+        example:
+          "Work through a density calculation with correct significant figures and uncertainty. Suppose a metal block has mass m = 24.5 g measured to 3 significant figures and volume V = 3.1 cm3 measured to 2 significant figures. The density is rho = m/V = 24.5 / 3.1 = 7.9032 g cm^-3, which must be rounded to the fewest significant figures in the data (2), so rho = 7.9 g cm^-3. To propagate uncertainty when dividing, add the fractional uncertainties: if the mass is +/- 0.1 g (0.41%) and the volume is +/- 0.1 cm3 (3.2%), the total is about 3.6%, so 3.6% of 7.9 is about 0.3 g cm^-3. The final result is therefore reported as rho = (7.9 +/- 0.3) g cm^-3.",
       },
     ],
   },
@@ -185,7 +186,8 @@ export const IB_PHYSICS_U1_EN: CoreNote[] = [
         traps: [
           "In IB Paper 3 graph questions, many students draw only the best-fit line and stop there. To quantify the uncertainty in the gradient, you must separately draw the two extreme gradient lines — the steepest and the shallowest lines that remain consistent with all the error bars. Another trap: writing 'experimental error' as the sole explanation for a non-zero y-intercept earns minimal credit. You should identify the intercept value as evidence of a specific systematic error and propose which systematic error could have shifted the intercept in that direction.",
         ],
-        example: null,
+        example:
+          "Extract g and its uncertainty from a linearised free-fall graph. To find gravitational acceleration you drop a ball from several heights s and time each fall t, then plot s on the y-axis against t^2 on the x-axis, because s = (1/2)g t^2 gives a straight line through the origin with gradient (1/2)g. Suppose the best-fit line has a gradient of 4.9 m s^-2, so g = 2 x 4.9 = 9.8 m s^-2. Reading the extreme lines, the steepest gradient consistent with the error bars is 5.1 and the shallowest is 4.7, so the gradient uncertainty is (5.1 - 4.7)/2 = 0.2 m s^-2, which doubles to +/- 0.4 for g. The final result is g = (9.8 +/- 0.4) m s^-2, and a y-intercept noticeably above zero would flag a systematic timing delay rather than random scatter.",
       },
     ],
   },
@@ -292,7 +294,8 @@ export const IB_PHYSICS_U1_EN: CoreNote[] = [
         traps: [
           "River-crossing problems have two distinct strategies with different answers. Minimum time: always point the boat directly across the river (perpendicular to the bank), accepting downstream drift. Minimum distance: angle the boat upstream so that the resultant velocity is perpendicular to the bank, eliminating drift entirely. IB questions sometimes ask you to compare both strategies within a single problem, so read the conditions carefully before committing to an approach.",
         ],
-        example: null,
+        example:
+          "Solve a river-crossing problem for the minimum-time strategy. A boat travels at 4.0 m s^-1 relative to the water and points straight across a river 100 m wide, while the current flows downstream at 3.0 m s^-1. Because the crossing velocity (4.0 m s^-1) is perpendicular to the bank and unaffected by the current, the time to cross is t = 100 / 4.0 = 25 s. During those 25 s the current carries the boat downstream by 3.0 x 25 = 75 m, so it lands 75 m downstream of the start point. The resultant speed relative to the ground is the vector sum, sqrt(4.0^2 + 3.0^2) = 5.0 m s^-1, along a path angled arctan(3.0/4.0) = 37 degrees from the straight-across direction.",
       },
     ],
   },

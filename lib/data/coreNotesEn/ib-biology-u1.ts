@@ -77,7 +77,8 @@ export const IB_BIOLOGY_U1_EN: CoreNote[] = [
         traps: [
           "IB knows that ribosomes are present in BOTH prokaryotic and eukaryotic cells — but their sizes differ (70S vs. 80S). Writing 'prokaryotes have no ribosomes' is an instant mark deduction. Also note that mitochondria and chloroplasts in eukaryotic cells contain their own 70S ribosomes; this is frequently tested as evidence for the endosymbiotic origin of these organelles.",
         ],
-        example: null,
+        example:
+          "Consider why the antibiotic erythromycin can kill an E. coli infection without poisoning your own cells. Erythromycin binds the 50S subunit of the bacterial 70S ribosome and blocks protein synthesis, but it does not fit the 60S subunit of the human 80S ribosome, so your cytoplasmic ribosomes keep working. The clinically important catch is that human mitochondria carry their own 70S ribosomes — a relic of their endosymbiotic bacterial ancestry — which is why very high doses of such antibiotics can disrupt mitochondrial protein synthesis and produce side effects. This single case simultaneously illustrates the 70S vs. 80S distinction and the endosymbiotic origin of mitochondria.",
       },
     ],
   },
@@ -153,7 +154,8 @@ export const IB_BIOLOGY_U1_EN: CoreNote[] = [
           "IB Paper 1 multiple-choice questions frequently include traps designed to confuse osmosis with diffusion. Osmosis refers exclusively to the movement of water molecules across a semi-permeable membrane. The movement of solute molecules is diffusion (simple or facilitated), not osmosis. Also distinguish the response of plant cells to a hypertonic solution: plasmolysis (the cell membrane pulls away from the cell wall) — unlike animal cells, plant cells do not burst because the cell wall is present.",
           "Both facilitated diffusion and active transport use membrane proteins, but their energy requirements differ. Facilitated diffusion moves molecules down a concentration gradient and requires no ATP; active transport moves molecules against a concentration gradient and requires ATP. Memorizing 'uses a protein = active transport' is wrong and will cost marks.",
         ],
-        example: null,
+        example:
+          "Consider a red blood cell placed in three different solutions to see osmosis in action. In an isotonic solution (0.9% saline, the same water potential as the cytoplasm) there is no net movement of water and the cell keeps its normal biconcave shape. In a hypotonic solution such as pure water, water moves in by osmosis from high water potential outside to lower water potential inside, the cell swells and bursts (hemolysis) because animal cells have no cell wall. In a hypertonic solution such as 3% saline, water leaves the cell down the water potential gradient and the cell shrinks and becomes crenated. Note that in every case it is water, not the salt solute, that crosses the semi-permeable membrane.",
       },
       {
         title: "Active Transport, Endocytosis, and Exocytosis",
@@ -179,7 +181,8 @@ export const IB_BIOLOGY_U1_EN: CoreNote[] = [
         traps: [
           "IB specifically tests the exact number of ions moved per cycle of the sodium-potassium pump: 3 Na⁺ out, 2 K⁺ in. Memorize this ratio precisely, and connect it to the consequence: because more positive charges leave than enter, the inside of the cell maintains a net negative (resting) membrane potential. Common wrong answers include '2 each' or '3 each' — both appear frequently as distractors.",
         ],
-        example: null,
+        example:
+          "Follow the charge bookkeeping of one cycle of the sodium-potassium pump in a neuron. The pump hydrolyzes one ATP to expel 3 Na⁺ ions from the cell and import 2 K⁺ ions, so each cycle moves a net of one positive charge outward (3 out minus 2 in). Repeated over millions of pumps, this builds and maintains the resting membrane potential of about -70 mV, with the inside negative relative to the outside. This example connects active transport directly to a downstream physiological function: without the constant ATP-powered 3:2 pumping, the neuron could not maintain the gradient it needs to fire action potentials.",
       },
     ],
   },
@@ -226,7 +229,8 @@ export const IB_BIOLOGY_U1_EN: CoreNote[] = [
         traps: [
           "Writing 'interphase is a resting phase' in an IB extended-response question is an immediate mark deduction. During S phase of interphase, the entire genome is replicated; during G1 and G2, active cell growth and division preparation occur. The reason interphase cells vastly outnumber dividing cells in any microscope image is that interphase lasts far longer than mitosis — not because the cell is idle.",
         ],
-        example: null,
+        example:
+          "Use the relative durations of the cell cycle to explain what you see down a microscope. In a typical human cell with a 24-hour cycle, interphase lasts roughly 23 hours (G1 about 11 h, S about 8 h, G2 about 4 h) while mitosis takes only about 1 hour. If you sample a growing tissue at a random instant, the probability of catching a given cell in mitosis is about 1/24, so you expect only around 4% of cells to show condensed chromosomes and the other 96% to be in interphase with an intact nuclear envelope. This is exactly why an onion root tip micrograph is dominated by interphase cells — the phase durations, not any 'resting,' set the proportions.",
       },
       {
         title: "The Stages of Mitosis — A Detailed Breakdown",

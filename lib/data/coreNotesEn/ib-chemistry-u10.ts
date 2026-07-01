@@ -72,7 +72,8 @@ export const IB_CHEMISTRY_U10_EN: CoreNote[] = [
         traps: [
           "A common error in alkene naming is omitting the locant of the double bond. For alkenes with three or more carbons you must always specify the position of the double bond. 'Propene' has only one possible C=C, so no locant is needed, but 'butene' must be distinguished as but-1-ene or but-2-ene. On IB Paper 1, answering 'butene' to 'what is the IUPAC name of CH₃CH=CHCH₃?' is incorrect — the correct answer is 'but-2-ene.'",
         ],
-        example: null,
+        example:
+          "Positional isomers and IUPAC naming (IB Paper 1 type): draw the positional isomers of C₃H₇Br and name each. There are two, differing only in where the bromine sits on the three-carbon chain. (1) CH₃CH₂CH₂Br → 1-bromopropane, with Br on the end carbon (C1). (2) CH₃CHBrCH₃ → 2-bromopropane, with Br on the middle carbon (C2). Both share the molecular formula C₃H₇Br but differ in the position of the functional group, so they are positional isomers with different boiling points and slightly different rates of nucleophilic substitution; number the chain from the end that gives Br the lower locant.",
       },
     ],
   },

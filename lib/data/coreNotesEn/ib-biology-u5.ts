@@ -70,7 +70,8 @@ export const IB_BIOLOGY_U5_EN: CoreNote[] = [
           "Homologous and analogous structures are the pair of concepts most frequently confused in IB exams. The key distinction: homologous = same origin, function may differ (evidence of a common ancestor); analogous = similar function but different origin (convergent evolution, not evidence of a common ancestor). Writing something like 'the bird wing and the insect wing are homologous structures' results in an immediate loss of marks.",
           "When explaining homologous structures, writing 'because the structure is the same, the function is the same' is incorrect. The essence of homologous structures is that the basic skeletal pattern is conserved despite the function having diverged, and it is from this difference that the evidence of evolutionary modification emerges.",
         ],
-        example: null,
+        example:
+          "Compare the forelimbs of four very different mammals to see homology in action. A human arm (grasping), a bat wing (flight), a whale flipper (swimming) and a horse foreleg (running) all perform completely different jobs, yet dissect any of them and you find the same pentadactyl skeletal plan: one upper bone (humerus), two lower bones (radius and ulna), a set of wrist bones (carpals), and digits (metacarpals and phalanges), differing only in the relative length and thickness of each bone. Because it is far more parsimonious to explain this shared blueprint by inheritance from a common ancestor than by coincidence, homologous structures are strong evidence for divergent evolution. In IB Paper 2 you may be shown labelled forelimb diagrams and asked to identify the corresponding bones and state why the shared arrangement, despite differing function, points to common ancestry.",
       },
     ],
   },
@@ -141,7 +142,8 @@ export const IB_BIOLOGY_U5_EN: CoreNote[] = [
         traps: [
           "Confusing stabilising selection with directional selection is a common error. In stabilising selection the mean of the population does not change and only the variance decreases; in directional selection the mean itself shifts. Interpreting the newborn birth-weight case as 'larger babies are more favourable, so weight evolves to increase' is incorrect — both extremes are unfavourable, so it is stabilising selection.",
         ],
-        example: null,
+        example:
+          "Read the human birth-weight data as a worked case of stabilising selection. Records show that infant mortality is lowest at a birth weight of about 3.6 kg and rises steeply for babies that are either very light (under 2 kg, at risk from underdevelopment) or very heavy (over 4.5 kg, at risk from birth complications). Because both tails of the distribution suffer higher mortality, selection removes the extremes each generation while favouring the intermediate optimum, so the population mean stays roughly constant and the variance is squeezed inward. This is precisely stabilising selection: contrast it with the peppered moth, where soot-darkened bark shifted the whole distribution toward the dark form (directional selection). In IB Paper 2 you may be given a mortality-versus-birth-weight graph and asked to name the pattern and justify it from the shape of the curve.",
       },
     ],
   },

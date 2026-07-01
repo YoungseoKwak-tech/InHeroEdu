@@ -73,7 +73,8 @@ export const IB_ESS_U1_EN: CoreNote[] = [
         traps: [
           "When discussing sustainability in IB ESS assessments, you must explicitly distinguish between weak and strong sustainability. Writing only 'sustainable development' earns partial credit at best. Link your answer concretely to the EVS starting point: the same renewable-energy policy can appear a 'sufficient solution' under an anthropocentric (weak sustainability) framing, yet look like 'mere tinkering' under an ecocentric (strong sustainability) framing.",
         ],
-        example: null,
+        example:
+          "Let's apply weak and strong sustainability to a coastal wetland being cleared for a resort development. A weak-sustainability planner (anthropocentric EVS) argues the lost mangroves can be offset by building an engineered sea wall and a fish farm — manufactured capital substitutes for natural capital, and GDP rises. A strong-sustainability ecologist (ecocentric EVS) counters that the wetland's storm buffering, nursery habitat, and carbon storage are irreplaceable natural capital that no concrete structure can fully reproduce, so the mangroves must be conserved outright. Both sides accept the label 'sustainable development,' yet their conclusions are opposite — because one treats natural capital as substitutable and the other treats it as critical and non-negotiable.",
       },
     ],
   },
@@ -144,7 +145,8 @@ export const IB_ESS_U1_EN: CoreNote[] = [
         traps: [
           "Confusing transfer and transformation is a common error in ESS extended-response answers. When a herbivore eats grass, the organic carbon undergoes transfer (it moves from the grass store to the herbivore store), but when the herbivore uses cellular respiration to release energy, a transformation occurs (chemical energy → kinetic energy + heat). A single biological process can involve both transfer and transformation simultaneously, so always address 'what moved?' and 'did the form change?' as separate points.",
         ],
-        example: null,
+        example:
+          "Let's trace transfers and transformations through the water cycle. When liquid water flows from a mountain stream into a lake, that is a transfer — the water moves between stores without changing its physical form. When solar energy evaporates that lake water into water vapour, that is a transformation — liquid becomes gas, and radiant energy is converted into the latent heat carried by the vapour. Later, when the vapour condenses into cloud droplets and releases that latent heat, another transformation occurs, whereas rain draining off a hillside into a river is once again a simple transfer. Labelling each arrow in a water-cycle systems diagram as either transfer or transformation forces you to separate 'what moved' from 'did the form change.'",
       },
       {
         title: "The Power and Limits of Models",
@@ -162,7 +164,8 @@ export const IB_ESS_U1_EN: CoreNote[] = [
         traps: [
           "When evaluating a model, do not conclude that 'simple = bad.' Every model is intentionally simplified, and that simplification is precisely what makes understanding and communication possible. What IB rewards is a balanced discussion of what the model includes and what it excludes, and therefore in which contexts it is useful and in which contexts it may mislead.",
         ],
-        example: null,
+        example:
+          "Consider a General Circulation Model (GCM) used to project global temperature under rising CO₂. Its strengths come from deliberate simplification: it divides the atmosphere and ocean into a grid of boxes and applies known physics, letting scientists run 'what if' scenarios and communicate a clear warming trend that guided the IPCC reports. But those same simplifications set its limits — a grid box of 100 km cannot resolve individual clouds or thunderstorms, and cloud feedbacks are among the largest sources of uncertainty in the projections. The model is genuinely useful for a global, century-scale outlook, yet it may mislead if used to predict next week's rainfall over a single valley. A top-band evaluation names both the boundary the model draws and the specific context in which that boundary makes it reliable or unreliable.",
       },
     ],
   },
@@ -236,7 +239,8 @@ export const IB_ESS_U1_EN: CoreNote[] = [
         traps: [
           "Do not conflate 'positive' feedback with 'beneficial.' 'Positive' means only that the feedback acts in the same direction as the original change. In the context of climate change, positive feedback almost always amplifies instability and risk. Writing that positive feedback is 'beneficial' is incorrect. Also note that positive feedback does not mean immediate catastrophe; linking it to the concept of tipping points will strengthen the quality of your answer.",
         ],
-        example: null,
+        example:
+          "Let's trace the ice-albedo positive feedback loop driving Arctic amplification. Initial warming from rising greenhouse gases melts some Arctic sea ice, exposing dark open ocean in place of bright white ice. Because dark water has a much lower albedo (it reflects roughly 6% of sunlight, versus about 80% for fresh ice), the ocean absorbs far more solar energy, which warms the region further and melts still more ice — the change reinforces itself in the same direction. Satellite records show September Arctic sea-ice extent has fallen roughly 40% since 1979, and the Arctic is warming about three to four times faster than the global average. If this loop pushes the system past the tipping point of an ice-free summer Arctic, the loss becomes very difficult to reverse — showing how positive feedback amplifies instability rather than 'helping' the system.",
       },
       {
         title: "Sustainability and System Equilibrium",

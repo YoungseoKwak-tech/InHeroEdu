@@ -82,7 +82,8 @@ export const IB_HISTORY_U2_EN: CoreNote[] = [
         traps: [
           "Writing persuasion and force as mutually exclusive categories is a simplification IB examiners dislike. Every authoritarian leader used both persuasion and force simultaneously; what differed was the proportion. An argument along the lines of 'Hitler relied primarily on persuasion and Mao primarily on force, but both methods operated as mutually reinforcing' is Band 6+ reasoning.",
         ],
-        example: null,
+        example:
+          "Example comparative paragraph on methods of rise: 'Hitler's path to power blended persuasion and force even at the moment of legal appointment. On the persuasion side, the NSDAP used Goebbels' propaganda machine and the electoral campaigns of 1930–1932 to become the largest party in the Reichstag; on the force side, the SA simultaneously intimidated opponents on the streets and, after Hitler became Chancellor in January 1933, the Reichstag Fire of February 1933 was exploited to arrest Communist deputies. Mao Zedong, by contrast, relied predominantly on force — the armed struggle of the Long March (1934–35) and the Red Army's eventual military victory in 1949 — yet he too used persuasion through land-redistribution promises and propaganda that won peasant loyalty in Yan'an. Both cases confirm that persuasion and force were mutually reinforcing rather than alternatives: the proportion differed, but neither leader could have risen on one method alone.'",
       },
     ],
   },
@@ -160,7 +161,8 @@ export const IB_HISTORY_U2_EN: CoreNote[] = [
         traps: [
           "Both overstating and understating the effectiveness of propaganda are traps. Writing that 'Nazi propaganda brainwashed all Germans' is wrong; so is writing that 'propaganda was meaningless and force was everything.' Citing evidence such as historian Robert Gellately's research — showing that a significant proportion of Germans voluntarily supported the Nazi regime — alongside evidence that compliance was also driven by fear produces a nuanced argument.",
         ],
-        example: null,
+        example:
+          "Example comparative paragraph on propaganda and the cult of personality: 'All three regimes built cults of personality, but through different media and with differing effectiveness. Goebbels used the mass rallies at Nuremberg, Leni Riefenstahl's film Triumph of the Will (1935), and cheap 'People's Receiver' radios to project Hitler as the Führer who embodied the national will. Stalin's apparatus rewrote history and airbrushed purged rivals such as Trotsky out of photographs to construct the myth of the 'Father of the People' and Lenin's true heir. Mao's cult reached its extreme in the Cultural Revolution (1966–76), when the mass-distributed 'Little Red Book' and Red Guard fervour elevated him to near-divine status. Yet propaganda's effect must not be overstated: Robert Gellately's research shows many Germans denounced neighbours voluntarily rather than under compulsion, which suggests propaganda worked by mobilising genuine consent as much as by masking fear — a nuance that distinguishes a Band 6+ argument from a claim that propaganda simply 'brainwashed' entire populations.'",
       },
       {
         title: "The Role and Limits of Charisma — Strengths and Weaknesses of Leader-Centred Explanation",
@@ -183,7 +185,8 @@ export const IB_HISTORY_U2_EN: CoreNote[] = [
         traps: [
           "Concluding that only one side of the intentionalism–structuralism debate is correct will cost you marks. An IB essay must avoid both extremes — 'Hitler's/Stalin's/Mao's will determined everything' and 'the individual was merely a product of structure.' The high-scoring integrated argument is: 'The ideology and intentions of the leader set the direction, but bureaucracy, wartime conditions, and economic circumstances transformed how that direction was implemented.'",
         ],
-        example: null,
+        example:
+          "Example paragraph on the role and limits of charisma: 'Charisma was decisive to the rise of these regimes yet proved fragile once results failed. Hitler's oratory and the Führer myth held the German public through the victories of 1939–41, but after the catastrophic defeat at Stalingrad in early 1943 Goebbels was forced to shift to a defensive 'total war' propaganda strategy, and Hitler himself withdrew from public appearances as his charismatic authority eroded. Mao's revolutionary aura similarly weakened after the Great Leap Forward (1958–62) produced a famine that historians estimate killed 30–45 million people, forcing him temporarily to cede economic management to pragmatists such as Liu Shaoqi and Deng Xiaoping. Both cases show that charismatic authority, in Weber's sense, depends on continued success and collapses under military or economic failure — which is why an intentionalist reading that treats the leader's will as all-determining must be balanced against the structural conditions that constrained it.'",
       },
     ],
   },

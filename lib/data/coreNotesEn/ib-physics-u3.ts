@@ -78,7 +78,8 @@ export const IB_PHYSICS_U3_EN: CoreNote[] = [
         traps: [
           "IB Paper 1 sometimes asks whether the statement 'particles are still moving and exchanging energy when the system is in thermal equilibrium' is true or false. The answer is true. Thermal equilibrium means the macroscopic temperature is equal — it does not mean molecular motion has stopped. Remember: molecular motion is always present unless the temperature is absolute zero.",
         ],
-        example: null,
+        example:
+          "See how the Zeroth Law lets a single thermometer compare two objects that never touch. Suppose a thermometer (object C) is placed in a cup of coffee (object A) and, once no more net heat flows, it reads 55 degrees C, meaning C is in thermal equilibrium with A. The same thermometer is then placed in a separate bowl of soup (object B) and, after equilibrium, it also reads 55 degrees C, so C is in thermal equilibrium with B. By the Zeroth Law, since A and B are each in thermal equilibrium with C, A and B must be in thermal equilibrium with each other, so if the coffee and soup were mixed there would be no net heat transfer between them. This is exactly why a thermometer is a valid instrument: equal readings guarantee equal temperatures without the two objects ever being in direct contact.",
       },
     ],
   },

@@ -75,7 +75,8 @@ export const IB_CHEMISTRY_U6_EN: CoreNote[] = [
         traps: [
           "In the iodine clock reaction, the measured 'time t' is not the reaction rate. A larger t means a slower reaction, so the relationship rate ∝ 1/t holds. Writing 'the time doubled, so the rate doubled' is exactly backwards — a doubled time means the rate is halved.",
         ],
-        example: null,
+        example:
+          "Iodine clock design and analysis. A student varies only the initial concentration of I⁻ while keeping temperature (25 °C), total volume, and [H₂O₂] constant, and records the time for the blue starch–iodine colour to appear: at 0.020 mol dm⁻³ the clock time t = 40 s, and at 0.040 mol dm⁻³ t = 20 s. Converting to initial rate as 1/t gives 0.025 s⁻¹ and 0.050 s⁻¹ respectively. Doubling [I⁻] doubles 1/t, so the initial rate doubles, showing the reaction is first order in I⁻; note that although t halved, the rate did not halve but doubled, because rate ∝ 1/t. Repeating each concentration three times and averaging the times improves reliability and satisfies the fair-test requirement of the IA.",
       },
     ],
   },
@@ -150,7 +151,8 @@ export const IB_CHEMISTRY_U6_EN: CoreNote[] = [
         traps: [
           "When explaining the temperature effect with collision theory, writing only 'the molecules move faster, so collision frequency increases' earns only partial marks. The IB mark scheme awards full marks only if the statement 'the fraction of molecules with energy at or above the activation energy (Eₐ) increases' is included. Emphasise that the main cause of the rate increase is the change in the energy distribution.",
         ],
-        example: null,
+        example:
+          "Estimating the temperature effect quantitatively. Using the '10 K rise roughly doubles the rate' rule of thumb, predict how much faster a reaction runs when the temperature is raised from 25 °C (298 K) to 55 °C (328 K). The increase is 30 K, which is three successive 10 K steps, so the rate multiplies by 2 × 2 × 2 = 8 — roughly an eightfold increase. Collision frequency, which rises only in proportion to the square root of absolute temperature (√(328/298) ≈ 1.05, about 5 %), cannot account for this; the dominant cause is the sharp rise in the Boltzmann factor exp(−Eₐ/RT), i.e. the fraction of molecules with energy ≥ Eₐ. This confirms that the shift of the Maxwell–Boltzmann distribution, not the small change in collision frequency, drives the large rate increase.",
       },
     ],
   },

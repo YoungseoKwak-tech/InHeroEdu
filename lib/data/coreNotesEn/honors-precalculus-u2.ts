@@ -85,7 +85,8 @@ export const HONORS_PRECALCULUS_U2_EN: CoreNote[] = [
           "The remainder theorem applies only when dividing by a linear factor of the form (x − c). For divisors like (x² + 1) or (2x + 3) you cannot apply it directly; rewrite (2x + 3) = 2(x + 3/2) and substitute c = −3/2, or perform polynomial long division.",
           "The rational root theorem only proposes candidate rational roots — you must substitute to verify which are actual roots. Do not panic at a long candidate list; testing p(1) and p(−1) first usually speeds things up.",
         ],
-        example: null,
+        example:
+          "Use the theorems on p(x) = x³ − 4x² + x + 6. By the remainder theorem, test a candidate quickly: p(−1) = (−1) − 4(1) + (−1) + 6 = 0, so the remainder on division by (x + 1) is 0. By the factor theorem, that zero means (x + 1) is a factor. Synthetic division by −1 leaves x² − 5x + 6 = (x − 2)(x − 3), so p(x) = (x + 1)(x − 2)(x − 3) with zeros x = −1, 2, 3. Notice how a single evaluation confirmed a zero and handed us a factor at the same time.",
       },
     ],
   },

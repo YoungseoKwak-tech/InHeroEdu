@@ -85,7 +85,8 @@ export const HONORS_PRECALCULUS_U3_EN: CoreNote[] = [
           "Reversing the order of sin and cos in the unit-circle coordinates (x, y) is a common error. On the unit circle x = cos θ and y = sin θ. Remember 'y (up/down) = sin, x (left/right) = cos.' In particular, sin 90° = 1 (not cos 90° = 1) is frequently tested.",
           "In the arc length formula s = rθ, θ MUST be in radians. Substituting θ = 60° directly gives a completely wrong answer. If a problem gives degrees, convert to π/3 first. This single mistake can wreck an entire sector-area problem.",
         ],
-        example: null,
+        example:
+          "A sector has radius r = 6 and central angle θ = 120°. First convert to radians: 120° × (π/180) = 2π/3. Arc length s = rθ = 6 × (2π/3) = 4π. Sector area A = (1/2)r²θ = (1/2)(36)(2π/3) = 12π. Had you substituted θ = 120 directly the answers would be nonsense, so always convert to radians before using s = rθ or A = (1/2)r²θ.",
       },
     ],
   },
@@ -167,7 +168,8 @@ export const HONORS_PRECALCULUS_U3_EN: CoreNote[] = [
           "Computing tan's vertical asymptotes at π intervals like sin/cos is half right and half wrong. tan's asymptotes are where cos = 0, at x = π/2 + nπ, starting at π/2. They are at x = π/2, 3π/2, 5π/2, … not at x = 0, π, 2π, … so always confirm the π/2 offset when sketching.",
           "Drawing the csc graph directly without the sin graph makes it easy to misplace the asymptotes. Use a two-step approach: lightly draw the sin graph first, then erect vertical asymptotes at sin's zeros and place the csc vertices at sin's peaks and valleys.",
         ],
-        example: null,
+        example:
+          "Sketch y = 2 sec(x) by first drawing y = 2 cos(x). The helper cosine has amplitude 2, so its maxima are at (0, 2), (2π, 2) and its minimum at (π, −2). Wherever cos x = 0 — at x = π/2 and x = 3π/2 — the secant has vertical asymptotes, because sec x = 1/cos x blows up there. Between asymptotes the secant hugs the cosine's peaks: it dips to a local minimum of 2 at x = 0 and rises to a local maximum of −2 at x = π, opening upward above each cosine max and downward below each cosine min.",
       },
     ],
   },

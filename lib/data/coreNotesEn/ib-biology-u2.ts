@@ -79,7 +79,8 @@ export const IB_BIOLOGY_U2_EN: CoreNote[] = [
           "IB Paper 2 graph questions ask students to distinguish between the Michaelis-Menten curves for competitive and non-competitive inhibition. Competitive inhibition: Vmax unchanged, Km increased (curve shifted to the right). Non-competitive inhibition: Vmax decreased, Km unchanged (curve shifted downward). In both cases, the explanation that 'increasing substrate concentration solves the problem' applies only to competitive inhibition — this distinction must be stated clearly.",
           "In temperature versus reaction rate graphs, writing 'the enzyme is destroyed' to explain the sharp drop beyond the optimum temperature is imprecise and will cost marks. The correct phrasing is 'at high temperatures, the enzyme denatures, meaning the shape of the active site changes so it can no longer bind the substrate.' It is the collapse of tertiary structure — not physical destruction — that must be specified for full credit.",
         ],
-        example: null,
+        example:
+          "Methanol poisoning is treated by exploiting competitive inhibition of an enzyme. The enzyme alcohol dehydrogenase converts methanol into toxic formic acid, but it has a much higher affinity for ethanol than for methanol. Doctors give the patient controlled doses of ethanol, which floods the active sites and competes methanol out, so the methanol is excreted unchanged before it can be turned into poison. This is a real clinical use of a competitive inhibitor: raising the concentration of the competing molecule (ethanol) is exactly what reduces conversion of the other substrate (methanol), mirroring how increasing substrate can outcompete a competitive inhibitor at the active site.",
       },
     ],
   },
@@ -155,7 +156,8 @@ export const IB_BIOLOGY_U2_EN: CoreNote[] = [
           "IB frequently asks students to distinguish the 'template strand' from the 'coding strand' during transcription. RNA polymerase reads the template strand (3'→5') to synthesize mRNA. The resulting mRNA sequence is identical to the coding strand (non-template strand), except that T is replaced by U. Confusing the template strand with the sequence that matches the mRNA — and writing 'the template strand has the same sequence as the mRNA' — is a common error that costs marks.",
           "In translation, the start codon (AUG) encodes methionine, so every polypeptide initially begins with methionine. However, the final protein may not contain methionine at its N-terminus because it can be cleaved post-translationally. Also, stop codons (UAA, UAG, UGA) have no corresponding tRNA; instead, a release factor protein binds at the stop codon and triggers release of the polypeptide from the ribosome.",
         ],
-        example: null,
+        example:
+          "Trace one short gene through transcription and translation. Suppose the DNA template strand reads 3'-TAC GGA TTA ACT-5'; RNA polymerase synthesizes the complementary mRNA 5'-AUG CCU AAU UGA-3'. The ribosome reads this in triplets: AUG is the start codon (methionine, Met), CCU codes for proline (Pro), AAU codes for asparagine (Asn), and UGA is a stop codon that recruits a release factor rather than a tRNA. The finished polypeptide is therefore Met-Pro-Asn, and the matching tRNA anticodons that delivered these amino acids were 3'-UAC, GGA, UUA reading against the codons. This shows the codon-anticodon complementarity and why the stop codon terminates the chain without adding an amino acid.",
       },
     ],
   },

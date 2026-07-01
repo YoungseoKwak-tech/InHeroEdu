@@ -80,7 +80,8 @@ export const IB_PSYCHOLOGY_U3_EN: CoreNote[] = [
         traps: [
           "When discussing the limitations of SIT, simply writing 'it cannot explain individual differences' is insufficient. Two more precise criticisms are: (1) SIT focuses on situations in which group identity is more salient than personal identity, but it does not systematically predict which identity will be activated in which situation — this gap was addressed by Self-Categorization Theory (Turner, 1987). (2) SIT was developed in Western individualistic societies, and comparative cross-cultural evidence for its applicability in collectivist cultures — where group identity is already stronger than personal identity — remains limited.",
         ],
-        example: null,
+        example:
+          "Consider supporters of a football club that has just been relegated to a lower division — a threat to their positive social identity. A fan who quietly starts following a successful rival club is using social mobility, treating the group boundary as permeable. A fan who insists 'our fans are the most loyal in the country, even if the team loses' is using social creativity, shifting the comparison to a dimension (loyalty) on which the in-group still wins. A fan who joins protests demanding new investment to beat rival clubs on the pitch is engaging in social competition, attempting to change the group's actual status. Each strategy restores positive distinctiveness through a different route, exactly as SIT predicts when identity is threatened.",
       },
     ],
   },
@@ -155,7 +156,8 @@ export const IB_PSYCHOLOGY_U3_EN: CoreNote[] = [
         traps: [
           "When explaining SCT as a theory within the sociocultural approach, failing to connect 'individual-level learning theory' with 'sociocultural-level influences' will prevent you from reaching the upper band. IB exams require you to discuss how SCT explains the transmission of cultural norms and the sharing of behavioral patterns within groups — in other words, how individual learning translates into cultural phenomena at the group level. A mechanistic 'observe, then imitate' explanation is not sufficient for the IB sociocultural unit.",
         ],
-        example: null,
+        example:
+          "Fagot (1978) observed how gender norms are transmitted through observational learning and reinforcement in toddler play. She found that parents and teachers reacted positively when children engaged in play judged appropriate for their gender (e.g., girls playing with dolls) and negatively to cross-gender play, and children imitated same-sex role models more readily — consistent with the role-model similarity effect. Because attractive, high-status same-sex models are made salient during enculturation, individual acts of observation and vicarious reinforcement accumulate into shared, group-level behavioral patterns — this is how SCT bridges individual learning and cultural transmission. The example shows that the sociocultural point is not merely 'children imitate,' but that culture selects which models and behaviors are reinforced, propagating norms across a whole group.",
       },
     ],
   },

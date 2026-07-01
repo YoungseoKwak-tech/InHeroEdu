@@ -75,7 +75,8 @@ export const IB_CHEMISTRY_U5_EN: CoreNote[] = [
         traps: [
           "The enthalpy of neutralisation (ΔH°neut ≈ −57 kJ mol⁻¹) is referenced to the formation of 1 mol of water in a strong acid–strong base reaction. If a weak acid or weak base is involved, additional energy is needed for ionisation, so the absolute value of ΔH°neut is smaller than 57. On IB Paper 2, if asked 'why is the ΔH°neut of a weak acid reacting with a strong base less negative than −57 kJ mol⁻¹,' you must answer that energy is consumed in the partial ionisation of the weak acid.",
         ],
-        example: null,
+        example:
+          "Classify these everyday systems and predict the sign of ΔT for the surroundings. A reusable hand warmer works by the crystallisation of supersaturated sodium acetate, an exothermic process (ΔH < 0) that releases heat and warms your hand, so the surroundings show ΔT > 0. An instant cold pack contains ammonium nitrate that dissolves endothermically, NH₄NO₃(s) → NH₄⁺(aq) + NO₃⁻(aq), ΔH > 0, absorbing heat from the pack so the temperature drops (ΔT < 0). Baking soda decomposing in an oven, 2NaHCO₃(s) → Na₂CO₃(s) + H₂O(g) + CO₂(g), is endothermic and requires continuous heating. In each case the direction of ΔT for the surroundings is the mirror image of the sign of the system's ΔH.",
       },
     ],
   },
@@ -149,7 +150,8 @@ export const IB_CHEMISTRY_U5_EN: CoreNote[] = [
         traps: [
           "A bomb calorimeter measures the heat of a combustion reaction under constant-volume conditions, so strictly it measures the internal energy change (ΔU). At IB SL level ΔU ≈ ΔH is approximated, but in HL extension a correction ΔH = ΔU + ΔnRT may be required. Do not automatically write ΔH = ΔU just because a bomb calorimeter is mentioned in a question — check the SL/HL distinction.",
         ],
-        example: null,
+        example:
+          "Correcting for heat loss by graph extrapolation. When 1.50 g of a fuel is burned in a coffee-cup setup heating 200.0 g of water, the temperature is recorded every 30 s. During heating it climbs from 22.0 °C and appears to peak at 45.0 °C, but afterwards the readings fall along a straight cooling line. Extrapolating that cooling line back to the moment of mixing (t = 0) gives a corrected maximum of 47.2 °C, so the true ΔT = 47.2 − 22.0 = 25.2 K rather than the apparent 23.0 K. Using the corrected value, q = mcΔT = 200.0 × 4.18 × 25.2 = 21 067 J ≈ 21.1 kJ, which is larger than the uncorrected 19.2 kJ. This confirms that ignoring heat loss always underestimates |ΔH|.",
       },
     ],
   },

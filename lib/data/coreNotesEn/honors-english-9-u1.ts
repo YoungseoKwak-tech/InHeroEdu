@@ -81,7 +81,8 @@ export const HONORS_ENGLISH_9_U1_EN: CoreNote[] = [
         traps: [
           "It is extremely common to treat 'round' and 'dynamic' as synonyms. Round/flat measures degree of complexity, while dynamic/static measures whether the character changes. Characters who are round yet static, or flat yet dynamic, all exist. Conflating them in an essay costs marks.",
         ],
-        example: null,
+        example:
+          "Consider Ebenezer Scrooge in A Christmas Carol. Dickens never simply tells us Scrooge is cruel; instead we infer it indirectly through the STEAL elements — his Speech ('Are there no prisons?'), his Actions in refusing his nephew's invitation, and his Effect on others, who flinch at his approach. Scrooge is also a dynamic character, because by the final stave his generosity replaces his greed. Analysing how indirect characterization first establishes that greed makes the later transformation feel earned rather than arbitrary.",
       },
     ],
   },
@@ -159,7 +160,8 @@ export const HONORS_ENGLISH_9_U1_EN: CoreNote[] = [
         traps: [
           "Tone and mood are the concepts most often confused on exams. A way to remember: tone = the writer's attitude (what the writer feels), mood = the reader's emotion (what the reader feels). They are not always the same — a cynical tone may create an uneasy mood in the reader.",
         ],
-        example: null,
+        example:
+          "Imagine a narrator who describes a mansion as follows: 'The house sagged under its own decay, and the rain trudged down the cracked windows like something too tired to fall.' The diction — 'sagged,' 'decay,' 'trudged' — reveals the narrator's weary, foreboding attitude toward the setting, which is the tone. That same imagery evokes dread and unease in the reader, which is the mood. Notice how a first-person point of view would let us judge whether the narrator's gloom is reliable, while third-person limited would keep us anchored to a single character's perception of the scene.",
       },
     ],
   },
@@ -238,7 +240,8 @@ export const HONORS_ENGLISH_9_U1_EN: CoreNote[] = [
         traps: [
           "A floating quote is one of the most serious formatting errors in an Honors essay. You must never write a quotation as a standalone sentence ('\"I get to tend the rabbits.\"') or introduce it with 'Here is a quote:' and then simply list it. Every quotation must be integrated into your own subject-verb structure.",
         ],
-        example: null,
+        example:
+          "Compare a floating quote with a properly embedded one. Weak: 'Lennie loves the rabbits. \"I get to tend the rabbits\" (Steinbeck 14).' Strong: 'Lennie reveals his fixation on the dream when he insists that he will \"get to tend the rabbits\" (Steinbeck 14).' The strong version uses the signal verb 'reveals' and dissolves the quotation into the sentence's grammar. Note how the MLA citation (Steinbeck 14) sits after the closing quotation mark, and how brackets could adjust a verb tense — 'he would \"[tend] the rabbits\"' — without distorting the original meaning.",
       },
     ],
   },

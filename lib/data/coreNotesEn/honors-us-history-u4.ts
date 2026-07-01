@@ -75,7 +75,8 @@ export const HONORS_US_HISTORY_U4_EN: CoreNote[] = [
           "Do not generalize the Roaring Twenties as 'an age when everyone prospered.' After wartime demand vanished, farmers were already in depression throughout the 1920s due to collapsing crop prices. Black workers faced wage discrimination and housing segregation even in the North, and the prosperity of radios and automobiles was largely the story of the white urban middle class. Asking 'for whom was the prosperity?' is at the heart of the Honors approach.",
           "Do not confuse the 18th Amendment (Prohibition) with the 19th Amendment (women's suffrage). The two passed in similar years (1919, 1920) and are often mixed up. Prohibition is the 18th, 1919; women's suffrage is the 19th, 1920. Both were products of the reform fervor of the Progressive Era, but their goals and natures are entirely different.",
         ],
-        example: null,
+        example:
+          "See the shadow of 1920s prosperity through the Sacco and Vanzetti case (1920–1927). Nicola Sacco and Bartolomeo Vanzetti, two Italian immigrant anarchists, were arrested for a robbery-murder in Massachusetts on thin evidence during the height of the Red Scare. The trial fixated on their foreign birth, broken English, and radical politics rather than solid proof, and Judge Webster Thayer reportedly called them 'anarchist bastards' outside court. Despite worldwide protests, both were executed in the electric chair in 1927. The case shows the underside of the Roaring Twenties: while the white urban middle class enjoyed jazz, radios, and auto installment plans, immigrants and radicals faced the Palmer Raids, the revived KKK, and the immigration quotas of 1924 — prosperity and paranoia running side by side.",
       },
     ],
   },

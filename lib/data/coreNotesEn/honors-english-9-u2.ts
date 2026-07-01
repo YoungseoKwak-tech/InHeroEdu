@@ -77,7 +77,8 @@ export const HONORS_ENGLISH_9_U2_EN: CoreNote[] = [
         traps: [
           "Identifying a rhetorical device is not, in itself, analysis. Labelling 'the writer uses repetition' is identification, not analysis. Honors-level analysis must always connect to 'what persuasive effect this device produces for a specific audience.' Naming devices = a 1-point answer; analysing their effect = a 4-to-5-point answer.",
         ],
-        example: null,
+        example:
+          "Suppose an activist closes a speech with: 'We waited a decade for change. We marched for change. We voted for change. So I ask you: how much longer must we wait?' The anaphora of 'We … for change' builds rhythmic momentum and unifies the audience behind a shared history of effort. The closing rhetorical question does not seek an answer but forces listeners to conclude that further delay is unjust, converting them from passive listeners into people who feel the urgency personally. Full-credit analysis names each device and then explains this cumulative, audience-activating effect rather than stopping at the labels.",
       },
     ],
   },
@@ -152,7 +153,8 @@ export const HONORS_ENGLISH_9_U2_EN: CoreNote[] = [
         traps: [
           "Many students memorise only the names of logical fallacies. On exams and in essays you earn marks for explaining 'how this fallacy weakens the argument,' not for naming it. Labelling 'this is a slippery slope fallacy' is only half — concretely explaining 'why that leap does not hold logically' is the real analysis.",
         ],
-        example: null,
+        example:
+          "Take the claim: 'If we let students retake one test, soon they will demand to retake everything, grades will become meaningless, and no one will study at all.' This is a slippery slope fallacy — but full analysis explains why the leap fails: the argument assumes each step causes the next without evidence, when in reality a single retake policy can be capped by rules (one retake, lower weighting) that never lead to the extreme outcome. Contrast this with a hasty generalization, such as concluding an entire grade is lazy because three students missed a deadline; there the flaw is an unrepresentative sample, not an unproven chain. Identifying the specific broken link, not just the fallacy's name, is what earns the marks.",
       },
     ],
   },
@@ -227,7 +229,8 @@ export const HONORS_ENGLISH_9_U2_EN: CoreNote[] = [
         traps: [
           "Overusing the first person ('I think…') in an essay makes the claim sound like personal opinion and weakens persuasiveness. An argumentative essay must convey 'a claim grounded in evidence,' not 'my feelings.' If avoiding the first person entirely is difficult, minimise it and use objective subjects such as 'this evidence' or 'research demonstrates.'",
         ],
-        example: null,
+        example:
+          "Here is a complete argumentative paragraph on the uniform topic. Topic sentence: 'Mandatory uniforms reduce bullying rooted in economic inequality.' Evidence (quotation sandwich): 'In a 2019 district report, administrators noted that after adopting uniforms, incidents of clothing-based teasing \"fell by nearly a quarter within a single year\" (District Report 8).' Analysis/Warrant: 'Because uniforms erase the visible markers of family income, students lose the easiest target for status-based mockery, so the drop demonstrates that the policy addresses the root cause rather than the symptom.' Link back: 'This reduction in inequality-driven harm directly supports the thesis that uniforms make schools more equitable.' Notice the confident diction — 'demonstrates,' 'evidence' — replaces 'I think,' strengthening ethos.",
       },
     ],
   },

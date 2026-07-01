@@ -80,7 +80,8 @@ export const IB_HISTORY_U1_EN: CoreNote[] = [
         traps: [
           "An essay that lists only change while ignoring continuity will lose marks under IB Criterion D (analysis and evaluation). For example, writing only 'the Cold War began in 1947 and changed the world entirely' is insufficient. Instead, argue that 'the Cold War was both a continuation of earlier great-power competition and a turning point that introduced the new structure of ideological confrontation' — addressing change and continuity simultaneously.",
         ],
-        example: null,
+        example:
+          "Change-and-continuity in practice — assessing whether the French Revolution of 1789 was a genuine turning point: On the side of change, it abolished feudal privilege in the August 1789 decrees, executed Louis XVI in 1793, and replaced monarchical sovereignty with the principle of popular sovereignty in the Declaration of the Rights of Man. On the side of continuity, however, France reverted to one-man rule under Napoleon by 1804, the Catholic Church retained deep social influence, and centralised bureaucratic administration inherited from the Bourbon monarchy persisted. Arguing that 1789 was a genuine turning point in political ideas yet showed strong institutional continuity — rather than declaring it simply 'the birth of modern France' — is the analysis that earns high marks.",
       },
       {
         title: "Historical Significance and Perspective — 'How Important?' and 'Through Whose Eyes?'",
@@ -102,7 +103,8 @@ export const IB_HISTORY_U1_EN: CoreNote[] = [
         traps: [
           "When arguing significance, vague phrases like 'it was very important' or 'it changed the course of history' earn no credit under IB Criterion C. You must name the specific criterion (one or more of the five above) and link it to concrete evidence explaining why the event meets that criterion.",
         ],
-        example: null,
+        example:
+          "Significance and perspective in practice — arguing the significance of the printing of Gutenberg's Bible around 1455: On the criterion of duration, the movable-type printing press had effects that lasted centuries, since it made cheap mass reproduction of texts possible; on the criterion of precedent, it created the model for the pamphlet culture that later drove the Reformation and the Scientific Revolution. Perspective then sharpens the analysis: from the perspective of Martin Luther and reformers, printing was a liberating technology that broke the Church's monopoly over Scripture, whereas from the perspective of the Catholic hierarchy it was a dangerous engine of heresy that had to be countered with the Index of Prohibited Books (1559). Naming the specific criteria and contrasting the two perspectives produces a high-scoring argument.",
       },
     ],
   },
@@ -201,7 +203,8 @@ export const IB_HISTORY_U1_EN: CoreNote[] = [
         traps: [
           "Mechanically dividing your OPVL into four labelled paragraphs receives a low mark from IB examiners. Examiners do not check whether the four words 'O, P, V, L' appear; they assess the logical connection between each element. The target structure is a single, continuous sentence of argument: 'Because this source originates from [origin], it carries the purpose of [purpose], which makes it [value] for a historian studying [topic], while simultaneously limiting its usefulness because [limitation].'",
         ],
-        example: null,
+        example:
+          "Connected OPVL argument in practice — Khrushchev's 'Secret Speech' to the 20th Party Congress (February 1956): Because this source originates from Nikita Khrushchev, the new Soviet leader denouncing Stalin's crimes to a closed session of Communist Party delegates, it carries the purpose of consolidating his own power by distancing the Party from Stalinist terror while preserving the legitimacy of the system itself. This makes it highly valuable to a historian studying the process of de-Stalinisation and the internal politics of the post-Stalin succession, since it reveals which crimes the leadership was willing to admit publicly. At the same time its usefulness is limited, because as a self-serving political act it selectively condemns Stalin's purges of loyal Party members while remaining silent on the crimes of collectivisation and Khrushchev's own complicity — a single continuous chain of argument rather than four separate boxes.",
       },
     ],
   },
@@ -278,7 +281,8 @@ export const IB_HISTORY_U1_EN: CoreNote[] = [
         traps: [
           "Never assume that a revisionist interpretation is automatically 'more accurate' or 'more progressive.' Revisionism also reflects the era and ideology of its authors. For example, Cold War revisionism was heavily influenced by the left-wing Western academic climate of the 1960s and 1970s. Rather than ranking interpretations, analyse 'what sources, methodology, and context produced each interpretation, what aspects it explains well, and where its limits lie.'",
         ],
-        example: null,
+        example:
+          "The spectrum of schools in practice — interpreting the dropping of the atomic bombs on Hiroshima and Nagasaki (1945): The orthodox interpretation, articulated by Henry Stimson soon after the war, holds that the bombs were a military necessity that ended the war swiftly and saved the lives that a costly invasion of Japan would have cost. The revisionist interpretation, advanced by Gar Alperovitz in the 1960s, argues instead that Japan was already near surrender and that the bombs were primarily an act of 'atomic diplomacy' aimed at intimidating the Soviet Union at the opening of the Cold War. The post-revisionist interpretation, informed by Japanese and Soviet sources examined by Tsuyoshi Hasegawa, integrates both by weighing the bomb against the Soviet declaration of war on 8 August 1945 as parallel shocks. Each interpretation is a product of the sources and Cold War context available to its author, so the task is to analyse their strengths and limits rather than rank them.",
       },
       {
         title: "Using Historiography in IB Essays",

@@ -78,7 +78,8 @@ export const IB_ECONOMICS_U1_EN: CoreNote[] = [
         traps: [
           "In IB exams, the definition of 'capital' must refer specifically to physical capital — human-made goods used in production (machinery, buildings, etc.). Answering 'money' or 'financial capital' is incorrect. When an exam question asks you to give an example of capital, always write physical assets such as machines or factories. Shares and cash are not capital in the economic sense.",
         ],
-        example: null,
+        example:
+          "Take a bakery to see all four factors and their rewards at work. The plot of ground the shop stands on is land, and the sum paid to its owner is rent; the bakers who mix and bake are labour, paid wages; the ovens, mixers, and delivery van are capital — physical, human-made goods used in production — and the funds borrowed to buy them carry interest. The owner who decided to open the bakery, combined these three factors, and shoulders the risk of the venture supplies entrepreneurship, and whatever remains after all other costs are paid is profit. Notice that the bank loan itself is money, not capital: capital is the oven the loan purchases, not the cash.",
       },
       {
         title: "The 9 Key Concepts of IB Economics",
@@ -104,7 +105,8 @@ export const IB_ECONOMICS_U1_EN: CoreNote[] = [
         traps: [
           "Simply listing the nine key concepts in an HL Paper 1 essay will earn a low score. You must deploy the concepts as analytical lenses to develop your argument. For example, in a minimum-wage debate, you should develop the efficiency–equity trade-off — exploring efficiency (potential distortion of market equilibrium) versus equity (protection of low-income workers' earnings) — with specific supporting evidence to earn high marks.",
         ],
-        example: null,
+        example:
+          "Consider a government carbon tax on petrol to see several key concepts operate as lenses at once rather than as a memorised list. Through the efficiency lens, the tax corrects an allocative distortion by forcing drivers to bear the pollution cost their consumption imposes on others. Through the sustainability lens, discouraging fossil-fuel use protects the ability of future generations to meet their needs, while the equity lens complicates the picture: because petrol absorbs a larger share of a poor household's income, the tax is regressive and may worsen fairness even as it improves efficiency. A strong HL answer weaves these concepts together — efficiency gained, sustainability advanced, equity threatened — instead of merely naming them, which is exactly how the nine concepts are meant to be used.",
       },
     ],
   },
@@ -184,7 +186,8 @@ export const IB_ECONOMICS_U1_EN: CoreNote[] = [
         traps: [
           "The direction of a supply-curve shift can feel counterintuitive: 'rightward shift = price falls.' When supply increases, producers are willing to supply more at the same price, so the curve moves down and to the right, and the equilibrium price falls. When confused, work through the logic slowly: 'supply increases → willing to sell more at the same price → curve moves right.'",
         ],
-        example: null,
+        example:
+          "Consider the market for solar panels over the past decade as a real supply-curve shift. Rapid improvements in manufacturing technology sharply lowered the cost of producing each panel, so at any given price manufacturers became willing to supply far more than before. In a diagram this shifts the supply curve rightward (downward) from S₀ to S₁, while the demand curve stays put. The new intersection with demand gives equilibrium E₁, where equilibrium price falls (P₁ < P₀) and equilibrium quantity rises (Q₁ > Q₀). This is the textbook pattern of a technology-driven supply increase, and it explains why installed solar capacity surged as prices tumbled.",
       },
       {
         title: "Market Equilibrium and the Price Mechanism",
@@ -286,7 +289,8 @@ export const IB_ECONOMICS_U1_EN: CoreNote[] = [
         traps: [
           "Writing only 'it is a necessity, therefore inelastic' in response to a PED determinants question will earn only partial credit. You must connect the reason to the mechanism: 'because there are few substitutes and it is difficult to reduce consumption, a price rise causes only a small change in quantity demanded.' Complete the causal logic. Also note that a good's PED is not fixed forever — it can change with time, market conditions, and income levels. Mentioning this nuance helps earn higher marks.",
         ],
-        example: null,
+        example:
+          "Compare table salt with overseas holidays to see the four determinants at work. Salt has almost no substitutes, is a necessity, and absorbs a trivial share of income, so a doubling of its price barely dents consumption — demand is strongly inelastic. An overseas holiday, by contrast, has many substitutes (a domestic trip, staying home), is a luxury, and consumes a large slice of income, so a 20% price rise causes a much larger fall in bookings — demand is elastic. The time-period determinant then adds nuance: petrol is inelastic in the short run because commuters cannot instantly change their habits, yet over several years they may buy electric cars or move closer to work, making demand more elastic in the long run — a reminder that PED is not fixed.",
       },
       {
         title: "PED and Total Revenue",

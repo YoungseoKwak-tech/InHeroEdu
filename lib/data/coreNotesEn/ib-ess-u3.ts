@@ -73,7 +73,8 @@ export const IB_ESS_U3_EN: CoreNote[] = [
         traps: [
           "Failing to clearly distinguish between instrumental value and intrinsic value in IB ESS extended-response questions will cost you significant marks. Writing only 'biodiversity is important' is insufficient. You must differentiate the two values based on 'whose benefit is it (human vs. the organism itself)' and 'does the value depend on whether humans use it?' In EVS discussion questions, linking each value to technocentrism, ecocentrism, and social ecology perspectives will earn maximum marks.",
         ],
-        example: null,
+        example:
+          "Let's apply both values to the biodiversity hotspot of Madagascar. Its rosy periwinkle (Catharanthus roseus) yields the alkaloids vincristine and vinblastine, which transformed treatment of childhood leukaemia and Hodgkin's lymphoma — a clear instrumental value, since the plant benefits humans as a medicine. But over 90% of Madagascar's original forest has been cleared and it holds thousands of endemic species (including lemurs found nowhere else on Earth), and an ecocentric argument holds that these species deserve protection regardless of whether any of them ever proves medically useful — an intrinsic value grounded in their right to exist. The instrumental case appeals to anthropocentric and technocentric conservationists, while the intrinsic case anchors the ecocentric position; a top-band EVS answer presents both and notes that Madagascar qualifies as a hotspot precisely because it combines exceptional endemism with over 70% habitat loss.",
       },
     ],
   },

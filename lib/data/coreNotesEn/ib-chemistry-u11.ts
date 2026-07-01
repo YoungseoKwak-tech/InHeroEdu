@@ -147,7 +147,8 @@ export const IB_CHEMISTRY_U11_EN: CoreNote[] = [
         traps: [
           "When taking ln for linearisation, do not forget the units. ln can only be taken of a dimensionless number, so theoretically if k in ln k has units, this is understood as a ratio relative to a reference value. IB exams usually instruct you to 'ignore the units of k and use only the value,' but in an IA, mentioning this point provides evidence of Additional Higher Level (AHL) understanding.",
         ],
-        example: null,
+        example:
+          "Using a Beer–Lambert calibration curve (IB Paper 2 type). Standard Cu²⁺ solutions give absorbances of 0.10, 0.20, 0.30 and 0.40 at concentrations of 0.10, 0.20, 0.30 and 0.40 mol dm⁻³, so a plot of A against c is a straight line through the origin with gradient εl = 0.10 / 0.10 = 1.00 dm³ mol⁻¹ (consistent with A = εlc). An unknown sample measured on the same instrument gives A = 0.25; interpolating on the line gives c = A / (εl) = 0.25 / 1.00 = 0.25 mol dm⁻³. Because 0.25 lies inside the calibrated 0.10–0.40 range this is a reliable interpolation, whereas reading off a sample with A = 0.80 would require unreliable extrapolation beyond the data.",
       },
     ],
   },

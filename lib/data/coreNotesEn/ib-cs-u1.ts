@@ -78,7 +78,8 @@ export const IB_CS_U1_EN: CoreNote[] = [
         traps: [
           "When an exam question asks which changeover strategy suits a small start-up company, direct changeover can actually be the most reasonable answer. Parallel running imposes an excessive double-cost burden at small scale. Strategy choice must always be justified with reference to organisational size, budget, risk tolerance, and staff capability.",
         ],
-        example: null,
+        example:
+          "Compare how the four strategies would handle a nationwide bank rolling out new account software. Direct changeover switches all 500 branches overnight — cheap and fast, but a single bug could freeze every transaction. Pilot changeover deploys to one city branch first, so a defect only affects that branch before national rollout. Phased implementation would release the deposit module first, stabilise it, then add loans and transfers over several months. For a bank, the risk of paralysing customer transactions is so high that pilot or phased is justified over direct, even though both take longer.",
       },
       {
         title: "Change Management and Stakeholders",
@@ -104,7 +105,8 @@ export const IB_CS_U1_EN: CoreNote[] = [
         traps: [
           "In stakeholder conflict questions, avoid falling into the trap of asking 'whose requirements take priority — the manager's or the end user's?' IB does not want a priority judgement; it wants to see how you analyse conflicting requirements and find a balance. In your answer, present the perspective of each stakeholder and then describe a compromise approach.",
         ],
-        example: null,
+        example:
+          "Consider a hospital introducing an electronic patient-records system. The managers want fast data entry to cut costs, while the nurses (end users) fear the new screens will slow them at the bedside and prefer their familiar paper charts — a classic case of user resistance. Change management resolves this by running hands-on training sessions and a User Acceptance Testing phase where nurses trial the system on real ward workflows and request changes before go-live. When nurses see the system auto-populates repeated fields and saves them time, resistance falls, illustrating that the rollout succeeded as a people problem, not just a technical one.",
       },
     ],
   },
@@ -179,7 +181,8 @@ export const IB_CS_U1_EN: CoreNote[] = [
         traps: [
           "Saying that adding more RAM 'makes the computer faster' is imprecise. RAM increases the number of programs and the amount of data that can be active at once, but it does not increase the CPU's processing speed itself. Because IB tests this distinction frequently, write precisely: 'RAM improves multitasking performance but does not change clock speed.'",
         ],
-        example: null,
+        example:
+          "Trace where a photo lives as you edit it. On the SSD (secondary storage, non-volatile) sits the saved 20 MB file — it survives a power cut. When you open the editor, the OS copies that file into RAM (volatile) so the CPU can access it quickly; the ROM's firmware had already booted the machine before any of this. If you now pull the power without saving, the RAM copy — including all your unsaved edits — is lost instantly, while the original file on the SSD remains. This is exactly why 'save often' matters: it writes the volatile RAM working copy back to non-volatile storage.",
       },
       {
         title: "The Operating System and Software Layers",
@@ -205,7 +208,8 @@ export const IB_CS_U1_EN: CoreNote[] = [
         traps: [
           "Watch out for borderline cases where the boundary between system software and application software is blurry (e.g., a web browser). IB classification questions should be answered on the basis of role: if software manages hardware resources, it is system software; if it performs a specific user task, it is application software. Drivers and utilities are classified as system software.",
         ],
-        example: null,
+        example:
+          "Follow what happens when a word processor (application software) prints a document. The application does not touch the printer directly; it calls the operating system's API asking to print. The OS uses process scheduling to give the print job CPU time, then hands the data to the printer's device driver, which translates the generic request into the exact commands that specific printer model understands. This layering means the same word processor can print to any printer without knowing its hardware details — the OS and driver abstract the hardware away, which is precisely the OS's role as intermediary.",
       },
     ],
   },
@@ -280,7 +284,8 @@ export const IB_CS_U1_EN: CoreNote[] = [
         traps: [
           "When comparing bus and star topologies, writing only 'bus is cheaper' earns half marks. In an IB answer, you must state the reason: bus topology requires only a single shared cable, which reduces wiring costs, but all traffic travels over the same medium causing collisions, and a single cable break brings the entire network down. State the trade-off, not just the headline fact.",
         ],
-        example: null,
+        example:
+          "Consider a computer lab of 20 machines connected in a star topology. Each machine has its own cable running to a central switch, so cabling costs more than a single shared bus cable would. But when one student's cable is accidentally unplugged, only that one machine drops offline — the other 19 keep working, because each has an independent link to the switch. The trade-off is the switch itself: if that central hub fails, the entire lab loses connectivity, since it is the single point of failure through which all traffic passes. This is a school LAN, owned and managed by the school with high internal speeds.",
       },
       {
         title: "Protocols, IP and MAC Addresses, and Internet Fundamentals",
@@ -307,7 +312,8 @@ export const IB_CS_U1_EN: CoreNote[] = [
           "Many exam answers confuse IP addresses with MAC addresses. An IP address is a logical, changeable address at the network layer used for routing; a MAC address is a physical, fixed address at the data link layer used for communication within the same LAN. A useful analogy: an IP address is like a postal address (can change), while a MAC address is like a national ID number (fixed at birth).",
           "Do not simply list protocol names (e.g., HTTP) when answering a protocol question. Because IB asks why protocols are necessary, you must state the purpose explicitly: 'to ensure compatibility by allowing different systems to communicate using the same set of rules.'",
         ],
-        example: null,
+        example:
+          "Trace a laptop loading a web page to see IP addresses, MAC addresses, and protocols cooperate. The browser uses HTTP over TCP/IP to request the page; the destination is identified by the server's IP address, say 93.184.216.34 (a logical, routable address). The message is broken into packets by packet switching, each free to take a different path across the internet and be reassembled at the end. Within the laptop's own LAN, though, delivery to the router happens using the router's fixed MAC address at the data link layer. So the IP address routes the packet across networks to the right building, while the MAC address delivers it to the right device once it arrives.",
       },
     ],
   },

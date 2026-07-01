@@ -165,7 +165,8 @@ export const HONORS_PRECALCULUS_U1_EN: CoreNote[] = [
           "Vertical and horizontal stretches have opposite effects. y = 2f(x) stretches the graph vertically by 2, but y = f(2x) compresses it horizontally by 1/2. The intuition 'multiplied by 2 so it doubles in size' is wrong for horizontal stretches: in y = f(2x) the x-coordinates become 1/2 as large, so the graph narrows.",
           "When several transformations apply at once, order matters. In the general form y = a·f(b(x − h)) + k the order is ① horizontal shift (apply h to x), ② horizontal stretch (apply b), ③ vertical stretch (apply a), ④ vertical shift (apply k). Changing the order can change the result.",
         ],
-        example: null,
+        example:
+          "Take the point (4, 2) on y = √x and transform to y = −2·√(x). The factor a = −2 both stretches vertically by 2 and reflects over the x-axis, so the y-coordinate becomes (−2)(2) = −4, giving the new point (4, −4). Now consider y = √(4x): here b = 4 compresses horizontally by 1/4, so the x-coordinate becomes (1/4)(4) = 1, giving (1, 2) from the original (4, 2). Notice the vertical factor multiplies y directly while the horizontal factor multiplies x by 1/b — the opposite direction.",
       },
     ],
   },

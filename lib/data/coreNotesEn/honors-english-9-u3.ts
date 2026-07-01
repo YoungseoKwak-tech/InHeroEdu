@@ -77,7 +77,8 @@ export const HONORS_ENGLISH_9_U3_EN: CoreNote[] = [
         traps: [
           "Do not confuse dramatic irony with verbal irony (saying the opposite of what one means). Dramatic irony arises from information asymmetry — a situation in which the audience knows more than the characters. For example, when Romeo weeps before Juliet's tomb believing she is dead, the dread the audience feels — knowing she is alive — is dramatic irony. Distinguish it from a character's sarcastic remark.",
         ],
-        example: null,
+        example:
+          "Look at how the tomb scene in Act 5 fuses all three devices. The dramatic irony is that the audience knows Juliet has taken a sleeping potion and is alive, while Romeo, seeing her, believes her dead and drinks poison — so every line of his grief lands twice as hard on a viewer who knows the truth. This catastrophe is also foreshadowed earlier by Romeo's own words that his love feels 'too like the lightning,' a hint that his speed will destroy him. Finally it enacts his hamartia: his impulsiveness, the same flaw that killed Tybalt, makes him swallow the poison seconds before Juliet wakes. Reading these devices together shows the tragedy is engineered from within the hero, not imposed by outside evil.",
       },
     ],
   },
@@ -229,7 +230,8 @@ export const HONORS_ENGLISH_9_U3_EN: CoreNote[] = [
         traps: [
           "If a synthesis essay separates the two texts into 'blocks' rather than alternating them, it becomes two separate essays rather than a synthesis. Instead of writing all of text A and then all of text B in block structure, use a point-by-point structure that treats both texts at once within each paragraph, developing a single comparative point — only then is it a true synthesis essay.",
         ],
-        example: null,
+        example:
+          "Suppose you synthesise Romeo and Juliet with a modern novel about feuding families. A block-structured, weak version discusses the whole play, then the whole novel, and hopes the reader connects them. A true synthesis builds one unified claim — 'both works argue that inherited hatred, not individual choice, destroys the young' — and develops it point by point: within a single paragraph you set Shakespeare's dramatic irony beside the novel's parallel scene, showing how each author engineers the same tragic inevitability. This point-by-point weave, driven by deep evidence integration that analyses each text's language rather than merely quoting it, is what separates criticism from summary.",
       },
     ],
   },

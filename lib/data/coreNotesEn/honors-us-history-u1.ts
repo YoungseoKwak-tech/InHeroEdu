@@ -78,7 +78,8 @@ export const HONORS_US_HISTORY_U1_EN: CoreNote[] = [
         traps: [
           "Do not portray African Americans solely as passive victims. At the Honors level, high marks require describing forms of resistance — work slowdowns, escape, the preservation of community through language, religion, and culture, and direct action such as the Stono Rebellion (1739).",
         ],
-        example: null,
+        example:
+          "Trace the shift from indentured servitude to racial slavery through Bacon's Rebellion (1676). Before the rebellion, Virginia's plantations relied heavily on white indentured servants from Britain who worked four to seven years for passage. When Nathaniel Bacon led an armed uprising of poor whites, freed servants, and enslaved Africans against Governor William Berkeley, planters were terrified that a poor multiracial underclass could unite against them. In response they turned decisively to lifelong enslaved African labor, which could be controlled by law and skin color and could never win freedom or land. Within a generation, laws hardening slavery as an inherited, race-based status expanded rapidly — showing how a class revolt was 'solved' by deepening racial slavery.",
       },
     ],
   },
@@ -156,7 +157,8 @@ export const HONORS_US_HISTORY_U1_EN: CoreNote[] = [
           "The Boston Massacre was not a deliberate massacre, yet the name 'massacre' is what history recorded. If an exam asks for the significance of the Boston Massacre, emphasize its function as propaganda — spreading anti-British sentiment and promoting colonial unity — rather than the violence of the event itself. Remember too that most British soldiers were later acquitted, and that their defense attorney was John Adams, who would become the second president.",
           "The Intolerable Acts produced the opposite of what Britain intended. Britain meant to make an example of Massachusetts to frighten the other colonies, but instead the others united, fearing 'we could be next.' It is a textbook historical case of repression strengthening resistance.",
         ],
-        example: null,
+        example:
+          "Trace the causal chain from tea to armed unity. In December 1773 the Sons of Liberty dumped 342 chests of East India Company tea into Boston Harbor to protest the Tea Act. Britain retaliated in 1774 with the Intolerable Acts, closing Boston Harbor until the tea was paid for and stripping Massachusetts of self-government. Rather than isolating Massachusetts, this pushed the other colonies to convene the First Continental Congress in Philadelphia in September 1774, where twelve colonies coordinated a boycott and pledged mutual support. Within seven months the fighting at Lexington and Concord (April 1775) began — a straight line from a harbor protest, to punishment, to intercolonial unity, to war.",
       },
     ],
   },

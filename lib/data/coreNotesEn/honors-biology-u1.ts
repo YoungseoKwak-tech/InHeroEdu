@@ -51,7 +51,8 @@ export const HONORS_BIOLOGY_U1_EN: CoreNote[] = [
           "The most common mistake is confusing whether hydrogen bonds occur 'within' or 'between' molecules. The polar covalent bond holds the O–H together inside a single water molecule; the hydrogen bond holds different water molecules to one another. On a question asking 'what holds water molecules to each other?', writing 'covalent bond' loses marks.",
           "Do not confuse adhesion with cohesion. Cohesion is water-to-water attraction; adhesion is water-to-other-surface attraction (e.g., to cellulose cell walls). The rise of water in plant xylem requires both.",
         ],
-        example: null,
+        example:
+          "Consider how a tall tree lifts water 100 m from root to leaf with no pump. As water evaporates from leaf pores (transpiration), it pulls on the water molecules just below it. Because water molecules are joined by hydrogen bonds, cohesion lets them pull as a single continuous column up the narrow xylem tubes, like sipping through a straw. At the same time, adhesion — water clinging to the hydrophilic cellulose walls of the xylem — helps resist gravity and hold the column in place. Together, cohesion and adhesion make this unbroken 'transpiration stream' possible, which is why cutting the column with an air bubble (embolism) can kill that pathway.",
       },
       {
         title: "Thermal Properties of Water and the Universal Solvent",
@@ -104,7 +105,8 @@ export const HONORS_BIOLOGY_U1_EN: CoreNote[] = [
         traps: [
           "Remember the pH scale is logarithmic, not linear. pH 5 is not 10 times but 100 times (10²) more concentrated in H⁺ than pH 7. When an exam says 'twice as acidic,' convert this to a ratio of H⁺ concentration, not a difference in pH units.",
         ],
-        example: null,
+        example:
+          "Follow how the blood's carbonic acid–bicarbonate buffer defends a stable pH of 7.4. The system is an equilibrium: CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻. When lactic acid from hard exercise dumps H⁺ into the blood, bicarbonate (HCO₃⁻) grabs the excess H⁺ to form carbonic acid, pushing the reaction left, so pH barely drops. When H⁺ falls too low, carbonic acid dissociates to release more H⁺, pushing the reaction right. This is why blood holds within the narrow 7.35–7.45 range even as metabolism constantly produces acid — and why a pH drop to 6.8 or a rise to 7.8 is life-threatening.",
       },
     ],
   },
@@ -178,7 +180,8 @@ export const HONORS_BIOLOGY_U1_EN: CoreNote[] = [
         traps: [
           "Note that lipids are not polymers. Carbohydrates, proteins, and nucleic acids are polymers of covalently linked monomers, but lipids have no common monomer. A fat is 1 glycerol + 3 fatty acids joined by ester bonds; a phospholipid is glycerol + 2 fatty acids + a phosphate group. Do not fall for an exam trap asking for 'the monomer of a lipid.'",
         ],
-        example: null,
+        example:
+          "Compare butter and olive oil to see how saturation controls membrane fluidity. Butter is rich in saturated fatty acids, whose straight chains stack tightly together and solidify at room temperature; olive oil is rich in unsaturated fatty acids, whose cis double bonds put kinks in the chains so they cannot pack tightly and stay liquid. The same logic governs the cell membrane: more unsaturated phospholipids keep the bilayer fluid at low temperature. This is exactly why a reindeer's leg has more unsaturated fat near the cold hooves and more saturated fat near the warm body — keeping every region's membranes properly fluid.",
       },
       {
         title: "Proteins and Nucleic Acids — The Doers and the Keepers of Information",
@@ -204,7 +207,8 @@ export const HONORS_BIOLOGY_U1_EN: CoreNote[] = [
         traps: [
           "Protein denaturation does not change the primary structure (amino acid sequence). pH changes, high heat, and extreme salinity break weak interactions (hydrogen bonds, ionic bonds, hydrophobic interactions), destroying only the secondary, tertiary, and quaternary structure. Remember 'denaturation = loss of 3-D shape,' not 'destruction of the protein.' If conditions are restored, some proteins can refold.",
         ],
-        example: null,
+        example:
+          "Watch how a single amino acid change ripples up all four structure levels in sickle cell anemia. In the β-globin chain of hemoglobin, position 6 normally holds glutamate, a hydrophilic (charged) amino acid — this is the primary structure. A mutation swaps it for valine, a hydrophobic amino acid. That one R-group change creates a sticky hydrophobic patch on the tertiary structure, and at the quaternary level the mutant hemoglobin molecules clump together into long fibers under low oxygen. The fibers warp the red blood cell into a rigid sickle shape that jams capillaries — proving that primary structure (sequence) dictates final 3-D shape and therefore function.",
       },
     ],
   },
@@ -280,7 +284,8 @@ export const HONORS_BIOLOGY_U1_EN: CoreNote[] = [
         traps: [
           "Does lowering temperature denature an enzyme? No. Low temperature reduces molecular motion, lowering collision frequency and reaction rate, but the enzyme's structure is preserved — raise the temperature again and activity recovers. By contrast, an enzyme denatured above its optimum is irreversibly destroyed and does not recover even if cooled. Always distinguish these two cases when interpreting graphs.",
         ],
-        example: null,
+        example:
+          "Contrast human pepsin and trypsin to see why 'optimal pH' matters. Pepsin works in the stomach, where gastric acid holds the pH near 2, so its active site is folded to be most active in that harsh acid; move it to pH 7 and its shape distorts and activity collapses. Trypsin works in the small intestine, where pancreatic bicarbonate raises the pH to about 8, so its optimum is basic and it would be crippled at pH 2. This is why a protein-digestion experiment run at a single fixed pH will show one enzyme active and the other nearly dead — each has evolved an active-site charge arrangement tuned to the pH of the organ where it operates.",
       },
       {
         title: "Enzyme Inhibition and Metabolic Regulation",

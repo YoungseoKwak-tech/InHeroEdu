@@ -102,7 +102,8 @@ export const IB_ENGLISH_U3_EN: CoreNote[] = [
           "It is a trap to assume that the more intertextual references you find, the deeper your analysis is. What matters in IB is depth, not quantity — arguing multi-layeredly how a single intertextual connection relates to the text's theme, purpose, and audience earns far higher marks than a superficial list of references.",
           "Do not take reader response theory into a relativism that says 'everyone can interpret it differently.' IB requires personal interpretation to be supported by textual evidence. The frame must be: 'This textual device produces this effect, and the reason is...' — not 'I felt this way.'",
         ],
-        example: null,
+        example:
+          "Imagine a poem that ends with the single line 'and the garden was, once more, a garden.' A reader who carries the biblical story of Eden in memory reads an intertextual layer — the return to an original innocence, or its impossibility — while a reader without that frame experiences only the literal image of a restored garden. This is the intertextual gap in action: the same words open different depths depending on the reader's prior textual experience, and the ideal reader the poet constructs is one who hears the Edenic echo. Crucially, the analysis does not stop at 'it reminds me of Eden'; it argues that the repetition 'a garden … a garden' and the interruptive commas stage a hesitation that makes the allusion feel like a fragile, provisional recovery rather than a settled one.",
       },
     ],
   },
@@ -173,7 +174,8 @@ export const IB_ENGLISH_U3_EN: CoreNote[] = [
         traps: [
           "When analysing formal transformation, avoid sliding into a value hierarchy such as 'the original novel is better than the film adaptation.' In IB analysis, formal transformation is not a question of quality but of: 'What does this form make possible, and what does it make impossible, for this content?' Treat the distinctive capabilities and limitations of each form neutrally.",
         ],
-        example: null,
+        example:
+          "Consider the same moment of grief rendered first as prose and then as verse. In prose — 'She stood at the door for a long time, unable to go in, thinking of everything she would now have to do alone' — the syntax carries the reader smoothly through the character's reasoning. Recast as verse — 'She stood / at the door. / Alone. / The long list / of everything / now hers.' — the line breaks force silences the prose could not, and isolating 'Alone.' on its own line lets the medium make the feeling structural rather than merely stated. The point is not that one version is superior but that verse's control of pace and white space makes the pause itself expressive, an effect prose achieves differently and image or film could not achieve at all.",
       },
       {
         title: "Myth and Archetype — Stories That Are Always Being Rewritten",
@@ -269,7 +271,8 @@ export const IB_ENGLISH_U3_EN: CoreNote[] = [
           "Beware the 'evidence dump' pattern — bringing in very long quotations and then offering only a brief analysis. In IB Paper 2 (a 90-minute exam), the effective approach is to quote only the key word or phrase, then devote far more space to its analysis. One line of quotation with four to five lines of analysis earns significantly higher marks than four lines of quotation with one line of analysis.",
           "Looking only for similarities between the two texts, or conversely emphasising only differences, produces analytical monotony. High-scoring IB responses explore both similarities and differences and connect what each reveals to the thesis — a dialectical structure that shows what the likeness tells us and what the difference tells us.",
         ],
-        example: null,
+        example:
+          "Compare an 'evidence dump' with a controlled use of quotation. Weak: 'The narrator says, \"I walked down the empty street in the grey light of morning past the shuttered shops that had once been full of noise and life and people I knew,\" which shows the town is sad.' The long quotation swamps a single thin claim. Strong: the writer's isolation surfaces in one word — the street is merely \"shuttered\" — where the closed shopfronts stand in for a whole community that has withdrawn from him, the participle's suggestion of deliberate shutting-out mirroring his own exclusion. The second version quotes a single load-bearing word and devotes the sentence to its effect and thematic meaning, which is precisely the quotation-to-analysis ratio IB Paper 2 rewards.",
       },
       {
         title: "Paper 2 Exam Strategy — Designing 90 Minutes",
