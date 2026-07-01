@@ -30,6 +30,8 @@ import { REVIEWS } from "@/lib/data/reviews";
 import LiveStatBadge from "@/components/social/LiveStatBadge";
 import { materialPitch } from "@/lib/materialPitch";
 import MaterialPreviewModal from "@/components/parents/MaterialPreviewModal";
+import PaymentButton from "@/components/PaymentButton";
+import { PARENT_ALL_ACCESS_PRICE_KRW, PARENT_ALL_ACCESS_UNLOCK_KEY } from "@/lib/parentAccess";
 
 const GREEN = "#00b85f";
 // Features that require credits to fully use (free preview, then 🔒). Everything
@@ -109,6 +111,7 @@ const SOCIAL_STATS = [
 
 const NAV = [
   { label: "🎓 시그니처 프로그램", route: "/parents/program", gated: false },
+  { label: "🎥 AP 인강", route: "/parents/lectures", gated: false },
   { label: "SAT 모의고사", route: "/parents/sat", gated: false },
   { label: "AP 모의고사", route: "/parents/question-bank/exam", gated: false },
   { label: "TOEFL 모의고사", route: "/parents/toefl", gated: false },
@@ -131,6 +134,7 @@ const NAV = [
 
 const QUICK = [
   { emoji: "🎓", label: "시그니처 프로그램", route: "/parents/program", gated: false },
+  { emoji: "🎥", label: "AP 인강", route: "/parents/lectures", gated: false },
   { emoji: "✏️", label: "SAT 모의고사", route: "/parents/sat", gated: false },
   { emoji: "🖥️", label: "AP 모의고사", route: "/parents/question-bank/exam", gated: false },
   { emoji: "📝", label: "TOEFL 모의고사", route: "/parents/toefl", gated: false },
@@ -223,7 +227,11 @@ export default function ParentsClient() {
   const slideTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    getClientSession().then((s) => { setLoggedIn(!!s?.user); setIsAdmin(isAdminEmail(s?.user?.email)); }).catch(() => {});
+    getClientSession().then(async (s) => {
+      setLoggedIn(!!s?.user);
+      setIsAdmin(isAdminEmail(s?.user?.email));
+      if (s?.user) await hydrateCredits().catch(() => {});
+    }).catch(() => {});
     fetch("/api/qa/questions?subject=parent-lounge&sort=latest")
       .then((r) => r.json()).then((d) => setQuestions(d?.questions ?? [])).catch(() => {});
     fetch("/api/textbooks")
@@ -284,9 +292,10 @@ export default function ParentsClient() {
     if (!loggedIn) { requireLogin(opts.loginRedirect); return; }
     if (isAdmin) { opts.proceed(); return; } // owner/admin → credit-free
     if (!opts.cost) { opts.proceed(); return; }
+    if (isUnlocked(PARENT_ALL_ACCESS_UNLOCK_KEY)) { opts.proceed(); return; }
     if (isUnlocked(opts.key)) {
       await hydrateCredits().catch(() => {});
-      if (isUnlocked(opts.key)) { opts.proceed(); return; }
+      if (isUnlocked(PARENT_ALL_ACCESS_UNLOCK_KEY) || isUnlocked(opts.key)) { opts.proceed(); return; }
     }
     setGate({
       title: opts.title,
@@ -344,7 +353,7 @@ export default function ParentsClient() {
   // or admins go straight in.
   const openMaterial = (m: Material) => {
     if (!loggedIn) { requireLogin(`/library/${m.id}/read`); return; }
-    if (isAdmin || isUnlocked(`material:${m.id}`)) { materialProceed(m); return; }
+    if (isAdmin || isUnlocked(PARENT_ALL_ACCESS_UNLOCK_KEY) || isUnlocked(`material:${m.id}`)) { materialProceed(m); return; }
     setMatPreview(m);
   };
 
@@ -535,7 +544,7 @@ export default function ParentsClient() {
               아이비리그생이 만든 AP·SAT·미국 입시 자료 허브
             </h1>
             <p style={{ fontSize: 13.5, color: "#475569", lineHeight: 1.6, margin: "0 0 12px" }}>
-              AP 실전문제, SAT 자료, 미국 대학 지원 전략, 아이비리그 합격생 노하우를 <strong style={{ color: "#047a45" }}>무료로</strong> 만나보세요.
+              AP 실전문제, SAT 자료, 미국 대학 지원 전략, 아이비리그 합격생 노하우를 한곳에서 보세요.
             </p>
             <div style={{ display: "flex", gap: 7, flexWrap: "wrap" }}>
               {[
@@ -586,6 +595,20 @@ export default function ParentsClient() {
               </span>
             ))}
           </div>
+
+          {/* AI 맞춤 학습 플랜 생성기 → /parents/study-plan (free lead-gen). */}
+          <Link href="/parents/study-plan"
+            style={{ textDecoration: "none", borderRadius: 16, padding: "22px 24px", background: "linear-gradient(120deg,#07140e,#0d3f29 56%,#00b85f)", color: "#fff", boxShadow: "0 12px 32px rgba(0,120,70,0.26)", display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
+            <span style={{ fontSize: 40, lineHeight: 1 }}>📋</span>
+            <span style={{ flex: 1, minWidth: 220 }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 11, fontWeight: 900, color: "#dcffe9", background: "rgba(255,255,255,0.14)", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 999, padding: "3px 10px", marginBottom: 9, letterSpacing: "0.02em" }}>✨ AI · 무료 · 로그인 불필요</span>
+              <span style={{ display: "block", fontSize: 19, fontWeight: 850, letterSpacing: "-0.02em", lineHeight: 1.35 }}>우리 아이 맞춤 학습 플랜, 1분이면 완성</span>
+              <span style={{ display: "block", fontSize: 13.5, color: "rgba(255,255,255,0.85)", marginTop: 5, lineHeight: 1.6 }}>
+                과목·방학 정보만 입력하면 <strong style={{ color: "#fff" }}>단어→노트→문제→모의고사</strong> 순서로 짜인 플랜이 나오고, 각 단계가 InHero 자료로 바로 연결돼요.
+              </span>
+            </span>
+            <span style={{ flexShrink: 0, background: "#fff", color: "#082017", borderRadius: 9, padding: "12px 22px", fontSize: 14, fontWeight: 850, whiteSpace: "nowrap" }}>플랜 만들기 →</span>
+          </Link>
 
           {/* Premium consulting offer — pay 500+ credits and get a 1:1 session
               with an Ivy League mentor (first-come-first-served). Drives the
@@ -686,7 +709,7 @@ export default function ParentsClient() {
             <Board title="추천 자료" moreHref="/parents/competitions">
               {RESOURCES.map((r, i) => {
                 const unlockKey = r.unlockKey ?? `res:${r.route}`;
-                const owned = r.cost > 0 && (isAdmin || isUnlocked(unlockKey));
+                const owned = r.cost > 0 && (isAdmin || isUnlocked(PARENT_ALL_ACCESS_UNLOCK_KEY) || isUnlocked(unlockKey));
                 return (
                 <div key={`${r.route}-${creditTick}`} onClick={() => openResource(r)} role="button" tabIndex={0}
                   style={{ ...rowStyle, alignItems: "flex-start", flexDirection: "column", gap: 2, cursor: "pointer" }}>
@@ -771,6 +794,27 @@ export default function ParentsClient() {
             )}
           </div>
 
+          {/* 월간 올액세스 — compact CTA (relocated from the full-width banner) */}
+          <div style={{ borderRadius: 14, padding: "16px 16px", background: "linear-gradient(135deg,#07140e,#0d3f29 60%,#00b85f)", color: "#fff", boxShadow: "0 8px 24px rgba(0,120,70,0.22)" }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.13)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 999, padding: "3px 10px", fontSize: 10.5, fontWeight: 900, marginBottom: 9 }}>🔓 월간 올액세스</div>
+            <div style={{ fontSize: 16, fontWeight: 900, letterSpacing: "-0.02em", marginBottom: 4 }}>모든 자료 + 모든 방 열람</div>
+            <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.55, margin: "0 0 10px" }}>합격 에세이·자료방·SAT/AP/TOEFL 모의고사까지 한 달 무제한.</p>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 5, marginBottom: 10 }}>
+              <span style={{ fontSize: 22, fontWeight: 950, letterSpacing: "-0.04em" }}>₩199,000</span>
+              <span style={{ fontSize: 11.5, fontWeight: 800, color: "rgba(255,255,255,0.7)" }}>/월</span>
+            </div>
+            <PaymentButton
+              serviceId="all_subjects"
+              amount={PARENT_ALL_ACCESS_PRICE_KRW}
+              orderName="InHero 학부모 올액세스"
+              returnTo="/parents"
+              label="월간 올액세스 시작하기"
+              showPayPalBackup={false}
+              hideHelperText
+              style={{ width: "100%", padding: "10px 12px", borderRadius: 9, fontSize: 13, fontWeight: 900, background: "#fff", color: "#082017", border: "none", cursor: "pointer" }}
+            />
+          </div>
+
           <SideCard title="💬 학부모·학생 후기">
             {REVIEWS.slice(0, 4).map((r, i) => (
               <div key={i} style={{ padding: "10px 2px", borderBottom: i < 3 ? "1px solid #f1f5f9" : "none" }}>
@@ -847,7 +891,7 @@ export default function ParentsClient() {
             <div className="mat-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16 }}>
               {materials.map((m) => {
                 const large = isLargeFile(m.fileSize);
-                const matOwned = isAdmin || isUnlocked(`material:${m.id}`);
+                const matOwned = isAdmin || isUnlocked(PARENT_ALL_ACCESS_UNLOCK_KEY) || isUnlocked(`material:${m.id}`);
                 const inner = (
                   <article style={{ background: "#fff", border: "1px solid #e2e6ea", borderRadius: 14, overflow: "hidden", boxShadow: "0 1px 2px rgba(16,24,40,0.04)", transition: "transform 180ms, box-shadow 200ms" }}
                     onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 16px 36px rgba(16,24,40,0.12)"; }}
@@ -937,7 +981,7 @@ export default function ParentsClient() {
               return 0;
             }).map((b) => {
               const launched = isTextbookLaunched(b.slug);
-              const bookOwned = launched && (isAdmin || isUnlocked(`book:${b.slug}`));
+              const bookOwned = launched && (isAdmin || isUnlocked(PARENT_ALL_ACCESS_UNLOCK_KEY) || isUnlocked(`book:${b.slug}`));
               const isBio = b.slug === "ap-bio-ultimate";
               return (
               <button key={`${b.slug}-${creditTick}`} onClick={() => { if (launched) openBook(b); else setNotifyBook({ slug: b.slug, title: b.title }); }}
