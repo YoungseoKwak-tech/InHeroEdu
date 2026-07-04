@@ -34,6 +34,13 @@ export default function sitemap() {
       changeFrequency: 'weekly',
       priority: 0.9,
     },
+    // Subject "인강" exact-match SEO landings (화학·물리·수학·AP·SAT·IB).
+    ...['chem-inkang', 'physics-inkang', 'math-inkang', 'ap-inkang', 'sat-inkang', 'ib-inkang'].map((slug) => ({
+      url: `${baseUrl}/kr/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.9,
+    })),
     {
       url: `${baseUrl}/pricing`,
       lastModified: new Date(),
