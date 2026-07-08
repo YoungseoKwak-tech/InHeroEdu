@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAuthenticatedUser } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
 import { ensureCreditProfile, isSchemaMissing, confirmedReferralCredits, reconcileReferralGrants } from "@/lib/credits-server";
-import { isAdminEmail } from "@/lib/adminEmails";
 import { parseCreditServiceId } from "@/lib/creditPackages";
-import { auditCredits, fundedUnlocks } from "@/lib/unlockCosts";
+import { auditCredits } from "@/lib/unlockCosts";
+import { hasActiveParentAllAccess } from "@/lib/parentAccess-server";
+import { withParentAllAccessUnlock } from "@/lib/parentAccess";
 
 export const runtime = "nodejs";
 
@@ -48,15 +49,17 @@ export async function GET(req: NextRequest) {
     paidCredits,
     referralCredits,
   });
-  const unlocks = !isAdminEmail(user.email) && audit.anomaly
-    ? fundedUnlocks(profile.credit_unlocks, audit.entitled - audit.balance)
-    : profile.credit_unlocks;
+  // Honor the append-only unlock record — never strip already-granted unlocks
+  // (see lib/serverUnlock). `creditAnomaly` is still returned for admin review.
+  const unlocks = profile.credit_unlocks;
+  const hasParentAllAccess = await hasActiveParentAllAccess(supabase, user.id).catch(() => false);
 
   return NextResponse.json({
     migrated: true,
     balance: profile.credits,
     code: profile.referral_code,
-    unlocks,
+    unlocks: withParentAllAccessUnlock(unlocks, hasParentAllAccess),
+    parentAllAccess: hasParentAllAccess,
     creditAnomaly: audit.anomaly,
     referredBy: profile.referred_by,
     referrals: (refs ?? []).map((r) => ({ name: r.referred_name, date: r.created_at, reward: r.reward })),

@@ -13,7 +13,13 @@ import { getAuthenticatedUser, isAdminEmail } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
 import { parseCreditServiceId } from "@/lib/creditPackages";
 import { confirmedReferralCredits } from "@/lib/credits-server";
-import { auditCredits, fundedUnlocks } from "@/lib/unlockCosts";
+import { auditCredits } from "@/lib/unlockCosts";
+import { hasActiveParentAllAccess } from "@/lib/parentAccess-server";
+import {
+  PARENT_ALL_ACCESS_UNLOCK_KEY,
+  parentAllAccessCoversUnlockKey,
+  withParentAllAccessUnlock,
+} from "@/lib/parentAccess";
 
 export interface UnlockContext {
   userId: string | null;
@@ -59,11 +65,17 @@ export async function getUnlockContext(req: Request | NextRequest): Promise<Unlo
         paidCredits,
         referralCredits,
       });
-      if (audit.anomaly) {
-        creditAnomaly = true;
-        unlocks = fundedUnlocks(unlocks, audit.entitled - audit.balance);
-      }
+      // `credit_unlocks` is an append-only record of what the user actually
+      // unlocked — once unlocked, access must persist ("처음 unlock 했으면 쭉").
+      // We surface an anomaly for admin review but NEVER strip already-granted
+      // access: welcome-grant changes, promo/admin grants, and referral timing
+      // all trip the audit and would otherwise revoke books legitimate parents
+      // already paid for. Abuse is handled at grant/spend time, not by retro-
+      // actively revoking access on every request.
+      if (audit.anomaly) creditAnomaly = true;
     }
+    const hasParentAllAccess = await hasActiveParentAllAccess(sb, user.id).catch(() => false);
+    unlocks = withParentAllAccessUnlock(unlocks, hasParentAllAccess);
   } catch {
     /* can't read unlocks → treat as none (fail closed for paid content) */
   }
@@ -72,5 +84,10 @@ export async function getUnlockContext(req: Request | NextRequest): Promise<Unlo
 
 /** True when the caller is an admin or holds ANY of the given unlock keys. */
 export function hasAnyUnlock(ctx: UnlockContext, keys: string[]): boolean {
-  return ctx.isAdmin || keys.some((k) => ctx.unlocks.includes(k));
+  if (ctx.isAdmin) return true;
+  if (keys.some((k) => ctx.unlocks.includes(k))) return true;
+  return (
+    ctx.unlocks.includes(PARENT_ALL_ACCESS_UNLOCK_KEY) &&
+    keys.some(parentAllAccessCoversUnlockKey)
+  );
 }

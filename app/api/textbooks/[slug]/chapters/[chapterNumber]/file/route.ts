@@ -8,7 +8,7 @@
 //
 // Auth-gated AND purchase-gated: reading a chapter requires the
 // subject's Elite pass ($49/mo single subject via "single:<subjectId>"
-// orders, or the $199/mo all-subject "novapass") — enforced through
+// orders, or the ₩199,000/mo Parent All-Access pass) — enforced through
 // hasTextbookAccess(), which also honors comp emails and the
 // FREE_FOR_ALL flag. Denied requests get 403 { error: "elite_required" }
 // so the reader can render an upgrade screen instead of a raw error.
@@ -23,6 +23,7 @@ import { hasTextbookAccess } from "@/lib/textbookAccess";
 import { subjectIdForTextbookSlug } from "@/lib/textbookCatalog";
 import { isTextbookLaunched } from "@/lib/launchedTextbooks";
 import { isAdminEmail } from "@/lib/adminEmails";
+import { getUnlockContext, hasAnyUnlock } from "@/lib/serverUnlock";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -61,10 +62,17 @@ export async function GET(
     ? await hasTextbookAccess({ userId: user.id, email: user.email, subjectId })
     : { allowed: false as const, reason: "denied" as const };
   if (!access.allowed) {
-    return NextResponse.json(
-      { error: "elite_required", subjectId },
-      { status: 403 }
-    );
+    // Also honor a credit unlock of this book (책을 크레딧으로 결제한 경우).
+    // credit_unlocks is append-only ownership, so a book unlocked once stays
+    // readable regardless of the Elite / textbook_purchases path.
+    const ctx = await getUnlockContext(req).catch(() => null);
+    const creditUnlocked = !!ctx && hasAnyUnlock(ctx, [`book:${textbook.slug}`, `textbook:${textbook.slug}`]);
+    if (!creditUnlocked) {
+      return NextResponse.json(
+        { error: "elite_required", subjectId },
+        { status: 403 }
+      );
+    }
   }
 
   const { data: chapter } = await sb
